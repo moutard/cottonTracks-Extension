@@ -2,7 +2,7 @@
 $(function() {
 
   function handleVisitItems(plVisitItems) {
-    // Loop through all the HistoryItems and compute their distances to each other.
+    // Loop through all the VisitItems and compute their distances to each other.
     var llCouplesWithDistance = [];
     for (var liI = 0, liN = plVisitItems.length; liI < liN; liI++) {
       var loVisitItem1 = plVisitItems[liI];
@@ -34,7 +34,6 @@ $(function() {
     
     // The lower the url factor, the closest.
     // The higher the referring factor, the closest.
-    
     return liUrlAmount + 1 / (1 + liReferringAmount);
   }
 
