@@ -1,4 +1,5 @@
 'use strict';
+// TODO(fwouts): Rename dictionaries that have been named with *o instead of *d.
 $(function() {
 
   function handleVisitItems(plVisitItems) {
@@ -24,17 +25,54 @@ $(function() {
     
     // Print out the first 100 results.
     for (var liI = 0; liI < 100; liI++) {
-      console.log(llCouplesWithDistance[liI]);
+      loCoupleWithDistance = llCouplesWithDistance[liI];
+      console.log(loCoupleWithDistance.visitItem1.historyItem.url +
+                  '\n' +
+                  loCoupleWithDistance.visitItem2.historyItem.url +
+                  '\nDistance: '
+                  + loCoupleWithDistance.distance);
     }
   }
 
   function distance(poVisitItem1, poVisitItem2) {
-    var liUrlAmount = +(poVisitItem1.url == poVisitItem2.url);
+    var liUrlAmount = +(poVisitItem1.historyItem.url == poVisitItem2.historyItem.url);
     var liReferringAmount = (poVisitItem1.referringVisitId == poVisitItem2.visitId) + (poVisitItem2.referringVisitId == poVisitItem1.visitId);
     
-    // The lower the url factor, the closest.
-    // The higher the referring factor, the closest.
-    return liUrlAmount + 1 / (1 + liReferringAmount);
+    var liTitleWordsAmount = 0;
+    var llWords1 = extractWords(poVisitItem1.historyItem.title);
+    var llWords2 = extractWords(poVisitItem2.historyItem.title);
+    // Check how many words they have in common.
+    // TODO(fwouts): Write a faster algorithm.
+    // TODO(fwouts): Consider using this to check if there are common parts in the URLs.
+    var ldWords1 = {};
+    for (var liI = 0, liN = llWords1.length; liI < liN; liI++) {
+      var lsWord = llWords1[liI];
+      ldWords1[lsWord] = true;
+    }
+    for (var liI = 0, liN = llWords2.length; liI < liN; liI++) {
+      var lsWord = llWords2[liI];
+      if (ldWords1[lsWord]) {
+        // The word is present in both.
+        liTitleWordsAmount++;
+        // Do not count it twice.
+        delete ldWords1[lsWord];
+      }
+    }
+    
+    // The lower the url amount, the closest.
+    // The higher the referring amount, the closest.
+    // The higher the words amount, the closest.
+    return liUrlAmount + 1 / (1 + liReferringAmount) + 1 / (1 + liTitleWordsAmount);
+  }
+  
+  function extractWords(psTitle) {
+    // We cannot use the \b boundary symbol in the regex because accented characters would not be considered (not part of \w).
+    // Include all normal characters, dash, accented characters.
+    // TODO(fwouts): Consider other characters such as digits?
+    var loRegexp = /[\w\-\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
+    var matches = psTitle.match(loRegexp) || [];
+    // TODO(fwouts): Remove useless words such as "-".
+    return matches;
   }
 
   chrome.history.search({
@@ -54,7 +92,7 @@ $(function() {
         url: poHistoryItem.url
       }, function(plVisitItems) {
         for (var liI = 0, liN = plVisitItems.length; liI < liN; liI++) {
-          plVisitItems[liI].url = poHistoryItem.url;
+          plVisitItems[liI].historyItem = poHistoryItem;
         }
         // TODO(fwouts): Consider more visits.
         plVisitItems = plVisitItems.slice(0, 5);
