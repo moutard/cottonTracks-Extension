@@ -75,12 +75,12 @@ $(function() {
     return matches;
   }
 
+  // Build the distance matrix for the last XXX visited pages.
   chrome.history.search({
     text: '',
-    // Maximal integer accepted by the API.
-    //maxResults: Math.pow(2, 31) - 1,
     maxResults: 100,
     startTime: 1,
+    // Time fixed to avoid having a changing history.
     endTime: 1320400609000
   }, function(plHistoryItems) {
     // Get all the visits for every HistoryItem.
@@ -104,5 +104,53 @@ $(function() {
         }
       });
     });
+  });
+  
+  // Log a few general statistics.
+  chrome.history.search({
+    text: '',
+    // Maximal integer accepted by the API.
+    maxResults: Math.pow(2, 31) - 1,
+    startTime: 1
+  }, function(plHistoryItems) {
+    // Display the total number of unique pages since the beginning of history.
+    var liTotalUniquePages = plHistoryItems.length;
+    var loSinceDate = (new Date(plHistoryItems[plHistoryItems.length - 1].lastVisitTime)).format();
+    console.log(liTotalUniquePages + " unique pages visited since " + loSinceDate);
+    
+    // Find the number of visits to each subdomain.
+    // TODO(fwouts): Since we use visitCount, check if that also counts visits from before startTime.
+    // TODO(fwouts): Count domains.
+    
+    // Dictionary (key = subdomain, value = visit count).
+    var ldSubDomains = {};
+    
+    $.each(plHistoryItems, function(piI, poHistoryItem) {
+      var lsUrl = poHistoryItem.url;
+      var lsSubDomain = lsUrl.split('/')[2];
+      if (!ldSubDomains[lsSubDomain]) {
+        ldSubDomains[lsSubDomain] = 0;
+      }
+      ldSubDomains[lsSubDomain] += poHistoryItem.visitCount;
+    });
+    
+    // List to sort by visit count.
+    var llSubDomains = [];
+    for (var lsSubDomain in ldSubDomains) {
+      llSubDomains.push({
+        subDomain: lsSubDomain,
+        visitCount: ldSubDomains[lsSubDomain]
+      });
+    }
+    
+    llSubDomains.sort(function (pdA, pdB) {
+      return pdB.visitCount - pdA.visitCount;
+    });
+    
+    console.log("Most visited subdomains:");
+    for (var liI = 0; liI < 100; liI++) {
+      var ldSubDomain = llSubDomains[liI];
+      console.log(ldSubDomain.subDomain + ': ' + ldSubDomain.visitCount + ' visits');
+    }
   });
 });
