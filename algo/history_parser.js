@@ -4,38 +4,81 @@ $(function() {
 
   function handleVisitItems(lVisitItems) {
     // Loop through all the VisitItems and compute their distances to each other.
-    var lCouplesWithDistance = [];
+    // Keys are VisitItem ids.
+    // Values are lists of couples with distances including the VisitItem.
+    var dCouplesWithDistance = {};
     for (var iI = 0, iN = lVisitItems.length; iI < iN; iI++) {
       var oVisitItem1 = lVisitItems[iI];
-      // Do not consider couples twice (iJ < iI).
-      for (var iJ = 0; iJ < iI; iJ++) {
+      var lCouplesWithDistanceForVisitItem1 = [];
+      // We consider couples twice intentionally (to fill both keys in dCouplesWithDistance).
+      for (var iJ = 0; iJ < iN; iJ++) {
         var oVisitItem2 = lVisitItems[iJ];
-        var oCoupleWithDistance = {
+        var dCoupleWithDistance = {
           visitItem1: oVisitItem1,
           visitItem2: oVisitItem2,
           distance: distance(oVisitItem1, oVisitItem2)
         };
-        lCouplesWithDistance.push(oCoupleWithDistance);
+        lCouplesWithDistanceForVisitItem1.push(dCoupleWithDistance);
       }
+      // Sort by distance.
+      lCouplesWithDistanceForVisitItem1.sort(function(oA, oB) {
+        return oA.distance - oB.distance;
+      });
+      dCouplesWithDistance[oVisitItem1.id] = lCouplesWithDistanceForVisitItem1;
     }
-    // Sort by distance.
-    lCouplesWithDistance.sort(function(oA, oB) {
-      return oA.distance - oB.distance;
+    
+    var dCircledVisitItemIds = {};
+    $.each(dCouplesWithDistance, function(iVisitItem1Id, lCouplesWithDistanceForVisitItem1) {
+      // If a circle has already been made containing this VisitItem, skip it.
+      if (dCircledVisitItemIds[iVisitItem1Id]) {
+        return true;
+      }
+      // Make a circle out of the closest VisitItems.
+      var lCircle = buildCircle(iVisitItem1Id);
+      if(lCircle.length > 1) {
+        $.each(lCircle, function(iI, iVisitItemId) {
+          dCircledVisitItemIds[iVisitItemId] = true;
+        });
+        displayCircle(lCircle);
+      }
     });
     
-    // Print out the first 100 results.
-    for (var iI = 0; iI < 100; iI++) {
-      var oCoupleWithDistance = lCouplesWithDistance[iI];
-      console.log(oCoupleWithDistance.visitItem1.historyItem.url +
-                  '\n' +
-                  oCoupleWithDistance.visitItem2.historyItem.url +
-                  '\nDistance: '
-                  + oCoupleWithDistance.distance);
+    // Builds a circle recursively by exploring all links as long as the distance between links remains under
+    // a certain threshold.
+    // iCurrentVisitItemId: The id of the VisitItem we are currently exploring from.
+    // dAddedVisitItemIds: A dictionary where keys are all VisitItems' ids that have been or will be explored.
+    function buildCircle(iCurrentVisitItemId, dAddedVisitItemIds) {
+      dAddedVisitItemIds = dAddedVisitItemIds || {};
+      dAddedVisitItemIds[iCurrentVisitItemId] = true;
+      var lCouplesWithDistanceForCurrentVisitItem = dCouplesWithDistance[iCurrentVisitItemId];
+      var lNewVisitItemIds = [iCurrentVisitItemId];
+      $.each(lCouplesWithDistanceForCurrentVisitItem, function(iI, dCoupleWithDistance) {
+        if (dCoupleWithDistance.distance >= 0) {
+          // Break out of the loop.
+          return false;
+        }
+        // Only add the VisitItem to the list if it wasn't already there.
+        if (!dAddedVisitItemIds[dCoupleWithDistance.visitItem2.id]) {
+          lNewVisitItemIds = $.merge(lNewVisitItemIds, buildCircle(dCoupleWithDistance.visitItem2.id, dAddedVisitItemIds));
+        }
+      });
+      return lNewVisitItemIds;
+    }
+    
+    function displayCircle(lCircle) {
+      console.log("\n\n\n\n\nA circle:\n")
+      $.each(lCircle, function(iI, iVisitItemId) {
+        console.log(dCouplesWithDistance[iVisitItemId][0].visitItem1.historyItem.url);
+      });
     }
   }
 
   function distance(oVisitItem1, oVisitItem2) {
+    
     var iUrlAmount = +(oVisitItem1.historyItem.url == oVisitItem2.historyItem.url);
+    
+    var iSubDomainAmount = +(extractSubDomain(oVisitItem1.historyItem) == extractSubDomain(oVisitItem2.historyItem));
+    
     var iReferringAmount = (oVisitItem1.referringVisitId == oVisitItem2.visitId) + (oVisitItem2.referringVisitId == oVisitItem1.visitId);
     
     var iTitleWordsAmount = 0;
@@ -58,11 +101,20 @@ $(function() {
         delete dWords1[sWord];
       }
     }
+    // We say that there has to be a minimum of 2 common words.
+    iTitleWordsAmount -= 1;
     
-    // The ower the url amount, the closest.
+    // The higher the url amount, the closest.
+    // The higher the subdomain amount, the closest.
     // The higher the referring amount, the closest.
     // The higher the words amount, the closest.
-    return iUrlAmount + 1 / (1 + iReferringAmount) + 1 / (1 + iTitleWordsAmount);
+    return -5. * iUrlAmount - 10. * iSubDomainAmount - 1. * iReferringAmount - 1. * (iTitleWordsAmount - 3);
+  }
+  
+  function extractSubDomain(oHistoryItem) {
+    var sUrl = oHistoryItem.url;
+    var sSubDomain = sUrl.split('/')[2];
+    return sSubDomain;
   }
   
   function extractWords(sTitle) {
@@ -70,9 +122,12 @@ $(function() {
     // Include all normal characters, dash, accented characters.
     // TODO(fwouts): Consider other characters such as digits?
     var oRegexp = /[\w\-\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-    var matches = sTitle.match(oRegexp) || [];
-    // TODO(fwouts): Remove useless words such as "-".
-    return matches;
+    var lMatches = sTitle.match(oRegexp) || [];
+    // TODO(fwouts): Be nicer on the words we keep, but still reject useless words such as "-".
+    lMatches = $.grep(lMatches, function(sWord) {
+      return sWord.length > 2;
+    });
+    return lMatches;
   }
 
   // Build the distance matrix for the ast XXX visited ages.
@@ -126,8 +181,7 @@ $(function() {
     var dSubDomains = {};
     
     $.each(lHistoryItems, function(iI, oHistoryItem) {
-      var sUrl = oHistoryItem.url;
-      var sSubDomain = sUrl.split('/')[2];
+      var sSubDomain = extractSubDomain(oHistoryItem);
       if (!dSubDomains[sSubDomain]) {
         dSubDomains[sSubDomain] = 0;
       }
