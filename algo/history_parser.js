@@ -86,7 +86,7 @@ $(function() {
     var lWords2 = extractWords(oVisitItem2.historyItem.title);
     // Check how many words they have in common.
     // TODO(fwouts): Write a faster algorithm.
-    // TODO(fwouts): Consider using this to check if there are common arts in the URLs.
+    // TODO(fwouts): Consider using this to check if there are common parts in the URLs.
     var dWords1 = {};
     for (var iI = 0, iN = lWords1.length; iI < iN; iI++) {
       var sWord = lWords1[iI];
@@ -108,6 +108,7 @@ $(function() {
     // The higher the subdomain amount, the closest.
     // The higher the referring amount, the closest.
     // The higher the words amount, the closest.
+    // TODO(fwouts): Consider the time difference between the opening time of tabs (multiply it by other factors?).
     return -5. * iUrlAmount - 10. * iSubDomainAmount - 1. * iReferringAmount - 1. * (iTitleWordsAmount - 3);
   }
   
@@ -130,7 +131,7 @@ $(function() {
     return lMatches;
   }
 
-  // Build the distance matrix for the ast XXX visited ages.
+  // Build the distance matrix for the last XXX visited ages.
   chrome.history.search({
     text: '',
     maxResults: 100,
