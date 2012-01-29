@@ -1,0 +1,21 @@
+@backgroundColor: #b4d8d1;
+@white: #fff;
+@black: #000;
+
+body {
+  background: @backgroundColor;
+  font-family: Arial;
+}
+
+#stickyBar {
+  background: fadeout(@white, 30%);
+  height: 200px;
+}
+
+.sticker {
+  background: @white;
+  width: 300px;
+  overflow: auto;
+  float: left;
+  margin: 1em;
+}
