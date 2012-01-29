@@ -66,10 +66,20 @@ $(function() {
     }
     
     function displayCircle(lCircle) {
+      // TODO(fwouts): Move the UI stuff out of this file.
+      var $sticker = $('<div class="sticker">').appendTo('#stickyBar');
+      var $ul = $('<ul>').appendTo($sticker);
       console.log("\n\n\n\n\nA circle:\n")
       $.each(lCircle, function(iI, iVisitItemId) {
-        console.log(dCouplesWithDistance[iVisitItemId][0].visitItem1.historyItem.url);
+        var oHistoryItem = dCouplesWithDistance[iVisitItemId][0].visitItem1.historyItem;
+        var sUrl = oHistoryItem.url;
+        var sTitle = oHistoryItem.title || sUrl;
+        var $li = $('<li>').appendTo($ul);
+        var $a = $('<a>').attr('href', sUrl).text(sTitle);
+        $a.appendTo($li);
+        console.log(sUrl);
       });
+      
     }
   }
 
