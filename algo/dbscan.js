@@ -17,9 +17,16 @@ function DBSCAN (lSetOfPoints, fEps, iMinPts){
     if( oPoint.clusterId == 'UNCLASSIFIED' ){
       if( expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) ){
         iClusterId++;
+        
+        // TODO(rmoutard) : remove console.log
+        console.log("ClusterId" + iClusterId);
       }
     }    
-  } 
+  }
+  
+  //TODO(rmoutard) : remove console.log
+  console.log("end of dbscan");
+  return iClusterId;
 };
 
 function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts ){
@@ -37,7 +44,7 @@ function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts ){
       oSeedsPoint.clusterId = iClusterId;
       
       // remove oPoint
-      // TODO : (rmoutard) oPoint should be the closest point maybe find a way to put it
+      // TODO(rmoutard): oPoint should be the closest point maybe find a way to put it
       // in the first position
       var idx = lSeeds.indexOf(oPoint);   // Find the index
       if(idx!=-1) lSeeds.splice(idx, 1);  // Remove it if really found!
@@ -71,7 +78,7 @@ function regionQuery(lSetOfPoints, oPoint, fEps){
   // return the Eps-Neighborhood i.e. all the point in lSetOfPoints that are 
   // close to oPoint (distance <= Eps)
   
-  // TODO : (rmoutard) implement R*-Tree to a (n*log(n))complexity
+  // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
   
   var lEpsNeighborhood = [];
   for( var oCurrentPoint in lSetOfPoints ){
@@ -80,5 +87,7 @@ function regionQuery(lSetOfPoints, oPoint, fEps){
     }
   }
   
+  // TODO(rmoutard): remove console.log
+  console.log("regionQuery oPoint:" + oPoint + " length " +lEpsNeighborhood.length);
   return lEpsNeighborhood;
 };
