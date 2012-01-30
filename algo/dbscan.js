@@ -25,7 +25,46 @@ function DBSCAN (lSetOfPoints, fEps, iMinPts){
 function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts ){
   // Check if we can expand a cluster
   
-  return false;
+  lSeeds = regionQuery(lSetOfPoints, oPoint, fEps);
+  
+  if( lSeeds.length <= iMinPts ){
+    oPoint.clusterId = 'NOISE';
+    return false;
+  }
+  else{
+    // all the point in seeds are density reachable from point
+    for( var oSeedsPoint in lSeeds ){
+      oSeedsPoint.clusterId = iClusterId;
+      
+      // remove oPoint
+      // TODO : (rmoutard) oPoint should be the closest point maybe find a way to put it
+      // in the first position
+      var idx = lSeeds.indexOf(oPoint);   // Find the index
+      if(idx!=-1) lSeeds.splice(idx, 1);  // Remove it if really found!
+      
+      while(lSeeds.length == 0){
+        oCurrentPoint = seeds.pop();
+        lResult = regionQuery(lSetOfPoints, oCurrentPoint, fEps);
+        
+        if( lResult.length >= iMinPts ){
+          
+          for( oCurrentSeed in lSeedsPoint ){
+            if( oCurrentSeed.clusterId === 'UNCLASSIFIED' || oCurrentSeed.clusterId === 'NOISE' ){
+              if(oCurrentSeed.clusterID === 'UNCLASSIFIED'){
+                lSeeds.push(oCurrentSeed);
+              }
+              var idx = lResult.indexOf(oPoint);   // Find the index
+              lResult[idx].clusterId = iClusterId;
+              //if(idx!=-1) lResult.splice(idx, 1);  // Remove it if really found!
+              
+            }
+          }
+        } // End of Noise and Unclassified 
+      }
+    }
+    return true;
+  }
+  
 };
 
 function regionQuery(lSetOfPoints, oPoint, fEps){
