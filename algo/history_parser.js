@@ -119,7 +119,10 @@ $(function() {
     // The higher the referring amount, the closest.
     // The higher the words amount, the closest.
     // TODO(fwouts): Consider the time difference between the opening time of tabs (multiply it by other factors?).
-    return -5. * iUrlAmount - 10. * iSubDomainAmount - 1. * iReferringAmount - 1. * (iTitleWordsAmount - 3);
+    return -5. * iUrlAmount + 1. * iSubDomainAmount - 1. * iReferringAmount - 1. * iTitleWordsAmount;
+    
+    // TODO: Exclude from stories "too frequent centers" like www.google.com -> better splitting between stories.
+    // Idea: Exclude points so that the story would be splitted in at least three stories.
   }
   
   function extractSubDomain(oHistoryItem) {
@@ -134,6 +137,20 @@ $(function() {
     // TODO(fwouts): Consider other characters such as digits?
     var oRegexp = /[\w\-\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
     var lMatches = sTitle.match(oRegexp) || [];
+    // Split CamelCase words for better results.
+    lMatches = $.map(lMatches, function(sWord) {
+      var oCamelRegexp = /[a-zA-Z][a-z]+/g;
+      var lCamelMatches = [];
+      var lCamelMatch;
+      while (lCamelMatch = oCamelRegexp.exec(sWord)) {
+        lCamelMatches.push(lCamelMatch[0]);
+      }
+      return lCamelMatches || sWord;
+    });
+    // Make all words lower case (after splitting CamelCase!).
+    lMatches = $.map(lMatches, function(sWord) {
+      return sWord.toLowerCase();
+    });
     // TODO(fwouts): Be nicer on the words we keep, but still reject useless words such as "-".
     lMatches = $.grep(lMatches, function(sWord) {
       return sWord.length > 2;
