@@ -16,6 +16,7 @@ UI.StickyBar.Sticker = function(oBar, iPosition) {
   })
   
   // TODO(fwouts): Attach to a "displayed" event of the bar instead.
+  // TODO(fwouts): Use CSS animations.
   setTimeout(function() {
     $sticker.animate({
       left: iFinalPosition
