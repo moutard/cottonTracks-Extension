@@ -157,82 +157,87 @@ $(function() {
     });
     return lMatches;
   }
-
-  // Build the distance matrix for the last XXX visited ages.
-  chrome.history.search({
-    text: '',
-    maxResults: 100,
-    startTime: 1,
-    // Time fixed to avoid having a changing history.
-    endTime: 1320400609000
-  }, function(lHistoryItems) {
-    // Get all the visits for every HistoryItem.
-    var lAllVisitItems = [];
-    var iN = lHistoryItems.length;
-    var iCallbacksLeft = iN;
-    $.each(lHistoryItems, function(iI, oHistoryItem) {
-      chrome.history.getVisits({
-        url: oHistoryItem.url
-      }, function(lVisitItems) {
-        for (var iI = 0, iN = lVisitItems.length; iI < iN; iI++) {
-          lVisitItems[iI].historyItem = oHistoryItem;
-        }
-        // TODO(fwouts): Consider more visits.
-        lVisitItems = lVisitItems.slice(0, 5);
-        lAllVisitItems = lAllVisitItems.concat(lVisitItems);
-        iCallbacksLeft--;
-
-        if (iCallbacksLeft == 0) {
-          handleVisitItems(lAllVisitItems);
-        }
-      });
-    });
-  });
   
-  // Log a few general statistics.
-  chrome.history.search({
-    text: '',
-    // Maximal integer accepted by the API.
-    maxResults: Math.pow(2, 31) - 1,
-    startTime: 1
-  }, function(lHistoryItems) {
-    // Display the total number of unique ages since the beginning of history.
-    var iTotalUniquePages = lHistoryItems.length;
-    var oSinceDate = (new Date(lHistoryItems[lHistoryItems.length - 1].lastVisitTime)).format();
-    console.log(iTotalUniquePages + " unique ages visited since " + oSinceDate);
-    
-    // Find the number of visits to each subdomain.
-    // TODO(fwouts): Since we use visitCount, check if that also counts visits from before startTime.
-    // TODO(fwouts): Count domains.
-    
-    // Dictionary (key = subdomain, value = visit count).
-    var dSubDomains = {};
-    
-    $.each(lHistoryItems, function(iI, oHistoryItem) {
-      var sSubDomain = extractSubDomain(oHistoryItem);
-      if (!dSubDomains[sSubDomain]) {
-        dSubDomains[sSubDomain] = 0;
-      }
-      dSubDomains[sSubDomain] += oHistoryItem.visitCount;
-    });
-    
-    // List to sort by visit count.
-    var lSubDomains = [];
-    for (var sSubDomain in dSubDomains) {
-      lSubDomains.push({
-        subDomain: sSubDomain,
-        visitCount: dSubDomains[sSubDomain]
+  var runTests = false;
+  
+  if (runTests) {
+
+    // Build the distance matrix for the last XXX visited ages.
+    chrome.history.search({
+      text: '',
+      maxResults: 100,
+      startTime: 1,
+      // Time fixed to avoid having a changing history.
+      endTime: 1320400609000
+    }, function(lHistoryItems) {
+      // Get all the visits for every HistoryItem.
+      var lAllVisitItems = [];
+      var iN = lHistoryItems.length;
+      var iCallbacksLeft = iN;
+      $.each(lHistoryItems, function(iI, oHistoryItem) {
+        chrome.history.getVisits({
+          url: oHistoryItem.url
+        }, function(lVisitItems) {
+          for (var iI = 0, iN = lVisitItems.length; iI < iN; iI++) {
+            lVisitItems[iI].historyItem = oHistoryItem;
+          }
+          // TODO(fwouts): Consider more visits.
+          lVisitItems = lVisitItems.slice(0, 5);
+          lAllVisitItems = lAllVisitItems.concat(lVisitItems);
+          iCallbacksLeft--;
+
+          if (iCallbacksLeft == 0) {
+            handleVisitItems(lAllVisitItems);
+          }
+        });
       });
-    }
-    
-    lSubDomains.sort(function (dA, dB) {
-      return dB.visitCount - dA.visitCount;
     });
+  
+    // Log a few general statistics.
+    chrome.history.search({
+      text: '',
+      // Maximal integer accepted by the API.
+      maxResults: Math.pow(2, 31) - 1,
+      startTime: 1
+    }, function(lHistoryItems) {
+      // Display the total number of unique ages since the beginning of history.
+      var iTotalUniquePages = lHistoryItems.length;
+      var oSinceDate = (new Date(lHistoryItems[lHistoryItems.length - 1].lastVisitTime)).format();
+      console.log(iTotalUniquePages + " unique ages visited since " + oSinceDate);
     
-    console.log("Most visited subdomains:");
-    for (var iI = 0; iI < 100; iI++) {
-      var dSubDomain = lSubDomains[iI];
-      console.log(dSubDomain.subDomain + ': ' + dSubDomain.visitCount + ' visits');
-    }
-  });
+      // Find the number of visits to each subdomain.
+      // TODO(fwouts): Since we use visitCount, check if that also counts visits from before startTime.
+      // TODO(fwouts): Count domains.
+    
+      // Dictionary (key = subdomain, value = visit count).
+      var dSubDomains = {};
+    
+      $.each(lHistoryItems, function(iI, oHistoryItem) {
+        var sSubDomain = extractSubDomain(oHistoryItem);
+        if (!dSubDomains[sSubDomain]) {
+          dSubDomains[sSubDomain] = 0;
+        }
+        dSubDomains[sSubDomain] += oHistoryItem.visitCount;
+      });
+    
+      // List to sort by visit count.
+      var lSubDomains = [];
+      for (var sSubDomain in dSubDomains) {
+        lSubDomains.push({
+          subDomain: sSubDomain,
+          visitCount: dSubDomains[sSubDomain]
+        });
+      }
+    
+      lSubDomains.sort(function (dA, dB) {
+        return dB.visitCount - dA.visitCount;
+      });
+    
+      console.log("Most visited subdomains:");
+      for (var iI = 0; iI < 100; iI++) {
+        var dSubDomain = lSubDomains[iI];
+        console.log(dSubDomain.subDomain + ': ' + dSubDomain.visitCount + ' visits');
+      }
+    });
+  }
 });

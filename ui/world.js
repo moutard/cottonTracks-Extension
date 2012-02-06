@@ -1,9 +1,12 @@
 'use strict';
-window.UI = window.UI || {};
 
 // World class representing the whole interface.
 UI.World = function() {
-  this._ostickyBar = new UI.StickyBar();
+  var oStickyBar = this._ostickyBar = new UI.StickyBar.Bar();
+  
+  for (var i = 0; i < 5; i++) {
+    oStickyBar.buildSticker();
+  }
 };
 
 $.extend(UI.World.prototype, {
