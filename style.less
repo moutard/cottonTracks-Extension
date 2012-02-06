@@ -7,21 +7,22 @@ body {
   font-family: Arial;
 }
 
-#stickyBar {
+#stickyBar_bar {
   background: fadeout(@white, 30%);
+  position: absolute;
   height: 200px;
   width: 100%;
-  position: absolute;
   // Hidden bar.
   top: -200px;
   // Center vertically if we set top = 50%.
   margin-top: -100px;
 }
 
-.sticker {
+.stickyBar_sticker {
   background: @white;
-  width: 300px;
-  overflow: auto;
-  float: left;
-  margin: 1em;
+  position: absolute;
+  width: 200px;
+  height: 160px;
+  margin: 15px;
+  border: 5px solid #000;
 }
