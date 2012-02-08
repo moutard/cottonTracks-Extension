@@ -27,19 +27,20 @@ UI.Path.Line = function(oFrameCenter) {
   var lInitialPoints = [];
   var lFinalPoints = [];
   for (var iI = 0; iI < iNumberOfPoints; iI++) {
-    var oInitialPoint = new UI.Point(iCenterX, (iI / iNumberOfPoints) * iHeight);
+    var oInitialPoint = new UI.Point(iCenterX, iCenterY);
     var oFinalPoint;
+    var iFinalY = (iI / iNumberOfPoints) * iHeight;
     if (iI % 2) {
-      oFinalPoint = oInitialPoint.translate(iHorizontalShift, 0);
+      oFinalPoint = oInitialPoint.translate(iHorizontalShift, iFinalY - oInitialPoint.fY);
     } else {
-      oFinalPoint = oInitialPoint.translate(-iHorizontalShift, 0);
+      oFinalPoint = oInitialPoint.translate(-iHorizontalShift, iFinalY - oInitialPoint.fY);
     }
     lInitialPoints.push(oInitialPoint);
     lFinalPoints.push(oFinalPoint);
   }
   
-  this.animate(this.pathFromPoints(lInitialPoints), 1000, null, function() {
-    this.animate(this.pathFromPoints(lFinalPoints), 1000);
+  this.animate(this.pathFromPoints(lInitialPoints), 500, null, function() {
+    this.animate(this.pathFromPoints(lFinalPoints), 500);
   });
 };
 
