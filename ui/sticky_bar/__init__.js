@@ -1,2 +1,2 @@
 'use strict';
-UI.StickyBar = UI.StickyBar || {};
+UI.StickyBar = {};
