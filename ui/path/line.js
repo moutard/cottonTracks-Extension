@@ -39,9 +39,7 @@ UI.Path.Line = function(oFrameCenter) {
     lFinalPoints.push(oFinalPoint);
   }
   
-  this.animate(this.pathFromPoints(lInitialPoints), 500, null, function() {
-    this.animate(this.pathFromPoints(lFinalPoints), 500);
-  });
+  this.animate(this.pathFromPoints(lFinalPoints), 500);
 };
 
 $.extend(UI.Path.Line.prototype, {
