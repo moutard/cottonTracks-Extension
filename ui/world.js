@@ -9,8 +9,6 @@ UI.World = function() {
   for (var i = 0; i < 5; i++) {
     oStickyBar.buildSticker();
   }
-  
-  var oLine = new UI.Path.Line();
 };
 
 $.extend(UI.World.prototype, {

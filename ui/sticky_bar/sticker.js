@@ -20,7 +20,10 @@ UI.StickyBar.Sticker = function(oBar, iPosition) {
   setTimeout(function() {
     $sticker.animate({
       left: iFinalPosition
-    }, 'slow');
+    }, 'slow', function() {
+      // On complete, draw a line going through this sticker (for testing).
+      var oLine = new UI.Path.Line(new UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
+    });
   }, 300);
 };
 
