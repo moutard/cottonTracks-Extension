@@ -1,2 +1,2 @@
 'use strict';
-window.UI = window.UI || {};
+window.UI = {};
