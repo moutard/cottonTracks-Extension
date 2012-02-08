@@ -1,9 +1,8 @@
 
 function initSetOfPoints(lSetOfPoints){
   // Mark all the point as UNCLASSIFIED
-  
-  for(points in lSetOfPoints){
-    points.clusterId = 'UNCLASSIFIED';
+  for(var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++ ){
+    lSetOfPoints[iLoop].clusterId = 'UNCLASSIFIED';
   }
 };
 
@@ -81,9 +80,9 @@ function regionQuery(lSetOfPoints, oPoint, fEps){
   // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
   
   var lEpsNeighborhood = [];
-  for( var oCurrentPoint in lSetOfPoints ){
-    if( distance(oCurrentPoint, oPoint) <= fEps ){
-      lEpsNeighborhood.push(oCurrentPoint);
+  for( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints; iCurrentLoop++ ){
+    if( distance(lSetOfPoints[iCurrentLoop], oPoint) <= fEps ){
+      lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
   }
   
