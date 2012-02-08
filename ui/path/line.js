@@ -19,7 +19,7 @@ UI.Path.Line = function(oFrameCenter) {
   };
   var dHoverStyle = {
     'stroke': '#000',
-    'stroke-width': 6,
+    'stroke-width': 6
   };
 
   // For testing.
