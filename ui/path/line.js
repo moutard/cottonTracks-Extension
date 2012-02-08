@@ -44,6 +44,11 @@ UI.Path.Line = function(oFrameCenter) {
 };
 
 $.extend(UI.Path.Line.prototype, {
+  
+  // Returns a jQuery object containing the node.
+  $: function() {
+    return $(this._oGraphPath.node.parentNode);
+  },
 
   // Creates a Raphael path going through all the given points.
   pathFromPoints: function(lPoints) {
