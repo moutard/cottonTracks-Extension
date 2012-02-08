@@ -1,14 +1,15 @@
 'use strict';
 
 // A curved vertical line representing a story.
-UI.Path.Line = function() {
-  // TODO: Do not add directly to the body?
-  var $container = this._$container = $('body');
-  var iWidth = 300;
-  var iHeight = 300;
-  var oPaper = this._oPaper = new Raphael($container[0], iWidth, iHeight);
+// oCenter should be a UI.Point instance.
+UI.Path.Line = function(oFrameCenter) {
+  var iWidth = 1000;
+  var iHeight = 1000;
+  var iCenterX = iWidth / 2;
+  var iCenterY = iHeight / 2;
+  var oPaper = this._oPaper = new Raphael(oFrameCenter.fX - iCenterX, oFrameCenter.fY - iCenterY, iWidth, iHeight);
 
-  var oGraphPath = this._oGraphPath = oPaper.path('');
+  var oGraphPath = this._oGraphPath = oPaper.path('M ' + iCenterX + ' ' + iCenterY);
   oGraphPath.attr(
     {
       'stroke': '#333333',
@@ -19,8 +20,26 @@ UI.Path.Line = function() {
   );
 
   // For testing.
-  this.animate(this.pathFromPoints([new UI.Point(50, 50), new UI.Point(150, 150), new UI.Point(50, 100)]), 4000, null, function() {
-    this.animate(this.pathFromPoints([new UI.Point(150, 150), new UI.Point(350, 350), new UI.Point(1000, 1000)]), 4000);
+  // We need to use the same number of points in the initial and final paths so that each point gets animated
+  // to its final position correctly.
+  var iNumberOfPoints = 10;
+  var iHorizontalShift = 30;
+  var lInitialPoints = [];
+  var lFinalPoints = [];
+  for (var iI = 0; iI < iNumberOfPoints; iI++) {
+    var oInitialPoint = new UI.Point(iCenterX, (iI / iNumberOfPoints) * iHeight);
+    var oFinalPoint;
+    if (iI % 2) {
+      oFinalPoint = oInitialPoint.translate(iHorizontalShift, 0);
+    } else {
+      oFinalPoint = oInitialPoint.translate(-iHorizontalShift, 0);
+    }
+    lInitialPoints.push(oInitialPoint);
+    lFinalPoints.push(oFinalPoint);
+  }
+  
+  this.animate(this.pathFromPoints(lInitialPoints), 1000, null, function() {
+    this.animate(this.pathFromPoints(lFinalPoints), 1000);
   });
 };
 
