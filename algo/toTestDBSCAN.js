@@ -1,43 +1,34 @@
 'use strict';
 //$(function() {
   
-  function handleVisitItems(lVisitItems) {
+  function handleVisitItems(lHistoryItems) {
     // Loop through all the VisitItems and compute their distances to each other.
     // Keys are VisitItem ids.
     // Values are lists of couples with distances including the VisitItem.
     
-    initSetOfPoints(lVisitItems);
-    var iNbCluster = DBSCAN(lVisitItems, 5.0, 5);
+    initSetOfPoints(lHistoryItems);
+    var iNbCluster = DBSCAN(lHistoryItems, 5.0, 5);
     
-    function buildCircle(pVisitItems){
-      
-      lCircles = new Array(iNbCluster);
-      for(var iI=0; iI < iNbCluster; iI++){
-        lCircles[iI]= new Array();
+    console.log(lHistoryItems);
+
+    var lColors = ["#00F", "#0F0", "#F00"];
+    var sColorNoise = "#fff";
+
+    for( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++ ){
+      var oHistoryItem = lHistoryItems[iLoop];
+      var sColor = "#000"
+
+      if( oHistoryItem.clusterId == "NOISE"){
+        sColor = sColorNoise; 
       }
-      
-      for( item in pVisitItems ){
-        lCircles[item.clusterId].push(item);
+      else if( oHistoryItem.clusterId < lColors.length ){
+        sColor = lColors[oHistoryItem.clusterId];
       }
-      
-      return lCircles;
-    }
-    
-    function displayCircle(lCircle) {
-      // TODO(fwouts): Move the UI stuff out of this file.
-      var $sticker = $('<div class="sticker">').appendTo('#stickyBar');
-      var $ul = $('<ul>').appendTo($sticker);
-      console.log("\n\n\n\n\nA circle:\n")
-      $.each(lCircle, function(iI, iVisitItemId) {
-        var oHistoryItem = dCouplesWithDistance[iVisitItemId][0].visitItem1.historyItem;
-        var sUrl = oHistoryItem.url;
-        var sTitle = oHistoryItem.title || sUrl;
-        var $li = $('<li>').appendTo($ul);
-        var $a = $('<a>').attr('href', sUrl).text(sTitle);
-        $a.appendTo($li);
-        console.log(sUrl);
-      });
-      
+      else{
+        sColor = "#000";
+      }
+      var sLine = '<h6 style="color:' + sColor + '">' + oHistoryItem["url"] + '</h6>';
+      $("#liste").append(sLine);
     }
   }
   
@@ -45,33 +36,13 @@
   console.log("start");
   
   chrome.history.search({
-    text: '',
-    maxResults: 100,
-    startTime: 1,
-    // Time fixed to avoid having a changing history.
-    endTime: 1320400609000
+    'text': '',
+    'maxResults': 100,
   }, function(lHistoryItems) {
     console.log(lHistoryItems);
     // Get all the visits for every HistoryItem.
-    var lAllVisitItems = [];
-    var iN = lHistoryItems.length;
-    var iCallbacksLeft = iN;
-    $.each(lHistoryItems, function(iI, oHistoryItem) {
-      chrome.history.getVisits({
-        url: oHistoryItem.url
-      }, function(lVisitItems) {
-        for (var iI = 0, iN = lVisitItems.length; iI < iN; iI++) {
-          lVisitItems[iI].historyItem = oHistoryItem;
-        }
-        lVisitItems = lVisitItems.slice(0, 5);
-        lAllVisitItems = lAllVisitItems.concat(lVisitItems);
-        iCallbacksLeft--;
-
-        if (iCallbacksLeft == 0) {
-          handleVisitItems(lAllVisitItems);
-        }
-      });
-    });
+    
+    handleVisitItems(lHistoryItems);
   });
   
   
