@@ -2,12 +2,15 @@
 
 // Represents the bar displayed in the middle of the screen, containing stickers for each story.
 UI.StickyBar.Bar = function() {
+  var self = this;
   this._lStickers = [];
   this._$stickyBar = $('#stickyBar_bar');
   
   this._$stickyBar.animate({
     top: '50%'
-  }, 'slow');
+  }, 'slow', function() {
+    self.trigger('ready');
+  });
 };
 
 $.extend(UI.StickyBar.Bar.prototype, {
@@ -24,6 +27,9 @@ $.extend(UI.StickyBar.Bar.prototype, {
     var oSticker = new UI.StickyBar.Sticker(this, iPosition);
     oSticker.$().appendTo(this._$stickyBar);
     this._lStickers.push(oSticker);
+    return oSticker;
   }
   
 });
+
+_.extend(UI.StickyBar.Bar.prototype, Backbone.Events);

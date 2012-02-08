@@ -4,6 +4,7 @@ UI.StickyBar.HORIZONTAL_SPACING = 250;
 
 // Represents a sticker on the sticky bar.
 UI.StickyBar.Sticker = function(oBar, iPosition) {
+  var self = this;
   var $sticker = this._$sticker = $('<div class="stickyBar_sticker">');
   this._iPosition = iPosition;
   
@@ -15,18 +16,19 @@ UI.StickyBar.Sticker = function(oBar, iPosition) {
     left: iInitialPosition
   })
   
-  // TODO(fwouts): Attach to a "displayed" event of the bar instead.
   // TODO(fwouts): Use CSS animations.
-  setTimeout(function() {
-    $sticker.animate({
-      left: iFinalPosition
-    }, 'slow', function() {
-      // On complete, draw a line going through this sticker (for testing).
-      var oLine = new UI.Path.Line(new UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
-      // Make the line appear behind the sticker.
-      oLine.$().css('z-index', -1);
-    });
-  }, 300);
+  $sticker.animate({
+    left: iFinalPosition
+  }, 'slow', function() {
+    self.trigger('ready');
+  });
+  
+  this.on('ready', function() {
+    // On complete, draw a line going through this sticker (for testing).
+    var oLine = new UI.Path.Line(new UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
+    // Make the line appear behind the sticker.
+    oLine.$().css('z-index', -1);
+  })
 };
 
 $.extend(UI.StickyBar.Sticker.prototype, {
@@ -37,3 +39,5 @@ $.extend(UI.StickyBar.Sticker.prototype, {
   }
   
 });
+
+_.extend(UI.StickyBar.Sticker.prototype, Backbone.Events);
