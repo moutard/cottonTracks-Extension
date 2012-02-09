@@ -14,7 +14,8 @@ function extractWords(sTitle) {
 };
 
 function commonWords(oHistoryItem1, oHistoryItem2) {
-
+  // Return the number of common words
+  
   var iTitleWordsAmount = 0;
   var lWords1 = extractWords(oVisitItem1.title);
   var lWords2 = extractWords(oVisitItem2.title);
@@ -43,29 +44,34 @@ function distance( oHistoryItem1, oHistoryItem2) {
 };
 
 function distanceId(oHistoryItem1, oHistoryItem2) {
-	//
-	return Math.abs(oHistoryItem1.id - oHistoryItem2.id);
+	// compute the Id distance
+	return Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+};
+
+function distanceLastVisitTime(oHistoryItem1, oHistoryItem2){
+  // compute the last visit distance
+  return  Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 };
 
 function distanceComplexe(oHistoryItem1, oHistoryItem2){
 	
 	//TODO: (rmoutard) write a class for coefficients
 	var coeff = {};
-	coeff[id]=0.4;
-	coeff[lastVisitTime]=0.4;
-	coeff[commonWords]=0.2;
+	coeff['id']=0.4;
+	coeff['lastVisitTime']=0.4;
+	coeff['commonWords']=0.2;
 	
-	console.log(oHistoryItem1.id)
+	
 	// id
 	// id close => items close
-	var sum = coeff[id]*Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+	var sum = coeff['id']*Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
 	
 	// lastTimeVisit
 	// lastTimeVisit close => items close
-	sum += coeff[lastVisitTime]*Math.abs(oHistoryItem1.lastTimeVisit - oHistoryItem2.lastTimeVisit);
+	sum += coeff['lastVisitTime']*Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 	
 	// Common words
-	// number of common words is higth => items close
+	// number of common words is high => items close
 	//sum += coeff[commonWords]*commonWords(oHistoryItem1, oHistoryItem1);
 	
 	return sum; 
