@@ -1,6 +1,6 @@
 'use strict';
 // TODO(fwouts): Rename dictionaries that have been named with *o instead of *d.
-$(function() {
+//$(function() {
 
   function handleVisitItems(lVisitItems) {
     // Loop through all the VisitItems and compute their distances to each other.
@@ -239,5 +239,12 @@ $(function() {
         console.log(dSubDomain.subDomain + ': ' + dSubDomain.visitCount + ' visits');
       }
     });
-  }
-});
+
+    
+    console.log("Most visited subdomains:");
+    for (var iI = 0; iI < 100; iI++) {
+      var dSubDomain = lSubDomains[iI];
+      console.log(dSubDomain.subDomain + ': ' + dSubDomain.visitCount + ' visits');
+    }
+  });
+//});
