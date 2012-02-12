@@ -54,7 +54,7 @@ test("Calcule distance LastVisitTime", function() {
 
 test("Calcule distance Complexe", function() {
   
-  var fExpectedValue = 6475.27724609375 ;
+  var fExpectedValue = 11275.077246093751 ;
   var fDistance = distanceComplexe(oHistoryItem1, oHistoryItem2);
   var sMessage =  "The value of the distance has changed \n" ;
       sMessage += "Expected Value is " + fExpectedValue + "but the computed distance is " +  fDistance ;

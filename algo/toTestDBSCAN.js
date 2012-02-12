@@ -6,13 +6,18 @@
     // Keys are VisitItem ids.
     // Values are lists of couples with distances including the VisitItem.
     
+    // PARAMETERS
+    // Max Distance between neighborhood
+    var fEps = 50000.0;
+    // Min Points in a cluster
+    var iMinPts = 5;
     
-    var iNbCluster = DBSCAN(lHistoryItems, 50000.0, 5);
+    var iNbCluster = DBSCAN(lHistoryItems, fEps, iMinPts);
     
     var lClusters = Array(iNbCluster);
     
     // COLORS
-    var sColorNoise = "#aaa"; // Color Noise
+    var sColorNoise = "#fff"; // Color Noise
     var sColorUnclassified = "#000"; // Color unclassified
     var lColorsCluster = Array(iNbCluster); // TODO(rmoutard) : make something bijectif
     for (var iColor = 0 ; iColor < lClusters.length; iColor++ ){
