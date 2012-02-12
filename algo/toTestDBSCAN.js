@@ -6,28 +6,33 @@
     // Keys are VisitItem ids.
     // Values are lists of couples with distances including the VisitItem.
     
-    initSetOfPoints(lHistoryItems);
-    var iNbCluster = DBSCAN(lHistoryItems, 5.0, 5);
     
-    console.log(lHistoryItems);
-
-    var lColors = ["#00F", "#0F0", "#F00"];
-    var sColorNoise = "#fff";
-
+    var iNbCluster = DBSCAN(lHistoryItems, 50000.0, 5);
+    
+    var lClusters = Array(iNbCluster);
+    
+    // COLORS
+    var sColorNoise = "#aaa"; // Color Noise
+    var sColorUnclassified = "#000"; // Color unclassified
+    var lColorsCluster = Array(iNbCluster); // TODO(rmoutard) : make something bijectif
+    for (var iColor = 0 ; iColor < lClusters.length; iColor++ ){
+      lColorsCluster[iColor] = randomColor();
+    }
+    
     for( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++ ){
       var oHistoryItem = lHistoryItems[iLoop];
-      var sColor = "#000"
+      var sColor;
 
       if( oHistoryItem.clusterId == "NOISE"){
         sColor = sColorNoise; 
       }
-      else if( oHistoryItem.clusterId < lColors.length ){
-        sColor = lColors[oHistoryItem.clusterId];
+      else if( oHistoryItem.clusterId < lColorsCluster.length ){
+        sColor = lColorsCluster[oHistoryItem.clusterId];
       }
       else{
-        sColor = "#000";
+        sColor = sColorUnclassified;
       }
-      var sLine = '<h6 style="color:' + sColor + '">' + oHistoryItem["url"] + '</h6>';
+      var sLine = '<p style="color:' + sColor + '">' + oHistoryItem["url"] + '</p>';
       $("#liste").append(sLine);
     }
   }
@@ -48,3 +53,9 @@
   
   
 //});
+
+   // TOOLS
+function randomColor(){
+  // for more informations : http://paulirish.com/2009/random-hex-color-code-snippets/
+  return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
