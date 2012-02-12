@@ -17,8 +17,8 @@ function commonWords(oHistoryItem1, oHistoryItem2) {
   // Return the number of common words
   
   var iTitleWordsAmount = 0;
-  var lWords1 = extractWords(oVisitItem1.title);
-  var lWords2 = extractWords(oVisitItem2.title);
+  var lWords1 = extractWords(oHistoryItem1.title);
+  var lWords2 = extractWords(oHistoryItem2.title);
   
   var dWords1 = {};
   for (var iI = 0, iN = lWords1.length; iI < iN; iI++) {
@@ -53,26 +53,31 @@ function distanceLastVisitTime(oHistoryItem1, oHistoryItem2){
   return  Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 };
 
+// TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
+// for instance you need to balance common words
 function distanceComplexe(oHistoryItem1, oHistoryItem2){
 	
 	//TODO: (rmoutard) write a class for coefficients
 	var coeff = {};
-	coeff['id']=0.4;
+	coeff['id']=0.2;
 	coeff['lastVisitTime']=0.4;
-	coeff['commonWords']=0.2;
+	coeff['commonWords']=0.4;
 	
 	
 	// id
 	// id close => items close
+	// ordre de grandeur = O(1000)
 	var sum = coeff['id']*Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
 	
 	// lastTimeVisit
 	// lastTimeVisit close => items close
+	// ordre de grandeur = O(100 000)
 	sum += coeff['lastVisitTime']*Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 	
 	// Common words
 	// number of common words is high => items close
-	//sum += coeff[commonWords]*commonWords(oHistoryItem1, oHistoryItem1);
+	// ordre de grandeur = O(5)
+	sum += coeff['commonWords']*commonWords(oHistoryItem1, oHistoryItem1)*1000;
 	
 	return sum; 
 };
