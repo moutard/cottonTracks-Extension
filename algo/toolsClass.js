@@ -152,3 +152,8 @@ function simpleDetectTools () {
     }
   ); 
 }
+
+function generateTools () {
+  var lTools = ['mail.google.com', 'continuousintegration.corp.ltutech.com','docs.google.com', 'grooveshark.com', 'github.com', 'www.facebook.com'];
+
+}
