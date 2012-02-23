@@ -48,7 +48,7 @@
   
   chrome.history.search({
     'text': '',
-    'maxResults': 1000,
+    'startTime':0
   }, function(lHistoryItems) {
     console.log(lHistoryItems);
     // Get all the visits for every HistoryItem.

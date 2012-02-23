@@ -3,7 +3,7 @@ function removeTools (lHistoryItems) {
   var lCleanHistoryItems = new Array();
 
   for(var i = 0; i < lHistoryItems.length; i++) {
-    var oHistoryItem = lHistoryItems.pop();
+    var oHistoryItem = lHistoryItems.shift();
     var sHostname = parseURL(oHistoryItem.url).hostname;
     
     if(oToolsContainer.alreadyExist(sHostname) === -1){
