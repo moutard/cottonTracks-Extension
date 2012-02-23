@@ -154,6 +154,19 @@ function simpleDetectTools () {
 }
 
 function generateTools () {
-  var lTools = ['mail.google.com', 'continuousintegration.corp.ltutech.com','docs.google.com', 'grooveshark.com', 'github.com', 'www.facebook.com'];
+  
+  var lCommonToolsHostname = ['mail.google.com',
+                              'continuousintegration.corp.ltutech.com',
+                              'docs.google.com', 
+                              'grooveshark.com', 
+                              'github.com', 
+                              'www.facebook.com',
+                              'www.deezer.com'];
 
+  var oToolsContainer = new ToolsContainer();
+  for( var i = 0; i < lCommonToolsHostname.length; i++){
+    oToolsContainer.insert(lCommonToolsHostname[i]);
+  }
+  
+  return oToolsContainer;
 }

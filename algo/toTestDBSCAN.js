@@ -12,6 +12,7 @@
     // Min Points in a cluster
     var iMinPts = 5;
     
+    lHistoryItems = removeTools(lHistoryItems);
     var iNbCluster = DBSCAN(lHistoryItems, fEps, iMinPts);
     
     var lClusters = Array(iNbCluster);
@@ -47,7 +48,7 @@
   
   chrome.history.search({
     'text': '',
-    'maxResults': 100,
+    'maxResults': 1000,
   }, function(lHistoryItems) {
     console.log(lHistoryItems);
     // Get all the visits for every HistoryItem.
