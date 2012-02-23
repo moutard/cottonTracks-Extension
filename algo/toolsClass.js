@@ -161,7 +161,8 @@ function generateTools () {
                               'grooveshark.com', 
                               'github.com', 
                               'www.facebook.com',
-                              'www.deezer.com'];
+                              'www.deezer.com',
+                              'www.wordreference.com'];
 
   var oToolsContainer = new ToolsContainer();
   for( var i = 0; i < lCommonToolsHostname.length; i++){
