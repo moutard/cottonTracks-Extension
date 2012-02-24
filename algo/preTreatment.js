@@ -4,8 +4,8 @@ function removeTools (lHistoryItems) {
 
   for(var i = 0; i < lHistoryItems.length; i++) {
     var oHistoryItem = lHistoryItems.shift();
-    var sHostname = parseURL(oHistoryItem.url).hostname;
-    
+    var sHostname = parseUrl(oHistoryItem.url).hostname;
+
     if(oToolsContainer.alreadyExist(sHostname) === -1){
       lCleanHistoryItems.push(oHistoryItem);
     }
