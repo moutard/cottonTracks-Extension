@@ -122,7 +122,7 @@ test("One Cluster", function() {
 });
 
 
-module("Extract Queries",{
+module("DEPRECATED : Extract Queries",{
   setup: function() {
     // runs before each test
   },
