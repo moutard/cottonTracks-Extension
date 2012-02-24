@@ -1,4 +1,4 @@
-module("Unittest : Parse Url",{
+module("Parse Url",{
   setup: function() {
     // runs before each test
   },
