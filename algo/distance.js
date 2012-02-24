@@ -86,36 +86,8 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2){
 /*
  * Distance between generated pages
  */
-function extractQ(sUrl){
-  // Extract the keywords used to make the search on google
-  // http://www.google.fr/webhp?sourceid=chrome-instant&ix=seb&ie=UTF-8&ion=1#hl=fr&gs_nf=1&cp=10&gs_id=3n&xhr=t&q=jennifer+aniston&pq=tets&pf=p&sclient=psy-ab&site=webhp&source=hp&pbx=1&oq=jennifer+a&aq=0&aqi=g4&aql=&gs_sm=&gs_upl=&bav=on.2,or.r_gc.r_pw.r_cp.,cf.osb&fp=6fc8c6804cede81f&ix=seb&ion=1&biw=1438&bih=727
-  // q=jennifer+aniston
-
-  // result
-  var lKeywordsQueries = Array();
-  var oRegExpExtractAllKeywords = new RegExp('(&|\\?)q=([a-zA-Z0-9\\+]*)&?', 'g');
-  // http://www.google.com?q=key1+key2+key3 return ["?q=key1+key2+key3", "?", "key1+key2+key3"]
-
-  var oRegExpResult = oRegExpExtractAllKeywords.exec(sUrl);
-  if (oRegExpResult != null) {
-    var sAllKeywords = oRegExpResult[2];
-
-    var oRegExpExtractEachKeyword = new RegExp('([a-zA-Z0-9]+)\\+?','g');
-    // key1+key2+key3 return ["key1+", "key1"]
-
-    var lExtractedKeyword = oRegExpExtractEachKeyword.exec(sAllKeywords);
-
-    while (lExtractedKeyword != null) {
-      lKeywordsQueries.push(lExtractedKeyword[1]);
-      lExtractedKeyword = oRegExpExtractEachKeyword.exec(sAllKeywords);
-    }
-
-  }
-  return lKeywordsQueries;
-
-}
-
 /*
+
 function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2 ) {
 
   words1 = Array();
