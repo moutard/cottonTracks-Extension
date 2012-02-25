@@ -11,6 +11,10 @@ UI.StickyBar.Bar = function() {
   }, 'slow', function() {
     self.trigger('ready');
   });
+  
+  UI.World.COMMUNICATOR.on('story_element', function(oStoryElement) {
+    console.log(oStoryElement.url);
+  });
 };
 
 $.extend(UI.StickyBar.Bar.prototype, {
