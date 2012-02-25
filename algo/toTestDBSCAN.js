@@ -40,6 +40,13 @@
       }
       var sLine = '<p style="color:' + sColor + '">' + oHistoryItem["url"] + '</p>';
       $("#liste").append(sLine);
+      
+      
+      // TODO: Remove this hack.
+      UI.World.COMMUNICATOR.trigger('story_element', {
+        color: sColor,
+        url: oHistoryItem.url
+      });
     }
   }
 
