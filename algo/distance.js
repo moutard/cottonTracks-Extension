@@ -61,9 +61,10 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
 
   // TODO: (rmoutard) write a class for coefficients
   var coeff = {};
-  coeff['id'] = 0.2;
-  coeff['lastVisitTime'] = 0.4;
-  coeff['commonWords'] = 0.4;
+  coeff['id'] = 0.10;
+  coeff['lastVisitTime'] = 0.35;
+  coeff['commonWords'] = 0.35;
+  coeff['queryKeywords'] = 0.20;
 
   // id
   // id close => items close
@@ -80,9 +81,14 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
-  sum += coeff['commonWords'] * commonWords(oHistoryItem1, oHistoryItem1)
-      * 1000;
+  sum += coeff['commonWords'] * 100000
+      / ((1 + commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
+  // Query keywords
+  // TODO(rmoutard) : pass lHistoryItems or use lHistoryItems as singleton
+  // sum += coeff['queryKeywords']
+  // * distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2,
+  // lHistoryItems)
   return sum;
 }
 
@@ -122,48 +128,45 @@ function getClosestGeneratedPage(oHistoryItem) {
   });
 
 }
-function getClosestGeneratedPage(oHistoryItem) {
+function getClosestGeneratedPage(oHistoryItem, lHistoryItems) {
+  // TODO(rmoutard) : maybe use lHistoryItems as a singleton
   // TODO(rmoutard) : I think there is a better way to find it
-  var endTime = oHistoryItem.lastVisitTime;
-  var startTime = endTime - 1000 * 60 * 5;
-  chrome.history.search({
-    'text' : '',
-    'startTime' : startTime,
-    'endTime' : endTime
-  }, function(lHistoryItems) {
-    bFlagReady = true;
-    console.log("getClosestGeneratedPages with");
-    console.log("oHistoryItem :");
-    console.log(oHistoryItem);
-    console.log("Result :");
-    // console.log(lHistoryItems);
 
-    // TODO(rmoutard) : return something when there is no result
-    for ( var i = 0; i < lHistoryItems.length; i++) {
+  var sliceTime = 1000 * 60 * 5;
+  var endTime = oHistoryItem.lastVisitTime;
+
+  // lHistoryItems is sorted by id ?
+  var oClosestGeneratedPage = {
+    url : 'http://google.com'
+  };
+
+  var lowerGapTime = sliceTime;
+  for ( var i = 0; i < lHistoryItems.length; i++) {
+    var currentGapTime = Math.abs(endTime - lHistoryItems[i].lastVisitTime);
+    if (currentGapTime <= sliceTime) {
+      // the historyItem can be considered
       var oUrl = parseUrl(lHistoryItems[i].url);
-      if (oUrl.pathname === "/search") {
-        console.log(lHistoryItems[i]);
-        return lHistoryItems[i];
+      if (oUrl.pathname === "/search" && currentGapTime < lowerGapTime) {
+        oClosestGeneratedPage = lHistoryItems[i];
       }
     }
-
-    var oEmpty = {
-      url : 'http://google.com'
-    };
-    return oEmpty;
-  });
+  }
+  return oClosestGeneratedPage;
 }
-function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2) {
 
-  var oGeneratedPage1 = getClosestGeneratedPage(oHistoryItem1);
-  var oGeneratedPage2 = getClosestGeneratedPage(oHistoryItem2);
+function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2,
+    lHistoryItems) {
+
+  var oGeneratedPage1 = getClosestGeneratedPage(oHistoryItem1, lHistoryItems);
+  var oGeneratedPage2 = getClosestGeneratedPage(oHistoryItem2, lHistoryItems);
 
   var keywords1 = parseUrl(oGeneratedPage1.url).keywords;
   var keywords2 = parseUrl(oGeneratedPage2.url).keywords;
 
   var result = _.intersection(keywords1, keywords2);
-  return result.length * 10000;
+  return result.length;
 }
+
 /*
  * HistoryItem An object encapsulating one result of a history query.
  * 
