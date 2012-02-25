@@ -11,8 +11,17 @@ $.extend(UI.Point.prototype, {
     return this.fX + ' ' + this.fY;
   },
 
-  translate: function(fTx, fTy) {
-    return new UI.Point(this.fX + fTx, this.fY + fTy);
+  translate: function() {
+    if (arguments.length == 1) {
+      // The argument should be an instance of UI.Point.
+      var oPoint = arguments[0];
+      return new UI.Point(this.fX + oPoint.fX, this.fY + oPoint.fY);
+    } else {
+      // The argument should be a couple of float values.
+      var fTx = arguments[0];
+      var fTy = arguments[1];
+      return new UI.Point(this.fX + fTx, this.fY + fTy);
+    }
   }
 
 });

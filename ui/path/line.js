@@ -8,7 +8,10 @@ UI.Path.Line = function(oFrameCenter) {
   var iHeight = 1000;
   var iCenterX = iWidth / 2;
   var iCenterY = iHeight / 2;
-  var oPaper = this._oPaper = new Raphael(oFrameCenter.fX - iCenterX, oFrameCenter.fY - iCenterY, iWidth, iHeight);
+  var iOriginX = oFrameCenter.fX - iCenterX;
+  var iOriginY = oFrameCenter.fY - iCenterY;
+  var oOrigin = new UI.Point(iOriginX, iOriginY);
+  var oPaper = this._oPaper = new Raphael(iOriginX, iOriginY, iWidth, iHeight);
 
   var dDefaultStyle = {
     'stroke': '#333',
@@ -52,7 +55,15 @@ UI.Path.Line = function(oFrameCenter) {
     this.animate(dDefaultStyle, 100);
   });
   
-  this.animate(this.pathFromPoints(lFinalPoints), 500);
+  this.animate(this.pathFromPoints(lFinalPoints), 500, null, function() {
+    // When the line has reached its final position, show the bubbles.
+    $.each(lFinalPoints, function(iI, oPoint) {
+      var oBubble = new UI.Path.Bubble();
+      // Since oPoint is relative to the position of the line, we need to give an absolute position by
+      // shifting using oOrigin.
+      oBubble.setOrigin(oPoint.translate(oOrigin));
+    });
+  });
 };
 
 $.extend(UI.Path.Line.prototype, {
