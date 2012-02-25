@@ -26,8 +26,14 @@ UI.StickyBar.Sticker = function(oBar, iPosition) {
   this.on('ready', function() {
     // On complete, draw a line going through this sticker (for testing).
     var oLine = new UI.Path.Line(new UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
-    // Make the line appear behind the sticker.
-    oLine.$().css('z-index', -1);
+    
+    $sticker.click(function() {
+      oLine.toggle();
+      if (oLine.isVisible()) {
+        // Make the line appear behind the sticker.
+        oLine.$().css('z-index', -1);
+      }
+    });
   })
 };
 

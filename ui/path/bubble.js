@@ -54,6 +54,15 @@ $.extend(UI.Path.Bubble.prototype, {
     } else {
       this.show();
     }
+  },
+
+  isVisible: function() {
+    return this._visible;
+  },
+  
+  remove: function() {
+    this._$container.remove();
+    this._$handle.remove();
   }
   
 });
