@@ -1,12 +1,14 @@
 // Tools
 
 function extractWords(sTitle) {
-  // We cannot use the \b boundary symbol in the regex because accented characters would not be considered (not art of \w).
+  // We cannot use the \b boundary symbol in the regex because accented
+  // characters would not be considered (not art of \w).
   // Include all normal characters, dash, accented characters.
   // TODO(fwouts): Consider other characters such as digits?
   var oRegexp = /[\w\-\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
   var lMatches = sTitle.match(oRegexp) || [];
-  // TODO(fwouts): Be nicer on the words we keep, but still reject useless words such as "-".
+  // TODO(fwouts): Be nicer on the words we keep, but still reject useless words
+  // such as "-".
   lMatches = $.grep(lMatches, function(sWord) {
     return sWord.length > 2;
   });
@@ -21,11 +23,11 @@ function commonWords(oHistoryItem1, oHistoryItem2) {
   var lWords2 = extractWords(oHistoryItem2.title);
 
   var dWords1 = {};
-  for (var iI = 0, iN = lWords1.length; iI < iN; iI++) {
+  for ( var iI = 0, iN = lWords1.length; iI < iN; iI++) {
     var sWord = lWords1[iI];
     dWords1[sWord] = true;
   }
-  for (var iI = 0, iN = lWords2.length; iI < iN; iI++) {
+  for ( var iI = 0, iN = lWords2.length; iI < iN; iI++) {
     var sWord = lWords2[iI];
     if (dWords1[sWord]) {
       // The word is resent in both.
@@ -38,94 +40,145 @@ function commonWords(oHistoryItem1, oHistoryItem2) {
   return iTitleWordsAmount;
 }
 
-function distance( oHistoryItem1, oHistoryItem2) {
-	// compute distance between two historyItems
+function distance(oHistoryItem1, oHistoryItem2) {
+  // compute distance between two historyItems
 
 }
 
 function distanceId(oHistoryItem1, oHistoryItem2) {
-	// compute the Id distance
-	return Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+  // compute the Id distance
+  return Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
 }
 
-function distanceLastVisitTime(oHistoryItem1, oHistoryItem2){
+function distanceLastVisitTime(oHistoryItem1, oHistoryItem2) {
   // compute the last visit distance
-  return  Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
+  return Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 }
 
 // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
 // for instance you need to balance common words
-function distanceComplexe(oHistoryItem1, oHistoryItem2){
+function distanceComplexe(oHistoryItem1, oHistoryItem2) {
 
-	//TODO: (rmoutard) write a class for coefficients
-	var coeff = {};
-	coeff['id']=0.2;
-	coeff['lastVisitTime']=0.4;
-	coeff['commonWords']=0.4;
+  // TODO: (rmoutard) write a class for coefficients
+  var coeff = {};
+  coeff['id'] = 0.2;
+  coeff['lastVisitTime'] = 0.4;
+  coeff['commonWords'] = 0.4;
 
+  // id
+  // id close => items close
+  // ordre de grandeur = O(1000)
+  var sum = coeff['id']
+      * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
 
-	// id
-	// id close => items close
-	// ordre de grandeur = O(1000)
-	var sum = coeff['id']*Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+  // lastTimeVisit
+  // lastTimeVisit close => items close
+  // ordre de grandeur = O(100 000)
+  sum += coeff['lastVisitTime']
+      * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 
-	// lastTimeVisit
-	// lastTimeVisit close => items close
-	// ordre de grandeur = O(100 000)
-	sum += coeff['lastVisitTime']*Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
+  // Common words
+  // number of common words is high => items close
+  // ordre de grandeur = O(5)
+  sum += coeff['commonWords'] * commonWords(oHistoryItem1, oHistoryItem1)
+      * 1000;
 
-	// Common words
-	// number of common words is high => items close
-	// ordre de grandeur = O(5)
-	sum += coeff['commonWords']*commonWords(oHistoryItem1, oHistoryItem1)*1000;
-
-	return sum;
+  return sum;
 }
-
 
 /*
  * Distance between generated pages
  */
-/*
+function getClosestGeneratedPage(oHistoryItem) {
+  // TODO(rmoutard) : I think there is a better way to find it
+  var endTime = oHistoryItem.lastVisitTime;
+  var startTime = endTime - 1000 * 60 * 5;
+  chrome.history.search({
+    'text' : '',
+    'startTime' : startTime,
+    'endTime' : endTime
+  }, function(lHistoryItems) {
+    bFlagReady = true;
+    console.log("getClosestGeneratedPages with");
+    console.log("oHistoryItem :");
+    console.log(oHistoryItem);
+    console.log("Result :");
+    // console.log(lHistoryItems);
 
-function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2 ) {
+    // TODO(rmoutard) : return something when there is no result
+    for ( var i = 0; i < lHistoryItems.length; i++) {
+      var oUrl = parseUrl(lHistoryItems[i].url);
+      if (oUrl.pathname === "/search") {
+        console.log(lHistoryItems[i]);
+        return lHistoryItems[i];
+      }
+    }
 
-  words1 = Array();
-  chrome.history.getVisits({
-    'url': oHistoryItem1.url
-  }, function (lVisitItems) {
-        for(var iIndex = 0; iIndex < lVisitItems.length; iIndex++){
-          if(lVisitItems[iIndex].transition == "generated"){
-            words1.concat(exractq(lVisitItems[iIndex].));
-          }
-        }
+    var oEmpty = {
+      url : 'http://google.com'
+    };
+    return oEmpty;
+
   });
 
 }
-*/
-/*
-HistoryItem
-	An object encapsulating one result of a history query.
+function getClosestGeneratedPage(oHistoryItem) {
+  // TODO(rmoutard) : I think there is a better way to find it
+  var endTime = oHistoryItem.lastVisitTime;
+  var startTime = endTime - 1000 * 60 * 5;
+  chrome.history.search({
+    'text' : '',
+    'startTime' : startTime,
+    'endTime' : endTime
+  }, function(lHistoryItems) {
+    bFlagReady = true;
+    console.log("getClosestGeneratedPages with");
+    console.log("oHistoryItem :");
+    console.log(oHistoryItem);
+    console.log("Result :");
+    // console.log(lHistoryItems);
 
-	id ( string )
-		The unique identifier for the item.
-	url ( optional string )
-		The URL navigated to by a user.
-	title ( optional string )
-		The title of the page when it was last loaded.
-	lastVisitTime ( optional number )
-		When this page was last loaded, represented in milliseconds since the epoch.
-	visitCount ( optional integer )
-		The number of times the user has navigated to this page.
-	typedCount ( optional integer )
-		The number of times the user has navigated to this page by typing in the address.
-*/
+    // TODO(rmoutard) : return something when there is no result
+    for ( var i = 0; i < lHistoryItems.length; i++) {
+      var oUrl = parseUrl(lHistoryItems[i].url);
+      if (oUrl.pathname === "/search") {
+        console.log(lHistoryItems[i]);
+        return lHistoryItems[i];
+      }
+    }
+
+    var oEmpty = {
+      url : 'http://google.com'
+    };
+    return oEmpty;
+  });
+}
+function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2) {
+
+  var oGeneratedPage1 = getClosestGeneratedPage(oHistoryItem1);
+  var oGeneratedPage2 = getClosestGeneratedPage(oHistoryItem2);
+
+  var keywords1 = parseUrl(oGeneratedPage1.url).keywords;
+  var keywords2 = parseUrl(oGeneratedPage2.url).keywords;
+
+  var result = _.intersection(keywords1, keywords2);
+  return result.length * 10000;
+}
+/*
+ * HistoryItem An object encapsulating one result of a history query.
+ * 
+ * id ( string ) The unique identifier for the item. url ( optional string ) The
+ * URL navigated to by a user. title ( optional string ) The title of the page
+ * when it was last loaded. lastVisitTime ( optional number ) When this page was
+ * last loaded, represented in milliseconds since the epoch. visitCount (
+ * optional integer ) The number of times the user has navigated to this page.
+ * typedCount ( optional integer ) The number of times the user has navigated to
+ * this page by typing in the address.
+ */
 
 /*
- Url generated by google
- q=jennifer+aniston& // query
- pq=tets&pf=p&sclient=psy-ab& //previous query
- site=webhp&source=hp&pbx=1&
- oq=jennifer+a& // auto completion
- aq=0&aqi=g4&aql=&gs_sm=&gs_upl=&bav=on.2,or.r_gc.r_pw.r_cp.,cf.osb&fp=6fc8c6804cede81f&ix=seb&ion=1&biw=1438&bih=727
+ * Url generated by google q=jennifer+aniston& // query
+ * pq=tets&pf=p&sclient=psy-ab& //previous query site=webhp&source=hp&pbx=1&
+ * oq=jennifer+a& // auto completion
+ * aq=0&aqi=g4&aql=&gs_sm=&gs_upl=&bav=on.2,or.r_gc.r_pw.r_cp.,cf.osb&fp=6fc8c6804cede81f&ix=seb&ion=1&biw=1438&bih=727
  */
