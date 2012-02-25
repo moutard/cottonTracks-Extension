@@ -23,7 +23,7 @@ function DBSCAN (lSetOfPoints, fEps, iMinPts) {
         iClusterId++;
 
         // TODO(rmoutard) : remove console.log
-        console.log("ClusterId" + iClusterId);
+        // console.log("ClusterId" + iClusterId);
       }
     }
   }
@@ -101,6 +101,6 @@ function regionQuery(lSetOfPoints, oPoint, fEps) {
   }
 
   // TODO(rmoutard): remove console.log
-  console.log("regionQuery oPoint:" + oPoint + " length " +lEpsNeighborhood.length);
+  // console.log("regionQuery oPoint:" + oPoint + " length " +lEpsNeighborhood.length);
   return lEpsNeighborhood;
 };
