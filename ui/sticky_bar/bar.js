@@ -13,7 +13,7 @@ UI.StickyBar.Bar = function() {
   });
   
   UI.World.COMMUNICATOR.on('story_element', function(oStoryElement) {
-    console.log(oStoryElement.url);
+    //console.log(oStoryElement.url);
   });
 };
 
