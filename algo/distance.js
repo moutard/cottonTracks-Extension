@@ -85,49 +85,17 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
       / ((1 + commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   // Query keywords
-  // TODO(rmoutard) : pass lHistoryItems or use lHistoryItems as singleton
+  // TODO(rmoutard) : lHistoryItems as singleton
   // sum += coeff['queryKeywords']
   // * distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2,
   // lHistoryItems)
+
   return sum;
 }
 
 /*
  * Distance between generated pages
  */
-function getClosestGeneratedPage(oHistoryItem) {
-  // TODO(rmoutard) : I think there is a better way to find it
-  var endTime = oHistoryItem.lastVisitTime;
-  var startTime = endTime - 1000 * 60 * 5;
-  chrome.history.search({
-    'text' : '',
-    'startTime' : startTime,
-    'endTime' : endTime
-  }, function(lHistoryItems) {
-    bFlagReady = true;
-    console.log("getClosestGeneratedPages with");
-    console.log("oHistoryItem :");
-    console.log(oHistoryItem);
-    console.log("Result :");
-    // console.log(lHistoryItems);
-
-    // TODO(rmoutard) : return something when there is no result
-    for ( var i = 0; i < lHistoryItems.length; i++) {
-      var oUrl = parseUrl(lHistoryItems[i].url);
-      if (oUrl.pathname === "/search") {
-        console.log(lHistoryItems[i]);
-        return lHistoryItems[i];
-      }
-    }
-
-    var oEmpty = {
-      url : 'http://google.com'
-    };
-    return oEmpty;
-
-  });
-
-}
 function getClosestGeneratedPage(oHistoryItem, lHistoryItems) {
   // TODO(rmoutard) : maybe use lHistoryItems as a singleton
   // TODO(rmoutard) : I think there is a better way to find it
