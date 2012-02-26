@@ -39,6 +39,5 @@ function computeClosestGeneratedPage(lHistoryItems) {
     }
   }
 
-  console.log(lHistoryItems);
   return lHistoryItems;
 }
