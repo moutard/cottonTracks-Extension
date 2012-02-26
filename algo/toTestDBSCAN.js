@@ -21,8 +21,6 @@ function handleVisitItems(lHistoryItems) {
 
   var lClusters = Array(iNbCluster);
 
-  getClosestGeneratedPage(lHistoryItems[0], lHistoryItems)
-
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
   var sColorUnclassified = "#000"; // Color unclassified
