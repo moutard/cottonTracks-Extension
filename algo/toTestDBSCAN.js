@@ -8,12 +8,14 @@ function handleVisitItems(lHistoryItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood
-  var fEps = 50000.0;
+  var fEps = 70000.0;
   // Min Points in a cluster
   var iMinPts = 5;
 
   // TOOLS
   lHistoryItems = removeTools(lHistoryItems);
+  lHistoryItems = computeClosestGeneratedPage(lHistoryItems);
+
   single = HistoryItemsSingleton.getInstance(lHistoryItems);
   var iNbCluster = DBSCAN(lHistoryItems, fEps, iMinPts);
 
