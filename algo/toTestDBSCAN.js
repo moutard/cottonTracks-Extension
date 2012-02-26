@@ -14,10 +14,12 @@ function handleVisitItems(lHistoryItems) {
 
   // TOOLS
   lHistoryItems = removeTools(lHistoryItems);
-
+  single = HistoryItemsSingleton.getInstance(lHistoryItems);
   var iNbCluster = DBSCAN(lHistoryItems, fEps, iMinPts);
 
   var lClusters = Array(iNbCluster);
+
+  getClosestGeneratedPage(lHistoryItems[0], lHistoryItems)
 
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
@@ -47,7 +49,7 @@ function handleVisitItems(lHistoryItems) {
 
 // Build the distance matrix for the last XXX visited ages.
 console.log("start");
-
+var single;
 chrome.history.search({
   text : '',
   startTime : 0,
