@@ -85,10 +85,8 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
       / ((1 + commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   // Query keywords
-  // TODO(rmoutard) : lHistoryItems as singleton
-  // sum += coeff['queryKeywords']
-  // * distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2,
-  // lHistoryItems)
+  sum += coeff['queryKeywords'] * 10000
+      / ((1 + distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   return sum;
 }
@@ -96,40 +94,11 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
 /*
  * Distance between generated pages
  */
-function getClosestGeneratedPage(oHistoryItem, lHistoryItems) {
-  // TODO(rmoutard) : maybe use lHistoryItems as a singleton
-  // TODO(rmoutard) : I think there is a better way to find it
 
-  var sliceTime = 1000 * 60 * 5;
-  var endTime = oHistoryItem.lastVisitTime;
+function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2) {
 
-  // lHistoryItems is sorted by id ?
-  var oClosestGeneratedPage = {
-    url : 'http://google.com'
-  };
-
-  var lowerGapTime = sliceTime;
-  for ( var i = 0; i < lHistoryItems.length; i++) {
-    var currentGapTime = Math.abs(endTime - lHistoryItems[i].lastVisitTime);
-    if (currentGapTime <= sliceTime) {
-      // the historyItem can be considered
-      var oUrl = parseUrl(lHistoryItems[i].url);
-      if (oUrl.pathname === "/search" && currentGapTime < lowerGapTime) {
-        oClosestGeneratedPage = lHistoryItems[i];
-      }
-    }
-  }
-  return oClosestGeneratedPage;
-}
-
-function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2,
-    lHistoryItems) {
-
-  var oGeneratedPage1 = getClosestGeneratedPage(oHistoryItem1, lHistoryItems);
-  var oGeneratedPage2 = getClosestGeneratedPage(oHistoryItem2, lHistoryItems);
-
-  var keywords1 = parseUrl(oGeneratedPage1.url).keywords;
-  var keywords2 = parseUrl(oGeneratedPage2.url).keywords;
+  var keywords1 = parseUrl(oHistoryItem1.closestGeneratedPage).keywords;
+  var keywords2 = parseUrl(oHistoryItem2.closestGeneratedPage).keywords;
 
   var result = _.intersection(keywords1, keywords2);
   return result.length;
