@@ -9,7 +9,7 @@ Cotton.Algo.extractWords = function(sTitle) {
   var lMatches = sTitle.match(oRegexp) || [];
   // TODO(fwouts): Be nicer on the words we keep, but still reject useless words
   // such as "-".
-  lMatches = $.grep(lMatches, function(sWord) {
+  lMatches = _.filter(lMatches, function(sWord) {
     return sWord.length > 2;
   });
   return lMatches;
