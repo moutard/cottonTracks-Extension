@@ -1,17 +1,17 @@
 'use strict';
 
-function initSetOfPoints(lSetOfPoints) {
+Cotton.Algo.initSetOfPoints = function(lSetOfPoints) {
   // Mark all the point as UNCLASSIFIED
   for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
     lSetOfPoints[iLoop].clusterId = 'UNCLASSIFIED';
   }
 };
 
-function DBSCAN(lSetOfPoints, fEps, iMinPts) {
+Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
   // Main part of the algorithm
 
   //
-  initSetOfPoints(lSetOfPoints);
+  Cotton.Algo.initSetOfPoints(lSetOfPoints);
 
   var iClusterId = 0;
   var oPoint;
@@ -19,7 +19,7 @@ function DBSCAN(lSetOfPoints, fEps, iMinPts) {
     oPoint = lSetOfPoints[iLoop];
 
     if (oPoint.clusterId == 'UNCLASSIFIED') {
-      if (expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
+      if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
         iClusterId++;
 
         // TODO(rmoutard) : remove console.log
@@ -33,10 +33,10 @@ function DBSCAN(lSetOfPoints, fEps, iMinPts) {
   return iClusterId;
 };
 
-function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
+Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
   // Check if we can expand a cluster
 
-  var lSeeds = regionQuery(lSetOfPoints, oPoint, fEps);
+  var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps);
 
   if (lSeeds.length <= iMinPts) {
     oPoint.clusterId = 'NOISE';
@@ -63,7 +63,7 @@ function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
       oCurrentSeedPoint = lSeeds.pop();
 
       // lResult is the neighborhood of the CurrentSeedPoint
-      var lResult = regionQuery(lSetOfPoints, oCurrentSeedPoint, fEps);
+      var lResult = Cotton.Algo.regionQuery(lSetOfPoints, oCurrentSeedPoint, fEps);
 
       if (lResult.length >= iMinPts) {
 
@@ -89,7 +89,7 @@ function expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
   }
 };
 
-function regionQuery(lSetOfPoints, oPoint, fEps) {
+Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
   // return the Eps-Neighborhood i.e. all the point in lSetOfPoints that are
   // close to oPoint (distance <= Eps)
 
@@ -97,7 +97,7 @@ function regionQuery(lSetOfPoints, oPoint, fEps) {
 
   var lEpsNeighborhood = [];
   for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
-    if (distanceComplexe(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
+    if (Cotton.Algo.distanceComplexe(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
       lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
   }

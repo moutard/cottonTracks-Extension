@@ -1,4 +1,4 @@
-function removeTools(lHistoryItems) {
+Cotton.Algo.removeTools = function(lHistoryItems) {
   var oToolsContainer = generateTools();
   var lCleanHistoryItems = new Array();
 
@@ -12,9 +12,9 @@ function removeTools(lHistoryItems) {
   }
 
   return lCleanHistoryItems;
-}
+};
 
-function computeClosestGeneratedPage(lHistoryItems) {
+Cotton.Algo.computeClosestGeneratedPage = function(lHistoryItems) {
 
   var iSliceTime = 1000 * 60 * 5;
   var sNonFound = "http://www.google.fr/";
@@ -40,4 +40,4 @@ function computeClosestGeneratedPage(lHistoryItems) {
   }
 
   return lHistoryItems;
-}
+};
