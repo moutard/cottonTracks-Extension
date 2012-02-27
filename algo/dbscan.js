@@ -29,7 +29,7 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
   }
 
   // TODO(rmoutard) : remove console.log
-  console.log("end of dbscan");
+  //console.log("end of dbscan");
   return iClusterId;
 };
 
