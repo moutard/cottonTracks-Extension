@@ -1,6 +1,6 @@
 // Tools
 
-function extractWords(sTitle) {
+Cotton.Algo.extractWords = function(sTitle) {
   // We cannot use the \b boundary symbol in the regex because accented
   // characters would not be considered (not art of \w).
   // Include all normal characters, dash, accented characters.
@@ -13,14 +13,14 @@ function extractWords(sTitle) {
     return sWord.length > 2;
   });
   return lMatches;
-}
+};
 
-function commonWords(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
   // Return the number of common words
 
   var iTitleWordsAmount = 0;
-  var lWords1 = extractWords(oHistoryItem1.title);
-  var lWords2 = extractWords(oHistoryItem2.title);
+  var lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
+  var lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
 
   var dWords1 = {};
   for ( var iI = 0, iN = lWords1.length; iI < iN; iI++) {
@@ -38,26 +38,26 @@ function commonWords(oHistoryItem1, oHistoryItem2) {
   }
 
   return iTitleWordsAmount;
-}
+};
 
-function distance(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distance = function (oHistoryItem1, oHistoryItem2) {
   // compute distance between two historyItems
 
-}
+};
 
-function distanceId(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceId = function(oHistoryItem1, oHistoryItem2) {
   // compute the Id distance
   return Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
-}
+};
 
-function distanceLastVisitTime(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceLastVisitTime = function(oHistoryItem1, oHistoryItem2) {
   // compute the last visit distance
   return Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
-}
+};
 
 // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
 // for instance you need to balance common words
-function distanceComplexe(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
 
   // TODO: (rmoutard) write a class for coefficients
   var coeff = {};
@@ -82,20 +82,20 @@ function distanceComplexe(oHistoryItem1, oHistoryItem2) {
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   sum += coeff['commonWords'] * 100000
-      / ((1 + commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
+      / ((1 + Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   // Query keywords
   sum += coeff['queryKeywords'] * 10000
-      / ((1 + distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2)) ^ 2);
+      / ((1 + Cotton.Algo.distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   return sum;
-}
+};
 
 /*
  * Distance between generated pages
  */
 
-function distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1, oHistoryItem2) {
 
   var keywords1 = parseUrl(oHistoryItem1.closestGeneratedPage).keywords;
   var keywords2 = parseUrl(oHistoryItem2.closestGeneratedPage).keywords;

@@ -13,11 +13,11 @@ function handleVisitItems(lHistoryItems) {
   var iMinPts = 5;
 
   // TOOLS
-  lHistoryItems = removeTools(lHistoryItems);
-  lHistoryItems = computeClosestGeneratedPage(lHistoryItems);
+  lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
+  lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
 
   single = HistoryItemsSingleton.getInstance(lHistoryItems);
-  var iNbCluster = DBSCAN(lHistoryItems, fEps, iMinPts);
+  var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts);
 
   var lClusters = Array(iNbCluster);
 
