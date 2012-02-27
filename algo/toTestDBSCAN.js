@@ -1,26 +1,16 @@
 'use strict';
 // $(function() {
 
-function handleVisitItems(lHistoryItems) {
-  // Loop through all the VisitItems and compute their distances to each other.
-  // Keys are VisitItem ids.
-  // Values are lists of couples with distances including the VisitItem.
 
-  // PARAMETERS
-  // Max Distance between neighborhood
-  var fEps = 70000.0;
-  // Min Points in a cluster
-  var iMinPts = 5;
+// TOOLS
+function randomColor() {
+  // for more informations :
+  // http://paulirish.com/2009/random-hex-color-code-snippets/
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
+};
 
-  // TOOLS
-  lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
-  lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
-
-  single = HistoryItemsSingleton.getInstance(lHistoryItems);
-  var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts);
-
+function displayResult(iNbCluster, lHistoryItems){
   var lClusters = Array(iNbCluster);
-
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
   var sColorUnclassified = "#000"; // Color unclassified
@@ -45,27 +35,31 @@ function handleVisitItems(lHistoryItems) {
         + '</p>';
     $("#liste").append(sLine);
   }
-}
+
+};
+
+var worker = new Worker('algo/worker.js');
+
+worker.addEventListener('message', function(e) {
+  console.log('Worker ends: ', e.data.iNbCluster);
+
+  displayResult(e.data.iNbCluster, e.data.lHistoryItems);
+}, false);
 
 // Build the distance matrix for the last XXX visited ages.
-console.log("start");
+//console.log("start");
 var single;
 chrome.history.search({
   text : '',
   startTime : 0,
   maxResults : 2000,
 }, function(lHistoryItems) {
-  // console.log(lHistoryItems);
+  //console.log(lHistoryItems);
   // Get all the visits for every HistoryItem.
-
-  handleVisitItems(lHistoryItems);
+  worker.postMessage(lHistoryItems);
+  //handleVisitItems(lHistoryItems);
 });
 
 // });
 
-// TOOLS
-function randomColor() {
-  // for more informations :
-  // http://paulirish.com/2009/random-hex-color-code-snippets/
-  return '#' + Math.floor(Math.random() * 16777215).toString(16);
-}
+
