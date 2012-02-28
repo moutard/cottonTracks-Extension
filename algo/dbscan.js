@@ -25,7 +25,7 @@ Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
 
 Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
   // Check if we can expand a cluster
-  
+
   // get fEps-Neighborhood of oPoint
   var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps);
 
@@ -37,7 +37,7 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
   } else {
     // all the points in the fEps-Neighborhood are density reachable from oPoint
 
-    // Update the clusterId of all the points in the fEps-Neighborhood 
+    // Update the clusterId of all the points in the fEps-Neighborhood
     for ( var iSeedPoint = 0; iSeedPoint < lSeeds.length; iSeedPoint++) {
       lSeeds[iSeedPoint].clusterId = iClusterId;
     }
@@ -85,7 +85,7 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
 
   // Mark all the point as UNCLASSIFIED
   Cotton.Algo.initSetOfPoints(lSetOfPoints);
-  
+
   var iClusterId = 0; // current clusterId
   var oPoint;         // current point
 

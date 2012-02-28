@@ -118,7 +118,7 @@ function detectTools () {
       for(var i = 0; i < lHistoryItems.length; i++){
         var oHistoryItems = lHistoryItems[i];
 
-        var sHostname = parseUrl(oHistoryItems.url).hostname;
+        var sHostname = new parseUrl(oHistoryItems.url).hostname;
         oTools.insert(sHostname);
       }
     }
@@ -144,7 +144,7 @@ function simpleDetectTools () {
       for(var i = 0; i < lHistoryItems.length; i++){
         var oHistoryItems = lHistoryItems[i];
 
-        var sHostname = parseUrl(oHistoryItems.url).hostname;
+        var sHostname = new parseUrl(oHistoryItems.url).hostname;
         oTools.insert(sHostname);
       }
 
