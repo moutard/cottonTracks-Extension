@@ -47,7 +47,7 @@ module(
 
 test("Calcule distance LastVisitTime", function() {
   var fExpectedValue = 16187.193115234375;
-  var fDistance = distanceLastVisitTime(oHistoryItem1, oHistoryItem2);
+  var fDistance = Cotton.Algo.distanceLastVisitTime(oHistoryItem1, oHistoryItem2);
 
   var sMessage = "The value of the distance has changed \n";
   sMessage += "Expected Value is " + fExpectedValue
@@ -58,7 +58,7 @@ test("Calcule distance LastVisitTime", function() {
 test("Calcule distance Complexe", function() {
 
   var fExpectedValue = 11275.077246093751;
-  var fDistance = distanceComplexe(oHistoryItem1, oHistoryItem2);
+  var fDistance = Cotton.Algo.distanceComplexe(oHistoryItem1, oHistoryItem2);
   var sMessage = "The value of the distance has changed \n";
   sMessage += "Expected Value is " + fExpectedValue
       + "but the computed distance is " + fDistance;
@@ -110,7 +110,7 @@ module(
 
 test("initSetOfPoints", function() {
 
-  initSetOfPoints(lHistoryItems);
+  Cotton.Algo.initSetOfPoints(lHistoryItems);
   equal(lHistoryItems[0].clusterId, "UNCLASSIFIED",
       'Cluster should be unclassified');
 
@@ -118,8 +118,8 @@ test("initSetOfPoints", function() {
 
 test("One Cluster", function() {
   var lHistoryItems = Array(oHistoryItem1, oHistoryItem2);
-  initSetOfPoints(lHistoryItems);
-  var iNbCluster = DBSCAN(lHistoryItems, 50000, 1);
+  Cotton.Algo.initSetOfPoints(lHistoryItems);
+  var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, 50000, 1);
 
   equal(lHistoryItems[0].clusterId, 0, 'Cluster non classé');
   equal(iNbCluster, 1, 'Different');
