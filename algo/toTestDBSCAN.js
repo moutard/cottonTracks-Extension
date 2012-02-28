@@ -1,7 +1,6 @@
 'use strict';
 // $(function() {
 
-
 // TOOLS
 function randomColor() {
   // for more informations :
@@ -9,7 +8,7 @@ function randomColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
 
-function displayResult(iNbCluster, lHistoryItems){
+function displayResult(iNbCluster, lHistoryItems) {
   var lClusters = Array(iNbCluster);
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
@@ -36,6 +35,8 @@ function displayResult(iNbCluster, lHistoryItems){
     $("#liste").append(sLine);
   }
 
+  var a = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
+  Cotton.Algo.storySELECT(a);
 };
 
 var worker = new Worker('algo/worker.js');
@@ -44,22 +45,22 @@ worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
 
   displayResult(e.data.iNbCluster, e.data.lHistoryItems);
+
 }, false);
 
 // Build the distance matrix for the last XXX visited ages.
-//console.log("start");
+// console.log("start");
 var single;
 chrome.history.search({
   text : '',
   startTime : 0,
   maxResults : 2000,
 }, function(lHistoryItems) {
-  //console.log(lHistoryItems);
+  // console.log(lHistoryItems);
   // Get all the visits for every HistoryItem.
   worker.postMessage(lHistoryItems);
-  //handleVisitItems(lHistoryItems);
+  // handleVisitItems(lHistoryItems);
 });
 
 // });
-
 
