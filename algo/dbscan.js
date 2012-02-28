@@ -7,52 +7,42 @@ Cotton.Algo.initSetOfPoints = function(lSetOfPoints) {
   }
 };
 
-Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
-  // Main part of the algorithm
+Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
+  // return the Eps-Neighborhood i.e. all the point in lSetOfPoints that are
+  // close to oPoint (distance <= Eps)
 
-  //
-  Cotton.Algo.initSetOfPoints(lSetOfPoints);
-
-  var iClusterId = 0;
-  var oPoint;
-  for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
-    oPoint = lSetOfPoints[iLoop];
-
-    if (oPoint.clusterId == 'UNCLASSIFIED') {
-      if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
-        iClusterId++;
-
-        // TODO(rmoutard) : remove console.log
-        // console.log("ClusterId" + iClusterId);
-      }
+  // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
+  // TODO(rmoutard): maybe use a yield to not store a new array
+  var lEpsNeighborhood = [];
+  for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
+    if (Cotton.Algo.distanceComplexe(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
+      lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
   }
 
-  // TODO(rmoutard) : remove console.log
-  //console.log("end of dbscan");
-  return iClusterId;
+  return lEpsNeighborhood;
 };
 
 Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
   // Check if we can expand a cluster
-
+  
+  // get fEps-Neighborhood of oPoint
   var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps);
 
   if (lSeeds.length <= iMinPts) {
+    // the fEps-Neighborhood is not wide enough to create a cluster
+
     oPoint.clusterId = 'NOISE';
     return false;
   } else {
-    // all the point in seeds are density reachable from point
+    // all the points in the fEps-Neighborhood are density reachable from oPoint
 
-    // change all the cluster id of seeds
+    // Update the clusterId of all the points in the fEps-Neighborhood 
     for ( var iSeedPoint = 0; iSeedPoint < lSeeds.length; iSeedPoint++) {
       lSeeds[iSeedPoint].clusterId = iClusterId;
     }
 
     // remove oPoint
-    // TODO(rmoutard): oPoint should be the closest point maybe find a way to
-    // put it
-    // in the first position
     var idx = lSeeds.indexOf(oPoint); // Find the index
     if (idx != -1)
       lSeeds.splice(idx, 1); // Remove it if really found!
@@ -62,7 +52,7 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
 
       oCurrentSeedPoint = lSeeds.pop();
 
-      // lResult is the neighborhood of the CurrentSeedPoint
+      // lResult is the fEps-Neighborhood of the oCurrentSeedPoint
       var lResult = Cotton.Algo.regionQuery(lSetOfPoints, oCurrentSeedPoint, fEps);
 
       if (lResult.length >= iMinPts) {
@@ -72,13 +62,14 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
           var oCurrentResultPoint = lResult[iResultIndex];
           if (oCurrentResultPoint.clusterId === 'UNCLASSIFIED'
               || oCurrentResultPoint.clusterId === 'NOISE') {
+              // if NOISE then we were wrong now the point is in the cluster
+              // if UNCLASSIFIED the point is in the cluster and ...
             if (oCurrentResultPoint.clusterID === 'UNCLASSIFIED') {
+              // ...we had it in the seeds to check its fEps-Neighborhood
               lSeeds.push(oCurrentResultPoint);
             }
 
             // SetOfPoints.changeClId(resultP,ClId);
-
-            // TODO(rmoutard) : check if lResult change lSetOfPoints
             lResult[iResultIndex].clusterId = iClusterId;
 
           }
@@ -89,21 +80,28 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
   }
 };
 
-Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
-  // return the Eps-Neighborhood i.e. all the point in lSetOfPoints that are
-  // close to oPoint (distance <= Eps)
+Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
+  // Main part of the algorithm
 
-  // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
+  // Mark all the point as UNCLASSIFIED
+  Cotton.Algo.initSetOfPoints(lSetOfPoints);
+  
+  var iClusterId = 0; // current clusterId
+  var oPoint;         // current point
 
-  var lEpsNeighborhood = [];
-  for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
-    if (Cotton.Algo.distanceComplexe(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
-      lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
+
+  for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
+    oPoint = lSetOfPoints[iLoop];
+
+    if (oPoint.clusterId == 'UNCLASSIFIED') {
+      if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
+        iClusterId++;
+
+      }
     }
   }
 
-  // TODO(rmoutard): remove console.log
-  // console.log("regionQuery oPoint:" + oPoint + " length "
-  // +lEpsNeighborhood.length);
-  return lEpsNeighborhood;
+  return iClusterId;
 };
+
+
