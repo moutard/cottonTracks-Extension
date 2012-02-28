@@ -1,5 +1,7 @@
 'use strict';
 
+// Worker has no access to external librairies loaded in the main thread.
+// Cotton.Algo.
 importScripts('../init.js');
 importScripts('__init__.js');
 importScripts('historyItemsClass.js');
@@ -10,10 +12,11 @@ importScripts('dbscan.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
 
+// Cotton.lib.
 importScripts('../lib/underscore.js');
 importScripts('../lib/parseURL.js');
 
-var single;
+var oHistoryItemsSingleton;
 
 function handleVisitItems(lHistoryItems) {
   // Loop through all the VisitItems and compute their distances to each other.
@@ -27,26 +30,28 @@ function handleVisitItems(lHistoryItems) {
   var iMinPts = 5;
 
   // TOOLS
+  // TODO(rmoutard) : for the moment afectation is needed
+  // remove afectation lHistoryITems is passed by reference
   lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
   lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
 
-  single = HistoryItemsSingleton.getInstance(lHistoryItems);
+  oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lHistoryItems);
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts);
-  
-  // Format the result data and send it to the main thread
-  // This worker has no access to window or DOM. So update DOM
-  // should be done in the main thread
-  var data = {};
-  data.iNbCluster = iNbCluster;
-  data.lHistoryItems = lHistoryItems;
-  self.postMessage(data);
 
-  self.close(); // Terminates the worker.
+  // This worker has no access to window or DOM. So update DOM should be done
+  // in the main thread.
+  var dData = {};
+  dData.iNbCluster = iNbCluster;
+  dData.lHistoryItems = lHistoryItems;
+
+  self.postMessage(dData);  // Send data to the main thread
+  self.close();             // Terminates the worker.
 }
 
-// connect worker with main thread
 self.addEventListener('message', function(e){
-  // Worker starts when it receive postMessage() 
+  // Connect worker with main thread.
+
+  // Worker starts when it receive postMessage().
   handleVisitItems(e.data);
 }, false);
 
