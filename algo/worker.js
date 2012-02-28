@@ -11,7 +11,8 @@ importScripts('distance.js');
 importScripts('dbscan.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
-
+importScripts('storyClass.js')
+importScripts('storySELECT.js');
 // Cotton.lib.
 importScripts('../lib/underscore.js');
 importScripts('../lib/parseURL.js');
@@ -44,14 +45,13 @@ function handleVisitItems(lHistoryItems) {
   dData.iNbCluster = iNbCluster;
   dData.lHistoryItems = lHistoryItems;
 
-  self.postMessage(dData);  // Send data to the main thread
-  self.close();             // Terminates the worker.
+  self.postMessage(dData); // Send data to the main thread
+  self.close(); // Terminates the worker.
 }
 
-self.addEventListener('message', function(e){
+self.addEventListener('message', function(e) {
   // Connect worker with main thread.
 
   // Worker starts when it receive postMessage().
   handleVisitItems(e.data);
 }, false);
-
