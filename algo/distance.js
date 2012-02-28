@@ -97,8 +97,8 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
 
 Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1, oHistoryItem2) {
 
-  var keywords1 = parseUrl(oHistoryItem1.closestGeneratedPage).keywords;
-  var keywords2 = parseUrl(oHistoryItem2.closestGeneratedPage).keywords;
+  var keywords1 = oHistoryItem1.queryKeywords;
+  var keywords2 = oHistoryItem2.queryKeywords;
 
   var result = _.intersection(keywords1, keywords2);
   return result.length;
@@ -106,7 +106,7 @@ Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1, oHistoryItem
 
 /*
  * HistoryItem An object encapsulating one result of a history query.
- * 
+ *
  * id ( string ) The unique identifier for the item. url ( optional string ) The
  * URL navigated to by a user. title ( optional string ) The title of the page
  * when it was last loaded. lastVisitTime ( optional number ) When this page was
