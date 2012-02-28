@@ -31,7 +31,7 @@ function displayResult(iNbCluster, lHistoryItems){
     } else {
       sColor = sColorUnclassified;
     }
-    var sLine = '<p style="color:' + sColor + '">' + oHistoryItem["url"]
+    var sLine = '<p style="color:' + sColor + '">' + oHistoryItem["title"]
         + '</p>';
     $("#liste").append(sLine);
   }
