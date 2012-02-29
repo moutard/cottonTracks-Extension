@@ -1,6 +1,6 @@
 'use strict';
 
-var Story = function(lHistoryItems) {
+Cotton.Model.Story = function(lHistoryItems) {
   // storyClass
 
   var lHistoryItems, iStoryLength, fLastVisit;
@@ -13,33 +13,35 @@ var Story = function(lHistoryItems) {
   this.fLastVisitTime = 0;
 };
 
+// TODO(rmoutard): Use the $.extend syntax?
+
 // PROTOTYPE
 // GETTER
-Story.prototype.length = function() {
+Cotton.Model.Story.prototype.length = function() {
   return this.lHistoryItems.length;
 }
 // SETTER
-Story.prototype.addHistoryItem = function(oHistoryItems) {
+Cotton.Model.Story.prototype.addHistoryItem = function(oHistoryItems) {
   this.lHistoryItems.push(oHistoryItems);
   if (oHistoryItems.lastVisitTime > this.fLastVisit) {
     this.fLastVisit = oHistoryItems.lastVisitTime;
   }
 };
 
-Story.prototype.getStartPoint = function() {
+Cotton.Model.Story.prototype.getStartPoint = function() {
 
   return this.lHistoryItems[0];
 };
 
-Story.prototype.getEndPoint = function() {
+Cotton.Model.Story.prototype.getEndPoint = function() {
 
   return this.lHistoryItems[lHistoryItems.length - 1];
 };
 
-Story.prototype.getMainPoint = function() {
+Cotton.Model.Story.prototype.getMainPoint = function() {
 
 };
 
-Story.prototype.storySCAN = function() {
+Cotton.Model.Story.prototype.storySCAN = function() {
 
 };
