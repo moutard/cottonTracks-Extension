@@ -30,13 +30,17 @@ function displayResult(iNbCluster, lHistoryItems) {
     } else {
       sColor = sColorUnclassified;
     }
-    var sLine = '<p style="color:' + sColor + '">' + oHistoryItem["title"]
-        + '</p>';
+    var sLine = '<div class="url" style="color:' + sColor + '">';
+      sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
+      sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
+      sLine += '</div>';
     $("#liste").append(sLine);
   }
 
   var a = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
   Cotton.Algo.storySELECT(a);
+  $('#loader-animation').remove();
+
 };
 
 var worker = new Worker('algo/worker.js');
