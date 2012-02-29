@@ -3,7 +3,7 @@
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.Algo.
 importScripts('../init.js');
-importScripts('__init__.js');
+importScripts('init.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
 importScripts('preTreatment.js');
