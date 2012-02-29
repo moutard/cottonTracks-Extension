@@ -6,7 +6,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
   // initialized
   for ( var i = 0; i <= iNbCluster; i++) {
-    lStories[i] = new Story();
+    lStories[i] = new Cotton.Model.Story();
   }
   
   var bStoryUnderConstruction = true;

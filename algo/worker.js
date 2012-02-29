@@ -11,7 +11,8 @@ importScripts('distance.js');
 importScripts('dbscan.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
-importScripts('storyClass.js')
+importScripts('../model/init.js');
+importScripts('../model/story.js');
 importScripts('storySELECT.js');
 // Cotton.lib.
 importScripts('../lib/underscore.js');
