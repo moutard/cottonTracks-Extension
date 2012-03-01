@@ -12,7 +12,6 @@ importScripts('toolsClass.js');
 importScripts('preTreatment.js');
 importScripts('distance.js');
 importScripts('dbscan.js');
-importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
 
 var oHistoryItemsSingleton;
