@@ -1,6 +1,9 @@
 'use strict';
 
 // Worker has no access to external librairies loaded in the main thread.
+/// Cotton.lib.
+importScripts('../lib/underscore.js');
+importScripts('../lib/parseURL.js');
 // Cotton.Algo.
 importScripts('../init.js');
 importScripts('init.js');
@@ -11,12 +14,6 @@ importScripts('distance.js');
 importScripts('dbscan.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');
-importScripts('../model/init.js');
-importScripts('../model/story.js');
-importScripts('storySELECT.js');
-// Cotton.lib.
-importScripts('../lib/underscore.js');
-importScripts('../lib/parseURL.js');
 
 var oHistoryItemsSingleton;
 
