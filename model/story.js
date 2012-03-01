@@ -17,10 +17,19 @@ $.extend(Cotton.Model.Story.prototype, {
   length : function() {
     return this._lHistoryItems.length;
   },
+  iter : function() {
+  //  for(var i = 0; i < this._lHistoryItems.length; i++){
+  //    yield this._lHistoryItems[i];
+  //  }
+    return this._lHistoryItems;
+  },
+  fLastVisitTime : function() {
+    return this._fLastVisitTime;
+  },
   addHistoryItem : function(oHistoryItems) {
     this._lHistoryItems.push(oHistoryItems);
-    if (oHistoryItems.lastVisitTime > this._fLastVisit) {
-      this._fLastVisit = oHistoryItems.lastVisitTime;
+    if (oHistoryItems.lastVisitTime > this._fLastVisitTime) {
+      this._fLastVisitTime = oHistoryItems.lastVisitTime;
     }
   },
   getStartPoint : function() {

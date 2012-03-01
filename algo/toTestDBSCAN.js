@@ -1,5 +1,4 @@
 'use strict';
-// $(function() {
 
 // TOOLS
 function randomColor() {
@@ -19,28 +18,48 @@ function displayResult(iNbCluster, lHistoryItems) {
     lColorsCluster[iColor] = randomColor();
   }
 
-  for ( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++) {
-    var oHistoryItem = lHistoryItems[iLoop];
-    var sColor;
+//  for ( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++) {
+//    var oHistoryItem = lHistoryItems[iLoop];
+//    var sColor;
+//
+//    if (oHistoryItem.clusterId == "NOISE") {
+//      sColor = sColorNoise;
+//    } else if (oHistoryItem.clusterId < lColorsCluster.length) {
+//      sColor = lColorsCluster[oHistoryItem.clusterId];
+//    } else {
+//      sColor = sColorUnclassified;
+//    }
+//    var sLine = '<div class="url" style="color:' + sColor + '">';
+//      sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
+//      sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
+//      sLine += '</div>';
+//    $("#liste").append(sLine);
+//  }
 
-    if (oHistoryItem.clusterId == "NOISE") {
-      sColor = sColorNoise;
-    } else if (oHistoryItem.clusterId < lColorsCluster.length) {
-      sColor = lColorsCluster[oHistoryItem.clusterId];
-    } else {
-      sColor = sColorUnclassified;
-    }
+  var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
+  var lDStories = Cotton.Algo.storySELECT(lStories);
+  $('#loader-animation').remove();
+  
+  for(var i = 0; i < lDStories.length; i++){
+    displayStory(lDStories[i]);   
+  }
+};
+
+function displayStory (oStory){
+  var lHistoryItems = oStory.iter();
+  var sColor = randomColor();
+  
+  for (var j = 0; j < lHistoryItems.length; j++) {
+    var oHistoryItem = lHistoryItems[j];
+
     var sLine = '<div class="url" style="color:' + sColor + '">';
-      sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
-      sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
-      sLine += '</div>';
+    sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
+    sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
+    sLine += '</div>';
     $("#liste").append(sLine);
   }
-
-  var a = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
-  Cotton.Algo.storySELECT(a);
-  $('#loader-animation').remove();
-
+  
+  $("#liste").append('-------------------------------------------------');
 };
 
 var worker = new Worker('algo/worker.js');
@@ -65,6 +84,3 @@ chrome.history.search({
   worker.postMessage(lHistoryItems);
   // handleVisitItems(lHistoryItems);
 });
-
-// });
-

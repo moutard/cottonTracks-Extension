@@ -35,8 +35,8 @@ Cotton.Algo.storySELECT = function(lStories) {
   lDisplayStories.push(lStories[lStories.length - 1]);
 
   // return the last one
-  lDisplayStories.push(_.min(lStories, function(oItem) {
-    return oItem.fLastVisitTime;
+  lDisplayStories.push(_.max(lStories, function(oItem) {
+    return oItem.fLastVisitTime();
   }));
 
   lStories.sort(function(oStory1, oStory2) {
