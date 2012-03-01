@@ -3,45 +3,34 @@
 Cotton.Model.Story = function(lHistoryItems) {
   // storyClass
 
-  var lHistoryItems, iStoryLength, fLastVisit;
-
   if (lHistoryItems === undefined) {
-    this.lHistoryItems = new Array();
+   this._lHistoryItems = new Array();
   } else {
-    this.lHistoryItems = lHistoryItems;
+    this._lHistoryItems = lHistoryItems;
   }
-  this.fLastVisitTime = 0;
-};
+  this._fLastVisitTime = 0;
 
-// TODO(rmoutard): Use the $.extend syntax?
+};
 
 // PROTOTYPE
-// GETTER
-Cotton.Model.Story.prototype.length = function() {
-  return this.lHistoryItems.length;
-}
-// SETTER
-Cotton.Model.Story.prototype.addHistoryItem = function(oHistoryItems) {
-  this.lHistoryItems.push(oHistoryItems);
-  if (oHistoryItems.lastVisitTime > this.fLastVisit) {
-    this.fLastVisit = oHistoryItems.lastVisitTime;
+$.extend(Cotton.Model.Story.prototype, {
+  length : function() {
+    return this._lHistoryItems.length;
+  },
+  addHistoryItem : function(oHistoryItems) {
+    this._lHistoryItems.push(oHistoryItems);
+    if (oHistoryItems.lastVisitTime > this._fLastVisit) {
+      this._fLastVisit = oHistoryItems.lastVisitTime;
+    }
+  },
+  getStartPoint : function() {
+    return this._lHistoryItems[0];
+  },
+  getEndPoint : function() {
+    return this._lHistoryItems[lHistoryItems.length - 1];
+  },
+  getMainPoint : function() {
+  },
+  storySCAN : function() {
   }
-};
-
-Cotton.Model.Story.prototype.getStartPoint = function() {
-
-  return this.lHistoryItems[0];
-};
-
-Cotton.Model.Story.prototype.getEndPoint = function() {
-
-  return this.lHistoryItems[lHistoryItems.length - 1];
-};
-
-Cotton.Model.Story.prototype.getMainPoint = function() {
-
-};
-
-Cotton.Model.Story.prototype.storySCAN = function() {
-
-};
+});
