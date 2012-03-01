@@ -43,16 +43,21 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
   var lDStories = Cotton.Algo.storySELECT(lStories);
   $('#loader-animation').remove();
   
-  for(var i = 0; i < lDStories.length; i++){
+  for(var i = 1; i < lDStories.length; i++){
     displayStory(lDStories[i]);   
   }
 
 }
 
 function displayStory (oStory){
+  var a = oStory.iter();
+
+  oStory.removeHistoryItem(a[a.length - 1].id);
+  oStory.moveHistoryItem(a[a.length - 2].id);
+  
   var lHistoryItems = oStory.iter();
   var sColor = randomColor();
-  
+
   for (var j = 0; j < lHistoryItems.length; j++) {
     var oHistoryItem = lHistoryItems[j];
 
