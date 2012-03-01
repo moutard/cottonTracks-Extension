@@ -7,7 +7,7 @@ function randomColor() {
   return '#' + Math.floor(Math.random() * 16777215).toString(16);
 };
 
-function displayResult(iNbCluster, lHistoryItems) {
+function displayDBSCANResult(iNbCluster, lHistoryItems) {
   var lClusters = Array(iNbCluster);
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
@@ -18,24 +18,27 @@ function displayResult(iNbCluster, lHistoryItems) {
     lColorsCluster[iColor] = randomColor();
   }
 
-//  for ( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++) {
-//    var oHistoryItem = lHistoryItems[iLoop];
-//    var sColor;
-//
-//    if (oHistoryItem.clusterId == "NOISE") {
-//      sColor = sColorNoise;
-//    } else if (oHistoryItem.clusterId < lColorsCluster.length) {
-//      sColor = lColorsCluster[oHistoryItem.clusterId];
-//    } else {
-//      sColor = sColorUnclassified;
-//    }
-//    var sLine = '<div class="url" style="color:' + sColor + '">';
-//      sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
-//      sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
-//      sLine += '</div>';
-//    $("#liste").append(sLine);
-//  }
+  for ( var iLoop = 0; iLoop < lHistoryItems.length; iLoop++) {
+    var oHistoryItem = lHistoryItems[iLoop];
+    var sColor;
 
+    if (oHistoryItem.clusterId == "NOISE") {
+      sColor = sColorNoise;
+    } else if (oHistoryItem.clusterId < lColorsCluster.length) {
+      sColor = lColorsCluster[oHistoryItem.clusterId];
+    } else {
+      sColor = sColorUnclassified;
+    }
+    var sLine = '<div class="url" style="color:' + sColor + '">';
+      sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">' + oHistoryItem["title"] + '</h5>';
+      sLine += '<h6 style="font-size:11px; margin:2px">'  + oHistoryItem["url"] + '</h6>';
+      sLine += '</div>';
+    $("#liste").append(sLine);
+  }
+  $('#loader-animation').remove();
+};
+
+function displayStorySELECTResult(iNbCluster, lHistoryItems) {
   var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
   var lDStories = Cotton.Algo.storySELECT(lStories);
   $('#loader-animation').remove();
@@ -43,7 +46,8 @@ function displayResult(iNbCluster, lHistoryItems) {
   for(var i = 0; i < lDStories.length; i++){
     displayStory(lDStories[i]);   
   }
-};
+
+}
 
 function displayStory (oStory){
   var lHistoryItems = oStory.iter();
@@ -67,7 +71,7 @@ var worker = new Worker('algo/worker.js');
 worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
 
-  displayResult(e.data.iNbCluster, e.data.lHistoryItems);
+  displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
 
