@@ -1,7 +1,6 @@
 'use strict';
 
-Cotton.DB.Translator = function(sObjectType, sFormatVersion, mObjectToDbRecordConverter, mDbRecordToObjectConverter) {
-  this._sObjectType = sObjectType;
+Cotton.DB.Translator = function(sFormatVersion, mObjectToDbRecordConverter, mDbRecordToObjectConverter) {
   this._sFormatVersion = sFormatVersion;
   this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
   this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
@@ -9,9 +8,17 @@ Cotton.DB.Translator = function(sObjectType, sFormatVersion, mObjectToDbRecordCo
 
 $.extend(Cotton.DB.Translator.prototype, {
   objectToDbRecord: function(oObject) {
-    this._mObjectToDbRecordConverter.call(oObject);
+    var dDbRecord = this._mObjectToDbRecordConverter.call(this, oObject);
+    dDbRecord.sFormatVersion = this._sFormatVersion;
+    return dDbRecord;
   },
   dbRecordToObject: function(oDbRecord) {
-    this._mDbRecordToObjectConverter.call(oDbRecord);
+    if (oDbRecord.sFormatVersion != this._sFormatVersion) {
+      throw "Version mismatch."
+    }
+    return this._mDbRecordToObjectConverter.call(this, oDbRecord);
+  },
+  formatVersion: function() {
+    return this._sFormatVersion;
   }
 });
