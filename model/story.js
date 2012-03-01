@@ -2,18 +2,25 @@
 
 Cotton.Model.Story = function(lHistoryItems) {
   // storyClass
-
-  if (lHistoryItems === undefined) {
-   this._lHistoryItems = new Array();
-  } else {
+  
+  // DATA MODEL
+  this._iID;
+  this._lHistoryItems = new Array();
+  this._fLastVisitTime = 0;
+  
+  
+  if (lHistoryItems !== undefined) {
     this._lHistoryItems = lHistoryItems;
   }
-  this._fLastVisitTime = 0;
 
 };
 
 // PROTOTYPE
 $.extend(Cotton.Model.Story.prototype, {
+  // GETTER
+  id : function() {
+    return this.iID;
+  },
   length : function() {
     return this._lHistoryItems.length;
   },
@@ -26,6 +33,8 @@ $.extend(Cotton.Model.Story.prototype, {
   fLastVisitTime : function() {
     return this._fLastVisitTime;
   },
+  // ADVANCED METHOD
+  // handle historyItems
   addHistoryItem : function(oHistoryItems) {
     this._lHistoryItems.push(oHistoryItems);
     if (oHistoryItems.lastVisitTime > this._fLastVisitTime) {
@@ -40,6 +49,34 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   getMainPoint : function() {
   },
+  getHistoryItemPosition : function (sID){
+    for(var i = 0; i < this.lHistoryItems; i++){
+      if(this.lHistoryItems[i].id === sID){
+        return i;
+      }
+    }
+    return -1;
+  },
   storySCAN : function() {
-  }
+  },
+  removeHistoryItem : function(sID){
+    // TODO(rmoutard) : maybe use a temp trash
+    this._lHistoryItems = _.reject(this._lHistoryItems, 
+                          function(oHistoryItem){ 
+                            return oHistoryItem.id === sID;
+                          });
+  },
+  moveHistoryItem : function(sIDtoMove, sIDPrevious) {
+    var lElementToMove = _.filter(this._lHistoryItems, 
+                          function(oHistoryItem){ 
+                            return oHistoryItem.id === sIDtoMove;
+                          });
+    if(lElementToMove.length > 0){
+      var iNewPosition = 0;
+      if(sIDPrevious !== undefined){
+        iNewPosition = this.getHistoryItemPosition(sIDPrevious); 
+      }
+      this._lHistoryItems.splice(iNewPosition, 0, lElementToMove[0]);
+    }
+  } 
 });
