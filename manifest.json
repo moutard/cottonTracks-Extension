@@ -1,9 +1,14 @@
 {
-  "name": "SubZoom",
+  "name": "CottonTracks",
   "version": "1.0",
   "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
-  "permissions": ["history", "tabs"],
+  "permissions": ["history", "tabs", "http://*/*"],
   "chrome_url_overrides" : {
     "newtab": "index.html"
-  }
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*"],
+    "css": [],
+    "js": ["lib/jquery.min.js", "event/highlighter.js"]
+    }]
 }
