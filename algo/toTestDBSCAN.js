@@ -42,19 +42,40 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
   var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
   var lDStories = Cotton.Algo.storySELECT(lStories);
   $('#loader-animation').remove();
-  
+
   for(var i = 1; i < lDStories.length; i++){
-    displayStory(lDStories[i]);   
+    displayStory(lDStories[i]);
   }
 
 }
 
+function displayStorySELECTResultByRelevance(iNbCluster, lHistoryItems) {
+  var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
+
+  for(var i = 1; i < lStories.length; i++){
+    lStories[i].computeRelevance();
+  }
+  lStories.sort(function(oStoryA, oStoryB){
+    // >0 => B lower than A
+    // The more relevant at the beginning.
+    return oStoryB.relevance() - oStoryA.relevance();
+  })
+
+  $('#loader-animation').remove();
+
+  // display the 8 most relevant stories
+  for(var i = 1; i < 8; i++){
+    displayStory(lStories[i]);
+  }
+
+
+}
 function displayStory (oStory){
   var a = oStory.iter();
 
   oStory.removeHistoryItem(a[a.length - 1].id);
   oStory.moveHistoryItem(a[a.length - 2].id);
-  
+
   var lHistoryItems = oStory.iter();
   var sColor = randomColor();
 
@@ -67,7 +88,7 @@ function displayStory (oStory){
     sLine += '</div>';
     $("#liste").append(sLine);
   }
-  
+
   $("#liste").append('-------------------------------------------------');
 };
 
@@ -76,7 +97,7 @@ var worker = new Worker('algo/worker.js');
 worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
 
-  displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
+  displayStorySELECTResultByRelevance(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
 
