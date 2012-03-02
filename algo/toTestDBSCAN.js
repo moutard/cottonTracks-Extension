@@ -96,7 +96,8 @@ var worker = new Worker('algo/worker.js');
 
 worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
-
+  //displayDBSCANResult(e.data.iNbCluster, e.data.lHistoryItems);
+  //displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
   displayStorySELECTResultByRelevance(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
