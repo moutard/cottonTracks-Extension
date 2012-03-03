@@ -67,7 +67,7 @@ function displayDBSCANResult(iNbCluster, lHistoryItems) {
 };
 
 function displayStorySELECTResult(iNbCluster, lHistoryItems) {
-  var bUseRelevance = true;
+  var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
   var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
   var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
