@@ -10,7 +10,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     return {
       // TODO(fwouts): Remove the need for this. Only a numeric id should be provided (or maybe even nothing if new?).
       id: ['stories', 1],
-      text: oObject.lHistoryItems
+      text: oObject._lHistoryItems
     };
   };
   
