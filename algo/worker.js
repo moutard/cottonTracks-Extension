@@ -1,7 +1,7 @@
 'use strict';
 
 // Worker has no access to external librairies loaded in the main thread.
-/// Cotton.lib.
+// / Cotton.lib.
 importScripts('../lib/underscore.js');
 importScripts('../lib/parseURL.js');
 // Cotton.Algo.
@@ -23,9 +23,9 @@ function handleVisitItems(lHistoryItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood
-  var fEps = 70000.0;
+  var fEps = Cotton.Config.Parameters.fEps;
   // Min Points in a cluster
-  var iMinPts = 5;
+  var iMinPts = Cotton.Config.Parameters.iMinPts;
 
   // TOOLS
   // TODO(rmoutard) : for the moment afectation is needed
