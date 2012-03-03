@@ -40,7 +40,7 @@ Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
   return iTitleWordsAmount;
 };
 
-Cotton.Algo.distance = function (oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
   // compute distance between two historyItems
 
 };
@@ -60,33 +60,31 @@ Cotton.Algo.distanceLastVisitTime = function(oHistoryItem1, oHistoryItem2) {
 Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
 
   // TODO: (rmoutard) write a class for coefficients
-  var coeff = {};
-  coeff['id'] = 0.10;
-  coeff['lastVisitTime'] = 0.35;
-  coeff['commonWords'] = 0.35;
-  coeff['queryKeywords'] = 0.20;
+  var coeff = Cotton.Config.Parameters.distanceCoeff;
 
   // id
   // id close => items close
   // ordre de grandeur = O(1000)
-  var sum = coeff['id']
+  var sum = coeff.id
       * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
 
   // lastTimeVisit
   // lastTimeVisit close => items close
   // ordre de grandeur = O(100 000)
-  sum += coeff['lastVisitTime']
+  sum += coeff.lastVisitTime
       * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
-  sum += coeff['commonWords'] * 100000
+  sum += coeff.commonWords * 100000
       / ((1 + Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   // Query keywords
-  sum += coeff['queryKeywords'] * 10000
-      / ((1 + Cotton.Algo.distanceBetweenGeneratedPages(oHistoryItem1, oHistoryItem2)) ^ 2);
+  sum += coeff.queryKeywords
+      * 10000
+      / ((1 + Cotton.Algo.distanceBetweenGeneratedPages(oHistoryItem1,
+          oHistoryItem2)) ^ 2);
 
   return sum;
 };
@@ -95,7 +93,8 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
  * Distance between generated pages
  */
 
-Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1,
+    oHistoryItem2) {
 
   var keywords1 = oHistoryItem1.queryKeywords;
   var keywords2 = oHistoryItem2.queryKeywords;
@@ -106,7 +105,7 @@ Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1, oHistoryItem
 
 /*
  * HistoryItem An object encapsulating one result of a history query.
- *
+ * 
  * id ( string ) The unique identifier for the item. url ( optional string ) The
  * URL navigated to by a user. title ( optional string ) The title of the page
  * when it was last loaded. lastVisitTime ( optional number ) When this page was
