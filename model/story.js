@@ -4,7 +4,7 @@ Cotton.Model.Story = function(lHistoryItems) {
   // storyClass
 
   // DATA MODEL
-  this._iID;
+  this._iId;
   this._lHistoryItems = new Array();
   this._fLastVisitTime = 0;
   this._fRelevance;
@@ -20,7 +20,10 @@ Cotton.Model.Story = function(lHistoryItems) {
 $.extend(Cotton.Model.Story.prototype, {
   // GETTER
   id : function() {
-    return this.iID;
+    return this._iId;
+  },
+  setId: function(iId) {
+    this._iId = iId;
   },
   length : function() {
     return this._lHistoryItems.length;
@@ -45,6 +48,7 @@ $.extend(Cotton.Model.Story.prototype, {
       this._fLastVisitTime = oHistoryItems.lastVisitTime;
     }
   },
+  // TODO: Remove the "get" from simple getters, add "compute" prefix to complex ones.
   getStartPoint : function() {
     return this._lHistoryItems[0];
   },

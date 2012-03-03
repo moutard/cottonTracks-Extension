@@ -5,12 +5,12 @@ Cotton.Translators.STORY_TRANSLATORS = [];
 // Translator for version 0.1.
 (function() {
   
-  var mObjectToDbRecordConverter = function(oObject) {
+  var mObjectToDbRecordConverter = function(oStory) {
     // TODO(fwouts): Implement.
     var dDbRecord = {
-      sText: oObject._lHistoryItems
+      sText: oStory._lHistoryItems
     };
-    var iId = oObject.id() || null;
+    var iId = oStory.id() || null;
     if (iId) {
       dDbRecord.id = iId;
     }
@@ -19,7 +19,9 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // TODO(fwouts): Implement.
-    return new Cotton.Model.Story(oDbRecord.sText + ' ' + oDbRecord.id);
+    var oStory = new Cotton.Model.Story(oDbRecord.sText + ' ' + oDbRecord.id);
+    oStory.setId(oDbRecord.id);
+    return oStory;
   };
   
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter);
