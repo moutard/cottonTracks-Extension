@@ -1,11 +1,17 @@
 'use strict';
 
 // Worker has no access to external librairies loaded in the main thread.
-// / Cotton.lib.
+// Cotton.lib.
 importScripts('../lib/underscore.js');
 importScripts('../lib/parseURL.js');
-// Cotton.Algo.
+
 importScripts('../init.js');
+
+// Cotton.Config
+importScripts('../config/init.js');
+importScripts('../config/config.js');
+
+// Cotton.Algo.
 importScripts('init.js');
 importScripts('historyItemsClass.js');
 importScripts('toolsClass.js');

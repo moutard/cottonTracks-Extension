@@ -94,7 +94,7 @@ var single;
 chrome.history.search({
   text : '',
   startTime : 0,
-  maxResults : 2000,
+  maxResults : Cotton.Config.Parameters.iMaxResult,
 }, function(lHistoryItems) {
   // console.log(lHistoryItems);
   // Get all the visits for every HistoryItem.
