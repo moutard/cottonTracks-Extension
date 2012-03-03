@@ -7,16 +7,19 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   
   var mObjectToDbRecordConverter = function(oObject) {
     // TODO(fwouts): Implement.
-    return {
-      // TODO(fwouts): Remove the need for this. Only a numeric id should be provided (or maybe even nothing if new?).
-      id: ['stories', 1],
-      text: oObject._lHistoryItems
+    var dDbRecord = {
+      sText: oObject._lHistoryItems
     };
+    var iId = oObject.id() || null;
+    if (iId) {
+      dDbRecord.id = iId;
+    }
+    return dDbRecord;
   };
   
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // TODO(fwouts): Implement.
-    return new Cotton.Model.Story(oDbRecord.text);
+    return new Cotton.Model.Story(oDbRecord.sText + ' ' + oDbRecord.id);
   };
   
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter);

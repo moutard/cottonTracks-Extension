@@ -46,7 +46,8 @@ Cotton.DB.Engine = function(sDatabaseName, lObjectStoreNames, mOnReadyCallback) 
         for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
           console.log('Creating object store ' + sMissingObjectStoreName);
           oDb.createObjectStore(sMissingObjectStoreName, {
-            keyPath: 'id'
+            keyPath: 'id',
+            autoIncrement: true
           });
         }
         mOnReadyCallback.call(self);

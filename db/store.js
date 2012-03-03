@@ -55,8 +55,8 @@ $.extend(Cotton.DB.Store.prototype, {
 
 // For testing.
 $(function() {
-  new Cotton.DB.Store('cotton', { 'stories': Cotton.Translators.STORY_TRANSLATORS }, function() {
-    this.put('stories', new Cotton.Model.Story('youhou 2'), function() {
+  new Cotton.DB.Store('ct', { 'stories': Cotton.Translators.STORY_TRANSLATORS }, function() {
+    this.put('stories', new Cotton.Model.Story('youhou'), function() {
       this.list('stories');
     });
   });
