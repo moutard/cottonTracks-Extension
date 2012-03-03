@@ -26,4 +26,5 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);
+  
 })();
