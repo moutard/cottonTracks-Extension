@@ -30,8 +30,9 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       }
     }
     
+    var $contentBlock = findContentBlock($('body'));
     console.log("Found the content block:");
-    console.log(findContentBlock($('body')));
+    console.log($contentBlock);
   }
 });
 
