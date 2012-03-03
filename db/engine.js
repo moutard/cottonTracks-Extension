@@ -3,14 +3,14 @@
 /**
  * An abstraction for the underlying IndexDB API.
  *
- * Currently, all objects are recorded in the same object store, but their id is used to
- * differentiate their type. The structure of the id is ['object_type', object_numeric_id].
- * Note that object_numeric_id only has to be unique for a given object_type.
- *
  * Engine should not be used directly. It should be accessed through more abstract layers
  * which hide its inner workings.
+ *
+ * sDatabaseName = the name of the database we want to use (it will be created if necessary).
+ * lObjectStoreNames = the list of names of object stores we need to use (they will be created if necessary).
+ * mOnReadyCallback = the callback method that should be executed when the database is ready.
  */
-Cotton.DB.Engine = function(sDatabaseName, mOnReadyCallback) {
+Cotton.DB.Engine = function(sDatabaseName, lObjectStoreNames, mOnReadyCallback) {
   var self = this;
   
   this._sDatabaseName = sDatabaseName;
@@ -19,20 +19,39 @@ Cotton.DB.Engine = function(sDatabaseName, mOnReadyCallback) {
   var oRequest = webkitIndexedDB.open(sDatabaseName);
   oRequest.onsuccess = function(oEvent) {
     var oDb = self._oDb = oEvent.target.result;
+    
+    // We need to compare whether the current list of object stores in the database matches the
+    // object stores that are requested in lObjectStoreNames.
 
-    // TODO(fwouts): Clean this up.
-    var sVersion = '1.1';
-    if(sVersion != oDb.version) {
+    var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
+    
+    // lUsedObjectStoreNames is the list of object stores that are already present in the database
+    // and match the requested list of object stores. For example, if we ask for two stores
+    // ['abc, 'def'] and the present stores are ['abc', 'ghi'], lUsedObjectStoreNames will contain
+    // ['abc'] (still ).
+    var lUsedObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
+    
+    // See if there are any object stores missing.
+    var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lUsedObjectStoreNames);
+    
+    if (lMissingObjectStoreNames.length > 0) {
+      
+      var iNewVersion = parseInt(oDb.version) + 1;
+      
       // We need to update the database.
       // We can only create Object stores in a setVersion transaction.
-      var oSetVersionRequest = oDb.setVersion(sVersion);
+      var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
       oSetVersionRequest.onsuccess = function(oEvent) {
-        var oStore = oDb.createObjectStore('objects', {
-          keyPath: 'id'
-        });
+        for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+          console.log('Creating object store ' + sMissingObjectStoreName);
+          oDb.createObjectStore(sMissingObjectStoreName, {
+            keyPath: 'id'
+          });
+        }
         mOnReadyCallback.call(self);
       };
+      
       // TODO(fwouts): Implement.
       // oSetVersionRequest.onfailure = ;
     } else {
@@ -46,11 +65,11 @@ Cotton.DB.Engine = function(sDatabaseName, mOnReadyCallback) {
 };
 
 $.extend(Cotton.DB.Engine.prototype, {
-  list: function(mResultElementCallback) {
+  list: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
     
-    var oTransaction = this._oDb.transaction(['objects'], webkitIDBTransaction.READ_WRITE);
-    var oStore = oTransaction.objectStore('objects');
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
     var oKeyRange = webkitIDBKeyRange.lowerBound(0);
@@ -74,11 +93,11 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
   
   // TODO(fwouts): Dictionary or object?
-  put: function(dItem, mOnSaveCallback) {
+  put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
     
-    var oTransaction = this._oDb.transaction(['objects'], webkitIDBTransaction.READ_WRITE);
-    var oStore = oTransaction.objectStore('objects');
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
     
     // TODO(fwouts): Checks on the type of data contained in dItem?
     var oPutRequest = oStore.put(dItem);
@@ -92,11 +111,11 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
 
   // TODO(fwouts): Can there be keys that are not strings and not integers?
-  delete: function(oId, mOnDeleteCallback) {
+  delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction(['objects'], webkitIDBTransaction.READ_WRITE);
-    var oStore = oTransaction.objectStore('objects');
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
 
     var oDeleteRequest = oStore.delete(oId);
 
