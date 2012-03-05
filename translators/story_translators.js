@@ -8,7 +8,11 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   var mObjectToDbRecordConverter = function(oStory) {
     // TODO(fwouts): Implement.
     var dDbRecord = {
-      sText: oStory._lHistoryItems
+      id : oStory._iId,
+      // TODO(rmoutard&fwouts): how to use hsitoryItem translator
+      lHistoryItems : oStory._lHistoryItems,
+      fLastVisitTime : oStory._fLastVisitTime,
+      fRelevance : oStory._fRelevance,
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -19,8 +23,16 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // TODO(fwouts): Implement.
-    var oStory = new Cotton.Model.Story(oDbRecord.sText + ' ' + oDbRecord.id);
+    var oStory = new Cotton.Model.Story();
     oStory.setId(oDbRecord.id);
+    if(oDbRecord.fRelevance !== undefined){
+      oStory.setRelevance(oDbRecord.fRelevance);
+    }
+    if(oDbRecord.lHistoryItems !== undefined){
+      for(var i = 0, oHistoryItem; oHistoryItem = oDbRecord.lHistoryItems[i]; i++){
+        oStory.addHistoryItem(oHistoryItem)
+      }
+    }
     return oStory;
   };
   

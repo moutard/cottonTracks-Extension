@@ -77,7 +77,40 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
     displayStory(lDStories[i]);
   }
 
+  openStore(lDStories);
+
 }
+
+// MODEL
+
+// clear the dataBase
+
+function openStore(lStories){
+  var oStore = new Cotton.DB.Store('ct', 
+        { 'stories': Cotton.Translators.STORY_TRANSLATORS }, 
+        function() { 
+          console.log("store ready");
+          //console.log(this);
+          storeData(this, lStories);
+        }
+  );
+}
+
+function storeData(oStore, lStories){
+    for(var i = 0, oStory; oStory = lStories[i]; i++){
+       oStore.put('stories', oStory, function() {
+        console.log("Story added");
+        oStore.list('stories', function(oStory) {
+          console.log(oStory._lHistoryItems);
+        });
+      });
+    }
+}
+
+
+// CONTROLLER
+//Cotton.DB.ManagementTools.clearDB();
+//Cotton.DB.ManagementTools.listDB();
 
 var worker = new Worker('algo/worker.js');
 
@@ -101,3 +134,4 @@ chrome.history.search({
   worker.postMessage(lHistoryItems);
   // handleVisitItems(lHistoryItems);
 });
+

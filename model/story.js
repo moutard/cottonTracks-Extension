@@ -39,6 +39,9 @@ $.extend(Cotton.Model.Story.prototype, {
   relevance : function() {
     return this._fRelevance;
   },
+  setRelevance : function(fRelevance){
+    this._fRelevance = fRelevance;
+  },
   // ADVANCED METHOD
   // handle historyItems
   addHistoryItem : function(oHistoryItems) {

@@ -25,6 +25,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
   };
   
   var mDbRecordToObjectConverter = function(oDbRecord) {
+    // oDbRecord is just a dictionnary
     var oHistoryItem = new Cotton.Model.HistoryItem(oDbRecord);
     return oHistoryItem;
   };
