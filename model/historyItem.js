@@ -1,9 +1,9 @@
 'use strict';
 //TODO(rmoutard)  ask to fwouts if we store a duplicate of the history items
 // parameters or if we store only expanded parameters
-Cotton.Model.HistoryItem = function () {
+Cotton.Model.HistoryItem = function (oHistoryItem) {
   // Current chrome API model
-  this._sID;
+  this._sId;
   this._sUrl;
   this._sTitle;
   this._iLastVisitTime;
@@ -15,6 +15,15 @@ Cotton.Model.HistoryItem = function () {
   this._sTextHighlighter;
   this._fReaderRatio;
   this._iNewTab;
+
+  if(oHistoryItem !== undefined){
+    this._sId = oHistoryItem.sId;
+    this._sUrl = oHistoryItem.sUrl;
+    this._sTitle = oHistoryItem.sTitle;
+    this._iLastVisitTime = oHistoryItem.iLastVisitTime;
+    this._iVisitCount = oHistoryItem.iVisitCount;
+    this._iTypedCount = oHistoryItem.itypedCount;
+  }
 
 };
 
