@@ -86,21 +86,18 @@ $.extend(Cotton.Model.Story.prototype, {
     }
   },
   countSearchPathname : function() {
-    return _.filter(this._lHistoryItems, function(oHistoryItem) {
+    var lTemp = _.filter(this._lHistoryItems, function(oHistoryItem) {
       // TODO(rmoutard) : not really a clean solution.
       // see pretreatment
-      return oHistoryItem.pathname !== undefined;
-    }).length
+      return oHistoryItem.pathname === "/search";
+    });
+    return lTemp.length;
   },
   countUniqHostname : function() {
-    return _.uniq(this._lHistoryItems, false, function(oHistoryItem1,
-        oHistoryItem2) {
-      if (oHistoryItem1.hostname === oHistoryItem2.hostname) {
-        return true;
-      } else {
-        return false;
-      }
-    }).length
+    var lTemp = _.uniq(this._lHistoryItems, false, function(oHistoryItem) {
+      return oHistoryItem.hostname;
+    });
+    return lTemp.length;
   },
   computeRelevance : function() {
     // Compute the relevance of the story.
@@ -114,7 +111,7 @@ $.extend(Cotton.Model.Story.prototype, {
     var coeff = Cotton.Config.Parameters.computeRelevanceCoeff;
 
     this._fRelevance = coeff.length * this.length() + coeff.lastVisitTime
-        * this._fLastVisitTime + coeff.hostname * this.countUniqHostname()
+        * (this._fLastVisitTime / new Date().getTime()) + coeff.hostname * this.countUniqHostname()
         + coeff.search * this.countSearchPathname();
 
   }

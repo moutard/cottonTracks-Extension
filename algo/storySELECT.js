@@ -27,7 +27,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
 Cotton.Algo.storySELECT = function(lStories, bUseRelevance) {
   // Select among all the stories the ones who should be display.
-
+  var iMaxNumberOfStories = Cotton.Config.Parameters.iMaxNumberOfStories;
   if (bUseRelevance) {
     for ( var i = 1; i < lStories.length; i++) {
       lStories[i].computeRelevance();

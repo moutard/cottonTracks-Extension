@@ -24,8 +24,8 @@ function displayHistoryItem(oHistoryItem, sColor) {
 function displayStory(oStory) {
   var a = oStory.iter();
 
-  oStory.removeHistoryItem(a[a.length - 1].id);
-  oStory.moveHistoryItem(a[a.length - 2].id);
+  //oStory.removeHistoryItem(a[a.length - 1].id);
+  //oStory.moveHistoryItem(a[a.length - 2].id);
 
   var lHistoryItems = oStory.iter();
   var sColor = randomColor();
