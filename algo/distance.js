@@ -22,7 +22,7 @@ Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
   var lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
   var lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
 
-  var dWords1 = {};
+  /*var dWords1 = {};
   for ( var iI = 0, iN = lWords1.length; iI < iN; iI++) {
     var sWord = lWords1[iI];
     dWords1[sWord] = true;
@@ -35,9 +35,9 @@ Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
       // Do not count it twice.
       delete dWords1[sWord];
     }
-  }
-
-  return iTitleWordsAmount;
+  }*/
+  var commonWords = _.intersection(lWords1, lWords2);
+  return commonWords.length;
 };
 
 Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
