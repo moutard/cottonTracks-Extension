@@ -93,16 +93,12 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
   for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
     oPoint = lSetOfPoints[iLoop];
 
-    if (oPoint.clusterId == 'UNCLASSIFIED') {
+    if (oPoint.clusterId === 'UNCLASSIFIED') {
       if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
         iClusterId++;
 
       }
     }
-  if(iLoop===8){
-  //self.postMessage({iNbClusterId:iClusterId, lHistoryItems: lSetOfPoints});
-  //self.stop();
-  }
   }
 
   return iClusterId;
