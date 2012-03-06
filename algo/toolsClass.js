@@ -154,15 +154,7 @@ function simpleDetectTools () {
 }
 
 function generateTools () {
-
-  var lCommonToolsHostname = ['mail.google.com',
-                              'continuousintegration.corp.ltutech.com',
-                              'docs.google.com',
-                              'grooveshark.com',
-                              'github.com',
-                              'www.facebook.com',
-                              'www.deezer.com',
-                              'www.wordreference.com'];
+  var lCommonToolsHostname = Cotton.Config.Parameters.lTools;
 
   var oToolsContainer = new ToolsContainer();
   for( var i = 0; i < lCommonToolsHostname.length; i++){
