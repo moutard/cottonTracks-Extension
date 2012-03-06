@@ -64,25 +64,28 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
 
   // id
   // id close => items close
-  // ordre de grandeur = O(1000)
+  // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
-      * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+      * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id))
+      / 20 ;
 
   // lastTimeVisit
   // lastTimeVisit close => items close
   // ordre de grandeur = O(100 000)
+  // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
-      * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
+      * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime)
+      / 100000 ;
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
-  sum += coeff.commonWords * 100000
+  // close if 0(1) far if 0.
+  sum += coeff.commonWords * 1
       / ((1 + Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
 
   // Query keywords
-  sum += coeff.queryKeywords
-      * 10000
+  sum += coeff.queryKeywords * 1
       / ((1 + Cotton.Algo.distanceBetweenGeneratedPages(oHistoryItem1,
           oHistoryItem2)) ^ 2);
 

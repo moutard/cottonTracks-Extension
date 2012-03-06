@@ -8,20 +8,21 @@ Cotton.Config.Parameters = {
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
   // DBSCAN
-  fEps : 70000.0, // Max Distance between neighborhood
+  fEpsTime : 1000 * 60 * 5,
+  fEps : 0.70, // Max Distance between neighborhood
   iMinPts : 5, // Min Points in a cluster
   iMaxResult : 2000, // The maximum number of results to retrieve in the
   // chrome history
   distanceCoeff : {
     id : 0.10,
     lastVisitTime : 0.35,
-    commonWords : 0.35,
+    commonWords : 0.50,
     queryKeywords : 0.20,
   },
 
   // storySELECT
   bUseRelevance : true,
-  iMaxNumberOfStories : 5,
+  iMaxNumberOfStories : 10,
   computeRelevanceCoeff : {
     'length' : 0.2,
     'lastVisitTime' : 0.2,
