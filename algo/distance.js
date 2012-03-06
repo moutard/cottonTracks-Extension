@@ -9,6 +9,11 @@ Cotton.Algo.extractWords = function(sTitle) {
   var lMatches = sTitle.match(oRegexp) || [];
   // TODO(fwouts): Be nicer on the words we keep, but still reject useless words
   // such as "-".
+  
+  // Lower case to compare correctly.
+  for(var i = 0; i < lMatches.length; i++){
+    lMatches[i] = lMatches[i].toLowerCase();
+  }
   lMatches = _.filter(lMatches, function(sWord) {
     return sWord.length > 2;
   });
