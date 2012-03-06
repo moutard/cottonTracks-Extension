@@ -99,6 +99,10 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
 
       }
     }
+  if(iLoop===8){
+  //self.postMessage({iNbClusterId:iClusterId, lHistoryItems: lSetOfPoints});
+  //self.stop();
+  }
   }
 
   return iClusterId;
