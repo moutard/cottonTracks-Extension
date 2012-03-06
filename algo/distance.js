@@ -19,25 +19,15 @@ Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
   // Return the number of common words
 
   var iTitleWordsAmount = 0;
-  var lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
-  var lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
-
-  /*var dWords1 = {};
-  for ( var iI = 0, iN = lWords1.length; iI < iN; iI++) {
-    var sWord = lWords1[iI];
-    dWords1[sWord] = true;
+  if(oHistoryItem1.title !== "" && oHistoryItem2.title !== ""){
+    var lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
+    var lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
+    var commonWords = _.intersection(lWords1, lWords2);
+    return commonWords.length;
   }
-  for ( var iI = 0, iN = lWords2.length; iI < iN; iI++) {
-    var sWord = lWords2[iI];
-    if (dWords1[sWord]) {
-      // The word is resent in both.
-      iTitleWordsAmount++;
-      // Do not count it twice.
-      delete dWords1[sWord];
-    }
-  }*/
-  var commonWords = _.intersection(lWords1, lWords2);
-  return commonWords.length;
+  else{
+    return -1;
+  }
 };
 
 Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
@@ -67,7 +57,7 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
       * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id))
-      / 20 ;
+      / 200 ;
 
   // lastTimeVisit
   // lastTimeVisit close => items close
@@ -75,19 +65,32 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
       * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime)
-      / 100000 ;
+      / 1000000 ;
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   // close if 0(1) far if 0.
-  sum += coeff.commonWords * 1
-      / ((1 + Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2)) ^ 2);
-
+  var iCommonWords =  Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2);
+  if(iCommonWords === 0){
+     sum += coeff.penalty; // try to detect parallel stories.
+      }
+  else if(iCommonWords === -1){
+    // if there is no title do not put the penalty
+    // or put low penalty
+    sum += coeff.penalty; 
+  }
+  else{
+    sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
+  }
+  
   // Query keywords
-  sum += coeff.queryKeywords * 1
-      / ((1 + Cotton.Algo.distanceBetweenGeneratedPages(oHistoryItem1,
-          oHistoryItem2)) ^ 2);
+  var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
+          oHistoryItem1,
+          oHistoryItem2);
+  sum += (coeff.queryKeywords 
+          / ((1 + iCommonQueryKeywords)*(1 + iCommonQueryKeywords)) );
+
 
   return sum;
 };

@@ -14,7 +14,8 @@ function displayHistoryItem(oHistoryItem, sColor) {
 
   var sLine = '<div class="url" style="color:' + sColor + '">';
   sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">'
-      + oHistoryItem["title"] + '</h5>';
+      + oHistoryItem["title"] +  ' || cluster : ' +  oHistoryItem["clusterId"]
+ + '</h5>';
   sLine += '<h6 style="font-size:11px; margin:2px">' + oHistoryItem["url"]
       + '</h6>';
   sLine += '</div>';
@@ -40,6 +41,7 @@ function displayStory(oStory) {
 };
 
 function displayDBSCANResult(iNbCluster, lHistoryItems) {
+  $("#liste div").remove();
   var lClusters = Array(iNbCluster);
   // COLORS
   var sColorNoise = "#fff"; // Color Noise
@@ -116,8 +118,8 @@ var worker = new Worker('algo/worker.js');
 
 worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
-  // displayDBSCANResult(e.data.iNbCluster, e.data.lHistoryItems);
-  displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
+   displayDBSCANResult(e.data.iNbCluster, e.data.lHistoryItems);
+  //displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
 
