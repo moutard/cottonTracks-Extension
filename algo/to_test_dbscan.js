@@ -85,6 +85,7 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
 
 // clear the dataBase
 
+
 function openStore(lStories) {
   // open a Store
 
@@ -97,21 +98,21 @@ function openStore(lStories) {
   });
 }
 
-function storeData(oStore, lStories) {
-  // store the most recent in last
-  for ( var i = lStories.length - 1, oStory; oStory = lStories[i]; i--) {
-    oStore.put('stories', oStory, function() {
-      console.log("Story added");
-      oStore.list('stories', function(oStory) {
-        // console.log(oStory._lHistoryItems);
+function storeData(oStore, lStories){
+    // store the most recent in last
+    for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
+       oStore.put('stories', oStory, function() {
+        console.log("Story added");
+        oStore.list('stories', function(oStory) {
+          // console.log(oStory._lHistoryItems);
+        });
       });
-
     });
   }
 }
 
 // CONTROLLER
-// Cotton.DB.ManagementTools.clearDB();
+Cotton.DB.ManagementTools.clearDB();
 Cotton.DB.ManagementTools.listDB();
 
 // WORKER
