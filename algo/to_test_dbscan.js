@@ -99,20 +99,20 @@ function openStore(lStories) {
 }
 
 function storeData(oStore, lStories){
-    // store the most recent in last
-    for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
-       oStore.put('stories', oStory, function() {
-        console.log("Story added");
-        oStore.list('stories', function(oStory) {
-          // console.log(oStory._lHistoryItems);
-        });
+  // store the most recent in last
+  for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
+    oStore.put('stories', oStory, function() {
+    console.log("Story added");
+    oStore.list('stories', function(oStory) {
+    // console.log(oStory._lHistoryItems);
       });
+    });
+
   }
 }
 
 // CONTROLLER
-Cotton.DB.ManagementTools.clearDB();
-Cotton.DB.ManagementTools.listDB();
+
 
 // WORKER
 var worker = new Worker('algo/worker.js');
