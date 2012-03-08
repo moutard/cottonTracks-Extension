@@ -13,12 +13,11 @@ importScripts('../config/config.js');
 
 // Cotton.Algo.
 importScripts('init.js');
-importScripts('historyItemsClass.js');
-importScripts('toolsClass.js');
-importScripts('preTreatment.js');
+importScripts('history_item.js');
+importScripts('tools.js');
+importScripts('pre_treatment.js');
 importScripts('distance.js');
 importScripts('dbscan.js');
-importScripts('toolsClass.js');
 
 var oHistoryItemsSingleton;
 
