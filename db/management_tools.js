@@ -37,5 +37,4 @@ Cotton.DB.ManagementTools.printDB = function(mActionWithStory){
           mActionWithStory.call(self, oStory);
         });
        });
-
 };

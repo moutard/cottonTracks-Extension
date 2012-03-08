@@ -9,6 +9,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
  
     var dDbRecord = {
       sId: oHistoryItem.id;
+      sChromeApiId : oHistoryItem.id; // to keep a link with chrome history
       sUrl: oHistoryItem.url;
       sTitle: oHistoryITem.title;
       fLastVisitTime: oHistoryItem.lastVisitTime;
