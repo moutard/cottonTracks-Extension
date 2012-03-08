@@ -4,9 +4,9 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
 // Translator for version 0.1.
 (function() {
-  
+
   var mObjectToDbRecordConverter = function(oHistoryItem) {
- 
+
     var dDbRecord = {
       sId: oHistoryItem.id;
       sChromeApiId : oHistoryItem.id; // to keep a link with chrome history
@@ -24,14 +24,14 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     }
     return dDbRecord;
   };
-  
+
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // oDbRecord is just a dictionnary
     var oHistoryItem = new Cotton.Model.HistoryItem(oDbRecord);
     return oHistoryItem;
   };
-  
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter);
   Cotton.Translators.HISTORY_ITEM_TRANSLATORS.push(oTranslator);
-  
+
 })();

@@ -89,9 +89,9 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
 // clear the dataBase
 
 function openStore(lStories){
-  var oStore = new Cotton.DB.Store('ct', 
-        { 'stories': Cotton.Translators.STORY_TRANSLATORS }, 
-        function() { 
+  var oStore = new Cotton.DB.Store('ct',
+        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+        function() {
           console.log("store ready");
           storeData(this, lStories);
         }
@@ -114,7 +114,7 @@ function storeData(oStore, lStories){
 //
 // Cotton.DB.ManagementTools.listDB();
 
-// WORKER 
+// WORKER
 var worker = new Worker('algo/worker.js');
 
 worker.addEventListener('message', function(e) {
@@ -123,13 +123,13 @@ worker.addEventListener('message', function(e) {
   displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
- 
+
 if(localStorage){
   // check if broswer support localStorage
-  
-  if(localStorage['CottonFirstOpening'] === undefined || 
+
+  if(localStorage['CottonFirstOpening'] === undefined ||
      localStorage['CottonFirstOpening'] === "true"){
-        
+
     Cotton.DB.ManagementTools.clearDB();
     window.UI.firstVisit();
 
