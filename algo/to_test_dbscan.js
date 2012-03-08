@@ -20,11 +20,10 @@ function displayHistoryItem(oHistoryItem, sColor) {
       + '</h6>';
   sLine += '</div>';
   $("#liste").append(sLine);
+  //console.log(oHistoryItem);
 };
 
 function displayStory(oStory) {
-  var a = oStory.iter();
-
   //oStory.removeHistoryItem(a[a.length - 1].id);
   //oStory.moveHistoryItem(a[a.length - 2].id);
 
@@ -38,6 +37,8 @@ function displayStory(oStory) {
   }
 
   $("#liste").append('-------------------------------------------------');
+
+  $('#loader-animation').remove();
 };
 
 function displayDBSCANResult(iNbCluster, lHistoryItems) {
@@ -92,7 +93,6 @@ function openStore(lStories){
         { 'stories': Cotton.Translators.STORY_TRANSLATORS }, 
         function() { 
           console.log("store ready");
-          //console.log(this);
           storeData(this, lStories);
         }
   );
@@ -111,29 +111,44 @@ function storeData(oStore, lStories){
 
 
 // CONTROLLER
-//Cotton.DB.ManagementTools.clearDB();
-//Cotton.DB.ManagementTools.listDB();
+//
+// Cotton.DB.ManagementTools.listDB();
 
+// WORKER 
 var worker = new Worker('algo/worker.js');
 
 worker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
-   displayDBSCANResult(e.data.iNbCluster, e.data.lHistoryItems);
-  //displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
+   //displayDBSCANResult(e.data.iNbCluster, e.data.lHistoryItems);
+  displayStorySELECTResult(e.data.iNbCluster, e.data.lHistoryItems);
 
 }, false);
+ 
+if(localStorage){
+  // check if broswer support localStorage
+  
+  if(localStorage['CottonFirstOpening'] === undefined || 
+     localStorage['CottonFirstOpening'] === "true"){
+        
+    Cotton.DB.ManagementTools.clearDB();
+    window.UI.firstVisit();
 
-// Build the distance matrix for the last XXX visited ages.
-// console.log("start");
-var single;
-chrome.history.search({
-  text : '',
-  startTime : 0,
-  maxResults : Cotton.Config.Parameters.iMaxResult,
-}, function(lHistoryItems) {
-  // console.log(lHistoryItems);
-  // Get all the visits for every HistoryItem.
-  worker.postMessage(lHistoryItems);
-  // handleVisitItems(lHistoryItems);
-});
+    chrome.history.search({
+    text : '',
+    startTime : 0,
+    maxResults : Cotton.Config.Parameters.iMaxResult,
+    }, function(lHistoryItems) {
+      // Get all the visits for every HistoryItem.
+      worker.postMessage(lHistoryItems);
+    });
+    localStorage['CottonFirstOpening'] = "false";
+  } else {
+    //localStorage['CottonFirstOpening'] = true;
+    // use stories store in the database
+    Cotton.DB.ManagementTools.printDB(displayStory);
+ }
+
+} else {
+ console.log("Browser doesn't support the local storage");
+}
 
