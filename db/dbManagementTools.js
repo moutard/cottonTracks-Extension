@@ -26,3 +26,16 @@ Cotton.DB.ManagementTools.listDB = function(){
        });
 
 };
+
+Cotton.DB.ManagementTools.printDB = function(mActionWithStory){
+  var self = this;
+  console.log('PRINT');
+   new Cotton.DB.Store('ct', 
+       { 'stories': Cotton.Translators.STORY_TRANSLATORS }, 
+       function() {
+        this.list('stories', function(oStory){
+          mActionWithStory.call(self, oStory);
+        });
+       });
+
+};
