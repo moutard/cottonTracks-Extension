@@ -2,7 +2,7 @@
 
 Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
   var self = this;
-  
+
   this._dTranslators = dTranslators;
   this._oEngine = new Cotton.DB.Engine(sDatabaseName, _.keys(dTranslators), function() {
     mOnReadyCallback.call(self);
@@ -10,35 +10,35 @@ Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
 };
 
 $.extend(Cotton.DB.Store.prototype, {
-  
+
   // Must be called once the store is ready.
   list: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
-    
+
     this._oEngine.list(sObjectStoreName, function(oResult) {
       var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
       var oObject = oTranslator.dbRecordToObject(oResult);
       mResultElementCallback.call(self, oObject);
     });
   },
-  
+
   // Must be called once the store is ready.
   put: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
-    
+
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    
+
     this._oEngine.put(sObjectStoreName, dDbRecord, function() {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self);
       }
     });
   },
-  
+
   delete: function(sObjectStoreName, oObject, mOnDeleteCallback) {
     var self = this;
-    
+
     this._oEngine.delete(sObjectStoreName, oObject.id(), function() {
       if (mOnDeleteCallback) {
         mOnDeleteCallback.call(self);
@@ -49,11 +49,11 @@ $.extend(Cotton.DB.Store.prototype, {
   _translatorForDbRecord: function(sObjectStoreName, dDbRecord) {
     return this._translator(sObjectStoreName, dDbRecord.sFormatVersion);
   },
-  
+
   _translatorForObject: function(sObjectStoreName, oObject) {
     return this._lastTranslator(sObjectStoreName);
   },
-  
+
   // Returns the translator matching the given type and format version. Throws an exception if there is no
   // such translator.
   _translator: function(sObjectStoreName, sFormatVersion) {
