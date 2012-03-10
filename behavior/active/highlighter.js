@@ -40,13 +40,20 @@
     var iHeight = $span.height();
     $span.remove();
     
+    if (dEndOffset.top < dStartOffset.top || (dEndOffset.top == dStartOffset.top && dEndOffset.left < dStartOffset.left)) {
+      // We should exchange them.
+      var dTemp = dEndOffset;
+      dEndOffset = dStartOffset;
+      dStartOffset = dTemp;
+    }
+    
     // Highlight the selection.
     
     var dMainBlockCoordinates = {
       left: Math.min(dStartOffset.left, dEndOffset.left),
-      top: Math.min(dStartOffset.top, dEndOffset.top),
+      top: dStartOffset.top,
       width: Math.abs(dEndOffset.left - dStartOffset.left),
-      height: Math.abs(dEndOffset.top - dStartOffset.top) + iHeight
+      height: dEndOffset.top - dStartOffset.top + iHeight
     };
     
     var dCommonCss = {
@@ -56,16 +63,20 @@
       pointerEvents: 'none'
     };
     
+    var bXStopsBeforeStart = dStartOffset.left > dEndOffset.left;
+    
     // Middle part of the selection.
     $('<div>').css(_.defaults({
+//      background: '#0f0',
       left: dMainBlockCoordinates.left,
-      top: dMainBlockCoordinates.top,
+      top: dMainBlockCoordinates.top + (bXStopsBeforeStart ? iHeight : 0),
       width: dMainBlockCoordinates.width,
-      height: dMainBlockCoordinates.height
+      height: dMainBlockCoordinates.height - (bXStopsBeforeStart ? 2 * iHeight : 0)
     }, dCommonCss), dCommonCss).appendTo('body');
 
     // Right part of the selection.
     $('<div>').css(_.defaults({
+//      background: '#f00',
       left: dMainBlockCoordinates.left + dMainBlockCoordinates.width,
       top: dMainBlockCoordinates.top,
       width: $closestCommonParentNode.width() - dMainBlockCoordinates.width - dMainBlockCoordinates.left + $closestCommonParentNode.offset().left,
@@ -74,6 +85,7 @@
 
     // Left part of the selection.
     $('<div>').css(_.defaults({
+//      background: '#00f',
       left: $closestCommonParentNode.offset().left,
       top: dMainBlockCoordinates.top + iHeight,
       width: dMainBlockCoordinates.left - $closestCommonParentNode.offset().left,
