@@ -7,11 +7,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // Returns true if the block could be a content block (not necessarily the main one).
     function couldBeContentBlock($block) {
       // Any content block should be visible and big enough.
-<<<<<<< HEAD
-      return $block.is(':visible') && $block.width() > 400 && $block.height() > 150;
-=======
       return $block.is(':visible') && $block.width() > 400 && $block.height() > 150 && !containsComments($block);
->>>>>>> Behavior: Fix issue where sometimes comments would still be included.
     }
     
     // Returns true if the block could be the main content block.
