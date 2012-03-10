@@ -7,10 +7,12 @@
  * which hide its inner workings.
  *
  * sDatabaseName = the name of the database we want to use (it will be created if necessary).
- * lObjectStoreNames = the list of names of object stores we need to use (they will be created if necessary).
+ * dIndexesForObjectStoreNames = a dictionary where keys are the names of object stores we need to use
+ *                              (they will be created if necessary) and values are the dictionary of
+ *                              index properties for each object store.
  * mOnReadyCallback = the callback method that should be executed when the database is ready.
  */
-Cotton.DB.Engine = function(sDatabaseName, lObjectStoreNames, mOnReadyCallback) {
+Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
   var self = this;
 
   this._sDatabaseName = sDatabaseName;
@@ -19,22 +21,44 @@ Cotton.DB.Engine = function(sDatabaseName, lObjectStoreNames, mOnReadyCallback) 
   var oRequest = webkitIndexedDB.open(sDatabaseName);
   oRequest.onsuccess = function(oEvent) {
     var oDb = self._oDb = oEvent.target.result;
+    
+    var bHasMissingObjectStore = false;
+    var bHasMissingIndexKey = false;
 
+    var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
+    
     // We need to compare whether the current list of object stores in the database matches the
     // object stores that are requested in lObjectStoreNames.
 
     var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
 
-    // lUsedObjectStoreNames is the list of object stores that are already present in the database
+    // lExistingObjectStoreNames is the list of object stores that are already present in the database
     // and match the requested list of object stores. For example, if we ask for two stores
-    // ['abc, 'def'] and the present stores are ['abc', 'ghi'], lUsedObjectStoreNames will contain
+    // ['abc, 'def'] and the present stores are ['abc', 'ghi'], lExistingObjectStoreNames will contain
     // ['abc'] (still ).
-    var lUsedObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
+    var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
 
     // See if there are any object stores missing.
-    var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lUsedObjectStoreNames);
+    var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
+    bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
+    
+    // Check if, among the present object stores, there is any that miss an index.
+    var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
+    var dMissingIndexKeysForObjectStoreNames = {};
+    _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
+      var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
+      _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
+        try {
+          oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
+        } catch (e) {
+          // TODO(fwouts): Check that e is an instance of NotFoundError.
+          lMissingIndexKeys.push(sIndexKey);
+          bHasMissingIndexKey = true;
+        }
+      });
+    });
 
-    if (lMissingObjectStoreNames.length > 0) {
+    if (bHasMissingObjectStore || bHasMissingIndexKey) {
 
       var iNewVersion = parseInt(oDb.version) + 1;
 
@@ -43,13 +67,31 @@ Cotton.DB.Engine = function(sDatabaseName, lObjectStoreNames, mOnReadyCallback) 
       var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
       oSetVersionRequest.onsuccess = function(oEvent) {
+        
         for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+          // Create the new object store.
           console.log('Creating object store ' + sMissingObjectStoreName);
-          oDb.createObjectStore(sMissingObjectStoreName, {
+          var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
             keyPath: 'id',
             autoIncrement: true
           });
+          // Add all the indexes on the newly created object store.
+          var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
+          _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
+            objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
+          });
         }
+        
+        // Add all the missing indexes on the existing object stores.
+        _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
+          var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
+          var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
+          _.each(lMissingIndexKeys, function(sIndexKey) {
+            console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+            objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
+          });
+        });
+        
         mOnReadyCallback.call(self);
       };
 

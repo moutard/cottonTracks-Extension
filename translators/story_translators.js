@@ -35,8 +35,19 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     }
     return oStory;
   };
+  
+  // The dictionary of all index descriptions.
+  /*
+  E.g. if we wanted to have a non-unique index on relevance:
+  var dIndexes = {
+    fRelevance: {
+      unique: false
+    }
+  };
+  */
+  var dIndexes = {};
 
-  var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter);
+  var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter, dIndexes);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);
 
 })();
