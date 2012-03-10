@@ -28,6 +28,22 @@ $.extend(Cotton.DB.Store.prototype, {
       mResultElementCallback.call(self, oObject);
     });
   },
+  
+  find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+    var self = this;
+
+    this._oEngine.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult) {
+      if (!oResult) {
+        // If there was no result, send back null.
+        mResultCallback.call(self, null);
+        return;
+      }
+      
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultCallback.call(self, oObject);
+    });
+  },
 
   // Must be called once the store is ready.
   put: function(sObjectStoreName, oObject, mOnSaveCallback) {
@@ -88,16 +104,3 @@ $.extend(Cotton.DB.Store.prototype, {
     return oTranslator;
   }
 });
-
-// For testing.
-/*
-$(function() {
-  new Cotton.DB.Store('ct', { 'stories': Cotton.Translators.STORY_TRANSLATORS }, function() {
-    this.put('stories', new Cotton.Model.Story('youhou'), function() {
-      this.list('stories', function(oStory) {
-        console.log(oStory._lHistoryItems);
-      });
-    });
-  });
-});
-*/

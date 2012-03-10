@@ -12,7 +12,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       // TODO(rmoutard&fwouts): how to use hsitoryItem translator
       lHistoryItems : oStory._lHistoryItems,
       fLastVisitTime : oStory._fLastVisitTime,
-      fRelevance : oStory._fRelevance,
+      fRelevance : oStory._fRelevance
     };
     var iId = oStory.id() || null;
     if (iId) {

@@ -43,20 +43,22 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
     bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
     
     // Check if, among the present object stores, there is any that miss an index.
-    var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
     var dMissingIndexKeysForObjectStoreNames = {};
-    _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
-      var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
-      _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
-        try {
-          oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
-        } catch (e) {
-          // TODO(fwouts): Check that e is an instance of NotFoundError.
-          lMissingIndexKeys.push(sIndexKey);
-          bHasMissingIndexKey = true;
-        }
+    if (lExistingObjectStoreNames.lenght > 0) {
+      var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
+      _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
+        var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
+        _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
+          try {
+            oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
+          } catch (e) {
+            // TODO(fwouts): Check that e is an instance of NotFoundError.
+            lMissingIndexKeys.push(sIndexKey);
+            bHasMissingIndexKey = true;
+          }
+        });
       });
-    });
+    }
 
     if (bHasMissingObjectStore || bHasMissingIndexKey) {
 
@@ -121,7 +123,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
 
-      // TODO(fwouts): Figure out what this does exactly.
+      // End of the list of results.
       if (!oResult) {
         return;
       }
@@ -133,6 +135,26 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
+  },
+  
+  find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+    var oIndex = oStore.index(sIndexKey);
+
+    // Get the requested record in the store.
+    var oFindRequest = oIndex.get(oIndexValue);
+
+    oFindRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+      // If there was no result, it will send back null.
+      mResultCallback.call(self, oResult);
+    };
+
+    // TODO(fwouts): Implement.
+    // oFindRequest.onerror = ;
   },
 
   // TODO(fwouts): Dictionary or object?
