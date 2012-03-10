@@ -7,7 +7,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // Returns true if the block could be a content block (not necessarily the main one).
     function couldBeContentBlock($block) {
       // Any content block should be visible and big enough.
-      return $block.is(':visible') && $block.width() > 300 && $block.height() > 150;
+      return $block.is(':visible') && $block.width() > 400 && $block.height() > 150;
     }
     
     // Returns true if the block could be the main content block.
@@ -101,7 +101,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     function containsComments($block) {
       // TODO(fwouts): Use a more general logic.
       // One example where we cannot remove comments at all: http://www.ehow.com/feature_8524049_8-herbs-culinary-garden-growing.html.
-      return $block.find('#disqus_thread, fb\\:comments, #comments, .comments, .commentlist, .comment_list').length > 0;
+      return $block.find('#disqus_thread, fb\\:comments, #comments, .Comments, .comments, .commentlist, .comment_list, .comment').length > 0;
     }
     
     var lBestMainContentBlocks = _.difference(lPossibleMainContentBlocks, lExcludeFromMainContentBlocks);
