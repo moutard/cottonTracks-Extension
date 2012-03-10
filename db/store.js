@@ -4,7 +4,14 @@ Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
   var self = this;
 
   this._dTranslators = dTranslators;
-  this._oEngine = new Cotton.DB.Engine(sDatabaseName, _.keys(dTranslators), function() {
+  
+  var dIndexesForObjectStoreNames = {};
+  // TODO: Use _.each everywhere instead of ugly for loops?
+  _.each(dTranslators, function(lTranslators, sObjectStoreName) {
+    dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
+  });
+  
+  this._oEngine = new Cotton.DB.Engine(sDatabaseName, dIndexesForObjectStoreNames, function() {
     mOnReadyCallback.call(self);
   });
 };

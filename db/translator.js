@@ -1,9 +1,10 @@
 'use strict';
 
-Cotton.DB.Translator = function(sFormatVersion, mObjectToDbRecordConverter, mDbRecordToObjectConverter) {
+Cotton.DB.Translator = function(sFormatVersion, mObjectToDbRecordConverter, mDbRecordToObjectConverter, dOptionalIndexDescriptions) {
   this._sFormatVersion = sFormatVersion;
   this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
   this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
+  this._dIndexDescriptions = dOptionalIndexDescriptions || [];
 };
 
 $.extend(Cotton.DB.Translator.prototype, {
@@ -20,5 +21,8 @@ $.extend(Cotton.DB.Translator.prototype, {
   },
   formatVersion: function() {
     return this._sFormatVersion;
+  },
+  indexDescriptions: function() {
+    return this._dIndexDescriptions;
   }
 });
