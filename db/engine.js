@@ -101,6 +101,11 @@ $.extend(Cotton.DB.Engine.prototype, {
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // TODO(fwouts): Checks on the type of data contained in dItem?
+    if (!dItem.id) {
+      // In order for the id to be automatically generated, we cannot set it to undefined or null, it
+      // must not exist.
+      delete dItem.id;
+    }
     var oPutRequest = oStore.put(dItem);
 
     oPutRequest.onsuccess = function(oEvent) {
