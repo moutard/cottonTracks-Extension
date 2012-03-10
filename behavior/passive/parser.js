@@ -125,7 +125,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     lBestMainContentBlocks = _.difference(lBestMainContentBlocks, lExcludeFromMainContentBlocks);
     
     // $(lPossibleMainContentBlocks).css('border', '2px dashed #58f');
-    $(lBestMainContentBlocks).css('border', '5px dashed #f00');
+    $(lBestMainContentBlocks).css('border', '1px dashed #f00');
   }
 });
 
