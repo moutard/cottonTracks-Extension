@@ -59,6 +59,7 @@
     var dCommonCss = {
       background: 'rgba(0, 0, 0, 0.15)',
       position: 'absolute',
+      zIndex: 100000000,
       // Be able to click through the overlays.
       pointerEvents: 'none'
     };
