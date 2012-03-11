@@ -73,7 +73,7 @@
       top: dMainBlockCoordinates.top + (bXStopsBeforeStart ? iHeight : 0),
       width: dMainBlockCoordinates.width,
       height: dMainBlockCoordinates.height - (bXStopsBeforeStart ? 2 * iHeight : 0)
-    }, dCommonCss), dCommonCss).appendTo('body');
+    }, dCommonCss));
 
     // Right part of the selection.
     $('<div>').css(_.defaults({
