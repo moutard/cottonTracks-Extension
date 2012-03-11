@@ -1,14 +1,36 @@
 (function() {
   
-  $(document).mouseup(function(oEvent) {
+  // Disable normal selection highlighting.
+  $('<style type="text/css">').html('::selection { background: rgba(0, 0, 0, 0) !important; }').appendTo('body');
+  
+  var lCurrentHighlightDivs = null;
+  var bMouseDown = false;
+  
+  $(document).mouseup(function(event) {
+    lCurrentHighlightDivs = null;
+    bMouseDown = false;
+  });
+  
+  $(document).mousedown(function(event) {
+    lCurrentHighlightDivs = null;
+    bMouseDown = true;
+  });
+  
+  $(document).mousemove(function(oEvent) {
     var oSelection = window.getSelection();
-    var oStartNode = oSelection.anchorNode;
-    var oEndNode = oSelection.focusNode;
     
     if (oSelection.isCollapsed) {
       // Do not do anything on empty selections.
       return;
     }
+    
+    if (!bMouseDown) {
+      // Only update the selection when the mouse is down.
+      return;
+    }
+    
+    var oStartNode = oSelection.anchorNode;
+    var oEndNode = oSelection.focusNode;
     
     // Find the closest common parent node.
     var lStartParentNodes = parentNodes(oStartNode);
@@ -66,8 +88,16 @@
     
     var bXStopsBeforeStart = dStartOffset.left > dEndOffset.left;
     
+    
+    if (!lCurrentHighlightDivs) {
+      lCurrentHighlightDivs = [];
+      for (var iI = 0; iI < 3; iI++) {
+        lCurrentHighlightDivs.push($('<div>').css(dCommonCss).appendTo('body'));
+      }
+    }
+    
     // Middle part of the selection.
-    $('<div>').css(_.defaults({
+    lCurrentHighlightDivs[0].css(_.defaults({
 //      background: '#0f0',
       left: dMainBlockCoordinates.left,
       top: dMainBlockCoordinates.top + (bXStopsBeforeStart ? iHeight : 0),
@@ -76,22 +106,22 @@
     }, dCommonCss));
 
     // Right part of the selection.
-    $('<div>').css(_.defaults({
+    lCurrentHighlightDivs[1].css(_.defaults({
 //      background: '#f00',
       left: dMainBlockCoordinates.left + dMainBlockCoordinates.width,
       top: dMainBlockCoordinates.top,
       width: $closestCommonParentNode.width() - dMainBlockCoordinates.width - dMainBlockCoordinates.left + $closestCommonParentNode.offset().left,
       height: dMainBlockCoordinates.height - iHeight
-    }, dCommonCss)).appendTo('body');
+    }, dCommonCss));
 
     // Left part of the selection.
-    $('<div>').css(_.defaults({
+    lCurrentHighlightDivs[2].css(_.defaults({
 //      background: '#00f',
       left: $closestCommonParentNode.offset().left,
       top: dMainBlockCoordinates.top + iHeight,
       width: dMainBlockCoordinates.left - $closestCommonParentNode.offset().left,
       height: dMainBlockCoordinates.height - iHeight
-    }, dCommonCss)).appendTo('body');
+    }, dCommonCss));
     
     console.log("Main block coordinates:");
     console.log(dMainBlockCoordinates);
