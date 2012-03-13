@@ -41,10 +41,12 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  getLast: function(sObjectStoreName, mResultElementCallback) {
+
+  getLastEntry: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
-    this._oEngine.getLast(sObjectStoreName, function(oResult) {
+    this._oEngine.getLastEntry(sObjectStoreName, function(oResult) {
+
       var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
       var oObject = oTranslator.dbRecordToObject(oResult);
       mResultElementCallback.call(self, oObject);
