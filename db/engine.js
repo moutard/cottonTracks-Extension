@@ -21,12 +21,12 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
   var oRequest = webkitIndexedDB.open(sDatabaseName);
   oRequest.onsuccess = function(oEvent) {
     var oDb = self._oDb = oEvent.target.result;
-    
+
     var bHasMissingObjectStore = false;
     var bHasMissingIndexKey = false;
 
     var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
-    
+
     // We need to compare whether the current list of object stores in the database matches the
     // object stores that are requested in lObjectStoreNames.
 
@@ -41,7 +41,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
     // See if there are any object stores missing.
     var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
     bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
-    
+
     // Check if, among the present object stores, there is any that miss an index.
     var dMissingIndexKeysForObjectStoreNames = {};
     if (lExistingObjectStoreNames.lenght > 0) {
@@ -69,7 +69,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
       var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
       oSetVersionRequest.onsuccess = function(oEvent) {
-        
+
         for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
           // Create the new object store.
           console.log('Creating object store ' + sMissingObjectStoreName);
@@ -83,7 +83,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
             objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
           });
         }
-        
+
         // Add all the missing indexes on the existing object stores.
         _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
           var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
@@ -93,7 +93,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
             objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
           });
         });
-        
+
         mOnReadyCallback.call(self);
       };
 
@@ -136,7 +136,63 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
-  
+
+  getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, false, false);
+    var oCursorRequest = oStore.openCursor(oKeyRange, 2);
+    // direction 2 : prev
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+      oResult.continue();
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+
+  },
+
+  getLast : function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.only(0);
+    var oCursorRequest = oStore.openCursor(undefined, 2);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+
+  },
+
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
