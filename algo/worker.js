@@ -35,8 +35,9 @@ function handleVisitItems(lHistoryItems) {
   // TOOLS
   // TODO(rmoutard) : for the moment afectation is needed
   // remove afectation lHistoryITems is passed by reference
-  lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
-  lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
+  //lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
+  //lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
+  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
 
   oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lHistoryItems);
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts);
