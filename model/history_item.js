@@ -10,6 +10,13 @@ Cotton.Model.HistoryItem = function (oHistoryItem) {
   this._iVisitCount;
   this._iTypedCount;
 
+  // Added by preTreatment
+  // this._oUrl ?
+  this._sPathname;
+  this._sHostname;
+  this._lQueryWords;
+  this._lExtractedWords;
+
   // Improved model - only available for DBSCAN2
   // TODO(rmoutard) : see with fwouts the model of textHighLigter
   this._sTextHighlighter;
