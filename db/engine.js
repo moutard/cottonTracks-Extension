@@ -166,7 +166,8 @@ $.extend(Cotton.DB.Engine.prototype, {
 
   },
 
-  getLast : function(sObjectStoreName, mResultElementCallback) {
+
+  getLastEntry : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
