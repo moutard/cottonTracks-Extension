@@ -9,7 +9,7 @@ Cotton.Algo.extractWords = function(sTitle) {
   var lMatches = sTitle.match(oRegexp) || [];
   // TODO(fwouts): Be nicer on the words we keep, but still reject useless words
   // such as "-".
-  
+
   // Lower case to compare correctly.
   for(var i = 0; i < lMatches.length; i++){
     lMatches[i] = lMatches[i].toLowerCase();
@@ -22,17 +22,27 @@ Cotton.Algo.extractWords = function(sTitle) {
 
 Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
   // Return the number of common words
-
   var iTitleWordsAmount = 0;
-  if(oHistoryItem1.title !== "" && oHistoryItem2.title !== ""){
-    var lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
-    var lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
-    var commonWords = _.intersection(lWords1, lWords2);
-    return commonWords.length;
-  }
-  else{
+  var lWords1, lWords2, lCommonWords;
+
+  if(oHistoryItem1.title === "" && oHistoryItem2.title === ""){
     return -1;
   }
+
+  if(oHistoryItem1.extractedWords === undefined ||
+      oHistoryItem2.extractWords === undefined ){
+    // this part may be deleted but may be usefull in some case.
+    lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
+    lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
+  }
+  else{
+    // already computed in preTreatment
+    lWords1 = oHistoryItem1.extractedWords;
+    lWords2 = oHistoryItems2.extractedWords;
+  }
+
+    lCommonWords = _.intersection(lWords1, lWords2);
+    return lCommonWords.length;
 };
 
 Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
@@ -83,17 +93,17 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   else if(iCommonWords === -1){
     // if there is no title do not put the penalty
     // or put low penalty
-    sum += coeff.penalty; 
+    sum += coeff.penalty;
   }
   else{
     sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
   }
-  
+
   // Query keywords
   var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
           oHistoryItem1,
           oHistoryItem2);
-  sum += (coeff.queryKeywords 
+  sum += (coeff.queryKeywords
           / ((1 + iCommonQueryKeywords)*(1 + iCommonQueryKeywords)) );
 
 
@@ -116,7 +126,7 @@ Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1,
 
 /*
  * HistoryItem An object encapsulating one result of a history query.
- * 
+ *
  * id ( string ) The unique identifier for the item. url ( optional string ) The
  * URL navigated to by a user. title ( optional string ) The title of the page
  * when it was last loaded. lastVisitTime ( optional number ) When this page was
