@@ -1,11 +1,11 @@
 'use strict';
 // Why : using time and keywords in Cotton.Algo.Distance we can easily detect
-// sessions (even parallel session) Then you can group session. 
+// sessions (even parallel session) Then you can group session.
 //
 
 Cotton.Model.Session = function(lHistoryItems){
-  // Class 
-  
+  // Class
+
   // DATA MODEL
   this._iId;
   this._lHistoryItems = new Array();
@@ -22,7 +22,7 @@ Cotton.Model.Session = function(lHistoryItems){
 $.extend(Cotton.Model.Story.prototype, {
   computeKeywords : function(){
     for (var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++ ){
-      this._lKeywords = this._lKeywords.concat(oHistoryItem.keywords);
+      this._lKeywords = this._lKeywords.concat(oHistoryItem.extractedWords);
     }
   },
 
