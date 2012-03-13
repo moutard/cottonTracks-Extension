@@ -4,13 +4,13 @@ Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
   var self = this;
 
   this._dTranslators = dTranslators;
-  
+
   var dIndexesForObjectStoreNames = {};
   // TODO: Use _.each everywhere instead of ugly for loops?
   _.each(dTranslators, function(lTranslators, sObjectStoreName) {
     dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
   });
-  
+
   this._oEngine = new Cotton.DB.Engine(sDatabaseName, dIndexesForObjectStoreNames, function() {
     mOnReadyCallback.call(self);
   });
@@ -28,7 +28,30 @@ $.extend(Cotton.DB.Store.prototype, {
       mResultElementCallback.call(self, oObject);
     });
   },
-  
+
+  getRange: function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.getRange(sObjectStoreName,
+      iLowerBound, iUpperBound,
+      function(oResult) {
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
+
+  getLast: function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.getLast(sObjectStoreName, function(oResult) {
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
+
+
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
@@ -38,7 +61,7 @@ $.extend(Cotton.DB.Store.prototype, {
         mResultCallback.call(self, null);
         return;
       }
-      
+
       var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
       var oObject = oTranslator.dbRecordToObject(oResult);
       mResultCallback.call(self, oObject);
