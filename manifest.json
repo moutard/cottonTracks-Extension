@@ -9,6 +9,6 @@
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
     "css": [],
-    "js": ["lib/class.js", "lib/jquery.min.js", "lib/raphael.min.js", "lib/underscore.min.js", "lib/backbone.min.js", "lib/date.format.js", "lib/parseURL.js", "lib/underscore.js", "init.js", "behavior/init.js", "behavior/passive/init.js", "behavior/passive/parser.js", "behavior/active/init.js", "behavior/active/highlighter.js"]
+    "js": ["lib/class.js", "lib/jquery.min.js", "lib/underscore.min.js", "init.js", "behavior/init.js", "behavior/passive/init.js", "behavior/passive/parser.js", "behavior/active/init.js", "behavior/active/highlighter.js"]
     }]
 }
