@@ -80,7 +80,7 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
     displayStory(lDStories[i]);
   }
 
-  openStore(lDStories);
+  openStore(lStories);
 
 }
 
