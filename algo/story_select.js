@@ -1,7 +1,7 @@
 'use strict';
 
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
-  //
+  // Create an Array of stories with lHsitoryItems
   var lStories = new Array();
 
   // initialized
@@ -21,7 +21,6 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
     }
   }
 
-  // console.log(lStories);
   return lStories;
 };
 
