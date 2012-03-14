@@ -14,7 +14,7 @@ dbscanWorker.addEventListener('message', function(e) {
   Cotton.DB.ManagementTools.addStories(lStories);
 }, false);
 
-Cotton.DBSCAN2.dbscanUser = function () {
+$(Cotton.DBSCAN2.dbscanUser = function () {
   // 
   // dbscanUser should be called every time a new tab is open.
   // or maybe just new window for the beginning.
@@ -41,4 +41,4 @@ Cotton.DBSCAN2.dbscanUser = function () {
           });
         } 
   );
-};
+};)();
