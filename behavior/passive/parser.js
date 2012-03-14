@@ -11,16 +11,22 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // letters each.
     // TODO(fwouts): Handle accentuated capitals? Handle languages not following
     //               this convention?
-    var rLongEnoughSentenceRegex = /[A-Z][^.]*([\w]{3,} [^.]*){3,}[^.]*(\.|!|\?|\:)/g;
+    // TODO(fwouts): Find a way to have the final punctuation too (causes an infinite loop
+    //               on http://api.jquery.com/parent-selector/).
+    var rLongEnoughSentenceRegex = /[A-Z][^.!?]*([\w]{3,} [^.!?]*){3,}/g;
     
     // TODO(fwouts): Maybe use livequery to handle dynamic content changes.
     
     //alert("This is a sentence that should be matching.".match(rLongEnoughSentenceRegex));
     
     // Loop through all the paragraphs to find the actual textual content.
+    console.log("Finding all potentially meaningful paragraphs...");
     $('p, dd').each(function() {
       var $paragraph = $(this);
       var $container = $paragraph.parent();
+      
+      console.log("Parsing the paragraph:");
+      console.log($paragraph.text());
       
       // In any article, the text should have a sufficient width to be comfortable
       // to read for the user (except maybe in multi-column layouts?).
@@ -32,6 +38,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         // If the container is not big enough, then we ignore the paragraph.
         // For example, it could be a small message "Connect with your email"
         // in a sidebar.
+        console.log("Ignoring because of insufficient width.");
         return true;
       }
       
@@ -41,13 +48,20 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // We count sentences that "long enough" (e.g. containing at least three
       // long-enough words).
       
+      console.log("Searching for sentences...");
+      
       // TODO(fwouts): Consider something else than text()?
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
+        console.log(rLongEnoughSentenceRegex.length + " sentences found.");
         $paragraph.attr('data-meaningful', 'true');
         $paragraph.css('border', lSentencesMatching.length + 'px dashed #35d');
+      } else {
+        console.log("No sentences found.");
       }
     });
+    
+    console.log("Keeping only groups of meaningful paragraphs...");
     
     // Separate step because we need to know the list of all meaningful elements at this point.
     // Because we will gradually remove the data-meaningful attribute to elements and the
@@ -75,6 +89,8 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         $paragraph.removeAttr('data-meaningful');
       }
     });
+    
+    console.log("Done parsing the content block.")
     
     // TODO(fwouts): Detect non-textual informational content such as images and videos.
     
