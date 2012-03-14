@@ -5,6 +5,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     
     // TODO(fwouts): Move constants.
     var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
+    var MIN_PARAGRAPH_COUNT_INSIDE_ARTICLE = 4;
     
     // Detects sentences containing at least three separate words of at least three
     // letters each.
@@ -25,7 +26,8 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // to read for the user (except maybe in multi-column layouts?).
       // We however take into account the case of articles starting with an image
       // floating on the left/right side, so we do not consider the width of the
-      // paragraph itself, but the width of its container.
+      // paragraph itself (which depends on other factors, such as the value of the
+      // CSS property overflow), but instead we consider the width of its container.
       if ($container.width() < MIN_PARAGRAPH_CONTAINER_WIDTH) {
         // If the container is not big enough, then we ignore the paragraph.
         // For example, it could be a small message "Connect with your email"
@@ -42,7 +44,35 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // TODO(fwouts): Consider something else than text()?
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
-        $paragraph.css('border', lSentencesMatching.length + 'px solid #f00');
+        $paragraph.attr('data-meaningful', 'true');
+        $paragraph.css('border', lSentencesMatching.length + 'px dashed #35d');
+      }
+    });
+    
+    // Separate step because we need to know the list of all meaningful elements at this point.
+    // Because we will gradually remove the data-meaningful attribute to elements and the
+    // algorithm depends on depth, we need to start with the deepest elements first.
+    var lSortedByDepthParagraphs = $('[data-meaningful]').get();
+    lSortedByDepthParagraphs.sort(function(oA, oB) {
+      return $(oB).parents().length - $(oA).parents().length;
+    });
+    
+    $.each(lSortedByDepthParagraphs, function() {
+      // We need to exclude paragraphs belonging to accessory elements such as comments.
+      // One method we use here is to count the number of paragraphs within their
+      // x-level ancestor (x = 3). For comments, this would generally still contain only
+      // one comment box, which means that if the comment is not an essay (which would
+      // arguably make it a meaningful content), then we can just count the number of
+      // paragraphs and conclude that it does not represent the main article.
+      // Other factors such as height should be considered (some websites do not divide
+      // their pages properly into multiple paragraphs, but instead use <br />).
+      // TODO(fwouts): Take height into account.
+      var $paragraph = $(this);
+      var $ancestor = $paragraph.parent().parent().parent();
+      if ($ancestor.find('[data-meaningful]').length > MIN_PARAGRAPH_COUNT_INSIDE_ARTICLE) {
+        $paragraph.css('border-color', '#f00');
+      } else {
+        $paragraph.removeAttr('data-meaningful');
       }
     });
     
