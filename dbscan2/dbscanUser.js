@@ -7,7 +7,7 @@
 // Use the worker of DBSCAN. It's exaclty the same. Just change the callback.
 Cotton.DBSCAN2.dbscanWorker = new Worker('algo/worker.js');
 
-dbscanWorker.addEventListener('message', function(e) {
+Cotton.DBSCAN2.dbscanWorker.addEventListener('message', function(e) {
   console.log('Worker ends: ', e.data.iNbCluster);
   // When DBSCAN is over, store new computed stories in the IndexedDB database.
   var lStories = Cotton.Algo.clusterStory(e.data.lHistoryItems, e.data.iNbCluster);
@@ -36,7 +36,7 @@ $(Cotton.DBSCAN2.dbscanUser = function () {
 
               // include current story's historyItems
               lHistoryItems = lHistoryItems.concat(lastStory.iter());
-              worker.postMessage(lHistoryItems);
+              Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems);
             });
           });
         } 
