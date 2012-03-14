@@ -117,5 +117,15 @@ $.extend(Cotton.Model.Story.prototype, {
         * (this._fLastVisitTime / new Date().getTime()) + coeff.hostname * this.countUniqHostname()
         + coeff.search * this.countSearchPathname();
 
-  }
+  },
+  computeKeywords : function(){
+    for (var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++ ){
+      this._lKeywords = this._lKeywords.concat(oHistoryItem.extractedWords);
+    }
+  },
+  merge : function(oHistoryItem){
+    this._lHistoryItems = this._lHsitoryItems.concat(oHistoryItem.iter());
+    this._fLastVisitTime = Math.max(this._fLastVisitTime, oHistoryItem.lastVisitTime());
+  },
+
 });
