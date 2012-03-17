@@ -50,7 +50,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
           var oScore = this.$block.data('score');
           // TODO(fwouts): If only 10% of the block is ever visible, the maximum score should be of 10%.
-          oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(oScore.totalSurface(), 2) * 75000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(oScore.totalSurface(), 2) * 150000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
         });
       }
     }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
