@@ -18,7 +18,6 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     $('[data-meaningful]').removeAttr('data-meaningful');
     this.findMeaningfulBlocks();
     this.removeLeastMeaningfulBlocks();
-    this.updateCommonParent();
   },
   
   findMeaningfulBlocks: function() {
@@ -142,11 +141,6 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         $paragraph.removeAttr('data-meaningful');
       }
     });
-  },
-  
-  updateCommonParent: function() {
-    $('[data-meaningful]').commonParent().css('border', '10px dashed #f84');
-    console.log("Done parsing the content block.");
   }
 });
 
