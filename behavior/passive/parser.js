@@ -21,6 +21,8 @@ Cotton.Behavior.Passive.Parser = Class.extend({
   },
   
   findMeaningfulBlocks: function() {
+    var self = this;
+    
     // TODO(fwouts): Move constants.
     var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
     var MIN_BR_FOR_TEXT_CONTAINER = 5;
@@ -76,8 +78,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
         console.log(lSentencesMatching.length + " sentences found.");
-        $paragraph.attr('data-meaningful', 'true');
-        $paragraph.css('border', lSentencesMatching.length + 'px dashed #35d');
+        self.markMeaningfulBlock($paragraph);
       } else {
         console.log("No sentences found.");
       }
@@ -95,8 +96,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       }
       var iBrCount = $parent.find('br').length;
       if (iBrCount > MIN_BR_FOR_TEXT_CONTAINER) {
-        $parent.attr('data-meaningful', 'true');
-        $parent.css('border', '5px dashed #35d');
+        self.markMeaningfulBlock($parent);
       }
     });
     
@@ -109,8 +109,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         return true;
       }
       // Since the object is big enough, we can consider that it belongs to the content block.
-      $object.attr('data-meaningful', 'true');
-      $object.css('border', '5px dashed #35d');
+      self.markMeaningfulBlock($object);
     });
     
     // Take into consideration <pre> (for websites such as StackOverflow).
@@ -119,12 +118,16 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
         console.log("Ignoring because of insufficient size.");
         return true;
-      }
-      $pre.attr('data-meaningful', 'true');
-      $pre.css('border', '5px dashed #35d');
+      }  
+      self.markMeaningfulBlock($pre);
     });
     
     // TODO(fwouts): Detect non-textual informational content such as images and videos.
+  },
+  
+  markMeaningfulBlock: function($block) {
+    $block.attr('data-meaningful', 'true');
+    $block.css('border', '1px dashed #35d');
   },
   
   removeLeastMeaningfulBlocks: function() {
@@ -156,9 +159,17 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
         $paragraph.css('border-color', '#f00');
       } else {
-        $paragraph.removeAttr('data-meaningful');
+        $paragraph.removeAttr('data-meaningful').attr('data-least-meaningful', true);
       }
     });
+    
+    if ($('[data-meaningful]').length == 0) {
+      // If we did not find any really meaningful element, we might be in the case that the
+      // content did not match the usual structure of at least X blocks.
+      // We pick the element closest to the top, which is the most likely to be part of the content.
+      // TODO(fwouts): Improve the algorithm?
+      $('[data-least-meaningful]:first').removeAttr('data-least-meaningful').attr('data-meaningful', true).css('border-color', '#f00');
+    }
   }
 });
 
