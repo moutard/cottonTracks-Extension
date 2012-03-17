@@ -43,11 +43,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         // TODO(fwouts): Check if it is ever possible to not have oScore.
       });
       
+      console.log(lBlockBundles);
+      
       if (iTotalVisibleSurface > 0) {
         $.each(lBlockBundles, function() {
           var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
           var oScore = this.$block.data('score');
-          oScore.addScore(fFocusProportion * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          // TODO(fwouts): If only 10% of the block is ever visible, the maximum score should be of 10%.
+          oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(oScore.totalSurface(), 2) * 75000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
         });
       }
     }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
@@ -65,7 +68,7 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
   
   addScore: function(fAdditionalScore) {
     this._fScore += fAdditionalScore;
-    var iColorQuantity = 128 + Math.round(this._fScore / this.totalSurface() * 200000);
+    var iColorQuantity = 128 + Math.round(this._fScore);
     this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
     console.log("Score updated to " + this._fScore);
   },
@@ -79,16 +82,17 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     var iBlockWidth = this._$block.width();
     
     var iWindowScrollTop = $(window).scrollTop();
-    var iWindowVisibleHeight = $(window).height();
+    var iWindowVisibleHeight = window.innerHeight;
     var dBlockOffset = this._$block.offset();
     var iBlockOffsetTop = dBlockOffset.top;
-    var iBlockOffsetBottom = dBlockOffset.top;
+    var iBlockOffsetBottom = dBlockOffset.top + iBlockHeight;
     
     var iBlockHiddenTop = (iWindowScrollTop < iBlockOffsetTop) ? 0 : (iWindowScrollTop - iBlockOffsetTop);
     var iBlockHiddenBottom = (iWindowScrollTop + iWindowVisibleHeight > iBlockOffsetBottom) ? 0 : (iBlockOffsetBottom - (iWindowScrollTop + iWindowVisibleHeight));
     
     var iVisibleHeight = Math.max(0, iBlockHeight - iBlockHiddenTop - iBlockHiddenBottom);
     var iVisibleSurface = iVisibleHeight * iBlockWidth;
+    
     return iVisibleSurface;
   },
   
