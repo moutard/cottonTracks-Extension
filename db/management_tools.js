@@ -2,7 +2,9 @@
 
 Cotton.DB.ManagementTools = {};
 
-Cotton.DB.ManagementTools.clearDB = function () {
+
+Cotton.DB.ManagementTools.clearDB = function(){
+  console.log("CLEAR");
    new Cotton.DB.Store('ct',
        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
        function() {
