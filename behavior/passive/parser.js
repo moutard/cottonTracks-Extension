@@ -78,7 +78,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // TODO(fwouts): Improve the method here.
     $('br').each(function() {
       var $parent = $(this).parent();
-      if ($parent.is('p, dd')) {
+      if ($parent.is('p, dd') || $parent.find('p').length > 0) {
         // Since the parent is a paragraph, we already considered it above.
         return true;
       }
