@@ -23,6 +23,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
   findMeaningfulBlocks: function() {
     // TODO(fwouts): Move constants.
     var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
+    var MIN_BR_FOR_TEXT_CONTAINER = 5;
     var MIN_OBJECT_WIDTH = 400;
     var MIN_OBJECT_HEIGHT = 300;
     var MIN_PRE_WIDTH = 400;
@@ -79,6 +80,23 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         $paragraph.css('border', lSentencesMatching.length + 'px dashed #35d');
       } else {
         console.log("No sentences found.");
+      }
+    });
+    
+    // In some websites, there are no <p> nodes containing the text, instead there is only
+    // a bunch of text where paragraphs are separated by <br /> (e.g. www.clubic.com).
+    // We try to detect those text-containing blocks.
+    // TODO(fwouts): Improve the method here.
+    $('br').each(function() {
+      var $parent = $(this).parent();
+      if ($parent.is('p, dd')) {
+        // Since the parent is a paragraph, we already considered it above.
+        return true;
+      }
+      var iBrCount = $parent.find('br').length;
+      if (iBrCount > MIN_BR_FOR_TEXT_CONTAINER) {
+        $parent.attr('data-meaningful', 'true');
+        $parent.css('border', '5px dashed #35d');
       }
     });
     
