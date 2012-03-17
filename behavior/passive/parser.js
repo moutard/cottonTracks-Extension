@@ -2,18 +2,6 @@
 
 Cotton.Behavior.Passive.Parser = Class.extend({
   
-  init: function() {
-    var self = this;
-    // Refresh every 5 seconds.
-    setInterval(function() {
-      self.parse();
-    }, 5000);
-    // Launch almost immediately (but try to avoid freezing the page).
-    setTimeout(function() {
-      self.parse();
-    }, 0);
-  },
-  
   parse: function() {
     $('[data-meaningful]').removeAttr('data-meaningful');
     this.findMeaningfulBlocks();
@@ -122,7 +110,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       self.markMeaningfulBlock($pre);
     });
     
-    // TODO(fwouts): Detect non-textual informational content such as images and videos.
+    // TODO(fwouts): Explore other types of containers such as <table>, <li>.
   },
   
   markMeaningfulBlock: function($block) {
@@ -171,9 +159,4 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       $('[data-least-meaningful]:first').removeAttr('data-least-meaningful').attr('data-meaningful', true).css('border-color', '#f00');
     }
   }
-});
-
-// For testing.
-$(function() {
-  new Cotton.Behavior.Passive.Parser();
 });
