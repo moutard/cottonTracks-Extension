@@ -111,7 +111,7 @@ function storeData(oStore, lStories) {
 }
 
 // CONTROLLER
-Cotton.DB.ManagementTools.clearDB();
+// Cotton.DB.ManagementTools.clearDB();
 Cotton.DB.ManagementTools.listDB();
 
 // WORKER
@@ -132,7 +132,7 @@ if (localStorage) {
   if (localStorage['CottonFirstOpening'] === undefined
       || localStorage['CottonFirstOpening'] === "true") {
 
-    Cotton.DB.ManagementTools.clearDB();
+    // Cotton.DB.ManagementTools.clearDB();
     window.UI.firstVisit();
 
     chrome.history.search({
