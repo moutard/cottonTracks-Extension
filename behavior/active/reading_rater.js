@@ -43,11 +43,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         // TODO(fwouts): Check if it is ever possible to not have oScore.
       });
       
-      $.each(lBlockBundles, function() {
-        var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
-        var oScore = this.$block.data('score');
-        oScore.addScore(fFocusProportion);
-      });
+      if (iTotalVisibleSurface > 0) {
+        $.each(lBlockBundles, function() {
+          var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
+          var oScore = this.$block.data('score');
+          oScore.addScore(fFocusProportion);
+        });
+      }
     }, 100);
   }
 });
@@ -61,7 +63,7 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
   
   addScore: function(fAdditionalScore) {
     this._fScore += fAdditionalScore;
-    var iColorQuantity = Math.round(this._fScore * 50);
+    var iColorQuantity = 128 + Math.round(this._fScore / this.totalSurface() * 200000);
     this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
     console.log("Score updated to " + this._fScore);
   },
@@ -86,6 +88,12 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     var iVisibleHeight = Math.max(0, iBlockHeight - iBlockHiddenTop - iBlockHiddenBottom);
     var iVisibleSurface = iVisibleHeight * iBlockWidth;
     return iVisibleSurface;
+  },
+  
+  totalSurface: function() {
+    var iBlockHeight = this._$block.height();
+    var iBlockWidth = this._$block.width();
+    return iBlockHeight * iBlockWidth;
   }
 });
 
