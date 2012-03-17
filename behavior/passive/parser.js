@@ -94,6 +94,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     
     // TODO(fwouts): Detect non-textual informational content such as images and videos.
     
+    $('[data-meaningful]').commonParent().css('border', '10px dashed #f84');
   }
 });
 
