@@ -1,11 +1,33 @@
 'use strict';
 
 Cotton.Behavior.Passive.Parser = Class.extend({
+  
   init: function() {
-    
+    var self = this;
+    // Refresh every 5 seconds.
+    setInterval(function() {
+      self.parse();
+    }, 5000);
+    // Launch almost immediately (but try to avoid freezing the page).
+    setTimeout(function() {
+      self.parse();
+    }, 0);
+  },
+  
+  parse: function() {
+    $('[data-meaningful]').removeAttr('data-meaningful');
+    this.findMeaningfulBlocks();
+    this.removeLeastMeaningfulBlocks();
+    this.updateCommonParent();
+  },
+  
+  findMeaningfulBlocks: function() {
     // TODO(fwouts): Move constants.
     var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
-    var MIN_PARAGRAPH_COUNT_INSIDE_ARTICLE = 4;
+    var MIN_OBJECT_WIDTH = 400;
+    var MIN_OBJECT_HEIGHT = 300;
+    var MIN_PRE_WIDTH = 400;
+    var MIN_PRE_HEIGHT = 100;
     
     // Detects sentences containing at least three separate words of at least three
     // letters each.
@@ -53,7 +75,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // TODO(fwouts): Consider something else than text()?
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
-        console.log(rLongEnoughSentenceRegex.length + " sentences found.");
+        console.log(lSentencesMatching.length + " sentences found.");
         $paragraph.attr('data-meaningful', 'true');
         $paragraph.css('border', lSentencesMatching.length + 'px dashed #35d');
       } else {
@@ -61,17 +83,48 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       }
     });
     
-    console.log("Keeping only groups of meaningful paragraphs...");
+    // Loop through all interactive content such as Flash.
+    console.log("Finding all potentially meaningful objects...");
+    $('object, img').each(function() {
+      var $object = $(this);
+      if ($object.width() < MIN_OBJECT_WIDTH || $object.height() < MIN_OBJECT_HEIGHT) {
+        console.log("Ignoring because of insufficient size.");
+        return true;
+      }
+      // Since the object is big enough, we can consider that it belongs to the content block.
+      $object.attr('data-meaningful', 'true');
+      $object.css('border', '5px dashed #35d');
+    });
+    
+    // Take into consideration <pre> (for websites such as StackOverflow).
+    $('pre').each(function() {
+      var $pre = $(this);
+      if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
+        console.log("Ignoring because of insufficient size.");
+        return true;
+      }
+      $pre.attr('data-meaningful', 'true');
+      $pre.css('border', '5px dashed #35d');
+    });
+    
+    // TODO(fwouts): Detect non-textual informational content such as images and videos.
+  },
+  
+  removeLeastMeaningfulBlocks: function() {
+    // TODO(fwouts): Move constants.
+    var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
+  
+    console.log("Keeping only groups of meaningful blocks...");
     
     // Separate step because we need to know the list of all meaningful elements at this point.
     // Because we will gradually remove the data-meaningful attribute to elements and the
     // algorithm depends on depth, we need to start with the deepest elements first.
-    var lSortedByDepthParagraphs = $('[data-meaningful]').get();
-    lSortedByDepthParagraphs.sort(function(oA, oB) {
+    var lSortedByDepthBlocks = $('[data-meaningful]').get();
+    lSortedByDepthBlocks.sort(function(oA, oB) {
       return $(oB).parents().length - $(oA).parents().length;
     });
     
-    $.each(lSortedByDepthParagraphs, function() {
+    $.each(lSortedByDepthBlocks, function() {
       // We need to exclude paragraphs belonging to accessory elements such as comments.
       // One method we use here is to count the number of paragraphs within their
       // x-level ancestor (x = 3). For comments, this would generally still contain only
@@ -83,18 +136,17 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // TODO(fwouts): Take height into account.
       var $paragraph = $(this);
       var $ancestor = $paragraph.parent().parent().parent();
-      if ($ancestor.find('[data-meaningful]').length > MIN_PARAGRAPH_COUNT_INSIDE_ARTICLE) {
+      if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
         $paragraph.css('border-color', '#f00');
       } else {
         $paragraph.removeAttr('data-meaningful');
       }
     });
-    
-    console.log("Done parsing the content block.")
-    
-    // TODO(fwouts): Detect non-textual informational content such as images and videos.
-    
+  },
+  
+  updateCommonParent: function() {
     $('[data-meaningful]').commonParent().css('border', '10px dashed #f84');
+    console.log("Done parsing the content block.");
   }
 });
 
