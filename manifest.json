@@ -10,7 +10,7 @@
     {
       "matches": ["http://*/*", "https://*/*"],
       "css": [],
-      "js": ["lib/class.js", "lib/jquery.min.js", "lib/underscore.min.js", "init.js", "behavior/init.js", "behavior/passive/init.js", "behavior/passive/common_parent.js", "behavior/passive/parser.js", "behavior/active/init.js", "behavior/active/highlighter.js"],
+      "js": ["lib/class.js", "lib/jquery.min.js", "lib/underscore.min.js", "init.js", "behavior/init.js", "behavior/passive/init.js", "behavior/passive/parser.js", "behavior/active/init.js", "behavior/active/highlighter.js"],
       "run_at": "document_start"
     }
   ]
