@@ -47,12 +47,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         $.each(lBlockBundles, function() {
           var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
           var oScore = this.$block.data('score');
-          oScore.addScore(fFocusProportion);
+          oScore.addScore(fFocusProportion * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
         });
       }
-    }, 100);
+    }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
   }
 });
+
+Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 50;
 
 Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
   
