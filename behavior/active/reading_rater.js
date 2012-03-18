@@ -5,6 +5,19 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   init: function() {
     var self = this;
     
+    // Detect user's activity on the page when they move their cursor.
+    // If they don't move it during 5 seconds, we conclude they are inactive.
+    this._bDocumentActive = true;
+    var oTimeout = null;
+    $(document).mousemove(function() {
+      self._bDocumentActive = true;
+
+      clearTimeout(oTimeout);
+      oTimeout = setTimeout(function() {
+        self._bDocumentActive = false;
+      }, 5000);
+    });
+    
     this._bLoggingEnabled = true;
     
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
@@ -28,6 +41,11 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
     
     setInterval(function() {
+      
+      if (!self._bDocumentActive) {
+        // Do not increase scores if the document is inactive.
+        return;
+      }
       
       // Compute the visible surface of each block and the total visible surface.
       var lBlockBundles = [];
