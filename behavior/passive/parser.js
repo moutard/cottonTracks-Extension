@@ -2,6 +2,16 @@
 
 Cotton.Behavior.Passive.Parser = Class.extend({
   
+  init: function() {
+    this._bLoggingEnabled = false;
+  },
+  
+  log: function(msg) {
+    if (this._bLoggingEnabled) {
+      console.log(msg);
+    }
+  },
+  
   parse: function() {
     $('[data-meaningful]').removeAttr('data-meaningful');
     this.findMeaningfulBlocks();
@@ -32,13 +42,13 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     //alert("This is a sentence that should be matching.".match(rLongEnoughSentenceRegex));
     
     // Loop through all the paragraphs to find the actual textual content.
-    console.log("Finding all potentially meaningful paragraphs...");
+    this.log("Finding all potentially meaningful paragraphs...");
     $('p, dd').each(function() {
       var $paragraph = $(this);
       var $container = $paragraph.parent();
       
-      console.log("Parsing the paragraph:");
-      console.log($paragraph.text());
+      self.log("Parsing the paragraph:");
+      self.log($paragraph.text());
       
       // In any article, the text should have a sufficient width to be comfortable
       // to read for the user (except maybe in multi-column layouts?).
@@ -50,7 +60,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         // If the container is not big enough, then we ignore the paragraph.
         // For example, it could be a small message "Connect with your email"
         // in a sidebar.
-        console.log("Ignoring because of insufficient width.");
+        self.log("Ignoring because of insufficient width.");
         return true;
       }
       
@@ -60,15 +70,15 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // We count sentences that "long enough" (e.g. containing at least three
       // long-enough words).
       
-      console.log("Searching for sentences...");
+      self.log("Searching for sentences...");
       
       // TODO(fwouts): Consider something else than text()?
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
-        console.log(lSentencesMatching.length + " sentences found.");
+        self.log(lSentencesMatching.length + " sentences found.");
         self.markMeaningfulBlock($paragraph);
       } else {
-        console.log("No sentences found.");
+        self.log("No sentences found.");
       }
     });
     
@@ -89,11 +99,11 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     });
     
     // Loop through all interactive content such as Flash.
-    console.log("Finding all potentially meaningful objects...");
+    this.log("Finding all potentially meaningful objects...");
     $('object, img').each(function() {
       var $object = $(this);
       if ($object.width() < MIN_OBJECT_WIDTH || $object.height() < MIN_OBJECT_HEIGHT) {
-        console.log("Ignoring because of insufficient size.");
+        self.log("Ignoring because of insufficient size.");
         return true;
       }
       // Since the object is big enough, we can consider that it belongs to the content block.
@@ -104,7 +114,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     $('pre').each(function() {
       var $pre = $(this);
       if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
-        console.log("Ignoring because of insufficient size.");
+        self.log("Ignoring because of insufficient size.");
         return true;
       }  
       self.markMeaningfulBlock($pre);
@@ -122,7 +132,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // TODO(fwouts): Move constants.
     var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
   
-    console.log("Keeping only groups of meaningful blocks...");
+    this.log("Keeping only groups of meaningful blocks...");
     
     // Separate step because we need to know the list of all meaningful elements at this point.
     // Because we will gradually remove the data-meaningful attribute to elements and the
