@@ -3,6 +3,10 @@
 Cotton.Behavior.Active.ReadingRater = Class.extend({
   
   init: function() {
+    var self = this;
+    
+    this._bLoggingEnabled = true;
+    
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
 
     // Refresh every 5 seconds.
@@ -43,17 +47,23 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         // TODO(fwouts): Check if it is ever possible to not have oScore.
       });
       
-      console.log(lBlockBundles);
-      
       if (iTotalVisibleSurface > 0) {
         $.each(lBlockBundles, function() {
           var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
           var oScore = this.$block.data('score');
           // TODO(fwouts): If only 10% of the block is ever visible, the maximum score should be of 10%.
+          
+          // TODO(fwouts): Use the total quantity of text visible instead of the total visible surface?
           oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(oScore.totalSurface(), 2) * 150000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
         });
       }
     }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+  },
+  
+  log: function(msg) {
+    if (this._bLoggingEnabled) {
+      console.log(msg);
+    }
   }
 });
 
