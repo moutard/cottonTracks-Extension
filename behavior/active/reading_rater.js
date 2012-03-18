@@ -18,7 +18,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }, 5000);
     });
     
-    this._bLoggingEnabled = true;
+    this._bLoggingEnabled = false;
     
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
 
@@ -95,13 +95,14 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
   init: function($block) {
     this._$block = $block;
     this._fScore = 0;
+    this._bLoggingEnabled = false;
   },
   
   addScore: function(fAdditionalScore) {
     this._fScore += fAdditionalScore;
     var iColorQuantity = 128 + Math.round(this._fScore);
     this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
-    console.log("Score updated to " + this._fScore);
+    this.log("Score updated to " + this._fScore);
   },
   
   // TODO(fwouts): Move this method out of there.
@@ -131,6 +132,12 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     var iBlockHeight = this._$block.height();
     var iBlockWidth = this._$block.width();
     return iBlockHeight * iBlockWidth;
+  },
+
+  log: function(msg) {
+    if (this._bLoggingEnabled) {
+      console.log(msg);
+    }
   }
 });
 
