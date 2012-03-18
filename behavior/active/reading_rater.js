@@ -54,7 +54,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           // TODO(fwouts): If only 10% of the block is ever visible, the maximum score should be of 10%.
           
           // TODO(fwouts): Use the total quantity of text visible instead of the total visible surface?
-          oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(oScore.totalSurface(), 2) * 150000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          var iTotalSurface = oScore.totalSurface();
+          if (iTotalSurface > 0) {
+            oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(iTotalSurface, 2) * 150000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          }
         });
       }
     }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
