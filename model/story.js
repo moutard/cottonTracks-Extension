@@ -44,10 +44,10 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   // ADVANCED METHOD
   // handle historyItems
-  addHistoryItem : function(oHistoryItems) {
-    this._lHistoryItems.push(oHistoryItems);
-    if (oHistoryItems.lastVisitTime > this._fLastVisitTime) {
-      this._fLastVisitTime = oHistoryItems.lastVisitTime;
+  addHistoryItem : function(oHistoryItem) {
+    this._lHistoryItems.push(oHistoryItem);
+    if (oHistoryItem.lastVisitTime > this._fLastVisitTime) {
+      this._fLastVisitTime = oHistoryItem.lastVisitTime;
     }
   },
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex

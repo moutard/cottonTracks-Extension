@@ -73,11 +73,11 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
   var lStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
-  var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
+  //var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
 
   $('#loader-animation').remove();
-  for ( var i = 1; i < lDStories.length; i++) {
-    displayStory(lDStories[i]);
+  for ( var i = 0; i < lStories.length; i++) {
+    displayStory(lStories[i]);
   }
 
   openStore(lStories);
@@ -99,11 +99,12 @@ function openStore(lStories){
 }
 
 function storeData(oStore, lStories){
-    for(var i = 0, oStory; oStory = lStories[i]; i++){
+    // store the most recent in last
+    for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
        oStore.put('stories', oStory, function() {
         console.log("Story added");
         oStore.list('stories', function(oStory) {
-          console.log(oStory._lHistoryItems);
+          //console.log(oStory._lHistoryItems);
         });
       });
     }
@@ -138,6 +139,7 @@ if(localStorage){
     startTime : 0,
     maxResults : Cotton.Config.Parameters.iMaxResult,
     }, function(lHistoryItems) {
+      console.log(lHistoryItems);
       // Get all the visits for every HistoryItem.
       worker.postMessage(lHistoryItems);
     });

@@ -25,7 +25,11 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
       lStories[iNbCluster].addHistoryItem(lHistoryItems[j]);
     }
   }
-
+  
+  lStories = _.reject(lStories, function(oStory){ 
+                                  return oStory.lastVisitTime() === 0; 
+                                }
+            );
   return lStories;
 };
 

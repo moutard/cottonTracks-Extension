@@ -39,8 +39,10 @@ Cotton.DBSCAN2.startDbscanUser = function () {
               startTime : lastStory.lastVisitTime(),
               maxResults : Cotton.Config.Parameters.iMaxResult,
             }, function(lHistoryItems) {
+              console.log("result with last Visit Item");
               console.log(lHistoryItems);
               // include current story's historyItems
+              // TODO : solve problem story put twice !!
               lHistoryItems = lHistoryItems.concat(lastStory.iter());
               Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems);
             });
