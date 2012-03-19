@@ -2,15 +2,16 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- *
- * Engine should not be used directly. It should be accessed through more abstract layers
- * which hide its inner workings.
- *
- * sDatabaseName = the name of the database we want to use (it will be created if necessary).
- * dIndexesForObjectStoreNames = a dictionary where keys are the names of object stores we need to use
- *                              (they will be created if necessary) and values are the dictionary of
- *                              index properties for each object store.
- * mOnReadyCallback = the callback method that should be executed when the database is ready.
+ * 
+ * Engine should not be used directly. It should be accessed through more
+ * abstract layers which hide its inner workings.
+ * 
+ * sDatabaseName = the name of the database we want to use (it will be created
+ * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
+ * names of object stores we need to use (they will be created if necessary) and
+ * values are the dictionary of index properties for each object store.
+ * mOnReadyCallback = the callback method that should be executed when the
+ * database is ready.
  */
 Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
   var self = this;
@@ -27,14 +28,18 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
 
     var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
 
-    // We need to compare whether the current list of object stores in the database matches the
+    // We need to compare whether the current list of object stores in the
+    // database matches the
     // object stores that are requested in lObjectStoreNames.
 
     var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
 
-    // lExistingObjectStoreNames is the list of object stores that are already present in the database
-    // and match the requested list of object stores. For example, if we ask for two stores
-    // ['abc, 'def'] and the present stores are ['abc', 'ghi'], lExistingObjectStoreNames will contain
+    // lExistingObjectStoreNames is the list of object stores that are already
+    // present in the database
+    // and match the requested list of object stores. For example, if we ask for
+    // two stores
+    // ['abc, 'def'] and the present stores are ['abc', 'ghi'],
+    // lExistingObjectStoreNames will contain
     // ['abc'] (still ).
     var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
 
@@ -42,7 +47,8 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
     var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
     bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
 
-    // Check if, among the present object stores, there is any that miss an index.
+    // Check if, among the present object stores, there is any that miss an
+    // index.
     var dMissingIndexKeysForObjectStoreNames = {};
     if (lExistingObjectStoreNames.lenght > 0) {
       var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
@@ -136,7 +142,34 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
+  
+  listInverse: function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
 
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oCursorRequest = oStore.openCursor(oKeyRange, 2);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+      oResult.continue();
+    };
+
+    // TODO(fwouts): Implement.
+    // oCursorRequest.onerror = ;
+  },
+  
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
     var self = this;
 
@@ -223,7 +256,8 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(fwouts): Checks on the type of data contained in dItem?
     if (!dItem.id) {
-      // In order for the id to be automatically generated, we cannot set it to undefined or null, it
+      // In order for the id to be automatically generated, we cannot set it to
+      // undefined or null, it
       // must not exist.
       delete dItem.id;
     }

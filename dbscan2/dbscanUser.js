@@ -13,42 +13,43 @@ Cotton.DBSCAN2.dbscanWorker.addEventListener('message', function(e) {
   console.log("After dbscan");
   console.log(e.data.lHistoryItems);
   console.log(e.data.iNbCluster);
-  var lStories = Cotton.Algo.clusterStory(e.data.lHistoryItems, e.data.iNbCluster);
+  var lStories = Cotton.Algo.clusterStory(e.data.lHistoryItems,
+      e.data.iNbCluster);
   console.log("After cluster stories");
   console.log(lStories);
   Cotton.DB.ManagementTools.addStories(lStories);
 }, false);
 
-Cotton.DBSCAN2.startDbscanUser = function () {
+Cotton.DBSCAN2.startDbscanUser = function() {
   // 
   // dbscanUser should be called every time a new tab is open.
   // or maybe just new window for the beginning.
 
   var lastStory;
-  var oStore = new Cotton.DB.Store('ct',
-        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-        function() {
-          // Get the last Story in the database to know when we finished.
-          this.getLastEntry('stories', function(oStory){
-            console.log(oStory);
-            lastStory = oStory;
-            
-            chrome.history.search({
-              // Get all the historyItem we haven't scanned yet.
-              text : '',
-              startTime : lastStory.lastVisitTime(),
-              maxResults : Cotton.Config.Parameters.iMaxResult,
-            }, function(lHistoryItems) {
-              console.log("result with last Visit Item");
-              console.log(lHistoryItems);
-              // include current story's historyItems
-              // TODO : solve problem story put twice !!
-              lHistoryItems = lHistoryItems.concat(lastStory.iter());
-              Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems);
-            });
-          });
-        } 
-  );
+  var oStore = new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS
+  }, function() {
+    // Get the last Story in the database to know when we finished.
+    this.getLastEntry('stories', function(oStory) {
+      console.log(oStory);
+      lastStory = oStory;
+      this.delete('stories', oStory, function(){
+        chrome.history.search({
+          // Get all the historyItem we haven't scanned yet.
+          text : '',
+          startTime : lastStory.lastVisitTime(),
+          maxResults : Cotton.Config.Parameters.iMaxResult,
+        }, function(lHistoryItems) {
+          console.log("result with last Visit Item");
+          console.log(lHistoryItems);
+          // include current story's historyItems
+          // TODO : solve problem story put twice !!
+          // to solve it remove the last story.
+          
+          lHistoryItems = lHistoryItems.concat(lastStory.iter());
+          Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems);
+        }); // end search
+      }); // end delete
+    }); // end getLastEntry
+  });
 };
-
-

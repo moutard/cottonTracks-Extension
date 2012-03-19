@@ -35,7 +35,7 @@ Cotton.DB.ManagementTools.printDB = function (mActionWithStory) {
    new Cotton.DB.Store('ct',
        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
        function() {
-        this.list('stories', function(oStory){
+        this.listInverse('stories', function(oStory){
           mActionWithStory.call(self, oStory);
         });
        });

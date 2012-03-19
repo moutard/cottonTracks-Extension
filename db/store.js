@@ -28,6 +28,17 @@ $.extend(Cotton.DB.Store.prototype, {
       mResultElementCallback.call(self, oObject);
     });
   },
+  
+  listInverse: function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.listInverse(sObjectStoreName, function(oResult) {
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
+  
 
   getRange: function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback) {
     var self = this;
@@ -102,7 +113,8 @@ $.extend(Cotton.DB.Store.prototype, {
     return this._lastTranslator(sObjectStoreName);
   },
 
-  // Returns the translator matching the given type and format version. Throws an exception if there is no
+  // Returns the translator matching the given type and format version. Throws
+  // an exception if there is no
   // such translator.
   _translator: function(sObjectStoreName, sFormatVersion) {
     var lTranslators = this._dTranslators[sObjectStoreName];
@@ -118,7 +130,8 @@ $.extend(Cotton.DB.Store.prototype, {
     return oTranslator;
   },
 
-  // Returns the last translator for the given type. Throws an exception if the type does not have any
+  // Returns the last translator for the given type. Throws an exception if the
+  // type does not have any
   // translators.
   _lastTranslator: function(sObjectStoreName) {
     var lTranslators = this._dTranslators[sObjectStoreName];
