@@ -102,6 +102,7 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     this._fScore += fAdditionalScore;
     var iColorQuantity = 128 + Math.round(this._fScore);
     this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
+    this._$block.css('color', '#000');
     this.log("Score updated to " + this._fScore);
   },
   
