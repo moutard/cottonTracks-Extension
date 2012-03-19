@@ -145,6 +145,7 @@ if(localStorage){
   } else {
     //localStorage['CottonFirstOpening'] = true;
     // use stories store in the database
+    Cotton.DBSCAN2.startDbscanUser();
     Cotton.DB.ManagementTools.printDB(displayStory);
  }
 

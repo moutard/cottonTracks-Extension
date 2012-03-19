@@ -5,6 +5,11 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
   var lStories = new Array();
 
   // initialized
+  if(lHistoryItems.length === 0 || iNbCluster === 0){
+    return lStories;
+  }
+
+  // inferior or equal is needed <= /
   for ( var i = 0; i <= iNbCluster; i++) {
     lStories[i] = new Cotton.Model.Story();
   }
