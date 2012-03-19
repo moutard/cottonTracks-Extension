@@ -5,7 +5,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
   var lStories = new Array();
 
   // initialized
-  if(lHistoryItems.length === 0 || iNbCluster === 0){
+  if (lHistoryItems.length === 0 || iNbCluster === 0) {
     return lStories;
   }
 
@@ -22,14 +22,14 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
       bStoryUnderConstruction = false;
       lStories[lHistoryItems[j].clusterId].addHistoryItem(lHistoryItems[j]);
     } else if (bStoryUnderConstruction) {
-      lStories[iNbCluster].addHistoryItem(lHistoryItems[j]);
+      // remove the noise
+      // lStories[iNbCluster].addHistoryItem(lHistoryItems[j]);
     }
   }
-  
-  lStories = _.reject(lStories, function(oStory){ 
-                                  return oStory.lastVisitTime() === 0; 
-                                }
-            );
+
+  lStories = _.reject(lStories, function(oStory) {
+    return oStory.lastVisitTime() === 0;
+  });
   return lStories;
 };
 

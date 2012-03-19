@@ -85,7 +85,7 @@ function displayStorySELECTResult(iNbCluster, lHistoryItems) {
 
 // clear the dataBase
 
-function storeStories(lStories) {
+function openStore(lStories) {
   // open a Store
 
   var oStore = new Cotton.DB.Store('ct', {
