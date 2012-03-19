@@ -1,4 +1,4 @@
-'use strict";
+'use strict';
 
 Cotton.DBSCAN2.distanceExpandedHistoryItem = function (oExpHistoryItem1, oExpHistoryItem2) {
   // Compute the distance between two expanded historyItems.
