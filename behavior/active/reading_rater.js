@@ -1,12 +1,13 @@
 'use strict';
 
+// TODO(fwouts): Cleanup the whole structure of this file.
 Cotton.Behavior.Active.ReadingRater = Class.extend({
   
   init: function() {
     var self = this;
     
     // Detect user's activity on the page when they move their cursor.
-    // If they don't move it during 5 seconds, we conclude they are inactive.
+    // If they don't move it during 10 seconds, we conclude they are inactive.
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
@@ -15,12 +16,25 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       clearTimeout(oTimeout);
       oTimeout = setTimeout(function() {
         self._bDocumentActive = false;
-      }, 5000);
+      }, 10000);
     });
     
     this._bLoggingEnabled = false;
     
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
+    
+    // Prepare a block to give feedback on the reading percentage.
+    var $feedback = $('<div>')
+      .css({
+        position: 'fixed',
+        left: 0,
+        bottom: 0,
+        border: '3px solid #000',
+        background: '#fff',
+        fontSize: '2em',
+        padding: '0.4em'
+      })
+      .appendTo('body');
 
     // Refresh every 5 seconds.
     setInterval(function() {
@@ -49,33 +63,43 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       
       // Compute the visible surface of each block and the total visible surface.
       var lBlockBundles = [];
-      var iTotalVisibleSurface = 0;
+      var iTotalPageSurface = 0;
+      var iTotalVisiblePageSurface = 0;
       
       $('[data-meaningful]').each(function() {
         var $block = $(this);
         var oScore = $block.data('score');
         if (oScore) {
           var iVisibleSurface = oScore.visibleSurface();
+          var iTotalSurface = oScore.totalSurface();
           lBlockBundles.push({
             $block: $block,
-            iVisibleSurface: iVisibleSurface
+            iVisibleSurface: iVisibleSurface,
+            iTotalSurface: iTotalSurface
           });
-          iTotalVisibleSurface += iVisibleSurface;
+          iTotalVisiblePageSurface += iVisibleSurface;
+          iTotalPageSurface += iTotalSurface;
         }
         // TODO(fwouts): Check if it is ever possible to not have oScore.
       });
       
-      if (iTotalVisibleSurface > 0) {
+      if (iTotalVisiblePageSurface > 0) {
+        
+        var fPageScore = 0;
+        
         $.each(lBlockBundles, function() {
-          var fFocusProportion = this.iVisibleSurface / iTotalVisibleSurface;
+          var fFocusProportion = this.iVisibleSurface / iTotalVisiblePageSurface;
           var oScore = this.$block.data('score');
           // TODO(fwouts): If only 10% of the block is ever visible, the maximum score should be of 10%.
           
           // TODO(fwouts): Use the total quantity of text visible instead of the total visible surface?
-          var iTotalSurface = oScore.totalSurface();
-          if (iTotalSurface > 0) {
-            oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(iTotalSurface, 2) * 150000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          if (this.iTotalSurface > 0) {
+            oScore.addScore(fFocusProportion * this.iVisibleSurface / Math.pow(this.iTotalSurface, 2) * 1000 * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+            fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
           }
+          
+          var iPercent = Math.round(100 * fPageScore);
+          $feedback.text(iPercent + '%');
         });
       }
     }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
@@ -100,10 +124,18 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
   
   addScore: function(fAdditionalScore) {
     this._fScore += fAdditionalScore;
-    var iColorQuantity = 128 + Math.round(this._fScore);
+    this._fScore = Math.min(1, this._fScore);
+    // TODO(fwouts): Use a constant.
+    var MIN_COLOR = 128;
+    var MAX_COLOR = 255;
+    var iColorQuantity = MIN_COLOR + Math.round(this._fScore * (MAX_COLOR - MIN_COLOR));
     this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
     this._$block.css('color', '#000');
     this.log("Score updated to " + this._fScore);
+  },
+  
+  score: function() {
+    return this._fScore;
   },
   
   // TODO(fwouts): Move this method out of there.
