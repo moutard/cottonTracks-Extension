@@ -85,10 +85,10 @@ Cotton.UI.Debug.displayStorySELECTResult = function(iNbCluster, lHistoryItems) {
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
   var lStories = dStories.stories;
   $('#loader-animation').remove();
-  
+
   Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
-  Cotton.UI.Debug.displayStories(dStories.stories); 
-  
+  Cotton.UI.Debug.displayStories(dStories.stories);
+
   console.log("story under construction :");
   console.log(dStories.storyUnderConstruction);
 

@@ -41,7 +41,7 @@ if (localStorage) {
     //  - Load the first visit page.
     Cotton.UI.firstVisit();
 
-
+    //  - Get All the historyItems
     chrome.history.search({
       text : '',
       startTime : 0,

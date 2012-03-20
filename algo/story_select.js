@@ -2,7 +2,7 @@
 
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
   // Create an Array of stories with lHistoryItems
-  // lHistoryItems should be sorted by fLastvisitTime 
+  // lHistoryItems should be sorted by fLastvisitTime
   var lStories = new Array();
   var oStoryUnderConstruction =  new Cotton.Model.Story();
 
@@ -34,8 +34,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
     return oStory.lastVisitTime() === 0;
   });
   // the lStories[iNbcluster] is the story under constructrion
-  // remove it 
-  return {  'stories' : lStories, 
+  // remove it
+  return {  'stories' : lStories,
             'storyUnderConstruction' : oStoryUnderConstruction };
 };
 
