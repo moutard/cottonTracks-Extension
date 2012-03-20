@@ -13,11 +13,11 @@ Cotton.DBSCAN2.dbscanWorker.addEventListener('message', function(e) {
   console.log("After dbscan");
   console.log(e.data.lHistoryItems);
   console.log(e.data.iNbCluster);
-  var lStories = Cotton.Algo.clusterStory(e.data.lHistoryItems,
+  var dStories = Cotton.Algo.clusterStory(e.data.lHistoryItems,
       e.data.iNbCluster);
   console.log("After cluster stories");
-  console.log(lStories);
-  Cotton.DB.ManagementTools.addStories(lStories);
+  console.log(dStories);
+  Cotton.DB.ManagementTools.addStories(dStories.stories);
 }, false);
 
 Cotton.DBSCAN2.startDbscanUser = function() {
@@ -43,10 +43,10 @@ Cotton.DBSCAN2.startDbscanUser = function() {
           console.log("result with last Visit Item");
           console.log(lHistoryItems);
           // include current story's historyItems
-          // TODO : solve problem story put twice !!
-          // to solve it remove the last story.
           
           lHistoryItems = lHistoryItems.concat(lastStory.iter());
+          console.log("Before dbscan");
+          console.log(lHistoryItems);
           Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems);
         }); // end search
       }); // end delete
