@@ -3,21 +3,36 @@
 // this algo use dbscan on the last story and all the visited pages that have
 // not been scanned yet.
 
+function handleResultsOfDBSCAN2(iNbCluster, lHistoryItems){
+
+  var dStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
+  // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
+  var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
+
+  // TODO(rmoutard) : Choose what you really want to display.
+  // UI
+  $('#loader-animation').remove();
+  Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
+  Cotton.UI.Debug.displayStories(dStories.stories);
+
+  console.log("After cluster stories");
+  console.log(dStories);
+
+  // DB
+  Cotton.DB.ManagementTools.addStories(dStories.stories);
+}
+
 // WORKER
 // Use the worker of DBSCAN. It's exaclty the same. Just change the callback.
 Cotton.DBSCAN2.dbscanWorker = new Worker('algo/worker.js');
 
 Cotton.DBSCAN2.dbscanWorker.addEventListener('message', function(e) {
-  console.log('Worker ends: ', e.data.iNbCluster);
   // When DBSCAN is over, store new computed stories in the IndexedDB database.
   console.log("After dbscan");
   console.log(e.data.lHistoryItems);
   console.log(e.data.iNbCluster);
-  var dStories = Cotton.Algo.clusterStory(e.data.lHistoryItems,
-      e.data.iNbCluster);
-  console.log("After cluster stories");
-  console.log(dStories);
-  Cotton.DB.ManagementTools.addStories(dStories.stories);
+
+  handleResultsOfDBSCAN2(e.data.iNbCluster, e.data.lHistoryItems);
 }, false);
 
 Cotton.DBSCAN2.startDbscanUser = function() {
