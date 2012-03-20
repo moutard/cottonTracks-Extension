@@ -8,7 +8,7 @@ Cotton.Algo.PreTreatment.removeTools = function(lHistoryItems) {
 
   var oToolsContainer = generateTools(); // return a list of Tools
   var lCleanHistoryItems = new Array(); // Store the new list without tools
-  
+
   // TODO(rmoutard) : use _.filter function in underscore library
   while ( lHistoryItems.length > 0 ) {
     var oHistoryItem = lHistoryItems.shift();

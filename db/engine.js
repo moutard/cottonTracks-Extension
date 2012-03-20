@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- * 
+ *
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- * 
+ *
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -142,7 +142,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
-  
+
   listInverse: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
@@ -169,7 +169,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
-  
+
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
     var self = this;
 

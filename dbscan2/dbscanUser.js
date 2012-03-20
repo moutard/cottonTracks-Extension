@@ -21,7 +21,7 @@ Cotton.DBSCAN2.dbscanWorker.addEventListener('message', function(e) {
 }, false);
 
 Cotton.DBSCAN2.startDbscanUser = function() {
-  // 
+  //
   // dbscanUser should be called every time a new tab is open.
   // or maybe just new window for the beginning.
 
@@ -43,7 +43,7 @@ Cotton.DBSCAN2.startDbscanUser = function() {
           console.log("result with last Visit Item");
           console.log(lHistoryItems);
           // include current story's historyItems
-          
+
           lHistoryItems = lHistoryItems.concat(lastStory.iter());
           console.log("Before dbscan");
           console.log(lHistoryItems);
