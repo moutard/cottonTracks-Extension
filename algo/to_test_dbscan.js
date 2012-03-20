@@ -37,10 +37,9 @@ if (localStorage) {
       || localStorage['CottonFirstOpening'] === "true") {
     // This is the first visit.
 
+
     //  - Load the first visit page.
     Cotton.UI.firstVisit();
-
-    //  - Get All the historyItems
 
 
     chrome.history.search({
