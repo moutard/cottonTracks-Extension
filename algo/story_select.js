@@ -1,8 +1,10 @@
 'use strict';
 
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
-  // Create an Array of stories with lHsitoryItems
+  // Create an Array of stories with lHistoryItems
+  // lHistoryItems should be sorted by fLastvisitTime 
   var lStories = new Array();
+  var oStoryUnderConstruction =  new Cotton.Model.Story();
 
   // initialized
   if (lHistoryItems.length === 0 || iNbCluster === 0) {
@@ -23,14 +25,18 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
       lStories[lHistoryItems[j].clusterId].addHistoryItem(lHistoryItems[j]);
     } else if (bStoryUnderConstruction) {
       // remove the noise
-      // lStories[iNbCluster].addHistoryItem(lHistoryItems[j]);
+      //lStories[iNbCluster].addHistoryItem(lHistoryItems[j]);
+      oStoryUnderConstruction.addHistoryItem(lHistoryItems[j]);
     }
   }
 
   lStories = _.reject(lStories, function(oStory) {
     return oStory.lastVisitTime() === 0;
   });
-  return lStories;
+  // the lStories[iNbcluster] is the story under constructrion
+  // remove it 
+  return {  'stories' : lStories, 
+            'storyUnderConstruction' : oStoryUnderConstruction };
 };
 
 Cotton.Algo.storySELECT = function(lStories, bUseRelevance) {

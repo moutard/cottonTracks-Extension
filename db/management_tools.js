@@ -54,3 +54,19 @@ Cotton.DB.ManagementTools.addStories = function (lStories) {
         }
       );
 }
+
+Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
+  var oStore = new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS
+  }, function() {
+      console.log("store ready");
+      for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
+        oStore.put('stories', oStory, function() {
+          console.log("Story added");
+          oStore.list('stories', function(oStory) {
+          // console.log(oStory._lHistoryItems);
+          });
+        });
+      }
+  });
+};

@@ -10,8 +10,8 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lHistoryItems){
 
   // UI
   $('#loader-animation').remove();
-  Cotton.UI.Debug.diplayStory(dStories.storyUnderConstruction);
-  Cotton.UI.Debug.diplayStory(dStories.stories);
+  Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
+  Cotton.UI.Debug.displayStories(dStories.stories);
 
   // DB
   Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
