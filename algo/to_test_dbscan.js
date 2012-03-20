@@ -107,7 +107,6 @@ function storeData(oStore, lStories){
           // console.log(oStory._lHistoryItems);
         });
       });
-    });
   }
 }
 
