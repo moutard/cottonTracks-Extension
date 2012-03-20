@@ -1,6 +1,6 @@
 'use strict';
 
-window.UI.firstVisit = function (){
+Cotton.UI.firstVisit = function (){
   $(document).ready(function($){
     var sContent = "<div id='firstVisit'>" + 
     "<h1>CottonTracks</h1>" +

@@ -132,8 +132,11 @@ if (localStorage) {
   if (localStorage['CottonFirstOpening'] === undefined
       || localStorage['CottonFirstOpening'] === "true") {
 
-    // Cotton.DB.ManagementTools.clearDB();
-    window.UI.firstVisit();
+
+    //  - Load the first visit page.
+    Cotton.UI.firstVisit();
+    
+    //  - Get All the historyItems
 
     chrome.history.search({
       text : '',
