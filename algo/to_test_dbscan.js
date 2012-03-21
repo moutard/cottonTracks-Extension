@@ -14,6 +14,7 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lHistoryItems){
   Cotton.UI.Debug.displayStories(dStories.stories);
 
   // DB
+  // Cotton.DB.ManagementTools.addHistoryItems(lHistoryItems);
   Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
 }
 
