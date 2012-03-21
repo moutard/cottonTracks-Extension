@@ -23,7 +23,7 @@ Cotton.Model.HistoryItem = function (oHistoryItem) {
   this._lTextHighlighter = [];
   this._iScrollCount = 0;
   this._lCopyPaste = [];
- 
+
 };
 
 $.extend(Cotton.Model.HistoryItem.prototype, {
@@ -33,17 +33,17 @@ $.extend(Cotton.Model.HistoryItem.prototype, {
   chromeId : function() { return this._sChromeId; },
   url :   function() { return this._sUrl; },
   title : function() { return this._sTitle; },
-  
+
   // can be set
   lastVisitTime : function() { return this._iLastVisitTime; },
-  setLastVisitTime : function(lastVisitTime){ 
-    this._iLastVisitTime = lastVisitTime; 
+  setLastVisitTime : function(lastVisitTime){
+    this._iLastVisitTime = lastVisitTime;
   },
   visitCount :    function() { return this._iVisitCount; },
   setVisitCount : function(visitCount) {this._iVisitCount = visitCount;},
   typedCount :    function() { return this._iTypedCount; },
   setTypedCount : function(typedCount) { this._iTypedCount = typedCount;},
-  
+
   // expanded
   textHighLighter : function() { return this._sTextHighlighter; },
   setTextHighLighter : function(highLight) {
@@ -59,9 +59,9 @@ $.extend(Cotton.Model.HistoryItem.prototype, {
     this._sUrl = window.location.href;
     this._sTitle = document.title;
     this._iLastVisitTime = new Date().getTime();
-   
+
     // maybe not work if not called by the extension.
-    /* 
+    /*
     chrome.history.getVisits({ 'url' : this._sUrl },
         function(lVisitItems) {
           if(lVisitItems.length > 0){this._sChromeId = lVisitItem[0].id; }

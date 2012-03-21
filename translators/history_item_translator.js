@@ -6,11 +6,11 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 (function() {
 
   var mObjectToDbRecordConverter = function(oHistoryItem) {
-    
+
     var dDbRecord = {};
-    
+
     // oHistoryItem is a chromeHistoryItem.
-    if(oHistoryItem.id !=== undefined){ 
+    if(oHistoryItem.id !=== undefined){
       dDBRecord = {
         sChromeId : oHistoryItem.id, // to keep a link with chrome history
         sUrl : oHistoryItem.url,
@@ -40,12 +40,12 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     // oDbRecord is just a dictionnary
     var oHistoryItem = new Cotton.Model.HistoryItem();
     if(oHistoryItem !== undefined){
-      // Use private attributes because they are immutable. 
+      // Use private attributes because they are immutable.
       oHistoryItem._sId = oDbRecord.id;
       oHistoryItem._sChromeId = oDbRecord.sChromeId;
       oHistoryItem._sUrl = oHistoryItem.sUrl;
       oHistoryItem._sTitle(oHistoryItem.sTitle);
-      
+
       //
       oHistoryItem.setLastVisitTime(oHistoryItem.iLastVisitTime);
       oHistoryItem.setVisitCount(oHistoryItem.iVisitCount);
