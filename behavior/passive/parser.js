@@ -1,26 +1,26 @@
 'use strict';
 
 Cotton.Behavior.Passive.Parser = Class.extend({
-  
+
   init: function() {
     this._bLoggingEnabled = false;
   },
-  
+
   log: function(msg) {
     if (this._bLoggingEnabled) {
       console.log(msg);
     }
   },
-  
+
   parse: function() {
     $('[data-meaningful]').removeAttr('data-meaningful');
     this.findMeaningfulBlocks();
     this.removeLeastMeaningfulBlocks();
   },
-  
+
   findMeaningfulBlocks: function() {
     var self = this;
-    
+
     // TODO(fwouts): Move constants.
     var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
     var MIN_BR_FOR_TEXT_CONTAINER = 5;
@@ -28,7 +28,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     var MIN_OBJECT_HEIGHT = 300;
     var MIN_PRE_WIDTH = 400;
     var MIN_PRE_HEIGHT = 100;
-    
+
     // Detects sentences containing at least three separate words of at least three
     // letters each.
     // TODO(fwouts): Handle accentuated capitals? Handle languages not following
@@ -36,20 +36,20 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // TODO(fwouts): Find a way to have the final punctuation too (causes an infinite loop
     //               on http://api.jquery.com/parent-selector/).
     var rLongEnoughSentenceRegex = /[A-Z][^.!?]*([\w]{3,} [^.!?]*){3,}/g;
-    
+
     // TODO(fwouts): Maybe use livequery to handle dynamic content changes.
-    
+
     //alert("This is a sentence that should be matching.".match(rLongEnoughSentenceRegex));
-    
+
     // Loop through all the paragraphs to find the actual textual content.
     this.log("Finding all potentially meaningful paragraphs...");
     $('p, dd').each(function() {
       var $paragraph = $(this);
       var $container = $paragraph.parent();
-      
+
       self.log("Parsing the paragraph:");
       self.log($paragraph.text());
-      
+
       // In any article, the text should have a sufficient width to be comfortable
       // to read for the user (except maybe in multi-column layouts?).
       // We however take into account the case of articles starting with an image
@@ -63,15 +63,15 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         self.log("Ignoring because of insufficient width.");
         return true;
       }
-      
+
       // If the paragraph's container is big enough, it does not necessarily mean
       // that the paragraph contains useful textual information. We analyze it to
       // extract basic sentence patterns and "count" its length.
       // We count sentences that "long enough" (e.g. containing at least three
       // long-enough words).
-      
+
       self.log("Searching for sentences...");
-      
+
       // TODO(fwouts): Consider something else than text()?
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
@@ -81,7 +81,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         self.log("No sentences found.");
       }
     });
-    
+
     // In some websites, there are no <p> nodes containing the text, instead there is only
     // a bunch of text where paragraphs are separated by <br /> (e.g. www.clubic.com).
     // We try to detect those text-containing blocks.
@@ -97,7 +97,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         self.markMeaningfulBlock($parent);
       }
     });
-    
+
     // Loop through all interactive content such as Flash.
     this.log("Finding all potentially meaningful objects...");
     $('object, img').each(function() {
@@ -109,31 +109,31 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // Since the object is big enough, we can consider that it belongs to the content block.
       self.markMeaningfulBlock($object);
     });
-    
+
     // Take into consideration <pre> (for websites such as StackOverflow).
     $('pre').each(function() {
       var $pre = $(this);
       if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
         self.log("Ignoring because of insufficient size.");
         return true;
-      }  
+      }
       self.markMeaningfulBlock($pre);
     });
-    
+
     // TODO(fwouts): Explore other types of containers such as <table>, <li>.
   },
-  
+
   markMeaningfulBlock: function($block) {
     $block.attr('data-meaningful', 'true');
     $block.css('border', '1px dashed #35d');
   },
-  
+
   removeLeastMeaningfulBlocks: function() {
     // TODO(fwouts): Move constants.
     var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
-  
+
     this.log("Keeping only groups of meaningful blocks...");
-    
+
     // Separate step because we need to know the list of all meaningful elements at this point.
     // Because we will gradually remove the data-meaningful attribute to elements and the
     // algorithm depends on depth, we need to start with the deepest elements first.
@@ -141,7 +141,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     lSortedByDepthBlocks.sort(function(oA, oB) {
       return $(oB).parents().length - $(oA).parents().length;
     });
-    
+
     $.each(lSortedByDepthBlocks, function() {
       // We need to exclude paragraphs belonging to accessory elements such as comments.
       // One method we use here is to count the number of paragraphs within their
@@ -160,7 +160,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         $paragraph.removeAttr('data-meaningful').attr('data-least-meaningful', true);
       }
     });
-    
+
     if ($('[data-meaningful]').length == 0) {
       // If we did not find any really meaningful element, we might be in the case that the
       // content did not match the usual structure of at least X blocks.
