@@ -1,7 +1,7 @@
 'use strict';
 //TODO(rmoutard)  ask to fwouts if we store a duplicate of the history items
 // parameters or if we store only expanded parameters
-Cotton.Model.HistoryItem = function (oHistoryItem) {
+Cotton.Model.HistoryItem = function () {
   // Current chrome API model
   this._sId;
   this._sChromeId; // Should be the same that Google chrome history.

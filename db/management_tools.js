@@ -85,3 +85,8 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
       }
   });
 };
+
+Cotton.DB.ManagementTools.syncDatabaseWithChrome = function(){
+
+  //TODO(rmoutard) : implement and launch each time Cotton is opened ?
+};
