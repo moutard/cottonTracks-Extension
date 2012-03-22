@@ -10,7 +10,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     var dDbRecord = {};
 
     // oHistoryItem is a chromeHistoryItem.
-    if(oHistoryItem.id !=== undefined){
+    if(oHistoryItem.id !== undefined){
       dDBRecord = {
         sChromeId : oHistoryItem.id, // to keep a link with chrome history
         sUrl : oHistoryItem.url,
@@ -56,16 +56,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     return oHistoryItem;
   };
 
-  var oModel = {
-     // parallel between attributs in the database and attributs in the object
-     // __
-    __sId : id,
-    _sChromeApiId : id,
-    _sUrl : url,
-    sTitle : title,
-    _fLastVisitTime : lastVisitTime,
-    iVisitCount
-  };
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
       mDbRecordToObjectConverter);
   Cotton.Translators.HISTORY_ITEM_TRANSLATORS.push(oTranslator);
