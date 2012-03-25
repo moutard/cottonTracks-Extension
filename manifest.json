@@ -6,7 +6,7 @@
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
-
+  "background_page": "background.html",
   "content_scripts": [
     {
       "matches": ["http://*/*", "https://*/*"],

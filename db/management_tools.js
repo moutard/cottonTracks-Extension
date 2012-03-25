@@ -66,6 +66,7 @@ Cotton.DB.ManagementTools.listDB = function () {
    new Cotton.DB.Store('ct',
        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
        function() {
+        console.log("store ready");
         this.list('stories', function(oStory){
           console.log(oStory);
         });
