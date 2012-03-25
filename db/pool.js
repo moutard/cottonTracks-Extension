@@ -13,7 +13,7 @@ Cotton.DB.Pool.push = function(oHistoryItem) {
     'pool' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
   }, function() {
     this.put('pool', oHistoryItem, function() {
-
+      console.log("Pushed in the pool.");
     });
   });
 };
