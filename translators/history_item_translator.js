@@ -11,10 +11,10 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
     // oHistoryItem is a chromeHistoryItem.
     if (oHistoryItem.id !== undefined) {
-      dDBRecord = {
+      dDbRecord = {
         sChromeId : oHistoryItem.id, // to keep a link with chrome history
         sUrl : oHistoryItem.url,
-        sTitle : oHistoryITem.title,
+        sTitle : oHistoryItem.title,
         fLastVisitTime : oHistoryItem.lastVisitTime,
         iVisitCount : oHistoryItem.visitCount,
         iTypedCount : oHistoryItem.typedCount,
