@@ -1,20 +1,64 @@
 'use strict';
 
 Cotton.DB.ManagementTools = {};
-
+Cotton.DB.ManagementTools.dStores = {
+    "stories" : "STORY_TRANSLATORS",
+    "pool" : "HISTORY_ITEM_TRANSLATORS",
+};
+// maybe add historyItem
 
 Cotton.DB.ManagementTools.clearDB = function(){
-  console.log("CLEAR");
-   new Cotton.DB.Store('ct',
-       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-       function() {
-        this.list('stories', function(oStory) {
-          this.delete('stories', oStory, function(){
-           console.log("story deleted" + oStory.id());
+  console.log("CLEAR DB");
+  var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
+  for(var i = 0, sStore; sStore = lStores[i]; i++){
+    var dStoreParameters = {};
+    dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
+    new Cotton.DB.Store('ct',
+        dStoreParameters,
+        function() {
+         this.list(store, function(oEntry) {
+           this.delete(store, oEntry, function(){
+            console.log("entry deleted" + oEntry.id());
 
-          });
+           });
+         });
+       });
+  }
+};
+
+Cotton.DB.ManagementTools.clearStore = function(sStore){
+  var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
+  if(_.include(lStores, sStore)){
+    console.log("CLEAR Store " + sStore );
+    var dStoreParameters = {};
+    dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
+      new Cotton.DB.Store('ct',
+          dStoreParameters,
+          function() {
+           this.list(store, function(oEntry) {
+             this.delete(store, oEntry, function(){
+              console.log("entry deleted" + oEntry.id());
+
+             });
+           });
+         });
+  } else {
+    console.log("This store doesn't exist.");
+  }
+};
+
+Cotton.DB.ManagementTools.listStore = function (sStore) {
+  console.log('LIST ' + sStore);
+  var dStoreParameters = {};
+  dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
+   new Cotton.DB.Store('ct',
+       dStoreParameters,
+       function() {
+        this.list(sStore, function(oEntry){
+          console.log(oEntry);
         });
-      });
+       });
+
 };
 
 Cotton.DB.ManagementTools.listDB = function () {
@@ -88,5 +132,5 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
 
 Cotton.DB.ManagementTools.syncDatabaseWithChrome = function(){
 
-  //TODO(rmoutard) : implement and launch each time Cotton is opened ?
+  // TODO(rmoutard) : implement and launch each time Cotton is opened ?
 };
