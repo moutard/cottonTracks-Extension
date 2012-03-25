@@ -1,0 +1,16 @@
+<script>
+console.log("addListener");
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+  console.log("listener" + request);
+  console.log(sender.tab ? "from a content script:" + sender.tab.url
+      : "from the extension");
+  if (request.greeting == "hello") {
+    console.log("receive greeting hello");
+    sendResponse({
+      farewell : "goodbye"
+    });
+  } else {
+    sendResponse({farewell:"hello" });
+  }
+});
+</script>
