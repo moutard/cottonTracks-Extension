@@ -10,7 +10,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     var dDbRecord = {};
 
     // oHistoryItem is a chromeHistoryItem.
-    if(oHistoryItem.id !== undefined){
+    if (oHistoryItem.id !== undefined) {
       dDBRecord = {
         sChromeId : oHistoryItem.id, // to keep a link with chrome history
         sUrl : oHistoryItem.url,
@@ -20,10 +20,11 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
         iTypedCount : oHistoryItem.typedCount,
       };
     } else {
-    // else oHistoryItem is a CottonHistoryItem.
+      // else oHistoryItem is a CottonHistoryItem.
       dDbRecord = {
         // sId : oHistoryItem.id, auto incremented
-        sChromeId : oHistoryItem.chromeId(), // to keep a link with chrome history
+        sChromeId : oHistoryItem.chromeId(), // to keep a link with chrome
+        // history
         sUrl : oHistoryItem.url(),
         sTitle : oHistoryITem.title(),
         fLastVisitTime : oHistoryItem.lastVisitTime(),
@@ -39,7 +40,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // oDbRecord is just a dictionnary
     var oHistoryItem = new Cotton.Model.HistoryItem();
-    if(oHistoryItem !== undefined){
+    if (oHistoryItem !== undefined) {
       // Use private attributes because they are immutable.
       oHistoryItem._sId = oDbRecord.id;
       oHistoryItem._sChromeId = oDbRecord.sChromeId;
@@ -56,8 +57,20 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     return oHistoryItem;
   };
 
+  var dIndexes = {
+    sUrl : {
+      unique : true
+    },
+    sChromeId : {
+      unique : true
+    },
+    fLastVisitTime : {
+      unique : false
+    }
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter);
+      mDbRecordToObjectConverter, dIndexes);
   Cotton.Translators.HISTORY_ITEM_TRANSLATORS.push(oTranslator);
 
 })();
