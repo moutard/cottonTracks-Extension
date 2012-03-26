@@ -2,12 +2,8 @@
 
 var oCurrentHistoryItem = new Cotton.Model.HistoryItem();
 oCurrentHistoryItem.getInfoFromPage();
-console.log(oCurrentHistoryItem);
 
-chrome.extension.sendRequest({
-  greeting : "hello"
-}, function(response) {
-  console.log("sendRequest");
+chrome.extension.sendRequest({historyItem:oCurrentHistoryItem}, function(response) {
   console.log(response);
 });
 
