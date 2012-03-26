@@ -60,7 +60,8 @@ $.extend(Cotton.Model.HistoryItem.prototype, {
     this._sTitle = document.title;
     this._iLastVisitTime = new Date().getTime();
 
-    // maybe not work if not called by the extension.
+    // This method is called in a content_script, but due to chrome security 
+    // options maybe not work if not called by the extension.
     /*
     chrome.history.getVisits({ 'url' : this._sUrl },
         function(lVisitItems) {
@@ -68,5 +69,21 @@ $.extend(Cotton.Model.HistoryItem.prototype, {
         }
     );
     */
+  },
+  update(oNewHistoryItem){
+    // TODO(rmoutard) : check the default value is undefined.
+    if(oNewHistoryItem.id() === undefined
+        && oNewHistoryItem.url() === this.url()
+      )
+    {
+      // TODO(rmoutard) : depends on how you update historyItem
+      // in the file content_script_listener.
+      this._sTextHighlighter = concat(this._sTextHighlighter,
+                                      oNewHistoryItem.textHighLighter);
+      this.setScrollCount(oNewHistoryItem.scrollCount());
+      // TODO(rmoutard) complete the list.
+    } else {
+      console.log("Conflict : Can't update historyItem with two differents id");
+    }
   },
 });
