@@ -7,7 +7,12 @@ function onRequest(request, sender, sendResponse) {
   console.log("background has received a message");
   console.log(request);
 
-  Cotton.DB.ManagementTools.listDB();
+  //Cotton.DB.ManagementTools.listDB();
+  // it seems request.historyItem is not an HistoryItem but just a dictionnary.
+  var oHistoryItem = new Cotton.Model.HistoryItem();
+  oHistoryItem.deserialize(request.historyItem);
+  Cotton.DB.Pool.push(oHistoryItem);
+
   // Return nothing to let the connection be cleaned up.
   sendResponse({received: "true"});
 };
