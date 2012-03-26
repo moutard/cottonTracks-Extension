@@ -3,8 +3,12 @@
 var oCurrentHistoryItem = new Cotton.Model.HistoryItem();
 oCurrentHistoryItem.getInfoFromPage();
 
-chrome.extension.sendRequest({historyItem:oCurrentHistoryItem}, function(response) {
-  console.log(response);
+// According to Chrome API, the object oCurrentHistoryItem will 
+// be serialized.
+chrome.extension.sendRequest({ 
+    historyItem : oCurrentHistoryItem
+  }, function(response) {
+    console.log(response);
 });
 
 // Cotton.DB.ManagementTools.listDB();
