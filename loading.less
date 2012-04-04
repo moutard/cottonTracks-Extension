@@ -1,0 +1,125 @@
+@curtainGradientBorder: rgba(0, 0, 0, 0.5);
+@curtainGradientCenter: rgba(0, 0, 0, 0);
+@curtainGradient: -webkit-gradient(linear, 0 0, 100% 0, from(@curtainGradientBorder), color-stop(40%, @curtainGradientCenter), color-stop(60%, @curtainGradientCenter), to(@curtainGradientBorder));
+@boardWidth: 400px;
+@boardHeight: 400px;
+
+@font-face {
+  font-family: 'AbrahamLincoln';
+  src: url('fonts/AbrahamLincoln.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BallparkWeiner';
+  src: url('fonts/ballpark_weiner.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+  background: #000;
+  
+  // Hide the body while it's not loaded yet.
+  opacity: 0;
+  
+  -webkit-transition-duration: 3s;
+  
+  &.ct-body-loaded {
+    opacity: 1;
+  }
+  
+  // Overall light on top of everything.
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 409px;
+    background-image: url(images/light.png);
+    background-position: center 0;
+    background-repeat: no-repeat;
+  }
+}
+
+// Background landscape.
+.ct-landscape {
+  background: url(images/landscape.png) left 90%;
+  position: absolute;
+  width: 100%;
+  height: 20%;
+  bottom: 0;
+  
+  -webkit-transition-duration: 1s;
+  
+  &.ct-landscape-open {
+    // Sometimes using 80% results in a 1px white line.
+    height: 81%;
+    background-position: left 80%;
+  }
+}
+
+// Curtain on top of the landscape.
+.ct-curtain {
+  background-image: @curtainGradient, url(images/background.png);
+  position: absolute;
+  width: 100%;
+  // Sometimes using 80% results in a 1px white line.
+  height: 81%;
+  
+  -webkit-transition-duration: 1s;
+  
+  &:after {
+    content: "";
+    background-image: @curtainGradient, url(images/background2.png);
+    position: absolute;
+    width: 100%;
+    height: 116px;
+    bottom: 0;
+    box-shadow: 0 0 7px black;
+  }
+  
+  // Welcome board.
+  .ct-board {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -(@boardWidth / 2);
+    width: @boardWidth;
+    height: @boardHeight;
+    background-image: url(images/board.png);
+    background-size: 100% 100%;
+    
+    -webkit-transition-duration: 1s;
+    
+    h1 {
+      font-family: BallparkWeiner;
+      position: absolute;
+      top: 70px;
+      left: 140px;
+      font-size: 44px;
+      text-indent: -1.5em;
+      -webkit-transform: rotateZ(-5deg);
+      color: #c63a15;
+    }
+    
+    p {
+      font-family: AbrahamLincoln;
+      position: absolute;
+      top: 220px;
+      left: 10%;
+      width: 80%;
+      font-size: 20px;
+      color: #4d4d4d;
+    }
+  }
+
+  &.ct-curtain-open {
+    height: 20%;
+    
+    .ct-board {
+      top: -@boardHeight;
+    }
+  }
+}
