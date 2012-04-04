@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CottonTracks</title>
+  <script type='text/javascript' src='lib/jquery.min.js'></script>
+  <link rel="stylesheet/less" type="text/css" href="loading.less" />
+  <script type='text/javascript' src='lib/less.js'></script>
+</head>
+<body>
+  <div class="ct-landscape"></div>
+  <div class="ct-curtain">
+    <div class="ct-board">
+      <h1>Please<br />have a seat!</h1>
+      <p>Discover a new way to browse the web! Can you give me some lines to fill this space?</p>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+  
+    $(window).load(function() {
+      $('body').addClass('ct-body-loaded');
+      setTimeout(function() {
+        $('.ct-curtain').addClass('ct-curtain-open');
+        $('.ct-landscape').addClass('ct-landscape-open');
+      }, 5000);
+    });
+  </script>
+</body>
+</html>
