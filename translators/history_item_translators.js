@@ -1,5 +1,6 @@
 'use strict';
 
+// DEPRECATED.
 Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
 // Translator for version 0.1.
