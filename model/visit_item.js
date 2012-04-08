@@ -24,10 +24,11 @@ Cotton.Model.VisitItem = function() {
 
   // Improved model - only available for DBSCAN2
   // TODO(rmoutard) : see with fwouts the model of textHighLigter
-  this._lTextHighlighter = [];
-  this._iScrollCount = 0;
-  this._lCopyPaste = [];
-  this._lPScore = []; // array of dictionnary {p:"text de p", score : "score de
+  // this._lTextHighlighter = [];
+  // this._iScrollCount = 0;
+  // this._lCopyPaste = [];
+  // this._lPScore = []; // array of dictionnary {p:"text de p", score : "score
+  // de
   // p"}
 
 };
