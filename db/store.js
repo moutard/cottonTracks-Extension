@@ -39,6 +39,15 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
   
+  getList: function(sObjectStoreName, mResultElementCallback){
+    var self = this;
+
+    this._oEngine.getList(sObjectStoreName, function(oResult) {
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
 
   getRange: function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback) {
     var self = this;

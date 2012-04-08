@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- *
+ * 
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- *
+ * 
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -169,7 +169,33 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
+  getList : function() {
+    // a bit different of list. Because it returns an array of all the result.
+    // The function list iterate on each element. The callback function is
+    // called on each element. Here the callback function is called on the array
+    // of all the elements.
+    var lAllItems = new Array();
+    var self = this;
 
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oCursorRequest = oStore.openCursor(oKeyRange);
+    
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+      if (oResult) {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      } 
+      else {
+        mResultElementCallback.call(self, oResult.value);
+        return;
+      }
+    };
+  },
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
     var self = this;
 
@@ -264,7 +290,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     var oPutRequest = oStore.put(dItem);
 
     oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self);
+      mOnSaveCallback.call(self, oEvent.target.result);
     };
 
     // TODO(fwouts): Implement.
