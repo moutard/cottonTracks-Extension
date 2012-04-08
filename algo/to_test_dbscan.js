@@ -2,7 +2,7 @@
 // Disclaimer : this file is just a draft to visualize easily result from the
 // algo
 
-function handleResultsOfFirstDBSCAN(iNbCluster, lHistoryItems){
+function handleResultsOfFirstDBSCAN(iNbCluster, lHistoryItems) {
 
   var dStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
@@ -38,19 +38,16 @@ if (localStorage) {
       || localStorage['CottonFirstOpening'] === "true") {
     // This is the first visit.
 
-
-    //  - Load the first visit page.
+    // - Load the first visit page.
     Cotton.UI.firstVisit();
 
-    //  - Get All the historyItems
-    chrome.history.search({
-      text : '',
-      startTime : 0,
-      maxResults : Cotton.Config.Parameters.iMaxResult,
-    }, function(lHistoryItems) {
-      // DBSCAN.
-      worker.postMessage(lHistoryItems);
-    });
+    // - Get All the historyItems
+    /*
+     * chrome.history.search({ text : '', startTime : 0, maxResults :
+     * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) { //
+     * DBSCAN. worker.postMessage(lHistoryItems); });
+     */
+    Cotton.DB.populateDB();
     // Use local storage, to see that's it's not the first visit.
     localStorage['CottonFirstOpening'] = "false";
 
