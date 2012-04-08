@@ -6,7 +6,7 @@ Cotton.Model.VisitItem = function() {
   this._sChromeVisitId; // Should be the same that Google chrome history.
 
   // Information of historyItem that are pertinent with this model.
-  this._sUrl; // Can be use as unique identifier.
+  this._sUrl;
   this._sTitle;
   this._iVisitTime;
 
@@ -50,25 +50,8 @@ $
           title : function() {
             return this._sTitle;
           },
-
-          // can be set
-          lastVisitTime : function() {
-            return this._iLastVisitTime;
-          },
-          setLastVisitTime : function(lastVisitTime) {
-            this._iLastVisitTime = lastVisitTime;
-          },
-          visitCount : function() {
-            return this._iVisitCount;
-          },
-          setVisitCount : function(visitCount) {
-            this._iVisitCount = visitCount;
-          },
-          typedCount : function() {
-            return this._iTypedCount;
-          },
-          setTypedCount : function(typedCount) {
-            this._iTypedCount = typedCount;
+          visitTime : function() {
+            return this._iVisitTime;
           },
 
           // expanded
