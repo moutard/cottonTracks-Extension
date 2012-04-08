@@ -16,17 +16,19 @@ Cotton.DB.populateDB = function() {
     // historyItem is the lastVisitItem. Considering more is maybe a useless
     // complication.
     var iCount = 0;
-    var iPopulationLength = oHistoryItem.length();
-    for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
-      var oVisitItem = new Cotton.Model.VisitItem();
+    var iPopulationLength = lHistoryItems.length;
 
-      oVisitItem._sUrl = oHistoryItem.url;
-      oVisitItem._sTitle = oHistoryItem.title;
-      oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
+    var oStore = new Cotton.DB.Store('ct', {
+      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    }, function() {
+      console.log("store ready");
+      for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
+        var oVisitItem = new Cotton.Model.VisitItem();
 
-      var oStore = new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
+        oVisitItem._sUrl = oHistoryItem.url;
+        oVisitItem._sTitle = oHistoryItem.title;
+        oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
+
         oStore.put('visitItems', oVisitItem, function(iId) {
           // TODO(rmoutard) : check that iId is really the id created by
           // auto-incremenation.
@@ -38,7 +40,7 @@ Cotton.DB.populateDB = function() {
             });
           }
         });
-      });
-    }
+      }
+    });
   });
 };
