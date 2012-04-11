@@ -7,29 +7,26 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
   var mObjectToDbRecordConverter = function(oVisitItem) {
 
-    var dDbRecord = {};
-
-    // Simple configuration.
-    dDbRecord = {
-      sChromeVisitId : oVisitItem.id, // to keep a link with chrome history
-
-      sUrl : oVisitItem.url,
-      sTitle : oVisitItem.title,
-      iVisitTime : oVisitItem.lastVisitTime,
-
+    var dDbRecord = {
+      sUrl : oVisitItem.url(),
+      sTitle : oVisitItem.title(),
+      iVisitTime : oVisitItem.visitTime(),
     };
 
-    if (oVisitItem.id !== undefined) {
-      dDbRecord.id = oVisitItem.id;
+    // Simple configuration.
+    if (oVisitItem.id() !== undefined)
       // else id will be auto-incremented by engine. Because its the first time
       // you add this visitItem.
-    }
+      dDbRecord.id = oVisitItem.id();
+
+    if (oVisitItem.chromeId() !== undefined)
+      dDbRecord.sChromeId = oVisitItem.chromeId();
 
     // Complexe configuration.
-    dDbRecord.lTextHighlighter = oVisitItem.lTextHighlighter || undefined;
-    dDbRecord.iScrollCount = oVisitItem.iScrollCount || undefined;
-    dDbRecord.lCopyPaste = oVisitItem.iScrollCount || undefined;
-    dDbRecord.lPScore = oVisitItem.iScrollCount || undefined;
+    // dDbRecord.lTextHighlighter = oVisitItem.lTextHighlighter || undefined;
+    // dDbRecord.iScrollCount = oVisitItem.iScrollCount || undefined;
+    // dDbRecord.lCopyPaste = oVisitItem.iScrollCount || undefined;
+    // dDbRecord.lPScore = oVisitItem.iScrollCount || undefined;
 
     return dDbRecord;
   };
@@ -67,6 +64,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
       mDbRecordToObjectConverter, dIndexes);
-  Cotton.Translators.HISTORY_ITEM_TRANSLATORS.push(oTranslator);
+  Cotton.Translators.VISIT_ITEM_TRANSLATORS.push(oTranslator);
 
 })();
