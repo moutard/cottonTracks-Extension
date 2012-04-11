@@ -1,17 +1,14 @@
 'use strict';
 
-Cotton.Model.Story = function(lHistoryItems) {
+Cotton.Model.Story = function(lVisitItems) {
   // storyClass
 
   // DATA MODEL
   this._iId;
-  this._lHistoryItems = new Array();
   this._fLastVisitTime = 0;
   this._fRelevance;
 
-  if (lHistoryItems !== undefined) {
-    this._lHistoryItems = lHistoryItems;
-  }
+  this._lVisitItemsId = new Array();
 
 };
 
@@ -25,13 +22,13 @@ $.extend(Cotton.Model.Story.prototype, {
     this._iId = iId;
   },
   length : function() {
-    return this._lHistoryItems.length;
+    return this._lVisitItems.length;
   },
   iter : function() {
     // for(var i = 0; i < this._lHistoryItems.length; i++){
     // yield this._lHistoryItems[i];
     // }
-    return this._lHistoryItems;
+    return this._lVisitItems;
   },
   lastVisitTime : function() {
     return this._fLastVisitTime;
@@ -39,30 +36,36 @@ $.extend(Cotton.Model.Story.prototype, {
   relevance : function() {
     return this._fRelevance;
   },
-  setRelevance : function(fRelevance){
+  setRelevance : function(fRelevance) {
     this._fRelevance = fRelevance;
   },
   // ADVANCED METHOD
   // handle historyItems
   addHistoryItem : function(oHistoryItem) {
     this._lHistoryItems.push(oHistoryItem);
-    if (oHistoryItem.lastVisitTime > this._fLastVisitTime) {
+    if (oVisitItem.lastVisitTime > this._fLastVisitTime) {
+      this._fLastVisitTime = oHistoryItem.lastVisitTime;
+    }
+  },
+  addVisitItem : function(oVisitItem) {
+    this._lVisitItems.push(oVisitItem);
+    if (oVisitItem.lastVisitTime > this._fLastVisitTime) {
       this._fLastVisitTime = oHistoryItem.lastVisitTime;
     }
   },
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
   // ones.
   getStartPoint : function() {
-    return this._lHistoryItems[0];
+    return this._lVisitItems[0];
   },
   getEndPoint : function() {
-    return this._lHistoryItems[lHistoryItems.length - 1];
+    return this._lVisitItems[lVisitItems.length - 1];
   },
   getMainPoint : function() {
   },
-  getHistoryItemPosition : function(sID) {
-    for ( var i = 0; i < this.lHistoryItems; i++) {
-      if (this.lHistoryItems[i].id === sID) {
+  getVisitItemPosition : function(sID) {
+    for ( var i = 0; i < this.lVisitItems; i++) {
+      if (this.lVisitItems[i].id === sID) {
         return i;
       }
     }
@@ -70,10 +73,10 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   storySCAN : function() {
   },
-  removeHistoryItem : function(sID) {
+  removeVisitItem : function(sID) {
     // TODO(rmoutard) : maybe use a temp trash
-    this._lHistoryItems = _.reject(this._lHistoryItems, function(oHistoryItem) {
-      return oHistoryItem.id === sID;
+    this._lVisitItems = _.reject(this._lVisitItems, function(oVisitItem) {
+      return oVisitItem.id === sID;
     });
   },
   moveHistoryItem : function(sIDtoMove, sIDPrevious) {
@@ -114,18 +117,19 @@ $.extend(Cotton.Model.Story.prototype, {
     var coeff = Cotton.Config.Parameters.computeRelevanceCoeff;
 
     this._fRelevance = coeff.length * this.length() + coeff.lastVisitTime
-        * (this._fLastVisitTime / new Date().getTime()) + coeff.hostname * this.countUniqHostname()
-        + coeff.search * this.countSearchPathname();
+        * (this._fLastVisitTime / new Date().getTime()) + coeff.hostname
+        * this.countUniqHostname() + coeff.search * this.countSearchPathname();
 
   },
-  computeKeywords : function(){
-    for (var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++ ){
+  computeKeywords : function() {
+    for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
       this._lKeywords = this._lKeywords.concat(oHistoryItem.extractedWords);
     }
   },
-  merge : function(oHistoryItem){
+  merge : function(oHistoryItem) {
     this._lHistoryItems = this._lHsitoryItems.concat(oHistoryItem.iter());
-    this._fLastVisitTime = Math.max(this._fLastVisitTime, oHistoryItem.lastVisitTime());
+    this._fLastVisitTime = Math.max(this._fLastVisitTime, oHistoryItem
+        .lastVisitTime());
   },
 
 });
