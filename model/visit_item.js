@@ -35,7 +35,7 @@ Cotton.Model.VisitItem = function() {
 
 $
     .extend(
-        Cotton.Model.HistoryItem.prototype,
+        Cotton.Model.VisitItem.prototype,
         {
           // GETTER
           // can't be set
