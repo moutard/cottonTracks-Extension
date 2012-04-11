@@ -169,7 +169,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
-  getList : function() {
+  getList : function(sObjectStoreName, mResultElementCallback) {
     // a bit different of list. Because it returns an array of all the result.
     // The function list iterate on each element. The callback function is
     // called on each element. Here the callback function is called on the array
@@ -274,6 +274,29 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
 
   // TODO(fwouts): Dictionary or object?
+  // Seems there is a problem with put and auto-incremented.
+  add: function(sObjectStoreName, dItem, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // TODO(fwouts): Checks on the type of data contained in dItem?
+    if (!dItem.id) {
+      // In order for the id to be automatically generated, we cannot set it to
+      // undefined or null, it
+      // must not exist.
+      delete dItem.id;
+    }
+    var oPutRequest = oStore.add(dItem);
+
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    // TODO(fwouts): Implement.
+    // oPutRequest.onerror = ;
+  },
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
