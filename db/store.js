@@ -43,9 +43,9 @@ $.extend(Cotton.DB.Store.prototype, {
     var self = this;
 
     this._oEngine.getList(sObjectStoreName, function(oResult) {
-      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
-      var lList = new Array();
-      for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){ 
+            var lList = new Array();
+      for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName, oDbRecord);
         var oObject = oTranslator.dbRecordToObject(oDbRecord);
         lList.push(oObject);
       }
