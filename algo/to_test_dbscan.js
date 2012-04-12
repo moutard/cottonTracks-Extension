@@ -26,7 +26,7 @@ worker.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
 
   console.log('Worker ends: ', e.data.iNbCluster);
-  handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lHistoryItems);
+  handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lVisitItems);
 
 }, false);
 
@@ -47,7 +47,17 @@ if (localStorage) {
      * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) { //
      * DBSCAN. worker.postMessage(lHistoryItems); });
      */
-    Cotton.DB.populateDB();
+    Cotton.DB.populateDB(function() {
+      var oStore = new Cotton.DB.Store('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        oStore.getList('visitItems', function(lAllVisitItems) {
+          console.log(lAllVisitItems);
+          // TODO(rmoutard) : use worker here.
+          worker.postMessage(lAllVisitItems);
+        });
+      });
+    });
     // Use local storage, to see that's it's not the first visit.
     localStorage['CottonFirstOpening'] = "false";
 

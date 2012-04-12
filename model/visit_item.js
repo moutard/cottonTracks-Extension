@@ -21,6 +21,7 @@ Cotton.Model.VisitItem = function() {
   this._sHostname;
   this._lQueryWords;
   this._lExtractedWords;
+  this._sClosestGeneratedPage;
 
   // Improved model - only available for DBSCAN2
   // TODO(rmoutard) : see with fwouts the model of textHighLigter
@@ -55,6 +56,37 @@ $
             return this._iVisitTime;
           },
 
+          //
+          pathname : function() {
+            return this._sPathname;
+          },
+          setPathname : function(sPathname) {
+            this._sPathname = sPathname;
+          },
+          hostname : function() {
+            return this._sHostname;
+          },
+          setHostname : function(sHostname) {
+            this._sHostname = sHostname;
+          },
+          queryWords : function() {
+            return this._lQueryWords;
+          },
+          setQueryWords : function(lQueryWords) {
+            this._lQueryWords = lQueryWords;
+          },
+          extractedWords : function() {
+            return this._lExtractedWords;
+          },
+          setExtractedWords : function(lExtractedWords) {
+            this._lExtractedWords = lExtractedWords;
+          },
+          closestGeneratedPage : function() {
+            return this._sClosestGeneratedPage;
+          },
+          setClosestGeneratedPage : function(sClosestGeneratedPage) {
+            this._sClosestGeneratedPage = sClosestGeneratedPage;
+          },
           // expanded
           textHighLighter : function() {
             return this._sTextHighlighter;

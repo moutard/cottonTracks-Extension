@@ -21,7 +21,7 @@ importScripts('dbscan.js');
 
 var oHistoryItemsSingleton;
 
-function handleVisitItems(lHistoryItems) {
+function handleVisitItems(lVisitItems) {
   // Loop through all the VisitItems and compute their distances to each other.
   // Keys are VisitItem ids.
   // Values are lists of couples with distances including the VisitItem.
@@ -34,21 +34,22 @@ function handleVisitItems(lHistoryItems) {
 
   // TOOLS
   // TODO(rmoutard) : for the moment afectation is needed
-  // remove afectation lHistoryITems is passed by reference
-  //lHistoryItems = Cotton.Algo.removeTools(lHistoryItems);
-  //lHistoryItems = Cotton.Algo.computeClosestGeneratedPage(lHistoryItems);
-  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  // remove affectation lVisitItems is passed by reference
+  // lVisitItems = Cotton.Algo.removeTools(lVisitItems);
+  // lVisitItems = Cotton.Algo.computeClosestGeneratedPage(lVisitItems);
+  lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
 
-  oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lHistoryItems);
-  var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts);
+  oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lVisitItems);
+  var iNbCluster = Cotton.Algo.DBSCAN(lVisitItems, fEps, iMinPts);
 
   // This worker has no access to window or DOM. So update DOM should be done
   // in the main thread.
   var dData = {};
   dData.iNbCluster = iNbCluster;
-  dData.lHistoryItems = lHistoryItems;
+  dData.lVisitItems = lVisitItems;
 
-  self.postMessage(dData); // Send data to the main thread
+  self.postMessage(dData); // Send data to the main thread. Data are
+                            // serialized.
   self.close(); // Terminates the worker.
 }
 
