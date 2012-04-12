@@ -3,7 +3,7 @@
 // This method is used during the installation to populate visitItem DB from
 // chrome history visitItem database.
 
-Cotton.DB.populateDB = function() {
+Cotton.DB.populateDB = function(mCallBackFunction) {
   chrome.history.search({
     text : '',
     startTime : 0,
@@ -33,11 +33,9 @@ Cotton.DB.populateDB = function() {
           // TODO(rmoutard) : check that iId is really the id created by
           // auto-incremenation.
           iCount += 1;
-          console.log(iId);
+          // console.log(iId);
           if (iCount === iPopulationLength) {
-            //oStore.getList('visitItems', function(lAllVisitItems) {
-            //  console.log(lAllVisitItems);
-            //});
+            mCallBackFunction.call();
           }
         });
       }
