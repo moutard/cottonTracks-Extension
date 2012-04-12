@@ -26,7 +26,7 @@ Cotton.DB.populateDB = function() {
         var oVisitItem = new Cotton.Model.VisitItem();
 
         oVisitItem._sUrl = oHistoryItem.url;
-        oVisitItem._sTitle = oHistoryItem.title;
+        oVisitItem._sTitle = oHistoryItem.title || '';
         oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
 
         oStore.put('visitItems', oVisitItem, function(iId) {
@@ -35,9 +35,9 @@ Cotton.DB.populateDB = function() {
           iCount += 1;
           console.log(iId);
           if (iCount === iPopulationLength) {
-            oStore.getList('visitItems', function(lAllVisitItems) {
-              console.log(lAllVisitItems);
-            });
+            //oStore.getList('visitItems', function(lAllVisitItems) {
+            //  console.log(lAllVisitItems);
+            //});
           }
         });
       }
