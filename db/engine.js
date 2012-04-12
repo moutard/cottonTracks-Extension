@@ -191,7 +191,7 @@ $.extend(Cotton.DB.Engine.prototype, {
         oResult.continue();
       } 
       else {
-        mResultElementCallback.call(self, oResult.value);
+        mResultElementCallback.call(self, lAllItems);
         return;
       }
     };

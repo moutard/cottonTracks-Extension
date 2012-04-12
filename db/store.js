@@ -44,8 +44,12 @@ $.extend(Cotton.DB.Store.prototype, {
 
     this._oEngine.getList(sObjectStoreName, function(oResult) {
       var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
-      var oObject = oTranslator.dbRecordToObject(oResult);
-      mResultElementCallback.call(self, oObject);
+      var lList = new Array();
+      for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){ 
+        var oObject = oTranslator.dbRecordToObject(oDbRecord);
+        lList.push(oObject);
+      }
+      mResultElementCallback.call(self, lList);
     });
   },
 
@@ -97,9 +101,9 @@ $.extend(Cotton.DB.Store.prototype, {
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
 
-    this._oEngine.put(sObjectStoreName, dDbRecord, function() {
+    this._oEngine.put(sObjectStoreName, dDbRecord, function(iId) {
       if (mOnSaveCallback) {
-        mOnSaveCallback.call(self);
+        mOnSaveCallback.call(self, iId);
       }
     });
   },
