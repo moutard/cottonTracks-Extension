@@ -10,7 +10,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     var dDbRecord = {
       id : oStory._iId,
       // TODO(rmoutard&fwouts): how to use hsitoryItem translator
-      lHistoryItems : oStory._lHistoryItems,
+      lVisitItems : oStory._lVisitItems,
       fLastVisitTime : oStory._fLastVisitTime,
       fRelevance : oStory._fRelevance
     };
@@ -28,9 +28,9 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     if(oDbRecord.fRelevance !== undefined){
       oStory.setRelevance(oDbRecord.fRelevance);
     }
-    if(oDbRecord.lHistoryItems !== undefined){
-      for(var i = 0, oHistoryItem; oHistoryItem = oDbRecord.lHistoryItems[i]; i++){
-        oStory.addHistoryItem(oHistoryItem)
+    if(oDbRecord.lVisitItems !== undefined){
+      for(var i = 0, oVisitItem; oVisitItem = oDbRecord.lVisitItems[i]; i++){
+        oStory.addVisitItem(oVisitItem)
       }
     }
     return oStory;
