@@ -33,7 +33,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // oDbRecord is just a dictionnary
-    var oVisitItem = new Cotton.Model.HistoryItem();
+    var oVisitItem = new Cotton.Model.VisitItem();
     // Use private attributes because they are immutable.
     oVisitItem._sId = oDbRecord.id;
     oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
