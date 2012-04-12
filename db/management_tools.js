@@ -4,6 +4,7 @@ Cotton.DB.ManagementTools = {};
 Cotton.DB.ManagementTools.dStores = {
     "stories" : "STORY_TRANSLATORS",
     "pool" : "HISTORY_ITEM_TRANSLATORS",
+    "visitItems" : "VISIT_ITEM_TRANSLATORS",
 };
 // maybe add historyItem
 
