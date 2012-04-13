@@ -6,13 +6,14 @@ Cotton.Translators.STORY_TRANSLATORS = [];
 (function() {
 
   var mObjectToDbRecordConverter = function(oStory) {
-    // TODO(fwouts): Implement.
+    
     var dDbRecord = {
-      id : oStory._iId,
-      // TODO(rmoutard&fwouts): how to use hsitoryItem translator
-      lVisitItems : oStory._lVisitItems,
-      fLastVisitTime : oStory._fLastVisitTime,
-      fRelevance : oStory._fRelevance
+      //id : id is auto-incremented. Becareful do not confuse with
+      //clusterId, that is a temporary id attribute by DBSCAN to a new
+      //story. 
+      lVisitItemsId : oStory.visitItemsId(),
+      fLastVisitTime : oStory.lastVisitTime(),
+      fRelevance : oStory.relevance(),
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -22,15 +23,15 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   };
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
-    // TODO(fwouts): Implement.
+    
     var oStory = new Cotton.Model.Story();
     oStory.setId(oDbRecord.id);
     if(oDbRecord.fRelevance !== undefined){
       oStory.setRelevance(oDbRecord.fRelevance);
     }
-    if(oDbRecord.lVisitItems !== undefined){
-      for(var i = 0, oVisitItem; oVisitItem = oDbRecord.lVisitItems[i]; i++){
-        oStory.addVisitItem(oVisitItem)
+    if(oDbRecord.lVisitItemsId !== undefined){
+      for(var i = 0, iVisitItemId; iVisitItemId = oDbRecord.lVisitItemsId[i]; i++){
+        oStory.addVisitItemId(iVisitItemId)
       }
     }
     return oStory;

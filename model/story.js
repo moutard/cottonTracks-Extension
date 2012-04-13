@@ -28,7 +28,10 @@ $.extend(Cotton.Model.Story.prototype, {
     // for(var i = 0; i < this._lHistoryItems.length; i++){
     // yield this._lHistoryItems[i];
     // }
-    return this._lVisitItems;
+    return this._lVisitItemsId;
+  },
+  visitItemsId : function(){
+    return this._lVisitItemsId;
   },
   lastVisitTime : function() {
     return this._fLastVisitTime;
@@ -42,30 +45,49 @@ $.extend(Cotton.Model.Story.prototype, {
   // ADVANCED METHOD
   // handle historyItems
   addHistoryItem : function(oHistoryItem) {
+    // DEPRECATED.
     this._lHistoryItems.push(oHistoryItem);
     if (oVisitItem.lastVisitTime > this._fLastVisitTime) {
       this._fLastVisitTime = oHistoryItem.lastVisitTime;
     }
   },
   addVisitItem : function(oVisitItem) {
-    this._lVisitItems.push(oVisitItem);
-    if (oVisitItem.lastVisitTime > this._fLastVisitTime) {
-      this._fLastVisitTime = oHistoryItem.lastVisitTime;
+    this._lVisitItemsId.push(oVisitItem._sId);
+    if (oVisitItem._iVisitTime > this._fLastVisitTime) {
+      this._fLastVisitTime = oVisitItem._iVisitTime;
     }
   },
+  addVisitItemId : function(iVisitItemId) {
+    this._lVisitItemsId.push(iVisitItemId);
+    
+    // Get the corresponding visitTime.
+    var oStore = new Cotton.DB.Store('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        oStore.find('visitItems', 'id', iVisitItemId, 
+          function(oVisitItem) {
+            console.log(oVisitItem);
+            if (oVisitItem._iVisitTime > this._fLastVisitTime) {
+              this._fLastVisitTime = oVisitItem._iVisitTime;
+            }
+        });
+      }
+    );
+  },
+
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
   // ones.
   getStartPoint : function() {
-    return this._lVisitItems[0];
+    return this._lVisitItemsId[0];
   },
   getEndPoint : function() {
-    return this._lVisitItems[lVisitItems.length - 1];
+    return this._lVisitItemsId[lVisitItems.length - 1];
   },
   getMainPoint : function() {
   },
   getVisitItemPosition : function(sID) {
-    for ( var i = 0; i < this.lVisitItems; i++) {
-      if (this.lVisitItems[i].id === sID) {
+    for ( var i = 0; i < this.lVisitItemsId; i++) {
+      if (this.lVisitItems[i] === sID) {
         return i;
       }
     }
@@ -75,11 +97,12 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   removeVisitItem : function(sID) {
     // TODO(rmoutard) : maybe use a temp trash
-    this._lVisitItems = _.reject(this._lVisitItems, function(oVisitItem) {
-      return oVisitItem.id === sID;
+    this._lVisitItemsId = _.reject(this._lVisitItemsId, function(iVisitItemId) {
+      return iVisitItemId === sID;
     });
   },
   moveHistoryItem : function(sIDtoMove, sIDPrevious) {
+    // DEPRECATED.
     var lElementToMove = _.filter(this._lHistoryItems, function(oHistoryItem) {
       return oHistoryItem.id === sIDtoMove;
     });
@@ -92,6 +115,7 @@ $.extend(Cotton.Model.Story.prototype, {
     }
   },
   countSearchPathname : function() {
+    // DEPRECATED.
     var lTemp = _.filter(this._lHistoryItems, function(oHistoryItem) {
       // TODO(rmoutard) : not really a clean solution.
       // see pretreatment
@@ -100,6 +124,7 @@ $.extend(Cotton.Model.Story.prototype, {
     return lTemp.length;
   },
   countUniqHostname : function() {
+    // DEPRECATED.
     var lTemp = _.uniq(this._lHistoryItems, false, function(oHistoryItem) {
       return oHistoryItem.hostname;
     });
@@ -116,20 +141,23 @@ $.extend(Cotton.Model.Story.prototype, {
 
     var coeff = Cotton.Config.Parameters.computeRelevanceCoeff;
 
-    this._fRelevance = coeff.length * this.length() + coeff.lastVisitTime
-        * (this._fLastVisitTime / new Date().getTime()) + coeff.hostname
-        * this.countUniqHostname() + coeff.search * this.countSearchPathname();
-
+    this._fRelevance = coeff.length * this.length()
+      + coeff.lastVisitTime * (this._fLastVisitTime / new Date().getTime()) 
+      // TODO(rmoutard) : find a way to retore it.
+      //+ coeff.hostname * this.countUniqHostname() 
+      //+ coeff.search * this.countSearchPathname();
+      ;
   },
   computeKeywords : function() {
+    // DEPRECATED.
     for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
       this._lKeywords = this._lKeywords.concat(oHistoryItem.extractedWords);
     }
   },
-  merge : function(oHistoryItem) {
-    this._lHistoryItems = this._lHsitoryItems.concat(oHistoryItem.iter());
-    this._fLastVisitTime = Math.max(this._fLastVisitTime, oHistoryItem
-        .lastVisitTime());
+  merge : function(oStory) {
+    this._lVisitItemsId = _.union(this._lVisitItemsId, oStory.iter());
+    this._fLastVisitTime = Math.max(this._fLastVisitTime, 
+        oStory.lastVisitTime());
   },
 
 });

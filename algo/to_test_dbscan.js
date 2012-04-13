@@ -2,9 +2,9 @@
 // Disclaimer : this file is just a draft to visualize easily result from the
 // algo
 
-function handleResultsOfFirstDBSCAN(iNbCluster, lHistoryItems) {
+function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
-  var dStories = Cotton.Algo.clusterStory(lHistoryItems, iNbCluster);
+  var dStories = Cotton.Algo.clusterStory(lVisitItems, iNbCluster);
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
