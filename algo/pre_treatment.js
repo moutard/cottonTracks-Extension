@@ -3,6 +3,11 @@
 // PreTreatment Workspace
 Cotton.Algo.PreTreatment = {};
 
+
+// PreTreatment is used in the worker, so all data received are serialized.
+// That's why, lVisitItem is a list of Object. And not a list of 
+// Cotton.Model.VisitItem.
+// TODO(rmoutard) : discuss about the idea of using deserialized function.
 Cotton.Algo.PreTreatment.removeTools = function(lVisitItems) {
   // Remove all the tools as mail.google.com, facebook.com.
 
@@ -36,7 +41,7 @@ Cotton.Algo.PreTreatment.computeClosestGeneratedPage = function(lVisitItems) {
 
   for ( var i = lVisitItems.length - 1; i >= 0; i--) {
     // Inverse Loop.
-    // this method is working because lVisitItems is sorted by lastVisitTime
+    // This method is working because lVisitItems is sorted by iVisitTime.
 
     var oUrl = new parseUrl(lVisitItems[i]._sUrl);
     // TODO(rmoutard) : maybe put all the oUrl.
