@@ -40,20 +40,17 @@ Cotton.UI.Debug.displayStory = function(oStory) {
   var lVisitItemsId = oStory.iter();
   var sColor = Cotton.UI.Debug.randomColor();
 
-  for ( var j = 0; j < lVisitItemsId.length; j++) {
-    var iVisitItemId = lVisitItemsId[j];
-    var oStore = new Cotton.DB.Store('ct', {
+     var oStore = new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
-        oStore.find('visitItems', 'id', iVisitItemId, 
-          function(oVisitItem) {
-            console.log(oVisitItem);
-            Cotton.UI.Debug.displayVisitItem(oVisitItem, sColor);
-        });
-      }
-    );
-
-     }
+          for ( var j = 0, iVisitItemId; iVisitItemId = lVisitItemsId[j]; j++) {
+            oStore.find('visitItems', 'id', iVisitItemId, 
+              function(oVisitItem) {
+                console.log(oVisitItem);
+                Cotton.UI.Debug.displayVisitItem(oVisitItem, sColor);
+              });
+          }
+      });
 
   $("#liste").append('<h6>-------------------------------------------------</h6>');
 

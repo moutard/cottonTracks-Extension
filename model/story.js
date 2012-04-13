@@ -61,7 +61,7 @@ $.extend(Cotton.Model.Story.prototype, {
     this._lVisitItemsId.push(iVisitItemId);
     
     // Get the corresponding visitTime.
-    var oStore = new Cotton.DB.Store('ct', {
+    /*var oStore = new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         oStore.find('visitItems', 'id', iVisitItemId, 
@@ -72,7 +72,7 @@ $.extend(Cotton.Model.Story.prototype, {
             }
         });
       }
-    );
+    );*/
   },
 
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
