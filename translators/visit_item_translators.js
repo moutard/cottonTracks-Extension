@@ -51,6 +51,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
   };
 
   var dIndexes = {
+    id : {
+      unique : true
+    },
     sUrl : {
       unique : false
     },

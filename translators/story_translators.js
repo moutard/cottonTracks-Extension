@@ -46,7 +46,12 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     }
   };
   */
-  var dIndexes = {};
+  var dIndexes = {
+    // TODO(fwouts) : id should be index automatically !
+    id : {
+      unique : true     
+    },
+  };
 
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter, dIndexes);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);

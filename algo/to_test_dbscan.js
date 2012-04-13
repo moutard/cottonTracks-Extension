@@ -53,7 +53,6 @@ if (localStorage) {
       }, function() {
         oStore.getList('visitItems', function(lAllVisitItems) {
           console.log(lAllVisitItems);
-          // TODO(rmoutard) : use worker here.
           worker.postMessage(lAllVisitItems);
         });
       });
