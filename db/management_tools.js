@@ -124,9 +124,9 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
       for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
         oStore.put('stories', oStory, function() {
           console.log("Story added");
-          oStore.list('stories', function(oStory) {
+          //oStore.list('stories', function(oStory) {
           // console.log(oStory._lHistoryItems);
-          });
+          //});
         });
       }
   });

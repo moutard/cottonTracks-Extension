@@ -33,7 +33,7 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
           // TODO(rmoutard) : check that iId is really the id created by
           // auto-incremenation.
           iCount += 1;
-          // console.log(iId);
+          console.log('visitItem added');
           if (iCount === iPopulationLength) {
             mCallBackFunction.call();
           }

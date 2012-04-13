@@ -21,18 +21,39 @@ Cotton.UI.Debug.displayHistoryItem = function(oHistoryItem, sColor) {
   sLine += '</div>';
   $("#liste").append(sLine);
 };
+// VISIT ITEM
+Cotton.UI.Debug.displayVisitItem = function(oVisitItem, sColor) {
+
+  var sLine = '<div class="url" style="color:' + sColor + '">';
+  sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">'
+      + oVisitItem.title() + ' || cluster : ' + oVisitItem.clusterId
+      + '</h5>';
+  sLine += '<h6 style="font-size:11px; margin:2px">' + oVisitItem.url()
+      + '</h6>';
+  sLine += '</div>';
+  $("#liste").append(sLine);
+};
 
 // STORY
 Cotton.UI.Debug.displayStory = function(oStory) {
 
-  var lHistoryItems = oStory.iter();
+  var lVisitItemsId = oStory.iter();
   var sColor = Cotton.UI.Debug.randomColor();
 
-  for ( var j = 0; j < lHistoryItems.length; j++) {
-    var oHistoryItem = lHistoryItems[j];
+  for ( var j = 0; j < lVisitItemsId.length; j++) {
+    var iVisitItemId = lVisitItemsId[j];
+    var oStore = new Cotton.DB.Store('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        oStore.find('visitItems', 'id', iVisitItemId, 
+          function(oVisitItem) {
+            console.log(oVisitItem);
+            Cotton.UI.Debug.displayVisitItem(oVisitItem, sColor);
+        });
+      }
+    );
 
-    Cotton.UI.Debug.displayHistoryItem(oHistoryItem, sColor);
-  }
+     }
 
   $("#liste").append('<h6>-------------------------------------------------</h6>');
 
