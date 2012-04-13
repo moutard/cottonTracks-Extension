@@ -20,25 +20,25 @@ Cotton.Algo.extractWords = function(sTitle) {
   return lMatches;
 };
 
-Cotton.Algo.commonWords = function(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.commonWords = function(oVisitItem1, oVisitItem2) {
   // Return the number of common words
   var iTitleWordsAmount = 0;
   var lWords1, lWords2, lCommonWords;
 
-  if(oHistoryItem1.title === "" && oHistoryItem2.title === ""){
+  if(oVisitItem1._sTitle === "" && oVisitItem2._sTitle === ""){
     return -1;
   }
 
-  if(oHistoryItem1.extractedWords === undefined ||
-      oHistoryItem2.extractWords === undefined ){
+  if(oVisitItem1._lExtractedWords === undefined ||
+      oVisitItem2._lExtractWords === undefined ){
     // this part may be deleted but may be usefull in some case.
-    lWords1 = Cotton.Algo.extractWords(oHistoryItem1.title);
-    lWords2 = Cotton.Algo.extractWords(oHistoryItem2.title);
+    lWords1 = Cotton.Algo.extractWords(oVisitItem1._sTitle);
+    lWords2 = Cotton.Algo.extractWords(oVisitItem2._sTitle);
   }
   else{
     // already computed in preTreatment
-    lWords1 = oHistoryItem1.extractedWords;
-    lWords2 = oHistoryItems2.extractedWords;
+    lWords1 = oVisitItem1._sExtractedWords;
+    lWords2 = oVisitItems2._sExtractedWords;
   }
 
     lCommonWords = _.intersection(lWords1, lWords2);
@@ -50,19 +50,19 @@ Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
 
 };
 
-Cotton.Algo.distanceId = function(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceId = function(oVisitItem1, oVisitItem2) {
   // compute the Id distance
-  return Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id));
+  return Math.abs(parseInt(oVisitItem1._sId) - parseInt(oVisitItem2._sId));
 };
 
-Cotton.Algo.distanceLastVisitTime = function(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceLastVisitTime = function(oVisitItem1, oVisitItem2) {
   // compute the last visit distance
-  return Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime);
+  return Math.abs(oVisitItem1._iVisitTime - oVisitItem2._iVisitTime);
 };
 
 // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
 // for instance you need to balance common words
-Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
+Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
 
   // TODO: (rmoutard) write a class for coefficients
   var coeff = Cotton.Config.Parameters.distanceCoeff;
@@ -71,7 +71,7 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // id close => items close
   // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
-      * Math.abs(parseInt(oHistoryItem1.id) - parseInt(oHistoryItem2.id))
+      * Math.abs(parseInt(oVisitItem1._sId) - parseInt(oVisitItem2._sId))
       / 200 ;
 
   // lastTimeVisit
@@ -79,14 +79,14 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // ordre de grandeur = O(100 000)
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
-      * Math.abs(oHistoryItem1.lastVisitTime - oHistoryItem2.lastVisitTime)
+      * Math.abs(oVisitItem1._iVisitTime - oVisitItem2._iVisitTime)
       / 1000000 ;
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   // close if 0(1) far if 0.
-  var iCommonWords =  Cotton.Algo.commonWords(oHistoryItem1, oHistoryItem2);
+  var iCommonWords =  Cotton.Algo.commonWords(oVisitItem1, oVisitItem2);
   if(iCommonWords === 0){
      sum += coeff.penalty; // try to detect parallel stories.
       }
@@ -101,8 +101,8 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
 
   // Query keywords
   var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
-          oHistoryItem1,
-          oHistoryItem2);
+          oVisitItem1,
+          oVisitItem2);
   sum += (coeff.queryKeywords
           / ((1 + iCommonQueryKeywords)*(1 + iCommonQueryKeywords)) );
 
@@ -114,11 +114,11 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
  * Distance between generated pages
  */
 
-Cotton.Algo.distanceBetweenGeneratedPages = function(oHistoryItem1,
-    oHistoryItem2) {
+Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1,
+    oVisitItem2) {
 
-  var keywords1 = oHistoryItem1.queryKeywords;
-  var keywords2 = oHistoryItem2.queryKeywords;
+  var keywords1 = oVisitItem1._lQueryKeywords;
+  var keywords2 = oVisitItem2._lQueryKeywords;
 
   var result = _.intersection(keywords1, keywords2);
   return result.length;
