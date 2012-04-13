@@ -57,5 +57,7 @@ self.addEventListener('message', function(e) {
   // Connect worker with main thread.
 
   // Worker starts when it receive postMessage().
+  // Data received are serialized. 
+  // i.e. it's non Cotton.Model.VisitItem, but object.
   handleVisitItems(e.data);
 }, false);
