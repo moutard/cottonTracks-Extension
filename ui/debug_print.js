@@ -26,8 +26,7 @@ Cotton.UI.Debug.displayVisitItem = function(oVisitItem, sColor) {
 
   var sLine = '<div class="url" style="color:' + sColor + '">';
   sLine += '<h5 style="font-size:14px; margin-bottom:0px; margin-top:8px;">'
-      + oVisitItem.title() + ' || cluster : ' + oVisitItem.clusterId
-      + '</h5>';
+      + oVisitItem.title() + ' || cluster : ' + oVisitItem.clusterId + '</h5>';
   sLine += '<h6 style="font-size:11px; margin:2px">' + oVisitItem.url()
       + '</h6>';
   sLine += '</div>';
@@ -40,30 +39,34 @@ Cotton.UI.Debug.displayStory = function(oStory) {
   var lVisitItemsId = oStory.iter();
   var sColor = Cotton.UI.Debug.randomColor();
 
-     var oStore = new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
-          for ( var j = 0, iVisitItemId; iVisitItemId = lVisitItemsId[j]; j++) {
-            oStore.find('visitItems', 'id', iVisitItemId, 
-              function(oVisitItem) {
-                console.log(oVisitItem);
-                Cotton.UI.Debug.displayVisitItem(oVisitItem, sColor);
-              });
-          }
-      });
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+    /*
+     * for ( var j = 0, iVisitItemId; iVisitItemId = lVisitItemsId[j]; j++) {
+     * oStore.find('visitItems', 'id', iVisitItemId, function(oVisitItem) {
+     * console.log(oVisitItem); Cotton.UI.Debug.displayVisitItem(oVisitItem,
+     * sColor); });
+     */
+    oStore.findGroup('visitItems', 'id', lVisitItemsId, function(lVisitItems) {
+      for ( var j = 0, oVisitItem; oVisitItem = lVisitItems[j]; j++) {
+        Cotton.UI.Debug.displayVisitItem(oVisitItem, sColor);
+      }
+      $("#liste").append(
+          '<h6>-------------------------------------------------</h6>');
+    });
 
-  $("#liste").append('<h6>-------------------------------------------------</h6>');
+  });
 
   $('#loader-animation').remove();
 };
 
 // STORIES
-Cotton.UI.Debug.displayStories = function (lStories) {
-   for ( var i = 0; i < lStories.length; i++) {
+Cotton.UI.Debug.displayStories = function(lStories) {
+  for ( var i = 0; i < lStories.length; i++) {
     Cotton.UI.Debug.displayStory(lStories[i]);
   }
 };
-
 
 // OTHER STUFF
 // TODO(rmoutard) : seems useless now.
@@ -95,7 +98,6 @@ Cotton.UI.Debug.displayDBSCANResult = function(iNbCluster, lHistoryItems) {
   $('#loader-animation').remove();
 };
 
-
 Cotton.UI.Debug.displayStorySELECTResult = function(iNbCluster, lHistoryItems) {
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
@@ -111,4 +113,3 @@ Cotton.UI.Debug.displayStorySELECTResult = function(iNbCluster, lHistoryItems) {
   console.log(dStories.storyUnderConstruction);
 
 }
-
