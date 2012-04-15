@@ -14,7 +14,7 @@
       "js": [ "lib/class.js", "lib/jquery.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js",
               "init.js",
-              "model/init.js","model/history_item.js",
+              "model/init.js","model/visit_item.js",
               "behavior/init.js",
               "behavior/passive/init.js", "behavior/passive/db_sync.js", "behavior/passive/parser.js",
               "behavior/active/init.js", "behavior/active/reading_rater.js", "behavior/active/highlighter.js"],

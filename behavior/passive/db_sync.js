@@ -1,14 +1,14 @@
 'use strict';
 
-var oCurrentHistoryItem = new Cotton.Model.HistoryItem();
-oCurrentHistoryItem.getInfoFromPage();
+var oCurrentVisitItem = new Cotton.Model.VisitItem();
+oCurrentVisitItem.getInfoFromPage();
 
-// According to Chrome API, the object oCurrentHistoryItem will 
+// According to Chrome API, the object oCurrentHistoryItem will
 // be serialized.
-chrome.extension.sendRequest({ 
-    historyItem : oCurrentHistoryItem
-  }, function(response) {
-    console.log(response);
+chrome.extension.sendRequest({
+  visitItem : oCurrentVisitItem
+}, function(response) {
+  console.log(response);
 });
 
 // Cotton.DB.ManagementTools.listDB();
