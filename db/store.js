@@ -93,6 +93,26 @@ $.extend(Cotton.DB.Store.prototype, {
       mResultCallback.call(self, oObject);
     });
   },
+  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue, mResultCallback) {
+    var self = this;
+    var lAllObjects = new Array();
+    this._oEngine.findGroup(sObjectStoreName, sIndexKey, lIndexValue, function(oResult) {
+      if (!oResult) {
+        // If there was no result, send back null.
+        mResultCallback.call(self, lAllObjects);
+        return;
+      }
+      // else oResult is a list of Items.
+      for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+        oItem);
+        var oObject = oTranslator.dbRecordToObject(oItem);
+        lAllObjects.push(oObject);
+      }
+
+      mResultCallback.call(self, lAllObjects);
+    });
+  },
 
   // Must be called once the store is ready.
   put: function(sObjectStoreName, oObject, mOnSaveCallback) {
@@ -108,10 +128,10 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  delete: function(sObjectStoreName, oObject, mOnDeleteCallback) {
+  delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;
 
-    this._oEngine.delete(sObjectStoreName, oObject.id(), function() {
+    this._oEngine.delete(sObjectStoreName, iId, function() {
       if (mOnDeleteCallback) {
         mOnDeleteCallback.call(self);
       }
