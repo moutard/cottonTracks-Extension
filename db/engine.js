@@ -272,6 +272,27 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oFindRequest.onerror = ;
   },
+  
+  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue, mResultCallback) {
+    var self = this;
+    
+    var lAllItems = new Array();
+    var p = 0;
+    for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
+      self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
+        p+=1;
+        if(oResult){
+          lAllItems.push(oResult);
+        }
+        
+        if(p === lIndexValue.length){
+          mResultCallback.call(self, lAllItems);
+        }
+      });
+    }
+
+    
+  },
 
   // TODO(fwouts): Dictionary or object?
   // Seems there is a problem with put and auto-incremented.
