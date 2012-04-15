@@ -2,6 +2,24 @@
 
 // This method is used during the installation to populate visitItem DB from
 // chrome history visitItem database.
+Cotton.DB.preRemoveTools = function(lVisitItems) {
+  // Remove all the tools as mail.google.com, facebook.com.
+
+  var oToolsContainer = generateTools(); // return a list of Tools
+  var lCleanHistoryItems = new Array(); // Store the new list without tools
+
+  // TODO(rmoutard) : use _.filter function in underscore library
+  while (lVisitItems.length > 0) {
+    var oVisitItem = lVisitItems.shift();
+    var sHostname = new parseUrl(oVisitItem.url).hostname;
+
+    // if hostname of the url is a Tool remove it
+    if (oToolsContainer.alreadyExist(sHostname) === -1) {
+      lCleanHistoryItems.push(oVisitItem);
+    }
+  }
+  return lCleanHistoryItems;
+};
 
 Cotton.DB.populateDB = function(mCallBackFunction) {
   chrome.history.search({
@@ -9,7 +27,7 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
     startTime : 0,
     maxResults : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
-    // DBSCAN.
+    lHistoryItems = Cotton.DB.preRemoveTools(lHistoryItems);
 
     // TODO(rmoutard): Discuss if we can improve populate using all the
     // visitItem for each historyItem. For the moment we consider that an
