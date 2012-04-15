@@ -8,6 +8,7 @@ Cotton.Algo.PreTreatment = {};
 // That's why, lVisitItem is a list of Object. And not a list of 
 // Cotton.Model.VisitItem.
 // TODO(rmoutard) : discuss about the idea of using deserialized function.
+
 Cotton.Algo.PreTreatment.removeTools = function(lVisitItems) {
   // Remove all the tools as mail.google.com, facebook.com.
 
