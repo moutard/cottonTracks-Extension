@@ -52,7 +52,6 @@ if (localStorage) {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         oStore.getList('visitItems', function(lAllVisitItems) {
-          console.log(lAllVisitItems);
           worker.postMessage(lAllVisitItems);
         });
       });
