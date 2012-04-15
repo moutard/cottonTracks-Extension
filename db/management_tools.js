@@ -17,10 +17,9 @@ Cotton.DB.ManagementTools.clearDB = function(){
     new Cotton.DB.Store('ct',
         dStoreParameters,
         function() {
-         this.list(store, function(oEntry) {
-           this.delete(store, oEntry, function(){
-            console.log("entry deleted" + oEntry.id());
-
+         this.list('stories', function(oEntry) {
+           this.delete(store, oEntry.id(), function(){
+            console.log("entry deleted");
            });
          });
        });
@@ -36,10 +35,9 @@ Cotton.DB.ManagementTools.clearStore = function(sStore){
       new Cotton.DB.Store('ct',
           dStoreParameters,
           function() {
-           this.list(store, function(oEntry) {
-             this.delete(store, oEntry, function(){
-              console.log("entry deleted" + oEntry.id());
-
+           this.list(sStore, function(oEntry) {
+             this.delete(sStore, oEntry.id(), function(){
+              console.log("entry deleted");
              });
            });
          });
@@ -124,9 +122,9 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
       for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
         oStore.put('stories', oStory, function() {
           console.log("Story added");
-          //oStore.list('stories', function(oStory) {
+          // oStore.list('stories', function(oStory) {
           // console.log(oStory._lHistoryItems);
-          //});
+          // });
         });
       }
   });
