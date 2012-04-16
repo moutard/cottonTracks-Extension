@@ -11,15 +11,23 @@ function onRequest(request, sender, sendResponse) {
   // it seems request.historyItem is not an HistoryItem but just a dictionnary.
   var oVisitItem = new Cotton.Model.VisitItem();
   oVisitItem.deserialize(request.visitItem);
-  // Cotton.DB.Pool.push(oVisitItem);
-  var oStore = new Cotton.DB.Store('ct', {
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-  }, function() {
-    oStore.put('visitItems', oVisitItem, function(iId) {
-      console.log("visitItem added");
-      console.log(iId);
-    });
+  
 
+  // TODO(rmoutard) : use DB system, or a singleton.
+  var oToolsContainer = generateTools(); // return a list of Tools 
+  var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
+  // if hostname of the url is a Tool remove it
+  if (oToolsContainer.alreadyExist(sHostname) === -1) {
+    var oStore = new Cotton.DB.Store('ct', {
+      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    }, function() {
+      oStore.put('visitItems', oVisitItem, function(iId) {
+        console.log("visitItem added");
+        console.log(iId);
+    });
+  }
+  
+  
   });
   // Return nothing to let the connection be cleaned up.
   sendResponse({
