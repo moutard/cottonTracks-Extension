@@ -36,6 +36,9 @@ $.extend(Cotton.Model.Story.prototype, {
   lastVisitTime : function() {
     return this._fLastVisitTime;
   },
+  setLastVisitTime : function(fLastVisitTime) {
+    this._fLastVisitTime = fLastVisitTime;
+  },
   relevance : function() {
     return this._fRelevance;
   },
@@ -47,8 +50,8 @@ $.extend(Cotton.Model.Story.prototype, {
   addHistoryItem : function(oHistoryItem) {
     // DEPRECATED.
     this._lHistoryItems.push(oHistoryItem);
-    if (oVisitItem.lastVisitTime > this._fLastVisitTime) {
-      this._fLastVisitTime = oHistoryItem.lastVisitTime;
+    if (oVisitItem.lastVisitTime() > this._fLastVisitTime) {
+      this._fLastVisitTime = oHistoryItem.lastVisitTime();
     }
   },
   addVisitItem : function(oVisitItem) {
