@@ -120,8 +120,8 @@ $
           // method
           getInfoFromPage : function() {
             this._sUrl = window.location.href;
-            this._sTitle = document.title;
-            this._iLastVisitTime = new Date().getTime();
+            this._sTitle = window.document.title;
+            this._iVisitTime = new Date().getTime();
 
             // This method is called in a content_script, but due to chrome
             // security
@@ -148,16 +148,16 @@ $
             }
           },
           deserialize : function(dVisitItemSerialized) {
-            this._sId = dVisitItemSerialized._sId || undefined;
-            this._sChromeVisitId = dVisitItemSerialized || undefined;
+            //this._sId = dVisitItemSerialized._sId || undefined;
+            //this._sChromeVisitId = dVisitItemSerialized || undefined;
 
-            this._sUrl = dVisitItemSerialized._sUrl;
-            this._sTilte = dVisitItemSerialized._sTitle;
-            this._iVisitTime = dVisitItemSerialized._iVisitTime;
+            this._sUrl = dVisitItemSerialized._sUrl || '';
+            this._sTilte = dVisitItemSerialized._sTitle || '';
+            this._iVisitTime = dVisitItemSerialized._iVisitTime || 0;
 
-            this._lTextHighlighter = dVisitItemSerialized._lTextHighlighter;
-            this._iScrollCount = dVisitItemSerialized._iScrollCount;
-            this._lCopyPaste = dVisitItemSerialized._lCopyPaste;
-            this._lPScore = dVisitItemSerialized._lPScore;
+            //this._lTextHighlighter = dVisitItemSerialized._lTextHighlighter;
+            //this._iScrollCount = dVisitItemSerialized._iScrollCount;
+            //this._lCopyPaste = dVisitItemSerialized._lCopyPaste;
+            //this._lPScore = dVisitItemSerialized._lPScore;
           },
         });
