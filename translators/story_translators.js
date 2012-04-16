@@ -26,6 +26,10 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     
     var oStory = new Cotton.Model.Story();
     oStory.setId(oDbRecord.id);
+
+    if(oDbRecord.fLastVisitTime !== undefined) { 
+      oStory.setLastVisitTime(oDbRecord.fLastVisitTime);
+    }
     if(oDbRecord.fRelevance !== undefined){
       oStory.setRelevance(oDbRecord.fRelevance);
     }

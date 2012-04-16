@@ -120,7 +120,7 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
   }, function() {
       console.log("store ready");
       for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
-        oStore.put('stories', oStory, function() {
+        oStore.put('stories', oStory, function(iId) {
           console.log("Story added");
           // oStore.list('stories', function(oStory) {
           // console.log(oStory._lHistoryItems);
