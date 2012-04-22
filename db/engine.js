@@ -116,7 +116,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
 };
 
 $.extend(Cotton.DB.Engine.prototype, {
-  list: function(sObjectStoreName, mResultElementCallback) {
+  iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
@@ -169,6 +169,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
+  
   getList : function(sObjectStoreName, mResultElementCallback) {
     // a bit different of list. Because it returns an array of all the result.
     // The function list iterate on each element. The callback function is
@@ -196,7 +197,8 @@ $.extend(Cotton.DB.Engine.prototype, {
       }
     };
   },
-  getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
+  
+  iterRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
@@ -222,9 +224,37 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(rmoutard): Implement.
     // oCursorRequest.onerror = ;
-
   },
+  
+  getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
+    var self = this;
+    
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
 
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, false, false);
+    var oCursorRequest = oStore.openCursor(oKeyRange, 2);
+    // direction 2 : prev
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+  },
 
   getLastEntry : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
