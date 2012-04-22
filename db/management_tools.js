@@ -17,7 +17,7 @@ Cotton.DB.ManagementTools.clearDB = function(){
     new Cotton.DB.Store('ct',
         dStoreParameters,
         function() {
-         this.list('stories', function(oEntry) {
+         this.iterList('stories', function(oEntry) {
            this.delete(store, oEntry.id(), function(){
             console.log("entry deleted");
            });
@@ -35,7 +35,7 @@ Cotton.DB.ManagementTools.clearStore = function(sStore){
       new Cotton.DB.Store('ct',
           dStoreParameters,
           function() {
-           this.list(sStore, function(oEntry) {
+           this.iterList(sStore, function(oEntry) {
              this.delete(sStore, oEntry.id(), function(){
               console.log("entry deleted");
              });
@@ -53,7 +53,7 @@ Cotton.DB.ManagementTools.listStore = function (sStore) {
    new Cotton.DB.Store('ct',
        dStoreParameters,
        function() {
-        this.list(sStore, function(oEntry){
+        this.iterList(sStore, function(oEntry){
           console.log(oEntry);
         });
        });
@@ -66,7 +66,7 @@ Cotton.DB.ManagementTools.listDB = function () {
        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
        function() {
         console.log("store ready");
-        this.list('stories', function(oStory){
+        this.iterList('stories', function(oStory){
           console.log(oStory);
         });
        });
@@ -122,7 +122,7 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
       for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
         oStore.put('stories', oStory, function(iId) {
           console.log("Story added");
-          // oStore.list('stories', function(oStory) {
+          // oStore.iterList('stories', function(oStory) {
           // console.log(oStory._lHistoryItems);
           // });
         });
