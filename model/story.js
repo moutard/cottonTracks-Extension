@@ -30,7 +30,7 @@ $.extend(Cotton.Model.Story.prototype, {
     // }
     return this._lVisitItemsId;
   },
-  visitItemsId : function(){
+  visitItemsId : function() {
     return this._lVisitItemsId;
   },
   lastVisitTime : function() {
@@ -62,24 +62,23 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   addVisitItemId : function(iVisitItemId) {
     this._lVisitItemsId.push(iVisitItemId);
-    
+
     // Get the corresponding visitTime.
-    /*var oStore = new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
-        oStore.find('visitItems', 'id', iVisitItemId, 
-          function(oVisitItem) {
-            console.log(oVisitItem);
-            if (oVisitItem._iVisitTime > this._fLastVisitTime) {
-              this._fLastVisitTime = oVisitItem._iVisitTime;
-            }
-        });
-      }
-    );*/
+    /*
+     * var oStore = new Cotton.DB.Store('ct', { 'visitItems' :
+     * Cotton.Translators.VISIT_ITEM_TRANSLATORS }, function() {
+     * oStore.find('visitItems', 'id', iVisitItemId, function(oVisitItem) {
+     * console.log(oVisitItem); if (oVisitItem._iVisitTime >
+     * this._fLastVisitTime) { this._fLastVisitTime = oVisitItem._iVisitTime; }
+     * }); } );
+     */
   },
 
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
   // ones.
+  getLastVisitItemId : function() {
+    return _.max(this._lVisitItemsId);
+  },
   getStartPoint : function() {
     return this._lVisitItemsId[0];
   },
@@ -144,12 +143,12 @@ $.extend(Cotton.Model.Story.prototype, {
 
     var coeff = Cotton.Config.Parameters.computeRelevanceCoeff;
 
-    this._fRelevance = coeff.length * this.length()
-      + coeff.lastVisitTime * (this._fLastVisitTime / new Date().getTime()) 
-      // TODO(rmoutard) : find a way to retore it.
-      //+ coeff.hostname * this.countUniqHostname() 
-      //+ coeff.search * this.countSearchPathname();
-      ;
+    this._fRelevance = coeff.length * this.length() + coeff.lastVisitTime
+        * (this._fLastVisitTime / new Date().getTime())
+    // TODO(rmoutard) : find a way to retore it.
+    // + coeff.hostname * this.countUniqHostname()
+    // + coeff.search * this.countSearchPathname();
+    ;
   },
   computeKeywords : function() {
     // DEPRECATED.
@@ -159,8 +158,8 @@ $.extend(Cotton.Model.Story.prototype, {
   },
   merge : function(oStory) {
     this._lVisitItemsId = _.union(this._lVisitItemsId, oStory.iter());
-    this._fLastVisitTime = Math.max(this._fLastVisitTime, 
-        oStory.lastVisitTime());
+    this._fLastVisitTime = Math.max(this._fLastVisitTime, oStory
+        .lastVisitTime());
   },
 
 });
