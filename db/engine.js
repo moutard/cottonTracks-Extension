@@ -442,6 +442,36 @@ $.extend(Cotton.DB.Engine.prototype, {
     // oCursorRequest.onerror = ;
 
   },
+  
+  getLast : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+    
+    // Define Index.
+    var oIndex = oStore.index(sIndexKey);
+
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.only(0);
+    var oCursorRequest = oIndex.openCursor(undefined, 2);
+    
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+
+  },
 
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
