@@ -182,6 +182,16 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
+  getLastEntry: function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.getLast(sObjectStoreName, sIndexKey, function(oResult) {
+
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
 
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultElementCallback) {
     var self = this;
