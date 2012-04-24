@@ -90,13 +90,15 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
   
-  getUpperBound: function(sObjectStoreName, iUpperBound, iDirection, bStrict,
+
+  getUpperBound: function(sObjectStoreName, sIndexKey, iUpperBound, iDirection, bStrict,
+
                             mResultElementCallback) {
     var self = this;
 
     var lAllObjects = new Array();
     this._oEngine.getUpperBound(
-      sObjectStoreName, iUpperBound, iDirection, bStrict,
+      sObjectStoreName, sIndexKey, iUpperBound, iDirection, bStrict,
       function(oResult) {
         if (!oResult) {
           // If there was no result, send back null.
@@ -115,13 +117,14 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
   
-  getLowerBound: function(sObjectStoreName, iLowerBound, iDirection, bStrict,
+  getLowerBound: function(sObjectStoreName, sIndexKey, iLowerBound, 
+                            iDirection, bStrict,
                             mResultElementCallback) {
     var self = this;
 
     var lAllObjects = new Array();
     this._oEngine.getLowerBound(
-      sObjectStoreName, iLowerBound, iDirection, bStrict,
+      sObjectStoreName, sIndexKey, iLowerBound, iDirection, bStrict,
       function(oResult) {
         if (!oResult) {
           // If there was no result, send back null.
@@ -140,14 +143,15 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
   
-  getBound: function(sObjectStoreName, iLowerBound, lUpperBound, iDirection, 
+  getBound: function(sObjectStoreName, sIndexKey, 
+                      iLowerBound, lUpperBound, iDirection, 
                       bStrictLower, bStrictUpper,
                       mResultElementCallback) {
     var self = this;
 
     var lAllObjects = new Array();
     this._oEngine.getBound(
-      sObjectStoreName, iLowerBound, iUpperBound, iDirection, 
+      sObjectStoreName, sIndexKey, iLowerBound, iUpperBound, iDirection, 
       bStrictLower, bStrictUpper,
       function(oResult) {
         if (!oResult) {
