@@ -182,7 +182,7 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  getLastEntry: function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+  getLast: function(sObjectStoreName, sIndexKey, mResultElementCallback) {
     var self = this;
 
     this._oEngine.getLast(sObjectStoreName, sIndexKey, function(oResult) {

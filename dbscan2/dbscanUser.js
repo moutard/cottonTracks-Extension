@@ -45,17 +45,31 @@ Cotton.DBSCAN2.startDbscanUser = function() {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
   }, function() {
     // Get the last Story in the database to know when we finished.
-    this.getLastEntry('stories', function(oLastStory) {
+    this.getLast('stories', 'fLastVisitTime',function(oLastStory) {
       // TODO(rmoutard) : instead of range by id, use fLastVisitTime.
-      var iLastId = oLastStory.getLastVisitItemId();
-      console.log(iLastId);
+      console.log(oLastStory);
+      var lVisitItemsId = oLastStory.getVisitItemsId();
       var oVisitStore = new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
-        this.getRange('visitItems', 0, iLastId, function(lPoolVisitItems) {
-          console.log(lPoolVisitItems);
-          Cotton.DBSCAN2.dbscanWorker.postMessage(lPoolVisitItems);
+        var lPoolVisitItems = new Array();
+        
+        this.findGroup('visitItems', 'id', lVisitItemsId, 
+          function(lLastStoryVisitItems) {
+            lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+            console.log(lPoolVisitItems);
+            
+            this.getLowerBound('visitItems', 'fVisitTime', 
+                                oLastStory.lastVisitTime(), "PREV", false,
+                                function(lUnclassifiedVisitItem){
+                                  lPoolVisitItem = lPoolVisitItems.concat(
+                                      lUnclassifiedVisitItem
+                                    );
+                                  Cotton.DBSCAN2.dbscanWorker.postMessage(lPoolVisitItems);
+                                }
+              );
         });
+
       });
       /*
        * this.delete('stories', oStory, function(){ chrome.history.search({ //
