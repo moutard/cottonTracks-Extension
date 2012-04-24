@@ -66,7 +66,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       unique : false
     },
     sStoryId : {
-      unique : false           
+      unique : false
     }
   };
 

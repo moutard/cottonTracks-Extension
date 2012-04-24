@@ -53,13 +53,13 @@ Cotton.DBSCAN2.startDbscanUser = function() {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         var lPoolVisitItems = new Array();
-        
-        this.findGroup('visitItems', 'id', lVisitItemsId, 
+
+        this.findGroup('visitItems', 'id', lVisitItemsId,
           function(lLastStoryVisitItems) {
             lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
             console.log(lPoolVisitItems);
-            
-            this.getLowerBound('visitItems', 'fVisitTime', 
+
+            this.getLowerBound('visitItems', 'fVisitTime',
                                 oLastStory.lastVisitTime(), "PREV", false,
                                 function(lUnclassifiedVisitItem){
                                   lPoolVisitItem = lPoolVisitItems.concat(
@@ -78,7 +78,7 @@ Cotton.DBSCAN2.startDbscanUser = function() {
        * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) {
        * console.log("result with last Visit Item"); console.log(lHistoryItems); //
        * include current story's historyItems
-       * 
+       *
        * lHistoryItems = lHistoryItems.concat(lastStory.iter());
        * console.log("Before dbscan"); console.log(lHistoryItems);
        * Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems); }); // end
