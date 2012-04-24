@@ -65,7 +65,8 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  getRange: function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback) {
+  getRange: function(sObjectStoreName, iLowerBound, iUpperBound,
+                      mResultElementCallback) {
     var self = this;
 
     var lAllObjects = new Array();
@@ -88,7 +89,84 @@ $.extend(Cotton.DB.Store.prototype, {
         mResultElementCallback.call(self, lAllObjects);
     });
   },
+  
+  getUpperBound: function(sObjectStoreName, iUpperBound, iDirection, bStrict,
+                            mResultElementCallback) {
+    var self = this;
 
+    var lAllObjects = new Array();
+    this._oEngine.getUpperBound(
+      sObjectStoreName, iUpperBound, iDirection, bStrict,
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else oResult is a list of Items.
+        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+  
+        mResultElementCallback.call(self, lAllObjects);
+    });
+  },
+  
+  getLowerBound: function(sObjectStoreName, iLowerBound, iDirection, bStrict,
+                            mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getLowerBound(
+      sObjectStoreName, iLowerBound, iDirection, bStrict,
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else oResult is a list of Items.
+        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+  
+        mResultElementCallback.call(self, lAllObjects);
+    });
+  },
+  
+  getBound: function(sObjectStoreName, iLowerBound, lUpperBound, iDirection, 
+                      bStrictLower, bStrictUpper,
+                      mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getBound(
+      sObjectStoreName, iLowerBound, iUpperBound, iDirection, 
+      bStrictLower, bStrictUpper,
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else oResult is a list of Items.
+        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+  
+        mResultElementCallback.call(self, lAllObjects);
+    });
+  },
+                       
   getLastEntry: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
