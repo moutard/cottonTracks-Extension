@@ -19,6 +19,10 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
   this._sDatabaseName = sDatabaseName;
   this._oDb = null;
 
+  // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
+  this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE", 
+                             "PREV", "PREV_NO_DUPLICATE"];
+
   var oRequest = webkitIndexedDB.open(sDatabaseName);
   oRequest.onsuccess = function(oEvent) {
     var oDb = self._oDb = oEvent.target.result;
@@ -256,16 +260,172 @@ $.extend(Cotton.DB.Engine.prototype, {
     // oCursorRequest.onerror = ;
   },
 
+  getKeyRange : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound, mResultElementCallback){
+    var self = this;
+    
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+   
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+    
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, false, false);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, 2);
+    // direction 2 : prev
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+  },
+
+  getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound, 
+                            iDirection, bStrict) {
+    // bStrict == false All keys[sIndexKey] ≤ iUpperBound
+    // iUpperBound may be not an int.
+    var self = this;
+    
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    
+    //
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+                                              webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+   
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+    
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+
+  },
+
+  getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
+                      iDirection, bStrict) {
+    // bStrict == false All keys[sIndexKey] ≥ iLowerBound
+    // iUpperBound may be not an int.
+    var self = this;
+    
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+                                              webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+   
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+    
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+      
+  },
+
+  getBound : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound, 
+                      iDirection, bStrictLower, bStrictUpper) {
+    var self = this;
+    
+    // Allow user to put "PREV" instead of 2 to get readable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+                                              webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+   
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+    
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, 
+                                            bStrictLower, bStrictUpper);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+      
+
+  },
+
   getLastEntry : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName], webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    // Get everything in the store.
+    // Define the Range.
     var oKeyRange = webkitIDBKeyRange.only(0);
     var oCursorRequest = oStore.openCursor(undefined, 2);
-
+    
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
 
