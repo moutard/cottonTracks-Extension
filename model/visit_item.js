@@ -4,6 +4,7 @@ Cotton.Model.VisitItem = function() {
 
   this._sId; // visitId.
   this._sChromeVisitId; // Should be the same that Google chrome history.
+  this._sStoryId = "UNCLASSIFIED";
 
   // Information of historyItem that are pertinent with this model.
   this._sUrl;
@@ -57,6 +58,12 @@ $
           },
 
           //
+          storyId : function() {
+            return this._sStoryId;
+          }, 
+          setStoryId : function(sStoryId) { 
+            this._sStoryId = sStoryId;
+          },
           pathname : function() {
             return this._sPathname;
           },

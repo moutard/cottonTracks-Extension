@@ -11,6 +11,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       sUrl : oVisitItem.url(),
       sTitle : oVisitItem.title(),
       iVisitTime : oVisitItem.visitTime(),
+      sStoryId : oVisitItem.storyId(),
     };
 
     // Simple configuration.
@@ -37,6 +38,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     // Use private attributes because they are immutable.
     oVisitItem._sId = oDbRecord.id;
     oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
+    oVisitItem._sStoryId =  oDbRecord.sStoryId;
 
     oVisitItem._sUrl = oDbRecord.sUrl;
     oVisitItem._sTitle = oDbRecord.sTitle;
@@ -62,6 +64,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     },
     iVisitTime : {
       unique : false
+    },
+    sStoryId : {
+      unique : false           
     }
   };
 
