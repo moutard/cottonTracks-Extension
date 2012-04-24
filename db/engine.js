@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- * 
+ *
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- * 
+ *
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -20,7 +20,7 @@ Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReady
   this._oDb = null;
 
   // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
-  this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE", 
+  this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE",
                              "PREV", "PREV_NO_DUPLICATE"];
 
   var oRequest = webkitIndexedDB.open(sDatabaseName);
@@ -123,7 +123,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
       webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
@@ -151,7 +151,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   listInverse: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
@@ -175,7 +175,7 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oCursorRequest.onerror = ;
   },
-  
+
   getList : function(sObjectStoreName, mResultElementCallback) {
     // a bit different of list. Because it returns an array of all the result.
     // The function list iterate on each element. The callback function is
@@ -184,37 +184,37 @@ $.extend(Cotton.DB.Engine.prototype, {
     var lAllItems = new Array();
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
     var oKeyRange = webkitIDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
-    
+
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
       if (oResult) {
         lAllItems.push(oResult.value);
         oResult.continue();
-      } 
+      }
       else {
         mResultElementCallback.call(self, lAllItems);
         return;
       }
     };
   },
-  
+
   iterRange : function(sObjectStoreName, iLowerBound, iUpperBound,
                   mResultElementCallback){
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, 
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oStore.openCursor(oKeyRange, 2);
     // direction 2 : prev
@@ -235,17 +235,17 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(rmoutard): Implement.
     // oCursorRequest.onerror = ;
   },
-  
+
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
     var self = this;
-    
+
     var lAllItems = new Array();
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, 
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oStore.openCursor(oKeyRange, 2);
     // direction 2 : prev
@@ -271,17 +271,17 @@ $.extend(Cotton.DB.Engine.prototype, {
   getKeyRange : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
                     mResultElementCallback){
     var self = this;
-    
+
     var lAllItems = new Array();
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-   
+
     // Define the index.
     var oIndex = oStore.index(sIndexKey);
-    
+
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, 
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oIndex.openCursor(oKeyRange, 2);
     // direction 2 : prev
@@ -304,25 +304,25 @@ $.extend(Cotton.DB.Engine.prototype, {
     // oCursorRequest.onerror = ;
   },
 
-  getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound, 
+  getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict) {
     // bStrict == false All keys[sIndexKey] ≤ iUpperBound
     // iUpperBound may be not an int.
     var self = this;
-    
+
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
-    
+
     //
     var lAllItems = new Array();
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
                                               webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-   
+
     // Define the index.
     var oIndex = oStore.index(sIndexKey);
-    
+
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
@@ -350,19 +350,19 @@ $.extend(Cotton.DB.Engine.prototype, {
     // bStrict == false All keys[sIndexKey] ≥ iLowerBound
     // iUpperBound may be not an int.
     var self = this;
-    
+
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
 
     var lAllItems = new Array();
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
                                               webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-   
+
     // Define the index.
     var oIndex = oStore.index(sIndexKey);
-    
+
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
@@ -383,27 +383,27 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(rmoutard): Implement.
     // oCursorRequest.onerror = ;
-      
+
   },
 
-  getBound : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound, 
+  getBound : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
                       iDirection, bStrictLower, bStrictUpper) {
     var self = this;
-    
+
     // Allow user to put "PREV" instead of 2 to get readable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
 
     var lAllItems = new Array();
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
                                               webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-   
+
     // Define the index.
     var oIndex = oStore.index(sIndexKey);
-    
+
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, 
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             bStrictLower, bStrictUpper);
     var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
 
@@ -423,21 +423,21 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(rmoutard): Implement.
     // oCursorRequest.onerror = ;
-      
+
 
   },
 
   getLastEntry : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.only(0);
     var oCursorRequest = oStore.openCursor(undefined, 2);
-    
+
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
 
@@ -454,21 +454,21 @@ $.extend(Cotton.DB.Engine.prototype, {
     // oCursorRequest.onerror = ;
 
   },
-  
+
   getLast : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-    
+
     // Define Index.
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.only(0);
     var oCursorRequest = oIndex.openCursor(undefined, 2);
-    
+
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
 
@@ -489,7 +489,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
@@ -506,11 +506,11 @@ $.extend(Cotton.DB.Engine.prototype, {
     // TODO(fwouts): Implement.
     // oFindRequest.onerror = ;
   },
-  
-  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue, 
+
+  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue,
                  mResultCallback) {
     var self = this;
-    
+
     var lAllItems = new Array();
     var p = 0;
     for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
@@ -519,14 +519,14 @@ $.extend(Cotton.DB.Engine.prototype, {
         if(oResult){
           lAllItems.push(oResult);
         }
-        
+
         if(p === lIndexValue.length){
           mResultCallback.call(self, lAllItems);
         }
       });
     }
 
-    
+
   },
 
   // TODO(fwouts): Dictionary or object?
@@ -534,7 +534,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   add: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
@@ -557,7 +557,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
@@ -582,7 +582,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;
 
-    var oTransaction = this._oDb.transaction([sObjectStoreName], 
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
