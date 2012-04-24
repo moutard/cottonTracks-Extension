@@ -11,8 +11,11 @@ Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
     dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
   });
 
-  this._oEngine = new Cotton.DB.Engine(sDatabaseName, dIndexesForObjectStoreNames, function() {
-    mOnReadyCallback.call(self);
+  this._oEngine = new Cotton.DB.Engine(
+      sDatabaseName, 
+      dIndexesForObjectStoreNames, 
+      function() {
+        mOnReadyCallback.call(self);
   });
 };
 
@@ -45,7 +48,8 @@ $.extend(Cotton.DB.Store.prototype, {
     this._oEngine.getList(sObjectStoreName, function(oResult) {
             var lList = new Array();
       for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){
-        var oTranslator = self._translatorForDbRecord(sObjectStoreName, oDbRecord);
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName, 
+                                                      oDbRecord);
         var oObject = oTranslator.dbRecordToObject(oDbRecord);
         lList.push(oObject);
       }
@@ -53,7 +57,8 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  iterRange: function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback) {
+  iterRange: function(sObjectStoreName, iLowerBound, iUpperBound, 
+                        mResultElementCallback) {
     var self = this;
 
     this._oEngine.iterRange(sObjectStoreName,
@@ -91,8 +96,8 @@ $.extend(Cotton.DB.Store.prototype, {
   },
   
 
-  getUpperBound: function(sObjectStoreName, sIndexKey, iUpperBound, iDirection, bStrict,
-
+  getUpperBound: function(sObjectStoreName, sIndexKey, iUpperBound, 
+                            iDirection, bStrict,
                             mResultElementCallback) {
     var self = this;
 
@@ -193,37 +198,43 @@ $.extend(Cotton.DB.Store.prototype, {
     });
   },
 
-  find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultElementCallback) {
+  find: function(sObjectStoreName, sIndexKey, oIndexValue, 
+                  mResultElementCallback) {
     var self = this;
 
-    this._oEngine.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult) {
-      if (!oResult) {
-        // If there was no result, send back null.
-        mResultElementCallback.call(self, null);
-        return;
-      }
+    this._oEngine.find(sObjectStoreName, sIndexKey, oIndexValue, 
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, null);
+          return;
+        }
 
-      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
-      var oObject = oTranslator.dbRecordToObject(oResult);
-      mResultElementCallback.call(self, oObject);
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName, 
+                                                      oResult);
+        var oObject = oTranslator.dbRecordToObject(oResult);
+        mResultElementCallback.call(self, oObject);
     });
   },
   
-  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue, mResultElementCallback) {
+  findGroup: function(sObjectStoreName, sIndexKey, lIndexValue, 
+                        mResultElementCallback) {
     var self = this;
     var lAllObjects = new Array();
-    this._oEngine.findGroup(sObjectStoreName, sIndexKey, lIndexValue, function(oResult) {
-      if (!oResult) {
-        // If there was no result, send back null.
-        mResultElementCallback.call(self, lAllObjects);
-        return;
-      }
-      // else oResult is a list of Items.
-      for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-        var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-        oItem);
-        var oObject = oTranslator.dbRecordToObject(oItem);
-        lAllObjects.push(oObject);
+
+    this._oEngine.findGroup(sObjectStoreName, sIndexKey, lIndexValue, 
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else oResult is a list of Items.
+        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+                                                        oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
       }
 
       mResultElementCallback.call(self, lAllObjects);
