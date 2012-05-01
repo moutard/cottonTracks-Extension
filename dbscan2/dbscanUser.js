@@ -49,6 +49,10 @@ Cotton.DBSCAN2.startDbscanUser = function() {
       // TODO(rmoutard) : instead of range by id, use fLastVisitTime.
       console.log(oLastStory);
       var lVisitItemsId = oLastStory.visitItemsId();
+      this.delete('stories', oLastStory.id(), function(iId){
+        console.log("story deleted");
+      });
+      
       var oVisitStore = new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
