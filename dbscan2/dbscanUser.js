@@ -45,29 +45,27 @@ Cotton.DBSCAN2.startDbscanUser = function() {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
   }, function() {
     // Get the last Story in the database to know when we finished.
-    this.getLast('stories', 'fLastVisitTime',function(oLastStory) {
+    this.getLast('stories', 'fLastVisitTime', function(oLastStory) {
       // TODO(rmoutard) : instead of range by id, use fLastVisitTime.
       console.log(oLastStory);
-      var lVisitItemsId = oLastStory.getVisitItemsId();
+      var lVisitItemsId = oLastStory.visitItemsId();
       var oVisitStore = new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         var lPoolVisitItems = new Array();
 
-        this.findGroup('visitItems', 'id', lVisitItemsId,
-          function(lLastStoryVisitItems) {
-            lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
-            console.log(lPoolVisitItems);
+        this.findGroup('visitItems', 'id', lVisitItemsId, function(
+            lLastStoryVisitItems) {
+          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+          console.log(lPoolVisitItems);
 
-            this.getLowerBound('visitItems', 'fVisitTime',
-                                oLastStory.lastVisitTime(), "PREV", false,
-                                function(lUnclassifiedVisitItem){
-                                  lPoolVisitItem = lPoolVisitItems.concat(
-                                      lUnclassifiedVisitItem
-                                    );
-                                  Cotton.DBSCAN2.dbscanWorker.postMessage(lPoolVisitItems);
-                                }
-              );
+          this.getLowerBound('visitItems', 'iVisitTime', oLastStory
+              .lastVisitTime(), "PREV", false,
+              function(lUnclassifiedVisitItem) {
+                lPoolVisitItems = lPoolVisitItems
+                    .concat(lUnclassifiedVisitItem);
+                Cotton.DBSCAN2.dbscanWorker.postMessage(lPoolVisitItems);
+              });
         });
 
       });
@@ -78,7 +76,7 @@ Cotton.DBSCAN2.startDbscanUser = function() {
        * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) {
        * console.log("result with last Visit Item"); console.log(lHistoryItems); //
        * include current story's historyItems
-       *
+       * 
        * lHistoryItems = lHistoryItems.concat(lastStory.iter());
        * console.log("Before dbscan"); console.log(lHistoryItems);
        * Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems); }); // end

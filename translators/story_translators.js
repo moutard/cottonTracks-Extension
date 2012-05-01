@@ -6,11 +6,11 @@ Cotton.Translators.STORY_TRANSLATORS = [];
 (function() {
 
   var mObjectToDbRecordConverter = function(oStory) {
-    
+
     var dDbRecord = {
-      //id : id is auto-incremented. Becareful do not confuse with
-      //clusterId, that is a temporary id attribute by DBSCAN to a new
-      //story. 
+      // id : id is auto-incremented. Becareful do not confuse with
+      // clusterId, that is a temporary id attribute by DBSCAN to a new
+      // story.
       lVisitItemsId : oStory.visitItemsId(),
       fLastVisitTime : oStory.lastVisitTime(),
       fRelevance : oStory.relevance(),
@@ -23,41 +23,41 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   };
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
-    
+
     var oStory = new Cotton.Model.Story();
     oStory.setId(oDbRecord.id);
 
-    if(oDbRecord.fLastVisitTime !== undefined) { 
+    if (oDbRecord.fLastVisitTime !== undefined) {
       oStory.setLastVisitTime(oDbRecord.fLastVisitTime);
     }
-    if(oDbRecord.fRelevance !== undefined){
+    if (oDbRecord.fRelevance !== undefined) {
       oStory.setRelevance(oDbRecord.fRelevance);
     }
-    if(oDbRecord.lVisitItemsId !== undefined){
-      for(var i = 0, iVisitItemId; iVisitItemId = oDbRecord.lVisitItemsId[i]; i++){
+    if (oDbRecord.lVisitItemsId !== undefined) {
+      for ( var i = 0, iVisitItemId; iVisitItemId = oDbRecord.lVisitItemsId[i]; i++) {
         oStory.addVisitItemId(iVisitItemId)
       }
     }
     return oStory;
   };
-  
+
   // The dictionary of all index descriptions.
   /*
-  E.g. if we wanted to have a non-unique index on relevance:
-  var dIndexes = {
-    fRelevance: {
-      unique: false
-    }
-  };
-  */
+   * E.g. if we wanted to have a non-unique index on relevance: var dIndexes = {
+   * fRelevance: { unique: false } };
+   */
   var dIndexes = {
     // TODO(fwouts) : id should be index automatically !
     id : {
-      unique : true     
+      unique : true
+    },
+    fLastVisitTime : {
+      unique : false
     },
   };
 
-  var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter, mDbRecordToObjectConverter, dIndexes);
+  var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
+      mDbRecordToObjectConverter, dIndexes);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);
 
 })();

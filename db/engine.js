@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- *
+ * 
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- *
+ * 
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -236,7 +236,8 @@ $.extend(Cotton.DB.Engine.prototype, {
     // oCursorRequest.onerror = ;
   },
 
-  getRange : function(sObjectStoreName, iLowerBound, iUpperBound, mResultElementCallback){
+  getRange : function(sObjectStoreName, iLowerBound, iUpperBound, 
+      mResultElementCallback){
     var self = this;
 
     var lAllItems = new Array();
@@ -305,7 +306,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
-                            iDirection, bStrict) {
+                            iDirection, bStrict, mResultElementCallback) {
     // bStrict == false All keys[sIndexKey] ≤ iUpperBound
     // iUpperBound may be not an int.
     var self = this;
@@ -346,7 +347,7 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
 
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
-                      iDirection, bStrict) {
+                      iDirection, bStrict, mResultElementCallback) {
     // bStrict == false All keys[sIndexKey] ≥ iLowerBound
     // iUpperBound may be not an int.
     var self = this;
@@ -387,7 +388,8 @@ $.extend(Cotton.DB.Engine.prototype, {
   },
 
   getBound : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
-                      iDirection, bStrictLower, bStrictUpper) {
+                      iDirection, bStrictLower, bStrictUpper, 
+                      mResultElementCallback) {
     var self = this;
 
     // Allow user to put "PREV" instead of 2 to get readable code.
