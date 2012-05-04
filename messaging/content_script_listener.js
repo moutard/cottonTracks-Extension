@@ -4,19 +4,19 @@
 // Called when a message is passed.  We assume that the content script
 function onRequest(request, sender, sendResponse) {
 
-  console.log("background has received a message");
   console.log(request);
 
-  // Cotton.DB.ManagementTools.listDB();
-  // it seems request.historyItem is not an HistoryItem but just a dictionnary.
+  // request.historyItem is serialized by the sender. So it's just
+  // a dictionary. We need to deserialized it before putting it in the DB.
   var oVisitItem = new Cotton.Model.VisitItem();
   oVisitItem.deserialize(request.visitItem);
 
   // TODO(rmoutard) : use DB system, or a singleton.
   var oToolsContainer = generateTools(); // return a list of Tools
   var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
-  var sPutId = "";
-  // if hostname of the url is a Tool remove it
+  var sPutId = ""; // put return the auto-incremented id in the database.
+
+  // Put the visitItem only if it's not a Tool.
   if (oToolsContainer.alreadyExist(sHostname) === -1) {
     var oStore = new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
@@ -25,15 +25,18 @@ function onRequest(request, sender, sendResponse) {
         console.log("visitItem added");
         console.log(iId);
         sPutId = iId;
+
+        // Return nothing to let the connection be cleaned up.
+        sendResponse({
+          received : "true",
+          id : sPutId,
+        });
+
       });
     });
   }
-  // Return nothing to let the connection be cleaned up.
-  sendResponse({
-    received : "true",
-    id : sPutId,
-  });
-};
+
+ };
 
 // Listen for the content script to send a message to the background page.
 chrome.extension.onRequest.addListener(onRequest);
