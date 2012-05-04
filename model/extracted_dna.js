@@ -9,6 +9,10 @@ Cotton.Model.extractedDNA = Class.extend({
   init: function() {
     this._lScores = [];
     this._lHighlightedText = [];
+    // TODO(rmoutard) : see with fwouts the model of textHighLigter
+    // this._lTextHighlighter = [];
+    // this._iScrollCount = 0;
+    // this._lCopyPaste = [];
   },
 
   scores : function() {
@@ -23,6 +27,26 @@ Cotton.Model.extractedDNA = Class.extend({
   addHighLightedText : function(sText) {
    this.push(sText);
   },
+  /*
+  textHighLighter : function() {
+    return this._sTextHighlighter;
+  },
+  setTextHighLighter : function(highLight) {
+    this._sTextHighlighter.push(highLight);
+  },
+  scrollCount : function() {
+    return this._iScrollCount;
+  },
+  setScrollCount : function(scrollCount) {
+    this._iScrollCount = scrollCount;
+  },
+  copyPaste : function() {
+    return this._lCopyPaste;
+  },
+  setCopyPaste : function(copyPaste) {
+    this._lCopyPaste.push(copyPaste);
+  },
+  */
 
 });
 
