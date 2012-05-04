@@ -4,7 +4,7 @@
 // the DNA of the page, like score on each block, keywords, hightlight...
 // That's why it's called PageDNA.
 // The extractedDNA depends on the visit.
-Cotton.Model.extractedDNA = Class.extend({
+Cotton.Model.ExtractedDNA = Class.extend({
 
   init: function() {
     this._lScores = [];
