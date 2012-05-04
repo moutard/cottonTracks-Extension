@@ -25,14 +25,7 @@ Cotton.Model.VisitItem = function() {
   this._sClosestGeneratedPage;
 
   // Improved model - only available for DBSCAN2
-  // TODO(rmoutard) : see with fwouts the model of textHighLigter
-  // this._lTextHighlighter = [];
-  // this._iScrollCount = 0;
-  // this._lCopyPaste = [];
-  // this._lPScore = []; // array of dictionnary {p:"text de p", score : "score
-  // de
-  // p"}
-
+  this._oExtractedDNA = new Cotton.Model.ExtractedDNA();
 };
 
 $
@@ -60,8 +53,8 @@ $
           //
           storyId : function() {
             return this._sStoryId;
-          }, 
-          setStoryId : function(sStoryId) { 
+          },
+          setStoryId : function(sStoryId) {
             this._sStoryId = sStoryId;
           },
           pathname : function() {
@@ -95,34 +88,8 @@ $
             this._sClosestGeneratedPage = sClosestGeneratedPage;
           },
           // expanded
-          textHighLighter : function() {
-            return this._sTextHighlighter;
-          },
-          setTextHighLighter : function(highLight) {
-            this._sTextHighlighter.push(highLight);
-          },
-          scrollCount : function() {
-            return this._iScrollCount;
-          },
-          setScrollCount : function(scrollCount) {
-            this._iScrollCount = scrollCount;
-          },
-          copyPaste : function() {
-            return this._lCopyPaste;
-          },
-          setCopyPaste : function(copyPaste) {
-            this._lCopyPaste.push(copyPaste);
-          },
-          pScore : function() {
-            return this._lPScore;
-          },
-          setPScore : function(dNewP) {
-            var i = _.indexOf(_.pluck(this._lPScore, "p"), dNewP);
-            if (i !== -1) {
-              this._lPScore[i].score = dNewP.score; // TODO(rmoutard) : check +=
-            } else {
-              this._lPScore.push(dNewP);
-            }
+          extractedDNA : function(){
+            return this._oExtractedDNA;
           },
           // method
           getInfoFromPage : function() {
