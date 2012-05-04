@@ -11,11 +11,11 @@ $(document).ready(function() {
   oCurrentVisitItem.getInfoFromPage();
 
   chrome.extension.sendRequest({
-  visitItem : oCurrentVisitItem
-    }, function(response) {
-      console.log(response);
-      oCurrentVisitItem._sId = response.id;
-      console.log(oCurrentVisitItem);
+    visitItem : oCurrentVisitItem
+      }, function(response) {
+        console.log(response);
+        oCurrentVisitItem._sId = response.id;
+        console.log(oCurrentVisitItem);
   });
 
 });
