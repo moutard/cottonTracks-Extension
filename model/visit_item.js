@@ -126,7 +126,7 @@ $
             //this._sChromeVisitId = dVisitItemSerialized || undefined;
 
             this._sUrl = dVisitItemSerialized._sUrl || '';
-            this._sTilte = dVisitItemSerialized._sTitle || '';
+            this._sTitle = dVisitItemSerialized._sTitle || '';
             this._iVisitTime = dVisitItemSerialized._iVisitTime || 0;
 
             //this._lTextHighlighter = dVisitItemSerialized._lTextHighlighter;
