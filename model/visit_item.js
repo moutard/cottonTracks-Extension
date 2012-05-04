@@ -8,7 +8,7 @@ Cotton.Model.VisitItem = function() {
 
   // Information of historyItem that are pertinent with this model.
   this._sUrl;
-  this._sTitle;
+  this._sTitle = "";
   this._iVisitTime;
 
   // Informations of historyItem that are NOT pertinent th this model.
