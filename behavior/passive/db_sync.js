@@ -1,14 +1,21 @@
 'use strict';
+// DB_SYNC.
+// Each time a new tab is opened, a visitItem is created. Then send to the
+// content_script_listener. That will put it in the database.
+
+var oCurrentVisitItem = new Cotton.Model.VisitItem();
 
 $(document).ready(function() {
-  var oCurrentVisitItem = new Cotton.Model.VisitItem();
+  // Need to wait the document is ready to get the title.
+
   oCurrentVisitItem.getInfoFromPage();
-  console.log(oCurrentVisitItem);
 
   chrome.extension.sendRequest({
   visitItem : oCurrentVisitItem
     }, function(response) {
       console.log(response);
+      oCurrentVisitItem._sId = response.id;
+      console.log(oCurrentVisitItem);
   });
 
 });
