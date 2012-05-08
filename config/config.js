@@ -2,9 +2,10 @@
 
 Cotton.Config.Parameters = {
   // Pretreatment
-  lTools : [ 'mail.google.com', 'accounts.google.com', 'continuousintegration.corp.ltutech.com',
-      'docs.google.com', 'grooveshark.com', 'github.com', 'www.facebook.com',
-      'www.deezer.com', 'www.wordreference.com' ],
+  lTools : [ 'mail.google.com', 'accounts.google.com',
+      'continuousintegration.corp.ltutech.com', 'docs.google.com',
+      'grooveshark.com', 'github.com', 'www.facebook.com', 'www.deezer.com',
+      'www.wordreference.com', 'twitter.com' ],
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
   // DBSCAN
