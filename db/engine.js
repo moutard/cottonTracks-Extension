@@ -307,7 +307,7 @@ $.extend(Cotton.DB.Engine.prototype, {
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â‰¤ iUpperBound
+    // bStrict == false All keys[sIndexKey] â<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -348,7 +348,7 @@ $.extend(Cotton.DB.Engine.prototype, {
 
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â‰¥ iLowerBound
+    // bStrict == false All keys[sIndexKey] â>= iLowerBound
     // iUpperBound may be not an int.
     var self = this;
 
