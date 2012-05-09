@@ -12,7 +12,7 @@ Cotton.Config.Parameters = {
   fEpsTime : 1000 * 60 * 5,
   fEps : 0.40, // Max Distance between neighborhood
   iMinPts : 5, // Min Points in a cluster
-  iMaxResult : 2000, // The maximum number of results to retrieve in the
+  iMaxResult : 1000, // The maximum number of results to retrieve in the
   // chrome history
   distanceCoeff : {
     id : 0.10,
