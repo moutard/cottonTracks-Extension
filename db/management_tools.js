@@ -3,7 +3,7 @@
 Cotton.DB.ManagementTools = {};
 Cotton.DB.ManagementTools.dStores = {
     "stories" : "STORY_TRANSLATORS",
-    "pool" : "HISTORY_ITEM_TRANSLATORS",
+    //"pool" : "HISTORY_ITEM_TRANSLATORS",
     "visitItems" : "VISIT_ITEM_TRANSLATORS",
 };
 // maybe add historyItem
@@ -12,17 +12,7 @@ Cotton.DB.ManagementTools.clearDB = function(){
   console.log("CLEAR DB");
   var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
   for(var i = 0, sStore; sStore = lStores[i]; i++){
-    var dStoreParameters = {};
-    dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
-    new Cotton.DB.Store('ct',
-        dStoreParameters,
-        function() {
-         this.iterList('stories', function(oEntry) {
-           this.delete(store, oEntry.id(), function(){
-            console.log("entry deleted");
-           });
-         });
-       });
+    Cotton.DB.ManagementTools.clearStore(sStore);
   }
 };
 
