@@ -264,7 +264,15 @@ $.extend(Cotton.DB.Store.prototype, {
       }
     });
   },
+  
+  purge: function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
 
+    this._oEngine.purge(sObjectStoreName, function() {
+      mResultElementCallback.call(self);
+    });
+  },
+  
   _translatorForDbRecord: function(sObjectStoreName, dDbRecord) {
     return this._translator(sObjectStoreName, dDbRecord.sFormatVersion);
   },

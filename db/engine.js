@@ -596,5 +596,36 @@ $.extend(Cotton.DB.Engine.prototype, {
 
     // TODO(fwouts): Implement.
     // oDeleteRequest.onerror = ;
-  }
+  },
+  
+  purge: function(sObjectStoreName, mResultElementCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+      webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oCursorRequest = oStore.openCursor(oKeyRange);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self);
+        return;
+      }
+      
+      self.delete(sObjectStoreName, oResult.value.id, function(){
+        console.log("entry deleted");
+      });
+      oResult.continue();
+    };
+
+    // TODO(fwouts): Implement.
+    // oCursorRequest.onerror = ;
+  },
+  
 });
