@@ -12,22 +12,22 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       sTitle : oVisitItem.title(),
       iVisitTime : oVisitItem.visitTime(),
       sStoryId : oVisitItem.storyId(),
+      oExtractedDNA : {
+              'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
+              'lScores' : oVisitItem._oExtractedDNA._lScores,
+                      },
     };
 
     // Simple configuration.
-    if (oVisitItem.id() !== undefined)
+    if (oVisitItem.id() !== undefined){
       // else id will be auto-incremented by engine. Because its the first time
       // you add this visitItem.
       dDbRecord.id = oVisitItem.id();
+    }
 
-    if (oVisitItem.chromeId() !== undefined)
+    if (oVisitItem.chromeId() !== undefined){
       dDbRecord.sChromeId = oVisitItem.chromeId();
-
-    // Complexe configuration.
-    // dDbRecord.lTextHighlighter = oVisitItem.lTextHighlighter || undefined;
-    // dDbRecord.iScrollCount = oVisitItem.iScrollCount || undefined;
-    // dDbRecord.lCopyPaste = oVisitItem.iScrollCount || undefined;
-    // dDbRecord.lPScore = oVisitItem.iScrollCount || undefined;
+    }
 
     return dDbRecord;
   };
@@ -44,11 +44,10 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oVisitItem._sTitle = oDbRecord.sTitle;
     oVisitItem._iVisitTime = oDbRecord.iVisitTime;
 
-    oVisitItem.lTextHighlighter = oDbRecord.lTextHighlighter || undefined;
-    oVisitItem.iScrollCount = oDbRecord.iScrollCount || undefined;
-    oVisitItem.lCopyPaste = oDbRecord.iScrollCount || undefined;
-    oVisitItem.lPScore = oDbRecord.iScrollCount || undefined;
-
+    oVisitItem._oExtractedDNA._lHighlightedText =
+                        oDbRecord.oExtractedDNA.lHighlightedText;
+    oVisitItem._oExtractedDNA._lScores =
+                        oDbRecord.oExtractedDNA.lScores;
     return oVisitItem;
   };
 
