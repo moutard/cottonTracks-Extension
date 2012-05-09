@@ -14,9 +14,17 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
   $('#loader-animation').remove();
   Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
   Cotton.UI.Debug.displayStories(dStories.stories);
-
-  console.log("After cluster stories");
-  console.log(dStories);
+  
+  new Cotton.DB.Store('ct',
+      { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+      function() {
+       this.getLowerBound('stories', 'fLastVisitTime', 0.0,
+           "PREV", true, function(lStories) {
+         Cotton.UI.Debug.displayStories(lStories);
+       });
+     });
+  // console.log("After cluster stories");
+  // console.log(dStories);
 
   // DB
   Cotton.DB.ManagementTools.addStories(dStories.stories);
@@ -80,7 +88,7 @@ Cotton.DBSCAN2.startDbscanUser = function() {
        * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) {
        * console.log("result with last Visit Item"); console.log(lHistoryItems); //
        * include current story's historyItems
-       *
+       * 
        * lHistoryItems = lHistoryItems.concat(lastStory.iter());
        * console.log("Before dbscan"); console.log(lHistoryItems);
        * Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems); }); // end
