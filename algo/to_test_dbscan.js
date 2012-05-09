@@ -47,12 +47,18 @@ if (localStorage) {
      * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) { //
      * DBSCAN. worker.postMessage(lHistoryItems); });
      */
-    Cotton.DB.populateDB(function() {
-      var oStore = new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
-        oStore.getList('visitItems', function(lAllVisitItems) {
-          worker.postMessage(lAllVisitItems);
+    // Cotton.DB.ManagementTools.purge('stories', function() {
+    // });
+    Cotton.DB.ManagementTools.purge('visitItems', function() {
+      Cotton.DB.ManagementTools.purge('stories', function() {
+        Cotton.DB.populateDB(function() {
+          var oStore = new Cotton.DB.Store('ct', {
+            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+          }, function() {
+            oStore.getList('visitItems', function(lAllVisitItems) {
+              worker.postMessage(lAllVisitItems);
+            });
+          });
         });
       });
     });
