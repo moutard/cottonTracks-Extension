@@ -50,14 +50,32 @@ body {
 
 // Background landscape.
 .ct-landscape {
-  background: url('/images/landscape.png') left 90%;
+  background: url('/images/landscape.png') left;
   position: absolute;
-  width: 100%;
-  height: 20%;
+  width: 3872px;
+  height: 50%;
   bottom: 0;
   z-index: 1;
 
   -webkit-transition-duration: @openingDuration;
+}
+
+@-webkit-keyframes running {
+  from {
+    -webkit-transform : translateX(0px);
+  }
+  90% {
+    -webkit-transform : translateX(-2500px);
+  }
+  to {
+    -webkit-transform : translateX(0px);
+  }
+}
+.ct-landscape.running {
+  -webkit-animation-name: running;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-webkit-animation-duration: 5s;
 }
 
 // Curtain on top of the landscape.
@@ -67,7 +85,7 @@ body {
   width: 100%;
   // Sometimes using 80% results in a 1px white line.
   height: 81%;
-
+  z-index : 2;
   -webkit-transition-duration: @openingDuration;
 
   &:after {
