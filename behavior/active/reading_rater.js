@@ -35,15 +35,17 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         padding: '0.4em'
       })
       .appendTo('body');
+    
+    
+    // We will relaunch the parsing every 5 seconds. We do not use setInterval for performance issues.
+    var mRefreshParsing = function() {
+      oParser.parse();
+      // Refresh every 5 seconds.
+      setTimeout(mRefreshParsing, 5000);
+    };
 
-    // Refresh every 5 seconds.
-    setInterval(function() {
-      oParser.parse();
-    }, 5000);
     // Launch almost immediately (but try to avoid freezing the page).
-    setTimeout(function() {
-      oParser.parse();
-    }, 0);
+    setTimeout(mRefreshParsing, 0);
     
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
@@ -54,7 +56,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
     });
     
-    setInterval(function() {
+    var mRefreshReadingRate = function() {
       
       if (!self._bDocumentActive) {
         // Do not increase scores if the document is inactive.
@@ -102,7 +104,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           $feedback.text(iPercent + '%');
         });
       }
-    }, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+      
+      // Refresh after a little while.
+      setTimeout(mRefreshReadingRate, Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+    };
+    
+    mRefreshReadingRate();
   },
   
   log: function(msg) {
