@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>CottonTracks</title>
+
+  <!-- Library -->
   <script type='text/javascript' src='lib/class.js'></script>
   <script type='text/javascript' src='lib/jquery.min.js'></script>
   <script type='text/javascript' src='lib/raphael.min.js'></script>
@@ -9,6 +11,7 @@
   <script type='text/javascript' src='lib/backbone.min.js'></script>
   <script type='text/javascript' src='lib/date.format.js'></script>
   <script type='text/javascript' src='lib/parseURL.js'></script>
+  <script type='text/javascript' src='lib/less.js'></script>
 
   <!-- Cotton -->
   <script type='text/javascript' src='init.js'></script>
@@ -19,6 +22,7 @@
   <script type='text/javascript' src='ui/init.js'></script>
   <script type='text/javascript' src='ui/first_visit.js'></script>
   <script type='text/javascript' src='ui/debug_print.js'></script>
+  <script type='text/javascript' src='config/ga.js'></script>
 <!--
   <script type='text/javascript' src='ui/ui.js'></script>
   <script type='text/javascript' src='ui/world.js'></script>
@@ -71,15 +75,17 @@
   <script type='text/javascript' src='dbscan2/dbscanUser.js'></script>
 
   <script type='text/javascript' src='algo/to_test_dbscan.js'></script>
+  <script type='text/javascript' src='ui/loading.js'></script>
 
   <link rel="stylesheet/less" type="text/css" href="style.less" />
-  <script type='text/javascript' src='lib/less.js'></script>
-
-  <script type='text/javascript' src='config/ga.js'></script>
+  <!-- FIXME(rmoutard): load only if necessary -->
+  <link rel="stylesheet/less" type="text/css" href="loading.less" />
 </head>
 <body>
-  <img id="loader-animation" src='loader.gif' />
-  <div id="stickyBar_bar"></div>
-  <div id= "liste" ></div>
+  <div id="ct">
+    <img id="loader-animation" src='loader.gif' />
+    <div id="stickyBar_bar"></div>
+    <div id= "liste" ></div>
+  </div> <!-- ct -->
 </body>
 </html>
