@@ -1,28 +1,30 @@
 'use strict';
 
-Cotton.DB.Translator = function(sFormatVersion, mObjectToDbRecordConverter, mDbRecordToObjectConverter, dOptionalIndexDescriptions) {
-  this._sFormatVersion = sFormatVersion;
-  this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
-  this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
-  this._dIndexDescriptions = dOptionalIndexDescriptions || [];
-};
+Cotton.DB.Translator = Class.extend({
 
-$.extend(Cotton.DB.Translator.prototype, {
-  objectToDbRecord: function(oObject) {
+  init : function(sFormatVersion, mObjectToDbRecordConverter,
+      mDbRecordToObjectConverter, dOptionalIndexDescriptions) {
+    this._sFormatVersion = sFormatVersion;
+    this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
+    this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
+    this._dIndexDescriptions = dOptionalIndexDescriptions || [];
+  },
+
+  objectToDbRecord : function(oObject) {
     var dDbRecord = this._mObjectToDbRecordConverter.call(this, oObject);
     dDbRecord.sFormatVersion = this._sFormatVersion;
     return dDbRecord;
   },
-  dbRecordToObject: function(oDbRecord) {
+  dbRecordToObject : function(oDbRecord) {
     if (oDbRecord.sFormatVersion != this._sFormatVersion) {
       throw "Version mismatch."
     }
     return this._mDbRecordToObjectConverter.call(this, oDbRecord);
   },
-  formatVersion: function() {
+  formatVersion : function() {
     return this._sFormatVersion;
   },
-  indexDescriptions: function() {
+  indexDescriptions : function() {
     return this._dIndexDescriptions;
   }
 });
