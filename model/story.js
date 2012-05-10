@@ -1,19 +1,20 @@
 'use strict';
 
-Cotton.Model.Story = function(lVisitItems) {
-  // storyClass
+Cotton.Model.Story = Class.extend({
+  init : function(lVisitItems) {
 
-  // DATA MODEL
-  this._iId;
-  this._fLastVisitTime = 0;
-  this._fRelevance;
+    // storyClass
 
-  this._lVisitItemsId = new Array();
+    // DATA MODEL
+    this._iId;
+    this._fLastVisitTime = 0;
+    this._fRelevance;
 
-};
+    this._lVisitItemsId = new Array();
 
-// PROTOTYPE
-$.extend(Cotton.Model.Story.prototype, {
+  },
+
+  // PROTOTYPE
   // GETTER
   id : function() {
     return this._iId;

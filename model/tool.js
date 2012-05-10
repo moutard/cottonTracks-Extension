@@ -1,15 +1,15 @@
 'use strict'
 
-Cotton.Model.Tool = function() {
-  this._sId; // visitId.
-  this._sTitle;
-  this._sHostname;
+Cotton.Model.Tool = Class.extend({
+  init : function() {
+    this._sId; // visitId.
+    this._sTitle;
+    this._sHostname;
 
-  // Satistiques
-  this._fFrequency;
-};
+    // Satistiques
+    this._fFrequency;
+  },
 
-$.extend(Cotton.Model.Tool.prototype, {
   // GETTER
   // can't be set
   id : function() {
