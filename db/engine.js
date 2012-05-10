@@ -13,113 +13,113 @@
  * mOnReadyCallback = the callback method that should be executed when the
  * database is ready.
  */
-Cotton.DB.Engine = function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
-  var self = this;
-
-  this._sDatabaseName = sDatabaseName;
-  this._oDb = null;
-
-  // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
-  this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE",
-                             "PREV", "PREV_NO_DUPLICATE"];
-
-  var oRequest = webkitIndexedDB.open(sDatabaseName);
-  oRequest.onsuccess = function(oEvent) {
-    var oDb = self._oDb = oEvent.target.result;
-
-    var bHasMissingObjectStore = false;
-    var bHasMissingIndexKey = false;
-
-    var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
-
-    // We need to compare whether the current list of object stores in the
-    // database matches the
-    // object stores that are requested in lObjectStoreNames.
-
-    var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
-
-    // lExistingObjectStoreNames is the list of object stores that are already
-    // present in the database
-    // and match the requested list of object stores. For example, if we ask for
-    // two stores
-    // ['abc, 'def'] and the present stores are ['abc', 'ghi'],
-    // lExistingObjectStoreNames will contain
-    // ['abc'] (still ).
-    var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
-
-    // See if there are any object stores missing.
-    var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
-    bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
-
-    // Check if, among the present object stores, there is any that miss an
-    // index.
-    var dMissingIndexKeysForObjectStoreNames = {};
-    if (lExistingObjectStoreNames.lenght > 0) {
-      var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
-      _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
-        var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
-        _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
-          try {
-            oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
-          } catch (e) {
-            // TODO(fwouts): Check that e is an instance of NotFoundError.
-            lMissingIndexKeys.push(sIndexKey);
-            bHasMissingIndexKey = true;
+Cotton.DB.Engine = Class.extend({
+  init :function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
+    var self = this;
+  
+    this._sDatabaseName = sDatabaseName;
+    this._oDb = null;
+  
+    // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
+    this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE",
+                               "PREV", "PREV_NO_DUPLICATE"];
+  
+    var oRequest = webkitIndexedDB.open(sDatabaseName);
+    oRequest.onsuccess = function(oEvent) {
+      var oDb = self._oDb = oEvent.target.result;
+  
+      var bHasMissingObjectStore = false;
+      var bHasMissingIndexKey = false;
+  
+      var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
+  
+      // We need to compare whether the current list of object stores in the
+      // database matches the
+      // object stores that are requested in lObjectStoreNames.
+  
+      var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
+  
+      // lExistingObjectStoreNames is the list of object stores that are already
+      // present in the database
+      // and match the requested list of object stores. For example, if we ask
+      // for
+      // two stores
+      // ['abc, 'def'] and the present stores are ['abc', 'ghi'],
+      // lExistingObjectStoreNames will contain
+      // ['abc'] (still ).
+      var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
+  
+      // See if there are any object stores missing.
+      var lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
+      bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
+  
+      // Check if, among the present object stores, there is any that miss an
+      // index.
+      var dMissingIndexKeysForObjectStoreNames = {};
+      if (lExistingObjectStoreNames.lenght > 0) {
+        var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
+        _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
+          var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
+          _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
+            try {
+              oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
+            } catch (e) {
+              // TODO(fwouts): Check that e is an instance of NotFoundError.
+              lMissingIndexKeys.push(sIndexKey);
+              bHasMissingIndexKey = true;
+            }
+          });
+        });
+      }
+  
+      if (bHasMissingObjectStore || bHasMissingIndexKey) {
+  
+        var iNewVersion = parseInt(oDb.version) + 1;
+  
+        // We need to update the database.
+        // We can only create Object stores in a setVersion transaction.
+        var oSetVersionRequest = oDb.setVersion(iNewVersion);
+  
+        oSetVersionRequest.onsuccess = function(oEvent) {
+  
+          for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+            // Create the new object store.
+            console.log('Creating object store ' + sMissingObjectStoreName);
+            var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
+              keyPath: 'id',
+              autoIncrement: true
+            });
+            // Add all the indexes on the newly created object store.
+            var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
+            _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
+              objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
+            });
           }
-        });
-      });
-    }
-
-    if (bHasMissingObjectStore || bHasMissingIndexKey) {
-
-      var iNewVersion = parseInt(oDb.version) + 1;
-
-      // We need to update the database.
-      // We can only create Object stores in a setVersion transaction.
-      var oSetVersionRequest = oDb.setVersion(iNewVersion);
-
-      oSetVersionRequest.onsuccess = function(oEvent) {
-
-        for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
-          // Create the new object store.
-          console.log('Creating object store ' + sMissingObjectStoreName);
-          var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
-            keyPath: 'id',
-            autoIncrement: true
+  
+          // Add all the missing indexes on the existing object stores.
+          _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
+            var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
+            var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
+            _.each(lMissingIndexKeys, function(sIndexKey) {
+              console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+              objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
+            });
           });
-          // Add all the indexes on the newly created object store.
-          var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
-          _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
-            objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
-          });
-        }
-
-        // Add all the missing indexes on the existing object stores.
-        _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
-          var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
-          var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
-          _.each(lMissingIndexKeys, function(sIndexKey) {
-            console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
-            objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
-          });
-        });
-
+  
+          mOnReadyCallback.call(self);
+        };
+  
+        // TODO(fwouts): Implement.
+        // oSetVersionRequest.onfailure = ;
+      } else {
+        // The database is already up to date, so we are ready.
         mOnReadyCallback.call(self);
-      };
-
-      // TODO(fwouts): Implement.
-      // oSetVersionRequest.onfailure = ;
-    } else {
-      // The database is already up to date, so we are ready.
-      mOnReadyCallback.call(self);
-    }
-  };
-
-  // TODO(fwouts): Implement.
-  // oRequest.onfailure = ;
-};
-
-$.extend(Cotton.DB.Engine.prototype, {
+      }
+    };
+  
+    // TODO(fwouts): Implement.
+    // oRequest.onfailure = ;
+  },
   iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
