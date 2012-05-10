@@ -20,9 +20,9 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
 // WORKER
 // DBSCAN is lauched in a worker used as multithread.
-var worker = new Worker('algo/worker.js');
+var wDBSCAN = new Worker('algo/worker.js');
 
-worker.addEventListener('message', function(e) {
+wDBSCAN.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
   Cotton.UI.openCurtain();
   // Use local storage, to see that's it's not the first visit.
@@ -32,6 +32,21 @@ worker.addEventListener('message', function(e) {
 
 }, false);
 
+var wPopulateDB = new Worker('db/populate_db_worker.js');
+
+wPopulateDB.addEventListener('message', function(e){
+  // Called when the worker is finished.
+  // When populateDB has finished, take all the elements in the store, and
+  // launch DBSCAN.
+  var oStore = new Cotton.DB.Store('ct', {
+            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+          }, function() {
+            oStore.getList('visitItems', function(lAllVisitItems) {
+              wDBSCAN.postMessage(lAllVisitItems);
+            });
+          });
+
+}, false);
 // START
 if (localStorage) {
   // Check if broswer support localStorage
@@ -39,7 +54,14 @@ if (localStorage) {
   if (localStorage['CottonFirstOpening'] === undefined
       || localStorage['CottonFirstOpening'] === "true") {
     // This is the first visit.
-
+    chrome.history.search({
+      text : '',
+      startTime : 0,
+      maxResults : Cotton.Config.Parameters.iMaxResult,
+      }, function(lHistoryItems) {
+        wPopulateDB.postMessage(lHistoryItems);
+      });
+    /*
     Cotton.DB.ManagementTools.purge('visitItems', function() {
       Cotton.DB.ManagementTools.purge('stories', function() {
         Cotton.DB.populateDB(function() {
@@ -47,13 +69,13 @@ if (localStorage) {
             'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
           }, function() {
             oStore.getList('visitItems', function(lAllVisitItems) {
-              worker.postMessage(lAllVisitItems);
+              wDBSCAN.postMessage(lAllVisitItems);
             });
           });
         });
       });
     });
-
+  */
   } else {
     // This is not the first visit.
 
