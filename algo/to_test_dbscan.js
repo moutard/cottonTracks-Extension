@@ -25,6 +25,8 @@ var worker = new Worker('algo/worker.js');
 worker.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
   Cotton.UI.openCurtain();
+  // Use local storage, to see that's it's not the first visit.
+  localStorage['CottonFirstOpening'] = "false";
   console.log('Worker ends: ', e.data.iNbCluster);
   handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lVisitItems);
 
@@ -51,8 +53,6 @@ if (localStorage) {
         });
       });
     });
-    // Use local storage, to see that's it's not the first visit.
-    localStorage['CottonFirstOpening'] = "false";
 
   } else {
     // This is not the first visit.

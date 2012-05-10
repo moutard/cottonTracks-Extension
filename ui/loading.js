@@ -2,16 +2,18 @@
 
 $(window).load(function() {
       $('body').addClass('ct-body-loaded');
-
+      $('.ct-landscape').addClass('running');
       // If it's not the first time curtain is already open.
-      if (localStorage['CottonFirstOpening'] !== undefined
-      && localStorage['CottonFirstOpening'] !== "true") {
-        $('body').addClass('ct-body-open');
+      if (localStorage['CottonFirstOpening'] === undefined
+      || localStorage['CottonFirstOpening'] === "true") {
+      } else {
+        Cotton.UI.openCurtain();
       }
 });
 
 Cotton.UI.openCurtain = function(){
   $('body').addClass('ct-body-open');
+  $('.ct-landscape').removeClass('running');
 };
 
 Cotton.UI.closeCurtain = function(){
