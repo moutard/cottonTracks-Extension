@@ -1,25 +1,25 @@
 'use strict';
 
-Cotton.DB.Store = function(sDatabaseName, dTranslators, mOnReadyCallback) {
-  var self = this;
+Cotton.DB.Store = Class.extend({
 
-  this._dTranslators = dTranslators;
-
-  var dIndexesForObjectStoreNames = {};
-  // TODO: Use _.each everywhere instead of ugly for loops?
-  _.each(dTranslators, function(lTranslators, sObjectStoreName) {
-    dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
-  });
-
-  this._oEngine = new Cotton.DB.Engine(
-      sDatabaseName,
-      dIndexesForObjectStoreNames,
-      function() {
-        mOnReadyCallback.call(self);
-  });
-};
-
-$.extend(Cotton.DB.Store.prototype, {
+  init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
+    var self = this;
+  
+    this._dTranslators = dTranslators;
+  
+    var dIndexesForObjectStoreNames = {};
+    // TODO: Use _.each everywhere instead of ugly for loops?
+    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
+      dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
+    });
+  
+    this._oEngine = new Cotton.DB.Engine(
+        sDatabaseName,
+        dIndexesForObjectStoreNames,
+        function() {
+          mOnReadyCallback.call(self);
+    });
+  },
 
   // Must be called once the store is ready.
   iterList: function(sObjectStoreName, mResultElementCallback) {
