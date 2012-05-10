@@ -1,3 +1,5 @@
+@extensionId : ~"__MSG_@@extension_id__";
+@extensionPath : "chrome-extension://@{extensionId}";
 @curtainGradientBorder: rgba(0, 0, 0, 0.5);
 @curtainGradientCenter: rgba(0, 0, 0, 0);
 @curtainGradient: -webkit-gradient(linear, 0 0, 100% 0, from(@curtainGradientBorder), color-stop(40%, @curtainGradientCenter), color-stop(60%, @curtainGradientCenter), to(@curtainGradientBorder));
@@ -7,14 +9,14 @@
 
 @font-face {
   font-family: 'AbrahamLincoln';
-  src: url('fonts/AbrahamLincoln.ttf');
+  src: url('/fonts/AbrahamLincoln.ttf');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'BallparkWeiner';
-  src: url('fonts/ballpark_weiner.ttf');
+  src: url('/fonts/ballpark_weiner.ttf');
   font-weight: normal;
   font-style: normal;
 }
@@ -22,62 +24,62 @@
 body {
   margin: 0;
   background: #000;
-  
+
   // Hide the body while it's not loaded yet.
   opacity: 0;
-  
+
   -webkit-transition-duration: 3s;
-  
+
   &.ct-body-loaded {
     opacity: 1;
   }
-  
+
   // Overall light on top of everything.
   &:after {
     content: "";
     position: absolute;
     width: 100%;
     height: 409px;
-    background-image: url(images/light.png);
+    background-image: url('/images/light.png');
     background-position: center bottom;
     background-repeat: no-repeat;
-    
+
     -webkit-transition-duration: @openingDuration;
   }
 }
 
 // Background landscape.
 .ct-landscape {
-  background: url(images/landscape.png) left 90%;
+  background: url('/images/landscape.png') left 90%;
   position: absolute;
   width: 100%;
   height: 20%;
   bottom: 0;
   z-index: 1;
-  
+
   -webkit-transition-duration: @openingDuration;
 }
 
 // Curtain on top of the landscape.
 .ct-curtain {
-  background-image: @curtainGradient, url(images/background.png);
+  background-image: @curtainGradient, url('/images/background.png');
   position: absolute;
   width: 100%;
   // Sometimes using 80% results in a 1px white line.
   height: 81%;
-  
+
   -webkit-transition-duration: @openingDuration;
-  
+
   &:after {
     content: "";
-    background-image: @curtainGradient, url(images/background2.png);
+    background-image: @curtainGradient, url('/images/background2.png');
     position: absolute;
     width: 100%;
     height: 116px;
     bottom: 0;
     box-shadow: 0 0 7px black;
   }
-  
+
   // Welcome board.
   .ct-board {
     position: absolute;
@@ -86,11 +88,11 @@ body {
     margin-left: -(@boardWidth / 2);
     width: @boardWidth;
     height: @boardHeight;
-    background-image: url(images/board.png);
+    background-image: url('/images/board.png');
     background-size: 100% 100%;
-    
+
     -webkit-transition-duration: @openingDuration;
-    
+
     h1 {
       font-family: BallparkWeiner;
       position: absolute;
@@ -101,7 +103,7 @@ body {
       -webkit-transform: rotateZ(-5deg);
       color: #c63a15;
     }
-    
+
     p {
       font-family: AbrahamLincoln;
       position: absolute;
@@ -115,16 +117,16 @@ body {
 }
 
 .ct-body-open {
-  
+
   .ct-landscape {
     // Sometimes using 80% results in a 1px white line.
     height: 81%;
     background-position: left 80%;
   }
-  
+
   .ct-curtain {
     height: 20%;
-    
+
     .ct-board {
       top: -@boardHeight;
     }
