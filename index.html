@@ -11,7 +11,6 @@
   <script type='text/javascript' src='lib/backbone.min.js'></script>
   <script type='text/javascript' src='lib/date.format.js'></script>
   <script type='text/javascript' src='lib/parseURL.js'></script>
-  <script type='text/javascript' src='lib/less.js'></script>
 
   <!-- Cotton -->
   <script type='text/javascript' src='init.js'></script>
@@ -34,6 +33,7 @@
   <script type='text/javascript' src='ui/path/line.js'></script>
   <script type='text/javascript' src='ui/path/bubble.js'></script>
 -->
+  <script type='text/javascript' src='ui/loading.js'></script>
 
   <script type='text/javascript' src='model/init.js'></script>
   <script type='text/javascript' src='model/story.js'></script>
@@ -75,17 +75,25 @@
   <script type='text/javascript' src='dbscan2/dbscanUser.js'></script>
 
   <script type='text/javascript' src='algo/to_test_dbscan.js'></script>
-  <script type='text/javascript' src='ui/loading.js'></script>
 
   <link rel="stylesheet/less" type="text/css" href="style.less" />
   <!-- FIXME(rmoutard): load only if necessary -->
   <link rel="stylesheet/less" type="text/css" href="loading.less" />
+  <!-- less script should be after .less file -->
+  <script type='text/javascript' src='lib/less.js'></script>
 </head>
+
 <body>
   <div id="ct">
-    <img id="loader-animation" src='loader.gif' />
-    <div id="stickyBar_bar"></div>
-    <div id= "liste" ></div>
-  </div> <!-- ct -->
+  <div class="ct-landscape">
+  </div>
+  <div class="ct-curtain">
+    <div class="ct-board">
+      <h1>Please<br />have a seat!</h1>
+      <p>Discover a new way to browse the web! Can you give me some lines to fill this space?</p>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

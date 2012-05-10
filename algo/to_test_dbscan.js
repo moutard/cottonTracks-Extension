@@ -24,7 +24,7 @@ var worker = new Worker('algo/worker.js');
 
 worker.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
-
+  Cotton.UI.openCurtain();
   console.log('Worker ends: ', e.data.iNbCluster);
   handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lVisitItems);
 
@@ -38,17 +38,6 @@ if (localStorage) {
       || localStorage['CottonFirstOpening'] === "true") {
     // This is the first visit.
 
-    // - Load the first visit page.
-    Cotton.UI.firstVisit();
-
-    // - Get All the historyItems
-    /*
-     * chrome.history.search({ text : '', startTime : 0, maxResults :
-     * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) { //
-     * DBSCAN. worker.postMessage(lHistoryItems); });
-     */
-    // Cotton.DB.ManagementTools.purge('stories', function() {
-    // });
     Cotton.DB.ManagementTools.purge('visitItems', function() {
       Cotton.DB.ManagementTools.purge('stories', function() {
         Cotton.DB.populateDB(function() {
