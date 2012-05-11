@@ -193,11 +193,21 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   _initializeHighlightListener: function() {
     var self = this;
+    
+    /**
+     * A jQuery DOM object used to keep in memory highlighted blocks in order
+     * to re-augment their score in case they are copied (Ctrl/Cmd+C).
+     * 
+     * Initialized to $([]) to make sure we always have a jQuery DOM object.
+     */
+    var $highlightedContentBlocks = $([]);
+    
     $(document).mouseup(function(oEvent) {
       var oSelection = window.getSelection();
       
       if (oSelection.isCollapsed) {
         // Do not do anything on empty selections.
+        $highlightedContentBlocks = $([]);
         return;
       }
       
@@ -208,13 +218,26 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // both located inside a common content block (which will have an
       // attribute named "data-meaningful" because of
       // Cotton.Behavior.Passive.Parser.
-      var $commonAncestors = self._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
+      $highlightedContentBlocks = self._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
 
       // If there is such a content block, we will increment the score attached
       // to the block.
-      $commonAncestors.each(function() {
+      $highlightedContentBlocks.each(function() {
         var oScore = $(this).data('score');
         if (oScore) {
+          // TODO(fwouts): Tweak the incremental score.
+          oScore.increment(0.2);
+        }
+      });
+    });
+    
+    // We specifically listen to 'copy' events to re-augment the score of
+    // highlighted content blocks that are also copied.
+    $(document).bind('copy', function() {
+      $highlightedContentBlocks.each(function() {
+        var oScore = $(this).data('score');
+        if (oScore) {
+          // TODO(fwouts): Tweak the incremental score.
           oScore.increment(0.5);
         }
       });
@@ -222,7 +245,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
   
   /**
-   * Finds all content blocks which are an ancestors of both nodes.
+   * Finds all content blocks that are ancestors of both nodes.
    * 
    * @returns jQuery DOM
    */
