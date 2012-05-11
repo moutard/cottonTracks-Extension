@@ -8,8 +8,8 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     this._bLoggingEnabled = false;
   },
   
-  addScore: function(fAdditionalScore) {
-    this._fScore += fAdditionalScore;
+  increment: function(fIncrement) {
+    this._fScore += fIncrement;
     this._fScore = Math.min(1, this._fScore);
     // TODO(fwouts): Use a constant.
     var MIN_COLOR = 128;
