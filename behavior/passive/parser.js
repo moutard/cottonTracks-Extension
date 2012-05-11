@@ -2,9 +2,12 @@
 
 Cotton.Behavior.Passive.Parser = Class.extend({
 
-  init: function() {
-    this._bLoggingEnabled = false;
-  },
+  /**
+   * true if we should send debugging messages to the JS console.
+   * 
+   * @type boolean
+   */
+  _bLoggingEnabled: false,
 
   log: function(msg) {
     if (this._bLoggingEnabled) {
@@ -14,11 +17,11 @@ Cotton.Behavior.Passive.Parser = Class.extend({
 
   parse: function() {
     $('[data-meaningful]').removeAttr('data-meaningful');
-    this.findMeaningfulBlocks();
-    this.removeLeastMeaningfulBlocks();
+    this._findMeaningfulBlocks();
+    this._removeLeastMeaningfulBlocks();
   },
 
-  findMeaningfulBlocks: function() {
+  _findMeaningfulBlocks: function() {
     var self = this;
 
     // TODO(fwouts): Move constants.
@@ -76,7 +79,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var lSentencesMatching = $paragraph.text().match(rLongEnoughSentenceRegex);
       if (lSentencesMatching) {
         self.log(lSentencesMatching.length + " sentences found.");
-        self.markMeaningfulBlock($paragraph);
+        self._markMeaningfulBlock($paragraph);
       } else {
         self.log("No sentences found.");
       }
@@ -94,7 +97,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       }
       var iBrCount = $parent.find('br').length;
       if (iBrCount > MIN_BR_FOR_TEXT_CONTAINER) {
-        self.markMeaningfulBlock($parent);
+        self._markMeaningfulBlock($parent);
       }
     });
 
@@ -107,7 +110,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         return true;
       }
       // Since the object is big enough, we can consider that it belongs to the content block.
-      self.markMeaningfulBlock($object);
+      self._markMeaningfulBlock($object);
     });
 
     // Take into consideration <pre> (for websites such as StackOverflow).
@@ -117,18 +120,18 @@ Cotton.Behavior.Passive.Parser = Class.extend({
         self.log("Ignoring because of insufficient size.");
         return true;
       }
-      self.markMeaningfulBlock($pre);
+      self._markMeaningfulBlock($pre);
     });
 
     // TODO(fwouts): Explore other types of containers such as <table>, <li>.
   },
 
-  markMeaningfulBlock: function($block) {
+  _markMeaningfulBlock: function($block) {
     $block.attr('data-meaningful', 'true');
     $block.css('border', '1px dashed #35d');
   },
 
-  removeLeastMeaningfulBlocks: function() {
+  _removeLeastMeaningfulBlocks: function() {
     // TODO(fwouts): Move constants.
     var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
 
@@ -168,5 +171,56 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // TODO(fwouts): Improve the algorithm?
       $('[data-least-meaningful]:first').removeAttr('data-least-meaningful').attr('data-meaningful', true).css('border-color', '#f00');
     }
+  },
+  
+  /**
+   * Finds the best image in the whole page.
+   * 
+   * @returns jQuery DOM representing the given <img /> or null
+   */
+  findBestImage: function() {
+    return this._findBestImageInBlocks($('body'));
+  },
+  
+  /**
+   * Finds the best image in a given set of blocks.
+   * 
+   * The idea is mainly to pick the biggest image.
+   * 
+   * TODO(fwouts): Consider the ratio of images, since there could be very
+   * narrow images that have a bigger surface than the actual best pick.
+   * 
+   * @returns jQuery DOM representing the given <img /> or null
+   */
+  _findBestImageInBlocks: function($blocks) {
+    var iBiggestSurface = 0;
+    var $biggestImg = null;
+    
+    $blocks.find('img').each(function() {
+      var $img = $(this);
+      // We only take into account images coming from http://. Interesting
+      // fact: sometimes extensions' images were picked (starting with
+      // chrome://).
+      var src = $img.attr('src');
+      if (!src || !src.match(/^http:/)) {
+        // Continue the loop.
+        return true;
+      }
+      // Note that we use the node's width and height, not the source image's
+      // width and height (since any image could be a very big image stretched
+      // down or the vice-versa, but we only care about the layout of the
+      // current page).
+      var iWidth = $img.width();
+      var iHeight = $img.height();
+      var iSurface = iWidth * iHeight;
+      if (iSurface > iBiggestSurface) {
+        iBiggestSurface = iSurface;
+        $biggestImg = $img;
+      }
+      // TODO(fwouts): Also consider that the best image is higher in the
+      // layout in most cases (e.g. TechCrunch).
+    });
+    
+    return $biggestImg;
   }
 });
