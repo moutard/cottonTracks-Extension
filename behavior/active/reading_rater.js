@@ -33,6 +33,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   _$feedback: null,
   
+  /**
+   * A DOM element containing an <img /> supposed to represent the most
+   * relevant image on the page.
+   * 
+   * @type jQuery DOM
+   */
+  _$bestImg: null,
+  
   init: function() {
     var self = this;
     
@@ -61,6 +69,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // for performance issues.
     var mRefreshParsing = function() {
       oParser.parse();
+      var $bestImg = oParser.findBestImage();
+      if ($bestImg) {
+        self._$bestImg.attr('src', $bestImg.attr('src'));
+      }
       // Refresh every 5 seconds.
       setTimeout(mRefreshParsing, 5000);
     };
@@ -176,7 +188,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       return;
     }
     
-    this._$feedback = $('<div>').css({
+    var $container = $('<div>').css({
       position: 'fixed',
       left: 0,
       bottom: 0,
@@ -184,7 +196,18 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       background: '#fff',
       fontSize: '2em',
       padding: '0.4em'
-    }).appendTo('body');
+    });
+    
+    this._$feedback = $('<p>');
+    
+    this._$bestImg = $('<img />').css({
+      width: 50,
+      height: 50
+    });
+    
+    $('body').append(
+        $container.append(
+            this._$feedback, this._$bestImg));
   },
   
   /**
