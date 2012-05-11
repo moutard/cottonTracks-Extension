@@ -55,6 +55,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     
     this._generateFeedbackElement();
     
+    this._initializeHighlightListener();
+    
     // We will relaunch the parsing every 5 seconds. We do not use setInterval
     // for performance issues.
     var mRefreshParsing = function() {
@@ -102,6 +104,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   
   /**
    * Computes the page score.
+   * 
+   * @returns float between 0 and 1
    */
   _computePageScore: function() {
     
@@ -129,7 +133,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       
       // TODO(fwouts): Use the total quantity of text visible instead of the
       // total visible surface?
-      oScore.addScore(fFocusProportion * this.iVisibleSurface
+      oScore.increment(fFocusProportion * this.iVisibleSurface
           / Math.pow(this.iTotalSurface, 2) * 1000
           * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
@@ -181,6 +185,54 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       fontSize: '2em',
       padding: '0.4em'
     }).appendTo('body');
+  },
+  
+  /**
+   * Adds a document listener to know when a selection happens and increment the
+   * score of the relevant content block consequently.
+   */
+  _initializeHighlightListener: function() {
+    var self = this;
+    $(document).mouseup(function(oEvent) {
+      var oSelection = window.getSelection();
+      
+      if (oSelection.isCollapsed) {
+        // Do not do anything on empty selections.
+        return;
+      }
+      
+      var oStartNode = oSelection.anchorNode;
+      var oEndNode = oSelection.focusNode;
+      
+      // We will try to detect if either the start node and the end node are
+      // both located inside a common content block (which will have an
+      // attribute named "data-meaningful" because of
+      // Cotton.Behavior.Passive.Parser.
+      var $commonAncestors = self._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
+
+      // If there is such a content block, we will increment the score attached
+      // to the block.
+      $commonAncestors.each(function() {
+        var oScore = $(this).data('score');
+        if (oScore) {
+          oScore.increment(0.5);
+        }
+      });
+    });
+  },
+  
+  /**
+   * Finds all content blocks which are an ancestors of both nodes.
+   * 
+   * @returns jQuery DOM
+   */
+  _findCommonMeaningfulAncestorsForNodes: function(oNode1, oNode2) {
+    var $meaningfulAncestors1 = $(oNode1).parents('[data-meaningful]');
+    var $meaningfulAncestors2 = $(oNode2).parents('[data-meaningful]');
+    var lIntersectingAncestors = _.intersect(
+        _.toArray($meaningfulAncestors1),
+        _.toArray($meaningfulAncestors2));
+    return $(lIntersectingAncestors);
   }
 });
 
