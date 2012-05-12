@@ -6,10 +6,17 @@ Cotton.Model.VisitItem = Class
 
         this._sId; // visitId.
         this._sChromeVisitId; // Should be the same that Google chrome history.
+        /**
+         * The Chrome visit id of the referring page. It will be the same as
+         * Google Chrome's history API returns, except in some special cases
+         * such as new tabs where Chrome incorrectly returns 0.
+         */
+        this._sChromeReferringVisitId;
         this._sStoryId = "UNCLASSIFIED";
 
         // Information of historyItem that are pertinent with this model.
         this._sUrl;
+        this._sReferrerUrl;
         this._sTitle = "";
         this._iVisitTime;
 
@@ -37,8 +44,17 @@ Cotton.Model.VisitItem = Class
       chromeId : function() {
         return this._sChromeId;
       },
+      chromeReferringVisitId: function() {
+        return this._sChromeReferringVisitId;
+      },
+      setChromeReferringVisitId: function(sChromeReferringVisitId) {
+        this._sChromeReferringVisitId = sChromeReferringVisitId;
+      },
       url : function() {
         return this._sUrl;
+      },
+      referrerUrl: function() {
+        return this._sReferrerUrl;
       },
       title : function() {
         return this._sTitle;
@@ -93,6 +109,7 @@ Cotton.Model.VisitItem = Class
         this._sUrl = window.location.href;
         this._sTitle = window.document.title;
         this._iVisitTime = new Date().getTime();
+        this._sReferrerUrl = document.referrer;
 
         // This method is called in a content_script, but due to chrome
         // security
@@ -123,6 +140,7 @@ Cotton.Model.VisitItem = Class
         // this._sChromeVisitId = dVisitItemSerialized || undefined;
 
         this._sUrl = dVisitItemSerialized._sUrl || '';
+        this._sReferrerUrl = dVisitItemSerialized._sReferrerUrl || '';
         this._sTitle = dVisitItemSerialized._sTitle || '';
         this._iVisitTime = dVisitItemSerialized._iVisitTime || 0;
 
