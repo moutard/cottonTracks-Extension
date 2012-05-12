@@ -29,6 +29,10 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       dDbRecord.sChromeId = oVisitItem.chromeId();
     }
 
+    if (oVisitItem.chromeReferringVisitId() !== undefined){
+      dDbRecord.chromeReferringVisitId = oVisitItem.chromeReferringVisitId();
+    }
+
     return dDbRecord;
   };
 
@@ -38,6 +42,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     // Use private attributes because they are immutable.
     oVisitItem._sId = oDbRecord.id;
     oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
+    oVisitItem._sChromeReferringVisitId = oDbRecord.sChromeReferringVisitId;
     oVisitItem._sStoryId =  oDbRecord.sStoryId;
 
     oVisitItem._sUrl = oDbRecord.sUrl;
