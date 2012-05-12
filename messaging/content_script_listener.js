@@ -24,7 +24,7 @@ function onRequest(request, sender, sendResponse) {
       url: oVisitItem.referrerUrl()
     }, function(lChromeReferrerVisitItems) {
       // Select the last one the visit items.
-      if (lChromeReferrerVisitItems.length > 0) {
+      if (lChromeReferrerVisitItems && lChromeReferrerVisitItems.length > 0) {
         var iIndex = lChromeReferrerVisitItems.length - 1;
         var oReferrerVisitItem = lChromeReferrerVisitItems[iIndex];
         // Update the visit item accordingly.
