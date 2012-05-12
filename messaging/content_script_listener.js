@@ -1,39 +1,62 @@
+'use strict';
+
 // See below page for more informations.
 // http://code.google.com/chrome/extensions/messaging.html
 
 // Called when a message is passed.  We assume that the content script
 function onRequest(request, sender, sendResponse) {
-
+  
   console.log(request);
+  
+  switch (request.action) {
+  case 'create_visit_item':
+    // request.historyItem is serialized by the sender. So it's just
+    // a dictionary. We need to deserialized it before putting it in the DB.
+    var oVisitItem = new Cotton.Model.VisitItem();
+    oVisitItem.deserialize(request.params.visitItem);
+    
+    // Compute the referer id as it should be returned by the Chrome Extension
+    // History API. We need this algorithm because in some cases, such as when
+    // you open a link in a new tab, the referer id is not filled by Chrome, so
+    // we need to fill it ourselves.
+    // TODO(fwouts): Move out of here.
+    chrome.history.getVisits({
+      url: oVisitItem.referrerUrl()
+    }, function(lChromeReferrerVisitItems) {
+      // Select the last one the visit items.
+      if (lChromeReferrerVisitItems.length > 0) {
+        var iIndex = lChromeReferrerVisitItems.length - 1;
+        var oReferrerVisitItem = lChromeReferrerVisitItems[iIndex];
+        // Update the visit item accordingly.
+        oVisitItem.setChromeReferringVisitId(oReferrerVisitItem.visitId);
+      }
+      
+      // TODO(rmoutard) : use DB system, or a singleton.
+      var oToolsContainer = generateTools(); // return a list of Tools
+      var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
+      var sPutId = ""; // put return the auto-incremented id in the database.
 
-  // request.historyItem is serialized by the sender. So it's just
-  // a dictionary. We need to deserialized it before putting it in the DB.
-  var oVisitItem = new Cotton.Model.VisitItem();
-  oVisitItem.deserialize(request.visitItem);
+      // Put the visitItem only if it's not a Tool.
+      if (oToolsContainer.alreadyExist(sHostname) === -1) {
+        var oStore = new Cotton.DB.Store('ct', {
+          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+        }, function() {
+          oStore.put('visitItems', oVisitItem, function(iId) {
+            console.log("visitItem added");
+            console.log(iId);
+            sPutId = iId;
 
-  // TODO(rmoutard) : use DB system, or a singleton.
-  var oToolsContainer = generateTools(); // return a list of Tools
-  var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
-  var sPutId = ""; // put return the auto-incremented id in the database.
+            // Return nothing to let the connection be cleaned up.
+            sendResponse({
+              received : "true",
+              id : sPutId,
+            });
 
-  // Put the visitItem only if it's not a Tool.
-  if (oToolsContainer.alreadyExist(sHostname) === -1) {
-    var oStore = new Cotton.DB.Store('ct', {
-      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-    }, function() {
-      oStore.put('visitItems', oVisitItem, function(iId) {
-        console.log("visitItem added");
-        console.log(iId);
-        sPutId = iId;
-
-        // Return nothing to let the connection be cleaned up.
-        sendResponse({
-          received : "true",
-          id : sPutId,
+          });
         });
-
-      });
+      }
     });
+    break;
   }
 
  };
