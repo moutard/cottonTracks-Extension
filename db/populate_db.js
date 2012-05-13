@@ -5,7 +5,7 @@
 Cotton.DB.preRemoveTools = function(lVisitItems) {
   // Remove all the tools as mail.google.com, facebook.com.
 
-  var oToolsContainer = generateTools(); // return a list of Tools
+  var oToolsContainer = new Cotton.Algo.ToolsContainer();
   var lCleanHistoryItems = new Array(); // Store the new list without tools
 
   // TODO(rmoutard) : use _.filter function in underscore library
@@ -22,6 +22,7 @@ Cotton.DB.preRemoveTools = function(lVisitItems) {
 };
 
 Cotton.DB.populateDB = function(mCallBackFunction) {
+  // Get all the history items from Chrome DB.
   chrome.history.search({
     text : '',
     startTime : 0,
@@ -48,8 +49,6 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
         oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
 
         oStore.put('visitItems', oVisitItem, function(iId) {
-          // TODO(rmoutard) : check that iId is really the id created by
-          // auto-incremenation.
           iCount += 1;
 
           if (iCount === iPopulationLength) {

@@ -35,7 +35,7 @@ Cotton.Algo.ToolsContainer = Class.extend({
       pfFrequence = 1; // TODO(rmoutard) : change value
     }
 
-    oTool = new Tool(psHostname, pfFrequence);
+    oTool = new Cotton.Algo.Tool(psHostname, pfFrequence);
     // TODO(rmoutard) : sort insertion
     this.lTools.push(oTool);
     return true;
