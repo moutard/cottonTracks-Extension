@@ -14,13 +14,10 @@ importScripts('../config/config.js');
 
 // Cotton.Algo.
 importScripts('init.js');
-importScripts('history_item.js');
 importScripts('tools.js');
 importScripts('pre_treatment.js');
 importScripts('distance.js');
 importScripts('dbscan.js');
-
-var oHistoryItemsSingleton;
 
 function handleVisitItems(lVisitItems) {
   // Loop through all the VisitItems and compute their distances to each other.
@@ -36,7 +33,6 @@ function handleVisitItems(lVisitItems) {
   // TOOLS
   lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
 
-  oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lVisitItems);
   var iNbCluster = Cotton.Algo.DBSCAN(lVisitItems, fEps, iMinPts);
 
   // This worker has no access to window or DOM. So update DOM should be done
