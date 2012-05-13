@@ -20,9 +20,9 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
 // WORKER
 // DBSCAN is lauched in a worker used as multithread.
-var worker = new Worker('algo/worker.js');
+var wDBSCAN = new Worker('algo/worker.js');
 
-worker.addEventListener('message', function(e) {
+wDBSCAN.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
   Cotton.UI.openCurtain();
   // Use local storage, to see that's it's not the first visit.
@@ -47,7 +47,7 @@ if (localStorage) {
             'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
           }, function() {
             oStore.getList('visitItems', function(lAllVisitItems) {
-              worker.postMessage(lAllVisitItems);
+              wDBSCAN.postMessage(lAllVisitItems);
             });
           });
         });
