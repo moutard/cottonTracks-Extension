@@ -2,6 +2,7 @@
 
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.lib.
+importScripts('../lib/class.js');
 importScripts('../lib/underscore.js');
 importScripts('../lib/parseURL.js');
 
@@ -33,10 +34,6 @@ function handleVisitItems(lVisitItems) {
   var iMinPts = Cotton.Config.Parameters.iMinPts;
 
   // TOOLS
-  // TODO(rmoutard) : for the moment afectation is needed
-  // remove affectation lVisitItems is passed by reference
-  // lVisitItems = Cotton.Algo.removeTools(lVisitItems);
-  // lVisitItems = Cotton.Algo.computeClosestGeneratedPage(lVisitItems);
   lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
 
   oHistoryItemsSingleton = HistoryItemsSingleton.getInstance(lVisitItems);
@@ -49,7 +46,7 @@ function handleVisitItems(lVisitItems) {
   dData.lVisitItems = lVisitItems;
 
   self.postMessage(dData); // Send data to the main thread. Data are
-                            // serialized.
+  // serialized.
   self.close(); // Terminates the worker.
 }
 
@@ -57,7 +54,7 @@ self.addEventListener('message', function(e) {
   // Connect worker with main thread.
 
   // Worker starts when it receive postMessage().
-  // Data received are serialized. 
+  // Data received are serialized.
   // i.e. it's non Cotton.Model.VisitItem, but object.
   handleVisitItems(e.data);
 }, false);
