@@ -3,9 +3,8 @@
 // PreTreatment Workspace
 Cotton.Algo.PreTreatment = {};
 
-
 // PreTreatment is used in the worker, so all data received are serialized.
-// That's why, lVisitItem is a list of Object. And not a list of 
+// That's why, lVisitItem is a list of Object. And not a list of
 // Cotton.Model.VisitItem.
 // TODO(rmoutard) : discuss about the idea of using deserialized function.
 
@@ -82,7 +81,7 @@ Cotton.Algo.PreTreatment.computeExtractedWordsFromTitle = function(lVisitItems) 
 };
 
 Cotton.Algo.PreTreatment.suite = function(lVisitItems) {
-  lVisitItems = Cotton.Algo.PreTreatment.removeTools(lVisitItems);
+  // lVisitItems = Cotton.Algo.PreTreatment.removeTools(lVisitItems);
   lVisitItems = Cotton.Algo.PreTreatment
       .computeClosestGeneratedPage(lVisitItems);
   lVisitItems = Cotton.Algo.PreTreatment
