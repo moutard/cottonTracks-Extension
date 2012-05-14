@@ -47,7 +47,7 @@ Cotton.Installation.notFirstInstallation = function() {
     /*
      * You want to remove the old database.
      */
-    var oDeleteRequest = window.webkitIndexedDB.deleteDatabase('ct');
+    var oDeleteRequest = webkitIndexedDB.deleteDatabase('ct');
     oDeleteRequest.onsuccess = function(oIDBRequest) {
       Cotton.Installation.firstInstallation();
     };
@@ -63,7 +63,7 @@ Cotton.Installation.notFirstInstallation = function() {
 // START.
 // Get all the indexedDB on this computer. Check if our ct database already
 // exists.
-var oDBRequest = window.webkitIndexedDB.getDatabaseNames();
+var oDBRequest = webkitIndexedDB.getDatabaseNames();
 
 oDBRequest.onsuccess = function(oEvent) {
   console.log(this.result);
@@ -80,7 +80,7 @@ oDBRequest.onsuccess = function(oEvent) {
 
     if (localStorage['CottonFirstOpening'] === undefined) {
       // It's not the first installation.
-      localStorage['CottonFirstOpening'] = false;
+      //localStorage['CottonFirstOpening'] = false;
       Cotton.Installation.notFirstInstallation();
 
     } else {
