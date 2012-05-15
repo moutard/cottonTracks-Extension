@@ -20,7 +20,29 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
       function() {
        this.getLowerBound('stories', 'fLastVisitTime', 0.0,
            "PREV", true, function(lStories) {
-         Cotton.UI.Debug.displayStories(lStories);
+         
+         new Cotton.DB.Store('ct', 
+             {'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS },
+             function(){
+               var count = 0;
+               var lStoriesTemp = lStories;
+               for(var i=0; i < lStoriesTemp.length; i++){              
+                 var oStory = lStoriesTemp[i];
+                 this.findGroup('visitItems', 'id', lStoriesTemp[count].visitItemsId(), 
+                     function(lVisitItems){
+                       // console.log(lVisitItems);
+                       
+                       lStoriesTemp[count].setVisitItems(lVisitItems);
+                       
+                       if(count == (lStoriesTemp.length - 1)){
+                         console.log('pourt');
+                         console.log(lStoriesTemp);
+                       }
+                       count++;
+                 }); 
+               }
+             });
+         // Cotton.UI.Debug.displayStories(lStories);
        });
      });
   // console.log("After cluster stories");
@@ -29,6 +51,39 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
   // DB
   Cotton.DB.ManagementTools.addStories(dStories.stories);
 }
+
+Cotton.DBSCAN2.getStories = function(mCallBack){
+  new Cotton.DB.Store('ct',
+      { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+      function() {
+       this.getLowerBound('stories', 'fLastVisitTime', 0.0,
+           "PREV", true, function(lStories) {
+         
+         new Cotton.DB.Store('ct', 
+             {'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS },
+             function(){
+               var count = 0;
+               var lStoriesTemp = lStories;
+               for(var i=0; i < lStoriesTemp.length; i++){              
+                 var oStory = lStoriesTemp[i];
+                 this.findGroup('visitItems', 'id', lStoriesTemp[count].visitItemsId(), 
+                     function(lVisitItems){
+                       // console.log(lVisitItems);
+                       
+                       lStoriesTemp[count].setVisitItems(lVisitItems);
+                       
+                       if(count == (lStoriesTemp.length - 1)){
+                         console.log('forFwouts');
+                         console.log(lStoriesTemp);
+                         mCallBack.call(lStoriesTemp);
+                       }
+                       count++;
+                 }); 
+               }
+             });
+       });
+     });
+};
 
 // WORKER
 // Use the worker of DBSCAN. It's exaclty the same. Just change the callback.

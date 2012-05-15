@@ -11,7 +11,7 @@ Cotton.Model.Story = Class.extend({
     this._fRelevance;
 
     this._lVisitItemsId = new Array();
-
+    this._lVisitItems = new Array();
   },
 
   // PROTOTYPE
@@ -74,7 +74,9 @@ Cotton.Model.Story = Class.extend({
      * }); } );
      */
   },
-
+  setVisitItems : function(lVisitItems) {
+    this._lVisitItems = lVisitItems;
+  },
   // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
   // ones.
   getLastVisitItemId : function() {
