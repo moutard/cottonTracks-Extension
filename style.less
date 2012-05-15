@@ -3,6 +3,11 @@
 @black: #000;
 @helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
+@stickyBar_bar_arrow_width: 29px;
+@stickyBar_bar_arrow_height: 29px;
+@stickyBar_bar_arrow_spaceFromCenter: 300px;
+@stickyBar_bar_arrow_transitionDuration: 0.2s;
+
 @stickyBar_bar_commands_middle_width: 494px;
 @stickyBar_bar_commands_middle_height: 45px;
 
@@ -11,7 +16,7 @@
 
 @stickyBar_bar_commands_iconButton_width: 35px;
 @stickyBar_bar_commands_iconButton_height: 45px;
-@stickyBar_bar_commands_iconButton_space_from_center: 300px;
+@stickyBar_bar_commands_iconButton_spaceFromCenter: 390px;
 
 body {
   background: @backgroundColor;
@@ -24,6 +29,43 @@ body {
   // Hidden bar.
   top: -200px;
   z-index: 100;
+  
+  > .ct-arrow {
+    width: @stickyBar_bar_arrow_width;
+    height: @stickyBar_bar_arrow_height;
+    
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    top: 85px;
+    
+    // Invisible by default.
+    opacity: 0;
+    
+    -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
+    
+    &.ct-arrow_left {
+      background: url('/images/topbar/navarrow_left.png');
+      margin-left: -@stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
+    }
+    
+    &.ct-arrow_right {
+      background: url('/images/topbar/navarrow_right.png');
+      margin-left: @stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
+    }
+  }
+  
+  &:hover {
+    // When the bar is hovered, show the arrows.
+    > .ct-arrow {
+      opacity: 0.7;
+      
+      &:hover {
+        // When the arrows are hovered, show them better.
+        opacity: 1.0;
+      }
+    }
+  }
   
   > .ct-container {
     height: 200px;
@@ -44,7 +86,7 @@ body {
       
       &.ct-iconButton_home {
         background: url('/images/topbar/home.png');
-        margin-left: -@stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
+        margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
         
         &:hover {
           background: url('/images/topbar/home_selected.png');
@@ -53,7 +95,7 @@ body {
       
       &.ct-iconButton_search {
         background: url('/images/topbar/search.png');
-        margin-left: @stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
+        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
         
         &:hover {
           background: url('/images/topbar/search_selected.png');
