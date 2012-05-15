@@ -25,16 +25,16 @@ body {
   top: -200px;
   z-index: 100;
   
-  > .ct-stickyBar_bar_stickers_container {
+  > .ct-container {
     height: 200px;
   	background: #dfdfdf;
   }
   
-  > .ct-stickyBar_bar_commands {
+  > .ct-commands {
   	height: 45px;
   	background: url('/images/topbar/topbar_background.png');
 	    
-    .ct-stickyBar_bar_commands_iconButton {
+    .ct-iconButton {
       width: @stickyBar_bar_commands_iconButton_width;
       height: @stickyBar_bar_commands_iconButton_height;
       position: absolute;
@@ -42,7 +42,7 @@ body {
       z-index: 1;
       //cursor: pointer;
       
-      &.ct-stickyBar_bar_commands_iconButton_home {
+      &.ct-iconButton_home {
         background: url('/images/topbar/home.png');
         margin-left: -@stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
         
@@ -51,7 +51,7 @@ body {
         }
       }
       
-      &.ct-stickyBar_bar_commands_iconButton_search {
+      &.ct-iconButton_search {
         background: url('/images/topbar/search.png');
         margin-left: @stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
         
@@ -61,7 +61,7 @@ body {
       }
     }
   	
-  	> .ct-stickyBar_bar_commands_middle {
+  	> .ct-middle {
       width: @stickyBar_bar_commands_middle_width;
       height: @stickyBar_bar_commands_middle_height;
       margin: auto;
@@ -71,7 +71,7 @@ body {
       left: 50%;
       margin-left: -(@stickyBar_bar_commands_middle_width / 2);
       
-      > .ct-stickyBar_bar_commands_middle_textButton {
+      > .ct-textButton {
         position: absolute;
         left: 50%;
         color: #fb4;
@@ -79,16 +79,16 @@ body {
         font-size: 24px;
         top: 10px;
         
-        &.ct-stickyBar_bar_commands_middle_textButton_edit {
+        &.ct-textButton_edit {
           margin-left: -220px;
         }
         
-        &.ct-stickyBar_bar_commands_middle_textButton_share {
+        &.ct-textButton_share {
           margin-left: 170px;
         }
       }
       
-      > .ct-stickyBar_bar_commands_middle_flip {
+      > .ct-flip {
         width: @stickyBar_bar_commands_middle_flip_width;
         height: @stickyBar_bar_commands_middle_flip_height;
         
