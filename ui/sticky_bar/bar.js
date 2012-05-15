@@ -40,7 +40,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   append: function($sticker) {
     // Note that we append the element to the .container, not directly to the
     // sticky bar.
-    this._$stickyBar.find('> .ct-stickyBar_bar_stickers_container').append($sticker);
+    this._$stickyBar.find('> .ct-container').append($sticker);
   }
 });
 
