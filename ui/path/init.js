@@ -1,2 +1,2 @@
 'use strict';
-UI.Path = {};
+Cotton.UI.Path = {};

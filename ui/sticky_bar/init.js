@@ -1,2 +1,2 @@
 'use strict';
-UI.StickyBar = {};
+Cotton.UI.StickyBar = {};

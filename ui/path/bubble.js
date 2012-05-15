@@ -1,13 +1,13 @@
 'use strict';
 
 // A bubble showing on a line (represents one element of a story).
-UI.Path.Bubble = function() {
+Cotton.UI.Path.Bubble = function() {
   var self = this;
   
-  var $container = this._$container = $('<div class="path_bubble">');
+  var $container = this._$container = $('<div class="ct-path_bubble">');
   $container.text('Bubble');
   
-  var $handle = this._$handle = $('<div class="path_bubble_handle">');
+  var $handle = this._$handle = $('<div class="ct-path_bubble_handle">');
   $handle.click(function() {
     self.toggle();
   });
@@ -15,9 +15,9 @@ UI.Path.Bubble = function() {
   this._visible = false;
 };
 
-$.extend(UI.Path.Bubble.prototype, {
+$.extend(Cotton.UI.Path.Bubble.prototype, {
   
-  // oBubbleOrigin should be a UI.Point instance.
+  // oBubbleOrigin should be a Cotton.UI.Point instance.
   setOrigin: function(oBubbleOrigin) {
     this._oBubbleOrigin = oBubbleOrigin;
     var $handle = this._$handle;

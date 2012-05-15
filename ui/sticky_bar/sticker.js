@@ -1,49 +1,55 @@
 'use strict';
 
-UI.StickyBar.HORIZONTAL_SPACING = 250;
+Cotton.UI.StickyBar.HORIZONTAL_SPACING = 250;
 
 // Represents a sticker on the sticky bar.
-UI.StickyBar.Sticker = function(oBar, iPosition) {
-  var self = this;
-  var $sticker = this._$sticker = $('<div class="stickyBar_sticker">');
-  this._iPosition = iPosition;
+Cotton.UI.StickyBar.Sticker = Class.extend({
   
-  var iFinalPosition = iPosition * UI.StickyBar.HORIZONTAL_SPACING;
-  var iDistanceToCenter = $(document).width() / 2 - iFinalPosition;
-  var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
+  _oBar: null,
+  _iPosition: null,
+  _$sticker: null,
   
-  $sticker.css({
-    left: iInitialPosition
-  })
+  init: function(oBar, iPosition) {
+    this._oBar = oBar;
+    this._iPosition = iPosition;
+  },
   
-  // TODO(fwouts): Use CSS animations.
-  $sticker.animate({
-    left: iFinalPosition
-  }, 'slow', function() {
-    self.trigger('ready');
-  });
-  
-  this.on('ready', function() {
-    // On complete, draw a line going through this sticker (for testing).
-    var oLine = new UI.Path.Line(new UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
+  display: function() {
+    var self = this;
     
-    $sticker.click(function() {
-      oLine.toggle();
-      if (oLine.isVisible()) {
-        // Make the line appear behind the sticker.
-        oLine.$().css('z-index', -1);
-      }
+    var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
+    
+    var iStickerCount = this._oBar.stickerCount();
+    var iFinalPosition = (this._iPosition - iStickerCount / 2) * Cotton.UI.StickyBar.HORIZONTAL_SPACING + this._oBar.$().width() / 2;
+    var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
+    var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
+    
+    $sticker.css({
+      left: iInitialPosition
+    })
+    
+    // TODO(fwouts): Use CSS animations.
+    $sticker.animate({
+      left: iFinalPosition
+    }, 'slow', function() {
+      self.trigger('ready');
     });
-  })
-};
-
-$.extend(UI.StickyBar.Sticker.prototype, {
-
-  // Returns the jQuery element.
-  $: function() {
-    return this._$sticker;
+    
+    this.on('ready', function() {
+      // On complete, draw a line going through this sticker (for testing).
+      var oLine = new Cotton.UI.Path.Line(new Cotton.UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
+      
+      $sticker.click(function() {
+        oLine.toggle();
+        if (oLine.isVisible()) {
+          // Make the line appear behind the sticker.
+          oLine.$().css('z-index', -1);
+        }
+      });
+    });
+    
+    this._oBar.append($sticker);
   }
-  
 });
 
-_.extend(UI.StickyBar.Sticker.prototype, Backbone.Events);
+_.extend(Cotton.UI.StickyBar.Sticker.prototype, Backbone.Events);
