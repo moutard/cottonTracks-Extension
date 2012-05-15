@@ -9,7 +9,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["http://*/*"],
       "css": [],
       "js": [ "lib/class.js", "lib/jquery.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js",
