@@ -1,8 +1,8 @@
 'use strict';
 
 // A curved vertical line representing a story.
-// oCenter should be a UI.Point instance.
-UI.Path.Line = function(oFrameCenter) {
+// oCenter should be a Cotton.UI.Point instance.
+Cotton.UI.Path.Line = function(oFrameCenter) {
   // TODO(fwouts): Set the width and height in a more elegant manner.
   var iWidth = this._iWidth = 100;
   var iHeight = this._iHeight = 1000;
@@ -10,13 +10,13 @@ UI.Path.Line = function(oFrameCenter) {
   var iCenterY = iHeight / 2;
   var iOriginX = oFrameCenter.fX - iCenterX;
   var iOriginY = oFrameCenter.fY - iCenterY;
-  this._oOrigin = new UI.Point(iOriginX, iOriginY);
-  this._oCenter = new UI.Point(iCenterX, iCenterY);
+  this._oOrigin = new Cotton.UI.Point(iOriginX, iOriginY);
+  this._oCenter = new Cotton.UI.Point(iCenterX, iCenterY);
   this._visible = false;
   this._lBubbles = [];
 };
 
-$.extend(UI.Path.Line.prototype, {
+$.extend(Cotton.UI.Path.Line.prototype, {
   
   // Returns a jQuery object containing the node.
   $: function() {
@@ -104,7 +104,7 @@ $.extend(UI.Path.Line.prototype, {
     this.animate(this.pathFromPoints(lFinalPoints), 500, null, function() {
       // When the line has reached its final position, show the lBubbles.
       $.each(lFinalPoints, function(iI, oPoint) {
-        var oBubble = new UI.Path.Bubble();
+        var oBubble = new Cotton.UI.Path.Bubble();
         // Since oPoint is relative to the position of the line, we need to give an absolute position by
         // shifting using oOrigin.
         oBubble.setOrigin(oPoint.translate(self._oOrigin));

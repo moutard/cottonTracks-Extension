@@ -1,33 +1,126 @@
 @backgroundColor: #b4d8d1;
 @white: #fff;
 @black: #000;
+@helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+
+@stickyBar_bar_commands_middle_width: 494px;
+@stickyBar_bar_commands_middle_height: 45px;
+
+@stickyBar_bar_commands_middle_flip_width: 283px;
+@stickyBar_bar_commands_middle_flip_height: 37px;
+
+@stickyBar_bar_commands_iconButton_width: 35px;
+@stickyBar_bar_commands_iconButton_height: 45px;
+@stickyBar_bar_commands_iconButton_space_from_center: 300px;
 
 body {
   background: @backgroundColor;
   font-family: Arial;
 }
 
-#stickyBar_bar {
-  background: fadeout(@white, 30%);
+#ct-stickyBar_bar {
   position: absolute;
-  height: 200px;
   width: 100%;
   // Hidden bar.
   top: -200px;
-  // Center vertically if we set top = 50%.
-  margin-top: -100px;
+  z-index: 100;
+  
+  > .ct-stickyBar_bar_stickers_container {
+    height: 200px;
+  	background: #dfdfdf;
+  }
+  
+  > .ct-stickyBar_bar_commands {
+  	height: 45px;
+  	background: url('/images/topbar/topbar_background.png');
+	    
+    .ct-stickyBar_bar_commands_iconButton {
+      width: @stickyBar_bar_commands_iconButton_width;
+      height: @stickyBar_bar_commands_iconButton_height;
+      position: absolute;
+      left: 50%;
+      z-index: 1;
+      //cursor: pointer;
+      
+      &.ct-stickyBar_bar_commands_iconButton_home {
+        background: url('/images/topbar/home.png');
+        margin-left: -@stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
+        
+        &:hover {
+          background: url('/images/topbar/home_selected.png');
+        }
+      }
+      
+      &.ct-stickyBar_bar_commands_iconButton_search {
+        background: url('/images/topbar/search.png');
+        margin-left: @stickyBar_bar_commands_iconButton_space_from_center - (@stickyBar_bar_commands_iconButton_width / 2);
+        
+        &:hover {
+          background: url('/images/topbar/search_selected.png');
+        }
+      }
+    }
+  	
+  	> .ct-stickyBar_bar_commands_middle {
+      width: @stickyBar_bar_commands_middle_width;
+      height: @stickyBar_bar_commands_middle_height;
+      margin: auto;
+      background: url('/images/topbar/flip_background.png');
+      
+      position: absolute;
+      left: 50%;
+      margin-left: -(@stickyBar_bar_commands_middle_width / 2);
+      
+      > .ct-stickyBar_bar_commands_middle_textButton {
+        position: absolute;
+        left: 50%;
+        color: #fb4;
+        z-index: 1;
+        font-size: 24px;
+        top: 10px;
+        
+        &.ct-stickyBar_bar_commands_middle_textButton_edit {
+          margin-left: -220px;
+        }
+        
+        &.ct-stickyBar_bar_commands_middle_textButton_share {
+          margin-left: 170px;
+        }
+      }
+      
+      > .ct-stickyBar_bar_commands_middle_flip {
+        width: @stickyBar_bar_commands_middle_flip_width;
+        height: @stickyBar_bar_commands_middle_flip_height;
+        
+        position: absolute;
+        left: 50%;
+        margin-left: -(@stickyBar_bar_commands_middle_flip_width / 2) + 1px;
+        top: 4px;
+        
+        background: url('/images/topbar/flip.png');
+        font-family: @helvetica;
+        font-weight: bold;
+        font-size: 25px;
+        color: @white;
+        text-align: center;
+        line-height: @stickyBar_bar_commands_middle_flip_height;
+      }
+  	}
+  }
 }
 
-.stickyBar_sticker {
+.ct-stickyBar_sticker {
   background: @white;
   position: absolute;
   width: 200px;
   height: 160px;
   margin: 15px;
-  border: 5px solid #000;
+  border: 5px solid #eee;
+  box-shadow: 0 0 4px #888;
+  border-radius: 5px;
 }
 
-.path_bubble {
+.ct-path_bubble {
   background: @white;
   position: absolute;
   width: 200px;
@@ -37,7 +130,7 @@ body {
   margin: -100px 0 0 30px;
 }
 
-.path_bubble_handle {
+.ct-path_bubble_handle {
   position: absolute;
   border: 10px solid @black;
   border-radius: 10px;
