@@ -2,5 +2,5 @@
 
 $(function() {
   // Initialize the interface.
-  new UI.World();
+  new Cotton.UI.World();
 });
