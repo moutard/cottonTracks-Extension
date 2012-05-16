@@ -7,17 +7,39 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   
   _oBar: null,
   _iPosition: null,
+  _oStory: null,
   _$sticker: null,
   
-  init: function(oBar, iPosition) {
+  init: function(oBar, iPosition, oStory) {
     this._oBar = oBar;
     this._iPosition = iPosition;
+    this._oStory = oStory;
   },
   
   display: function() {
     var self = this;
     
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
+    
+    var lVisitItems = this._oStory.visitItems();
+    var oLastVisitItem = _.last(lVisitItems);
+    
+    var $title = $('<h3>').text(oLastVisitItem.title() || oLastVisitItem.url());
+    
+    var oExtractedDna = oLastVisitItem.extractedDNA();
+    var sImgSrc = null;
+    // TODO(fwouts): Implement the mainImage method.
+    if (oExtractedDna && oExtractedDna.mainImage) {
+      sImgSrc = oExtractedDna.mainImage();
+    }
+    var $image = $('<img>');
+    if (sImgSrc) {
+      $image.attr('src', sImgSrc);
+    } else {
+      // TODO(fwouts): Add a default image. Or pick another visit item with an image.
+    }
+    
+    $sticker.append($title, $image);
     
     var iStickerCount = this._oBar.stickerCount();
     var iFinalPosition = (this._iPosition - iStickerCount / 2) * Cotton.UI.StickyBar.HORIZONTAL_SPACING + this._oBar.$().width() / 2;
@@ -33,19 +55,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       left: iFinalPosition
     }, 'slow', function() {
       self.trigger('ready');
-    });
-    
-    this.on('ready', function() {
-      // On complete, draw a line going through this sticker (for testing).
-      var oLine = new Cotton.UI.Path.Line(new Cotton.UI.Point($sticker.offset().left + $sticker.width() / 2, $sticker.offset().top + $sticker.height() / 2));
-      
-      $sticker.click(function() {
-        oLine.toggle();
-        if (oLine.isVisible()) {
-          // Make the line appear behind the sticker.
-          oLine.$().css('z-index', -1);
-        }
-      });
     });
     
     this._oBar.append($sticker);
