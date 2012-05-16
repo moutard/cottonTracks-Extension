@@ -2,10 +2,25 @@
 
 // Represents the bar displayed in the middle of the screen, containing stickers for each story.
 Cotton.UI.StickyBar.Bar = Class.extend({
+  
+  _lStickers: null,
+  _$stickyBar: null,
+  _iTranslateX: 0,
+  
   init: function() {
     var self = this;
     this._lStickers = [];
     this._$stickyBar = $('#ct-stickyBar_bar');
+    
+    this._$stickyBar.find('.ct-arrow_left').click(function() {
+      // TODO(fwouts): Use constants.
+      self.translateStickers(self._iTranslateX - 300);
+    });
+    
+    this._$stickyBar.find('.ct-arrow_right').click(function() {
+      // TODO(fwouts): Use constants.
+      self.translateStickers(self._iTranslateX + 300);
+    });
     
     this._$stickyBar.animate({
       top: '0px'
@@ -41,6 +56,13 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     // Note that we append the element to the .container, not directly to the
     // sticky bar.
     this._$stickyBar.find('> .ct-container').append($sticker);
+  },
+  
+  translateStickers: function(iTranslateX) {
+    this._iTranslateX = iTranslateX;
+    _.each(this._lStickers, function(oSticker) {
+      oSticker.translate(iTranslateX);
+    });
   }
 });
 
