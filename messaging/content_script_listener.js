@@ -20,9 +20,8 @@ function onRequest(request, sender, sendResponse) {
     // you open a link in a new tab, the referer id is not filled by Chrome, so
     // we need to fill it ourselves.
     // TODO(fwouts): Move out of here.
-    chrome.history.getVisits({
-      url: oVisitItem.referrerUrl()
-    }, function(lChromeReferrerVisitItems) {
+    
+    var mGetVisitsHandler = function(lChromeReferrerVisitItems) {
       // Select the last one the visit items.
       if (lChromeReferrerVisitItems && lChromeReferrerVisitItems.length > 0) {
         var iIndex = lChromeReferrerVisitItems.length - 1;
@@ -30,6 +29,8 @@ function onRequest(request, sender, sendResponse) {
         // Update the visit item accordingly.
         oVisitItem.setChromeReferringVisitId(oReferrerVisitItem.visitId);
       }
+      
+      // Other processing following this.
       
       // TODO(rmoutard) : use DB system, or a singleton.
       var oToolsContainer = new Cotton.Algo.ToolsContainer(); // return a list of Tools
@@ -55,7 +56,17 @@ function onRequest(request, sender, sendResponse) {
           });
         });
       }
-    });
+    };
+    
+    var sReferringUrl = oVisitItem.referrerUrl();
+    if (sReferringUrl) {
+      chrome.history.getVisits({
+        url: sReferringUrl
+      }, mGetVisitsHandler);
+    } else {
+      mGetVisitsHandler([]);
+    }
+    
     break;
   }
 
