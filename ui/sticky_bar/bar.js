@@ -24,10 +24,10 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   },
   
   // Creates a new sticker and adds it to the bar.
-  buildSticker: function() {
+  buildSticker: function(oStory) {
     // Each sticker will have a different position.
     var iPosition = this._lStickers.length;
-    var oSticker = new Cotton.UI.StickyBar.Sticker(this, iPosition);
+    var oSticker = new Cotton.UI.StickyBar.Sticker(this, iPosition, oStory);
     this._lStickers.push(oSticker);
     return oSticker;
   },
