@@ -14,12 +14,12 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     
     this._$stickyBar.find('.ct-arrow_left').click(function() {
       // TODO(fwouts): Use constants.
-      self.translateStickers(self._iTranslateX - 300);
+      self.translateStickers(self._iTranslateX + 300);
     });
     
     this._$stickyBar.find('.ct-arrow_right').click(function() {
       // TODO(fwouts): Use constants.
-      self.translateStickers(self._iTranslateX + 300);
+      self.translateStickers(self._iTranslateX - 300);
     });
     
     this._$stickyBar.animate({
