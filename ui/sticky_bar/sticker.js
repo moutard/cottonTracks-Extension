@@ -58,6 +58,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
     
     this._oBar.append($sticker);
+  },
+  
+  translate: function(iTranslateX) {
+    this._$sticker.stop().animate({
+      marginLeft: iTranslateX
+    });
   }
 });
 
