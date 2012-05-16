@@ -32,7 +32,7 @@ function onRequest(request, sender, sendResponse) {
       }
       
       // TODO(rmoutard) : use DB system, or a singleton.
-      var oToolsContainer = generateTools(); // return a list of Tools
+      var oToolsContainer = new Cotton.Algo.ToolsContainer(); // return a list of Tools
       var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
       var sPutId = ""; // put return the auto-incremented id in the database.
 
