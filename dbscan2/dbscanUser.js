@@ -28,14 +28,12 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
                var lStoriesTemp = lStories;
                for(var i=0; i < lStoriesTemp.length; i++){              
                  var oStory = lStoriesTemp[i];
-                 this.findGroup('visitItems', 'id', lStoriesTemp[count].visitItemsId(), 
+                 this.findGroup('visitItems', 'id', oStory.visitItemsId(), 
                      function(lVisitItems){
-                       // console.log(lVisitItems);
                        
                        lStoriesTemp[count].setVisitItems(lVisitItems);
                        
                        if(count == (lStoriesTemp.length - 1)){
-                         console.log('pourt');
                          console.log(lStoriesTemp);
                        }
                        count++;
@@ -66,9 +64,8 @@ Cotton.DBSCAN2.getStories = function(mCallBack){
                var lStoriesTemp = lStories;
                for(var i=0; i < lStoriesTemp.length; i++){              
                  var oStory = lStoriesTemp[i];
-                 this.findGroup('visitItems', 'id', lStoriesTemp[count].visitItemsId(), 
+                 this.findGroup('visitItems', 'id', oStory.visitItemsId(), 
                      function(lVisitItems){
-                       // console.log(lVisitItems);
                        
                        lStoriesTemp[count].setVisitItems(lVisitItems);
                        
