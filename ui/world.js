@@ -5,14 +5,18 @@ Cotton.UI.World = function() {
   var oStickyBar = this._ostickyBar = new Cotton.UI.StickyBar.Bar();
   var object = {};
   oStickyBar.on('ready', function() {
-    // Various initializers, mostly for testing.
-    var lStickers = [];
-    for (var i = 0; i < 3; i++) {
-      var oSticker = oStickyBar.buildSticker();
-      lStickers.push(oSticker);
-    }
-    _.each(lStickers, function(oSticker) {
-      oSticker.display();
+    
+    Cotton.DBSCAN2.getStories(function(lStories) {
+      // Various initializers, mostly for testing.
+      var lStickers = [];
+      _.each(lStories, function(oStory) {
+        var oSticker = oStickyBar.buildSticker(oStory);
+        lStickers.push(oSticker);
+      });
+      
+      _.each(lStickers, function(oSticker) {
+        oSticker.display();
+      });
     });
   });
 };

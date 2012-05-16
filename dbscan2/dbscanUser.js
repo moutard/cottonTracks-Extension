@@ -75,7 +75,7 @@ Cotton.DBSCAN2.getStories = function(mCallBack){
                        if(count == (lStoriesTemp.length - 1)){
                          console.log('forFwouts');
                          console.log(lStoriesTemp);
-                         mCallBack.call(lStoriesTemp);
+                         mCallBack(lStoriesTemp);
                        }
                        count++;
                  }); 
