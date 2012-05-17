@@ -22,6 +22,13 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       self.translateStickers(self._iTranslateX - 300);
     });
     
+    this._$stickyBar.find('.ct-container').bind('mousewheel', function(oEvent) {
+      // TODO(fwouts): Use constants.
+      var iDelta = oEvent.originalEvent.wheelDeltaX * 0.5;
+      self.translateStickers(self._iTranslateX + iDelta, true);
+      oEvent.preventDefault();
+    });
+    
     this._$stickyBar.animate({
       top: '0px'
     }, 'slow', function() {
@@ -58,10 +65,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     this._$stickyBar.find('> .ct-container').append($sticker);
   },
   
-  translateStickers: function(iTranslateX) {
+  translateStickers: function(iTranslateX, bDoNotAnimate) {
+    bDoNotAnimate = bDoNotAnimate || false;
     this._iTranslateX = iTranslateX;
     _.each(this._lStickers, function(oSticker) {
-      oSticker.translate(iTranslateX);
+      oSticker.translate(iTranslateX, bDoNotAnimate);
     });
   }
 });
