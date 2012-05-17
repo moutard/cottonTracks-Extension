@@ -12,6 +12,7 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
   // DB
   // Cotton.DB.ManagementTools.addHistoryItems(lHistoryItems);
   Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
+  Cotton.UI.oWorld.update();
 }
 
 // WORKER
@@ -80,7 +81,7 @@ oDBRequest.onsuccess = function(oEvent) {
 
     if (localStorage['CottonFirstOpening'] === undefined) {
       // It's not the first installation.
-      //localStorage['CottonFirstOpening'] = false;
+      // localStorage['CottonFirstOpening'] = false;
       Cotton.Installation.notFirstInstallation();
 
     } else {
