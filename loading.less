@@ -23,7 +23,7 @@
 
 body {
   margin: 0;
-  background: #000;
+  background: #fff;
 
   // Hide the body while it's not loaded yet.
   opacity: 0;
@@ -49,26 +49,31 @@ body {
 }
 
 // Background landscape.
-.ct-landscape {
-  background: url('/images/landscape.png') left;
-  position: absolute;
+.ct-window {
+  position : absolute;
   width: 100%;
-  height: 50%;
+  overflow : hidden;
+  height: 80%;
+  bottom: 0px;
+}
+.ct-landscape {
+  background: url('/images/landscapev2.png') left repeat-x;
+  position: absolute;
+  width: 5464px;
+  height: 100%;
   bottom: 0;
   z-index: 1;
 
   -webkit-transition-duration: @openingDuration;
+
 }
 
 @-webkit-keyframes running {
   from {
     -webkit-transform : translateX(0px);
   }
-  90% {
-    -webkit-transform : translateX(-2500px);
-  }
   to {
-    -webkit-transform : translateX(0px);
+    -webkit-transform : translateX(-2732px);
   }
 }
 .ct-landscape.running {
@@ -78,6 +83,10 @@ body {
 	-webkit-animation-duration: 5s;
 }
 
+.ct-landscape.fadeIn {
+  opacity:0;
+}
+
 // Curtain on top of the landscape.
 .ct-curtain {
   background-image: @curtainGradient, url('/images/background.png');
@@ -85,7 +94,7 @@ body {
   width: 100%;
   // Sometimes using 80% results in a 1px white line.
   height: 81%;
-  z-index : 2;
+  z-index : 200;
   -webkit-transition-duration: @openingDuration;
 
   &:after {
@@ -138,12 +147,12 @@ body {
 
   .ct-landscape {
     // Sometimes using 80% results in a 1px white line.
-    height: 81%;
+    height: 100%;
     background-position: left 80%;
   }
 
   .ct-curtain {
-    height: 20%;
+    height: 0%;
 
     .ct-board {
       top: -@boardHeight;
