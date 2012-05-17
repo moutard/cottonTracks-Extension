@@ -14,35 +14,7 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
   $('#loader-animation').remove();
   Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
   Cotton.UI.Debug.displayStories(dStories.stories);
-  
-  new Cotton.DB.Store('ct',
-      { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-      function() {
-       this.getLowerBound('stories', 'fLastVisitTime', 0.0,
-           "PREV", true, function(lStories) {
-         
-         new Cotton.DB.Store('ct', 
-             {'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS },
-             function(){
-               var count = 0;
-               var lStoriesTemp = lStories;
-               for(var i=0; i < lStoriesTemp.length; i++){              
-                 var oStory = lStoriesTemp[i];
-                 this.findGroup('visitItems', 'id', oStory.visitItemsId(), 
-                     function(lVisitItems){
-                       
-                       lStoriesTemp[count].setVisitItems(lVisitItems);
-                       
-                       if(count == (lStoriesTemp.length - 1)){
-                         console.log(lStoriesTemp);
-                       }
-                       count++;
-                 }); 
-               }
-             });
-         // Cotton.UI.Debug.displayStories(lStories);
-       });
-     });
+
   // console.log("After cluster stories");
   // console.log(dStories);
 
@@ -68,7 +40,39 @@ Cotton.DBSCAN2.getStories = function(mCallBack){
                      function(lVisitItems){
                        
                        lStoriesTemp[count].setVisitItems(lVisitItems);
+       
+                       if(count == (lStoriesTemp.length - 1)){
+                         console.log('forFwouts');
+                         console.log(lStoriesTemp);
+                         mCallBack(lStoriesTemp);
+                       }
+                       count++;
+                 }); 
+               }
+             });
+       });
+     });
+};
+
+Cotton.DBSCAN2.getXStories = function(iX, mCallBack){
+  new Cotton.DB.Store('ct',
+      { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+      function() {
+       this.getXItems('stories', 10, 'fLastVisitTime', "PREV", 
+           function(lStories) {
+         
+         new Cotton.DB.Store('ct', 
+             {'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS },
+             function(){
+               var count = 0;
+               var lStoriesTemp = lStories;
+               for(var i=0; i < lStoriesTemp.length; i++){              
+                 var oStory = lStoriesTemp[i];
+                 this.findGroup('visitItems', 'id', oStory.visitItemsId(), 
+                     function(lVisitItems){
                        
+                       lStoriesTemp[count].setVisitItems(lVisitItems);
+       
                        if(count == (lStoriesTemp.length - 1)){
                          console.log('forFwouts');
                          console.log(lStoriesTemp);
