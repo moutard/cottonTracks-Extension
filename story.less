@@ -20,10 +20,13 @@ body {
   > .ct-storyContent {
     background: @white;
     border: 1px solid #ccc;
-    min-height: 300px;
     position: relative;
     font-family: @helvetica;
-    padding: 20px;
+    padding: 10px;
+    font-size: 14px;
+    
+    // Used to close the div after the floating ct-storyFeaturedImage.
+    overflow: hidden;
     
     &:before {
       content: '';
@@ -36,7 +39,17 @@ body {
       background: url('images/story/element_bottom.png');
     }
     
-    &:after {
+    > .ct-storyDelete {
+      width: 35px;
+      height: 34px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: url('images/story/delete_left.png');
+      cursor: pointer;
+    }
+    
+    > .ct-storyGrab {
       content: '';
       position: absolute;
       right: 0;
@@ -45,6 +58,23 @@ body {
       width: @storyItemGrabWidth;
       height: @storyItemGrabHeight;
       background: url('images/story/pic_grab.png');
+      cursor: pointer;
+    }
+    
+    > .ct-storyFeaturedImage {
+      display: block;
+      float: left;
+      margin-right: 10px;
+      max-width: 130px;
+    }
+    
+    > h3 {
+      
+    }
+    
+    > .ct-legend {
+      font-size: 0.9em;
+      color: #ccc;
     }
   }
 
