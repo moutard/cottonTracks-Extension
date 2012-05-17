@@ -202,7 +202,13 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // fact: sometimes extensions' images were picked (starting with
       // chrome://).
       var src = $img.attr('src');
-      if (!src || !src.match(/^http:/)) {
+      // Do not consider images that belong to an <a> if they link to another domain (must be ads)
+      // NOTE: does not work if ad is in a "<div onclick:"location.href..>" instead of an <a> 
+      var link = $img.parents('a').attr('href');
+      var domainName = new RegExp(document.domain);
+      var hierarchy = new RegExp("^/|#");
+      var isExternalLink = !(link == undefined || (domainName.test(link) || hierarchy.test(link)));
+      if (!src || !src.match(/^http:/) || isExternalLink) {
         // Continue the loop.
         return true;
       }
@@ -213,7 +219,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var iWidth = $img.width();
       var iHeight = $img.height();
       var iSurface = iWidth * iHeight;
-      if (iSurface > iBiggestSurface) {
+      if (iSurface > iBiggestSurface && iSurface > 3600) {
         iBiggestSurface = iSurface;
         $biggestImg = $img;
       }
