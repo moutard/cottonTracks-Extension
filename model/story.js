@@ -10,6 +10,7 @@ Cotton.Model.Story = Class.extend({
     this._fLastVisitTime = 0;
     this._fRelevance;
 
+    this._sTitle = "";
     this._lVisitItemsId = new Array();
     this._lVisitItems = new Array();
   },
@@ -26,7 +27,7 @@ Cotton.Model.Story = Class.extend({
     return this._lVisitItems.length;
   },
   // TODO(moutard): I (fwouts) added this, feel free to refactor if necessary.
-  visitItems: function() {
+  visitItems : function() {
     return this._lVisitItems;
   },
   iter : function() {
@@ -169,4 +170,16 @@ Cotton.Model.Story = Class.extend({
         .lastVisitTime());
   },
 
+  computeVisitItems : function() {
+    var self = this;
+    new Cotton.DB.Store('ct', {
+      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    }, function() {
+      this.findGroup('visitItems', 'id', self.visitItemsId(), function(
+          lVisitItems) {
+        self.setVisitItems(lVisitItems);
+      });
+
+    });
+  },
 });
