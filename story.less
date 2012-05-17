@@ -1,0 +1,70 @@
+// TODO(fwouts): Use a common LESS style for constants used in several files.
+
+@white: #fff;
+@helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+@storyItemWidth: 400px;
+@storyItemGrabWidth: 17px;
+@storyItemGrabHeight: 19px;
+@storyItemBottomHeight: 25px;
+@quoteWidth: 382px;
+@quoteHorizontalPadding: 20px;
+@quoteVerticalPadding: 20px;
+
+body {
+  background: url('images/story/paper_background.png');
+}
+
+.ct-storyItem {
+  width: @storyItemWidth;
+  
+  > .ct-storyContent {
+    background: @white;
+    border: 1px solid #ccc;
+    min-height: 300px;
+    position: relative;
+    font-family: @helvetica;
+    padding: 20px;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      left: -1px; // Because of the border.
+      bottom: -@storyItemBottomHeight;
+      width: @storyItemWidth;
+      height: @storyItemBottomHeight;
+      background: url('images/story/element_bottom.png');
+    }
+    
+    &:after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: -(@storyItemGrabHeight / 2);
+      width: @storyItemGrabWidth;
+      height: @storyItemGrabHeight;
+      background: url('images/story/pic_grab.png');
+    }
+  }
+
+  > .ct-quote {
+    width: (@quoteWidth - 2 * @quoteHorizontalPadding);
+    margin-left: (@storyItemWidth - @quoteWidth) / 2;
+    background: url('images/story/quote_paper.png');
+    position: relative;
+    // TODO(fwouts): Find other fallback fonts.
+    font-family: 'Times New Roman';
+    padding: @quoteVerticalPadding @quoteHorizontalPadding;
+    
+    &:before {
+      content: '';
+      height: 16px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background: url('images/story/quote_bottom.png');
+    }
+  }
+}
