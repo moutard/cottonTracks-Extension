@@ -9,14 +9,8 @@ function handleResultsOfDBSCAN2(iNbCluster, lVisitItems) {
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
-  // TODO(rmoutard) : Choose what you really want to display.
-  // UI
-  $('#loader-animation').remove();
-  Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
-  Cotton.UI.Debug.displayStories(dStories.stories);
-
-  // console.log("After cluster stories");
-  // console.log(dStories);
+  // Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
+  // Cotton.UI.Debug.displayStories(dStories.stories);
 
   // DB
   Cotton.DB.ManagementTools.addStories(dStories.stories);
@@ -137,19 +131,6 @@ Cotton.DBSCAN2.startDbscanUser = function() {
         });
 
       });
-      /*
-       * this.delete('stories', oStory, function(){ chrome.history.search({ //
-       * Get all the historyItem we haven't scanned yet. text : '', startTime :
-       * lastStory.lastVisitTime(), maxResults :
-       * Cotton.Config.Parameters.iMaxResult, }, function(lHistoryItems) {
-       * console.log("result with last Visit Item"); console.log(lHistoryItems); //
-       * include current story's historyItems
-       * 
-       * lHistoryItems = lHistoryItems.concat(lastStory.iter());
-       * console.log("Before dbscan"); console.log(lHistoryItems);
-       * Cotton.DBSCAN2.dbscanWorker.postMessage(lHistoryItems); }); // end
-       * search }); // end delete
-       */
     }); // end getLastEntry
   });
 };
