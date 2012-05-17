@@ -60,10 +60,17 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._oBar.append($sticker);
   },
   
-  translate: function(iTranslateX) {
-    this._$sticker.stop().animate({
-      marginLeft: iTranslateX
-    });
+  translate: function(iTranslateX, bDoNotAnimate) {
+    bDoNotAnimate = bDoNotAnimate || false;
+    if (bDoNotAnimate) {
+      this._$sticker.stop().css({
+        marginLeft: iTranslateX
+      });
+    } else {
+      this._$sticker.stop().animate({
+        marginLeft: iTranslateX
+      });
+    }
   }
 });
 
