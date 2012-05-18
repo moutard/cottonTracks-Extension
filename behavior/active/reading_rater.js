@@ -90,15 +90,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
     
     var mRefreshReadingRate = function() {
-      
-      if (!self._bDocumentActive) {
-        // Do not increase scores if the document is inactive.
-        return;
+      // Do not increase scores if the document is inactive.
+      if (self._bDocumentActive) {
+        var fPageScore = self._computePageScore();
+        var iPercent = Math.round(100 * fPageScore);
+        self._$feedback.text(iPercent + '%');
       }
-      
-      var fPageScore = self._computePageScore();
-      var iPercent = Math.round(100 * fPageScore);
-      self._$feedback.text(iPercent + '%');
       
       // Refresh after a little while.
       setTimeout(mRefreshReadingRate,
