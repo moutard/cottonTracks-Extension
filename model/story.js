@@ -182,4 +182,13 @@ Cotton.Model.Story = Class.extend({
 
     });
   },
+
+  computeTitle : function() {
+    if (this._lVisitItems.length !== 0) {
+      for ( var i = 0; oVisitItem = this._lVisitItems[i]; i++) {
+        //
+      }
+      this._sTitle = "";
+    }
+  },
 });

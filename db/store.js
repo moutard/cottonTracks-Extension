@@ -265,7 +265,20 @@ Cotton.DB.Store = Class.extend({
       mResultElementCallback.call(self, lAllObjects);
     });
   },
+  
+  add: function(sObjectStoreName, oObject, mOnSaveCallback) {
+    var self = this;
 
+    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
+    var dDbRecord = oTranslator.objectToDbRecord(oObject);
+
+    this._oEngine.add(sObjectStoreName, dDbRecord, function(iId) {
+      if (mOnSaveCallback) {
+        mOnSaveCallback.call(self, iId);
+      }
+    });
+  },
+  
   // Must be called once the store is ready.
   put: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
@@ -279,7 +292,20 @@ Cotton.DB.Store = Class.extend({
       }
     });
   },
+  
+  update: function(sObjectStoreName, sId, oObject, mOnSaveCallback) {
+    var self = this;
 
+    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
+    var dDbRecord = oTranslator.objectToDbRecord(oObject);
+
+    this._oEngine.update(sObjectStoreName, sId, dDbRecord, function(iId) {
+      if (mOnSaveCallback) {
+        mOnSaveCallback.call(self, iId);
+      }
+    });
+  },
+  
   delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;
 

@@ -604,6 +604,7 @@ Cotton.DB.Engine = Class.extend({
     // TODO(fwouts): Implement.
     // oPutRequest.onerror = ;
   },
+  
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -612,12 +613,12 @@ Cotton.DB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // TODO(fwouts): Checks on the type of data contained in dItem?
-    if (!dItem.id) {
+    // if (!dItem.id) {
       // In order for the id to be automatically generated, we cannot set it to
       // undefined or null, it
       // must not exist.
-      delete dItem.id;
-    }
+      // delete dItem.id;
+    // }
     var oPutRequest = oStore.put(dItem);
 
     oPutRequest.onsuccess = function(oEvent) {
@@ -627,7 +628,46 @@ Cotton.DB.Engine = Class.extend({
     // TODO(fwouts): Implement.
     // oPutRequest.onerror = ;
   },
+  
+  update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
+    var self = this;
+    
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
 
+    // Define the index.
+    var oIndex = oStore.index('id');
+
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.only(sId);
+    var oCursorRequest = oIndex.openCursor(oKeyRange);
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        // There is no entry that corresponds to your id. Can not be updated.
+        mResultElementCallback.call(self);
+        return;
+      }
+      else {
+        var oUpdateRequest = this.update(dItem);
+        oUpdateRequest.onsuccess = function(oEvent){
+          mResultElementCallback.call(self, oEvent.target.result);
+          return;
+        };
+        oUpdateRequest.onerror = function(oEvent){
+          console.log("can not update your entry");
+          console.log(oEvent);
+        };
+      }
+    };
+
+// TODO(rmoutard): Implement.
+// oCursorRequest.onerror = ;
+
+  },
   // TODO(fwouts): Can there be keys that are not strings and not integers?
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;

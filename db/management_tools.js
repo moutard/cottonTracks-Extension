@@ -137,3 +137,51 @@ Cotton.DB.ManagementTools.syncDatabaseWithChrome = function(){
 
   // TODO(rmoutard) : implement and launch each time Cotton is opened ?
 };
+
+Cotton.DB.ManagementTools.test = function(){
+  
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+    console.log("store ready");
+    
+      var oVisitItem = new Cotton.Model.VisitItem();
+      oVisitItem._sId = 26;
+
+      oStore.put('visitItems', oVisitItem, function(iId) {
+        console.log(iId);
+      });
+  });
+};
+
+Cotton.DB.ManagementTools.test = function(){
+  
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+    console.log("store ready");
+    
+      var oVisitItem = new Cotton.Model.VisitItem();
+      oVisitItem._sId = 26;
+
+      oStore.put('visitItems', oVisitItem, function(iId) {
+        console.log(iId);
+      });
+  });
+};
+
+Cotton.DB.ManagementTools.test2 = function(){
+  
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+    console.log("store ready");
+      oStore.getLastEntry('visitItems', function(oVisitItem){
+        oVisitItem._sTitle = "poeueuet";
+        oStore.put('visitItems', oVisitItem, function(iId) {
+          console.log(iId);
+        });
+      });
+      
+  });
+};
