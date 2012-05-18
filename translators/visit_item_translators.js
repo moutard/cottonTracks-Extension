@@ -12,24 +12,26 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       sTitle : oVisitItem.title(),
       iVisitTime : oVisitItem.visitTime(),
       sStoryId : oVisitItem.storyId(),
+      lQueryWords : oVisitItem.queryWords(),
+      lExtractedWords : oVisitItem.extractedWords(),
       oExtractedDNA : {
-              'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
-              'lScores' : oVisitItem._oExtractedDNA._lScores,
-                      },
+        'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
+        'lScores' : oVisitItem._oExtractedDNA._lScores,
+      },
     };
 
     // Simple configuration.
-    if (oVisitItem.id() !== undefined){
+    if (oVisitItem.id() !== undefined) {
       // else id will be auto-incremented by engine. Because its the first time
       // you add this visitItem.
       dDbRecord.id = oVisitItem.id();
     }
 
-    if (oVisitItem.chromeId() !== undefined){
+    if (oVisitItem.chromeId() !== undefined) {
       dDbRecord.sChromeId = oVisitItem.chromeId();
     }
 
-    if (oVisitItem.chromeReferringVisitId() !== undefined){
+    if (oVisitItem.chromeReferringVisitId() !== undefined) {
       dDbRecord.chromeReferringVisitId = oVisitItem.chromeReferringVisitId();
     }
 
@@ -43,16 +45,17 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oVisitItem._sId = oDbRecord.id;
     oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
     oVisitItem._sChromeReferringVisitId = oDbRecord.sChromeReferringVisitId;
-    oVisitItem._sStoryId =  oDbRecord.sStoryId;
+    oVisitItem._sStoryId = oDbRecord.sStoryId;
 
     oVisitItem._sUrl = oDbRecord.sUrl;
     oVisitItem._sTitle = oDbRecord.sTitle;
     oVisitItem._iVisitTime = oDbRecord.iVisitTime;
 
-    oVisitItem._oExtractedDNA._lHighlightedText =
-                        oDbRecord.oExtractedDNA.lHighlightedText;
-    oVisitItem._oExtractedDNA._lScores =
-                        oDbRecord.oExtractedDNA.lScores;
+    oVisitItem._lQueryWords = oDbRecord.lQueryWords;
+    oVisitItem._lExtractedWords = oDbRecord.lExtractedWords;
+
+    oVisitItem._oExtractedDNA._lHighlightedText = oDbRecord.oExtractedDNA.lHighlightedText;
+    oVisitItem._oExtractedDNA._lScores = oDbRecord.oExtractedDNA.lScores;
     return oVisitItem;
   };
 
