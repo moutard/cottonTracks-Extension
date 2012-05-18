@@ -11,11 +11,17 @@
 @quoteVerticalPadding: 20px;
 
 body {
-  background: url('images/story/paper_background.png');
+  background: url('/images/story/paper_background.png');
 }
 
 .ct-storyItem {
   width: @storyItemWidth;
+  
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  margin-left: -@storyItemWidth / 2;
+  z-index: 1;
   
   > .ct-storyContent {
     background: @white;
@@ -36,7 +42,7 @@ body {
       bottom: -@storyItemBottomHeight;
       width: @storyItemWidth;
       height: @storyItemBottomHeight;
-      background: url('images/story/element_bottom.png');
+      background: url('/images/story/element_bottom.png');
     }
     
     > .ct-storyDelete {
@@ -45,7 +51,7 @@ body {
       position: absolute;
       top: 0;
       right: 0;
-      background: url('images/story/delete_left.png');
+      background: url('/images/story/delete_left.png');
       cursor: pointer;
     }
     
@@ -57,7 +63,7 @@ body {
       margin-top: -(@storyItemGrabHeight / 2);
       width: @storyItemGrabWidth;
       height: @storyItemGrabHeight;
-      background: url('images/story/pic_grab.png');
+      background: url('/images/story/pic_grab.png');
       cursor: pointer;
     }
     
@@ -81,7 +87,7 @@ body {
   > .ct-quote {
     width: (@quoteWidth - 2 * @quoteHorizontalPadding);
     margin-left: (@storyItemWidth - @quoteWidth) / 2;
-    background: url('images/story/quote_paper.png');
+    background: url('/images/story/quote_paper.png');
     position: relative;
     // TODO(fwouts): Find other fallback fonts.
     font-family: 'Times New Roman';
@@ -94,7 +100,7 @@ body {
       position: absolute;
       left: 0;
       bottom: 0;
-      background: url('images/story/quote_bottom.png');
+      background: url('/images/story/quote_bottom.png');
     }
   }
 }
