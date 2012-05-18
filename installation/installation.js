@@ -1,5 +1,18 @@
 function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
+  // Update the visitItems with extractedWords and queryWords.
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+    for ( var i = 0; i < lVisitItems.length; i++) {
+      var oVisitItem = new Cotton.Model.VisitItem();
+      oVisitItem.deserialize(lVisitItems[i]);
+      oStore.put('visitItems', oVisitItem, function() {
+        console.log("update queryKeywords");
+      });
+    }
+  });
+
   var dStories = Cotton.Algo.clusterStory(lVisitItems, iNbCluster);
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;

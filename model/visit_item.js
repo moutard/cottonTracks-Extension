@@ -29,8 +29,8 @@ Cotton.Model.VisitItem = Class
         // this._oUrl ?
         this._sPathname;
         this._sHostname;
-        this._lQueryWords;
-        this._lExtractedWords;
+        this._lQueryWords = [];
+        this._lExtractedWords = [];
         this._sClosestGeneratedPage;
 
         // Improved model - only available for DBSCAN2
@@ -44,16 +44,16 @@ Cotton.Model.VisitItem = Class
       chromeId : function() {
         return this._sChromeId;
       },
-      chromeReferringVisitId: function() {
+      chromeReferringVisitId : function() {
         return this._sChromeReferringVisitId;
       },
-      setChromeReferringVisitId: function(sChromeReferringVisitId) {
+      setChromeReferringVisitId : function(sChromeReferringVisitId) {
         this._sChromeReferringVisitId = sChromeReferringVisitId;
       },
       url : function() {
         return this._sUrl;
       },
-      referrerUrl: function() {
+      referrerUrl : function() {
         return this._sReferrerUrl;
       },
       title : function() {
@@ -136,7 +136,8 @@ Cotton.Model.VisitItem = Class
         }
       },
       deserialize : function(dVisitItemSerialized) {
-        // this._sId = dVisitItemSerialized._sId || undefined;
+        // Use to restore a visitItem after it has been serialized by a worker.
+        this._sId = dVisitItemSerialized._sId || undefined;
         // this._sChromeVisitId = dVisitItemSerialized || undefined;
 
         this._sUrl = dVisitItemSerialized._sUrl || '';
@@ -144,9 +145,7 @@ Cotton.Model.VisitItem = Class
         this._sTitle = dVisitItemSerialized._sTitle || '';
         this._iVisitTime = dVisitItemSerialized._iVisitTime || 0;
 
-        // this._lTextHighlighter = dVisitItemSerialized._lTextHighlighter;
-        // this._iScrollCount = dVisitItemSerialized._iScrollCount;
-        // this._lCopyPaste = dVisitItemSerialized._lCopyPaste;
-        // this._lPScore = dVisitItemSerialized._lPScore;
+        this._lQueryWords = dVisitItemSerialized._lQueryWords || [];
+        this._lExtractedWords = dVisitItemSerialized._lExtractedWords || [];
       },
     });
