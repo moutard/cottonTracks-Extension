@@ -185,10 +185,16 @@ Cotton.Model.Story = Class.extend({
 
   computeTitle : function() {
     if (this._lVisitItems.length !== 0) {
+      var lMostFrequentKeywords = new Array();
       for ( var i = 0; oVisitItem = this._lVisitItems[i]; i++) {
-        //
+        if (oVisitItem.queryWords().length !== 0) {
+          this._sTitle = oVisitItem.queryWords().join(" ");
+          return;
+        }
       }
-      this._sTitle = "";
+      // TODO(rmoutard) : Do best than that with most frequent keywords.
+      this._sTitle = oVisitItem.extractedWords().join(" ");
+
     }
   },
 });
