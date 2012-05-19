@@ -91,9 +91,11 @@ Cotton.UI.StickyBar.Sticker = Class
         for ( var i = 0, oVisitItem; oVisitItem = this._oStory.visitItems()[i]; i++) {
           $sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
         }
+        $sumUp.css('height', '110px');
       },
 
       closeSumUp : function() {
+        $('.ct-sumUp').css('height', '0px');
         var $sumUpUl = $('.ct-sumUp ul');
         $sumUpUl.remove();
       },
