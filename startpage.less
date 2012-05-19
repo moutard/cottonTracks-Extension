@@ -184,6 +184,27 @@ body {
 }
 
 .ct-sumUp {
- width: 100%;
- background-color : #eee;
+  float: left;
+  width: 100%;
+  height: 0;
+  background-color : #eee;
+  
+  -webkit-transition-duration: 1s;
+  -webkit-transition-property: height;
+}
+
+.ct-sumUp ul {
+  margin: 0;
+  padding: 0;
+}
+.ct-sumUp li {
+  list-style-type :none;
+  float: left;
+  height : 90px;
+  width: 90px;
+  padding : 5px;
+  margin: 5px;
+  border-right: 1px solid #000;
+  
+  font-size: 12px;
 }
