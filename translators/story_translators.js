@@ -14,6 +14,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       lVisitItemsId : oStory.visitItemsId(),
       fLastVisitTime : oStory.lastVisitTime(),
       fRelevance : oStory.relevance(),
+      sTitle : oStory.title(),
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -33,6 +34,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     if (oDbRecord.fRelevance !== undefined) {
       oStory.setRelevance(oDbRecord.fRelevance);
     }
+    oStory._sTitle = oDbRecord.sTitle || "";
     if (oDbRecord.lVisitItemsId !== undefined) {
       for ( var i = 0, iVisitItemId; iVisitItemId = oDbRecord.lVisitItemsId[i]; i++) {
         oStory.addVisitItemId(iVisitItemId)

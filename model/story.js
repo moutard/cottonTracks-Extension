@@ -23,6 +23,12 @@ Cotton.Model.Story = Class.extend({
   setId : function(iId) {
     this._iId = iId;
   },
+  title : function() {
+    return this._sTitle;
+  },
+  setTitle : function(sTitle) {
+    this._sTitle = sTitle;
+  },
   length : function() {
     return this._lVisitItems.length;
   },
@@ -184,17 +190,21 @@ Cotton.Model.Story = Class.extend({
   },
 
   computeTitle : function() {
-    if (this._lVisitItems.length !== 0) {
-      var lMostFrequentKeywords = new Array();
-      for ( var i = 0; oVisitItem = this._lVisitItems[i]; i++) {
-        if (oVisitItem.queryWords().length !== 0) {
-          this._sTitle = oVisitItem.queryWords().join(" ");
-          return;
+    if (this._sTitle === "") {
+      if (this._lVisitItems.length !== 0) {
+        var lMostFrequentKeywords = new Array();
+        for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
+          if (oVisitItem.queryWords().length !== 0) {
+            this._sTitle = oVisitItem.queryWords().join(" ");
+            return;
+          }
+          if (oVisitItem.extractedWords().length !== 0) {
+            this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
+          }
         }
-      }
-      // TODO(rmoutard) : Do best than that with most frequent keywords.
-      this._sTitle = oVisitItem.extractedWords().join(" ");
+        // TODO(rmoutard) : Do best than that with most frequent keywords.
 
+      }
     }
   },
 });
