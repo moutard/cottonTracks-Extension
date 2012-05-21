@@ -141,7 +141,7 @@ body {
         margin-left: -(@stickyBar_bar_commands_middle_flip_width / 2) + 1px;
         top: 4px;
         
-        background: url('/images/topbar/flip.png');
+        background: url('/images/topbar/flip_back.png');
         font-family: @helvetica;
         font-weight: bold;
         font-size: 23px;
@@ -149,6 +149,16 @@ body {
         text-align: center;
         line-height: @stickyBar_bar_commands_middle_flip_height;
         text-shadow: 0 0 5px #000;
+        
+        &:before {
+          content: '';
+          position: absolute;
+          background: url('/images/topbar/flip_line.png');
+          width: @stickyBar_bar_commands_middle_flip_width;
+          height: @stickyBar_bar_commands_middle_flip_height;
+          left: 0;
+          top: 0;
+        }
       }
   	}
   }
