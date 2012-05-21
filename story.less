@@ -14,6 +14,8 @@
 @storyLineWidth: 5px;
 @storyLineDotRadius: 10px;
 
+@storyItemLinkWidth: 100px;
+
 /*
 body {
   background: url('/images/story/paper_background.png');
@@ -24,10 +26,63 @@ body {
   width: @storyItemWidth;
   
   position: absolute;
-  top: 300px;
-  left: 20%;
-  margin-left: -@storyItemWidth / 2;
+  left: 50%;
   z-index: 1;
+  
+  -webkit-transition-duration: 1s;
+  
+  // The top attribute will be filled in JS.
+  // top: 300px;
+  
+  > .ct-storyItemLink {
+    position: absolute;
+  
+    top: 18px;
+    
+    > .ct-storyItemLinkLine {
+      position: absolute;
+      border: 2px solid @storyLineColor;
+      width: @storyItemLinkWidth;
+      
+      > .ct-storyItemLinkDot {
+        position: absolute;
+        border-radius: @storyLineDotRadius;
+        border: @storyLineDotRadius solid @storyLineColor;
+        margin-top: -@storyLineDotRadius;
+      }
+    }
+  }
+  
+  &.ct-storyItem_left {
+    margin-left: -@storyItemWidth - @storyItemLinkWidth;
+    
+    > .ct-storyItemLink {
+      right: 0;
+      
+      > .ct-storyItemLinkLine {
+        
+        > .ct-storyItemLinkDot {
+          right: -@storyLineDotRadius;
+        }
+      }
+    }
+  }
+  
+  &.ct-storyItem_right {
+    margin-left: @storyItemLinkWidth;
+    
+    > .ct-storyItemLink {
+      left: 0;
+      margin-left: -@storyItemLinkWidth;
+      
+      > .ct-storyItemLinkLine {
+        
+        > .ct-storyItemLinkDot {
+          left: -@storyLineDotRadius;
+        }
+      }
+    }
+  }
   
   > .ct-storyContent {
     background: @white;
@@ -86,7 +141,7 @@ body {
     
     > .ct-legend {
       font-size: 0.9em;
-      color: #ccc;
+      color: #aaa;
     }
   }
 
@@ -118,29 +173,4 @@ body {
   left: 50%;
   margin-left: -@storyLineWidth / 2;
   z-index: 1;
-  
-  > .ct-storyItemLink {
-    position: absolute;
-  
-    // This should be changed on a per-item basis in JS.
-    top: 50%;
-    
-    > .ct-storyItemLinkLine {
-      position: absolute;
-      border: 2px solid @storyLineColor;
-      
-      // This should be changed on a per-item basis in JS.
-      width: 300px;
-      margin-left: -300px;
-    }
-    
-    > .ct-storyItemLinkDot {
-      border-radius: @storyLineDotRadius;
-      border: @storyLineDotRadius solid @storyLineColor;
-      position: absolute;
-      right: 0;
-      margin-right: -@storyLineDotRadius;
-      margin-top: -@storyLineDotRadius;
-    }
-  }
 }
