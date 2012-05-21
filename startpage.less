@@ -1,4 +1,4 @@
-@backgroundColor: #b4d8d1;
+@backgroundColor: #fcfaf2;
 @white: #fff;
 @black: #000;
 @helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
@@ -176,24 +176,6 @@ body {
   border-radius: 5px;
 }
 
-.ct-path_bubble {
-  background: @white;
-  position: absolute;
-  width: 200px;
-  height: 200px;
-  padding: 20px;
-  border: 5px solid #eee;
-  margin: -100px 0 0 30px;
-}
-
-.ct-path_bubble_handle {
-  position: absolute;
-  border: 10px solid @black;
-  border-radius: 10px;
-  margin: -10px 0 0 -10px;
-  cursor: pointer;
-}
-
 .ct-sumUp {
   float: left;
   width: 100%;
@@ -219,3 +201,52 @@ body {
   
   font-size: 12px;
 }
+
+.ct-homepage {
+  
+  position: absolute;
+  margin-top: 280px;
+  left: 50%;
+  width: 800px;
+  margin-left: -400px;
+  
+  > .ct-ticket {
+    background: url(https://lh4.googleusercontent.com/-GwTCb8BrKZA/AAAAAAAAAAI/AAAAAAAAAAA/UOX1L_rfvoE/s200-c/photo.jpg) no-repeat center;
+    position: relative;
+    float: left;
+    width: 235px;
+    height: 200px;
+    
+    > .ct-ticketTitle {
+      position: absolute;
+      bottom: -100px;
+      height: 100px;
+      background: url(/images/home/ticket_bottom.png) no-repeat;
+      // TODO(fwouts): Use variables.
+      width: 235px - 2 * 20px;
+      padding-top: 26px;
+      padding: 20px;
+      
+      > .ct-ticketCount {
+        float: left;
+        font-weight: bold;
+        color: #d84;
+        width: 70px;
+        font-size: 0.8em;
+        
+        > b {
+          font-size: 3em;
+        }
+      }
+      
+      > h3 {
+        display: block;
+        overflow: hidden;
+        text-align: center;
+        font-weight: normal;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
