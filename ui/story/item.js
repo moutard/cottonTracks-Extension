@@ -43,14 +43,14 @@ Cotton.UI.Story.Item = Class.extend({
             )
         ),
         $content.append(
-            $deleteButton,
-            $grabHandle,
-            $featuredImage,
+            //$deleteButton,
+            //$grabHandle,
+            //$featuredImage,
             $title,
             $legend,
             $summary
-        ),
-        $quote
+        )/*,
+        $quote*/
     );
   },
   
