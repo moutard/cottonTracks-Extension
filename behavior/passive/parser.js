@@ -204,11 +204,11 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var src = $img.attr('src');
       // Do not consider images that belong to an <a> if they link to another domain (must be ads)
       // NOTE: does not work if ad is in a "<div onclick:"location.href..>" instead of an <a> 
-      var link = $img.parents('a').attr('href');
+      var sLink = $img.parents('a').attr('href');
       var domainName = new RegExp(document.domain);
       var hierarchy = new RegExp("^/|#");
-      var isExternalLink = !(link == undefined || (domainName.test(link) || hierarchy.test(link)));
-      if (!src || !src.match(/^http:/) || isExternalLink) {
+      var bExternalLink = !(sLink == undefined || (domainName.test(sLink) || hierarchy.test(sLink)));
+      if (!src || !src.match(/^http:/) || bExternalLink) {
         // Continue the loop.
         return true;
       }
@@ -219,7 +219,9 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var iWidth = $img.width();
       var iHeight = $img.height();
       var iSurface = iWidth * iHeight;
-      if (iSurface > iBiggestSurface && iSurface > 3600) {
+      // TODO: create a single file where we can modify all constants across the app
+      var iSurfaceMin = 3600;
+      if (iSurface > iBiggestSurface && iSurface > iSurfaceMin) {
         iBiggestSurface = iSurface;
         $biggestImg = $img;
       }
