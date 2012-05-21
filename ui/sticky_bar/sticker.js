@@ -66,9 +66,13 @@ Cotton.UI.StickyBar.Sticker = Class
           self.openSumUp();
         }, function() {
           // Out
-          // Do not do anything, keep the storyline open until a new
-          // one replaces it.
+          self.closeSumUp();
         });
+        
+        $sticker.click(function() {
+          self.openStory();
+        });
+        
         this._oBar.append($sticker);
       },
 
@@ -84,8 +88,24 @@ Cotton.UI.StickyBar.Sticker = Class
           });
         }
       },
-
+      
       openSumUp : function() {
+        var $sumUp = $('.ct-sumUp');
+        $sumUp.append('<ul></ul>');
+        var $sumUpUl = $('.ct-sumUp ul');
+        _.each(this._oStory.visitItems(), function(oVisitItem) {
+          $sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
+        });
+        $sumUp.css('height', '110px');
+      },
+
+      closeSumUp : function() {
+        $('.ct-sumUp').css('height', '0px');
+        var $sumUpUl = $('.ct-sumUp ul');
+        $sumUpUl.remove();
+      },
+
+      openStory : function() {
         var oStoryline = new Cotton.UI.Story.Storyline();
         _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
           var oItem = oStoryline.buildStory(oVisitItem);
