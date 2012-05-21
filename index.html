@@ -1,158 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>cottonTracks</title>
-
-  <!-- Library -->
-  <script type='text/javascript' src='lib/class.js'></script>
-  <script type='text/javascript' src='lib/jquery.min.js'></script>
-  <script type='text/javascript' src='lib/raphael.min.js'></script>
-  <script type='text/javascript' src='lib/underscore.min.js'></script>
-  <script type='text/javascript' src='lib/backbone.min.js'></script>
-  <script type='text/javascript' src='lib/date.format.js'></script>
-  <script type='text/javascript' src='lib/parseURL.js'></script>
-
-  <!-- Cotton -->
-  <script type='text/javascript' src='init.js'></script>
-
-  <script type='text/javascript' src='config/init.js'></script>
-  <script type='text/javascript' src='config/config.js'></script>
-
-  <script type='text/javascript' src='ui/init.js'></script>
-  <script type='text/javascript' src='ui/first_visit.js'></script>
-  <script type='text/javascript' src='ui/debug_print.js'></script>
-  <script type='text/javascript' src='config/ga.js'></script>
-
-  <script type='text/javascript' src='ui/ui.js'></script>
-  <script type='text/javascript' src='ui/world.js'></script>
-  <script type='text/javascript' src='ui/point.js'></script>
-  <script type='text/javascript' src='ui/sticky_bar/init.js'></script>
-  <script type='text/javascript' src='ui/sticky_bar/bar.js'></script>
-  <script type='text/javascript' src='ui/sticky_bar/sticker.js'></script>
-  <script type='text/javascript' src='ui/path/init.js'></script>
-  <script type='text/javascript' src='ui/path/line.js'></script>
-  <script type='text/javascript' src='ui/path/bubble.js'></script>
-
-  <script type='text/javascript' src='ui/loading.js'></script>
-  
-  <script type='text/javascript' src='db/init.js'></script>
-  <script type='text/javascript' src='db/engine.js'></script>
-  <script type='text/javascript' src='db/translator.js'></script>
-  <script type='text/javascript' src='db/store.js'></script>
-  
-  <script type='text/javascript' src='model/init.js'></script>
-  <script type='text/javascript' src='model/story.js'></script>
-  <script type='text/javascript' src='model/history_item.js'></script>
-  <script type='text/javascript' src='model/extracted_dna.js'></script>
-  <script type='text/javascript' src='model/visit_item.js'></script>
-
-  <script type='text/javascript' src='translators/init.js'></script>
-  <script type='text/javascript' src='translators/story_translators.js'></script>
-  <script type='text/javascript' src='translators/history_item_translators.js'></script>
-  <script type='text/javascript' src='translators/visit_item_translators.js'></script>
-  
-  <script type='text/javascript' src='db/populate_db.js'></script>
-  <script type='text/javascript' src='db/management_tools.js'></script>
-
-  <script type='text/javascript' src='algo/init.js'></script>
-  <script type='text/javascript' src='algo/tools.js'></script>
-  <!-- Seems useless -->
-  <!--
+<title>cottonTracks</title>
+<!-- Library -->
+<script type='text/javascript' src='lib/class.js'></script>
+<script type='text/javascript' src='lib/jquery.min.js'></script>
+<script type='text/javascript' src='lib/raphael.min.js'></script>
+<script type='text/javascript' src='lib/underscore.min.js'></script>
+<script type='text/javascript' src='lib/backbone.min.js'></script>
+<script type='text/javascript' src='lib/date.format.js'></script>
+<script type='text/javascript' src='lib/parseURL.js'></script>
+<!-- Cotton -->
+<script type='text/javascript' src='init.js'></script>
+<script type='text/javascript' src='config/init.js'></script>
+<script type='text/javascript' src='config/config.js'></script>
+<script type='text/javascript' src='ui/init.js'></script>
+<script type='text/javascript' src='ui/first_visit.js'></script>
+<script type='text/javascript' src='ui/debug_print.js'></script>
+<script type='text/javascript' src='config/ga.js'></script>
+<script type='text/javascript' src='ui/ui.js'></script>
+<script type='text/javascript' src='ui/world.js'></script>
+<script type='text/javascript' src='ui/point.js'></script>
+<script type='text/javascript' src='ui/sticky_bar/init.js'></script>
+<script type='text/javascript' src='ui/sticky_bar/bar.js'></script>
+<script type='text/javascript' src='ui/sticky_bar/sticker.js'></script>
+<script type='text/javascript' src='ui/story/init.js'></script>
+<script type='text/javascript' src='ui/story/item.js'></script>
+<script type='text/javascript' src='ui/story/storyline.js'></script>
+<script type='text/javascript' src='ui/loading.js'></script>
+<script type='text/javascript' src='db/init.js'></script>
+<script type='text/javascript' src='db/engine.js'></script>
+<script type='text/javascript' src='db/translator.js'></script>
+<script type='text/javascript' src='db/store.js'></script>
+<script type='text/javascript' src='model/init.js'></script>
+<script type='text/javascript' src='model/story.js'></script>
+<script type='text/javascript' src='model/history_item.js'></script>
+<script type='text/javascript' src='model/extracted_dna.js'></script>
+<script type='text/javascript' src='model/visit_item.js'></script>
+<script type='text/javascript' src='translators/init.js'></script>
+<script type='text/javascript' src='translators/story_translators.js'></script>
+<script type='text/javascript'
+  src='translators/history_item_translators.js'></script>
+<script type='text/javascript'
+  src='translators/visit_item_translators.js'></script>
+<script type='text/javascript' src='db/populate_db.js'></script>
+<script type='text/javascript' src='db/management_tools.js'></script>
+<script type='text/javascript' src='algo/init.js'></script>
+<script type='text/javascript' src='algo/tools.js'></script>
+<!-- Seems useless -->
+<!--
   <script type='text/javascript' src='algo/pre_treatment.js'></script>
   <script type='text/javascript' src='algo/distance.js'></script>
   <script type='text/javascript' src='algo/dbscan.js'></script>
   -->
-  <script type='text/javascript' src='algo/story_select.js'></script>
-  <script type='text/javascript' src='algo/tools_container.js'></script>
-
-  <script type='text/javascript' src='dbscan2/init.js'></script>
-  <script type='text/javascript' src='dbscan2/distance2.js'></script>
-  <script type='text/javascript' src='dbscan2/dbscanUser.js'></script>
-  
-  <script type='text/javascript' src='installation/init.js'></script>
-  <script type='text/javascript' src='installation/installation.js'></script>
-
-  <link rel="stylesheet/less" type="text/css" href="startpage.less" />
-  <link rel="stylesheet/less" type="text/css" href="story.less" />
-  <!-- FIXME(rmoutard): load only if necessary -->
-  <link rel="stylesheet/less" type="text/css" href="loading.less" />
-  <!-- less script should be after .less file -->
-  <script type='text/javascript' src='lib/less.js'></script>
+<script type='text/javascript' src='algo/story_select.js'></script>
+<script type='text/javascript' src='algo/tools_container.js'></script>
+<script type='text/javascript' src='dbscan2/init.js'></script>
+<script type='text/javascript' src='dbscan2/distance2.js'></script>
+<script type='text/javascript' src='dbscan2/dbscanUser.js'></script>
+<script type='text/javascript' src='installation/init.js'></script>
+<script type='text/javascript' src='installation/installation.js'></script>
+<link rel="stylesheet/less" type="text/css" href="startpage.less" />
+<link rel="stylesheet/less" type="text/css" href="story.less" />
+<!-- FIXME(rmoutard): load only if necessary -->
+<link rel="stylesheet/less" type="text/css" href="loading.less" />
+<!-- less script should be after .less file -->
+<script type='text/javascript' src='lib/less.js'></script>
 </head>
-
 <body>
   <div id="ct">
-  <div class="ct-window">
-    <div class="ct-landscape">
+    <div class="ct-window">
+      <div class="ct-landscape"></div>
     </div>
-  </div>
-
-  <div class="ct-curtain">
-    <div class="ct-board">
-      <h1>Please<br />have a seat!</h1>
-      <p>Discover a new way to browse the web! Can you give me some lines to fill this space?</p>
+    <div class="ct-curtain">
+      <div class="ct-board">
+        <h1>
+          Please<br />have a seat!
+        </h1>
+        <p>Discover a new way to browse the web! Can you give me
+          some lines to fill this space?</p>
+      </div>
     </div>
-  </div>
-  
-  <div id="ct-stickyBar_bar">
-    <div class="ct-arrow ct-arrow_left"></div>
-    <div class="ct-arrow ct-arrow_right"></div>
-  	<div class="ct-container">
-      
-    </div>
-    <div class="ct-commands">
-      <div class="ct-iconButton ct-iconButton_home"></div>
-      <div class="ct-iconButton ct-iconButton_search"></div>
-      <div class="ct-middle">
-        <div class="ct-textButton ct-textButton_edit">Edit</div>
-        <div class="ct-textButton ct-textButton_share">Share</div>
-        <div class="ct-flip">
-          Welcome
+    <div id="ct-stickyBar_bar">
+      <div class="ct-arrow ct-arrow_left"></div>
+      <div class="ct-arrow ct-arrow_right"></div>
+      <div class="ct-container"></div>
+      <div class="ct-commands">
+        <div class="ct-iconButton ct-iconButton_home"></div>
+        <div class="ct-iconButton ct-iconButton_search"></div>
+        <div class="ct-middle">
+          <div class="ct-textButton ct-textButton_edit">Edit</div>
+          <div class="ct-textButton ct-textButton_share">Share</div>
+          <div class="ct-flip">Welcome</div>
         </div>
       </div>
     </div>
-    <div class="ct-sumUp">
-    </div>
   </div>
-</div>
-
-
-	<div class="ct-storyLine">
-	  <div class="ct-storyItemLink">
-	    <div class="ct-storyItemLinkLine"></div>
-	    <div class="ct-storyItemLinkDot"></div>
-	  </div>
-	</div>
-	
-	<div class="ct-storyItem">
-	  <div class="ct-storyContent">
-	    <div class="ct-storyDelete"></div>
-	    <div class="ct-storyGrab"></div>
-	    <img class="ct-storyFeaturedImage"
-	         src="http://ia.media-imdb.com/images/M/MV5BMTMwOTA2MjU5N15BMl5BanBnXkFtZTcwMDYzODI1NA@@._V1._SY317_.jpg" />
-	    <h3>Moby Dick</h3>
-	    <span class="ct-legend">www.wikipedia.org</span>
-	    <p>
-	      As
-	      
-	      good luck would have it, they had had a whale alongside a day or two
-	      
-	      previous, and the great tackles were still aloft, and the massive curved
-	      
-	      blubber-hook, now clean and dry, was still attached to the end.  This was
-	      
-	      quickly lowered to Ahab, who at once comprehending it all, slid his solitary
-	      
-	      thigh into the curve of the hook (it was like sitting in the fluke of an
-	      
-	      anchor, or the crotch of an apple tree), and then giving the word, held
-	      
-	      himself fast, and at the same
-	    </p>
-	  </div>
-	  <div class="ct-quote">
-	    Lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum.
-	  </div>
-	</div>
 </body>
 </html>

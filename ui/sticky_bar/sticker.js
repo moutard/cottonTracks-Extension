@@ -66,7 +66,8 @@ Cotton.UI.StickyBar.Sticker = Class
           self.openSumUp();
         }, function() {
           // Out
-          self.closeSumUp();
+          // Do not do anything, keep the storyline open until a new
+          // one replaces it.
         });
         this._oBar.append($sticker);
       },
@@ -85,20 +86,19 @@ Cotton.UI.StickyBar.Sticker = Class
       },
 
       openSumUp : function() {
-        var $sumUp = $('.ct-sumUp');
-        $sumUp.append('<ul></ul>');
-        var $sumUpUl = $('.ct-sumUp ul');
-        for ( var i = 0, oVisitItem; oVisitItem = this._oStory.visitItems()[i]; i++) {
-          $sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
-        }
-        $sumUp.css('height', '110px');
-      },
-
-      closeSumUp : function() {
-        $('.ct-sumUp').css('height', '0px');
-        var $sumUpUl = $('.ct-sumUp ul');
-        $sumUpUl.remove();
-      },
+        var oStoryline = new Cotton.UI.Story.Storyline();
+        _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
+          var oItem = oStoryline.buildStory(oVisitItem);
+          // TODO(fwouts): Cleanup.
+          oItem.setTop(100 + iI * 75);
+          // Since we use -webkit-transition, we just need to modify the CSS
+          // after a very short while in order to trigger the animation.
+          setTimeout(function() {
+            oItem.setTop(270 + iI * 100);
+          }, 0);
+          oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
+        });
+      }
     });
 
 _.extend(Cotton.UI.StickyBar.Sticker.prototype, Backbone.Events);
