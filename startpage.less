@@ -13,6 +13,7 @@
 
 @stickyBar_bar_commands_middle_flip_width: 283px;
 @stickyBar_bar_commands_middle_flip_height: 37px;
+@stickyBar_bar_commands_middle_flip_line_padding: 4px;
 
 @stickyBar_bar_commands_iconButton_width: 35px;
 @stickyBar_bar_commands_iconButton_height: 45px;
@@ -154,9 +155,9 @@ body {
           content: '';
           position: absolute;
           background: url('/images/topbar/flip_line.png');
-          width: @stickyBar_bar_commands_middle_flip_width;
+          width: @stickyBar_bar_commands_middle_flip_width - 2 * @stickyBar_bar_commands_middle_flip_line_padding;
           height: @stickyBar_bar_commands_middle_flip_height;
-          left: 0;
+          left: @stickyBar_bar_commands_middle_flip_line_padding;
           top: 0;
         }
       }
@@ -191,30 +192,4 @@ body {
   border-radius: 10px;
   margin: -10px 0 0 -10px;
   cursor: pointer;
-}
-
-.ct-sumUp {
-  float: left;
-  width: 100%;
-  height: 0;
-  background-color : #eee;
-  
-  -webkit-transition-duration: 1s;
-  -webkit-transition-property: height;
-}
-
-.ct-sumUp ul {
-  margin: 0;
-  padding: 0;
-}
-.ct-sumUp li {
-  list-style-type :none;
-  float: left;
-  height : 90px;
-  width: 90px;
-  padding : 5px;
-  margin: 5px;
-  border-right: 1px solid #000;
-  
-  font-size: 12px;
 }
