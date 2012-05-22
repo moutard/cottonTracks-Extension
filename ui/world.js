@@ -19,6 +19,11 @@ Cotton.UI.World = function() {
       });
     });
   });
+  
+  Cotton.UI.Homepage.GRID = new Cotton.UI.Homepage.Grid();
+  $('.ct-iconButton_home').click(function() {
+    Cotton.UI.Homepage.GRID.show();
+  });
 };
 
 // We need an object to communicate via BackBone with the algorithm.
