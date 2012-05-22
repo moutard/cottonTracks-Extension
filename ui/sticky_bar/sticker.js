@@ -106,6 +106,9 @@ Cotton.UI.StickyBar.Sticker = Class
       },
 
       openStory : function() {
+        this.closeSumUp();
+        Cotton.UI.Homepage.GRID.hide();
+        
         var oStoryline = new Cotton.UI.Story.Storyline();
         _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
           var oItem = oStoryline.buildStory(oVisitItem);
