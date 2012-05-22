@@ -19,6 +19,13 @@
 @stickyBar_bar_commands_iconButton_height: 45px;
 @stickyBar_bar_commands_iconButton_spaceFromCenter: 390px;
 
+@homepage_ticket_image_width: 210px;
+@homepage_ticket_width: 235px;
+@homepage_ticket_header_padding: 20px;
+@homepage_ticket_margin_horizontal: 50px;
+@homepage_ticket_margin_vertical: 50px;
+@homepage_grid_width: (@homepage_ticket_width + @homepage_ticket_margin_horizontal) * 4;
+
 body {
   background: @backgroundColor;
   font-family: Arial;
@@ -84,7 +91,7 @@ body {
       position: absolute;
       left: 50%;
       z-index: 1;
-      //cursor: pointer;
+      cursor: pointer;
       
       &.ct-iconButton_home {
         background: url('/images/topbar/home.png');
@@ -207,25 +214,30 @@ body {
   position: absolute;
   margin-top: 280px;
   left: 50%;
-  width: 800px;
-  margin-left: -400px;
+  width: @homepage_grid_width;
+  // We need to translate a little more toward the right because the margin-right
+  // of the last element on the right adds some invisible width to the grid.
+  margin-left: -@homepage_grid_width / 2 + @homepage_ticket_margin_horizontal / 2;
   
   > .ct-ticket {
-    background: url(https://lh4.googleusercontent.com/-GwTCb8BrKZA/AAAAAAAAAAI/AAAAAAAAAAA/UOX1L_rfvoE/s200-c/photo.jpg) no-repeat center;
+    background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
+    background-size: @homepage_ticket_image_width auto;
     position: relative;
     float: left;
-    width: 235px;
+    width: @homepage_ticket_width;
     height: 200px;
+    margin-right: @homepage_ticket_margin_horizontal;
+    margin-bottom: @homepage_ticket_margin_vertical;
     
-    > .ct-ticketTitle {
+    > .ct-ticketHead {
       position: absolute;
-      bottom: -100px;
+      bottom: -120px;
       height: 100px;
       background: url(/images/home/ticket_bottom.png) no-repeat;
       // TODO(fwouts): Use variables.
-      width: 235px - 2 * 20px;
+      width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
       padding-top: 26px;
-      padding: 20px;
+      padding: @homepage_ticket_header_padding;
       
       > .ct-ticketCount {
         float: left;
