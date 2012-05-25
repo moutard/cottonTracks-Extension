@@ -205,7 +205,16 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       // Do not consider images that belong to an <a> if they link to another domain (must be ads)
       // NOTE: does not work if ad is in a "<div onclick:"location.href..>" instead of an <a> 
       var sLink = $img.parents('a').attr('href');
-      var domainName = new RegExp(document.domain);
+      var domainName = function(){
+        var lDomain = document.domain.split('.');
+      	if (/^(www)/i.test(lDomain[0])) {
+      		var reg = new RegExp(lDomain[1]);      	
+      	}
+      	else {
+      		var reg = new RegExp(lDomain[0]);
+     	}
+     	return reg;
+      }();
       var hierarchy = new RegExp("^/|#");
       var bExternalLink = !(sLink == undefined || (domainName.test(sLink) || hierarchy.test(sLink)));
       // Do not take an image which is hidden
