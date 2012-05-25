@@ -208,7 +208,9 @@ Cotton.Behavior.Passive.Parser = Class.extend({
       var domainName = new RegExp(document.domain);
       var hierarchy = new RegExp("^/|#");
       var bExternalLink = !(sLink == undefined || (domainName.test(sLink) || hierarchy.test(sLink)));
-      if (!src || !src.match(/^http:/) || bExternalLink) {
+      // Do not take an image which is hidden
+      var bHidden = $img.is(':hidden') || $img.css('visibility') == 'hidden' || $img.css('opacity') == 0;
+      if (!src || !src.match(/^http:/) || bExternalLink || bHidden) {
         // Continue the loop.
         return true;
       }
