@@ -54,11 +54,6 @@ Cotton.UI.StickyBar.Sticker = Class
           left : iInitialPosition
         })
 
-        // callback on css transition.
-        $sticker.bind(
-            'webkitTransitionEnd',
-            function(e){console.log(e);}, false);
-
         // TODO(fwouts): Use CSS animations.
         $sticker.animate({
           left : iFinalPosition
@@ -95,9 +90,6 @@ Cotton.UI.StickyBar.Sticker = Class
       },
 
       openSumUp : function() {
-        var $sumUpUl = $('.ct-sumUp ul');
-        $sumUpUl.remove();
-
         var $sumUp = $('.ct-sumUp');
         $sumUp.append('<ul></ul>');
         var $sumUpUl = $('.ct-sumUp ul');
@@ -111,7 +103,9 @@ Cotton.UI.StickyBar.Sticker = Class
 
       closeSumUp : function() {
         $('.ct-sumUp').css('top', '145px');
-              },
+        var $sumUpUl = $('.ct-sumUp ul');
+        $sumUpUl.remove();
+      },
 
       openStory : function() {
         this.closeSumUp();
