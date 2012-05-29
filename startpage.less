@@ -29,6 +29,8 @@
 @homepage_ticket_margin_vertical: 50px;
 @homepage_grid_width: (@homepage_ticket_width + @homepage_ticket_margin_horizontal) * 4;
 
+@sticky_bar_height : @stickyBar_bar_commands_sumUp_height + @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height ;
+
 body {
   background: @backgroundColor;
   font-family: Arial;
@@ -235,6 +237,7 @@ body {
   -webkit-transition-duration: 1s;
   -webkit-transition-property: top;
 
+  box-shadow: 1px 1px 4px #888;
 
 }
 
@@ -257,12 +260,9 @@ body {
 .ct-homepage {
 
   position: absolute;
-  margin-top: 280px;
-  left: 50%;
-  width: @homepage_grid_width;
-  // We need to translate a little more toward the right because the margin-right
-  // of the last element on the right adds some invisible width to the grid.
-  margin-left: -@homepage_grid_width / 2 + @homepage_ticket_margin_horizontal / 2;
+  top: @sticky_bar_height;
+  //width: @homepage_grid_width;
+  width : 100%;
 
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
@@ -271,12 +271,18 @@ body {
     float: left;
     width: @homepage_ticket_width;
     height: 200px;
-    margin-right: @homepage_ticket_margin_horizontal;
+    margin-right: @homepage_ticket_margin_horizontal / 2;
+    margin-left: @homepage_ticket_margin_horizontal / 2;
     margin-bottom: @homepage_ticket_margin_vertical;
+
+    > .ct-ticketImage {
+      height: 200px;
+      width: 235px;
+    }
 
     > .ct-ticketHead {
       position: absolute;
-      bottom: -120px;
+      bottom: -30px;
       height: 100px;
       background: url(/images/home/ticket_bottom.png) no-repeat;
       // TODO(fwouts): Use variables.
