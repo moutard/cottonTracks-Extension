@@ -54,6 +54,11 @@ Cotton.UI.StickyBar.Sticker = Class
           left : iInitialPosition
         })
 
+        // callback on css transition.
+        $sticker.bind(
+            'webkitTransitionEnd',
+            function(e){console.log(e);}, false);
+
         // TODO(fwouts): Use CSS animations.
         $sticker.animate({
           left : iFinalPosition
@@ -68,11 +73,11 @@ Cotton.UI.StickyBar.Sticker = Class
           // Out
           self.closeSumUp();
         });
-        
+
         $sticker.click(function() {
           self.openStory();
         });
-        
+
         this._oBar.append($sticker);
       },
 
@@ -88,27 +93,30 @@ Cotton.UI.StickyBar.Sticker = Class
           });
         }
       },
-      
+
       openSumUp : function() {
+        var $sumUpUl = $('.ct-sumUp ul');
+        $sumUpUl.remove();
+
         var $sumUp = $('.ct-sumUp');
         $sumUp.append('<ul></ul>');
         var $sumUpUl = $('.ct-sumUp ul');
         _.each(this._oStory.visitItems(), function(oVisitItem) {
           $sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
         });
-        $sumUp.css('height', '110px');
+
+        //TODO(rmoutard) : don't put the value in the code.
+        $sumUp.css('top', '245px');
       },
 
       closeSumUp : function() {
-        $('.ct-sumUp').css('height', '0px');
-        var $sumUpUl = $('.ct-sumUp ul');
-        $sumUpUl.remove();
-      },
+        $('.ct-sumUp').css('top', '145px');
+              },
 
       openStory : function() {
         this.closeSumUp();
         Cotton.UI.Homepage.GRID.hide();
-        
+
         var oStoryline = new Cotton.UI.Story.Storyline();
         _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
           var oItem = oStoryline.buildStory(oVisitItem);
