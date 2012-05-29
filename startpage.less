@@ -8,6 +8,7 @@
 @stickyBar_bar_arrow_spaceFromCenter: 300px;
 @stickyBar_bar_arrow_transitionDuration: 0.2s;
 
+@stickyBar_bar_commands_container: 200px;
 @stickyBar_bar_commands_middle_width: 494px;
 @stickyBar_bar_commands_middle_height: 45px;
 
@@ -18,6 +19,8 @@
 @stickyBar_bar_commands_iconButton_width: 35px;
 @stickyBar_bar_commands_iconButton_height: 45px;
 @stickyBar_bar_commands_iconButton_spaceFromCenter: 390px;
+
+@stickyBar_bar_commands_sumUp_height: 100px;
 
 @homepage_ticket_image_width: 210px;
 @homepage_ticket_width: 235px;
@@ -59,7 +62,9 @@ body {
 #ct-stickyBar_bar {
   position: absolute;
   width: 100%;
-  .clearfix;
+  height: @stickyBar_bar_commands_sumUp_height + @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height ;
+
+  //.clearfix;
   overflow: hidden;
   // Hidden bar.
   top: -200px;
@@ -103,13 +108,22 @@ body {
   }
 
   > .ct-container {
-    height: 200px;
+    position : absolute;
+    top: 0;
+    width : 100%;
+    height: @stickyBar_bar_commands_container;
   	background: #dfdfdf;
+    z-index : 2;
   }
 
   > .ct-commands {
-  	height: 45px;
+  	position: absolute;
+    top: @stickyBar_bar_commands_container;
+    width: 100%;
+    height: @stickyBar_bar_commands_middle_height;
   	background: url('/images/topbar/topbar_background.png');
+
+    z-index : 2;
 
     .ct-iconButton {
       width: @stickyBar_bar_commands_iconButton_width;
@@ -210,13 +224,16 @@ body {
 }
 
 .ct-sumUp {
-  float: left;
+  position: absolute;
+  top: @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height - @stickyBar_bar_commands_sumUp_height;
   width: 100%;
-  height: 0;
+  height: @stickyBar_bar_commands_sumUp_height;
   background-color : #eee;
-
+  z-index : 1;
   -webkit-transition-duration: 1s;
-  -webkit-transition-property: height;
+  -webkit-transition-property: top;
+
+
 }
 
 .ct-sumUp ul {
@@ -226,7 +243,7 @@ body {
 .ct-sumUp li {
   list-style-type :none;
   float: left;
-  height : 90px;
+  height : 80px;
   width: 90px;
   padding : 5px;
   margin: 5px;
