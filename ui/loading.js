@@ -16,6 +16,7 @@ Cotton.UI.openCurtain = function() {
   $('body').addClass('ct-body-open');
   $('.ct-landscape').removeClass('running');
   $('.ct-landscape').css('opacity', '0');
+  $('ct-window').css('display', 'none');
 };
 
 Cotton.UI.closeCurtain = function() {
