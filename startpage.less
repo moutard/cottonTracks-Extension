@@ -31,60 +31,86 @@ body {
   font-family: Arial;
 }
 
+// CLEARFIX
+.clearfix {
+
+	&:after {
+		clear: both;
+		content: ' ';
+		display: block;
+		font-size: 0;
+		line-height: 0;
+		visibility: hidden;
+		width: 0;
+		height: 0;
+	}
+
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}
+
 #ct-stickyBar_bar {
   position: absolute;
   width: 100%;
+  .clearfix;
   overflow: hidden;
   // Hidden bar.
   top: -200px;
   z-index: 100;
-  
+
   > .ct-arrow {
     width: @stickyBar_bar_arrow_width;
     height: @stickyBar_bar_arrow_height;
-    
+
     position: absolute;
     left: 50%;
     z-index: 1;
     top: 85px;
-    
+
     // Invisible by default.
     opacity: 0;
-    
+
     -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
-    
+
     &.ct-arrow_left {
       background: url('/images/topbar/navarrow_left.png');
       margin-left: -@stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
     }
-    
+
     &.ct-arrow_right {
       background: url('/images/topbar/navarrow_right.png');
       margin-left: @stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
     }
   }
-  
+
   &:hover {
     // When the bar is hovered, show the arrows.
     > .ct-arrow {
       opacity: 0.7;
-      
+
       &:hover {
         // When the arrows are hovered, show them better.
         opacity: 1.0;
       }
     }
   }
-  
+
   > .ct-container {
     height: 200px;
   	background: #dfdfdf;
   }
-  
+
   > .ct-commands {
   	height: 45px;
   	background: url('/images/topbar/topbar_background.png');
-	    
+
     .ct-iconButton {
       width: @stickyBar_bar_commands_iconButton_width;
       height: @stickyBar_bar_commands_iconButton_height;
@@ -92,36 +118,36 @@ body {
       left: 50%;
       z-index: 1;
       cursor: pointer;
-      
+
       &.ct-iconButton_home {
         background: url('/images/topbar/home.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
-        
+
         &:hover {
           background: url('/images/topbar/home_selected.png');
         }
       }
-      
+
       &.ct-iconButton_search {
         background: url('/images/topbar/search.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
-        
+
         &:hover {
           background: url('/images/topbar/search_selected.png');
         }
       }
     }
-  	
+
   	> .ct-middle {
       width: @stickyBar_bar_commands_middle_width;
       height: @stickyBar_bar_commands_middle_height;
       margin: auto;
       background: url('/images/topbar/flip_background.png');
-      
+
       position: absolute;
       left: 50%;
       margin-left: -(@stickyBar_bar_commands_middle_width / 2);
-      
+
       > .ct-textButton {
         position: absolute;
         left: 50%;
@@ -130,25 +156,25 @@ body {
         font-size: 20px;
         top: 12px;
         text-shadow: 0 0 5px #000;
-        
+
         &.ct-textButton_edit {
           margin-left: -210px;
         }
-        
+
         &.ct-textButton_share {
           margin-left: 170px;
         }
       }
-      
+
       > .ct-flip {
         width: @stickyBar_bar_commands_middle_flip_width;
         height: @stickyBar_bar_commands_middle_flip_height;
-        
+
         position: absolute;
         left: 50%;
         margin-left: -(@stickyBar_bar_commands_middle_flip_width / 2) + 1px;
         top: 4px;
-        
+
         background: url('/images/topbar/flip_back.png');
         font-family: @helvetica;
         font-weight: bold;
@@ -157,7 +183,7 @@ body {
         text-align: center;
         line-height: @stickyBar_bar_commands_middle_flip_height;
         text-shadow: 0 0 5px #000;
-        
+
         &:before {
           content: '';
           position: absolute;
@@ -188,7 +214,7 @@ body {
   width: 100%;
   height: 0;
   background-color : #eee;
-  
+
   -webkit-transition-duration: 1s;
   -webkit-transition-property: height;
 }
@@ -205,12 +231,12 @@ body {
   padding : 5px;
   margin: 5px;
   border-right: 1px solid #000;
-  
+
   font-size: 12px;
 }
 
 .ct-homepage {
-  
+
   position: absolute;
   margin-top: 280px;
   left: 50%;
@@ -218,7 +244,7 @@ body {
   // We need to translate a little more toward the right because the margin-right
   // of the last element on the right adds some invisible width to the grid.
   margin-left: -@homepage_grid_width / 2 + @homepage_ticket_margin_horizontal / 2;
-  
+
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
     background-size: @homepage_ticket_image_width auto;
@@ -228,7 +254,7 @@ body {
     height: 200px;
     margin-right: @homepage_ticket_margin_horizontal;
     margin-bottom: @homepage_ticket_margin_vertical;
-    
+
     > .ct-ticketHead {
       position: absolute;
       bottom: -120px;
@@ -238,19 +264,19 @@ body {
       width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
       padding-top: 26px;
       padding: @homepage_ticket_header_padding;
-      
+
       > .ct-ticketCount {
         float: left;
         font-weight: bold;
         color: #d84;
         width: 70px;
         font-size: 0.8em;
-        
+
         > b {
           font-size: 3em;
         }
       }
-      
+
       > h3 {
         display: block;
         overflow: hidden;
