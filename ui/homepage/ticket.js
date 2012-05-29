@@ -11,6 +11,15 @@ Cotton.UI.Homepage.Ticket = Class.extend({
     var $ticketCount = $('<div class="ct-ticketCount"><b class="ct-ticketCountNumber">99</b> stories</div>');
     var $ticketTitle = $('<h3></h3>');
 
+    $ticket.hover(function() {
+          // In
+         $(this).css('-webkit-box-shadow', '0px 0px 4px #666');
+          console.log('ok');
+        }, function() {
+          // Out
+          $(this).css('-webkit-box-shadow', '');
+    });
+
     $ticket.append(
         $ticketImage,
         $ticketHead.append(
