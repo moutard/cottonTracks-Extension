@@ -25,8 +25,8 @@
 @homepage_ticket_image_width: 210px;
 @homepage_ticket_width: 235px;
 @homepage_ticket_header_padding: 20px;
-@homepage_ticket_margin_horizontal: 50px;
-@homepage_ticket_margin_vertical: 50px;
+@homepage_ticket_margin_horizontal: 9em; /* Original value 50px */
+@homepage_ticket_margin_vertical: 4em; /* Original value 50px */
 @homepage_grid_width: (@homepage_ticket_width + @homepage_ticket_margin_horizontal) * 4;
 
 @sticky_bar_height : @stickyBar_bar_commands_sumUp_height + @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height ;
@@ -270,15 +270,25 @@ body {
     position: relative;
     float: left;
     width: @homepage_ticket_width;
-    height: 200px;
-    margin-right: @homepage_ticket_margin_horizontal / 2;
+    height: 150px;/* Original: 200px */
+    margin-right: 25px; /* Original: @homepage_ticket_margin_horizontal / 2 */
     margin-left: @homepage_ticket_margin_horizontal / 2;
     margin-bottom: @homepage_ticket_margin_vertical;
+    margin-top: -50px; /* Original: Did not exist */
 
-    > .ct-ticketImage {
-      height: 200px;
-      width: 235px;
-    }
+	> .ct-ticketLink {
+	position: relative;
+	float:left;
+	width: 175px;
+	height: 125px;
+
+   	 > .ct-ticketImage {
+	margin-left: 11px; /* original value : Did not exist*/
+        height: 100px; /* original value 200px*/
+        width: 215px; /* original value 235px*/
+        border-radius: 15px; /* original value : Did not exist*/
+    	}
+}
 
     > .ct-ticketHead {
       position: absolute;
