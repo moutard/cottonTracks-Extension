@@ -116,6 +116,7 @@ body {
     height: @stickyBar_bar_commands_container;
   	background: #dfdfdf;
     z-index : 2;
+    
   }
 
   > .ct-commands {
@@ -223,8 +224,31 @@ body {
   border: 5px solid #eee;
   box-shadow: 0 0 4px #888;
   border-radius: 5px;
+  
+  > .ct-container {
+  }
 }
 
+.ct-stickyBar_sticker {
+  > h3 {
+        position : absolute;
+        top : 100px;
+        z-index : 1;
+        width: 190px;
+        height: 40px;
+        padding-left: 10px;
+        padding-top: 5px;
+        font-size : 16px;
+
+        background-color : #EEE;
+        opacity: 0.7;
+      }
+  > img {
+        position: absolute;
+        top: 0px;
+        z-index : 0;
+      }
+}
 .ct-sumUp {
   position: absolute;
   top: @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height - @stickyBar_bar_commands_sumUp_height;
