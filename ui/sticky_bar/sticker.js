@@ -113,11 +113,13 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
       var oItem = oStoryline.buildStory(oVisitItem);
       // TODO(fwouts): Cleanup.
-      oItem.setTop(100 + iI * 75);
+      oItem.setTop(20);
       // Since we use -webkit-transition, we just need to modify the CSS
       // after a very short while in order to trigger the animation.
+      var iItemHeight = 100;
+      var iItemMargin = 20;
       setTimeout(function() {
-        oItem.setTop(270 + iI * 100);
+        oItem.setTop(iItemMargin + iI * iItemHeight);
       }, 0);
       oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
     });
