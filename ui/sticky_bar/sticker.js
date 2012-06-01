@@ -96,11 +96,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
     // TODO(rmoutard) : don't put the value in the code.
-    $sumUp.css('top', '245px');
+    $sumUp.css('top', '200px');
   },
 
   closeSumUp : function() {
-    $('.ct-sumUp').css('top', '145px');
+    $('.ct-sumUp').css('top', '100px');
     var $sumUpUl = $('.ct-sumUp ul');
     $sumUpUl.remove();
   },
