@@ -25,9 +25,15 @@
 @homepage_ticket_image_width: 210px;
 @homepage_ticket_width: 235px;
 @homepage_ticket_header_padding: 20px;
+<<<<<<< HEAD
 @homepage_ticket_margin_horizontal: 9em; /* Original value 50px */
 @homepage_ticket_margin_vertical: 2em; /* Original value 50px */
 @homepage_grid_width: (@homepage_ticket_width + @homepage_ticket_margin_horizontal) * 4;
+=======
+@homepage_ticket_margin_horizontal: 50px;
+@homepage_ticket_margin_vertical: 50px;
+@homepage_grid_width: (@homepage_ticket_width) * 4 + (@homepage_ticket_margin_horizontal) * 3;
+>>>>>>> Fixing grid alignment
 
 @sticky_bar_height : 205px; /*@stickyBar_bar_commands_sumUp_height + @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height ;*/
 
@@ -286,11 +292,21 @@ body {
 
 .ct-homepage {
 
+<<<<<<< HEAD
   position: absolute;
   top: @sticky_bar_height;
   //width: @homepage_grid_width;
   width : 100%;
   padding-top: 40px;
+=======
+  position: relative;
+  top: @sticky_bar_height; 
+  width: @homepage_grid_width;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* width : 100%; */
+>>>>>>> Fixing grid alignment
 
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
@@ -299,9 +315,13 @@ body {
     float: left;
     width: @homepage_ticket_width;
     height: 150px;/* Original: 200px */
-    margin-right: 25px; /* Original: @homepage_ticket_margin_horizontal / 2 */
-    margin-left: @homepage_ticket_margin_horizontal / 2;
+    margin-right: @homepage_ticket_margin_horizontal / 2;  /* 25px*/
+    margin-left: 0.8em;/* @homepage_ticket_margin_horizontal / 2;*/
     margin-bottom: @homepage_ticket_margin_vertical;
+<<<<<<< HEAD
+=======
+   /* margin-top: -50px; Original: Did not exist */
+>>>>>>> Fixing grid alignment
 
 	> .ct-ticketLink {
 	position: relative;
