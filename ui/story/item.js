@@ -26,7 +26,7 @@ Cotton.UI.Story.Item = Class.extend({
     
     var sUrl = oVisitItem.url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
-    var sDomain = sUrl.match(/\/\/([^/]*)\//)[1];
+    var sDomain = sUrl.match(/\/\/([^/]*)\// )[1];
     $legend.text(sDomain);
     
     var $originLink = $('<a />');
@@ -43,15 +43,20 @@ Cotton.UI.Story.Item = Class.extend({
             )
         ),
         $content.append(
-            //$deleteButton,
-            //$grabHandle,
-            //$featuredImage,
+            // $deleteButton,
+            // $grabHandle,
+            // $featuredImage,
             $title,
             $legend,
             $summary
-        )/*,
-        $quote*/
+        )/*
+           * , $quote
+           */
     );
+  },
+  
+  $ : function(){
+    return this._$item;
   },
   
   appendTo: function(oStoryLine) {

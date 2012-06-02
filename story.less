@@ -11,11 +11,12 @@
 @quoteVerticalPadding: 20px;
 
 @storyLineColor: #fa8;
-@storyLineWidth: 5px;
+@storyLineWidth: 50px;
+@storyDotLineWidth : 5px;
 @storyLineDotRadius: 10px;
 
 @storyItemLinkWidth: 100px;
-
+@columnWidth : 400px;
 /*
 body {
   background: url('/images/story/paper_background.png');
@@ -25,8 +26,9 @@ body {
 .ct-storyItem {
   width: @storyItemWidth;
   
-  position: absolute;
-  left: 50%;
+  position: relative;
+  //left: 50%;
+  margin: 40px 0 10px 0;
   z-index: 1;
   
   -webkit-transition-duration: 1s;
@@ -54,7 +56,7 @@ body {
   }
   
   &.ct-storyItem_left {
-    margin-left: -@storyItemWidth - @storyItemLinkWidth;
+    //margin-left: -@storyItemWidth - @storyItemLinkWidth;
     
     > .ct-storyItemLink {
       right: 0;
@@ -69,8 +71,8 @@ body {
   }
   
   &.ct-storyItem_right {
-    margin-left: @storyItemLinkWidth;
-    
+    //margin-left: @storyItemLinkWidth;
+    margin-top: 60px;
     > .ct-storyItemLink {
       left: 0;
       margin-left: -@storyItemLinkWidth;
@@ -176,15 +178,32 @@ body {
 }
 
 .ct-storyColLeft {
-	position: absolute;
+	//position: absolute;
 	top: 20px;
-	width: 400px;
-	height : 200px;
+	left: 0px;
+	width: @columnWidth;
+	height : 100%;
+	float:left;
 }
 
 .ct-storyColRight {
-	position: absolute;
+	//position: absolute;
   top: 20px;
-  width: 400px;
-  height : 200px;
+  right: 0px;
+  width: @columnWidth;
+  height : 100%;
+  float:right;
+  padding-top: 70px;
+}
+
+.ct-mystoryLine {
+  border-right: @storyDotLineWidth dashed #999;
+  position: absolute;
+  top: 0px;
+  left: 500px - (@storyLineWidth/2);
+  width : @storyDotLineWidth;
+  height: 100%;
+  margin-left: @storyLineWidth / 2 - @storyDotLineWidth;
+  margin-right: @storyLineWidth / 2 - @storyDotLineWidth;
+  z-index: 0;
 }
