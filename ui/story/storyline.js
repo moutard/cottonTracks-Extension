@@ -20,7 +20,12 @@
       Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
       this._$storyLine = $('<div class="ct-storyLine"></div>');
+      this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
+      this._$storyColRight = $('<div class="ct-storyColRight"></div>');
+
       $('#ct-story-homepage').append(this._$storyLine);
+      $('#ct-story-homepage').append(this._$storyColLeft);
+      $('#ct-story-homepage').append(this._$storyColRight);
       $('#ct-story-homepage').css('display', '');
 
       // TODO(fwouts): Improve/cleanup.
