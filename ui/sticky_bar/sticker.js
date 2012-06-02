@@ -111,17 +111,18 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     var oStoryline = new Cotton.UI.Story.Storyline();
     _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
-      var oItem = oStoryline.buildStory(oVisitItem);
+      oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
+      // var oItem = oStoryline.buildStory(oVisitItem);
       // TODO(fwouts): Cleanup.
-      oItem.setTop(20);
+      // oItem.setTop(20);
       // Since we use -webkit-transition, we just need to modify the CSS
       // after a very short while in order to trigger the animation.
-      var iItemHeight = 100;
-      var iItemMargin = 20;
+      // var iItemHeight = 100;
+      // var iItemMargin = 20;
       setTimeout(function() {
-        oItem.setTop(iItemMargin + iI * iItemHeight);
+        // oItem.setTop(iItemMargin + iI * iItemHeight);
       }, 0);
-      oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
+      // oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
     });
   }
 });

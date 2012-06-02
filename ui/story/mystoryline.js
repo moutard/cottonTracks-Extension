@@ -9,7 +9,7 @@
   var _oCurrentlyOpenStoryline = null;
 
   Cotton.UI.Story.Storyline = Class.extend({
-
+    _$storyHomepage : null,
     _$storyLine : null,
     _$storyColLeft : null,
     _$storyColRight : null,
@@ -21,8 +21,8 @@
 
       Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
-      this._$storyLine = $('<div class="ct-storyLine"></div>');
-      this._$mystoryLine = $('<div class="ct-mystoryLine"></div>');
+      this._$storyHomepage = $('<div class="ct-story-homepage"></div>');
+      this._$storyLine = $('<div class="ct-mystoryLine"></div>');
       this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
       this._$storyColRight = $('<div class="ct-storyColRight"></div>');
 
@@ -31,16 +31,27 @@
       // this._$storyLine.append(this._$storyColRight);
 
       $('#ct-story-homepage').append(this._$storyColLeft);
-      $('#ct-story-homepage').append(this._$mystoryLine);
+      $('#ct-story-homepage').append(this._$storyLine);
       $('#ct-story-homepage').append(this._$storyColRight);
       $('#ct-story-homepage').css('display', '');
-
+      $('#ct-story-homepage').addClass('clearfix');
       // TODO(fwouts): Improve/cleanup.
       this._$storyLine.css({
-        height : window.innerHeight
+      // height : window.innerHeight
       });
 
       _oCurrentlyOpenStoryline = this;
+    },
+
+    addVisitItem : function(oVisitItem, sParam) {
+      var oItem = new Cotton.UI.Story.Item(oVisitItem);
+      if (sParam === "left") {
+        oItem.setSide('left');
+        this._$storyColLeft.append(oItem.$());
+      } else if (sParam === "right") {
+        oItem.setSide('right');
+        this._$storyColRight.append(oItem.$());
+      }
     },
 
     buildStory : function(oVisitItem) {
