@@ -17,6 +17,7 @@ Cotton.UI.Story.Item = Class.extend({
     var $title = $('<h3></h3>');
     var $legend = $('<span class="ct-legend"></span>');
     var $summary = $('<p></p>');
+    var $bottom = $('<div class="ct-item_bottom"></div>');
     var $quote = $('<div class="ct-quote"></div>');
     
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
@@ -49,9 +50,9 @@ Cotton.UI.Story.Item = Class.extend({
             $title,
             $legend,
             $summary
-        )/*
-           * , $quote
-           */
+        ), 
+        $bottom,
+        $quote
     );
   },
   
