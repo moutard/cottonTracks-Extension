@@ -23,7 +23,7 @@ Cotton.UI.Story.Item = Class.extend({
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
     
     // TODO(fwouts): Cleanup.
-    $title.text(oVisitItem.title());
+    // $title.text(oVisitItem.title());
     
     var sUrl = oVisitItem.url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
@@ -34,9 +34,11 @@ Cotton.UI.Story.Item = Class.extend({
     $originLink
       .attr('href', sUrl)
       .attr('target', '_blank')
-      .text(sUrl);
-    $summary.append($originLink);
+      .text(oVisitItem.title());
+    $summary.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget fringilla quam. Fusce vitae erat sem, a lacinia nulla. Duis in nibh tellus. Mauris iaculis rutrum massa eu volutpat. Mauris posuere laoreet nibh non iaculis. Ut rhoncus orci vitae augue dictum et varius odio accumsan. Nulla malesuada ligula at nisi pellentesque eleifend. Fusce in metus et eros dignissim interdum a eget orci.");
     
+    $featuredImage.attr("src", "images/story_preview.png");
+    $quote.text("Ut tristique porta rhoncus. In a quam posuere orci ultrices pretium at quis urna. Praesent pulvinar ullamcorper augue sed ultricies.");
     this._$item.append(
         this._$storyLink.append(
             $('<div class="ct-storyItemLinkLine"></div>').append(
@@ -46,8 +48,8 @@ Cotton.UI.Story.Item = Class.extend({
         $content.append(
             // $deleteButton,
             // $grabHandle,
-            // $featuredImage,
-            $title,
+            $featuredImage,
+            $title.append($originLink),
             $legend,
             $summary
         ), 
