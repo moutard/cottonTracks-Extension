@@ -17,10 +17,13 @@ Cotton.Algo.PreTreatment.removeTools = function(lVisitItems) {
   // TODO(rmoutard) : use _.filter function in underscore library
   while (lVisitItems.length > 0) {
     var dVisitItem = lVisitItems.shift();
-    var sHostname = new parseUrl(dVisitItem._sUrl).hostname;
-
+    var oUrl = new parseUrl(dVisitItem._sUrl);
+    var sHostname = oUrl.hostname;
+    var sProtocol = oUrl.hostname;
     // if hostname of the url is a Tool remove it
-    if (oToolsContainer.alreadyExist(sHostname) === -1) {
+    if (sProtocol === "https:") {
+      // Do nothing.
+    } else if (oToolsContainer.alreadyExist(sHostname) === -1) {
       lCleanHistoryItems.push(dVisitItem);
     }
   }
