@@ -19,7 +19,7 @@ Cotton.Algo.PreTreatment.removeTools = function(lVisitItems) {
     var dVisitItem = lVisitItems.shift();
     var oUrl = new parseUrl(dVisitItem._sUrl);
     var sHostname = oUrl.hostname;
-    var sProtocol = oUrl.hostname;
+    var sProtocol = oUrl.protocol;
     // if hostname of the url is a Tool remove it
     if (sProtocol === "https:") {
       // Do nothing.
