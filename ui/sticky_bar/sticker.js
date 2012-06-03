@@ -111,7 +111,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     var oStoryline = new Cotton.UI.Story.Storyline();
     _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
-      oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
+      var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left'
+          : 'right');
       // var oItem = oStoryline.buildStory(oVisitItem);
       // TODO(fwouts): Cleanup.
       // oItem.setTop(20);
@@ -120,8 +121,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // var iItemHeight = 100;
       // var iItemMargin = 20;
       setTimeout(function() {
+        oItem.$().css("opacity", "1");
         // oItem.setTop(iItemMargin + iI * iItemHeight);
-      }, 0);
+      }, iI * 100);
       // oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
     });
   }
