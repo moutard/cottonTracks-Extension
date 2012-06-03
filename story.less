@@ -87,7 +87,7 @@ body {
   }
   
   > .ct-storyContent {
-    background: @white;
+    background: #F8F8F8;
     border: 1px solid #ccc;
     position: relative;
     font-family: @helvetica;
@@ -138,6 +138,12 @@ body {
     }
     
     > h3 {
+      > a {
+        text-decoration : none;
+        &:visited {
+          color: #000;
+        }
+      }
       
     }
     
@@ -150,6 +156,7 @@ body {
   > .ct-quote {
     width: (@quoteWidth - 2 * @quoteHorizontalPadding);
     margin-left: (@storyItemWidth - @quoteWidth) / 2;
+    margin-top: -25px;
     background: url('/images/story/quote_paper.png');
     position: relative;
     // TODO(fwouts): Find other fallback fonts.
@@ -168,11 +175,14 @@ body {
   }
   
   > .ct-item_bottom {
-    position: absolute;
-    bottom:0px;
+    position: relative;
+    margin-top: -1px;
+    //bottom: 20px;
     height: 25px;
     width: 400px;
     background: url('/images/story/element_bottom.png');
+    z-index:1;
+    
   }
 }
 
