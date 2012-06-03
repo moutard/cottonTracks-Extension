@@ -45,7 +45,7 @@
         },
 
         addVisitItem : function(oVisitItem, sParam) {
-          var oItem = new Cotton.UI.Story.Item(oVisitItem);
+          var oItem = new Cotton.UI.Story.ItemFactory(oVisitItem);
           oItem.$().css("opacity", "0");
           if (sParam === "left") {
             oItem.setSide('left');
@@ -61,7 +61,7 @@
         },
 
         buildStory : function(oVisitItem) {
-          var oItem = new Cotton.UI.Story.Item(oVisitItem);
+          var oItem = Cotton.UI.Story.ItemFactory(oVisitItem);
           oItem.appendTo(this);
           return oItem;
         },
