@@ -5,22 +5,22 @@
 
 // Called when a message is passed.  We assume that the content script
 function onRequest(request, sender, sendResponse) {
-  
+
   console.log(request);
-  
+
   switch (request.action) {
   case 'create_visit_item':
     // request.historyItem is serialized by the sender. So it's just
     // a dictionary. We need to deserialized it before putting it in the DB.
     var oVisitItem = new Cotton.Model.VisitItem();
     oVisitItem.deserialize(request.params.visitItem);
-    
+
     // Compute the referer id as it should be returned by the Chrome Extension
     // History API. We need this algorithm because in some cases, such as when
     // you open a link in a new tab, the referer id is not filled by Chrome, so
     // we need to fill it ourselves.
     // TODO(fwouts): Move out of here.
-    
+
     var mGetVisitsHandler = function(lChromeReferrerVisitItems) {
       // Select the last one the visit items.
       if (lChromeReferrerVisitItems && lChromeReferrerVisitItems.length > 0) {
@@ -29,9 +29,9 @@ function onRequest(request, sender, sendResponse) {
         // Update the visit item accordingly.
         oVisitItem.setChromeReferringVisitId(oReferrerVisitItem.visitId);
       }
-      
+
       // Other processing following this.
-      
+
       // TODO(rmoutard) : use DB system, or a singleton.
       var oToolsContainer = new Cotton.Algo.ToolsContainer(); // return a list of Tools
       var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
@@ -57,7 +57,7 @@ function onRequest(request, sender, sendResponse) {
         });
       }
     };
-    
+
     var sReferringUrl = oVisitItem.referrerUrl();
     if (sReferringUrl) {
       chrome.history.getVisits({
@@ -66,7 +66,9 @@ function onRequest(request, sender, sendResponse) {
     } else {
       mGetVisitsHandler([]);
     }
-    
+
+    break;
+  case 'update_visit_item' :
     break;
   }
 
