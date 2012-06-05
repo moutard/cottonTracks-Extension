@@ -9,6 +9,7 @@ Cotton.Model.ExtractedDNA = Class.extend({
   init: function() {
     this._lScores = [];
     this._lHighlightedText = [];
+    this._sImageUrl = "";
     // TODO(rmoutard) : see with fwouts the model of textHighLigter
     // this._lTextHighlighter = [];
     // this._iScrollCount = 0;
@@ -27,6 +28,13 @@ Cotton.Model.ExtractedDNA = Class.extend({
   addHighLightedText : function(sText) {
    this.push(sText);
   },
+  imageUrl : function(){
+    return this._sImageUrl;
+  },
+  setImageUrl : function(sImageUrl){
+    this._sImageUrl = sImageUrl;
+  },
+
   /*
   textHighLighter : function() {
     return this._sTextHighlighter;
