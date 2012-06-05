@@ -1,6 +1,7 @@
 @backgroundColor: #fcfaf2;
 @white: #fff;
 @black: #000;
+@golden: #d2ac28;
 @helvetica: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 @stickyBar_bar_arrow_width: 29px;
@@ -171,11 +172,15 @@ body {
       > .ct-textButton {
         position: absolute;
         left: 50%;
-        color: #fb4;
+        color: #e5e5e5;
         z-index: 1;
         font-size: 20px;
         top: 12px;
         text-shadow: 0 0 5px #000;
+
+	&:hover{
+	  color: @golden;
+	}
 
         &.ct-textButton_edit {
           margin-left: -210px;
