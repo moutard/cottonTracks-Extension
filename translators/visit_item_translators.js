@@ -17,6 +17,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       oExtractedDNA : {
         'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
         'lScores' : oVisitItem._oExtractedDNA._lScores,
+        'sImageUrl' : oVisitItem._oExtractedDNA._sImageUrl,
       },
     };
 
@@ -56,6 +57,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
     oVisitItem._oExtractedDNA._lHighlightedText = oDbRecord.oExtractedDNA.lHighlightedText;
     oVisitItem._oExtractedDNA._lScores = oDbRecord.oExtractedDNA.lScores;
+    oVisitItem._oExtractedDNA._sImageUrl = oDbRecord.oExtractedDNA.sImageUrl;
     return oVisitItem;
   };
 
