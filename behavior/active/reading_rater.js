@@ -2,69 +2,69 @@
 
 // TODO(fwouts): Cleanup the whole structure of this file.
 Cotton.Behavior.Active.ReadingRater = Class.extend({
-  
+
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   * 
+   *
    * @type boolean
    */
   _bDocumentActive: false,
-  
+
   /**
    * true if we should send debugging messages to the JS console.
-   * 
+   *
    * @type boolean
    */
   _bLoggingEnabled: false,
-  
+
   /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   * 
+   *
    * @type Cotton.Behavior.Passive.Parser
    */
   _oParser: null,
-  
+
   /**
    * A DOM element containing the current estimated reading rate.
-   * 
+   *
    * @type jQuery DOM
    */
   _$feedback: null,
-  
+
   /**
    * A DOM element containing an <img /> supposed to represent the most
    * relevant image on the page.
-   * 
+   *
    * @type jQuery DOM
    */
   _$bestImg: null,
-  
+
   init: function() {
     var self = this;
-    
+
     // Detect user's activity on the page when they move their cursor.
     // If they don't move it during 10 seconds, we conclude they are inactive.
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
       self._bDocumentActive = true;
-      
+
       clearTimeout(oTimeout);
       oTimeout = setTimeout(function() {
         self._bDocumentActive = false;
       }, 10000);
     });
-    
+
     this._bLoggingEnabled = false;
-    
+
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
-    
+
     this._generateFeedbackElement();
-    
+
     this._initializeHighlightListener();
-    
+
     // We will relaunch the parsing every 5 seconds. We do not use setInterval
     // for performance issues.
     var mRefreshParsing = function() {
@@ -72,14 +72,18 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var $bestImg = oParser.findBestImage();
       if ($bestImg) {
         self._$bestImg.attr('src', $bestImg.attr('src'));
+        // Update oCurrentVisitItem
+        sync._oCurrentVisitItem.extractedDNA().setImageUrl($bestImg.attr('src'));
+        //console.log(oCurrentVisitItem);
+        sync.updateVisit();
       }
       // Refresh every 5 seconds.
       setTimeout(mRefreshParsing, 5000);
     };
-    
+
     // Launch almost immediately (but try to avoid freezing the page).
     setTimeout(mRefreshParsing, 0);
-    
+
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -88,7 +92,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         $block.data('score', oScore);
       }
     });
-    
+
     var mRefreshReadingRate = function() {
       // Do not increase scores if the document is inactive.
       if (self._bDocumentActive) {
@@ -96,30 +100,30 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         var iPercent = Math.round(100 * fPageScore);
         self._$feedback.text(iPercent + '%');
       }
-      
+
       // Refresh after a little while.
       setTimeout(mRefreshReadingRate,
           Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
     };
-    
+
     mRefreshReadingRate();
   },
-  
+
   log: function(msg) {
     if (this._bLoggingEnabled) {
       console.log(msg);
     }
   },
-  
+
   /**
    * Computes the page score.
-   * 
+   *
    * @returns float between 0 and 1
    */
   _computePageScore: function() {
-    
+
     var lBlockBundles = this._computeBlockBundles();
-    
+
     // Get the total visible and unvisible surface of all content blocks.
     var iVisiblePageSurface = 0;
     var iTotalPageSurface = 0;
@@ -127,19 +131,19 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       iVisiblePageSurface += this.iVisibleSurface;
       iTotalPageSurface += this.iTotalSurface;
     });
-    
+
     // If there are no content blocks, just return 0.
     if (iVisiblePageSurface == 0) {
       return 0;
     }
-    
+
     var fPageScore = 0;
     $.each(lBlockBundles, function() {
       var fFocusProportion = this.iVisibleSurface / iVisiblePageSurface;
       var oScore = this.$block.data('score');
       // TODO(fwouts): If only 10% of the block is ever visible, the maximum
       // score should be of 10%.
-      
+
       // TODO(fwouts): Use the total quantity of text visible instead of the
       // total visible surface?
       oScore.increment(fFocusProportion * this.iVisibleSurface
@@ -149,12 +153,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
     return fPageScore;
   },
-  
+
   _computeBlockBundles: function() {
     // Compute the visible surface of each block and the total visible
     // surface.
     var lBlockBundles = [];
-    
+
     $('[data-meaningful]').each(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -173,10 +177,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
       // TODO(fwouts): Check if it is ever possible to not have oScore.
     });
-    
+
     return lBlockBundles;
   },
-  
+
   /**
    * Prepares a block to give feedback on the reading percentage.
    */
@@ -184,7 +188,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     if (this._$feedback) {
       return;
     }
-    
+
     var $container = $('<div>').css({
       position: 'fixed',
       left: 0,
@@ -194,46 +198,46 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       fontSize: '2em',
       padding: '0.4em'
     });
-    
+
     this._$feedback = $('<p>');
-    
+
     this._$bestImg = $('<img />').css({
       width: 50,
       height: 50
     });
-    
+
     $('body').append(
         $container.append(
             this._$feedback, this._$bestImg));
   },
-  
+
   /**
    * Adds a document listener to know when a selection happens and increment the
    * score of the relevant content block consequently.
    */
   _initializeHighlightListener: function() {
     var self = this;
-    
+
     /**
      * A jQuery DOM object used to keep in memory highlighted blocks in order
      * to re-augment their score in case they are copied (Ctrl/Cmd+C).
-     * 
+     *
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
-    
+
     $(document).mouseup(function(oEvent) {
       var oSelection = window.getSelection();
-      
+
       if (oSelection.isCollapsed) {
         // Do not do anything on empty selections.
         $highlightedContentBlocks = $([]);
         return;
       }
-      
+
       var oStartNode = oSelection.anchorNode;
       var oEndNode = oSelection.focusNode;
-      
+
       // We will try to detect if either the start node and the end node are
       // both located inside a common content block (which will have an
       // attribute named "data-meaningful" because of
@@ -250,7 +254,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         }
       });
     });
-    
+
     // We specifically listen to 'copy' events to re-augment the score of
     // highlighted content blocks that are also copied.
     $(document).bind('copy', function() {
@@ -263,10 +267,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       });
     });
   },
-  
+
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   * 
+   *
    * @returns jQuery DOM
    */
   _findCommonMeaningfulAncestorsForNodes: function(oNode1, oNode2) {
@@ -282,6 +286,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 50;
 
 // For testing.
-$(function() {
-  new Cotton.Behavior.Active.ReadingRater();
-});
+//$(function() {
+//  new Cotton.Behavior.Active.ReadingRater();
+//});
