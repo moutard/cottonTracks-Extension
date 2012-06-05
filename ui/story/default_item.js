@@ -35,10 +35,28 @@ Cotton.UI.Story.DefaultItem = Class.extend({
       .attr('href', sUrl)
       .attr('target', '_blank')
       .text(oVisitItem.title());
-    $summary.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget fringilla quam. Fusce vitae erat sem, a lacinia nulla. Duis in nibh tellus. Mauris iaculis rutrum massa eu volutpat. Mauris posuere laoreet nibh non iaculis. Ut rhoncus orci vitae augue dictum et varius odio accumsan. Nulla malesuada ligula at nisi pellentesque eleifend. Fusce in metus et eros dignissim interdum a eget orci.");
     
-    $featuredImage.attr("src", "images/story_preview.png");
-    $quote.text("Ut tristique porta rhoncus. In a quam posuere orci ultrices pretium at quis urna. Praesent pulvinar ullamcorper augue sed ultricies.");
+    // First Paragraph
+    if(oVisitItem.extractedDNA().firstParagraph() !== ""){
+      $summary.append(oVisitItem.extractedDNA().firstParagraph());
+    } else {
+      $summary.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget fringilla quam. Fusce vitae erat sem, a lacinia nulla. Duis in nibh tellus. Mauris iaculis rutrum massa eu volutpat. Mauris posuere laoreet nibh non iaculis. Ut rhoncus orci vitae augue dictum et varius odio accumsan. Nulla malesuada ligula at nisi pellentesque eleifend. Fusce in metus et eros dignissim interdum a eget orci.");
+    }
+    
+    // TextHighlight
+    if(oVisitItem.extractedDNA().highLightedText().length !== 0){
+      $quote.text(oVisitItem.extractedDNA().highLightedText()[0]);
+    } else {
+      $quote.text("Ut tristique porta rhoncus. In a quam posuere orci ultrices pretium at quis urna. Praesent pulvinar ullamcorper augue sed ultricies.");
+    }
+    
+    // Image Url
+    if(oVisitItem.extractedDNA().imageUrl() !== ""){
+      $featuredImage.attr("src", oVisitItem.extractedDNA().imageUrl());
+    } else {
+      $featuredImage.attr("src", "images/story_preview.png");
+    }
+
     this._$item.append(
         this._$storyLink.append(
             $('<div class="ct-storyItemLinkLine"></div>').append(

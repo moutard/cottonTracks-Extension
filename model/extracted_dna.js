@@ -6,10 +6,13 @@
 // The extractedDNA depends on the visit.
 Cotton.Model.ExtractedDNA = Class.extend({
 
-  init: function() {
+  init : function() {
+    this._iPercent = 0;
+    this._fPageScore = 0;
     this._lScores = [];
     this._lHighlightedText = [];
     this._sImageUrl = "";
+    this._sFirstParagraph = "";
     // TODO(rmoutard) : see with fwouts the model of textHighLigter
     // this._lTextHighlighter = [];
     // this._iScrollCount = 0;
@@ -26,35 +29,40 @@ Cotton.Model.ExtractedDNA = Class.extend({
     return this._lHighlightedText;
   },
   addHighLightedText : function(sText) {
-   this.push(sText);
+    this._lHighlightedText.push(sText);
   },
-  imageUrl : function(){
+  imageUrl : function() {
     return this._sImageUrl;
   },
-  setImageUrl : function(sImageUrl){
+  setImageUrl : function(sImageUrl) {
     this._sImageUrl = sImageUrl;
   },
-
-  /*
-  textHighLighter : function() {
-    return this._sTextHighlighter;
+  percent : function() {
+    return this._iPercent;
   },
-  setTextHighLighter : function(highLight) {
-    this._sTextHighlighter.push(highLight);
+  setPercent : function(iPercent) {
+    this._iPercent = iPercent;
   },
-  scrollCount : function() {
-    return this._iScrollCount;
+  pageScore : function() {
+    return this._fPageScore;
   },
-  setScrollCount : function(scrollCount) {
-    this._iScrollCount = scrollCount;
+  setPageScore : function(fPageScore) {
+    this._fPageScore = fPageScore;
   },
-  copyPaste : function() {
-    return this._lCopyPaste;
+  firstParagraph : function() {
+    return this._sFirstParagraph;
   },
-  setCopyPaste : function(copyPaste) {
-    this._lCopyPaste.push(copyPaste);
+  setFirstParagraph : function(sFirstParagraph) {
+    this._sFirstParagraph = sFirstParagraph;
   },
-  */
+/*
+ * textHighLighter : function() { return this._sTextHighlighter; },
+ * setTextHighLighter : function(highLight) {
+ * this._sTextHighlighter.push(highLight); }, scrollCount : function() { return
+ * this._iScrollCount; }, setScrollCount : function(scrollCount) {
+ * this._iScrollCount = scrollCount; }, copyPaste : function() { return
+ * this._lCopyPaste; }, setCopyPaste : function(copyPaste) {
+ * this._lCopyPaste.push(copyPaste); },
+ */
 
 });
-

@@ -6,42 +6,42 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   *
+   * 
    * @type boolean
    */
-  _bDocumentActive: false,
+  _bDocumentActive : false,
 
   /**
    * true if we should send debugging messages to the JS console.
-   *
+   * 
    * @type boolean
    */
-  _bLoggingEnabled: false,
+  _bLoggingEnabled : false,
 
   /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   *
+   * 
    * @type Cotton.Behavior.Passive.Parser
    */
-  _oParser: null,
+  _oParser : null,
 
   /**
    * A DOM element containing the current estimated reading rate.
-   *
+   * 
    * @type jQuery DOM
    */
-  _$feedback: null,
+  _$feedback : null,
 
   /**
-   * A DOM element containing an <img /> supposed to represent the most
-   * relevant image on the page.
-   *
+   * A DOM element containing an <img /> supposed to represent the most relevant
+   * image on the page.
+   * 
    * @type jQuery DOM
    */
-  _$bestImg: null,
+  _$bestImg : null,
 
-  init: function() {
+  init : function() {
     var self = this;
 
     // Detect user's activity on the page when they move their cursor.
@@ -73,8 +73,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if ($bestImg) {
         self._$bestImg.attr('src', $bestImg.attr('src'));
         // Update oCurrentVisitItem
-        sync._oCurrentVisitItem.extractedDNA().setImageUrl($bestImg.attr('src'));
-        //console.log(oCurrentVisitItem);
+        sync._oCurrentVisitItem.extractedDNA()
+            .setImageUrl($bestImg.attr('src'));
+        // console.log(oCurrentVisitItem);
         sync.updateVisit();
       }
       // Refresh every 5 seconds.
@@ -99,6 +100,11 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         var fPageScore = self._computePageScore();
         var iPercent = Math.round(100 * fPageScore);
         self._$feedback.text(iPercent + '%');
+
+        sync.current().extractedDNA().setPageScore(fPageScore);
+        sync.current().extractedDNA().setPercent(iPercent);
+        // console.log(oCurrentVisitItem);
+        sync.updateVisit();
       }
 
       // Refresh after a little while.
@@ -109,7 +115,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     mRefreshReadingRate();
   },
 
-  log: function(msg) {
+  log : function(msg) {
     if (this._bLoggingEnabled) {
       console.log(msg);
     }
@@ -117,10 +123,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Computes the page score.
-   *
+   * 
    * @returns float between 0 and 1
    */
-  _computePageScore: function() {
+  _computePageScore : function() {
 
     var lBlockBundles = this._computeBlockBundles();
 
@@ -154,7 +160,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     return fPageScore;
   },
 
-  _computeBlockBundles: function() {
+  _computeBlockBundles : function() {
     // Compute the visible surface of each block and the total visible
     // surface.
     var lBlockBundles = [];
@@ -170,9 +176,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           return true;
         }
         lBlockBundles.push({
-          $block: $block,
-          iVisibleSurface: iVisibleSurface,
-          iTotalSurface: iTotalSurface
+          $block : $block,
+          iVisibleSurface : iVisibleSurface,
+          iTotalSurface : iTotalSurface
         });
       }
       // TODO(fwouts): Check if it is ever possible to not have oScore.
@@ -184,76 +190,78 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * Prepares a block to give feedback on the reading percentage.
    */
-  _generateFeedbackElement: function() {
+  _generateFeedbackElement : function() {
     if (this._$feedback) {
       return;
     }
 
     var $container = $('<div>').css({
-      position: 'fixed',
-      left: 0,
-      bottom: 0,
-      border: '3px solid #000',
-      background: '#fff',
-      fontSize: '2em',
-      padding: '0.4em'
+      position : 'fixed',
+      left : 0,
+      bottom : 0,
+      border : '3px solid #000',
+      background : '#fff',
+      fontSize : '2em',
+      padding : '0.4em'
     });
 
     this._$feedback = $('<p>');
 
     this._$bestImg = $('<img />').css({
-      width: 50,
-      height: 50
+      width : 50,
+      height : 50
     });
 
-    $('body').append(
-        $container.append(
-            this._$feedback, this._$bestImg));
+    $('body').append($container.append(this._$feedback, this._$bestImg));
   },
 
   /**
    * Adds a document listener to know when a selection happens and increment the
    * score of the relevant content block consequently.
    */
-  _initializeHighlightListener: function() {
+  _initializeHighlightListener : function() {
     var self = this;
 
     /**
-     * A jQuery DOM object used to keep in memory highlighted blocks in order
-     * to re-augment their score in case they are copied (Ctrl/Cmd+C).
-     *
+     * A jQuery DOM object used to keep in memory highlighted blocks in order to
+     * re-augment their score in case they are copied (Ctrl/Cmd+C).
+     * 
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
 
-    $(document).mouseup(function(oEvent) {
-      var oSelection = window.getSelection();
+    $(document).mouseup(
+        function(oEvent) {
+          var oSelection = window.getSelection();
 
-      if (oSelection.isCollapsed) {
-        // Do not do anything on empty selections.
-        $highlightedContentBlocks = $([]);
-        return;
-      }
+          if (oSelection.isCollapsed) {
+            // Do not do anything on empty selections.
+            $highlightedContentBlocks = $([]);
+            return;
+          }
+          sync.current().extractedDNA().addHighLightedText(
+              oSelection.toString());
+          var oStartNode = oSelection.anchorNode;
+          var oEndNode = oSelection.focusNode;
 
-      var oStartNode = oSelection.anchorNode;
-      var oEndNode = oSelection.focusNode;
+          // We will try to detect if either the start node and the end node are
+          // both located inside a common content block (which will have an
+          // attribute named "data-meaningful" because of
+          // Cotton.Behavior.Passive.Parser.
+          $highlightedContentBlocks = self
+              ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
 
-      // We will try to detect if either the start node and the end node are
-      // both located inside a common content block (which will have an
-      // attribute named "data-meaningful" because of
-      // Cotton.Behavior.Passive.Parser.
-      $highlightedContentBlocks = self._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
-
-      // If there is such a content block, we will increment the score attached
-      // to the block.
-      $highlightedContentBlocks.each(function() {
-        var oScore = $(this).data('score');
-        if (oScore) {
-          // TODO(fwouts): Tweak the incremental score.
-          oScore.increment(0.2);
-        }
-      });
-    });
+          // If there is such a content block, we will increment the score
+          // attached
+          // to the block.
+          $highlightedContentBlocks.each(function() {
+            var oScore = $(this).data('score');
+            if (oScore) {
+              // TODO(fwouts): Tweak the incremental score.
+              oScore.increment(0.2);
+            }
+          });
+        });
 
     // We specifically listen to 'copy' events to re-augment the score of
     // highlighted content blocks that are also copied.
@@ -270,14 +278,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   *
+   * 
    * @returns jQuery DOM
    */
-  _findCommonMeaningfulAncestorsForNodes: function(oNode1, oNode2) {
+  _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
     var $meaningfulAncestors1 = $(oNode1).parents('[data-meaningful]');
     var $meaningfulAncestors2 = $(oNode2).parents('[data-meaningful]');
-    var lIntersectingAncestors = _.intersect(
-        _.toArray($meaningfulAncestors1),
+    var lIntersectingAncestors = _.intersect(_.toArray($meaningfulAncestors1),
         _.toArray($meaningfulAncestors2));
     return $(lIntersectingAncestors);
   }
@@ -286,6 +293,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 50;
 
 // For testing.
-//$(function() {
-//  new Cotton.Behavior.Active.ReadingRater();
-//});
+// $(function() {
+// new Cotton.Behavior.Active.ReadingRater();
+// });

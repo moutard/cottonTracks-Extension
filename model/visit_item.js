@@ -149,6 +149,9 @@ Cotton.Model.VisitItem = Class
         this._lExtractedWords = dVisitItemSerialized._lExtractedWords || [];
 
         // Extracted DNA
-        this._oExtractedDNA._sImageUrl = dVisitItemSerialized._oExtractedDNA._sImageUrl || "c";
+        this._oExtractedDNA._sImageUrl = dVisitItemSerialized._oExtractedDNA._sImageUrl
+            || "";
+        this._oExtractedDNA._lHighlightedText = dVisitItemSerialized._oExtractedDNA._lHighlightedText
+            || [];
       },
     });
