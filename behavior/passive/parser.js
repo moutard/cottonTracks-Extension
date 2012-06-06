@@ -5,7 +5,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * true if we should send debugging messages to the JS console.
-       * 
+       *
        * @type boolean
        */
       _bLoggingEnabled : false,
@@ -152,10 +152,10 @@ Cotton.Behavior.Passive.Parser = Class
       _markMeaningfulBlock : function($block) {
         $block.attr('data-meaningful', 'true');
         $block.css('border', '1px dashed #35d');
-        if (sync.current().extractedDNA().firstParagraph() === "") {
-          sync.current().extractedDNA().setFirstParagraph($block.text());
-        }
-        sync.updateVisit();
+        //if (sync.current().extractedDNA().firstParagraph() === "") {
+        //  sync.current().extractedDNA().setFirstParagraph($block.text());
+        //}
+        //sync.updateVisit();
       },
 
       _removeLeastMeaningfulBlocks : function() {
@@ -221,7 +221,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in the whole page.
-       * 
+       *
        * @returns jQuery DOM representing the given <img /> or null
        */
       findBestImage : function() {
@@ -230,12 +230,12 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in a given set of blocks.
-       * 
+       *
        * The idea is mainly to pick the biggest image.
-       * 
+       *
        * TODO(fwouts): Consider the ratio of images, since there could be very
        * narrow images that have a bigger surface than the actual best pick.
-       * 
+       *
        * @returns jQuery DOM representing the given <img /> or null
        */
       _findBestImageInBlocks : function($blocks) {
