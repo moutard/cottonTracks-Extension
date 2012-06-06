@@ -13,15 +13,6 @@ Cotton.UI.Homepage.Ticket = Class
         var $ticketTitle = $('<h3></h3>');
         var $ticketLink = $('<a class="ct-ticketLink"></div>');
 
-        $ticket.hover(function() {
-          // In
-          $ticketImage.css('-webkit-transform', 'translate(0px, -15px)');
-          console.log('ok');
-        }, function() {
-          // Out
-          $ticketImage.css('-webkit-transform', 'translate(0px, 0px)');
-        });
-
         $ticket.append($ticketLink, $ticketImage, $ticketHead.append(
             $ticketCount, $ticketTitle));
 
