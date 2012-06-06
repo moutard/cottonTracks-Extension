@@ -1,5 +1,5 @@
 {
-  "name": "CottonTracks",
+  "name": "cottonTracks",
   "version": "1.0",
   "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
   "permissions": ["history", "tabs", "http://*/*", "https://*/*"],
