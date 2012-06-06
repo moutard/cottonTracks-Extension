@@ -75,16 +75,6 @@ body {
   top: -200px;
   z-index: 100;
 
-
-  > .ct-container {
-    position : absolute;
-    top: 0;
-    width : 100%;
-    height: @stickyBar_bar_commands_container;
-  	background: #dfdfdf;
-    z-index : 2;
-    overflow: hidden;
- 
   > .ct-arrow {
     width: @stickyBar_bar_arrow_width;
     height: @stickyBar_bar_arrow_height;
@@ -109,17 +99,28 @@ body {
       margin-left: @stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
     }
   }
- 	 &:hover {
-  	  // When the bar is hovered, show the arrows.
-      > .ct-arrow {
-      	opacity: 0.7;
 
-        &:hover {
-          // When the arrows are hovered, show them better.
-          opacity: 1.0;
-        }
+  &:hover {
+    // When the bar is hovered, show the arrows.
+    > .ct-arrow {
+      opacity: 0.7;
+
+      &:hover {
+        // When the arrows are hovered, show them better.
+        opacity: 1.0;
       }
     }
+  }
+
+  > .ct-container {
+    position : absolute;
+    top: 0;
+    width : 100%;
+    height: @stickyBar_bar_commands_container;
+  	background: #dfdfdf;
+    z-index : 2;
+    overflow: hidden;
+    
   }
 
   > .ct-commands {
@@ -140,8 +141,12 @@ body {
       cursor: pointer;
 
       &.ct-iconButton_home {
-        background: url('/images/topbar/home_selected.png');
+        background: url('/images/topbar/home.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+
+        &:hover {
+          background: url('/images/topbar/home_selected.png');
+        }
       }
 
       &.ct-iconButton_search {
