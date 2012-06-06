@@ -25,12 +25,12 @@ for (var iI = 0; iI < 1; iI++) {
 
   hide : function() {
     this._$homepage.hide();
-   $('.ct-iconButton_home').css({background:'url("/images/topbar/home.png")', cursor:'pointer'});
+    $('.ct-iconButton_home').css('background','url("/images/topbar/home.png")');
   },
 
   show : function() {
     Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
     this._$homepage.show();
-    $('.ct-iconButton_home').css({background:'url("/images/topbar/home_selected.png")', cursor:'default'});
+    $('.ct-iconButton_home').css('background','url("/images/topbar/home_selected.png")');
   }
 });
