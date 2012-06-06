@@ -32,7 +32,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     if (oExtractedDna && oExtractedDna.mainImage) {
       sImgSrc = oExtractedDna.mainImage();
     }
-    var $image = $('<img src="images/story_preview.png" />');
+    var $image = $('<img src="images/default_preview7.png" />');
     if (sImgSrc) {
       $image.attr('src', sImgSrc);
     } else {
