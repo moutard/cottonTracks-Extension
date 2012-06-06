@@ -67,15 +67,15 @@ Cotton.Model.Story = Class.extend({
     }
   },
   addVisitItem : function(oVisitItem) {
-    if(_.indexOf(this._lVisitItemsId, oVisitItem.id()) === -1){
+    if (_.indexOf(this._lVisitItemsId, oVisitItem._sId) === -1) {
       this._lVisitItemsId.push(oVisitItem._sId);
       if (oVisitItem._iVisitTime > this._fLastVisitTime) {
         this._fLastVisitTime = oVisitItem._iVisitTime;
       }
     }
-   },
+  },
   addVisitItemId : function(iVisitItemId) {
-    if(_.indexOf(this._lVisitItemsId, iVisitItemId) === -1){
+    if (_.indexOf(this._lVisitItemsId, iVisitItemId) === -1) {
       this._lVisitItemsId.push(iVisitItemId);
     }
 
