@@ -11,6 +11,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   start : function(){
     this._oCurrentVisitItem.getInfoFromPage();
+    this.createVisit();
   },
 
   current : function(){
@@ -29,23 +30,28 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
       console.log(response);
       self._iId = response.id;
       self._oCurrentVisitItem._sId = response.id;
-      //console.log(this._oCurrentVisitItem);
+      console.log("dbSync create visit");
+      console.log(self._oCurrentVisitItem);
     });
 
   },
 
   updateVisit : function(){
     var self = this;
-    chrome.extension.sendRequest({
-      action: 'create_visit_item',
-      params: {
-        visitItem: this._oCurrentVisitItem
-      }
-    }, function(response) {
-      console.log(response);
-      self._oCurrentVisitItem._sId = response.id;
-      console.log(self._oCurrentVisitItem);
-    });
+    if(self._oCurrentVisitItem.id() === undefined){
+      console.log("can't update id is not set.");
+    } else {
+      chrome.extension.sendRequest({
+        action: 'create_visit_item',
+        params: {
+          visitItem: this._oCurrentVisitItem
+        }
+      }, function(response) {
+        console.log("dbSync update visit");
+        console.log(response);
+        console.log(self._oCurrentVisitItem);
+      });
+    }
 
   },
 
