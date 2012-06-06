@@ -290,7 +290,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   }
 });
 
-Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 50;
+Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 200;
 
 // For testing.
 // $(function() {
