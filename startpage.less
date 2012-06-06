@@ -137,7 +137,6 @@ body {
       position: absolute;
       left: 50%;
       z-index: 1;
-      cursor: pointer;
 
       &.ct-iconButton_home {
         background: url('/images/topbar/home_selected.png');
@@ -147,7 +146,8 @@ body {
       &.ct-iconButton_search {
         background: url('/images/topbar/search.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
-
+		cursor: pointer;
+		
         &:hover {
           background: url('/images/topbar/search_selected.png');
         }
