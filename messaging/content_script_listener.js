@@ -42,6 +42,8 @@ function onRequest(request, sender, sendResponse) {
         var oStore = new Cotton.DB.Store('ct', {
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
+
+          // you want to create it for the first time.
           oStore.put('visitItems', oVisitItem, function(iId) {
             console.log("visitItem added");
             console.log(iId);
@@ -54,6 +56,7 @@ function onRequest(request, sender, sendResponse) {
             });
 
           });
+
         });
       }
     };

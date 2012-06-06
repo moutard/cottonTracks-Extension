@@ -19,6 +19,8 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
         'lScores' : oVisitItem._oExtractedDNA._lScores,
         'sImageUrl' : oVisitItem._oExtractedDNA._sImageUrl,
         'sFirstParagraph' : oVisitItem._oExtractedDNA._sFirstParagraph,
+        'iPercent' : oVisitItem._oExtractedDNA._iPercent,
+        'fPageScore' : oVisitItem._oExtractedDNA._fPageScore,
       },
     };
 
@@ -60,6 +62,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oVisitItem._oExtractedDNA._lScores = oDbRecord.oExtractedDNA.lScores;
     oVisitItem._oExtractedDNA._sImageUrl = oDbRecord.oExtractedDNA.sImageUrl;
     oVisitItem._oExtractedDNA._sFirstParagraph = oDbRecord.oExtractedDNA.sFirstParagraph;
+    oVisitItem._oExtractedDNA._iPercent = oDbRecord.oExtractedDNA.iPercent;
+    oVisitItem._oExtractedDNA._fPageScore = oDbRecord.oExtractedDNA.fPageScore;
+
     return oVisitItem;
   };
 
@@ -70,9 +75,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     sUrl : {
       unique : false
     },
-    sChromeId : {
-      unique : true
-    },
+    //sChromeId : {
+    //  unique : true
+    //},
     iVisitTime : {
       unique : false
     },
