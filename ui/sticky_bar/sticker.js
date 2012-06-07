@@ -24,6 +24,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var lVisitItems = this._oStory.visitItems();
     var oLastVisitItem = _.last(lVisitItems);
     this._oStory.computeTitle();
+    this._oStory.computeFeaturedImage();
     var $title = $('<h3>').text(this._oStory.title());
 
     var oExtractedDna = oLastVisitItem.extractedDNA();
@@ -32,7 +33,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     if (oExtractedDna && oExtractedDna.mainImage) {
       sImgSrc = oExtractedDna.mainImage();
     }
+
     var $image = $('<img src="images/default_preview7.png" />');
+    if (this._oStory._sFeaturedImage !== "") {
+      $image.attr("src", this._oStory._sFeaturedImage);
+    }
+
     if (sImgSrc) {
       $image.attr('src', sImgSrc);
     } else {
