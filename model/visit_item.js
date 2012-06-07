@@ -155,7 +155,6 @@ Cotton.Model.VisitItem = Class
             || [];
         this._oExtractedDNA._iPercent = dVisitItemSerialized._oExtractedDNA._iPercent || 0;
         this._oExtractedDNA._fPageScore = dVisitItemSerialized._oExtractedDNA._fPageScore;
-        this._oExtractedDNA._sFirstParagraph = dVisitItemSerialized._oExtractedDNA._sFirstParagraph
-            || "First";
+        this._oExtractedDNA._sFirstParagraph = dVisitItemSerialized._oExtractedDNA._sFirstParagraph;
       },
     });

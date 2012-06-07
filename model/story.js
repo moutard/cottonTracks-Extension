@@ -11,6 +11,7 @@ Cotton.Model.Story = Class.extend({
     this._fRelevance;
 
     this._sTitle = "";
+    this._sFeaturedImage = "";
     this._lVisitItemsId = new Array();
     this._lVisitItems = new Array();
   },
@@ -204,6 +205,25 @@ Cotton.Model.Story = Class.extend({
           }
           if (oVisitItem.extractedWords().length !== 0) {
             this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
+          }
+        }
+        // TODO(rmoutard) : Do best than that with most frequent keywords.
+
+      }
+    }
+  },
+
+  computeFeaturedImage : function() {
+    if (this._sFeaturedImage === "") {
+      if (this._lVisitItems.length !== 0) {
+        var reg = new RegExp(".(jpg|png|gif)$", "g");
+        for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
+          if (reg.exec(oVisitItem.url())) {
+            this._sFeaturedImage = oVisitItem.url();
+            return;
+          }
+          if (oVisitItem.extractedDNA().imageUrl() !== "") {
+            this._sFeaturedImage = oVisitItem.extractedDNA().imageUrl();
           }
         }
         // TODO(rmoutard) : Do best than that with most frequent keywords.
