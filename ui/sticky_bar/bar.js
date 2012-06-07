@@ -6,6 +6,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   _lStickers : null,
   _$stickyBar : null,
+  _$commands : null,
   _$sumUp : null,
   _iTranslateX : 0,
 
@@ -13,6 +14,8 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     var self = this;
     this._lStickers = [];
     this._$stickyBar = $('#ct-stickyBar_bar');
+    this._$commands = $('.ct-commands');
+
     this._$sumUp = $('#ct-sumUp');
 
     this._$stickyBar.find('.ct-arrow_left').click(function() {
@@ -32,9 +35,14 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       oEvent.preventDefault();
     });
 
+    this._$commands.click(function(){
+      self.openClose();
+    });
+
     this._$stickyBar.animate({
       top : '0px'
     }, 'slow', function() {
+      self._$stickyBar.css('top','');
       self.trigger('ready');
     });
 
@@ -74,6 +82,20 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     _.each(this._lStickers, function(oSticker) {
       oSticker.translate(iTranslateX, bDoNotAnimate);
     });
+  },
+
+  open : function(){
+    this._$stickyBar.removeClass('close');
+  },
+  close : function(){
+    this._$stickyBar.addClass('close');
+  },
+  openClose : function(){
+    if(this._$stickyBar.hasClass('close')){
+      this.open();
+    } else {
+      this.close();
+    }
   },
 });
 
