@@ -35,14 +35,14 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       oEvent.preventDefault();
     });
 
-    $('.ct-flip').click(function(){
+    $('.ct-flip').click(function() {
       self.openClose();
     });
 
     this._$stickyBar.animate({
       top : '0px'
     }, 'slow', function() {
-      self._$stickyBar.css('top','');
+      self._$stickyBar.css('top', '');
       self.trigger('ready');
     });
 
@@ -84,14 +84,16 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
   },
 
-  open : function(){
+  open : function() {
     this._$stickyBar.removeClass('close');
+    $('#ct-story-homepage').removeClass('close');
   },
-  close : function(){
+  close : function() {
     this._$stickyBar.addClass('close');
+    $('#ct-story-homepage').addClass('close');
   },
-  openClose : function(){
-    if(this._$stickyBar.hasClass('close')){
+  openClose : function() {
+    if (this._$stickyBar.hasClass('close')) {
       this.open();
     } else {
       this.close();
