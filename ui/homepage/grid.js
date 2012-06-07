@@ -14,7 +14,7 @@ for (var iI = 0; iI < 1; iI++) {
       new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/PandoDaily.jpg', Math.floor(Math.random()*80+10), 'PandoDaily','http://pandodaily.com');
       new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/MTV.jpg', Math.floor(Math.random()*80+10), 'MTV','http://www.mtv.com');
       new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/Twitter.jpg', Math.floor(Math.random()*80+10), 'Twitter','http://twitter.com');
-      new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/Pinterest.jpg', Math.floor(Math.random()*80+10), 'Pinterest','http://pinterest.com');  
+      new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/Pinterest.jpg', Math.floor(Math.random()*80+10), 'Pinterest','http://pinterest.com');
     }
   },
 
