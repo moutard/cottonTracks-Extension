@@ -75,9 +75,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     sUrl : {
       unique : false
     },
-    //sChromeId : {
-    //  unique : true
-    //},
+    // sChromeId : {
+    // unique : true
+    // },
     iVisitTime : {
       unique : false
     },
