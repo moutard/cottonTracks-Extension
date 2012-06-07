@@ -68,13 +68,16 @@ body {
   position: absolute;
   width: 100%;
   height: @stickyBar_bar_commands_container + @stickyBar_bar_commands_middle_height ;
- 
-  //.clearfix;
-  // overflow: hidden;
-  // Hidden bar.
-  top: -200px;
+
+  // Non Hidden bar.
+  top: 0px;
+  -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
+
   z-index: 100;
 
+  &.close {
+    top: -@stickyBar_bar_commands_container;
+  }
 
   > .ct-container {
     position : absolute;
@@ -84,7 +87,7 @@ body {
   	background: #dfdfdf;
     z-index : 2;
     overflow: hidden;
- 
+
   > .ct-arrow {
     width: @stickyBar_bar_arrow_width;
     height: @stickyBar_bar_arrow_height;
@@ -122,7 +125,18 @@ body {
     }
   }
 
-  > .ct-commands {
+  > .ct-container {
+    position : absolute;
+    top: 0;
+    width : 100%;
+    height: @stickyBar_bar_commands_container;
+  	background: #dfdfdf;
+    z-index : 2;
+    overflow: hidden;
+
+  }
+
+ > .ct-commands {
   	position: absolute;
     top: @stickyBar_bar_commands_container;
     width: 100%;
@@ -147,7 +161,7 @@ body {
         background: url('/images/topbar/search.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
 		cursor: pointer;
-		
+
         &:hover {
           background: url('/images/topbar/search_selected.png');
         }
@@ -228,7 +242,7 @@ body {
   box-shadow: 0 0 4px #888;
   border-radius: 5px;
   overflow: hidden;
-  
+
   > .ct-container {
   }
 }
@@ -316,8 +330,8 @@ body {
         margin-top: 30px;
         border-radius: 15px; /* original value : Did not exist*/
         -webkit-transition-duration: 0.3s;
-        //-webkit-transition-property: 
-        
+        //-webkit-transition-property:
+
         &:hover{
         	margin-top:20px;
         }
