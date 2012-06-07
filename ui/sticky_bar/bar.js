@@ -35,7 +35,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       oEvent.preventDefault();
     });
 
-    this._$commands.click(function(){
+    $('.ct-flip').click(function(){
       self.openClose();
     });
 
