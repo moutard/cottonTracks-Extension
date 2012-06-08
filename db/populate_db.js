@@ -5,6 +5,7 @@
 Cotton.DB.preRemoveTools = function(lVisitItems) {
   // Remove all the tools as mail.google.com, facebook.com.
 
+  console.debug('PreRemoveTools - Start');
   var oToolsContainer = new Cotton.Algo.ToolsContainer();
   var lCleanHistoryItems = new Array(); // Store the new list without tools
 
@@ -18,16 +19,24 @@ Cotton.DB.preRemoveTools = function(lVisitItems) {
       lCleanHistoryItems.push(oVisitItem);
     }
   }
+  console.debug('PreRemoveTools - After filtering it remains '
+      + lCleanHistoryItems.length + ' items');
+  console.debug('PreRemoveTools - End');
   return lCleanHistoryItems;
 };
 
 Cotton.DB.populateDB = function(mCallBackFunction) {
   // Get all the history items from Chrome DB.
+
+  console.debug('PopulateDB - Start');
+
   chrome.history.search({
     text : '',
     startTime : 0,
     maxResults : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
+    console.debug('PopulateDB - chrome history search has returned '
+      + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.preRemoveTools(lHistoryItems);
 
     // TODO(rmoutard): Discuss if we can improve populate using all the
@@ -37,10 +46,11 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 
+    console.debug('PopulateDB - try to create new store');
     var oStore = new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
-      console.log("store ready");
+      console.debug("PopulateDB - visitItems store ready");
       for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
         var oVisitItem = new Cotton.Model.VisitItem();
 
@@ -49,9 +59,11 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
         oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
 
         oStore.put('visitItems', oVisitItem, function(iId) {
+          console.debug('PopulateDB - visitItem added');
           iCount += 1;
 
           if (iCount === iPopulationLength) {
+            console.debug('PopulateDB - End');
             mCallBackFunction.call();
           }
         });
