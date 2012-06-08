@@ -37,17 +37,22 @@ wDBSCAN.addEventListener('message', function(e) {
   Cotton.UI.openCurtain();
   // Use local storage, to see that's it's not the first visit.
   localStorage['CottonFirstOpening'] = "false";
-  console.log('Worker ends: ', e.data.iNbCluster);
+  console.log('wDBSCAN - Worker ends: ', e.data.iNbCluster);
   handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lVisitItems);
 
 }, false);
 
 Cotton.Installation.firstInstallation = function() {
+
+  console.debug('FirstInstallation - Start');
+
   Cotton.DB.populateDB(function() {
     var oStore = new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       oStore.getList('visitItems', function(lAllVisitItems) {
+        console.debug('FirstInstallation - Start wDBSCAN with '
+          + lAllVisitItems.length + ' items');
         wDBSCAN.postMessage(lAllVisitItems);
       });
     });
@@ -85,6 +90,7 @@ oDBRequest.onsuccess = function(oEvent) {
   if (_.indexOf(this.result, 'ct') === -1) {
     // The ct database doesn't exist. So it's the first installation.
     // Launch populateDB to create the database for the first time.
+    console.log('Installation : No database - First Installation');
     Cotton.Installation.firstInstallation();
   } else {
     // There is already a ct database. That means two choices :
@@ -95,10 +101,12 @@ oDBRequest.onsuccess = function(oEvent) {
     if (localStorage['CottonFirstOpening'] === undefined) {
       // It's not the first installation.
       // localStorage['CottonFirstOpening'] = false;
+      console.log('Installation : Already a data base - Not first Installation');
       Cotton.Installation.notFirstInstallation();
 
     } else {
       // You open a tab after installation.
+      console.log('Installation : already installed - DBSCAN2');
       Cotton.DBSCAN2.startDbscanUser();
     }
   }
