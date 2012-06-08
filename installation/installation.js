@@ -1,3 +1,8 @@
+Cotton.Stores = {};
+
+var startTime = new Date().getTime();
+var elapsedTime = 0;
+
 function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
   // Update the visitItems with extractedWords and queryWords.
@@ -13,18 +18,28 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
     }
   });
 
+  elapsedTime = (new Date().getTime() - startTime) / 1000;
+  console.log('@@Time to update query : ' + elapsedTime + 's');
+
   var dStories = Cotton.Algo.clusterStory(lVisitItems, iNbCluster);
+
+  elapsedTime = (new Date().getTime() - startTime) / 1000;
+  console.log('@@Time to cluster story : ' + elapsedTime + 's');
+
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
   var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
   // UI
-  $('#loader-animation').remove();
-  Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
-  Cotton.UI.Debug.displayStories(dStories.stories);
+  // $('#loader-animation').remove();
+  // Cotton.UI.Debug.displayStory(dStories.storyUnderConstruction);
+  // Cotton.UI.Debug.displayStories(dStories.stories);
 
   // DB
   // Cotton.DB.ManagementTools.addHistoryItems(lHistoryItems);
   Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
+  elapsedTime = (new Date().getTime() - startTime) / 1000;
+  console.log('@@Time to add stories : ' + elapsedTime + 's');
+
   Cotton.UI.oWorld.update();
 }
 
@@ -38,6 +53,8 @@ wDBSCAN.addEventListener('message', function(e) {
   // Use local storage, to see that's it's not the first visit.
   localStorage['CottonFirstOpening'] = "false";
   console.log('wDBSCAN - Worker ends: ', e.data.iNbCluster);
+  elapsedTime = (new Date().getTime() - startTime) / 1000;
+  console.log('@@Time to worker : ' + elapsedTime + 's');
   handleResultsOfFirstDBSCAN(e.data.iNbCluster, e.data.lVisitItems);
 
 }, false);
@@ -51,8 +68,10 @@ Cotton.Installation.firstInstallation = function() {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       oStore.getList('visitItems', function(lAllVisitItems) {
+        elapsedTime = (new Date().getTime() - startTime) / 1000;
+        console.log("@@Time to populateDB : " + elapsedTime + 's');
         console.debug('FirstInstallation - Start wDBSCAN with '
-          + lAllVisitItems.length + ' items');
+            + lAllVisitItems.length + ' items');
         wDBSCAN.postMessage(lAllVisitItems);
       });
     });
@@ -91,7 +110,9 @@ oDBRequest.onsuccess = function(oEvent) {
     // The ct database doesn't exist. So it's the first installation.
     // Launch populateDB to create the database for the first time.
     console.log('Installation : No database - First Installation');
+
     Cotton.Installation.firstInstallation();
+
   } else {
     // There is already a ct database. That means two choices :
     // - You open a tab after installation.
@@ -101,7 +122,8 @@ oDBRequest.onsuccess = function(oEvent) {
     if (localStorage['CottonFirstOpening'] === undefined) {
       // It's not the first installation.
       // localStorage['CottonFirstOpening'] = false;
-      console.log('Installation : Already a data base - Not first Installation');
+      console
+          .log('Installation : Already a data base - Not first Installation');
       Cotton.Installation.notFirstInstallation();
 
     } else {
