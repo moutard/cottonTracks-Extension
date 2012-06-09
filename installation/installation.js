@@ -1,3 +1,4 @@
+'use strict';
 Cotton.Stores = {};
 
 var startTime = new Date().getTime();
