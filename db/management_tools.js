@@ -118,16 +118,21 @@ Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
 }
 
 Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
-  var oStore = new Cotton.DB.Store('ct', {
+  console.log("Add Stories by chronology");
+  new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
   }, function() {
       console.log("store ready");
-      for(var i = lStories.length - 1, oStory; oStory = lStories[i]; i--){
-        oStore.put('stories', oStory, function(iId) {
+      var i;
+      for(i = 0; i < lStories.length; i++){
+        var oStory = lStories[lStories.length - 1 - i];
+        this.put('stories', oStory, function(iId) {
           console.log("Story added");
-          // oStore.iterList('stories', function(oStory) {
-          // console.log(oStory._lHistoryItems);
-          // });
+          console.log(i + '/' + lStories.length);
+          if(i === (lStories.length - 1)){
+            console.log("poeur");
+            Cotton.UI.oWorld.update();
+          }
         });
       }
   });
@@ -150,7 +155,7 @@ Cotton.DB.ManagementTools.test = function(){
       oVisitItem._sUrl = "http://digitaldraft.fr";
       oVisitItem._sTitle = "Raphael";
       oVisitItem._iVisitTime = new Date().getTime();
-      //._sReferrerUrl = document.referrer;
+      // ._sReferrerUrl = document.referrer;
       console.log(oVisitItem);
       oStore.put('visitItems', oVisitItem, function(iId) {
         console.log(iId);
