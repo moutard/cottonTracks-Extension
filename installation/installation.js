@@ -4,31 +4,29 @@ Cotton.Stores = {};
 var startTime = new Date().getTime();
 var elapsedTime = 0;
 
-function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
+var handleResultsOfFirstDBSCAN = function(iNbCluster, lVisitItems) {
 
   // Update the visitItems with extractedWords and queryWords.
-  var oStore = new Cotton.DB.Store('ct', {
+  new Cotton.DB.Store('ct', {
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
   }, function() {
     for ( var i = 0; i < lVisitItems.length; i++) {
       var oVisitItem = new Cotton.Model.VisitItem();
       oVisitItem.deserialize(lVisitItems[i]);
-      oStore.put('visitItems', oVisitItem, function() {
+      this.put('visitItems', oVisitItem, function() {
         console.log("update queryKeywords");
+        if (i === (lVisitItems.length - 1)) {
+          elapsedTime = (new Date().getTime() - startTime) / 1000;
+          console.log('@@Time to update query : ' + elapsedTime + 's');
+        }
       });
     }
   });
 
-  elapsedTime = (new Date().getTime() - startTime) / 1000;
-  console.log('@@Time to update query : ' + elapsedTime + 's');
-
   var dStories = Cotton.Algo.clusterStory(lVisitItems, iNbCluster);
 
-  elapsedTime = (new Date().getTime() - startTime) / 1000;
-  console.log('@@Time to cluster story : ' + elapsedTime + 's');
-
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
-  var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
+  // var bUseRelevance = Cotton.Config.Parameters.bUseRelevance;
 
   // UI
   // $('#loader-animation').remove();
@@ -37,11 +35,22 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
   // DB
   // Cotton.DB.ManagementTools.addHistoryItems(lHistoryItems);
-  Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
-  elapsedTime = (new Date().getTime() - startTime) / 1000;
-  console.log('@@Time to add stories : ' + elapsedTime + 's');
+  var lStories = dStories.stories.reverse();
 
-  Cotton.UI.oWorld.update();
+  console.log("Add Stories by chronology");
+
+  new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS
+  }, function() {
+    this.putList('stories', lStories, function(lAllId) {
+      console.log("Stories added");
+      console.log(lAllId);
+      Cotton.UI.oWorld.update();
+    });
+  });
+  // Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
+
+  // Cotton.UI.oWorld.update();
 }
 
 // WORKER
@@ -65,10 +74,10 @@ Cotton.Installation.firstInstallation = function() {
   console.debug('FirstInstallation - Start');
 
   Cotton.DB.populateDB(function() {
-    var oStore = new Cotton.DB.Store('ct', {
+    new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
-      oStore.getList('visitItems', function(lAllVisitItems) {
+      this.getList('visitItems', function(lAllVisitItems) {
         elapsedTime = (new Date().getTime() - startTime) / 1000;
         console.log("@@Time to populateDB : " + elapsedTime + 's');
         console.debug('FirstInstallation - Start wDBSCAN with '
