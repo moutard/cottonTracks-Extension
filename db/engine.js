@@ -626,7 +626,52 @@ Cotton.DB.Engine = Class.extend({
     };
 
     // TODO(fwouts): Implement.
-    // oPutRequest.onerror = ;
+    oPutRequest.onerror = function(oEvent){
+      console.error("oPutRequest Error");
+    };
+  },
+  
+  
+  putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
+    var self = this;
+    
+    var lAllId = new Array();
+    var p = 0;
+    for(var i = 0, dItem; dItem = lItems[i]; i++){
+      self.put(sObjectStoreName, dItem, function(iId){
+        p+=1;
+        
+        lAllId.push(iId);
+
+        if(p === lItems.length){
+          console.log("dede");
+          console.log(lAllId);
+          mOnSaveCallback.call(self, lAllId);
+        }
+      });
+    }
+  },
+  
+  AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+    
+    for(var i = 0; i < lItems.length; i++){
+      var dItem = lItems[i];
+      var oPutRequest = oStore.put(dItem);
+
+      oPutRequest.onsuccess = function(oEvent) {
+        console.log('pp');
+        // mOnSaveCallback.call(self, oEvent.target.result);
+      };
+
+      // TODO(fwouts): Implement.
+      oPutRequest.onerror = function(oEvent){
+        console.error("oPutRequest Error");
+      };
+    }
+    
   },
   
   update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
