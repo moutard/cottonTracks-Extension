@@ -146,9 +146,11 @@ Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
           console.log("Story added");
         });
       }
+      // TODO(rmoutard) : remove that to use putList.
       setTimeout(function(){
         console.log('rere');
-        Cotton.UI.oWorld.update();
+        Cotton.UI.oWorld = new Cotton.UI.World();
+        // Cotton.UI.oWorld.update();
       }, 1000);
   });
 };
