@@ -4,10 +4,9 @@ Cotton.Stores = {};
 var startTime = new Date().getTime();
 var elapsedTime = 0;
 
-var handleResultsOfFirstDBSCAN = function(iNbCluster, lVisitItems) {
+Cotton.Installation.updateQuery = function(lVisitItems) {
 
-  // Update the visitItems with extractedWords and queryWords.
-  new Cotton.DB.Store('ct', {
+  var oStore = new Cotton.DB.Store('ct', {
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
   }, function() {
     for ( var i = 0; i < lVisitItems.length; i++) {
@@ -23,6 +22,12 @@ var handleResultsOfFirstDBSCAN = function(iNbCluster, lVisitItems) {
     }
   });
 
+};
+
+var handleResultsOfFirstDBSCAN = function(iNbCluster, lVisitItems) {
+
+  // Update the visitItems with extractedWords and queryWords.
+  Cotton.Installation.updateQuery(lVisitItems);
   var dStories = Cotton.Algo.clusterStory(lVisitItems, iNbCluster);
 
   // var lDStories = Cotton.Algo.storySELECT(lStories, bUseRelevance);
@@ -39,19 +44,10 @@ var handleResultsOfFirstDBSCAN = function(iNbCluster, lVisitItems) {
 
   console.log("Add Stories by chronology");
 
-  new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS
-  }, function() {
-    this.putList('stories', lStories, function(lAllId) {
-      console.log("Stories added");
-      console.log(lAllId);
-      Cotton.UI.oWorld.update();
-    });
-  });
-  // Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
+  Cotton.DB.ManagementTools.addStoriesByChronology(dStories.stories);
 
   // Cotton.UI.oWorld.update();
-}
+};
 
 // WORKER
 // DBSCAN is lauched in a worker used as multithread.
@@ -121,7 +117,11 @@ oDBRequest.onsuccess = function(oEvent) {
     // Launch populateDB to create the database for the first time.
     console.log('Installation : No database - First Installation');
 
-    Cotton.Installation.firstInstallation();
+    new Cotton.DB.Store('ct', {
+      'stories' : Cotton.Translators.STORY_TRANSLATORS
+    }, function() {
+      Cotton.Installation.firstInstallation();
+    });
 
   } else {
     // There is already a ct database. That means two choices :
@@ -134,11 +134,16 @@ oDBRequest.onsuccess = function(oEvent) {
       // localStorage['CottonFirstOpening'] = false;
       console
           .log('Installation : Already a data base - Not first Installation');
-      Cotton.Installation.notFirstInstallation();
+      new Cotton.DB.Store('ct', {
+        'stories' : Cotton.Translators.STORY_TRANSLATORS
+      }, function() {
+        Cotton.Installation.notFirstInstallation();
+      });
 
     } else {
       // You open a tab after installation.
       console.log('Installation : already installed - DBSCAN2');
+      Cotton.UI.oWorld.update();
       Cotton.DBSCAN2.startDbscanUser();
     }
   }
