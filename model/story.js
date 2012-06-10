@@ -197,17 +197,27 @@ Cotton.Model.Story = Class.extend({
   computeTitle : function() {
     if (this._sTitle === "") {
       if (this._lVisitItems.length !== 0) {
-        var lMostFrequentKeywords = new Array();
+        var lKeywords = new Array();
         for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
+          lKeywords = lKeywords.concat(oVisitItem.extractedWords());
           if (oVisitItem.queryWords().length !== 0) {
             this._sTitle = oVisitItem.queryWords().join(" ");
             return;
           }
-          if (oVisitItem.extractedWords().length !== 0) {
-            this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
-          }
+          this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
         }
-        // TODO(rmoutard) : Do best than that with most frequent keywords.
+        lKeywords = _.reject(lKeywords, function(s) {
+          return s.length < 4;
+        });
+        var lMostFrequentKeywords = _.map(
+            _.sortBy(_.values(_.groupBy(lKeywords, function(iI) {
+              return iI;
+            })), function(l) {
+              return -l.length;
+            }), function(l) {
+              return l[0];
+            }).slice(0, 3);
+        // this._sTitle = lMostFrequentKeywords.join(" ");
 
       }
     }

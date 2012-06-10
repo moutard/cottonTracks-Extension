@@ -11,7 +11,8 @@ Cotton.DB.preRemoveTools = function(lVisitItems) {
     var oUrl = new parseUrl(dVisitItem.url);
     var sHostname = oUrl.hostname;
     var sProtocol = oUrl.protocol;
-    return !(sProtocol === "https:" || oToolsContainer.isTool(sHostname));
+    return !((sProtocol === "https:" && !oUrl.isGoogle) || oToolsContainer
+        .isTool(sHostname));
   });
 };
 
