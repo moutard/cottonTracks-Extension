@@ -117,24 +117,39 @@ Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
 
 }
 
-Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
-  console.log("Add Stories by chronology");
+Cotton.DB.ManagementTools.poeut = function(lStories){
   new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
   }, function() {
+    this.putList('stories', lStories, function(lAllId) {
+      console.log("Stories added");
+      console.log(lAllId);
+      Cotton.UI.oWorld.update();
+    });
+  });
+};
+
+Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
+  console.log("Add Stories by chronology");
+  var startTime = new Date().getTime();
+  var elapsedTime = 0;
+  var oStore = new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS
+  }, function() {
       console.log("store ready");
+      elapsedTime = (new Date().getTime() - startTime) / 1000;
+      console.log("@@Time to create stories store " + elapsedTime + "s");
       var i;
       for(i = 0; i < lStories.length; i++){
         var oStory = lStories[lStories.length - 1 - i];
         this.put('stories', oStory, function(iId) {
           console.log("Story added");
-          console.log(i + '/' + lStories.length);
-          if(i === (lStories.length - 1)){
-            console.log("poeur");
-            Cotton.UI.oWorld.update();
-          }
         });
       }
+      setTimeout(function(){
+        console.log('rere');
+        Cotton.UI.oWorld.update();
+      }, 1000);
   });
 };
 
