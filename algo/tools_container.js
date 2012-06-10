@@ -23,6 +23,17 @@ Cotton.Algo.ToolsContainer = Class.extend({
     return -1;
   },
 
+  isTool : function(sHostname) {
+    // return the index of the tool if it exists
+    for ( var i = 0; i < this.lTools.length; i++) {
+      if (this.lTools[i].sHostname === sHostname) {
+        return true;
+      }
+    }
+
+    return false;
+  },
+
   insertTool : function(psHostname, pfFrequence) {
     // insert a new tool in lTools
     // TODO(rmoutard) : sort insertion
