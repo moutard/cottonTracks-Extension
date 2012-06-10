@@ -10,18 +10,19 @@ Cotton.UI.Story.VideoItem = Class.extend({
     this._oVisitItem = oVisitItem;
     
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
-    var $content = $('<div class="ct-storyVideoContent"></div>');
+    var $content = $('<div class="ct-storyContent"></div>');
     var $deleteButton = $('<div class="ct-storyDelete"></div>');
     var $grabHandle = $('<div class="ct-storyGrab"></div>');
     var $featuredImage = $('<img class="ct-storyFeaturedImage" />');
     var $title = $('<h3></h3>');
     var $legend = $('<span class="ct-legend"></span>');
     var $summary = $('<p></p>');
+    var $bottom = $('<div class="ct-item_bottom"></div>');
     var $quote = $('<div class="ct-quote"></div>');
-    var $video = $('<iframe width="380" height="213" src="" frameborder="0" allowfullscreen></iframe>');
+    var $video = $('<iframe width="380" height="214" src="http://www.youtube.com/embed/_N4DMW5NWsE" frameborder="0" allowfullscreen></iframe>');
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
     
-    var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode +'?controls=0&showinfo=0';
+    var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode;
     $video.attr('src', sEmbedUrl);
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
     var sUrl = oVisitItem.url();
@@ -45,7 +46,8 @@ Cotton.UI.Story.VideoItem = Class.extend({
         ),
         $content.append(
             $video
-        )
+        ), 
+        $bottom
     );
   },
   

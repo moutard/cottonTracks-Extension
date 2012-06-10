@@ -10,15 +10,16 @@ Cotton.UI.Story.ImageItem = Class.extend({
     this._oVisitItem = oVisitItem;
     
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
-    var $content = $('<div class="ct-storyImageContent"></div>');
+    var $content = $('<div class="ct-storyContent"></div>');
     var $deleteButton = $('<div class="ct-storyDelete"></div>');
     var $grabHandle = $('<div class="ct-storyGrab"></div>');
     var $featuredImage = $('<img class="ct-storyFeaturedImage" />');
     var $title = $('<h3></h3>');
     var $legend = $('<span class="ct-legend"></span>');
     var $summary = $('<p></p>');
+    var $bottom = $('<div class="ct-item_bottom"></div>');
+    var $quote = $('<div class="ct-quote"></div>');
     var $mainImage = $('<img class="ct-storyMainImage"/>');
-    var $shade = $('<div class="ct-storyMainImage_shade">');
     
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
     
@@ -44,9 +45,10 @@ Cotton.UI.Story.ImageItem = Class.extend({
             )
         ),
         $content.append(
-            $mainImage,
-            $shade
-        )
+            $mainImage
+        ), 
+        $bottom
+        // $quote
     );
   },
   
