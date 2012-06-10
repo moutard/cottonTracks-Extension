@@ -143,7 +143,8 @@ oDBRequest.onsuccess = function(oEvent) {
     } else {
       // You open a tab after installation.
       console.log('Installation : already installed - DBSCAN2');
-      Cotton.UI.oWorld.update();
+      Cotton.UI.oWorld = new Cotton.UI.World();
+      // Cotton.UI.oWorld.update();
       Cotton.DBSCAN2.startDbscanUser();
     }
   }
