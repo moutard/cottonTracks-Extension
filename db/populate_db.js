@@ -2,27 +2,17 @@
 
 // This method is used during the installation to populate visitItem DB from
 // chrome history visitItem database.
+
 Cotton.DB.preRemoveTools = function(lVisitItems) {
-  // Remove all the tools as mail.google.com, facebook.com.
-
-  console.debug('PreRemoveTools - Start');
+  console.debug('New PreRemoveTools - Start');
   var oToolsContainer = new Cotton.Algo.ToolsContainer();
-  var lCleanHistoryItems = new Array(); // Store the new list without tools
 
-  // TODO(rmoutard) : use _.filter function in underscore library
-  while (lVisitItems.length > 0) {
-    var oVisitItem = lVisitItems.shift();
-    var sHostname = new parseUrl(oVisitItem.url).hostname;
-
-    // if hostname of the url is a Tool remove it
-    if (oToolsContainer.alreadyExist(sHostname) === -1) {
-      lCleanHistoryItems.push(oVisitItem);
-    }
-  }
-  console.debug('PreRemoveTools - After filtering it remains '
-      + lCleanHistoryItems.length + ' items');
-  console.debug('PreRemoveTools - End');
-  return lCleanHistoryItems;
+  return _.filter(lVisitItems, function(dVisitItem) {
+    var oUrl = new parseUrl(dVisitItem.url);
+    var sHostname = oUrl.hostname;
+    var sProtocol = oUrl.protocol;
+    return !(sProtocol === "https:" || oToolsContainer.isTool(sHostname));
+  });
 };
 
 Cotton.DB.populateDB = function(mCallBackFunction) {
