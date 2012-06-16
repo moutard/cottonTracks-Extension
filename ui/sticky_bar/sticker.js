@@ -49,13 +49,20 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.append($title, $image);
 
     var iStickerCount = this._oBar.stickerCount();
-    var iFinalPosition = (this._iPosition - iStickerCount / 2)
-        * Cotton.UI.StickyBar.HORIZONTAL_SPACING + this._oBar.$().width() / 2;
+    var iFinalPosition = (this._iPosition)
+        * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
     var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
-    var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
+    if (iStickerCount === 10) {
+      var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
+    } else {
+      var iInitialPosition = iFinalPosition;
+    }
 
     $sticker.css({
       left : iInitialPosition
+    })
+    $sticker.css({
+      'margin-left' : this._oBar._iTranslateX
     })
 
     // TODO(fwouts): Use CSS animations.
@@ -80,7 +87,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._oBar.append($sticker);
   },
 
-  translate : function(iTranslateX, bDoNotAnimate) {
+  translate : function(iTranslateX, bDoNotAnimate, iElastic) {
+    iElastic = iElastic || 0;
     bDoNotAnimate = bDoNotAnimate || false;
     if (bDoNotAnimate) {
       this._$sticker.stop().css({
