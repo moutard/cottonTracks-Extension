@@ -41,6 +41,8 @@ Cotton.UI.StickyBar.Bar = Class
                   if (iPosition > 580.0) {
                     iPosition = 580;
                   } else if (iPosition < -(self._lStickers.length * Cotton.UI.StickyBar.HORIZONTAL_SPACING) / 2) {
+                    console.log('pos = ' + iPosition);
+                    self._$stickyBar.find('.ct-container').unbind('mousewheel');
                     // iPosition = Cotton.UI.StickyBar.HORIZONTAL_SPACING * 30;
                     self.getMoreStories();
                   }
@@ -117,19 +119,61 @@ Cotton.UI.StickyBar.Bar = Class
       },
 
       getMoreStories : function() {
+        console.log("getMoreStories");
         var self = this;
-        Cotton.DBSCAN2.getXStories(10, function(lStories) {
-          // Various initializers, mostly for testing.
-          var lStickers = [];
-          _.each(lStories, function(oStory) {
-            var oSticker = self.buildSticker(oStory);
-            lStickers.push(oSticker);
-          });
+        self._$stickyBar.find('.ct-container').bind('mousewheel',
+            function(oEvent) {
+              // TODO(fwouts): Use constants.
+              var iDelta = oEvent.originalEvent.wheelDeltaX * 0.5;
+              var iPosition = self._iTranslateX + iDelta;
+              if (iPosition > 580.0) {
+                iPosition = 580;
+              }
+              self.translateStickers(iPosition, true);
+              oEvent.preventDefault();
+            });
+        var iStart = self._lStickers.length + 1;
+        Cotton.DB.Stories
+            .getRange(
+                iStart,
+                iStart + 10,
+                function(lStories) {
+                  // Various initializers, mostly for testing.
+                  var lStickers = [];
+                  _.each(lStories, function(oStory) {
+                    var oSticker = self.buildSticker(oStory);
+                    oSticker.display();
+                    // lStickers.push(oSticker);
+                  });
+                  self._$stickyBar.find('.ct-container').unbind('mousewheel');
 
-          _.each(lStickers, function(oSticker) {
-            oSticker.display();
-          });
-        });
+                  self._$stickyBar
+                      .find('.ct-container')
+                      .bind(
+                          'mousewheel',
+                          function(oEvent) {
+                            // TODO(fwouts): Use constants.
+                            var iDelta = oEvent.originalEvent.wheelDeltaX * 0.5;
+                            var iPosition = self._iTranslateX + iDelta;
+                            if (iPosition > 580.0) {
+                              iPosition = 580;
+                            } else if (iPosition < -(self._lStickers.length * Cotton.UI.StickyBar.HORIZONTAL_SPACING) / 2) {
+                              console.log('pos = ' + iPosition);
+                              self._$stickyBar.find('.ct-container').unbind(
+                                  'mousewheel');
+                              // iPosition =
+                              // Cotton.UI.StickyBar.HORIZONTAL_SPACING * 30;
+                              self.getMoreStories();
+                            }
+
+                            self.translateStickers(iPosition, true);
+                            oEvent.preventDefault();
+                          });
+                  /*
+                   * _.each(lStickers, function(oSticker) { oSticker.display();
+                   * });
+                   */
+                });
       },
     });
 
