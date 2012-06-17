@@ -223,6 +223,31 @@ Cotton.DB.Store = Class.extend({
         });
   },
   
+  getXYItems: function(sObjectStoreName, iX, iY, sIndexKey, iDirection,
+      mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getXYItems(
+        sObjectStoreName, iX, iY, sIndexKey, iDirection,
+        function(oResult) {
+          if (!oResult) {
+            // If there was no result, send back null.
+            mResultElementCallback.call(self, lAllObjects);
+            return;
+          }
+          // else oResult is a list of Items.
+          for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+            var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+                oItem);
+            var oObject = oTranslator.dbRecordToObject(oItem);
+            lAllObjects.push(oObject);
+          }
+  
+          mResultElementCallback.call(self, lAllObjects);
+        });
+  },
+  
   find: function(sObjectStoreName, sIndexKey, oIndexValue,
                   mResultElementCallback) {
     var self = this;
