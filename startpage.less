@@ -19,7 +19,7 @@
 
 @stickyBar_bar_commands_iconButton_width: 35px;
 @stickyBar_bar_commands_iconButton_height: 45px;
-@stickyBar_bar_commands_iconButton_spaceFromCenter: 390px;
+@stickyBar_bar_commands_iconButton_spaceFromCenter: 340px;
 
 @stickyBar_bar_commands_sumUp_height: 100px;
 
@@ -185,7 +185,6 @@ body {
         z-index: 1;
         font-size: 20px;
         top: 12px;
-        text-shadow: 0 0 5px #000;
 
 	&:hover{
 	  color: @golden;
@@ -214,9 +213,9 @@ body {
         font-weight: bold;
         font-size: 23px;
         color: @white;
+        //TODO: change the color to put gray gradient
         text-align: center;
         line-height: @stickyBar_bar_commands_middle_flip_height;
-        text-shadow: 0 0 5px #000;
 
         &:before {
           content: '';
@@ -238,8 +237,8 @@ body {
   width: 200px;
   height: 120px;
   margin: 12px 15px 12px 15px;
-  border: 5px solid #eee;
-  box-shadow: 0 0 4px #888;
+  border: 5px solid #f2f2f2;
+  box-shadow: 0 0 2px #a6a6a6;
   border-radius: 5px;
   overflow: hidden;
 
@@ -252,11 +251,13 @@ body {
         position : absolute;
         top : 64px;
         z-index : 1;
-        width: 190px;
+        width: 200px;
         height: 40px;
-        padding-left: 10px;
         padding-top: 5px;
-        font-size : 16px;
+        font-size : 12px;
+        font-family: @helvetica;
+        text-align: center;
+        text-transform: capitalize;
 
         background-color : #EEE;
         opacity: 0.7;
