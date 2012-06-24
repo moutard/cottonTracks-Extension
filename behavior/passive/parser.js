@@ -1,10 +1,20 @@
 'use strict';
 
+/**
+ * @class : Parser
+ * 
+ * Created by : content_scripts.
+ * 
+ * Find relevant block in a page.
+ */
+
 Cotton.Behavior.Passive.Parser = Class
     .extend({
 
       /**
        * true if we should send debugging messages to the JS console.
+       * 
+       * TODO(rmoutard) : Put that in a common file.
        * 
        * @type boolean
        */
@@ -224,9 +234,11 @@ Cotton.Behavior.Passive.Parser = Class
        * Finds the best image in the whole page.
        * 
        * @returns jQuery DOM representing the given <img /> or null
+       * @returns src
        */
       findBestImage : function() {
-        return this._findBestImageInBlocks($('body'));
+        var sSrc = this._findSearchImageResult();
+        return sSrc ? sSrc : this._findBestImageInBlocks($('body'));
       },
 
       /**
@@ -298,6 +310,25 @@ Cotton.Behavior.Passive.Parser = Class
               // layout in most cases (e.g. TechCrunch).
             });
 
-        return $biggestImg;
-      }
+        return $biggestImg ? $biggestImg.attr("src") : undefined;
+      },
+
+      /**
+       * Finds google image result. When they are included to a google search.
+       * 
+       * 
+       * @params : none
+       * @returns url of the image
+       */
+      _findSearchImageResult : function() {
+        var sUrl = $("#imagebox_bigimages a.bia.uh_rl:first").attr("href");
+        if (sUrl) {
+          var oUrl = new parseUrl(sUrl);
+          oUrl.fineDecomposition();
+          return oUrl.dSearch['imgurl'];
+        }
+
+        return undefined;
+      },
+
     });

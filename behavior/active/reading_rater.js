@@ -45,7 +45,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var self = this;
 
     // Detect user's activity on the page when they move their cursor.
-    // If they don't move it during 10 seconds, we conclude they are inactive.
+    // If they don't move it during 10 seconds, we conclude they are
+    // inactive.
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
@@ -60,21 +61,24 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bLoggingEnabled = false;
 
     var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
+    // var oGoogleParser = this._oParser = new
+    // Cotton.Behavior.Passive.GoogleParser();
+    // oGoogleParser._findSearchImageResult();
 
     this._generateFeedbackElement();
 
     this._initializeHighlightListener();
 
-    // We will relaunch the parsing every 5 seconds. We do not use setInterval
+    // We will relaunch the parsing every 5 seconds. We do not use
+    // setInterval
     // for performance issues.
     var mRefreshParsing = function() {
       oParser.parse();
       var $bestImg = oParser.findBestImage();
       if ($bestImg) {
-        self._$bestImg.attr('src', $bestImg.attr('src'));
+        self._$bestImg.attr('src', $bestImg);
         // Update oCurrentVisitItem
-        sync._oCurrentVisitItem.extractedDNA()
-            .setImageUrl($bestImg.attr('src'));
+        sync._oCurrentVisitItem.extractedDNA().setImageUrl($bestImg);
         // console.log(oCurrentVisitItem);
         sync.updateVisit();
       }
@@ -244,14 +248,17 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           var oStartNode = oSelection.anchorNode;
           var oEndNode = oSelection.focusNode;
 
-          // We will try to detect if either the start node and the end node are
-          // both located inside a common content block (which will have an
+          // We will try to detect if either the start node and the end
+          // node are
+          // both located inside a common content block (which will have
+          // an
           // attribute named "data-meaningful" because of
           // Cotton.Behavior.Passive.Parser.
           $highlightedContentBlocks = self
               ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
 
-          // If there is such a content block, we will increment the score
+          // If there is such a content block, we will increment the
+          // score
           // attached
           // to the block.
           $highlightedContentBlocks.each(function() {
