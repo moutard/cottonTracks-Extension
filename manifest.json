@@ -12,11 +12,12 @@
       "matches": ["http://*/*", "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*"],
       "css": [],
       "js": [ "lib/class.js", "lib/jquery.min.js",
-              "lib/jquery.livequery.js", "lib/underscore.min.js",
+              "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parseUrl.js",
               "init.js",
               "model/init.js","model/extracted_dna.js", "model/visit_item.js",
               "behavior/init.js",
               "behavior/passive/init.js", "behavior/passive/db_sync.js", "behavior/passive/parser.js",
+              "behavior/passive/google_parser.js",
               "behavior/active/init.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"],
       "run_at": "document_idle"
     }
