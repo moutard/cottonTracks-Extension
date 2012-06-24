@@ -536,6 +536,58 @@ Cotton.DB.Engine = Class.extend({
 
   },
   
+  getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
+      iDirection, mResultElementCallback) {
+    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // iUpperBound may be not an int.
+    var self = this;
+
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+
+    //
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+                        webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+    
+    var iCursorCount = 0;
+    var oCursorRequest = oIndex.openCursor(null, iDirection);
+    oCursorRequest.onsuccess = function(oEvent) {
+      iCursorCount+=1;
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        // There is less than iX correspondings items.
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else if(iX <= iCursorCount && iCursorCount <= iY){
+        // There is more than iX correspondings items, but return only the iXth
+        // first.
+        lAllItems.push(oResult.value);
+        
+        if(iCursorCount === iY){
+          mResultElementCallback.call(self, lAllItems);
+          return;
+        }
+        
+        oResult.continue();
+      }
+      else {
+        oResult.continue();
+      }
+    };
+
+    // TODO(rmoutard): Implement.
+    // oCursorRequest.onerror = ;
+
+  },
+  
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
