@@ -44,7 +44,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       // var iPositionMax = (1 - Math.floor(K / self._lStickers.length))
       // * (self._lStickers.length - K / 2) * H + M1;
       var iPositionMax = (self._lStickers.length * H) - p + M1;
-      console.log(iPosition + ' ' + iPositionMax);
       if (iPosition > 580.0) {
         iPosition = 580;
       } else if (iPosition < -(iPositionMax + M2)) {
@@ -100,8 +99,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
   append : function($sticker) {
     // Note that we append the element to the .container, not directly to
-    // the
-    // sticky bar.
+    // the sticky bar.
     this._$stickyBar.find('> .ct-container').append($sticker);
   },
 
@@ -130,7 +128,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   },
 
   getMoreStories : function() {
-    console.log("getMoreStories");
     var self = this;
 
     var iStart = self._lStickers.length + 1;
@@ -140,7 +137,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       _.each(lStories, function(oStory) {
         var oSticker = self.buildSticker(oStory);
         oSticker.display();
-        // lStickers.push(oSticker);
       });
       /*
        * _.each(lStickers, function(oSticker) { oSticker.display(); });
@@ -148,6 +144,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       self._bLoading = false;
     });
   },
+
 });
 
 _.extend(Cotton.UI.StickyBar.Bar.prototype, Backbone.Events);
