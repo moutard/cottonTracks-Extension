@@ -252,12 +252,16 @@ Cotton.Behavior.Passive.Parser = Class
        * @returns jQuery DOM representing the given <img /> or null
        */
       _findBestImageInBlocks : function($blocks) {
-        var iBiggestSurface = 0;
+        var iBiggestScore = 0;
+        var iPosition = 0;
         var $biggestImg = null;
+        var self = this;
 
         $blocks.find('img').each(
             function() {
+              iPosition += 1;
               var $img = $(this);
+
               // We only take into account images coming from http://.
               // Interesting
               // fact: sometimes extensions' images were picked (starting with
@@ -289,25 +293,17 @@ Cotton.Behavior.Passive.Parser = Class
                 return true;
               }
               // Note that we use the node's width and height, not the source
-              // image's
-              // width and height (since any image could be a very big image
-              // stretched
-              // down or the vice-versa, but we only care about the layout of
-              // the
-              // current page).
-              var iWidth = $img.width();
-              var iHeight = $img.height();
-              var iSurface = iWidth * iHeight;
+              // image's width and height (since any image could be a very big
+              // image stretched down or the vice-versa, but we only care about
+              // the layout of the current page).
+              var iScore = self._computeImgScore($img, iPosition);
               // TODO: create a single file where we can modify all constants
               // across the app
-              var iSurfaceMin = 3600;
-              if (iSurface > iBiggestSurface && iSurface > iSurfaceMin) {
-                iBiggestSurface = iSurface;
+              var iScoreMin = 3600;
+              if (iScore > iBiggestScore && iScore > iScoreMin) {
+                iBiggestScore = iScore;
                 $biggestImg = $img;
               }
-              // TODO(fwouts): Also consider that the best image is higher in
-              // the
-              // layout in most cases (e.g. TechCrunch).
             });
 
         return $biggestImg ? $biggestImg.attr("src") : undefined;
@@ -329,6 +325,34 @@ Cotton.Behavior.Passive.Parser = Class
         }
 
         return undefined;
+      },
+
+      /**
+       * Compute the score of an image. The score is higher when the image is
+       * higher, when it's first, when data-meaningful equal true.
+       * 
+       * @param $img
+       * @param iPosition
+       * @return iScore
+       */
+      _computeImgScore : function($img, iPosition) {
+        var iScore = 0;
+
+        /** Surface */
+        var iWidth = $img.width();
+        var iHeight = $img.height();
+        var iSurface = iWidth * iHeight;
+        // iScore = iSurface;
+
+        /** Data-meaningful */
+        console.log($img.attr("data-meaningful"));
+        if ($img.attr("data-meaningful") === "true") {
+          iScore = iScore + 5000;
+        }
+
+        /** Position */
+        iScore *= (10 / iPosition);
+        return iScore;
       },
 
     });
