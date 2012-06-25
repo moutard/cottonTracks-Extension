@@ -2,14 +2,24 @@
 
 Cotton.UI.StickyBar.HORIZONTAL_SPACING = 250;
 
-// Represents a sticker on the sticky bar.
+/**
+ * @class Represent a sticker
+ */
 Cotton.UI.StickyBar.Sticker = Class.extend({
 
+  // TODO(rmoutard) : try to refactor to remove rmoutard.
   _oBar : null,
   _iPosition : null,
   _oStory : null,
   _$sticker : null,
+  _$img : null,
 
+  /**
+   * @constructor
+   * @param oBar
+   * @param iPosition
+   * @param oStory
+   */
   init : function(oBar, iPosition, oStory) {
     this._oBar = oBar;
     this._iPosition = iPosition;
@@ -34,19 +44,26 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       sImgSrc = oExtractedDna.mainImage();
     }
 
-    var $image = $('<img src="images/default_preview7.png" />');
+    this._$img = $('<img src="images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
-      $image.attr("src", this._oStory._sFeaturedImage);
+      this._$img.attr("src", this._oStory._sFeaturedImage);
     }
 
     if (sImgSrc) {
-      $image.attr('src', sImgSrc);
+      this._$img.attr('src', sImgSrc);
     } else {
       // TODO(fwouts): Add a default image. Or pick another visit item with
       // an image.
     }
 
-    $sticker.append($title, $image);
+    /**
+     * load is a callback function, called when the image is ready.
+     */
+    this._$img.load(function() {
+      self.resizeImg($(this));
+    });
+
+    $sticker.append($title, this._$img);
 
     var iStickerCount = this._oBar.stickerCount();
     var iFinalPosition = (this._iPosition)
@@ -85,6 +102,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
     this._oBar.append($sticker);
+
   },
 
   translate : function(iTranslateX, bDoNotAnimate, iElastic) {
@@ -140,7 +158,34 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       }, iI * 100);
       // oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
     });
-  }
+  },
+
+  /**
+   * Resize the image so it takes the whole place in the div sticker. Call on
+   * the load callback function.
+   * 
+   * @param $img
+   */
+  resizeImg : function($img) {
+    var iH = $img.height();
+    var iW = $img.width();
+    var fRatio = iW / iH;
+
+    // get div dimensions
+    var iDivH = 120;
+    var iDivW = 200;
+    var fDivRatio = iDivW / iDivH;
+
+    if (fDivRatio > fRatio) {
+      /** portrait */
+      $img.width(iDivW);
+      // this._$('img').css('top', Math.round((div_h - h) / 2) + 'px');
+    } else {
+      /** landscape */
+      $img.height(iDivH);
+      // this._$('img').css('margin-left', Math.round(w / 2) + 'px');
+    }
+  },
 });
 
 _.extend(Cotton.UI.StickyBar.Sticker.prototype, Backbone.Events);
