@@ -1,5 +1,6 @@
 'use strict';
 
 Cotton.UI.Homepage = {
-    GRID: null
+  HOMEPAGE : null,
+  GRID : null
 };

@@ -1,12 +1,12 @@
 'use strict';
 
-Cotton.UI.Homepage.Grid = Class
+Cotton.UI.Homepage.FavoritesGrid = Class
     .extend({
 
-      _$homepage : null,
+      _$FavoritesGrid : null,
 
       init : function() {
-        this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
+        this._$FavoritesGrid = $('<div class="ct-favorites-grid">');
         for ( var iI = 0; iI < 1; iI++) {
           new Cotton.UI.Homepage.Ticket(this, 'images/home/tickets/TC.jpg',
               Math.floor(Math.random() * 80 + 10), 'Techcrunch',
@@ -37,25 +37,20 @@ Cotton.UI.Homepage.Grid = Class
         }
       },
 
+      $ : function() {
+        return this._$FavoritesGrid;
+      },
+
       // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
       append : function($ticket) {
-        this._$homepage.append($ticket);
+        this._$FavoritesGrid.append($ticket);
       },
 
       hide : function() {
-        this._$homepage.hide();
-        $('.ct-iconButton_home').css({
-          background : 'url("/images/topbar/home.png")',
-          cursor : 'pointer'
-        });
+        this._$FavoritesGrid.hide();
       },
 
       show : function() {
-        Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
-        this._$homepage.show();
-        $('.ct-iconButton_home').css({
-          background : 'url("/images/topbar/home_selected.png")',
-          cursor : 'default'
-        });
+        this._$FavoritesGrid.show();
       }
     });

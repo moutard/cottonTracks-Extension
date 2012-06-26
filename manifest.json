@@ -2,7 +2,7 @@
   "name": "cottonTracks",
   "version": "1.0",
   "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
-  "permissions": ["history", "tabs", "http://*/*", "https://*/*"],
+  "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management"],
   "background_page": "background.html",
   "chrome_url_overrides" : {
     "newtab": "index.html"

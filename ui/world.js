@@ -21,9 +21,9 @@ Cotton.UI.World = function() {
     });
   });
 
-  Cotton.UI.Homepage.GRID = new Cotton.UI.Homepage.Grid();
+  Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
   $('.ct-iconButton_home').click(function() {
-    Cotton.UI.Homepage.GRID.show();
+    Cotton.UI.Homepage.HOMEPAGE.show();
   });
 };
 
