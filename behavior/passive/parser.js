@@ -2,9 +2,9 @@
 
 /**
  * @class : Parser
- * 
+ *
  * Created by : content_scripts.
- * 
+ *
  * Find relevant block in a page.
  */
 
@@ -13,9 +13,9 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * true if we should send debugging messages to the JS console.
-       * 
+       *
        * TODO(rmoutard) : Put that in a common file.
-       * 
+       *
        * @type boolean
        */
       _bLoggingEnabled : false,
@@ -232,7 +232,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in the whole page.
-       * 
+       *
        * @returns jQuery DOM representing the given <img /> or null
        * @returns src
        */
@@ -243,12 +243,12 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in a given set of blocks.
-       * 
+       *
        * The idea is mainly to pick the biggest image.
-       * 
+       *
        * TODO(fwouts): Consider the ratio of images, since there could be very
        * narrow images that have a bigger surface than the actual best pick.
-       * 
+       *
        * @returns jQuery DOM representing the given <img /> or null
        */
       _findBestImageInBlocks : function($blocks) {
@@ -311,8 +311,8 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds google image result. When they are included to a google search.
-       * 
-       * 
+       *
+       *
        * @params : none
        * @returns url of the image
        */
@@ -330,7 +330,7 @@ Cotton.Behavior.Passive.Parser = Class
       /**
        * Compute the score of an image. The score is higher when the image is
        * higher, when it's first, when data-meaningful equal true.
-       * 
+       *
        * @param $img
        * @param iPosition
        * @return iScore
@@ -341,6 +341,14 @@ Cotton.Behavior.Passive.Parser = Class
         /** Surface */
         var iWidth = $img.width();
         var iHeight = $img.height();
+
+        if(iWidth < 200 || iHeight < 120){
+          /**
+           * Discriminate pictures too small. Avoid pixel line 3000x1px.
+           * Moreover avoid a bad resize.
+           */
+          return 0;
+        }
         var iSurface = iWidth * iHeight;
         // iScore = iSurface;
 
