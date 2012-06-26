@@ -1,11 +1,11 @@
 'use strict';
 
-Cotton.UI.Homepage.Ticket = Class
+Cotton.UI.Homepage.FavoritesTicket = Class
     .extend({
 
       _$ticket : null,
 
-      init : function(oGrid, sImageUrl, iStoryCount, sTitle, sSiteUrl) {
+      init : function(oFavoritesGrid, sImageUrl, iStoryCount, sTitle, sSiteUrl) {
         var $ticket = this._$ticket = $('<div class="ct-ticket"></div>');
         var $ticketImage = $('<img class="ct-ticketImage"/>');
         var $ticketHead = $('<div class="ct-ticketHead"></div>');
@@ -23,6 +23,6 @@ Cotton.UI.Homepage.Ticket = Class
         $ticketTitle.text(sTitle);
         $ticketLink.attr('href', sSiteUrl);
 
-        oGrid.append($ticket);
+        oFavoritesGrid.append($ticket);
       }
     });
