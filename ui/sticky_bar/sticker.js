@@ -139,7 +139,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   openStory : function() {
     this.closeSumUp();
-    Cotton.UI.Homepage.GRID.hide();
+    Cotton.UI.Homepage.HOMEPAGE.hide();
 
     var oStoryline = new Cotton.UI.Story.Storyline();
     _.each(this._oStory.visitItems(), function(oVisitItem, iI) {

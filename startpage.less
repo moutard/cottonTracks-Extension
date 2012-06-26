@@ -309,7 +309,30 @@ body {
   //width: @homepage_grid_width;
   width : 100%;
   padding-top: 40px;
+  
+  > .ct-homepage_switch_button {
+      width: 100px;
+      height: 10px;
+      margin: auto;
+      margin-bottom: 10px;
+      background-color : #ccc; 
+      cursor : pointer;
+      
+      > h2 {
+        width: 100px;
+        font-size : 8px;
+        text-align: center;
+        color : white;
+      }
+  }
 
+}
+
+.ct-favorites-grid {
+	
+	width: 80%;
+	margin : auto;
+	
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
     background-size: @homepage_ticket_image_width auto;
@@ -327,7 +350,7 @@ body {
 	height: 125px;
 
    	 > .ct-ticketImage {
-	margin-left: 11px; /* original value : Did not exist*/
+	      margin-left: 11px; /* original value : Did not exist*/
         height: 100px; /* original value 200px*/
         width: 215px; /* original value 235px*/
         margin-top: 30px;
@@ -337,6 +360,76 @@ body {
 
         &:hover{
         	margin-top:20px;
+        }
+    }
+}
+
+    > .ct-ticketHead {
+      position: absolute;
+      bottom: 0px;
+      height: 60px;
+      background: url(/images/home/ticket_bottom.png) no-repeat;
+      // TODO(fwouts): Use variables.
+      width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
+      padding-top: 26px;
+      padding: @homepage_ticket_header_padding;
+
+      > .ct-ticketCount {
+        float: left;
+        font-weight: bold;
+        color: #d84;
+        width: 70px;
+        font-size: 0.8em;
+
+        > b {
+          font-size: 3em;
+        }
+      }
+
+      > h3 {
+        display: block;
+        overflow: hidden;
+        text-align: center;
+        font-weight: normal;
+        font-size: 1.2em;
+      }
+    }
+  }
+}
+
+.ct-apps-grid {
+  
+  width: 80%;
+  margin : auto;
+  
+  > .ct-ticket {
+    background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
+    background-size: @homepage_ticket_image_width auto;
+    position: relative;
+    float: left;
+    width: @homepage_ticket_width;
+    height: 200px;/* Original: 200px */
+    margin-right: 25px; /* Original: @homepage_ticket_margin_horizontal / 2 */
+    margin-left: @homepage_ticket_margin_horizontal / 2;
+
+  > .ct-ticketLink {
+  position: relative;
+  float:left;
+  width: 235px;
+  height: 125px;
+
+     > .ct-ticketImage {
+        margin: auto; /* original value : Did not exist*/
+        height: 128px; /* original value 200px*/
+        width: 128px; /* original value 235px*/
+        display: block;
+        margin-top: 30px;
+        border-radius: 3px; /* original value : Did not exist*/
+        -webkit-transition-duration: 0.3s;
+        //-webkit-transition-property:
+
+        &:hover{
+          margin-top:20px;
         }
     }
 }
