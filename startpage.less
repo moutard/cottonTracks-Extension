@@ -8,6 +8,7 @@
 @stickyBar_bar_arrow_height: 29px;
 @stickyBar_bar_arrow_spaceFromCenter: 300px;
 @stickyBar_bar_arrow_transitionDuration: 0.2s;
+@stickyBar_bar_close_transitionDuration: 1s;
 
 @stickyBar_bar_commands_container: 160px;
 @stickyBar_bar_commands_middle_width: 494px;
@@ -71,7 +72,7 @@ body {
 
   // Non Hidden bar.
   top: 0px;
-  -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
+  -webkit-transition-duration: @stickyBar_bar_close_transitionDuration;
 
   z-index: 100;
 
@@ -309,15 +310,15 @@ body {
   //width: @homepage_grid_width;
   width : 100%;
   padding-top: 40px;
-  
+
   > .ct-homepage_switch_button {
       width: 100px;
       height: 10px;
       margin: auto;
       margin-bottom: 10px;
-      background-color : #ccc; 
+      background-color : #ccc;
       cursor : pointer;
-      
+
       > h2 {
         width: 100px;
         font-size : 8px;
@@ -329,10 +330,10 @@ body {
 }
 
 .ct-favorites-grid {
-	
+
 	width: 80%;
 	margin : auto;
-	
+
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
     background-size: @homepage_ticket_image_width auto;
@@ -398,10 +399,10 @@ body {
 }
 
 .ct-apps-grid {
-  
+
   width: 80%;
   margin : auto;
-  
+
   > .ct-ticket {
     background: transparent url(/images/home/default_ticket_background.png) no-repeat center bottom;
     background-size: @homepage_ticket_image_width auto;
@@ -473,9 +474,9 @@ body {
 	position: relative;
 	top: @sticky_bar_height;
 	height: 100%; // maybe useless when content
-	
-	-webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
-	
+
+	-webkit-transition-duration: @stickyBar_bar_close_transitionDuration;
+
 	&.close {
     top: @stickyBar_bar_commands_middle_height;
   }
