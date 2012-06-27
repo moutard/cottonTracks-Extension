@@ -39,8 +39,6 @@ Cotton.UI.Story.DefaultItem = Class.extend({
     // First Paragraph
     if(oVisitItem.extractedDNA().firstParagraph() !== ""){
       $summary.append(oVisitItem.extractedDNA().firstParagraph());
-    } else {
-      $summary.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget fringilla quam. Fusce vitae erat sem, a lacinia nulla. Duis in nibh tellus. Mauris iaculis rutrum massa eu volutpat. Mauris posuere laoreet nibh non iaculis. Ut rhoncus orci vitae augue dictum et varius odio accumsan. Nulla malesuada ligula at nisi pellentesque eleifend. Fusce in metus et eros dignissim interdum a eget orci.");
     }
 
     // TextHighlight
