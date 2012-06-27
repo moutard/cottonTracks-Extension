@@ -58,6 +58,7 @@ Cotton.UI.Homepage.Homepage = Class.extend({
   show : function() {
     Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
     this._$homepage.show();
+    $('.ct-flip').text('Welcome');
     $('.ct-iconButton_home').css({
       background : 'url("/images/topbar/home_selected.png")',
       cursor : 'default'

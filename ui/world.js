@@ -2,7 +2,8 @@
 
 // World class representing the whole interface.
 Cotton.UI.World = function() {
-  var oStickyBar = this._ostickyBar = new Cotton.UI.StickyBar.Bar();
+  var self = this;
+  var oStickyBar = this._oStickyBar = new Cotton.UI.StickyBar.Bar();
   var object = {};
 
   oStickyBar.on('ready', function() {
@@ -24,6 +25,7 @@ Cotton.UI.World = function() {
   Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
   $('.ct-iconButton_home').click(function() {
     Cotton.UI.Homepage.HOMEPAGE.show();
+    self._oStickyBar.open();
   });
 };
 
@@ -40,7 +42,7 @@ $.extend(Cotton.UI.World.prototype, {
       // Various initializers, mostly for testing.
       var lStickers = [];
       _.each(lStories, function(oStory) {
-        var oSticker = self._ostickyBar.buildSticker(oStory);
+        var oSticker = self._oStickyBar.buildSticker(oStory);
         lStickers.push(oSticker);
       });
 
