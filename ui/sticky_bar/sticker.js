@@ -138,6 +138,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   },
 
   openStory : function() {
+    var self = this;
     this.closeSumUp();
     Cotton.UI.Homepage.HOMEPAGE.hide();
 
@@ -158,12 +159,18 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       }, iI * 100);
       // oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
     });
-  },
+
+    /**
+     * Close the sticky_bar
+     */
+    this._oBar.close();
+
+    },
 
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param $img
    */
   resizeImg : function($img) {
