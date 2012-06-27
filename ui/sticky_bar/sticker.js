@@ -165,7 +165,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
      */
     this._oBar.close();
 
-    },
+    // TODO(rmoutard) : avoid to manipulate DOM
+    $('.ct-flip').text(self._oStory.title());
+  },
 
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
