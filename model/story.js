@@ -194,8 +194,17 @@ Cotton.Model.Story = Class.extend({
     });
   },
 
+  /**
+   * compute the title of the story.
+   * If a google search exists then return associated keywords. If not most
+   * frequent keywords are not really pertinent because the order is weird. So
+   * return the title of the first page.
+   *
+   * TODO(rmoutard) : give the title of the page that contains the more of the
+   * most frequent keywords.
+   */
   computeTitle : function() {
-    if (this._sTitle === "") {
+    /** We can't recompute the title if it already exists*/
       if (this._lVisitItems.length !== 0) {
         var lKeywords = new Array();
         for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
@@ -206,9 +215,18 @@ Cotton.Model.Story = Class.extend({
           }
           this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
         }
+
+
+        /**
+         * Most Frequent keywords.
+         * - All the keywords are in the array lKeywords
+         * - Reject small keywords
+         * - Hard formula that gives the most frequent keywords.
+         */
         lKeywords = _.reject(lKeywords, function(s) {
           return s.length < 4;
         });
+
         var lMostFrequentKeywords = _.map(
             _.sortBy(_.values(_.groupBy(lKeywords, function(iI) {
               return iI;
@@ -219,8 +237,12 @@ Cotton.Model.Story = Class.extend({
             }).slice(0, 3);
         // this._sTitle = lMostFrequentKeywords.join(" ");
 
+        if(this._sTitle === "" | this._sTitle === undefined){
+          this._sTitle = this._lVisitItems[0].title();
+        }
+        return;
       }
-    }
+    this._sTitle = 'Unknown'
   },
 
   computeFeaturedImage : function() {
