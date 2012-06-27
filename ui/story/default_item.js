@@ -47,7 +47,7 @@ Cotton.UI.Story.DefaultItem = Class.extend({
     if(oVisitItem.extractedDNA().highLightedText().length !== 0){
       $quote.text(oVisitItem.extractedDNA().highLightedText()[0]);
     } else {
-      $quote.text("Ut tristique porta rhoncus. In a quam posuere orci ultrices pretium at quis urna. Praesent pulvinar ullamcorper augue sed ultricies.");
+      $quote.hide()
     }
 
     // Image Url
