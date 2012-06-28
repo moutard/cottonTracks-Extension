@@ -13,6 +13,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _oStory : null,
   _$sticker : null,
   _$img : null,
+  _$group : null,
+  _$preview : null,
 
   /**
    * @constructor
@@ -30,6 +32,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var self = this;
 
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
+	var $group = this._$group = $('<div class="ct-stickyBar_group">');
+	var $preview = this._$preview = $('<div class="ct-stickyBar_preview">');
 
     var lVisitItems = this._oStory.visitItems();
     var oLastVisitItem = _.last(lVisitItems);
@@ -62,8 +66,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._$img.load(function() {
       self.resizeImg($(this));
     });
+    
+    $preview.append('<ul></ul>');
+    var $previewUl = $('.ct-stickyBar_preview ul');
+    _.each(this._oStory.visitItems(), function(oVisitItem) {
+    	$previewUl.append('<li>' + oVisitItem.title() + '</li>' + '<hr>');
+    });
 
-    $sticker.append($title, this._$img);
+	$group.append($title, this._$img);
+    $sticker.append($group, $preview);
 
     var iStickerCount = this._oBar.stickerCount();
     var iFinalPosition = (this._iPosition)
@@ -91,10 +102,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     $sticker.hover(function() {
       // In
-      self.openSumUp();
+      //self.openSumUp();
+      //self.openPreview();
     }, function() {
       // Out
-      self.closeSumUp();
+      //self.closeSumUp();
+      //self.closePreview();
     });
 
     $sticker.click(function() {
@@ -124,18 +137,27 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sumUp.append('<ul></ul>');
     var $sumUpUl = $('.ct-sumUp ul');
     _.each(this._oStory.visitItems(), function(oVisitItem) {
-      $sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
+    	$sumUpUl.append('<li>' + oVisitItem.title() + '</li>');
     });
 
     // TODO(rmoutard) : don't put the value in the code.
     $sumUp.css('top', '200px');
   },
+  
+ // openPreview : function() {
+  	//$('.ct-storyBar_preview').css('display','block');
+  	//$('.ct-storyBar_preview').show();
+  //},
 
   closeSumUp : function() {
     $('.ct-sumUp').css('top', '100px');
     var $sumUpUl = $('.ct-sumUp ul');
     $sumUpUl.remove();
   },
+  
+ // closePreview : function() {
+  	//$('.ct-storyBar_preview').css('display','block');
+  //},
 
   openStory : function() {
     var self = this;
