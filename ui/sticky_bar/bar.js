@@ -6,6 +6,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   _lStickers : null,
   _$stickyBar : null,
+  _oCommands : null,
   _$commands : null,
   _$sumUp : null,
   _iTranslateX : 0,
@@ -15,6 +16,8 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     var self = this;
     this._lStickers = [];
     this._$stickyBar = $('#ct-stickyBar_bar');
+
+    this._oCommands = new Cotton.UI.StickyBar.Commands(self);
     this._$commands = $('.ct-commands');
     this._iTranslateX = 0;
     this._bLoading = false;
