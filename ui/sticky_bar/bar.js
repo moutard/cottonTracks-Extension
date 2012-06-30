@@ -65,10 +65,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       oEvent.preventDefault();
     });
 
-    $('.ct-flip').click(function() {
-      self.openClose();
-    });
-
     this._$stickyBar.animate({
       top : '0px'
     }, 'slow', function() {
