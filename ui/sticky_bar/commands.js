@@ -21,7 +21,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$HomepageButton = $('.ct-iconButton_home');
 
     $('.ct-flip').click(function() {
-      self.openClose();
+      self._oBar.openClose();
     });
 
     this._$EditButton = $('.ct-textButton_edit');
