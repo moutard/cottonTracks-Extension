@@ -104,12 +104,12 @@ body {
     -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
 
     &.ct-arrow_left {
-      background: url('/images/topbar/navarrow_left.png');
+      background: url('/media/images/topbar/navarrow_left.png');
       margin-left: -@stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
     }
 
     &.ct-arrow_right {
-      background: url('/images/topbar/navarrow_right.png');
+      background: url('/media/images/topbar/navarrow_right.png');
       margin-left: @stickyBar_bar_arrow_spaceFromCenter - (@stickyBar_bar_arrow_width / 2);
     }
   }
@@ -142,7 +142,7 @@ body {
     top: @stickyBar_bar_commands_container;
     width: 100%;
     height: @stickyBar_bar_commands_middle_height;
-  	background: url('/images/topbar/topbar_background.png');
+  	background: url('/media/images/topbar/topbar_background.png');
 
     z-index : 2;
 
@@ -154,17 +154,17 @@ body {
       z-index: 1;
 
       &.ct-iconButton_home {
-        background: url('/images/topbar/home_selected.png');
+        background: url('/media/images/topbar/home_selected.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
       }
 
       &.ct-iconButton_search {
-        background: url('/images/topbar/search.png');
+        background: url('/media/images/topbar/search.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
 		cursor: pointer;
 
         &:hover {
-          background: url('/images/topbar/search_selected.png');
+          background: url('/media/images/topbar/search_selected.png');
         }
       }
     }
@@ -173,7 +173,7 @@ body {
       width: @stickyBar_bar_commands_middle_width;
       height: @stickyBar_bar_commands_middle_height;
       margin: auto;
-      background: url('/images/topbar/flip_background.png');
+      background: url('/media/images/topbar/flip_background.png');
 
       position: absolute;
       left: 50%;
@@ -209,7 +209,7 @@ body {
         margin-left: -(@stickyBar_bar_commands_middle_flip_width / 2) + 1px;
         top: 4px;
 
-        background: url('/images/topbar/flip_back.png');
+        background: url('/media/images/topbar/flip_back.png');
         font-family: @helvetica;
         font-weight: bold;
         font-size: 23px;
@@ -223,7 +223,7 @@ body {
         &:before {
           content: '';
           position: absolute;
-          background: url('/images/topbar/flip_line.png');
+          background: url('/media/images/topbar/flip_line.png');
           width: @stickyBar_bar_commands_middle_flip_width - 2 * @stickyBar_bar_commands_middle_flip_line_padding;
           height: @stickyBar_bar_commands_middle_flip_height;
           left: @stickyBar_bar_commands_middle_flip_line_padding;
@@ -280,7 +280,7 @@ body {
         z-index : 1;
         width: 35px;
         height: 34px;
-        background: url(/images/topbar/sticker/delete_left.png) no-repeat center bottom;
+        background: url(/media/images/topbar/sticker/delete_left.png) no-repeat center bottom;
       }
 
   &.editable {
@@ -384,7 +384,7 @@ body {
       position: absolute;
       bottom: 0px;
       height: 60px;
-      background: url(/images/home/ticket_bottom.png) no-repeat;
+      background: url(/media/images/home/ticket_bottom.png) no-repeat;
       // TODO(fwouts): Use variables.
       width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
       padding-top: 26px;
@@ -453,7 +453,7 @@ body {
       position: absolute;
       bottom: 0px;
       height: 60px;
-      background: url(/images/home/ticket_bottom.png) no-repeat;
+      background: url(/media/images/home/ticket_bottom.png) no-repeat;
       // TODO(fwouts): Use variables.
       width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
       padding-top: 26px;

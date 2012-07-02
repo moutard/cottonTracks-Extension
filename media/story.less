@@ -19,33 +19,33 @@
 @columnWidth : 400px;
 /*
 body {
-  background: url('/images/story/paper_background.png');
+  background: url('/media/images/story/paper_background.png');
 }
 */
 
 .ct-storyItem {
   width: @storyItemWidth;
-  
+
   position: relative;
   //left: 50%;
   margin: 40px 0 10px 0;
   z-index: 1;
-  
+
   -webkit-transition-duration: 1s;
-  
+
   // The top attribute will be filled in JS.
   // top: 300px;
-  
+
   > .ct-storyItemLink {
     position: absolute;
-  
+
     top: 18px;
-    
+
     > .ct-storyItemLinkLine {
       position: absolute;
       border: 2px solid @storyLineColor;
       width: @storyItemLinkWidth;
-      
+
       > .ct-storyItemLinkDot {
         position: absolute;
         border-radius: @storyLineDotRadius;
@@ -54,38 +54,38 @@ body {
       }
     }
   }
-  
+
   &.ct-storyItem_left {
     //margin-left: -@storyItemWidth - @storyItemLinkWidth;
-    
+
     > .ct-storyItemLink {
       right: 0;
-      
+
       > .ct-storyItemLinkLine {
-        
+
         > .ct-storyItemLinkDot {
           right: -@storyLineDotRadius;
         }
       }
     }
   }
-  
+
   &.ct-storyItem_right {
     //margin-left: @storyItemLinkWidth;
     margin-top: 60px;
     > .ct-storyItemLink {
       left: 0;
       margin-left: -@storyItemLinkWidth;
-      
+
       > .ct-storyItemLinkLine {
-        
+
         > .ct-storyItemLinkDot {
           left: -@storyLineDotRadius;
         }
       }
     }
   }
-  
+
   > .ct-storyContent {
     background: #F8F8F8;
     border: 1px solid #ccc;
@@ -94,10 +94,10 @@ body {
     color: #595959;
     padding: 10px;
     font-size: 14px;
-    
+
     // Used to close the div after the floating ct-storyFeaturedImage.
     overflow: hidden;
-    
+
     &:before {
       content: '';
       position: absolute;
@@ -106,19 +106,19 @@ body {
       bottom: -@storyItemBottomHeight;
       width: @storyItemWidth;
       height: @storyItemBottomHeight;
-      background: url('/images/story/element_bottom.png');
+      background: url('/media/images/story/element_bottom.png');
     }
-    
+
     > .ct-storyDelete {
       width: 35px;
       height: 34px;
       position: absolute;
       top: 0;
       right: 0;
-      background: url('/images/story/delete_left.png');
+      background: url('/media/images/story/delete_left.png');
       cursor: pointer;
     }
-    
+
     > .ct-storyGrab {
       content: '';
       position: absolute;
@@ -127,23 +127,23 @@ body {
       margin-top: -(@storyItemGrabHeight / 2);
       width: @storyItemGrabWidth;
       height: @storyItemGrabHeight;
-      background: url('/images/story/pic_grab.png');
+      background: url('/media/images/story/pic_grab.png');
       cursor: pointer;
     }
-    
+
     > .ct-storyFeaturedImage {
       display: block;
       float: left;
       margin-right: 10px;
       max-width: 130px;
     }
-    
+
     > .ct-storyMainImage {
       display: block;
       float: left;
       width: 380px;
     }
-    
+
     > h3 {
       > a {
         text-decoration : none;
@@ -152,9 +152,9 @@ body {
           color: #333333;
         }
       }
-      
+
     }
-    
+
     > .ct-legend {
       font-size: 0.8em;
       color: #595959;
@@ -165,12 +165,12 @@ body {
     width: (@quoteWidth - 2 * @quoteHorizontalPadding);
     margin-left: (@storyItemWidth - @quoteWidth) / 2;
     margin-top: -25px;
-    background: url('/images/story/quote_paper.png');
+    background: url('/media/images/story/quote_paper.png');
     position: relative;
     // TODO(fwouts): Find other fallback fonts.
     font-family: 'Times New Roman';
     padding: @quoteVerticalPadding @quoteHorizontalPadding;
-    
+
     &:before {
       content: '';
       height: 16px;
@@ -178,19 +178,19 @@ body {
       position: absolute;
       left: 0;
       bottom: 0;
-      background: url('/images/story/quote_bottom.png');
+      background: url('/media/images/story/quote_bottom.png');
     }
   }
-  
+
   > .ct-item_bottom {
     position: relative;
     margin-top: -1px;
     //bottom: 20px;
     height: 25px;
     width: 400px;
-    background: url('/images/story/element_bottom.png');
+    background: url('/media/images/story/element_bottom.png');
     z-index:1;
-    
+
   }
 }
 
