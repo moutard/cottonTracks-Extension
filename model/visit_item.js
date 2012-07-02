@@ -8,7 +8,6 @@ Cotton.Model.VisitItem = Class
 
       _sId : undefined, // visitId.
       _sChromeVisitId : undefined, // Should be the same that Google chrome
-                                    // history
       _sChromeReferringVisitId : undefined,
       _sStoryId : "UNCLASSIFIED",
 
@@ -37,10 +36,7 @@ Cotton.Model.VisitItem = Class
         this._sStoryId = "UNCLASSIFIED";
 
         // Information of historyItem that are pertinent with this model.
-        this._sUrl;
-        this._sReferrerUrl;
         this._sTitle = "";
-        this._iVisitTime;
 
         // Informations of historyItem that are NOT pertinent th this model.
         // this._iLastVisitTime;
@@ -49,11 +45,8 @@ Cotton.Model.VisitItem = Class
 
         // Added by preTreatment
         // this._oUrl ?
-        this._sPathname;
-        this._sHostname;
         this._lQueryWords = [];
         this._lExtractedWords = [];
-        this._sClosestGeneratedPage;
 
         // Improved model - only available for DBSCAN2
         this._oExtractedDNA = new Cotton.Model.ExtractedDNA();
