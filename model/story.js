@@ -1,14 +1,27 @@
 'use strict';
 
+/**
+ * Story
+ * 
+ */
 Cotton.Model.Story = Class.extend({
+
+  _iId : null,
+  _fLastVisitTime : null,
+  _fRelevance : null,
+
+  _sTitle : null,
+  _sFeaturedImage : null,
+  _lVisitItemsId : null,
+  _lVisitItems : null,
+
+  /**
+   * @constructor
+   * @param lVisitItems
+   */
   init : function(lVisitItems) {
 
-    // storyClass
-
-    // DATA MODEL
-    this._iId;
     this._fLastVisitTime = 0;
-    this._fRelevance;
 
     this._sTitle = "";
     this._sFeaturedImage = "";
@@ -16,8 +29,6 @@ Cotton.Model.Story = Class.extend({
     this._lVisitItems = new Array();
   },
 
-  // PROTOTYPE
-  // GETTER
   id : function() {
     return this._iId;
   },
@@ -195,53 +206,50 @@ Cotton.Model.Story = Class.extend({
   },
 
   /**
-   * compute the title of the story.
-   * If a google search exists then return associated keywords. If not most
-   * frequent keywords are not really pertinent because the order is weird. So
-   * return the title of the first page.
-   *
+   * compute the title of the story. If a google search exists then return
+   * associated keywords. If not most frequent keywords are not really pertinent
+   * because the order is weird. So return the title of the first page.
+   * 
    * TODO(rmoutard) : give the title of the page that contains the more of the
    * most frequent keywords.
    */
   computeTitle : function() {
-    /** We can't recompute the title if it already exists*/
-      if (this._lVisitItems.length !== 0) {
-        var lKeywords = new Array();
-        for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
-          lKeywords = lKeywords.concat(oVisitItem.extractedWords());
-          if (oVisitItem.queryWords().length !== 0) {
-            this._sTitle = oVisitItem.queryWords().join(" ");
-            return;
-          }
-          this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
+    /** We can't recompute the title if it already exists */
+    if (this._lVisitItems.length !== 0) {
+      var lKeywords = new Array();
+      for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
+        lKeywords = lKeywords.concat(oVisitItem.extractedWords());
+        if (oVisitItem.queryWords().length !== 0) {
+          this._sTitle = oVisitItem.queryWords().join(" ");
+          return;
         }
-
-
-        /**
-         * Most Frequent keywords.
-         * - All the keywords are in the array lKeywords
-         * - Reject small keywords
-         * - Hard formula that gives the most frequent keywords.
-         */
-        lKeywords = _.reject(lKeywords, function(s) {
-          return s.length < 4;
-        });
-
-        var lMostFrequentKeywords = _.map(
-            _.sortBy(_.values(_.groupBy(lKeywords, function(iI) {
-              return iI;
-            })), function(l) {
-              return -l.length;
-            }), function(l) {
-              return l[0];
-            }).slice(0, 3);
-        // this._sTitle = lMostFrequentKeywords.join(" ");
-
-        if(this._sTitle === "" | this._sTitle === undefined){
-          this._sTitle = this._lVisitItems[0].title();
-        }
-        return;
+        this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
       }
+
+      /**
+       * Most Frequent keywords. - All the keywords are in the array lKeywords -
+       * Reject small keywords - Hard formula that gives the most frequent
+       * keywords.
+       */
+      lKeywords = _.reject(lKeywords, function(s) {
+        return s.length < 4;
+      });
+
+      var lMostFrequentKeywords = _.map(
+          _.sortBy(_.values(_.groupBy(lKeywords, function(iI) {
+            return iI;
+          })), function(l) {
+            return -l.length;
+          }), function(l) {
+            return l[0];
+          }).slice(0, 3);
+      // this._sTitle = lMostFrequentKeywords.join(" ");
+
+      if (this._sTitle === "" | this._sTitle === undefined) {
+        this._sTitle = this._lVisitItems[0].title();
+      }
+      return;
+    }
     this._sTitle = 'Unknown'
   },
 
