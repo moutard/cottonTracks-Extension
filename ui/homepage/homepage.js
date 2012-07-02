@@ -49,8 +49,9 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
   hide : function() {
     this._$homepage.hide();
+    //TODO:put in the less file
     $('.ct-iconButton_home').css({
-      background : 'url("/images/topbar/home.png")',
+      background : 'url("/media/images/topbar/home.png")',
       cursor : 'pointer'
     });
   },
@@ -59,8 +60,9 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
     this._$homepage.show();
     $('.ct-flip').text('Welcome');
+    //TODO: Put in the less file
     $('.ct-iconButton_home').css({
-      background : 'url("/images/topbar/home_selected.png")',
+      background : 'url("/media/images/topbar/home_selected.png")',
       cursor : 'default'
     });
   },
