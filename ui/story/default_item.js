@@ -52,7 +52,7 @@ Cotton.UI.Story.DefaultItem = Class.extend({
     if(oVisitItem.extractedDNA().imageUrl() !== ""){
       $featuredImage.attr("src", oVisitItem.extractedDNA().imageUrl());
     } else {
-      //$featuredImage.attr("src", "images/story_preview.png");
+      //$featuredImage.attr("src", "/media/images/story_preview.png");
     }
 
     this._$item.append(

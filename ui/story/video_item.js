@@ -1,14 +1,14 @@
 'use strict';
 
 Cotton.UI.Story.VideoItem = Class.extend({
-  
+
   _oVisitItem: null,
   _$item: null,
   _$storyLink: null,
-  
+
   init: function(oVisitItem, sEmbedCode) {
     this._oVisitItem = oVisitItem;
-    
+
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
     var $content = $('<div class="ct-storyContent"></div>');
     var $deleteButton = $('<div class="ct-storyDelete"></div>');
@@ -21,22 +21,22 @@ Cotton.UI.Story.VideoItem = Class.extend({
     var $quote = $('<div class="ct-quote"></div>');
     var $video = $('<iframe width="380" height="214" src="http://www.youtube.com/embed/_N4DMW5NWsE" frameborder="0" allowfullscreen></iframe>');
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
-    
+
     var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode;
     $video.attr('src', sEmbedUrl);
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
     var sUrl = oVisitItem.url();
     var sDomain = sUrl.match(/\/\/([^/]*)\// )[1];
     $legend.text(sDomain);
-    
+
     var $originLink = $('<a />');
     $originLink
       .attr('href', sUrl)
       .attr('target', '_blank')
       .text(oVisitItem.title());
     $summary.append("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget fringilla quam. Fusce vitae erat sem, a lacinia nulla. Duis in nibh tellus. Mauris iaculis rutrum massa eu volutpat. Mauris posuere laoreet nibh non iaculis. Ut rhoncus orci vitae augue dictum et varius odio accumsan. Nulla malesuada ligula at nisi pellentesque eleifend. Fusce in metus et eros dignissim interdum a eget orci.");
-    
-    $featuredImage.attr("src", "images/story_preview.png");
+
+    $featuredImage.attr("src", "/media/images/story_preview.png");
     $quote.text("Ut tristique porta rhoncus. In a quam posuere orci ultrices pretium at quis urna. Praesent pulvinar ullamcorper augue sed ultricies.");
     this._$item.append(
         this._$storyLink.append(
@@ -46,25 +46,25 @@ Cotton.UI.Story.VideoItem = Class.extend({
         ),
         $content.append(
             $video
-        ), 
+        ),
         $bottom
     );
   },
-  
+
   $ : function(){
     return this._$item;
   },
-  
+
   appendTo: function(oStoryLine) {
     oStoryLine.$().append(this._$item);
   },
-  
+
   setTop: function(iTop) {
     this._$item.css({
       top: iTop
     });
   },
-  
+
   setSide: function(sSide) {
     switch (sSide) {
     case 'left':

@@ -50,7 +50,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       sImgSrc = oExtractedDna.mainImage();
     }
 
-    this._$img = $('<img src="images/default_preview7.png" />');
+    this._$img = $('<img src="/media/images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
       this._$img.attr("src", this._oStory._sFeaturedImage);
     }
@@ -178,7 +178,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param $img
    */
   resizeImg : function($img) {
@@ -201,13 +201,13 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // this._$('img').css('margin-left', Math.round(w / 2) + 'px');
     }
   },
-  
+
   /**
    * editable
-   * 
+   *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
-   * 
+   *
    * @returns {editable}
    */
   editable : function() {
