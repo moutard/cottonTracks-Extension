@@ -115,15 +115,13 @@ Cotton.DB.populateVisitItems = function(oStore, mCallBackFunction) {
 Cotton.DB.addStories = function(oStore, lStories, mCallBackFunction) {
   var self = this;
   console.debug("DB - add stories");
-  var i;
-  for(i = 0; i < lStories.length; i++){
+  var iLength = lStories.length - 1;
+  var iCount = 0;
+  for(var i = 0; i < lStories.length; i++){
     var oStory = lStories[lStories.length - 1 - i];
     oStore.put('stories', oStory, function(iId) {
-      console.log("Story added");
-      if(i === (lStories.length -1)){
-        console.log(i);
-        console.log(oStore);
-        console.log(this);
+      iCount +=1;
+      if(iCount === iLength){
         mCallBackFunction.call(self, oStore);
       }
     });
