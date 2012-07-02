@@ -1,17 +1,39 @@
 'use strict';
 
+/**
+ * VisitItem
+ */
 Cotton.Model.VisitItem = Class
     .extend({
+
+      _sId : undefined, // visitId.
+      _sChromeVisitId : undefined, // Should be the same that Google chrome
+                                    // history
+      _sChromeReferringVisitId : undefined,
+      _sStoryId : "UNCLASSIFIED",
+
+      // Information of historyItem that are pertinent with this model.
+      _sUrl : undefined,
+      _sReferrerUrl : undefined,
+      _sTitle : "",
+      _iVisitTime : undefined,
+
+      // Added by preTreatment
+      // this._oUrl ?
+      _sPathname : undefined,
+      _sHostname : undefined,
+      _lQueryWords : [],
+      _lExtractedWords : [],
+      _sClosestGeneratedPage : undefined,
+
+      // Improved model - only available for DBSCAN2
+      _oExtractedDNA : undefined,
+
+      /**
+       * @constructor
+       */
       init : function() {
 
-        this._sId; // visitId.
-        this._sChromeVisitId; // Should be the same that Google chrome history.
-        /**
-         * The Chrome visit id of the referring page. It will be the same as
-         * Google Chrome's history API returns, except in some special cases
-         * such as new tabs where Chrome incorrectly returns 0.
-         */
-        this._sChromeReferringVisitId;
         this._sStoryId = "UNCLASSIFIED";
 
         // Information of historyItem that are pertinent with this model.
