@@ -9,7 +9,9 @@ DESTINATION_PATH='/usr/local/rmoutard/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
 
-# -- PRETREATMENT --
+# -- PRETREATMENT -------------------------------------------------------------
+
+echo "-------- Start Pretreatment --------"
 # Copy the folder to avoid bad surprise
 cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH
 mv $DESTINATION_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
@@ -46,16 +48,16 @@ function generateMinFile {
     # Remove the first line that correponds to 'use strict'
     sed -i -e "1d" "$file"
     cat "$file" >> $OUTPUT_FILE
-    # rm "$file"
+    rm "$file"
   done
 
   $COMPILE_COMMAND $COMPILE_OPTIONS --js $OUTPUT_FILE --js_output_file $OUTPUT_MIN_FILE
-  # rm $OUTPUT_FILE
+  rm $OUTPUT_FILE
   echo "$OUTPUT_MIN_FILE has been generated"
 
 }
 
-
+echo "-------- Start compilation --------"
 # CONFIG
 config_input_files=("./config/init.js" "./config/config.js")
 config_output_file="config.js"
@@ -158,6 +160,8 @@ function addPath {
   echo "$INCLUDE_FILE has been added to $INPUT_FILE"
 
 }
+
+echo "--------- Start update path --------"
 # INDEX.HTML
 declare -a index_useless_files
 index_useless_files=( ${config_input_files[@]}
@@ -175,5 +179,54 @@ addPath "translators.min.js" "Cotton.translators" "index.html"
 addPath "ui.min.js" "Cotton.ui" "index.html"
 
 # BACKGROUNG.HTML
+declare -a background_useless_files
+background_useless_files=( ${config_input_files[@]}
+                      ${db_input_files[@]}
+                      ${model_input_files[@]}
+                      ${translators_input_files[@]}
+                      )
+removePath background_useless_files[@] "background.html"
+
+addPath "config.min.js" "Cotton.config" "background.html"
+addPath "db.min.js" "Cotton.db" "background.html"
+addPath "model.min.js" "Cotton.model" "background.html"
+addPath "translators.min.js" "Cotton.translators" "background.html"
+addPath "ui.min.js" "Cotton.ui" "background.html"
 
 # WORKER.JS
+function addWorkerPath {
+  # 2 Parameters
+  # Array of input files
+  INCLUDE_FILE=$1
+
+  # Correpondig Tag
+  TAG=$2
+
+  # Name of the output file
+  INPUT_FILE=$3
+
+  sed -i -e "/$TAG/a\
+    importScripts('../$INCLUDE_FILE');
+    " "./$INPUT_FILE"
+
+  echo "$INCLUDE_FILE has been added to $INPUT_FILE"
+
+}
+
+declare -a worker_useless_files
+worker_useless_files=( ${config_input_files[@]})
+removePath worker_useless_files[@] "./algo/worker.js"
+
+
+addWorkerPath "config.min.js" "Cotton.config" "./algo/worker.js"
+
+# MANIFEST
+declare -a manifest_useless_files
+manifest_useless_files=( ${model_input_files[@]})
+removePath manifest_useless_files[@] "./manifest.json"
+
+sed -i -e "16 a\
+  \"model.min.js\",
+  " "./manifest.json"
+
+
