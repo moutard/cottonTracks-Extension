@@ -4,15 +4,15 @@
 // Cotton.lib.
 importScripts('../lib/class.js');
 importScripts('../lib/underscore.js');
-importScripts('../lib/parseURL.js');
+importScripts('../lib/parse_url.js');
 
 importScripts('../init.js');
 
-// Cotton.Config
+// Cotton.config
 importScripts('../config/init.js');
 importScripts('../config/config.js');
 
-// Cotton.Algo.
+// Cotton.algo.
 importScripts('init.js');
 importScripts('tools.js');
 importScripts('pre_treatment.js');
