@@ -12,7 +12,7 @@
       "matches": ["http://*/*", "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*"],
       "css": [],
       "js": [ "lib/class.js", "lib/jquery.min.js",
-              "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parseUrl.js",
+              "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parse_url.js",
               "init.js",
               "model/init.js","model/extracted_dna.js", "model/visit_item.js",
               "behavior/init.js",
