@@ -6,8 +6,9 @@ Cotton.UI.Story.VideoItem = Class.extend({
   _$item: null,
   _$storyLink: null,
 
-  init: function(oVisitItem, sEmbedCode) {
+  init: function(oVisitItem, sVideoType, sEmbedCode) {
     this._oVisitItem = oVisitItem;
+    this._sVideoType = sVideoType;
 
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
     var $content = $('<div class="ct-storyContent"></div>');
@@ -19,11 +20,23 @@ Cotton.UI.Story.VideoItem = Class.extend({
     var $summary = $('<p></p>');
     var $bottom = $('<div class="ct-item_bottom"></div>');
     var $quote = $('<div class="ct-quote"></div>');
-    var $video = $('<iframe width="380" height="214" src="http://www.youtube.com/embed/_N4DMW5NWsE" frameborder="0" allowfullscreen></iframe>');
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
 
-    var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode;
-    $video.attr('src', sEmbedUrl);
+	// Uses the right embed code depending on the video provider
+	if (this._sVideoType == "youtube"){
+      var $video = $('<iframe width="380" height="214" src="" frameborder="0" allowfullscreen></iframe>');
+      var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode;
+      $video.attr('src', sEmbedUrl);
+	} else if (this._sVideoType == "vimeo"){
+      var $video = $('<iframe width="380" height="214" src="" frameborder="0" webkitAllowFullscreen></iframe>');
+      var sEmbedUrl = "http://player.vimeo.com/video/" + sEmbedCode + "?title=1&byline=0&portrait=0";
+      $video.attr('src', sEmbedUrl);
+	} else if (this._sVideoType == "dailymotion"){
+      var $video = $('<iframe width="380" height="214" src="" frameborder="0"></iframe>');
+      var sEmbedUrl = "http://www.dailymotion.com/embed/video/" + sEmbedCode + "?background=3E3E3E&foreground=EEEEEE&highlight=4EBBFF";
+      $video.attr('src', sEmbedUrl);
+	}
+	
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
     var sUrl = oVisitItem.url();
     var sDomain = sUrl.match(/\/\/([^/]*)\// )[1];
