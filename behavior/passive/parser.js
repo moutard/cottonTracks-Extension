@@ -161,7 +161,10 @@ Cotton.Behavior.Passive.Parser = Class
 
       _markMeaningfulBlock : function($block) {
         $block.attr('data-meaningful', 'true');
-        $block.css('border', '1px dashed #35d');
+        var bDevMode = Cotton.Config.Parameters.bDevMode;
+        if (bDevMode == true){
+          $block.css('border', '1px dashed #35d');
+        }
         if (sync.current().extractedDNA().firstParagraph() === "") {
           sync.current().extractedDNA().setFirstParagraph($block.text());
           sync.updateVisit();
