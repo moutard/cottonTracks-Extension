@@ -11,7 +11,7 @@ Cotton.DB.Populate = {};
 
 /**
  * PreRemoveTools
- * @params: list of serialized visitItems. (see chrome api for more informations)
+ * @param: list of serialized visitItems. (see chrome api for more informations)
  * remove visitItems that are https, or that are tools.
  */
 Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
@@ -29,7 +29,7 @@ Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
 
 /**
  * Populate the database using the chrome history database
- * @params : mCallBackFunction
+ * @param : mCallBackFunction
  */
 Cotton.DB.Populate.start = function(mCallBackFunction) {
 
@@ -83,8 +83,8 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
 
 /**
  * Populate visitItems with a given store. (faster than the previous)
- * @params : oStore
- * @params : mCallBackFunction
+ * @param : oStore
+ * @param : mCallBackFunction
  */
 
 Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {

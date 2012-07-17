@@ -450,8 +450,8 @@ Cotton.DB.Engine = Class.extend({
    *
    *  the last item in the database. Equivalent to getLast with sIndex = id
    *
-   *  @params sObjectStoreName
-   *  @params mResultElementCallback call back function
+   *  @param sObjectStoreName
+   *  @param mResultElementCallback call back function
    *
    *  @return the call back function return an dDBRecord element.
    */
@@ -491,9 +491,9 @@ Cotton.DB.Engine = Class.extend({
    *
    *  the last item sorted by sIndexKey.
    *
-   *  @params {string} sObjectStoreName : Object store name
-   *  @params {string} sIndexKey : name of the index used for sorting
-   *  @params {function} mResultElementCallback : callback function
+   *  @param {string} sObjectStoreName : Object store name
+   *  @param {string} sIndexKey : name of the index used for sorting
+   *  @param {function} mResultElementCallback : callback function
    *
    *  @return the call back function return an dDBRecord element.
    */
@@ -534,11 +534,11 @@ Cotton.DB.Engine = Class.extend({
    *
    * get X items in a given direction
    *
-   * @params {string} sObjectStoreName : Object store name
-   * @params {int} iX : number of element you want
-   * @params {string} sIndexKey : name of the index used for sorting
-   * @params {string} iDirection :
-   * @params {function} mResultElementCallback : callback function
+   * @param {string} sObjectStoreName : Object store name
+   * @param {int} iX : number of element you want
+   * @param {string} sIndexKey : name of the index used for sorting
+   * @param {string} iDirection :
+   * @param {function} mResultElementCallback : callback function
    *
    * @return the call back function return an dDBRecord element.
 
