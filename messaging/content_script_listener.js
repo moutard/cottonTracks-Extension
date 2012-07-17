@@ -1,9 +1,22 @@
 'use strict';
 
-// See below page for more informations.
-// http://code.google.com/chrome/extensions/messaging.html
+/**
+ * Content Script Listener
+ *
+ * Instance host by background.html
+ * Listen all the messages send by content scripts (i.e. scritps
+ * injected directly in the page.
+ *
+ * See below page for more informations.
+ * http://code.google.com/chrome/extensions/messaging.html
+ */
 
-// Called when a message is passed.  We assume that the content script
+/**
+ * onRequest :
+ * link with the chrome API method chrome.extension.onRequest.addListener
+ *
+ * Called when a message is passed by a content script.
+ */
 function onRequest(request, sender, sendResponse) {
 
   console.log(request);
