@@ -24,14 +24,26 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
     this._$sumUp = $('#ct-sumUp');
 
+    var bScrolled = false;
+    
     this._$stickyBar.find('.ct-arrow_left').click(function() {
       // TODO(fwouts): Use constants.
       self.translateStickers(self._iTranslateX + 250);
+      if (bScrolled == false) {
+        bScrolled = true;
+        // Event Tracking
+   	    _gaq.push(['_trackEvent', 'Hook', 'Browse stories', 'Left arrow in story selector']);
+      }
     });
 
     this._$stickyBar.find('.ct-arrow_right').click(function() {
       // TODO(fwouts): Use constants.
       self.translateStickers(self._iTranslateX - 250);
+      if (bScrolled == false) {
+      	bScrolled = true;
+      	// Event Tracking
+      	_gaq.push(['_trackEvent', 'Hook', 'Browse stories', 'Right arrow in story selector']);
+      }
     });
 
     this._$stickyBar.find('.ct-container').bind('mousewheel', function(oEvent) {
@@ -63,6 +75,12 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
       self.translateStickers(iPosition, true);
       oEvent.preventDefault();
+      
+      //Event Tracker on first scroll
+      if (bScrolled == false) {
+      	_gaq.push(['_trackEvent', 'Hook', 'Browse stories', 'Scroll in story selector']);
+      	bTranslated = true;
+      }
     });
 
     this._$stickyBar.animate({
