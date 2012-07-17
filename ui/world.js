@@ -8,7 +8,7 @@ Cotton.UI.World = function() {
 
   oStickyBar.on('ready', function() {
 
-    Cotton.DBSCAN2.getXStories(10, function(lStories) {
+    Cotton.DB.Stories.getXStories(10, function(lStories) {
       // Various initializers, mostly for testing.
       var lStickers = [];
       _.each(lStories, function(oStory) {
@@ -38,7 +38,7 @@ $.extend(Cotton.UI.World.prototype, {
   update : function() {
     console.log('world update');
     var self = this;
-    Cotton.DBSCAN2.getXStories(10, function(lStories) {
+    Cotton.DB.Stories.getXStories(10, function(lStories) {
       // Various initializers, mostly for testing.
       var lStickers = [];
       _.each(lStories, function(oStory) {
