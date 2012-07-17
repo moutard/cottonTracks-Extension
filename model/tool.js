@@ -15,9 +15,25 @@ Cotton.Model.Tool = Class.extend({
   /**
   * @constructor
   */
-  init : function(psHostname, pfFrequency) {
+  init : function(sHostname, fFrequency) {
 
-    this._sHostname = psHostname;
-    this._fFrequency = pfFrequency;
+    this._sHostname = sHostname;
+    this._fFrequency = fFrequency;
+  },
+
+  hostname : function(){
+    return this._sHostname;
+  },
+
+  frequency : function(){
+    return this._fFrequency;
+  },
+
+  setFrequency : function(fFrequency){
+    this._fFrequency = fFrequency;
+  },
+
+  increaseFrequency : function(){
+    this._fFrequency+=1;
   },
 });
