@@ -20,7 +20,7 @@ Cotton.Controller = Class.extend({
     console.debug("Controller - init -");
 
     self.initWorkerDBSCAN1();
-
+    self.initWorkerDBSCAN2();
     /**
      * Check if a ct database already exists.
      */
@@ -93,11 +93,12 @@ Cotton.Controller = Class.extend({
   },
 
   /**
-   * Initialize the worker, and link it to 'message' listener.
+   * Initialize the worker in charge of DBSCAN1,
+   * and link it to 'message' listener.
    */
   initWorkerDBSCAN1 : function(){
     var self = this;
-    self._wDBSCAN1 = new Worker('algo/worker.js');
+    self._wDBSCAN1 = new Worker('algo/dbscan1/worker.js');
 
     self._wDBSCAN1.addEventListener('message', function(e) {
       // Is called when a message is sent by the worker.
@@ -125,8 +126,28 @@ Cotton.Controller = Class.extend({
 
   },
 
+  /**
+   * Initialize the worker in charge of DBSCAN2,
+   * and link it to 'message' listener.
+   */
   initWorkerDBSCAN2 : function(){
     // TODO(rmoutard) : create DBSCAN2
+    var self = this;
+    self._wDBSCAN2 = new Worker('algo/dbscan1/worker.js');
+
+    self._wDBSCAN2 = addEventListener('message', function(e) {
+      console.log("After dbscan2");
+      console.log(e.data.lVisitItems);
+      console.log(e.data.iNbCluster);
+
+      var dStories = Cotton.Algo.clusterStory(e.data.lVisitItems,
+                                              e.data.iNbCluster);
+
+      // DB
+      Cotton.DB.Stories.addStories(dStories.stories);
+
+    }, false);
+
   },
 
   /**
@@ -194,7 +215,34 @@ Cotton.Controller = Class.extend({
   start : function(){
     console.debug("Controller - start");
     var self = this;
-    Cotton.DBSCAN2.startDbscanUser();
+    //Cotton.DBSCAN2.startDbscanUser();
+
+    self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory){
+      /**
+       * Delete the last story and recompute it.
+       */
+      var lVisitItemsId = oLastStory.visitItemsId();
+      self._oStore.delete('stories', oLastStory.id(), function(iId){
+        console.log("story deleted");
+      });
+
+      var lPoolVisitItems = new Array();
+
+      self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
+        function(lLastStoryVisitItems) {
+          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+
+          self._oStore.getLowerBound('visitItems', 'iVisitTime',
+            oLastStory.lastVisitTime(), "PREV", false,
+              function(lUnclassifiedVisitItem) {
+                lPoolVisitItems = lPoolVisitItems
+                    .concat(lUnclassifiedVisitItem);
+                console.log(lPoolVisitItems);
+                self._wDBSCAN2.postMessage(lPoolVisitItems);
+              });
+        });
+    });
+
     Cotton.UI.oWorld = new Cotton.UI.World();
   },
 
