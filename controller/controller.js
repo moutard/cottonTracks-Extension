@@ -119,7 +119,7 @@ Cotton.Controller = Class.extend({
       var dStories = Cotton.Algo.clusterStory(e.data.lVisitItems, e.data.iNbCluster);
       // Add stories
       var lStories = dStories.stories.reverse();
-      Cotton.DB.addStories(self._oStore, dStories.stories, function(oStore){
+      Cotton.DB.Stories.addStories(self._oStore, dStories.stories, function(oStore){
         Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
       });
     }, false);
@@ -143,8 +143,9 @@ Cotton.Controller = Class.extend({
       var dStories = Cotton.Algo.clusterStory(e.data.lVisitItems,
                                               e.data.iNbCluster);
 
-      // DB
-      Cotton.DB.Stories.addStories(dStories.stories);
+      Cotton.DB.Stories.addStories(self._oStore, dStories.stories, function(oStore){
+        Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+      });
 
     }, false);
 
@@ -162,7 +163,7 @@ Cotton.Controller = Class.extend({
 
     var self = this;
 
-    Cotton.DB.populateVisitItems(self._oStore, function(oStore) {
+    Cotton.DB.Populate.visitItems(self._oStore, function(oStore) {
       oStore.getList('visitItems', function(lAllVisitItems) {
         console.debug('FirstInstallation - Start wDBSCAN with '
             + lAllVisitItems.length + ' items');
@@ -242,8 +243,6 @@ Cotton.Controller = Class.extend({
               });
         });
     });
-
-    Cotton.UI.oWorld = new Cotton.UI.World();
   },
 
 });
