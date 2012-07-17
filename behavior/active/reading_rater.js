@@ -65,7 +65,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // Cotton.Behavior.Passive.GoogleParser();
     // oGoogleParser._findSearchImageResult();
 
-    this._generateFeedbackElement();
+	var bDevMode = Cotton.Config.Parameters.bDevMode;
+    if (bDevMode == true){
+    	this._generateFeedbackElement();
+    }
 
     this._initializeHighlightListener();
 
