@@ -50,6 +50,11 @@ Cotton.UI.Story.ImageItem = Class.extend({
         $bottom
         // $quote
     );
+    
+    //event tracking
+    $mainImage.click(function() {
+    	_gaq.push(['_trackEvent', 'Story use', 'Image viewed']);
+    });
   },
   
   $ : function(){

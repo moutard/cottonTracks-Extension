@@ -72,6 +72,14 @@ Cotton.UI.Story.DefaultItem = Class.extend({
         $bottom,
         $quote
     );
+    
+    // event tracking
+    $title.click(function() {
+    	_gaq.push(['_trackEvent', 'Story use', 'Title']);
+    });
+    $featuredImage.click(function() {
+    	_gaq.push(['_trackEvent', 'Story use', 'Featured Image']);
+    });
   },
 
   $ : function(){
