@@ -10,19 +10,21 @@
  */
 Cotton.DB.Stories = {};
 
-Cotton.DB.Stories.addStories = function (lStories) {
-  var oStore = new Cotton.DB.Store('ct',
-        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-        function() {
-          console.log("store ready");
-          for(var i = 0, oStory; oStory = lStories[i]; i++){
-            oStore.put('stories', oStory, function() {
-              console.log("Story added");
-            });
-          }
-        }
-      );
-}
+Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
+  var self = this;
+  console.debug("DB - add stories");
+  var iLength = lStories.length - 1;
+  var iCount = 0;
+  for(var i = 0; i < lStories.length; i++){
+    var oStory = lStories[lStories.length - 1 - i];
+    oStore.put('stories', oStory, function(iId) {
+      iCount +=1;
+      if(iCount === iLength){
+        mCallBackFunction.call(self, oStore);
+      }
+    });
+  }
+};
 
 Cotton.DB.Stories.getRange = function(iX, iY, mCallBack) {
   new Cotton.DB.Store('ct', {

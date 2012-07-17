@@ -1,9 +1,15 @@
 'use strict';
 
-// This method is used during the installation to populate visitItem DB from
-// chrome history visitItem database.
+/**
+ * PopulateDB
+ *
+ * A group of method used during the installation to populate visitItem DB from
+ * chrome history visitItem database.
+ */
 
-Cotton.DB.preRemoveTools = function(lVisitItems) {
+Cotton.DB.Populate = {};
+
+Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
   console.debug('New PreRemoveTools - Start');
   var oToolsContainer = new Cotton.Algo.ToolsContainer();
 
@@ -16,7 +22,7 @@ Cotton.DB.preRemoveTools = function(lVisitItems) {
   });
 };
 
-Cotton.DB.populateDB = function(mCallBackFunction) {
+Cotton.DB.Populate.start = function(mCallBackFunction) {
   // Get all the history items from Chrome DB.
 
   console.debug('PopulateDB - Start');
@@ -30,7 +36,7 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
   }, function(lHistoryItems) {
     console.debug('PopulateDB - chrome history search has returned '
         + lHistoryItems.length + ' items');
-    lHistoryItems = Cotton.DB.preRemoveTools(lHistoryItems);
+    lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
     // TODO(rmoutard): Discuss if we can improve populate using all the
     // visitItem for each historyItem. For the moment we consider that an
@@ -68,7 +74,7 @@ Cotton.DB.populateDB = function(mCallBackFunction) {
 };
 
 
-Cotton.DB.populateVisitItems = function(oStore, mCallBackFunction) {
+Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
   // Get all the history items from Chrome DB.
   var self = this;
   console.debug('PopulateVisitItems - Start');
@@ -82,7 +88,7 @@ Cotton.DB.populateVisitItems = function(oStore, mCallBackFunction) {
   }, function(lHistoryItems) {
     console.debug('PopulateVisitItems - chrome history search has returned '
         + lHistoryItems.length + ' items');
-    lHistoryItems = Cotton.DB.preRemoveTools(lHistoryItems);
+    lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
     // TODO(rmoutard): Discuss if we can improve populate using all the
     // visitItem for each historyItem. For the moment we consider that an
@@ -111,25 +117,3 @@ Cotton.DB.populateVisitItems = function(oStore, mCallBackFunction) {
     }
   });
 };
-
-Cotton.DB.addStories = function(oStore, lStories, mCallBackFunction) {
-  var self = this;
-  console.debug("DB - add stories");
-  var iLength = lStories.length - 1;
-  var iCount = 0;
-  for(var i = 0; i < lStories.length; i++){
-    var oStory = lStories[lStories.length - 1 - i];
-    oStore.put('stories', oStory, function(iId) {
-      iCount +=1;
-      if(iCount === iLength){
-        mCallBackFunction.call(self, oStore);
-      }
-    });
-  }
-
-  // TODO(rmoutard) : remove that to use putList.
-  //setTimeout(function(){
-  //  Cotton.UI.oWorld = new Cotton.UI.World();
-  //}, 1000);
-};
-
