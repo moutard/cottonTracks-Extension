@@ -12,12 +12,15 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
     this._fScore += fIncrement;
     this._fScore = Math.min(1, this._fScore);
     // TODO(fwouts): Use a constant.
-    var MIN_COLOR = 128;
-    var MAX_COLOR = 255;
-    var iColorQuantity = MIN_COLOR + Math.round(this._fScore * (MAX_COLOR - MIN_COLOR));
-    this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
-    this._$block.css('color', '#000');
-    this.log("Score updated to " + this._fScore);
+    var bDevMode = Cotton.Config.Parameters.bDevMode;
+    if (bDevMode == true){
+      var MIN_COLOR = 128;
+      var MAX_COLOR = 255;
+      var iColorQuantity = MIN_COLOR + Math.round(this._fScore * (MAX_COLOR - MIN_COLOR));
+      this._$block.css('background', 'rgb(' + iColorQuantity + ', ' + iColorQuantity + ', ' + iColorQuantity + ')');
+      this._$block.css('color', '#000');
+      this.log("Score updated to " + this._fScore);
+    }
   },
   
   score: function() {
