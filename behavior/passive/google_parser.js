@@ -2,9 +2,9 @@
 
 /**
  * @class : GoogleParser
- * 
+ *
  * Created by : content_scripts.
- * 
+ *
  * Find relevant block in a google search page. The compisition of search page
  * is really different than a classic page. So It's more relevant to create a
  * new parser.
@@ -14,7 +14,7 @@ Cotton.Behavior.Passive.GoogleParser = Class.extend({
 
   /**
    * true if we should send debugging messages to the JS console.
-   * 
+   *
    * @type boolean
    */
   _bLoggingEnabled : true,
@@ -31,9 +31,9 @@ Cotton.Behavior.Passive.GoogleParser = Class.extend({
 
   /**
    * Finds google image result. When they are included to a google search.
-   * 
-   * 
-   * @params : none
+   *
+   *
+   * @param : none
    * @returns url of the image
    */
   _findSearchImageResult : function() {

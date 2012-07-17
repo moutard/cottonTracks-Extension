@@ -316,7 +316,7 @@ Cotton.Behavior.Passive.Parser = Class
        * Finds google image result. When they are included to a google search.
        *
        *
-       * @params : none
+       * @param : none
        * @returns url of the image
        */
       _findSearchImageResult : function() {
