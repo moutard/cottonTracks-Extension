@@ -14,7 +14,6 @@ importScripts('../config/config.js');
 
 // Cotton.algo.
 importScripts('init.js');
-importScripts('tools.js');
 importScripts('pre_treatment.js');
 importScripts('distance.js');
 importScripts('dbscan.js');
