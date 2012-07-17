@@ -35,6 +35,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
           // oSticker.$().addClass('editable');
           oSticker.editable();
         });
+        //Event tracking
+        _gaq.push(['_trackEvent', 'Story modification', 'Edit on']);
       } else {
         $(this).removeClass('edit_mode_on');
         $(this).addClass('edit_mode_off');
@@ -43,6 +45,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
           // oSticker.$().removeClass('editable');
           oSticker.editable();
         });
+        //Event tracking
+        _gaq.push(['_trackEvent', 'Story modification', 'Edit off']);
       }
 
     });

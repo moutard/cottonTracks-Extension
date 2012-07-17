@@ -62,6 +62,11 @@ Cotton.UI.Story.VideoItem = Class.extend({
         ),
         $bottom
     );
+    
+    // event tracking
+    $video.click(function() {
+    	_gaq.push(['_trackEvent', 'Story use', 'video']);
+    });
   },
 
   $ : function(){
