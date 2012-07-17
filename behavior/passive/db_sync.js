@@ -1,8 +1,18 @@
 'use strict';
-// DB_SYNC.
-// Each time a new tab is opened, a visitItem is created. Then send to the
-// content_script_listener. That will put it in the database.
+
+/**
+ * DbSync
+ *
+ * handles tabs openning. Each time a new tab is opened, a visitItem is created
+ * Then send to the content_script_listener. That will put it in the database.
+ *
+ * Because DbSync is in a content script, their options are limited.
+ */
+
 Cotton.Behavior.Passive.DbSync = Class.extend({
+
+  _iId : undefined,
+  _oCurrentvisitItem : undefined,
 
   init : function(){
     this._iId = "";
@@ -59,35 +69,18 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
 });
 
-var oCurrentVisitItem = new Cotton.Model.VisitItem();
 var sync = new Cotton.Behavior.Passive.DbSync();
 
 $(document).ready(function() {
   // Need to wait the document is ready to get the title.
 
-  /*
-   * oCurrentVisitItem.getInfoFromPage();
-
-  chrome.extension.sendRequest({
-    action: 'create_visit_item',
-    params: {
-      visitItem: oCurrentVisitItem
-    }
-  }, function(response) {
-    console.log(response);
-    oCurrentVisitItem._sId = response.id;
-    console.log(oCurrentVisitItem);
-  });
-  */
   sync.start();
   new Cotton.Behavior.Active.ReadingRater();
 
 });
 
 
-// According to Chrome API, the object oCurrentHistoryItem will
-// be serialized.
-
+// According to Chrome API, the object oCurrentHistoryItem will be serialized.
 
 // CHROME TABS API
 //
