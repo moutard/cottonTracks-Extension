@@ -112,6 +112,7 @@ ui_input_files=(  "./ui/init.js"
                   "./ui/story/default_item.js"
                   "./ui/story/image_item.js"
                   "./ui/story/video_item.js"
+                  "./ui.story/map_item.js"
                   "./ui/story/item.js"
                   "./ui/story/mystoryline.js"
                   "./ui/loading.js")

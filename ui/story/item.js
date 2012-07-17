@@ -18,6 +18,8 @@ Cotton.UI.Story.ItemFactory = function(oVisitItem) {
   	return new Cotton.UI.Story.VideoItem(oVisitItem, "dailymotion", oUrl.pathname.split('/')[2]);  	
   } else if (oUrl.host ==="www.dailymotion.com" && oUrl.dHash['video']) {
   	return new Cotton.UI.Story.VideoItem(oVisitItem, "dailymotion", oUrl.dHash['video']);
+  } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps"){
+    return new Cotton.UI.Story.MapItem(oVisitItem, oUrl);	
   } else {
     return new Cotton.UI.Story.DefaultItem(oVisitItem);
   }

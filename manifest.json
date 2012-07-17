@@ -9,7 +9,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*"],
+      "matches": [ "http://*/*",
+                   "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*", "https://www.google.co.uk/*",
+                   "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*"
+                 ],
       "css": [],
       "js": [ "lib/class.js", "lib/jquery.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parse_url.js",
