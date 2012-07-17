@@ -1,7 +1,7 @@
 {
   "name": "cottonTracks",
   "version": "1.0",
-  "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
+  "description": "cottonTracks lets you remember easily the best of what you browse",
   "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management"],
   "background_page": "background.html",
   "chrome_url_overrides" : {
