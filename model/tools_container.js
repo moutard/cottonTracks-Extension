@@ -1,21 +1,32 @@
 'use strict';
 
-Cotton.Algo.ToolsContainer = Class.extend({
-  // CLASS : ToolsContainer
-  // this class provides some methods to class and identify tools
+/**
+ * ToolsContainer
+ * this class provides some methods to class and identify tools
+ */
+Cotton.Model.ToolsContainer = Class.extend({
+
+  _lTools : undefined,
+
+  /**
+   * @constructor
+   */
   init : function() {
     var lCommonToolsHostname = Cotton.Config.Parameters.lTools;
-    this.lTools = new Array();
+    this._lTools = new Array();
     for ( var i = 0; i < lCommonToolsHostname.length; i++) {
       this.insert(lCommonToolsHostname[i]);
     }
   },
 
-  // PROTOTYPE : ToolsContainer
+  tools : function(){
+    return this._lTools;
+  },
+
   alreadyExist : function(sHostname) {
     // return the index of the tool if it exists
-    for ( var i = 0; i < this.lTools.length; i++) {
-      if (this.lTools[i].sHostname === sHostname) {
+    for ( var i = 0; i < this._lTools.length; i++) {
+      if (this._lTools[i].sHostname === sHostname) {
         return i;
       }
     }
@@ -25,8 +36,8 @@ Cotton.Algo.ToolsContainer = Class.extend({
 
   isTool : function(sHostname) {
     // return the index of the tool if it exists
-    for ( var i = 0; i < this.lTools.length; i++) {
-      if (this.lTools[i].sHostname === sHostname) {
+    for ( var i = 0; i < this._lTools.length; i++) {
+      if (this._lTools[i].sHostname === sHostname) {
         return true;
       }
     }
@@ -36,7 +47,6 @@ Cotton.Algo.ToolsContainer = Class.extend({
 
   insertTool : function(psHostname, pfFrequence) {
     // insert a new tool in lTools
-    // TODO(rmoutard) : sort insertion
     var oTool;
 
     if (psHostname == undefined) {
@@ -46,15 +56,15 @@ Cotton.Algo.ToolsContainer = Class.extend({
       pfFrequence = 1; // TODO(rmoutard) : change value
     }
 
-    oTool = new Cotton.Algo.Tool(psHostname, pfFrequence);
+    oTool = new Cotton.Model.Tool(psHostname, pfFrequence);
     // TODO(rmoutard) : sort insertion
-    this.lTools.push(oTool);
+    this._lTools.push(oTool);
     return true;
   },
 
-  increaseFrequence : function(piIndex) {
-    if (piIndex < this.lTools.length && piIndex >= 0) {
-      this.lTools[piIndex].fFrequence += 1;
+  increaseFrequency : function(piIndex) {
+    if (piIndex < this._lTools.length && piIndex >= 0) {
+      this._lTools[piIndex].increaseFrequency();
       return true;
     } else {
       console.error("you try to modifiy a index out of bounce");
@@ -68,14 +78,16 @@ Cotton.Algo.ToolsContainer = Class.extend({
     if (iIndex === -1) {
       this.insertTool(psHostname);
     } else {
-      this.increaseFrequence(iIndex);
+      this.increaseFrequency(iIndex);
     }
 
   },
 
   favoriteTools : function() {
-    this.lTools.sort(sortToolByFrequence);
-    return this.lTools.slice(0, 20);
+    this._lTools.sort(function(oTool1, oTool2) {
+      return oTool2.frequency() - oTool1.frequency();
+    });
+    return this._lTools.slice(0, 20);
   },
 
 });
