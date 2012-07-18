@@ -227,7 +227,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         });
         self.$().remove();
         // event tracking
-        _gaq.push('_trackEvent', 'Story modification', 'delete']);
+        _gaq.push(['_trackEvent', 'Story modification', 'delete']);
       });
       self._$sticker.append($removeButton);
     } else {
