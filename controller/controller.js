@@ -14,6 +14,9 @@ Cotton.Controller = Class.extend({
   _wDBSCAN1 : null,
   _wDBSCAN2 : null,
 
+  /**
+   * @constructor
+   */
   init : function(){
 
     var self = this;
@@ -135,7 +138,7 @@ Cotton.Controller = Class.extend({
     var self = this;
     self._wDBSCAN2 = new Worker('algo/dbscan1/worker.js');
 
-    self._wDBSCAN2 = addEventListener('message', function(e) {
+    self._wDBSCAN2.addEventListener('message', function(e) {
       console.log("After dbscan2");
       console.log(e.data.lVisitItems);
       console.log(e.data.iNbCluster);
