@@ -89,7 +89,6 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
 
 Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
   // Get all the history items from Chrome DB.
-  var self = this;
   console.debug('PopulateVisitItems - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
@@ -124,7 +123,7 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
           console.debug('PopulateDB - End');
           elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
           console.log('@@Time to PopulateStore : ' + elapsedTime1 + 's');
-          mCallBackFunction.call(self, oStore);
+          mCallBackFunction(oStore);
         }
       });
     }
