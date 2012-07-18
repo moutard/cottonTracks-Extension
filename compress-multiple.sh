@@ -40,6 +40,27 @@ function generateMultipleMinFile {
   # Array of input files
   declare -a INPUT_FILES=("${!1}")
 
+  # Name of the output file
+  OUTPUT_FILE=$2
+  OUTPUT_MIN_FILE=$(echo $OUTPUT_FILE | sed 's/.js/.min.js/')
+
+  INPUT_LIST=""
+  for file in ${INPUT_FILES[@]}
+  do
+    INPUT_LIST="$INPUT_LIST --js $file"
+  done
+
+  $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE
+  echo "$OUTPUT_MIN_FILE has been generated"
+
+}
+
+function generateMultipleMinFileWithExtern {
+  # Use google closure compiler with many files, using --js flag.
+  # 2 Parameters
+  # Array of input files
+  declare -a INPUT_FILES=("${!1}")
+
   # Array of externs file (like library)
   declare -a EXTERNS_FILES=("${!2}")
 
@@ -199,7 +220,8 @@ index_missing_files=( "./db/expand_store.js"
                       )
 
 declare -a index_includes_files
-index_includes_files=(${cotton_input_files[@]}
+index_includes_files=(${index_lib[@]}
+                      ${cotton_input_files[@]}
                       ${config_input_files[@]}
                       ${db_input_files[@]}
                       ${model_input_files[@]}
@@ -207,7 +229,10 @@ index_includes_files=(${cotton_input_files[@]}
                       ${ui_input_files[@]}
                       ${index_missing_files[@]}
                       )
-generateMultipleMinFile index_includes_files[@] index_lib[@] "index.js"
+
+generateMultipleMinFile index_includes_files[@] "index.js"
+
+#generateMultipleMinFileWithExtern index_includes_files[@] index_lib[@] "index.js"
 
 #removePath  array_of_files_name  file
 removePath index_includes_files[@] "index.html"
@@ -229,6 +254,7 @@ background_missing_files=( "./messaging/content_script_listener.js"
 
 declare -a background_includes_files
 background_includes_files=( ${background_lib[@]}
+                            ${background_lib[@]}
                             ${cotton_input_files[@]}
                             ${config_input_files[@]}
                             ${db_input_files[@]}
@@ -237,7 +263,7 @@ background_includes_files=( ${background_lib[@]}
                             ${background_missing_files[@]}
                           )
 
-generateMultipleMinFile background_includes_files[@] background_lib[@] "background.js"
+generateMultipleMinFile background_includes_files[@] "background.js"
 
 removePath background_useless_files[@] "background.html"
 
@@ -277,7 +303,7 @@ worker_missing_files=( "./algo/init.js"
                      )
 
 declare -a worker_includes_files
-worker_includes_files=(
+worker_includes_files=( ${worker_lib[@]}
                         ${cotton_input_files[@]}
                         ${config_input_files[@]}
                         ${worker_missing_files[@]}
@@ -285,7 +311,7 @@ worker_includes_files=(
 
 # Becarefull the order is not the same.
 removePath worker_includes_files[@] "./algo/dbscan1/worker.js"
-generateMultipleMinFile worker_includes_files[@] worker_lib[@] "worker.js"
+generateMultipleMinFile worker_includes_files[@] "worker.js"
 mv "./worker.min.js" "./algo/dbscan1/worker.js"
 
 
