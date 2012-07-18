@@ -29,7 +29,7 @@ echo 'Useless folders have been removed'
 COMPILE_COMMAND="java -jar $GOOGLE_CLOSURE_COMPILER "
 COMPILE_OPTIONS="--language_in=ECMASCRIPT5_STRICT"
 COMPILE_OPTIONS="$COMPILE_OPTIONS --compilation_level ADVANCED_OPTIMIZATIONS"
-COMPILE_OPTIONS="$COMPILE_OPTIONS --jscomp_off=globalThis"
+#COMPILE_OPTIONS="$COMPILE_OPTIONS --jscomp_off=globalThis"
 
 # For each folder concatenates all the file and respects the order.
 # Then compile each file.
@@ -50,54 +50,26 @@ function generateMultipleMinFile {
     INPUT_LIST_CMD="$INPUT_LIST_CMD --js $file"
   done
   $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST_CMD --js_output_file $OUTPUT_MIN_FILE
-
-}
-
-function generateMinFile {
-  # 2 Parameters
-  # Array of input files
-  declare -a INPUT_FILES=("${!1}")
-
-  # Name of the output file
-  OUTPUT_FILE=$2
-  OUTPUT_MIN_FILE=$(echo $OUTPUT_FILE | sed 's/.js/.min.js/')
-
-  echo "'use strict'" > $OUTPUT_FILE
-  for file in ${INPUT_FILES[@]}
-  do
-    #echo "$file"
-    # Remove the first line that correponds to 'use strict'
-    sed -i -e "1d" "$file"
-    cat "$file" >> $OUTPUT_FILE
-    rm "$file"
-  done
-
-  $COMPILE_COMMAND $COMPILE_OPTIONS --js $OUTPUT_FILE --js_output_file $OUTPUT_MIN_FILE
-  rm $OUTPUT_FILE
   echo "$OUTPUT_MIN_FILE has been generated"
 
 }
 
-echo "-------- Start compilation --------"
 # COTTON
+# A Set of vectors that corresponds to a grouped by category.
+
 cotton_input_files=("./init.js")
 
 # CONFIG
-config_input_files=("./config/init.js" "./config/config.js")
+config_input_files=("./config/init.js"
+                    "./config/config.js")
 config_output_file="config.js"
 
-#generateMultipleMinFile config_input_files[@] $config_output_file
-
 # DB
-
 db_input_files=(  "./db/init.js"
                   "./db/engine.js"
                   "./db/translator.js"
                   "./db/store.js")
 db_output_file="db.js"
-
-#generateMultipleMinFile db_input_files[@] $db_output_file
-
 
 # MODEL
 model_input_files=( "./model/init.js"
@@ -108,15 +80,11 @@ model_input_files=( "./model/init.js"
                     "./model/tools_container.js")
 model_output_file="model.js"
 
-#generateMultipleMinFile model_input_files[@] $model_output_file
-
 # TRANSLATORS
 translators_input_files=( "./translators/init.js"
                           "./translators/story_translators.js"
                           "./translators/visit_item_translators.js")
 translators_output_file="translators.js"
-
-#generateMultipleMinFile translators_input_files[@] $translators_output_file
 
 # UI
 ui_input_files=(  "./ui/init.js"
@@ -142,10 +110,7 @@ ui_input_files=(  "./ui/init.js"
                   "./ui/story/item.js"
                   "./ui/story/mystoryline.js"
                   "./ui/loading.js")
-
 ui_output_file="ui.js"
-
-#generateMultipleMinFile ui_input_files[@] $ui_output_file
 
 # BEHAVIOR
 behavior_input_files=( "./behavior/init.js"
@@ -157,8 +122,9 @@ behavior_input_files=( "./behavior/init.js"
                        "./behavior/active/reading_rater.js"
                        "./behavior/active/reading_rater/score.js"
                        )
+behavior_output_file="behavior.js"
 
-# -- UPDATE PATH --------------------------------------------------------------
+# -- COMPILE & UPDATE PATH ----------------------------------------------------
 
 function removePath {
   # 2 Parameters
@@ -200,8 +166,10 @@ function addPath {
 }
 
 echo "--------- Start update path --------"
-# INDEX.HTML
-
+# -- INDEX.HTML ---------------------------------------------------------------
+# Indicate here all the files you need to include in index.html. You can use
+# predifine set of vector, and complete it with missing_files vector.
+# files that are not in predifined vector set.
 index_missing_files=( "./db/expand_store.js"
                       "./db/populate_db.js"
                       "./algo/init.js"
@@ -210,8 +178,8 @@ index_missing_files=( "./db/expand_store.js"
                       "./controller/controller.js"
                       )
 
-declare -a index_useless_files
-index_useless_files=( ${cotton_input_files[@]}
+declare -a index_includes_files
+index_includes_files=( ${cotton_input_files[@]}
                       ${config_input_files[@]}
                       ${db_input_files[@]}
                       ${model_input_files[@]}
@@ -219,20 +187,20 @@ index_useless_files=( ${cotton_input_files[@]}
                       ${ui_input_files[@]}
                       ${index_missing_files[@]}
                       )
-generateMultipleMinFile index_useless_files[@] "index.js"
+generateMultipleMinFile index_includes_files[@] "index.js"
 
 #removePath  array_of_files_name  file
-removePath index_useless_files[@] "index.html"
+removePath index_include_files[@] "index.html"
 
 #addPath file_to_add   after_this_tag  in_the_file
 addPath "index.min.js" "Cotton.db" "index.html"
 
-# BACKGROUNG.HTML
+# -- BACKGROUNG.HTML ----------------------------------------------------------
 background_missing_files=( "./messaging/content_script_listener.js"
                          )
 
-declare -a background_useless_files
-background_useless_files=( ${cotton_input_files[@]}
+declare -a background_includes_files
+background_includes_files=( ${cotton_input_files[@]}
                            ${config_input_files[@]}
                            ${db_input_files[@]}
                            ${model_input_files[@]}
@@ -240,13 +208,13 @@ background_useless_files=( ${cotton_input_files[@]}
                            ${background_missing_files[@]}
                       )
 
-generateMultipleMinFile background_useless_files[@] "background.js"
+generateMultipleMinFile background_includes_files[@] "background.js"
 
 removePath background_useless_files[@] "background.html"
 
 addPath "background.min.js" "Cotton.db" "background.html"
 
-# WORKER.JS
+# -- WORKER.JS ----------------------------------------------------------------
 function addWorkerPath {
   # 2 Parameters
   # Array of input files
@@ -266,30 +234,36 @@ function addWorkerPath {
 
 }
 
+worker_missing_files=( "./algo/init.js"
+                       "./algo/dbscan1/init.js"
+                       "./algo/dbscan1/pre_treatment.js"
+                       "./algo/dbscan1/distance.js"
+                       "./algo/dbscan1/dbscan.js"
+                       "./algo/dbscan1/worker.js"
+                     )
 
-declare -a worker_useless_files
-worker_useless_files=( ${cotton_input_files[@]}
-                       ${config_input_files[@]})
+declare -a worker_includes_files
+worker_includes_files=( ${cotton_input_files[@]}
+                        ${config_input_files[@]}
+                        ${worker_missing_files[@]}
+                       )
+
+# Becarefull the order is not the same.
+removePath worker_includes_files[@] "./algo/dbscan1/worker.js"
+generateMultipleMinFile worker_includes_files[@] "worker.js"
+mv "./worker.min.js" "./algo/dbscan1/worker.js"
 
 
-removePath worker_useless_files[@] "./algo/dbscan1/worker.js"
-
-
-addWorkerPath "config.min.js" "Cotton.config" "./algo/dbscan1/worker.js"
-
-# MANIFEST
+# -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
-declare -a content_script_useless_files
-content_script_useless_files=( ${cotton_input_files[@]}
-                               ${behavior_input_files[@]}
-                               ${model_input_files[@]}
-                             )
-generateMultipleMinFile content_script_useless_files[@] "content_script.js"
+declare -a content_script_includes_files
+content_script_includes_files=( ${cotton_input_files[@]}
+                                ${model_input_files[@]}
+                                ${behavior_input_files[@]}
+                              )
+generateMultipleMinFile content_script_includes_files[@] "content_script.js"
 
-removePath manifest_useless_files[@] "./manifest.json"
-
+sed -i "17,23d" "./manifest.json"
 sed -i -e "16 a\
-  \"content_script.min.js\",
+  \"content_script.min.js\"
   " "./manifest.json"
-
-
