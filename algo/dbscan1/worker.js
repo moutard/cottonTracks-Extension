@@ -18,10 +18,11 @@ importScripts('../../config/init.js');
 importScripts('../../config/config.js');
 
 // Cotton.algo.
-importScripts('init.js');
-importScripts('pre_treatment.js');
-importScripts('distance.js');
-importScripts('dbscan.js');
+importScripts('../../algo/init.js');
+importScripts('../../algo/dbscan1/init.js');
+importScripts('../../algo/dbscan1/pre_treatment.js');
+importScripts('../../algo/dbscan1/distance.js');
+importScripts('../../algo/dbscan1/dbscan.js');
 
 function handleVisitItems(lVisitItems) {
   /**
