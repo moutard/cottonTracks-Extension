@@ -20,7 +20,7 @@ function handleResultsOfFirstDBSCAN(iNbCluster, lVisitItems) {
 
 // WORKER
 // DBSCAN is lauched in a worker used as multithread.
-var wDBSCAN = new Worker('algo/worker.js');
+var wDBSCAN = new Worker('algo/dbscan1/worker.js');
 
 wDBSCAN.addEventListener('message', function(e) {
   // Is called when a message is sent by the worker.
@@ -36,20 +36,20 @@ wDBSCAN.addEventListener('message', function(e) {
  * // START if (localStorage) { // Check if broswer support localStorage //
  * ct-dev-env is used to dev purpose. Remove this line for user version.
  * localStorage['ct-dev-env'] = true;
- * 
+ *
  * if (localStorage['CottonFirstOpening'] === undefined ||
  * localStorage['CottonFirstOpening'] === "true") { // This is the first visit. //
  * CT-DEV-ENV if (localStorage['ct-dev-env'] === true) { // In ct-dev-en delete
  * the database. var oDeleteRequest =
  * window.webkitIndexedDB.deleteDatabase('ct');
- * 
+ *
  * oDeleteRequest.onsuccess = function(event) { // After deleting database
  * create a new one. Cotton.DB.populateDB(function() { var oStore = new
  * Cotton.DB.Store('ct', { 'visitItems' :
  * Cotton.Translators.VISIT_ITEM_TRANSLATORS }, function() {
  * oStore.getList('visitItems', function(lAllVisitItems) {
  * wDBSCAN.postMessage(lAllVisitItems); }); }); }); };
- * 
+ *
  * oDeleteRequest.onerror = function(event) { // TODO(rmoutard) : write error
  * function. }; } } else { // This is not the first visit. // DBSCAN2.
  * Cotton.DBSCAN2.startDbscanUser(); } } else { console.log("Browser doesn't
