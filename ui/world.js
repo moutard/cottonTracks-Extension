@@ -1,9 +1,12 @@
 'use strict';
 
-// World class representing the whole interface.
+/**
+ * World class representing the whole interface.
+ * @constructor
+ */
 Cotton.UI.World = function() {
   var self = this;
-  var oStickyBar = this._oStickyBar = new Cotton.UI.StickyBar.Bar();
+  var oStickyBar = self._oStickyBar = new Cotton.UI.StickyBar.Bar();
   var object = {};
 
   oStickyBar.on('ready', function() {
@@ -35,6 +38,9 @@ Cotton.UI.World.COMMUNICATOR = {};
 _.extend(Cotton.UI.World.COMMUNICATOR, Backbone.Events);
 
 $.extend(Cotton.UI.World.prototype, {
+  /**
+   * @this {World}
+   */
   update : function() {
     console.log('world update');
     var self = this;
