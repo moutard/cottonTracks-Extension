@@ -11,7 +11,6 @@
 Cotton.DB.Stories = {};
 
 Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
-  var self = this;
   console.debug("DB - add stories");
   var iLength = lStories.length - 1;
   var iCount = 0;
@@ -20,13 +19,13 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
     oStore.put('stories', oStory, function(iId) {
       iCount +=1;
       if(iCount === iLength){
-        mCallBackFunction.call(self, oStore);
+        mCallBackFunction(oStore);
       }
     });
   }
 };
 
-Cotton.DB.Stories.getRange = function(iX, iY, mCallBack) {
+Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
   new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
   }, function() {
@@ -48,7 +47,7 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBack) {
             if (count == (lStoriesTemp.length - 1)) {
               console.log('forFwouts');
               console.log(lStoriesTemp);
-              mCallBack(lStoriesTemp);
+              mCallBackFunction(lStoriesTemp);
             }
             count++;
           });
@@ -59,7 +58,7 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBack) {
 };
 
 
-Cotton.DB.Stories.getXStories = function(iX, mCallBack){
+Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction){
   new Cotton.DB.Store('ct',
       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
       function() {
@@ -81,7 +80,7 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBack){
                        if(count == (lStoriesTemp.length - 1)){
                          console.log('forFwouts');
                          console.log(lStoriesTemp);
-                         mCallBack(lStoriesTemp);
+                         mCallBackFunction(lStoriesTemp);
                        }
                        count++;
                  });
