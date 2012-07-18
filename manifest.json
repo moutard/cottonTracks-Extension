@@ -1,10 +1,11 @@
 {
+  "manifest_version": 2,
   "name": "cottonTracks",
   "version": "0.0.1",
   "update_url": "http://www.cottontracks.com/application/autoupdate.xml",
   "description": "cottonTracks lets you remember easily the best of what you browse",
   "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management"],
-  "background_page": "background.html",
+  "background": "background.html",
   "chrome_url_overrides" : {
     "newtab": "index.html"
   },
