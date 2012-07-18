@@ -29,8 +29,8 @@ echo 'Useless folders have been removed'
 COMPILE_COMMAND="java -jar $GOOGLE_CLOSURE_COMPILER "
 COMPILE_OPTIONS="--language_in=ECMASCRIPT5_STRICT"
 COMPILE_OPTIONS="$COMPILE_OPTIONS --compilation_level ADVANCED_OPTIMIZATIONS"
-#COMPILE_OPTIONS="$COMPILE_OPTIONS --jscomp_off=globalThis"
-
+COMPILE_OPTIONS="$COMPILE_OPTIONS --jscomp_off=globalThis"
+COMPILE_OPTIONS="$COMPILE_OPTIONS --warning_level DEFAULT"
 # For each folder concatenates all the file and respects the order.
 # Then compile each file.
 
@@ -40,16 +40,27 @@ function generateMultipleMinFile {
   # Array of input files
   declare -a INPUT_FILES=("${!1}")
 
+  # Array of externs file (like library)
+  declare -a EXTERNS_FILES=("${!2}")
+
   # Name of the output file
-  OUTPUT_FILE=$2
+  OUTPUT_FILE=$3
   OUTPUT_MIN_FILE=$(echo $OUTPUT_FILE | sed 's/.js/.min.js/')
 
-  INPUT_LIST_CMD=""
+  INPUT_LIST=""
   for file in ${INPUT_FILES[@]}
   do
-    INPUT_LIST_CMD="$INPUT_LIST_CMD --js $file"
+    INPUT_LIST="$INPUT_LIST --js $file"
   done
-  $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST_CMD --js_output_file $OUTPUT_MIN_FILE
+
+  EXTERNS_LIST=""
+  for file in ${EXTERNS_FILES[@]}
+  do
+    EXTERNS_LIST="$EXTERNS_LIST --externs $file"
+  done
+
+
+  $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST $EXTERNS_LIST_CMD --js_output_file $OUTPUT_MIN_FILE
   echo "$OUTPUT_MIN_FILE has been generated"
 
 }
@@ -170,6 +181,15 @@ echo "--------- Start update path --------"
 # Indicate here all the files you need to include in index.html. You can use
 # predifine set of vector, and complete it with missing_files vector.
 # files that are not in predifined vector set.
+declare -a index_lib
+index_lib=( "./lib/class.js"
+            "./lib/jquery.min.js"
+            "./lib/underscore.min.js"
+            "./lib/backbone.min.js"
+            "./lib/date.format.js"
+            "./lib/parse_url.js")
+
+
 index_missing_files=( "./db/expand_store.js"
                       "./db/populate_db.js"
                       "./algo/init.js"
@@ -179,7 +199,7 @@ index_missing_files=( "./db/expand_store.js"
                       )
 
 declare -a index_includes_files
-index_includes_files=( ${cotton_input_files[@]}
+index_includes_files=(${cotton_input_files[@]}
                       ${config_input_files[@]}
                       ${db_input_files[@]}
                       ${model_input_files[@]}
@@ -187,32 +207,41 @@ index_includes_files=( ${cotton_input_files[@]}
                       ${ui_input_files[@]}
                       ${index_missing_files[@]}
                       )
-generateMultipleMinFile index_includes_files[@] "index.js"
+generateMultipleMinFile index_includes_files[@] index_lib[@] "index.js"
 
 #removePath  array_of_files_name  file
-removePath index_include_files[@] "index.html"
+removePath index_includes_files[@] "index.html"
 
 #addPath file_to_add   after_this_tag  in_the_file
-addPath "index.min.js" "Cotton.db" "index.html"
+addPath "index.min.js" "Cotton.config" "index.html"
 
 # -- BACKGROUNG.HTML ----------------------------------------------------------
+declare -a background_lib
+background_lib=( "./lib/class.js"
+                 "./lib/jquery.min.js"
+                 "./lib/underscore.min.js"
+                 "./lib/backbone.min.js"
+                 "./lib/date.format.js"
+                 "./lib/parse_url.js")
+
 background_missing_files=( "./messaging/content_script_listener.js"
                          )
 
 declare -a background_includes_files
-background_includes_files=( ${cotton_input_files[@]}
-                           ${config_input_files[@]}
-                           ${db_input_files[@]}
-                           ${model_input_files[@]}
-                           ${translators_input_files[@]}
-                           ${background_missing_files[@]}
-                      )
+background_includes_files=( ${background_lib[@]}
+                            ${cotton_input_files[@]}
+                            ${config_input_files[@]}
+                            ${db_input_files[@]}
+                            ${model_input_files[@]}
+                            ${translators_input_files[@]}
+                            ${background_missing_files[@]}
+                          )
 
-generateMultipleMinFile background_includes_files[@] "background.js"
+generateMultipleMinFile background_includes_files[@] background_lib[@] "background.js"
 
 removePath background_useless_files[@] "background.html"
 
-addPath "background.min.js" "Cotton.db" "background.html"
+addPath "background.min.js" "Cotton.config" "background.html"
 
 # -- WORKER.JS ----------------------------------------------------------------
 function addWorkerPath {
@@ -234,6 +263,11 @@ function addWorkerPath {
 
 }
 
+declare -a worker_lib
+worker_lib=( "./lib/class.js"
+             "./lib/underscore.min.js"
+             "./lib/parse_url.js")
+
 worker_missing_files=( "./algo/init.js"
                        "./algo/dbscan1/init.js"
                        "./algo/dbscan1/pre_treatment.js"
@@ -243,27 +277,37 @@ worker_missing_files=( "./algo/init.js"
                      )
 
 declare -a worker_includes_files
-worker_includes_files=( ${cotton_input_files[@]}
+worker_includes_files=(
+                        ${cotton_input_files[@]}
                         ${config_input_files[@]}
                         ${worker_missing_files[@]}
                        )
 
 # Becarefull the order is not the same.
 removePath worker_includes_files[@] "./algo/dbscan1/worker.js"
-generateMultipleMinFile worker_includes_files[@] "worker.js"
+generateMultipleMinFile worker_includes_files[@] worker_lib[@] "worker.js"
 mv "./worker.min.js" "./algo/dbscan1/worker.js"
 
 
 # -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
+declare -a manifest_lib
+manifest_lib=( "./lib/class.js"
+               "./lib/jquery.min.js"
+               "./lib/jquery.livequery.js"
+               "./lib/underscore.min.js"
+               "./lib/parse_url.js")
+
 declare -a content_script_includes_files
 content_script_includes_files=( ${cotton_input_files[@]}
                                 ${model_input_files[@]}
                                 ${behavior_input_files[@]}
                               )
-generateMultipleMinFile content_script_includes_files[@] "content_script.js"
+generateMultipleMinFile content_script_includes_files[@] manifest_lib[@] "content_script.js"
 
 sed -i "17,23d" "./manifest.json"
 sed -i -e "16 a\
   \"content_script.min.js\"
   " "./manifest.json"
+
+# -- CLEAR --------------------------------------------------------------------
