@@ -40,7 +40,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
   chrome.history.search({
     text : '',
     startTime : 0,
-    maxResults : Cotton.Config.Parameters.iMaxResult,
+    "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
     console.debug('PopulateDB - chrome history search has returned '
         + lHistoryItems.length + ' items');
@@ -96,7 +96,7 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
   chrome.history.search({
     text : '',
     startTime : 0,
-    maxResults : Cotton.Config.Parameters.iMaxResult,
+    "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
     console.debug('PopulateVisitItems - chrome history search has returned '
         + lHistoryItems.length + ' items');
