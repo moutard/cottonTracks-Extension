@@ -50,7 +50,8 @@ function generateMultipleMinFile {
     INPUT_LIST="$INPUT_LIST --js $file"
   done
 
-  $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE
+  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js"
+  $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE $EXTERNS
   echo "$OUTPUT_MIN_FILE has been generated"
 
 }
@@ -138,7 +139,7 @@ ui_input_files=(  "./ui/init.js"
                   "./ui/story/default_item.js"
                   "./ui/story/image_item.js"
                   "./ui/story/video_item.js"
-                  "./ui.story/map_item.js"
+                  "./ui/story/map_item.js"
                   "./ui/story/item.js"
                   "./ui/story/mystoryline.js"
                   "./ui/loading.js")
@@ -203,11 +204,7 @@ echo "--------- Start update path --------"
 # predifine set of vector, and complete it with missing_files vector.
 # files that are not in predifined vector set.
 declare -a index_lib
-index_lib=( "./lib/class.js"
-            "./lib/jquery.min.js"
-            "./lib/underscore.min.js"
-            "./lib/backbone.min.js"
-            "./lib/date.format.js"
+index_lib=( "./lib/date.format.js"
             "./lib/parse_url.js")
 
 
@@ -220,7 +217,7 @@ index_missing_files=( "./db/expand_store.js"
                       )
 
 declare -a index_includes_files
-index_includes_files=(${index_lib[@]}
+index_includes_files=(
                       ${cotton_input_files[@]}
                       ${config_input_files[@]}
                       ${db_input_files[@]}
@@ -242,11 +239,7 @@ addPath "index.min.js" "Cotton.config" "index.html"
 
 # -- BACKGROUNG.HTML ----------------------------------------------------------
 declare -a background_lib
-background_lib=( "./lib/class.js"
-                 "./lib/jquery.min.js"
-                 "./lib/underscore.min.js"
-                 "./lib/backbone.min.js"
-                 "./lib/date.format.js"
+background_lib=( "./lib/date.format.js"
                  "./lib/parse_url.js")
 
 background_missing_files=( "./messaging/content_script_listener.js"
@@ -254,7 +247,6 @@ background_missing_files=( "./messaging/content_script_listener.js"
 
 declare -a background_includes_files
 background_includes_files=( ${background_lib[@]}
-                            ${background_lib[@]}
                             ${cotton_input_files[@]}
                             ${config_input_files[@]}
                             ${db_input_files[@]}
@@ -290,9 +282,7 @@ function addWorkerPath {
 }
 
 declare -a worker_lib
-worker_lib=( "./lib/class.js"
-             "./lib/underscore.min.js"
-             "./lib/parse_url.js")
+worker_lib=( "./lib/parse_url.js")
 
 worker_missing_files=( "./algo/init.js"
                        "./algo/dbscan1/init.js"
@@ -318,21 +308,18 @@ mv "./worker.min.js" "./algo/dbscan1/worker.js"
 # -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
 declare -a manifest_lib
-manifest_lib=( "./lib/class.js"
-               "./lib/jquery.min.js"
-               "./lib/jquery.livequery.js"
-               "./lib/underscore.min.js"
-               "./lib/parse_url.js")
+manifest_lib=( "./lib/parse_url.js")
 
 declare -a content_script_includes_files
-content_script_includes_files=( ${cotton_input_files[@]}
+content_script_includes_files=( ${manifest_lib[@]}
+                                ${cotton_input_files[@]}
                                 ${model_input_files[@]}
                                 ${behavior_input_files[@]}
                               )
-generateMultipleMinFile content_script_includes_files[@] manifest_lib[@] "content_script.js"
+generateMultipleMinFile content_script_includes_files[@] "content_script.js"
 
-sed -i "17,23d" "./manifest.json"
-sed -i -e "16 a\
+sed -i "22,28d" "./manifest.json"
+sed -i -e "21 a\
   \"content_script.min.js\"
   " "./manifest.json"
 
