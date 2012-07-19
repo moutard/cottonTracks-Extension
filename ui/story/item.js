@@ -6,20 +6,23 @@ Cotton.UI.Story.ItemFactory = function(oVisitItem) {
   oUrl.fineDecomposition();
   // Detect if it's an image.
   var reg = new RegExp(".(jpg|png|gif)$", "g");
-  var sLastString = oUrl.pathname.split('/')[oUrl.pathname.split('/').length-1];
+  var sLastStringFromPathname = oUrl.pathname.split('/')[oUrl.pathname.split('/').length-1];
+  var sLastStringFromHyphen = sLastStringFromPathname.split('-')[sLastStringFromPathname.split('-')]
 
   if (reg.exec(oVisitItem.url())) {
     return new Cotton.UI.Story.ImageItem(oVisitItem);
   } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
     return new Cotton.UI.Story.VideoItem(oVisitItem, "youtube", oUrl.dSearch['v']);
   } else if (oUrl.host === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
-  	return new Cotton.UI.Story.VideoItem(oVisitItem, "vimeo", sLastString);
+  	return new Cotton.UI.Story.VideoItem(oVisitItem, "vimeo", sLastStringFromPathname);
   } else if (oUrl.host === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
   	return new Cotton.UI.Story.VideoItem(oVisitItem, "dailymotion", oUrl.pathname.split('/')[2]);  	
   } else if (oUrl.host ==="www.dailymotion.com" && oUrl.dHash['video']) {
   	return new Cotton.UI.Story.VideoItem(oVisitItem, "dailymotion", oUrl.dHash['video']);
   } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps"){
     return new Cotton.UI.Story.MapItem(oVisitItem, oUrl);	
+  } else if(oUrl.host === "www.slideshare.net" && oUrl.pathname.match(/(\-[0-9]+)$/)) {
+  	return new Cotton.UI.Story.SlideshowItem(oVisitItem, sLastStringFromHyphen);
   } else {
     return new Cotton.UI.Story.DefaultItem(oVisitItem);
   }
