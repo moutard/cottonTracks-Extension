@@ -16,7 +16,7 @@ Cotton.DB.Populate = {};
  */
 Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
   console.debug('New PreRemoveTools - Start');
-  var oToolsContainer = new Cotton.Algo.ToolsContainer();
+  var oToolsContainer = new Cotton.Model.ToolsContainer();
 
   return _.filter(lVisitItems, function(dVisitItem) {
     var oUrl = new parseUrl(dVisitItem.url);
