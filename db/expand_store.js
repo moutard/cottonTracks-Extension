@@ -17,10 +17,10 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
   for(var i = 0; i < lStories.length; i++){
     var oStory = lStories[lStories.length - 1 - i];
     oStore.put('stories', oStory, function(iId) {
-      iCount +=1;
       if(iCount === iLength){
         mCallBackFunction(oStore);
       }
+      iCount +=1;
     });
   }
 };
