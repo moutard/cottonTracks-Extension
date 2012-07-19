@@ -16,7 +16,8 @@
                    "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*"
                  ],
       "css": [],
-      "js": [ "lib/class.js", "lib/jquery.min.js",
+      "js": [
+              "lib/class.js", "lib/jquery.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parse_url.js",
               "init.js",
               "model/init.js","model/extracted_dna.js", "model/visit_item.js",
