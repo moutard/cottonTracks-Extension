@@ -8,13 +8,13 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
   var mObjectToDbRecordConverter = function(oVisitItem) {
 
     var dDbRecord = {
-      sUrl : oVisitItem.url(),
-      sTitle : oVisitItem.title(),
-      iVisitTime : oVisitItem.visitTime(),
-      sStoryId : oVisitItem.storyId(),
-      lQueryWords : oVisitItem.queryWords(),
-      lExtractedWords : oVisitItem.extractedWords(),
-      oExtractedDNA : {
+      'sUrl' : oVisitItem.url(),
+      'sTitle' : oVisitItem.title(),
+      'iVisitTime' : oVisitItem.visitTime(),
+      'sStoryId' : oVisitItem.storyId(),
+      'lQueryWords' : oVisitItem.queryWords(),
+      'lExtractedWords' : oVisitItem.extractedWords(),
+      'oExtractedDNA' : {
         'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
         'lScores' : oVisitItem._oExtractedDNA._lScores,
         'sImageUrl' : oVisitItem._oExtractedDNA._sImageUrl,
@@ -69,20 +69,20 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
   };
 
   var dIndexes = {
-    id : {
-      unique : true
+    'id' : {
+      'unique' : true
     },
-    sUrl : {
-      unique : false
+    'sUrl' : {
+      'unique' : false
     },
     // sChromeId : {
     // unique : true
     // },
-    iVisitTime : {
-      unique : false
+    'iVisitTime' : {
+      'unique' : false
     },
-    sStoryId : {
-      unique : false
+    'sStoryId' : {
+      'unique' : false
     }
   };
 

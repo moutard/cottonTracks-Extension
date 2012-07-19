@@ -11,14 +11,14 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       // id : id is auto-incremented. Becareful do not confuse with
       // clusterId, that is a temporary id attribute by DBSCAN to a new
       // story.
-      lVisitItemsId : oStory.visitItemsId(),
-      fLastVisitTime : oStory.lastVisitTime(),
-      fRelevance : oStory.relevance(),
-      sTitle : oStory.title(),
+      'lVisitItemsId' : oStory.visitItemsId(),
+      'fLastVisitTime' : oStory.lastVisitTime(),
+      'fRelevance' : oStory.relevance(),
+      'sTitle' : oStory.title(),
     };
     var iId = oStory.id() || null;
     if (iId) {
-      dDbRecord.id = iId;
+      dDbRecord['id'] = iId;
     }
     return dDbRecord;
   };
@@ -50,11 +50,11 @@ Cotton.Translators.STORY_TRANSLATORS = [];
    */
   var dIndexes = {
     // TODO(fwouts) : id should be index automatically !
-    id : {
-      unique : true
+    'id' : {
+      'unique' : true
     },
-    fLastVisitTime : {
-      unique : false
+    'fLastVisitTime' : {
+      'unique' : false
     },
   };
 
