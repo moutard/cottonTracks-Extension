@@ -26,17 +26,18 @@ Cotton.Translators.STORY_TRANSLATORS = [];
   var mDbRecordToObjectConverter = function(oDbRecord) {
 
     var oStory = new Cotton.Model.Story();
-    oStory.setId(oDbRecord.id);
+    oStory.setId(oDbRecord['id']);
 
-    if (oDbRecord.fLastVisitTime !== undefined) {
-      oStory.setLastVisitTime(oDbRecord.fLastVisitTime);
+    if (oDbRecord['fLastVisitTime'] !== undefined) {
+      oStory.setLastVisitTime(oDbRecord['fLastVisitTime']);
     }
-    if (oDbRecord.fRelevance !== undefined) {
-      oStory.setRelevance(oDbRecord.fRelevance);
+    if (oDbRecord['fRelevance'] !== undefined) {
+      oStory.setRelevance(oDbRecord['fRelevance']);
     }
-    oStory.setTitle(oDbRecord.sTitle);
-    if (oDbRecord.lVisitItemsId !== undefined) {
-      for ( var i = 0, iVisitItemId; iVisitItemId = oDbRecord.lVisitItemsId[i]; i++) {
+    oStory.setTitle(oDbRecord['sTitle']);
+    if (oDbRecord['lVisitItemsId'] !== undefined) {
+      for ( var i = 0, iVisitItemId;
+          iVisitItemId = oDbRecord['lVisitItemsId'][i]; i++) {
         oStory.addVisitItemId(iVisitItemId);
       }
     }
