@@ -310,7 +310,6 @@ Cotton.DB.Store = Class.extend({
 
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    console.debug(dDbRecord);
     this._oEngine.put(sObjectStoreName, dDbRecord, function(iId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, iId);
