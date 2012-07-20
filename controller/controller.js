@@ -108,15 +108,15 @@ Cotton.Controller = Class.extend({
       Cotton.UI.openCurtain();
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
-      console.log('wDBSCAN - Worker ends: ', e.data.iNbCluster);
+      console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
 
       // Update the visitItems with extractedWords and queryWords.
-      for ( var i = 0; i < e.data.lVisitItems.length; i++) {
+      for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
         //var oVisitItem = new Cotton.Model.VisitItem();
         //oVisitItem.deserialize(e.data.lVisitItems[i]);
         var oTranslator = self._oStore._translatorForDbRecord('visitItems',
-                                                      e.data.lVisitItems[i]);
-        var oVisitItem = oTranslator.dbRecordToObject(e.data.lVisitItems[i]);
+                                                      e.data['lVisitItems'][i]);
+        var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
 
 
         self._oStore.put('visitItems', oVisitItem, function() {
@@ -124,7 +124,8 @@ Cotton.Controller = Class.extend({
         });
       }
 
-      var dStories = Cotton.Algo.clusterStory(e.data.lVisitItems, e.data.iNbCluster);
+      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+                                              e.data['iNbCluster']);
       // Add stories
       //var lStories = dStories['stories'].reverse();
       console.log(dStories);

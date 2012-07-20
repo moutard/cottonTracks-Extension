@@ -3,7 +3,7 @@
 Cotton.Algo.initSetOfPoints = function(lSetOfPoints) {
   // Mark all the point as UNCLASSIFIED
   for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
-    lSetOfPoints[iLoop].clusterId = 'UNCLASSIFIED';
+    lSetOfPoints[iLoop]['clusterId'] = 'UNCLASSIFIED';
   }
 };
 
@@ -32,14 +32,14 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
   if (lSeeds.length <= iMinPts) {
     // the fEps-Neighborhood is not wide enough to create a cluster
 
-    oPoint.clusterId = 'NOISE';
+    oPoint['clusterId'] = 'NOISE';
     return false;
   } else {
     // all the points in the fEps-Neighborhood are density reachable from oPoint
 
     // Update the clusterId of all the points in the fEps-Neighborhood
     for ( var iSeedPoint = 0; iSeedPoint < lSeeds.length; iSeedPoint++) {
-      lSeeds[iSeedPoint].clusterId = iClusterId;
+      lSeeds[iSeedPoint]['clusterId'] = iClusterId;
     }
 
     // remove oPoint
@@ -60,17 +60,17 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
         for ( var iResultIndex = 0; iResultIndex < lResult.length; iResultIndex++) {
 
           var oCurrentResultPoint = lResult[iResultIndex];
-          if (oCurrentResultPoint.clusterId === 'UNCLASSIFIED'
-              || oCurrentResultPoint.clusterId === 'NOISE') {
+          if (oCurrentResultPoint['clusterId'] === 'UNCLASSIFIED'
+              || oCurrentResultPoint['clusterId'] === 'NOISE') {
               // if NOISE then we were wrong now the point is in the cluster
               // if UNCLASSIFIED the point is in the cluster and ...
-            if (oCurrentResultPoint.clusterID === 'UNCLASSIFIED') {
+            if (oCurrentResultPoint['clusterId'] === 'UNCLASSIFIED') {
               // ...we had it in the seeds to check its fEps-Neighborhood
               lSeeds.push(oCurrentResultPoint);
             }
 
             // SetOfPoints.changeClId(resultP,ClId);
-            lResult[iResultIndex].clusterId = iClusterId;
+            lResult[iResultIndex]['clusterId'] = iClusterId;
 
           }
         }
@@ -93,7 +93,7 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
   for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
     oPoint = lSetOfPoints[iLoop];
 
-    if (oPoint.clusterId === 'UNCLASSIFIED') {
+    if (oPoint['clusterId'] === 'UNCLASSIFIED') {
       if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
         iClusterId++;
 
