@@ -56,6 +56,9 @@ Cotton.Model.VisitItem = Class
       id : function() {
         return this._sId;
       },
+      initId : function(sId) {
+        if(this._sId === undefined){this._sId = sId;}
+      },
       chromeId : function() {
         return this._sChromeId;
       },
@@ -68,16 +71,24 @@ Cotton.Model.VisitItem = Class
       url : function() {
         return this._sUrl;
       },
+      initUrl : function(sUrl) {
+        if(!this._sUrl){this._sUrl = sUrl;}
+      },
       referrerUrl : function() {
         return this._sReferrerUrl;
       },
       title : function() {
         return this._sTitle;
       },
+      setTitle : function(sTitle){
+        this._sTitle = sTitle;
+      },
       visitTime : function() {
         return this._iVisitTime;
       },
-
+      setVisitTime : function(iVisitTime){
+        this._iVisitTime = iVisitTime;
+      },
       //
       storyId : function() {
         return this._sStoryId;
@@ -119,6 +130,10 @@ Cotton.Model.VisitItem = Class
       extractedDNA : function() {
         return this._oExtractedDNA;
       },
+      setExtractedDNA : function(oExtractedDNA) {
+        this._oExtractedDNA = oExtractedDNA;
+      },
+
       // method
       getInfoFromPage : function() {
         this._sUrl = window.location.href;
@@ -171,5 +186,11 @@ Cotton.Model.VisitItem = Class
         this._oExtractedDNA._iPercent = dVisitItemSerialized._oExtractedDNA._iPercent || 0;
         this._oExtractedDNA._fPageScore = dVisitItemSerialized._oExtractedDNA._fPageScore;
         this._oExtractedDNA._sFirstParagraph = dVisitItemSerialized._oExtractedDNA._sFirstParagraph;
+      },
+      auto_deserialize : function(dDict){
+        var lKeys = _.keys(dDict);
+        for(var i = 0, key; key = lKeys[i]; i++){
+          this[key] = dDict[key];
+        }
       },
     });

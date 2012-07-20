@@ -39,7 +39,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     }, function(response) {
       console.log(response);
       self._iId = response.id;
-      self._oCurrentVisitItem._sId = response.id;
+      self._oCurrentVisitItem.initId(response.id);
       console.log("dbSync create visit");
       console.log(self._oCurrentVisitItem);
     });
