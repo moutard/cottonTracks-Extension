@@ -7,6 +7,8 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   /**
    * Rq:can't put this directly on the worker because the return is serialized.
    */
+  console.debug(lVisitItems);
+  console.debug(iNbCluster);
   var lStories = new Array();
   var oStoryUnderConstruction = new Cotton.Model.Story();
 
