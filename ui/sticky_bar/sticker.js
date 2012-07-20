@@ -97,10 +97,14 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     $sticker.hover(function() {
       // In
-      self.openSumUp();
+      if (Cotton.Config.Parameters.bDevMode == true){
+        self.openSumUp();
+      }
     }, function() {
       // Out
-      self.closeSumUp();
+      if (Cotton.Config.Parameters.bDevMode == true){
+        self.closeSumUp();
+      }  
     });
 
     $sticker.click(function() {
