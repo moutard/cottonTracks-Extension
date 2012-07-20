@@ -15,12 +15,12 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'lQueryWords' : oVisitItem.queryWords(),
       'lExtractedWords' : oVisitItem.extractedWords(),
       'oExtractedDNA' : {
-        'lHighlightedText' : oVisitItem._oExtractedDNA._lHighlightedText,
-        'lScores' : oVisitItem._oExtractedDNA._lScores,
-        'sImageUrl' : oVisitItem._oExtractedDNA._sImageUrl,
-        'sFirstParagraph' : oVisitItem._oExtractedDNA._sFirstParagraph,
-        'iPercent' : oVisitItem._oExtractedDNA._iPercent,
-        'fPageScore' : oVisitItem._oExtractedDNA._fPageScore,
+        'lHighlightedText' : oVisitItem.extractedDNA().highlightedText(),
+        'lScores' : oVisitItem.extractedDNA().scores(),
+        'sImageUrl' : oVisitItem.extractedDNA().imageUrl(),
+        'sFirstParagraph' : oVisitItem.extractedDNA().firstParagraph(),
+        'iPercent' : oVisitItem.extractedDNA().percent(),
+        'fPageScore' : oVisitItem.extractedDNA().pageScore(),
       },
     };
 
@@ -46,24 +46,28 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     // oDbRecord is just a dictionnary
     var oVisitItem = new Cotton.Model.VisitItem();
     // Use private attributes because they are immutable.
-    oVisitItem._sId = oDbRecord.id;
-    oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
-    oVisitItem._sChromeReferringVisitId = oDbRecord.sChromeReferringVisitId;
-    oVisitItem._sStoryId = oDbRecord.sStoryId;
+    oVisitItem.initId(oDbRecord['id']);
+    //oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
+    //oVisitItem._sChromeReferringVisitId = oDbRecord.sChromeReferringVisitId;
+    oVisitItem.setStoryId(oDbRecord['sStoryId']);
 
-    oVisitItem._sUrl = oDbRecord.sUrl;
-    oVisitItem._sTitle = oDbRecord.sTitle;
-    oVisitItem._iVisitTime = oDbRecord.iVisitTime;
+    oVisitItem.initUrl(oDbRecord['sUrl']);
+    oVisitItem.setTitle(oDbRecord['sTitle']);
+    oVisitItem.setVisitTime(oDbRecord['iVisitTime']);
 
-    oVisitItem._lQueryWords = oDbRecord.lQueryWords;
-    oVisitItem._lExtractedWords = oDbRecord.lExtractedWords;
+    oVisitItem.setQueryWords(oDbRecord['lQueryWords']);
+    oVisitItem.setExtractedWords(oDbRecord['lExtractedWords']);
 
-    oVisitItem._oExtractedDNA._lHighlightedText = oDbRecord.oExtractedDNA.lHighlightedText;
-    oVisitItem._oExtractedDNA._lScores = oDbRecord.oExtractedDNA.lScores;
-    oVisitItem._oExtractedDNA._sImageUrl = oDbRecord.oExtractedDNA.sImageUrl;
-    oVisitItem._oExtractedDNA._sFirstParagraph = oDbRecord.oExtractedDNA.sFirstParagraph;
-    oVisitItem._oExtractedDNA._iPercent = oDbRecord.oExtractedDNA.iPercent;
-    oVisitItem._oExtractedDNA._fPageScore = oDbRecord.oExtractedDNA.fPageScore;
+    var dExtractedDNA = oDbRecord['oExtractedDNA'];
+    var oExtractedDNA = new Cotton.Model.ExtractedDNA();
+    oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
+    oExtractedDNA.setScores(dExtractedDNA['lScores']);
+    oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
+    oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
+    oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
+    oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
+
+    oVisitItem.setExtractedDNA(oExtractedDNA);
 
     return oVisitItem;
   };

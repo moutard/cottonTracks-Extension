@@ -112,9 +112,9 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
     for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
       var oVisitItem = new Cotton.Model.VisitItem();
 
-      oVisitItem._sUrl = oHistoryItem.url;
-      oVisitItem._sTitle = oHistoryItem.title || '';
-      oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
+      oVisitItem.initUrl(oHistoryItem['url']);
+      oVisitItem.setTitle(oHistoryItem['title']);
+      oVisitItem.setVisitTime(oHistoryItem['lastVisitTime']);
 
       oStore.put('visitItems', oVisitItem, function(iId) {
         console.debug('PopulateVisitItems - visitItem added');
