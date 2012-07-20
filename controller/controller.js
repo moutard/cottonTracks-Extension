@@ -112,8 +112,13 @@ Cotton.Controller = Class.extend({
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data.lVisitItems.length; i++) {
-        var oVisitItem = new Cotton.Model.VisitItem();
-        oVisitItem.deserialize(e.data.lVisitItems[i]);
+        //var oVisitItem = new Cotton.Model.VisitItem();
+        //oVisitItem.deserialize(e.data.lVisitItems[i]);
+        var oTranslator = self._oStore._translatorForDbRecord('visitItems',
+                                                      e.data.lVisitItems[i]);
+        var oVisitItem = oTranslator.dbRecordToObject(e.data.lVisitItems[i]);
+
+
         self._oStore.put('visitItems', oVisitItem, function() {
           console.log("update queryKeywords");
         });
@@ -121,9 +126,11 @@ Cotton.Controller = Class.extend({
 
       var dStories = Cotton.Algo.clusterStory(e.data.lVisitItems, e.data.iNbCluster);
       // Add stories
-      var lStories = dStories.stories.reverse();
-      Cotton.DB.Stories.addStories(self._oStore, dStories.stories, function(oStore){
-        Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+      //var lStories = dStories['stories'].reverse();
+      console.log(dStories);
+      Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
+          function(oStore){
+            Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
       });
     }, false);
 
@@ -170,7 +177,16 @@ Cotton.Controller = Class.extend({
       oStore.getList('visitItems', function(lAllVisitItems) {
         console.debug('FirstInstallation - Start wDBSCAN with '
             + lAllVisitItems.length + ' items');
-        self._wDBSCAN1.postMessage(lAllVisitItems);
+        console.debug(lAllVisitItems);
+        var lAllVisitDict = [];
+        for(var i = 0, oItem; oItem = lAllVisitItems[i]; i++){
+          // maybe a setFormatVersion problem
+          var oTranslator = this._translatorForObject('visitItems', oItem);
+          var dItem = oTranslator.objectToDbRecord(oItem);
+          lAllVisitDict.push(dItem);
+        }
+        console.debug(lAllVisitDict);
+        self._wDBSCAN1.postMessage(lAllVisitDict);
         });
     });
 
@@ -242,7 +258,15 @@ Cotton.Controller = Class.extend({
                 lPoolVisitItems = lPoolVisitItems
                     .concat(lUnclassifiedVisitItem);
                 console.log(lPoolVisitItems);
-                self._wDBSCAN2.postMessage(lPoolVisitItems);
+                var lPoolVisitDict = [];
+                for(var i = 0, oItem; oItem = lPoolVisitItems[i]; i++){
+                  // maybe a setFormatVersion problem
+                  var oTranslator = this._translatorForObject('visitItems', oItem);
+                  var dItem = oTranslator.objectToDbRecord(oItem);
+                  lPoolVisitDict.push(dItem);
+                }
+
+                self._wDBSCAN2.postMessage(lPoolVisitDict);
               });
         });
     });

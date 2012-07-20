@@ -23,20 +23,20 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   var bStoryUnderConstruction = true;
   //
   for ( var j = 0; j < lVisitItems.length; j++) {
-    if (lVisitItems[j].clusterId !== "UNCLASSIFIED"
-        && lVisitItems[j].clusterId !== "NOISE") {
+    if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
+        && lVisitItems[j]['clusterId'] !== "NOISE") {
       bStoryUnderConstruction = false;
-      lStories[lVisitItems[j].clusterId].addVisitItem(lVisitItems[j]);
+      lStories[lVisitItems[j]['clusterId']].addDbRecordVisitItem(lVisitItems[j]);
 
       // Set story title.
-      if (lVisitItems[j]._lQueryWords.length !== 0) {
-        lStories[lVisitItems[j].clusterId]._sTitle = lVisitItems[j]._lQueryWords
+      if (lVisitItems[j]['lQueryWords'].length !== 0) {
+        lStories[lVisitItems[j]['clusterId']]['sTitle'] = lVisitItems[j]['lQueryWords']
             .join(" ");
       }
 
     } else if (bStoryUnderConstruction) {
       // remove the noise
-      oStoryUnderConstruction.addVisitItem(lVisitItems[j]);
+      oStoryUnderConstruction.addDbRecordVisitItem(lVisitItems[j]);
     }
   }
 
