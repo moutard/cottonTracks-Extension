@@ -94,8 +94,8 @@ Cotton.DB.Engine = Class.extend({
             // Create the new object store.
             console.log('Creating object store ' + sMissingObjectStoreName);
             var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
-              keyPath: 'id',
-              autoIncrement: true
+              'keyPath': 'id',
+              'autoIncrement': true
             });
             // Add all the indexes on the newly created object store.
             var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
@@ -718,7 +718,6 @@ Cotton.DB.Engine = Class.extend({
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         webkitIDBTransaction.READ_WRITE);
     var oStore = oTransaction.objectStore(sObjectStoreName);
-
     // TODO(fwouts): Checks on the type of data contained in dItem?
     // if (!dItem.id) {
       // In order for the id to be automatically generated, we cannot set it to
