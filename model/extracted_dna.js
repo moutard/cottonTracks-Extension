@@ -2,7 +2,7 @@
 
 /**
  * ExtractedDNA
- * 
+ *
  * This class is used to store all the relevent elements from a page. We extract
  * the DNA of the page, like score on each block, keywords, hightlight... That's
  * why it's called PageDNA. The extractedDNA depends on the visit.
@@ -35,11 +35,18 @@ Cotton.Model.ExtractedDNA = Class.extend({
   addScore : function(oScore) {
     this._lScores.push(oScore);
   },
-  highLightedText : function() {
+  setScores : function(lScores) {
+    this._lScores = lScores;
+  },
+
+  highlightedText : function() {
     return this._lHighlightedText;
   },
-  addHighLightedText : function(sText) {
+  addHighlightedText : function(sText) {
     this._lHighlightedText.push(sText);
+  },
+  setHighlightedText : function(lHighlightedText) {
+    this._lHighlightedText = lHighlightedText;
   },
   imageUrl : function() {
     return this._sImageUrl;
