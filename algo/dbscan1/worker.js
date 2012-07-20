@@ -45,8 +45,8 @@ function handleVisitItems(lVisitItems) {
   /** This worker has no access to window or DOM. So update DOM should be done
    * in the main thread. */
   var dData = {};
-  dData.iNbCluster = iNbCluster;
-  dData.lVisitItems = lVisitItems;
+  dData['iNbCluster'] = iNbCluster;
+  dData['lVisitItems'] = lVisitItems;
 
   /** Send data to the main thread. Data are serialized */
   self.postMessage(dData);
