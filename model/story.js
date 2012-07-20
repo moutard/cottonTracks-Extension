@@ -2,7 +2,7 @@
 
 /**
  * Story
- * 
+ *
  */
 Cotton.Model.Story = Class.extend({
 
@@ -78,11 +78,20 @@ Cotton.Model.Story = Class.extend({
       this._fLastVisitTime = oHistoryItem.lastVisitTime();
     }
   },
+  addDbRecordVisitItem : function(oVisitItem) {
+    if (_.indexOf(this._lVisitItemsId, oVisitItem['id']) === -1) {
+      this._lVisitItemsId.push(oVisitItem['id']);
+      if (oVisitItem['iVisitTime'] > this._fLastVisitTime) {
+        this._fLastVisitTime = oVisitItem['iVisitTime'];
+      }
+    }
+  },
+
   addVisitItem : function(oVisitItem) {
-    if (_.indexOf(this._lVisitItemsId, oVisitItem._sId) === -1) {
-      this._lVisitItemsId.push(oVisitItem._sId);
-      if (oVisitItem._iVisitTime > this._fLastVisitTime) {
-        this._fLastVisitTime = oVisitItem._iVisitTime;
+    if (_.indexOf(this._lVisitItemsId, oVisitItem.id()) === -1) {
+      this._lVisitItemsId.push(oVisitItem.id());
+      if (oVisitItem.visitTime() > this._fLastVisitTime) {
+        this._fLastVisitTime = oVisitItem.visitTime();
       }
     }
   },
@@ -209,7 +218,7 @@ Cotton.Model.Story = Class.extend({
    * compute the title of the story. If a google search exists then return
    * associated keywords. If not most frequent keywords are not really pertinent
    * because the order is weird. So return the title of the first page.
-   * 
+   *
    * TODO(rmoutard) : give the title of the page that contains the more of the
    * most frequent keywords.
    */

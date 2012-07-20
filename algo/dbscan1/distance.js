@@ -25,20 +25,20 @@ Cotton.Algo.commonWords = function(oVisitItem1, oVisitItem2) {
   var iTitleWordsAmount = 0;
   var lWords1, lWords2, lCommonWords;
 
-  if(oVisitItem1._sTitle === "" && oVisitItem2._sTitle === ""){
+  if(oVisitItem1['sTitle'] === "" && oVisitItem2['sTitle'] === ""){
     return -1;
   }
 
-  if(oVisitItem1._lExtractedWords === undefined ||
-      oVisitItem2._lExtractWords === undefined ){
+  if(oVisitItem1['lExtractedWords'] === undefined ||
+      oVisitItem2['lExtractWords'] === undefined ){
     // this part may be deleted but may be usefull in some case.
-    lWords1 = Cotton.Algo.extractWords(oVisitItem1._sTitle);
-    lWords2 = Cotton.Algo.extractWords(oVisitItem2._sTitle);
+    lWords1 = Cotton.Algo.extractWords(oVisitItem1['sTitle']);
+    lWords2 = Cotton.Algo.extractWords(oVisitItem2['sTitle']);
   }
   else{
     // already computed in preTreatment
-    lWords1 = oVisitItem1._sExtractedWords;
-    lWords2 = oVisitItems2._sExtractedWords;
+    lWords1 = oVisitItem1['sExtractedWords'];
+    lWords2 = oVisitItems2['sExtractedWords'];
   }
 
     lCommonWords = _.intersection(lWords1, lWords2);
@@ -52,12 +52,12 @@ Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
 
 Cotton.Algo.distanceId = function(oVisitItem1, oVisitItem2) {
   // compute the Id distance
-  return Math.abs(parseInt(oVisitItem1._sId) - parseInt(oVisitItem2._sId));
+  return Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']));
 };
 
 Cotton.Algo.distanceLastVisitTime = function(oVisitItem1, oVisitItem2) {
   // compute the last visit distance
-  return Math.abs(oVisitItem1._iVisitTime - oVisitItem2._iVisitTime);
+  return Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime']);
 };
 
 // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
@@ -71,7 +71,7 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // id close => items close
   // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
-      * Math.abs(parseInt(oVisitItem1._sId) - parseInt(oVisitItem2._sId))
+      * Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']))
       / 200 ;
 
   // lastTimeVisit
@@ -79,7 +79,7 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // ordre de grandeur = O(100 000)
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
-      * Math.abs(oVisitItem1._iVisitTime - oVisitItem2._iVisitTime)
+      * Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime'])
       / 1000000 ;
 
   // Common words
@@ -117,8 +117,8 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
 Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1,
     oVisitItem2) {
 
-  var keywords1 = oVisitItem1._lQueryKeywords;
-  var keywords2 = oVisitItem2._lQueryKeywords;
+  var keywords1 = oVisitItem1['lQueryKeywords'];
+  var keywords2 = oVisitItem2['lQueryKeywords'];
 
   var result = _.intersection(keywords1, keywords2);
   return result.length;
