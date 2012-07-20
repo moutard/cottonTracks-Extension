@@ -12,11 +12,11 @@ Cotton.DB.Translator = Class.extend({
 
   objectToDbRecord : function(oObject) {
     var dDbRecord = this._mObjectToDbRecordConverter.call(this, oObject);
-    dDbRecord.sFormatVersion = this._sFormatVersion;
+    dDbRecord['sFormatVersion'] = this._sFormatVersion;
     return dDbRecord;
   },
   dbRecordToObject : function(oDbRecord) {
-    if (oDbRecord.sFormatVersion != this._sFormatVersion) {
+    if (oDbRecord['sFormatVersion'] != this._sFormatVersion) {
       throw "Version mismatch."
     }
     return this._mDbRecordToObjectConverter.call(this, oDbRecord);

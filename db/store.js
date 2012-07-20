@@ -4,15 +4,15 @@ Cotton.DB.Store = Class.extend({
 
   init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
     var self = this;
-  
+
     this._dTranslators = dTranslators;
-  
+
     var dIndexesForObjectStoreNames = {};
     // TODO: Use _.each everywhere instead of ugly for loops?
     _.each(dTranslators, function(lTranslators, sObjectStoreName) {
       dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
     });
-  
+
     this._oEngine = new Cotton.DB.Engine(
         sDatabaseName,
         dIndexesForObjectStoreNames,
@@ -197,7 +197,7 @@ Cotton.DB.Store = Class.extend({
       mResultElementCallback.call(self, oObject);
     });
   },
-  
+
   getXItems: function(sObjectStoreName, iX, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;
@@ -218,11 +218,11 @@ Cotton.DB.Store = Class.extend({
             var oObject = oTranslator.dbRecordToObject(oItem);
             lAllObjects.push(oObject);
           }
-  
+
           mResultElementCallback.call(self, lAllObjects);
         });
   },
-  
+
   getXYItems: function(sObjectStoreName, iX, iY, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;
@@ -243,11 +243,11 @@ Cotton.DB.Store = Class.extend({
             var oObject = oTranslator.dbRecordToObject(oItem);
             lAllObjects.push(oObject);
           }
-  
+
           mResultElementCallback.call(self, lAllObjects);
         });
   },
-  
+
   find: function(sObjectStoreName, sIndexKey, oIndexValue,
                   mResultElementCallback) {
     var self = this;
@@ -290,7 +290,7 @@ Cotton.DB.Store = Class.extend({
       mResultElementCallback.call(self, lAllObjects);
     });
   },
-  
+
   add: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
 
@@ -303,24 +303,24 @@ Cotton.DB.Store = Class.extend({
       }
     });
   },
-  
+
   // Must be called once the store is ready.
   put: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
 
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-
+    console.debug(dDbRecord);
     this._oEngine.put(sObjectStoreName, dDbRecord, function(iId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, iId);
       }
     });
   },
-  
+
   putList: function(sObjectStoreName, lObjects, mOnSaveCallback) {
     var self = this;
-    
+
     var lAllItems = new Array();
     for(var i = 0, oObject; oObject = lObjects[i]; i++ ){
       var oTranslator = self._translatorForObject(sObjectStoreName, oObject);
@@ -348,7 +348,7 @@ Cotton.DB.Store = Class.extend({
       }
     });
   },
-  
+
   delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;
 
@@ -358,7 +358,7 @@ Cotton.DB.Store = Class.extend({
       }
     });
   },
-  
+
   purge: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
@@ -366,9 +366,9 @@ Cotton.DB.Store = Class.extend({
       mResultElementCallback.call(self);
     });
   },
-  
+
   _translatorForDbRecord: function(sObjectStoreName, dDbRecord) {
-    return this._translator(sObjectStoreName, dDbRecord.sFormatVersion);
+    return this._translator(sObjectStoreName, dDbRecord['sFormatVersion']);
   },
 
   _translatorForObject: function(sObjectStoreName, oObject) {
