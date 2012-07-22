@@ -347,28 +347,38 @@ body {
 
 .ct-favorites-grid {
 
-	width: 80%;
+	width: 100%;
 	margin : auto;
+	padding-right: 5%;
+	padding-left: 5%;
 
   > .ct-ticket {
     background-size: @homepage_ticket_image_width auto;
     position: relative;
     float: left;
-    width: @homepage_ticket_width;
-    height: 200px;/* Original: 200px */
-    margin-right: 2%; /* Original: @homepage_ticket_margin_horizontal / 2 */
-    margin-left: 2%;
+    //width: @homepage_ticket_width;
+    //width: 20%;
+	max-width: 215px;
+    min-width: 150px;
+    height: 200px;
+    //test
+    overflow: hidden;
 
 	> .ct-ticketLink {
 	position: relative;
 	float:left;
-	width: 235px;
+	width: 100%;
 	height: 125px;
 
    	 > .ct-ticketImage {
-	      margin-left: 11px; /* original value : Did not exist*/
-        height: 100px; /* original value 200px*/
-        width: 215px; /* original value 235px*/
+	    //margin-left: 11px; /* original value : Did not exist*/
+        //height: 100px; /* original value 200px*/
+        width: 100%; 
+        //test
+        max-width: 215px;
+        min-width: 150px;
+        //test
+        z-level:0;
         margin-top: 30px;
         border-radius: 3px; /* original value : Did not exist*/
         -webkit-transition-duration: 0.3s;
@@ -380,25 +390,29 @@ body {
     }
 }
 
-    > .ct-ticketHead {
-      position: absolute;
-      bottom: 0px;
-      height: 60px;
-      background: url(/media/images/home/ticket_bottom.png) no-repeat;
-      // TODO(fwouts): Use variables.
-      width: @homepage_ticket_width - 2 * @homepage_ticket_header_padding;
-      padding-top: 26px;
-      padding: @homepage_ticket_header_padding;
+
+      > .ct-ticketEnvelope {
+      position: relative;
+      width: 100%;
+      max-width: 215px;
+      min-width: 150px;
+      z-index: 1;
+      //top: -25px;
+      }
 
       > .ct-ticketCount {
         float: left;
         font-weight: bold;
         color: #d84;
         width: 70px;
-        font-size: 0.8em;
+        //font-size: 0.8em;
+        position: relative;
+		z-index: 3;
+		//top: -185px;
+		margin-left: 0.5em;
 
         > b {
-          font-size: 3em;
+          //font-size: 3em;
         }
       }
 
@@ -407,12 +421,101 @@ body {
         overflow: hidden;
         text-align: center;
         font-weight: normal;
-        font-size: 1.2em;
-      }
-    }
-  }
+        //font-size: 1.2em;
+        
+        position: relative;
+		z-index: 3;
+		//top: -10em;
+    	}
+    }    
 }
 
+@media screen and (min-width:0px) {
+    .ct-ticket {
+    	width: 150px;
+        margin-right: 5%;
+        margin-left: 5%;
+        	
+        	.ct-ticketEnvelope{
+        	top: -50px;	/*-25px;*/
+        	}	
+        
+        	.ct-ticketCount{
+        	font-size: 0.7em;
+        	top: -160px;
+        		> b {
+          		font-size: 2.5em; /*3em*/
+       		 	}  
+        	}     	
+        }
+     .ct-ticket h3 {
+       	top: -160px; /*-10em*/
+       	font-size: 0.8em; /*1.2em*/
+       	} 	   
+}
+
+@media screen and (min-width:500px) {
+    .ct-ticket {
+        margin-right: 10%;
+        margin-left: 10%;
+        	}
+        }
+        
+@media screen and (min-width:725px) {
+    .ct-ticket {
+        margin-right: 2%;
+        margin-left: 2%;
+        	}
+        }         
+
+@media screen and (min-width:875px) {
+    .ct-ticket {
+        margin-right: 4%;
+        margin-left: 4%;
+        	}
+        } 
+
+@media screen and (min-width:1200px) {
+    .ct-ticket {
+    	//background-color: red;
+    	width: 215px;
+        margin-right: 2.5%;
+        margin-left: 2.5%;
+        
+        	.ct-ticketEnvelope{
+        	top: -25px;
+        	}	
+        
+        	.ct-ticketCount{
+        	font-size: 0.8em;
+        	top: -190px;
+        		> b {
+          		font-size: 3em;
+       		 	}  
+        	}     	
+        }
+     .ct-ticket h3 {
+       	top: -10em;
+       	font-size: 1.2em;
+       	} 	   
+}
+
+
+@media screen and (min-width:1400px) {
+    .ct-ticket {
+        //background-color: black;
+        margin-right: 4%;
+        margin-left: 4%;
+        }
+}
+
+@media screen and (min-width:1500px) {
+    .ct-ticket {
+       // background-color: white;
+        margin-right: 5%;
+        margin-left: 5%;
+        }
+}
 .ct-apps-grid {
 
   width: 80%;
