@@ -40,14 +40,21 @@ class Compressor:
                       "lib/date.format.js"
                       "lib/parse_url.js"
                     ]
-  def __init__(self, sInputFileName):
+  
+  def __init__(self, lFilesToCompress):
+    for sFile in lFilesToCompress :
+      self.compressFile(sFile)
     
+    self.purge()
+    
+  
+  def compressFile(self, sInputFileName):
     self.INCLUDE_FILES=[]
     
     self.pretreatment()
   
     # Detect all the src files include.
-    with open(_(sInputFileName), "r") as sources:
+    with open(_(sInputFileName), "w") as sources:
       lines = sources.readlines()
       for line in lines:
         result = re.search("src\=\'(.*)\'><", line)
@@ -57,7 +64,7 @@ class Compressor:
     print self.INCLUDE_FILES
     
     self.compileFile(self.INCLUDE_FILES, "test.html")
-  
+    
   def compileFile(self, plInputFiles, psOutPutFile):
     """Use google closure compiler to generate file
     """
@@ -69,7 +76,7 @@ class Compressor:
     print sCompile
             
   def pretreatment(self):
-    """Copy files in the direction folder.
+    """Copy files in the destination folder.
     
     """
     shutil.copytree(SOURCE_PATH, TEMP_PATH)
