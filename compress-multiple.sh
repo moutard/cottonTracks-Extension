@@ -1,19 +1,21 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER="/usr/local/rmoutard/compiler.jar"
-SOURCE_PATH='/usr/local/rmoutard/sz/'
+GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+SOURCE_PATH='/Users/rmoutard/src/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/usr/local/rmoutard/'
+DESTINATION_PATH='/Users/rmoutard/Downloads/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
 
 # -- PRETREATMENT -------------------------------------------------------------
 
-echo "-------- Start Pretreatment --------"
+echo '-------- Start Pretreatment --------'
+rm -rf $DESTINATION_PATH$TAR_NAME$VERSION
+rm -rf "$DESTINATION_PATH$TAR_NAME$VERSION.pem"
 # Copy the folder to avoid bad surprise
-cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH
-mv $DESTINATION_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
+cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
+#mv $DESTINATION_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
 echo 'Source folder has been copied'
 
 # Go to the copy folder
@@ -50,7 +52,7 @@ function generateMultipleMinFile {
     INPUT_LIST="$INPUT_LIST --js $file"
   done
 
-  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js"
+  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js"
   $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE $EXTERNS
   echo "$OUTPUT_MIN_FILE has been generated"
 
@@ -90,72 +92,72 @@ function generateMultipleMinFileWithExtern {
 # COTTON
 # A Set of vectors that corresponds to a grouped by category.
 
-cotton_input_files=("./init.js")
+cotton_input_files=('./init.js')
 
 # CONFIG
-config_input_files=("./config/init.js"
-                    "./config/config.js")
-config_output_file="config.js"
+config_input_files=('./config/init.js'
+                    './config/config.js')
+config_output_file='config.js'
 
 # DB
-db_input_files=(  "./db/init.js"
-                  "./db/engine.js"
-                  "./db/translator.js"
-                  "./db/store.js")
-db_output_file="db.js"
+db_input_files=(  './db/init.js'
+                  './db/engine.js'
+                  './db/translator.js'
+                  './db/store.js')
+db_output_file='db.js'
 
 # MODEL
-model_input_files=( "./model/init.js"
-                    "./model/story.js"
-                    "./model/extracted_dna.js"
-                    "./model/visit_item.js"
-                    "./model/tool.js"
-                    "./model/tools_container.js")
+model_input_files=( './model/init.js'
+                    './model/story.js'
+                    './model/extracted_dna.js'
+                    './model/visit_item.js'
+                    './model/tool.js'
+                    './model/tools_container.js')
 model_output_file="model.js"
 
 # TRANSLATORS
-translators_input_files=( "./translators/init.js"
-                          "./translators/story_translators.js"
-                          "./translators/visit_item_translators.js")
-translators_output_file="translators.js"
+translators_input_files=( './translators/init.js'
+                          './translators/story_translators.js'
+                          './translators/visit_item_translators.js')
+translators_output_file='translators.js'
 
 # UI
-ui_input_files=(  "./ui/init.js"
-                  "./ui/ui.js"
-                  "./ui/world.js"
-                  "./ui/homepage/init.js"
-                  "./ui/homepage/homepage.js"
-                  "./ui/homepage/favorites_grid.js"
-                  "./ui/homepage/favorites_ticket.js"
-                  "./ui/homepage/apps_grid.js"
-                  "./ui/homepage/apps_ticket.js"
-                  "./ui/homepage/grid.js"
-                  "./ui/homepage/ticket.js"
-                  "./ui/sticky_bar/init.js"
-                  "./ui/sticky_bar/commands.js"
-                  "./ui/sticky_bar/bar.js"
-                  "./ui/sticky_bar/sticker.js"
-                  "./ui/story/init.js"
-                  "./ui/story/default_item.js"
-                  "./ui/story/image_item.js"
-                  "./ui/story/video_item.js"
-                  "./ui/story/map_item.js"
-                  "./ui/story/item.js"
-                  "./ui/story/mystoryline.js"
-                  "./ui/loading.js")
-ui_output_file="ui.js"
+ui_input_files=(  './ui/init.js'
+                  './ui/ui.js'
+                  './ui/world.js'
+                  './ui/homepage/init.js'
+                  './ui/homepage/homepage.js'
+                  './ui/homepage/favorites_grid.js'
+                  './ui/homepage/favorites_ticket.js'
+                  './ui/homepage/apps_grid.js'
+                  './ui/homepage/apps_ticket.js'
+                  './ui/homepage/grid.js'
+                  './ui/homepage/ticket.js'
+                  './ui/sticky_bar/init.js'
+                  './ui/sticky_bar/commands.js'
+                  './ui/sticky_bar/bar.js'
+                  './ui/sticky_bar/sticker.js'
+                  './ui/story/init.js'
+                  './ui/story/default_item.js'
+                  './ui/story/image_item.js'
+                  './ui/story/video_item.js'
+                  './ui/story/map_item.js'
+                  './ui/story/item.js'
+                  './ui/story/mystoryline.js'
+                  './ui/loading.js')
+ui_output_file='ui.js'
 
 # BEHAVIOR
-behavior_input_files=( "./behavior/init.js"
-                       "./behavior/passive/init.js"
-                       "./behavior/passive/db_sync.js"
-                       "./behavior/passive/parser.js"
-                       "./behavior/passive/google_parser.js"
-                       "./behavior/active/init.js"
-                       "./behavior/active/reading_rater.js"
-                       "./behavior/active/reading_rater/score.js"
+behavior_input_files=( './behavior/init.js'
+                       './behavior/passive/init.js'
+                       './behavior/passive/db_sync.js'
+                       './behavior/passive/parser.js'
+                       './behavior/passive/google_parser.js'
+                       './behavior/active/init.js'
+                       './behavior/active/reading_rater.js'
+                       './behavior/active/reading_rater/score.js'
                        )
-behavior_output_file="behavior.js"
+behavior_output_file='behavior.js'
 
 # -- COMPILE & UPDATE PATH ----------------------------------------------------
 
@@ -170,9 +172,11 @@ function removePath {
   for filename in ${USELESS_FILES[@]}
   do
     # remove ./ and escape meta characters.
-    pattern=$(echo ${filename:2} | sed 's/\([[\/.*]\|\]\)/\\&/g')
+    #pattern=$(echo ${filename:2} | sed 's/\([[\/.*]\|\]\)/\\&/g')
+    pattern=$(echo ${filename:2} | sed 's/[\/&]/\\&/g')
+    #echo "$pattern"
     # remove line that insert correponding scripts.
-    sed -i -e "/$pattern/d" "./$INPUT_FILE"
+    sed -i '' -e "/$pattern/d" "./$INPUT_FILE"
   done
 
   echo "Useless files have been removed from $INPUT_FILE"
@@ -190,7 +194,7 @@ function addPath {
   # Name of the output file
   INPUT_FILE=$3
 
-  sed -i -e "/$TAG/a\
+  sed -i '' -e "/$TAG/a\\
     <script type='text/javascript' src='$INCLUDE_FILE'></script>
     " "./$INPUT_FILE"
 
@@ -204,16 +208,16 @@ echo "--------- Start update path --------"
 # predifine set of vector, and complete it with missing_files vector.
 # files that are not in predifined vector set.
 declare -a index_lib
-index_lib=( "./lib/date.format.js"
-            "./lib/parse_url.js")
+index_lib=( './lib/date.format.js'
+            './lib/parse_url.js')
 
 
-index_missing_files=( "./db/expand_store.js"
-                      "./db/populate_db.js"
-                      "./algo/init.js"
-                      "./algo/common/init.js"
-                      "./algo/common/cluster_story.js"
-                      "./controller/controller.js"
+index_missing_files=( './db/expand_store.js'
+                      './db/populate_db.js'
+                      './algo/init.js'
+                      './algo/common/init.js'
+                      './algo/common/cluster_story.js'
+                      './controller/controller.js'
                       )
 
 declare -a index_includes_files
@@ -233,16 +237,15 @@ generateMultipleMinFile index_includes_files[@] "index.js"
 
 #removePath  array_of_files_name  file
 removePath index_includes_files[@] "index.html"
-
 #addPath file_to_add   after_this_tag  in_the_file
-addPath "index.min.js" "Cotton.config" "index.html"
+addPath 'index.min.js' 'Cotton.config' 'index.html'
 
 # -- BACKGROUNG.HTML ----------------------------------------------------------
 declare -a background_lib
-background_lib=( "./lib/date.format.js"
-                 "./lib/parse_url.js")
+background_lib=( './lib/date.format.js'
+                 './lib/parse_url.js')
 
-background_missing_files=( "./messaging/content_script_listener.js"
+background_missing_files=( './messaging/content_script_listener.js'
                          )
 
 declare -a background_includes_files
@@ -255,11 +258,11 @@ background_includes_files=( ${background_lib[@]}
                             ${background_missing_files[@]}
                           )
 
-generateMultipleMinFile background_includes_files[@] "background.js"
+generateMultipleMinFile background_includes_files[@] 'background.js'
 
-removePath background_useless_files[@] "background.html"
+removePath background_includes_files[@] 'background.html'
 
-addPath "background.min.js" "Cotton.config" "background.html"
+addPath 'background.min.js' 'Cotton.config' 'background.html'
 
 # -- WORKER.JS ----------------------------------------------------------------
 function addWorkerPath {
@@ -273,8 +276,8 @@ function addWorkerPath {
   # Name of the output file
   INPUT_FILE=$3
 
-  sed -i -e "/$TAG/a\
-    importScripts('../../$INCLUDE_FILE');
+  sed -i '' -e "/$TAG/a\\
+    importScripts("../../$INCLUDE_FILE");
     " "./$INPUT_FILE"
 
   echo "$INCLUDE_FILE has been added to $INPUT_FILE"
@@ -282,14 +285,14 @@ function addWorkerPath {
 }
 
 declare -a worker_lib
-worker_lib=( "./lib/parse_url.js")
+worker_lib=( './lib/parse_url.js')
 
-worker_missing_files=( "./algo/init.js"
-                       "./algo/dbscan1/init.js"
-                       "./algo/dbscan1/pre_treatment.js"
-                       "./algo/dbscan1/distance.js"
-                       "./algo/dbscan1/dbscan.js"
-                       "./algo/dbscan1/worker.js"
+worker_missing_files=( './algo/init.js'
+                       './algo/dbscan1/init.js'
+                       './algo/dbscan1/pre_treatment.js'
+                       './algo/dbscan1/distance.js'
+                       './algo/dbscan1/dbscan.js'
+                       './algo/dbscan1/worker.js'
                      )
 
 declare -a worker_includes_files
@@ -300,15 +303,15 @@ worker_includes_files=( ${worker_lib[@]}
                        )
 
 # Becarefull the order is not the same.
-removePath worker_includes_files[@] "./algo/dbscan1/worker.js"
-generateMultipleMinFile worker_includes_files[@] "worker.js"
-mv "./worker.min.js" "./algo/dbscan1/worker.js"
+removePath worker_includes_files[@] './algo/dbscan1/worker.js'
+generateMultipleMinFile worker_includes_files[@] 'worker.js'
+mv './worker.min.js' './algo/dbscan1/worker.js'
 
 
 # -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
 declare -a manifest_lib
-manifest_lib=( "./lib/parse_url.js")
+manifest_lib=( './lib/parse_url.js')
 
 declare -a content_script_includes_files
 content_script_includes_files=( ${manifest_lib[@]}
@@ -316,11 +319,52 @@ content_script_includes_files=( ${manifest_lib[@]}
                                 ${model_input_files[@]}
                                 ${behavior_input_files[@]}
                               )
-generateMultipleMinFile content_script_includes_files[@] "content_script.js"
+generateMultipleMinFile content_script_includes_files[@] 'content_script.js'
 
-sed -i "28,37d" "./manifest.json"
-sed -i -e "27 a\
+sed -i '' -e "28,34d" './manifest.json'
+sed -i '' -e "27 a\\
   \"content_script.min.js\"
-  " "./manifest.json"
+  " './manifest.json'
 
 # -- CLEAR --------------------------------------------------------------------
+function removeFiles {
+	
+  declare -a USELESS_FILES=("${!1}")
+  for filename in ${USELESS_FILES[@]}
+  do
+    # remove the file
+    rm "$filename"
+  done
+}
+
+#removeFiles worker_includes_files[@] 
+#removeFiles background_includes_files[@] 
+#removeFiles index_includes_files[@]
+
+function removeFolders {
+	rm -rf algo/common
+	rm -rf algo/dbscan2/
+	rm algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
+	rm algo/dbscan1/pre_treatment.js algo/dbscan1/to_test_dbscan.js
+	rm -rf behavior
+	rm config/init.js
+	rm config/config.js
+	rm -rf controller
+	rm -rf db
+	rm -rf messaging
+	rm -rf model
+	rm -rf translators
+	rm -rf ui
+	rm -rf .git
+	rm -rf .gitignore
+	rm -rf .project
+	rm -rf .settings
+	rm compress.py
+	rm compress.sh
+	rm compress-multiple.sh
+	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js
+}
+
+removeFolders
+
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --pack-extension="$DESTINATION_PATH$TAR_NAME$VERSION"
