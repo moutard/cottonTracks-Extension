@@ -2,11 +2,11 @@
 
 Cotton.UI.Story.DefaultItem = Class.extend({
 
-  _oVisitItem: null,
-  _$item: null,
-  _$storyLink: null,
+  _oVisitItem : null,
+  _$item : null,
+  _$storyLink : null,
 
-  init: function(oVisitItem) {
+  init : function(oVisitItem) {
     this._oVisitItem = oVisitItem;
 
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
@@ -27,86 +27,73 @@ Cotton.UI.Story.DefaultItem = Class.extend({
 
     var sUrl = oVisitItem.url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
-    var sDomain = sUrl.match(/\/\/([^/]*)\// )[1];
+    var oReg = new RegExp("\/\/([^/]*)\/");
+    var sDomain = sUrl.match(oReg)[1];
     $legend.text(sDomain);
 
     var $originLink = $('<a />');
-    $originLink
-      .attr('href', sUrl)
-      .attr('target', '_blank')
-      .text(oVisitItem.title());
+    $originLink.attr('href', sUrl).attr('target', '_blank').text(
+        oVisitItem.title());
 
     // First Paragraph
-    if(oVisitItem.extractedDNA().firstParagraph() !== ""){
+    if (oVisitItem.extractedDNA().firstParagraph() !== "") {
       $summary.append(oVisitItem.extractedDNA().firstParagraph());
     }
 
     // TextHighlight
-    if(oVisitItem.extractedDNA().highLightedText().length !== 0){
-      $quote.text(oVisitItem.extractedDNA().highLightedText()[0]);
+    if (oVisitItem.extractedDNA().highlightedText().length !== 0) {
+      $quote.text(oVisitItem.extractedDNA().highlightedText()[0]);
     } else {
       $quote.hide()
     }
 
     // Image Url
-    if(oVisitItem.extractedDNA().imageUrl() !== ""){
+    if (oVisitItem.extractedDNA().imageUrl() !== "") {
       $featuredImage.attr("src", oVisitItem.extractedDNA().imageUrl());
     } else {
-      //$featuredImage.attr("src", "/media/images/story_preview.png");
+      // $featuredImage.attr("src", "/media/images/story_preview.png");
     }
 
-    this._$item.append(
-        this._$storyLink.append(
-            $('<div class="ct-storyItemLinkLine"></div>').append(
-                $('<div class="ct-storyItemLinkDot"></div>')
-            )
-        ),
-        $content.append(
-            // $deleteButton,
-            // $grabHandle,
-            $featuredImage,
-            $title.append($originLink),
-            $legend,
-            $summary
-        ),
-        $bottom,
-        $quote
-    );
-    
+    this._$item.append(this._$storyLink.append($(
+        '<div class="ct-storyItemLinkLine"></div>').append(
+        $('<div class="ct-storyItemLinkDot"></div>'))), $content.append(
+    // $deleteButton,
+    // $grabHandle,
+    $featuredImage, $title.append($originLink), $legend, $summary), $bottom,
+        $quote);
+
     // event tracking
     $title.click(function() {
-    	_gaq.push(['_trackEvent', 'Story use', 'Title']);
+      _gaq.push([ '_trackEvent', 'Story use', 'Title' ]);
     });
     $featuredImage.click(function() {
-    	_gaq.push(['_trackEvent', 'Story use', 'Featured Image']);
+      _gaq.push([ '_trackEvent', 'Story use', 'Featured Image' ]);
     });
   },
 
-  $ : function(){
+  $ : function() {
     return this._$item;
   },
 
-  appendTo: function(oStoryLine) {
+  appendTo : function(oStoryLine) {
     oStoryLine.$().append(this._$item);
   },
 
-  setTop: function(iTop) {
+  setTop : function(iTop) {
     this._$item.css({
-      top: iTop
+      top : iTop
     });
   },
 
-  setSide: function(sSide) {
+  setSide : function(sSide) {
     switch (sSide) {
     case 'left':
-      this._$item
-        .removeClass('ct-storyItem_right')
-        .addClass('ct-storyItem_left');
+      this._$item.removeClass('ct-storyItem_right').addClass(
+          'ct-storyItem_left');
       break;
     case 'right':
-      this._$item
-        .removeClass('ct-storyItem_left')
-        .addClass('ct-storyItem_right');
+      this._$item.removeClass('ct-storyItem_left').addClass(
+          'ct-storyItem_right');
       break;
     }
   }
