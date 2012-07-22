@@ -30,23 +30,21 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       if ($(this).hasClass('edit_mode_off')) {
         $(this).removeClass('edit_mode_off');
         $(this).addClass('edit_mode_on');
-        console.log('ppp');
         _.each(self._oBar._lStickers, function(oSticker) {
           // oSticker.$().addClass('editable');
           oSticker.editable();
         });
-        //Event tracking
-        _gaq.push(['_trackEvent', 'Story modification', 'Edit on']);
+        // Event tracking
+        _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
       } else {
         $(this).removeClass('edit_mode_on');
         $(this).addClass('edit_mode_off');
-        console.log('ppp');
         _.each(self._oBar._lStickers, function(oSticker) {
           // oSticker.$().removeClass('editable');
           oSticker.editable();
         });
-        //Event tracking
-        _gaq.push(['_trackEvent', 'Story modification', 'Edit off']);
+        // Event tracking
+        _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
       }
 
     });
