@@ -142,7 +142,7 @@ ui_input_files=(  './ui/init.js'
                   './ui/story/image_item.js'
                   './ui/story/video_item.js'
                   './ui/story/map_item.js'
-                  './ui/story/slideshow_item/js'
+                  './ui/story/slideshow_item.js'
                   './ui/story/item.js'
                   './ui/story/mystoryline.js'
                   './ui/loading.js')
@@ -329,7 +329,7 @@ sed -i '' -e "27 a\\
 
 # -- CLEAR --------------------------------------------------------------------
 function removeFiles {
-	
+
   declare -a USELESS_FILES=("${!1}")
   for filename in ${USELESS_FILES[@]}
   do
@@ -338,8 +338,8 @@ function removeFiles {
   done
 }
 
-#removeFiles worker_includes_files[@] 
-#removeFiles background_includes_files[@] 
+#removeFiles worker_includes_files[@]
+#removeFiles background_includes_files[@]
 #removeFiles index_includes_files[@]
 
 function removeFolders {
