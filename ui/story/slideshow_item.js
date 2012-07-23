@@ -46,6 +46,8 @@ Cotton.UI.Story.SlideshowItem = Class
             '<div class="ct-storyItemLinkLine"></div>').append(
             $('<div class="ct-storyItemLinkDot"></div>'))), $content
             .append($slideshow), $bottom);
+        
+        console.log(sEmbedCode);
 
         // event tracking
         $slideshow.click(function() {
