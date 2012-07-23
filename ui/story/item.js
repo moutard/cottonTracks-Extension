@@ -7,7 +7,7 @@ Cotton.UI.Story.ItemFactory = function(oVisitItem) {
   // Detect if it's an image.
   var reg = new RegExp(".(jpg|png|gif)$", "g");
   var sLastStringFromPathname = oUrl.pathname.split('/')[oUrl.pathname.split('/').length-1];
-  var sLastStringFromHyphen = sLastStringFromPathname.split('-')[sLastStringFromPathname.split('-')]
+  var sLastStringFromHyphen = sLastStringFromPathname.split('-')[sLastStringFromPathname.split('-').length-1]
 
   if (reg.exec(oVisitItem.url())) {
     return new Cotton.UI.Story.ImageItem(oVisitItem);
