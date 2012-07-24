@@ -28,6 +28,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$EditButton.addClass('edit_mode_off');
     this._$EditButton.click(function() {
       if ($(this).hasClass('edit_mode_off')) {
+        self._oBar._bEditMode = true;
         $(this).removeClass('edit_mode_off');
         $(this).addClass('edit_mode_on');
         _.each(self._oBar._lStickers, function(oSticker) {
@@ -37,6 +38,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
         // Event tracking
         _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
       } else {
+        self._oBar._bEditMode = false;
         $(this).removeClass('edit_mode_on');
         $(this).addClass('edit_mode_off');
         _.each(self._oBar._lStickers, function(oSticker) {
