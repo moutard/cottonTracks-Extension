@@ -184,7 +184,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   *
+   * 
    * @param $img
    */
   resizeImg : function($img) {
@@ -210,10 +210,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   *
+   * 
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
-   *
+   * 
    * @returns {editable}
    */
   editable : function() {
@@ -222,16 +222,19 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       this._isEditable = true;
       var $removeButton = $("<div class='ct-stickers_removeButton' ></div>");
       $removeButton.click(function() {
+        var bClear = confirm("Do you really want to remove this story ?");
+        if (bClear) {
         new Cotton.DB.Store('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
         }, function() {
-          this.delete('stories', self._oStory.id(), function() {
-            console.log("delete story");
-          });
+            this.delete('stories', self._oStory.id(), function() {
+              console.log("delete story");
+            });
         });
         self.$().remove();
         // event tracking
         _gaq.push(['_trackEvent', 'Story modification', 'delete']);
+        }
       });
       self._$sticker.append($removeButton);
     } else {
