@@ -2,37 +2,40 @@
 
 /**
  * World class representing the whole interface.
- *
+ * 
  * @constructor
  */
-Cotton.UI.World = function() {
-  var self = this;
-  var oStickyBar = self._oStickyBar = new Cotton.UI.StickyBar.Bar();
-  Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
+Cotton.UI.World = Class.extend({
+  _oStickyBar : null,
 
-  oStickyBar.on('ready', function() {
-    console.debug("world ready");
-    Cotton.DB.Stories.getXStories(10, function(lStories) {
-      // Various initializers, mostly for testing.
-      var lStickers = [];
-      _.each(lStories, function(oStory) {
-        var oSticker = oStickyBar.buildSticker(oStory);
-        lStickers.push(oSticker);
-      });
+  init : function() {
+    var self = this;
+    self._oStickyBar = new Cotton.UI.StickyBar.Bar();
+    Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
 
-      _.each(lStickers, function(oSticker) {
-        oSticker.display();
+    self._oStickyBar.on('ready', function() {
+
+      Cotton.DB.Stories.getXStories(10, function(lStories) {
+        // Various initializers, mostly for testing.
+        var lStickers = [];
+        _.each(lStories, function(oStory) {
+          var oSticker = self._oStickyBar.buildSticker(oStory);
+          lStickers.push(oSticker);
+        });
+
+        _.each(lStickers, function(oSticker) {
+          oSticker.display();
+        });
       });
     });
-  });
-};
 
-// We need an object to communicate via BackBone with the algorithm.
-// TODO: Remove this hack.
-Cotton.UI.World.COMMUNICATOR = {};
-_.extend(Cotton.UI.World.COMMUNICATOR, Backbone.Events);
+    Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
+    $('.ct-iconButton_home').click(function() {
+      Cotton.UI.Homepage.HOMEPAGE.show();
+      self._oStickyBar.open();
+    });
+  },
 
-$.extend(Cotton.UI.World.prototype, {
   /**
    * @this {World}
    */
@@ -53,3 +56,8 @@ $.extend(Cotton.UI.World.prototype, {
     });
   },
 });
+
+// We need an object to communicate via BackBone with the algorithm.
+// TODO: Remove this hack.
+Cotton.UI.World.COMMUNICATOR = {};
+_.extend(Cotton.UI.World.COMMUNICATOR, Backbone.Events);
