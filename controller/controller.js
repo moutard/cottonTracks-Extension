@@ -10,7 +10,7 @@
 Cotton.Controller = Class.extend({
 
   _oStore : null,
-  _oworld : null,
+  _oWorld : null,
   _wDBSCAN1 : null,
   _wDBSCAN2 : null,
 
@@ -21,7 +21,10 @@ Cotton.Controller = Class.extend({
 
     var self = this;
     console.debug("Controller - init -");
-
+    
+    $(window).load(function(){
+        Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+    });
     self.initWorkerDBSCAN1();
     self.initWorkerDBSCAN2();
     /**
@@ -130,7 +133,8 @@ Cotton.Controller = Class.extend({
       console.log(dStories);
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore){
-            Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+            // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+            Cotton.UI.oWorld.update();
       });
     }, false);
 
@@ -154,7 +158,8 @@ Cotton.Controller = Class.extend({
           e.data['iNbCluster']);
 
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'], function(oStore){
-        Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+        // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+        Cotton.UI.oWorld.update();
       });
 
     }, false);

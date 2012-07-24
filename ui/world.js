@@ -2,12 +2,12 @@
 
 /**
  * World class representing the whole interface.
+ * 
  * @constructor
  */
 Cotton.UI.World = function() {
   var self = this;
   var oStickyBar = self._oStickyBar = new Cotton.UI.StickyBar.Bar();
-  var object = {};
 
   oStickyBar.on('ready', function() {
 
