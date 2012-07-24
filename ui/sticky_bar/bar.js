@@ -11,6 +11,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   _$sumUp : null,
   _iTranslateX : 0,
   _bLoading : false,
+  _bEditMode : false,
 
   init : function() {
     var self = this;
@@ -161,6 +162,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       _.each(lStories, function(oStory) {
         var oSticker = self.buildSticker(oStory);
         oSticker.display();
+        if (self._bEditMode) {
+          oSticker.editable();
+        }
       });
       /*
        * _.each(lStickers, function(oSticker) { oSticker.display(); });
