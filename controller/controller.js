@@ -31,70 +31,29 @@ Cotton.Controller = Class.extend({
      * Check if a ct database already exists.
      */
 
-    var oDBRequest = webkitIndexedDB.getDatabaseNames();
-
-    oDBRequest.onsuccess = function(oEvent) {
-      console.info("getDatabaseNames succeed and return oEvent : ");
-      console.info(oEvent);
-      console.info(this);
-
-      if (_.indexOf(this.result, 'ct') === -1) {
-        /**
-         * The ct database doesn't exist. So it's the first installation.
-         *
-         * Launch populateDB to create the database for the first time.
-         */
-         console.debug('Installation : No database - First Installation');
-
-        /**
-         * Initialize store
-         */
-        self._oStore = new Cotton.DB.Store('ct', {
+    self._oStore = new Cotton.DB.Store('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
           }, function() {
             console.debug('Global store created');
-            self.install();
-        });
+            self._oStore.empty('visitItems', function(bIsEmpty){
+              console.debug('Ask if empty');
+              if(bIsEmpty){
+                console.log('Installation : The database is empty - first Installation');
+                self.install();
+              } else if (localStorage['CottonFirstOpening'] === undefined) {
+                // It's not the first installation.
+                // localStorage['CottonFirstOpening'] = false;
+                console.log('Installation : Already a data base - Not first Installation');
+                self.reinstall();
 
-      } else {
-        /**
-         * Initialize store
-         */
-        self._oStore = new Cotton.DB.Store('ct', {
-          'stories' : Cotton.Translators.STORY_TRANSLATORS,
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-          }, function() {
-            console.debug('Global store created');
-
-          /**
-           * There is already a ct database. That means two choices : - You open
-           * a tab after installation. - It's not the first installation.
-           * Depends on the value of CottonOpeningFirst.
-           */
-          if (localStorage['CottonFirstOpening'] === undefined) {
-            // It's not the first installation.
-            // localStorage['CottonFirstOpening'] = false;
-            console
-                .log('Installation : Already a data base - Not first Installation');
-            self.reinstall();
-
-          } else {
-            // You open a tab after installation.
-            console.debug('Contoller : already installed - DBSCAN2');
-            self.start();
-          }
-
-        });
-
-
-      }
-    };
-
-    oDBRequest.onerror = function(oEvent) {
-      console.error('getDatabaseNames - an error occured');
-      console.info(oEvent);
-    };
+              } else {
+                // You open a tab after installation.
+                console.debug('Contoller : already installed - DBSCAN2');
+                self.start();
+              }
+            })
+    });
   },
 
   /**
@@ -211,22 +170,13 @@ Cotton.Controller = Class.extend({
     var bClear = confirm("An old database has been found. Do you want to clear it ?");
     if (bClear) {
       /*
-       * You want to remove the old database.
+       * Purge all datas in the old database.
        */
-      console.debug('you click ok');
-      var oDeleteRequest = webkitIndexedDB.deleteDatabase('ct');
-
-      oDeleteRequest.onsuccess = function(oIDBRequest) {
-        console.debug("database ct hhas been deleted");
-        console.debug(oIDBRequest);
-        self.install();
-      };
-
-      oDeleteRequest.onerror = function(oIDBRequest) {
-        console.error("ct - Controller - An error occured when you tried to remove the database");
-        console.error(oIDBRequest);
-      };
-
+      self._oStore.purge('visitItems', function(){
+        self._oStore.purge('stories', function(){
+          self.install();
+        });
+      });
     } else {
       // TODO(rmoutard) : Handle this result.
       self.start();
