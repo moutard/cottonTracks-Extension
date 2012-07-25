@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ * @param {Array} lVisitItems : array of DbRecordVisitItem
+ * @param {int} iNbCluster
+ */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   // Create an Array of stories with lVisitItems
   // lVisitItems should be sorted by fLastvisitTime
@@ -45,6 +48,14 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   lStories = _.reject(lStories, function(oStory) {
     return oStory.lastVisitTime() === 0;
   });
+
+  /**
+   * Compute title and featured Image
+   */
+  for(var k = 0, oStory; oStory = lStories[k]; k++ ){
+    oStory.computeTitle();
+    oStory.computeFeaturedImage();
+  }
   // the lStories[iNbcluster] is the story under constructrion
   // remove it
   return {

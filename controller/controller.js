@@ -213,9 +213,12 @@ Cotton.Controller = Class.extend({
       /*
        * You want to remove the old database.
        */
+      console.debug('you click ok');
       var oDeleteRequest = webkitIndexedDB.deleteDatabase('ct');
 
       oDeleteRequest.onsuccess = function(oIDBRequest) {
+        console.debug("database ct hhas been deleted");
+        console.debug(oIDBRequest);
         self.install();
       };
 
