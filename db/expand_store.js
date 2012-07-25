@@ -58,19 +58,18 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
 };
 
 Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
-  new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS
-  }, function() {
-    this.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
+  var oStore = new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
 
-      new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
+  }, function() {
+    oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
+        /*
         var count = 0;
         var lStoriesTemp = lStories;
         for ( var i = 0; i < lStoriesTemp.length; i++) {
           var oStory = lStoriesTemp[i];
-          this.findGroup('visitItems', 'id', oStory.visitItemsId(), function(
+          oStore.findGroup('visitItems', 'id', oStory.visitItemsId(), function(
               lVisitItems) {
 
             lStoriesTemp[count].setVisitItems(lVisitItems);
@@ -83,8 +82,9 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
             count++;
           });
         }
+        */
+       mCallBackFunction(lStories);
       });
-    });
   });
 };
 /**
