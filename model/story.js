@@ -42,6 +42,13 @@ Cotton.Model.Story = Class.extend({
   setTitle : function(sTitle) {
     this._sTitle = sTitle;
   },
+  featuredImage : function() {
+    return this._sFeaturedImage;
+  },
+  setFeaturedImage : function(sFeaturedImage) {
+    this._sFeaturedImage = sFeaturedImage;
+  },
+
   length : function() {
     return this._lVisitItems.length;
   },
@@ -82,7 +89,8 @@ Cotton.Model.Story = Class.extend({
     if (_.indexOf(this._lVisitItemsId, oVisitItemDbRecord['id']) === -1) {
       this._lVisitItemsId.push(oVisitItemDbRecord['id']);
       // TODO(rmoutard) find a way to not use store.
-      /*new Cotton.DB.Store('ct', {
+      /*
+      new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         var oTranslator = this._translatorForObject('visitItems',
@@ -281,8 +289,9 @@ Cotton.Model.Story = Class.extend({
         this._sTitle = this._lVisitItems[0].title();
       }
       return;
+    } else {
+      this._sTitle = 'Unknown22';
     }
-    this._sTitle = 'Unknown'
   },
 
   computeFeaturedImage : function() {
