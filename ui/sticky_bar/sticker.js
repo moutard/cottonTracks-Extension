@@ -38,28 +38,16 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
 
     var lVisitItems = this._oStory.visitItems();
-    var oLastVisitItem = _.last(lVisitItems);
-    this._oStory.computeTitle();
-    this._oStory.computeFeaturedImage();
+    //var oLastVisitItem = _.last(lVisitItems);
+    //this._oStory.computeTitle();
+    //this._oStory.computeFeaturedImage();
     var $title = $('<h3>').text(this._oStory.title());
 
-    var oExtractedDna = oLastVisitItem.extractedDNA();
-    var sImgSrc = null;
-    // TODO(fwouts): Implement the mainImage method.
-    if (oExtractedDna && oExtractedDna.mainImage) {
-      sImgSrc = oExtractedDna.mainImage();
-    }
+    //var oExtractedDna = oLastVisitItem.extractedDNA();
 
     this._$img = $('<img src="/media/images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
       this._$img.attr("src", this._oStory._sFeaturedImage);
-    }
-
-    if (sImgSrc) {
-      this._$img.attr('src', sImgSrc);
-    } else {
-      // TODO(fwouts): Add a default image. Or pick another visit item with
-      // an image.
     }
 
     /**
@@ -104,7 +92,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // Out
       if (Cotton.Config.Parameters.bDevMode == true){
         self.closeSumUp();
-      }  
+      }
     });
 
     $sticker.click(function() {
@@ -153,29 +141,30 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var self = this;
     this.closeSumUp();
     Cotton.UI.Homepage.HOMEPAGE.hide();
+    if(self._oStory.visitItems().length === 0){
+      new Cotton.DB.Store('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        this.findGroup('visitItems', 'id', self._oStory.visitItemsId(), function(
+            lVisitItems) {
+          self._oStory.setVisitItems(lVisitItems);
+          var oStoryline = new Cotton.UI.Story.Storyline();
+          _.each(self._oStory.visitItems(), function(oVisitItem, iI) {
+            var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
+            // var oItem = oStoryline.buildStory(oVisitItem);
+            setTimeout(function() {
+              oItem.$().css("opacity", "1");
+            }, iI * 100);
+          });
+          /**
+           * Close the sticky_bar
+           */
+          self._oBar.close();
+        });
 
-    var oStoryline = new Cotton.UI.Story.Storyline();
-    _.each(this._oStory.visitItems(), function(oVisitItem, iI) {
-      var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left'
-          : 'right');
-      // var oItem = oStoryline.buildStory(oVisitItem);
-      // TODO(fwouts): Cleanup.
-      // oItem.setTop(20);
-      // Since we use -webkit-transition, we just need to modify the CSS
-      // after a very short while in order to trigger the animation.
-      // var iItemHeight = 100;
-      // var iItemMargin = 20;
-      setTimeout(function() {
-        oItem.$().css("opacity", "1");
-        // oItem.setTop(iItemMargin + iI * iItemHeight);
-      }, iI * 100);
-      // oItem.setSide(iI % 2 == 0 ? 'left' : 'right');
-    });
+      });
+    }
 
-    /**
-     * Close the sticky_bar
-     */
-    this._oBar.close();
 
     // TODO(rmoutard) : avoid to manipulate DOM
     $('.ct-flip').text(self._oStory.title());
@@ -184,7 +173,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param $img
    */
   resizeImg : function($img) {
@@ -210,10 +199,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   * 
+   *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
-   * 
+   *
    * @returns {editable}
    */
   editable : function() {
