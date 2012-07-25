@@ -2,7 +2,7 @@
 
 /**
  * World class representing the whole interface.
- * 
+ *
  * @constructor
  */
 Cotton.UI.World = function() {
@@ -10,7 +10,7 @@ Cotton.UI.World = function() {
   var oStickyBar = self._oStickyBar = new Cotton.UI.StickyBar.Bar();
 
   oStickyBar.on('ready', function() {
-
+    console.debug("world ready");
     Cotton.DB.Stories.getXStories(10, function(lStories) {
       // Various initializers, mostly for testing.
       var lStickers = [];
