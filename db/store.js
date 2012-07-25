@@ -4,7 +4,6 @@ Cotton.DB.Store = Class.extend({
 
   init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
     var self = this;
-    console.debug('New store');
     this._dTranslators = dTranslators;
 
     var dIndexesForObjectStoreNames = {};
