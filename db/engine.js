@@ -136,6 +136,46 @@ Cotton.DB.Engine = Class.extend({
       console.error(this);
     } ;
   },
+
+  /**
+   * Return true if the store is empty.
+   *
+   * @param {string} sObjectStoreName
+   * @param {function} mResultElementCallback
+   */
+  empty : function(sObjectStoreName, mResultElementCallback){
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+      webkitIDBTransaction.READ_WRITE);
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // TODO(rmoutard) : do something faster without using cursor
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oCursorRequest = oStore.openCursor(oKeyRange);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, true);
+      } else {
+        mResultElementCallback.call(self, false);
+      }
+
+    };
+
+
+  },
+
+  /**
+   * Call the call back function on every element of the store.
+   *
+   * @param {string} sObjectStoreName
+   * @param {function} mResultElementCallback
+   */
   iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 

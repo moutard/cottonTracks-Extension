@@ -21,6 +21,14 @@ Cotton.DB.Store = Class.extend({
     });
   },
 
+  empty : function(sObjectStoreName, mResultElementCallback){
+     var self = this;
+
+    this._oEngine.empty(sObjectStoreName, function(bIsEmpty){
+       mResultElementCallback.call(self, bIsEmpty);
+    });
+  },
+
   // Must be called once the store is ready.
   iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
