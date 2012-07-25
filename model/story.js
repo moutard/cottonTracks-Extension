@@ -44,7 +44,6 @@ Cotton.Model.Story = Class.extend({
   length : function() {
     return this._lVisitItems.length;
   },
-  // TODO(moutard): I (fwouts) added this, feel free to refactor if necessary.
   visitItems : function() {
     return this._lVisitItems;
   },
