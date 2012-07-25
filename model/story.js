@@ -7,19 +7,20 @@
 Cotton.Model.Story = Class.extend({
 
   _iId : null,
-  _fLastVisitTime : null,
-  _fRelevance : null,
 
   _sTitle : null,
   _sFeaturedImage : null,
+
+  _fLastVisitTime : null,
+  _fRelevance : null,
+
   _lVisitItemsId : null,
   _lVisitItems : null,
 
   /**
    * @constructor
-   * @param lVisitItems
    */
-  init : function(lVisitItems) {
+  init : function() {
 
     this._fLastVisitTime = 0;
 
@@ -68,47 +69,70 @@ Cotton.Model.Story = Class.extend({
   setRelevance : function(fRelevance) {
     this._fRelevance = fRelevance;
   },
-  // ADVANCED METHOD
-  // handle historyItems
-  addHistoryItem : function(oHistoryItem) {
-    // DEPRECATED.
-    this._lHistoryItems.push(oHistoryItem);
-    if (oVisitItem.lastVisitTime() > this._fLastVisitTime) {
-      this._fLastVisitTime = oHistoryItem.lastVisitTime();
-    }
-  },
-  addDbRecordVisitItem : function(oVisitItem) {
-    if (_.indexOf(this._lVisitItemsId, oVisitItem['id']) === -1) {
-      this._lVisitItemsId.push(oVisitItem['id']);
-      if (oVisitItem['iVisitTime'] > this._fLastVisitTime) {
-        this._fLastVisitTime = oVisitItem['iVisitTime'];
+
+  /**
+   * Add a visitItem to the list parsing a dbRecordObject
+   * - update list of visitItems id.
+   * - update last visit time.
+   *
+   * @param {Object} oVisitItemDbRecord
+   */
+  addDbRecordVisitItem : function(oVisitItemDbRecord) {
+    var self = this;
+    if (_.indexOf(this._lVisitItemsId, oVisitItemDbRecord['id']) === -1) {
+      this._lVisitItemsId.push(oVisitItemDbRecord['id']);
+      // TODO(rmoutard) find a way to not use store.
+      /*new Cotton.DB.Store('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        var oTranslator = this._translatorForObject('visitItems',
+                                                          oVisitItemDbRecord);
+        var oVisitItem = oTranslator.dbRecordToObject(oVisitItemDbRecord,
+                                                          oVisitItemDbRecord);
+        self._lVisitItems.push(oVisitItem);
+      });
+      */
+
+      if (oVisitItemDbRecord['iVisitTime'] > this._fLastVisitTime) {
+        this._fLastVisitTime = oVisitItemDbRecord['iVisitTime'];
       }
     }
   },
 
+  /**
+   * Add a visitItem to the list.
+   * - update list of visitItems id.
+   * - update last visit time.
+   *
+   * @param {Cotton.UI.VisitItem} oVisitItem
+   */
   addVisitItem : function(oVisitItem) {
     if (_.indexOf(this._lVisitItemsId, oVisitItem.id()) === -1) {
       this._lVisitItemsId.push(oVisitItem.id());
+      this._lVisitItems.push(oVisitItem);
       if (oVisitItem.visitTime() > this._fLastVisitTime) {
         this._fLastVisitTime = oVisitItem.visitTime();
       }
     }
   },
+
+  /**
+   * Add an id to the list of visitItems id.
+   * - check there is now duplicate id.
+   *
+   * @param {int} iVisitItemId
+   */
   addVisitItemId : function(iVisitItemId) {
     if (_.indexOf(this._lVisitItemsId, iVisitItemId) === -1) {
       this._lVisitItemsId.push(iVisitItemId);
     }
-
-    // Get the corresponding visitTime.
-    /*
-     * var oStore = new Cotton.DB.Store('ct', { 'visitItems' :
-     * Cotton.Translators.VISIT_ITEM_TRANSLATORS }, function() {
-     * oStore.find('visitItems', 'id', iVisitItemId, function(oVisitItem) {
-     * console.log(oVisitItem); if (oVisitItem._iVisitTime >
-     * this._fLastVisitTime) { this._fLastVisitTime = oVisitItem._iVisitTime; }
-     * }); } );
-     */
   },
+
+  /**
+   * Replace the whole visit items list.
+   *
+   * @param {Array} lVisitItems
+   */
   setVisitItems : function(lVisitItems) {
     this._lVisitItems = lVisitItems;
   },
