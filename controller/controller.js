@@ -1,11 +1,11 @@
 'use strict'
 /**
  * Controller
- * 
+ *
  * Inspired by MVC pattern.
- * 
+ *
  * Handles DB, and UI.
- * 
+ *
  */
 Cotton.Controller = Class.extend({
 
@@ -21,7 +21,7 @@ Cotton.Controller = Class.extend({
 
     var self = this;
     console.debug("Controller - init -");
-    
+
     $(window).load(function(){
         Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
     });
@@ -41,7 +41,7 @@ Cotton.Controller = Class.extend({
       if (_.indexOf(this.result, 'ct') === -1) {
         /**
          * The ct database doesn't exist. So it's the first installation.
-         * 
+         *
          * Launch populateDB to create the database for the first time.
          */
          console.debug('Installation : No database - First Installation');
@@ -168,10 +168,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   * 
+   *
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   * 
+   *
    */
   install : function(){
     console.debug("Controller - install");
@@ -199,7 +199,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   * 
+   *
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -234,7 +234,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   * 
+   *
    * ct is well installed, start the application.
    */
   start : function(){
