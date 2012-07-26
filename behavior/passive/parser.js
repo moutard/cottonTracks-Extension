@@ -161,8 +161,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       _markMeaningfulBlock : function($block) {
         $block.attr('data-meaningful', 'true');
-        var bDevMode = Cotton.Config.Parameters.bDevMode;
-        if (bDevMode == true){
+        if (Cotton.Config.Parameters.bDevMode === true){
           $block.css('border', '1px dashed #35d');
         }
         if (sync.current().extractedDNA().firstParagraph() === "") {
@@ -320,10 +319,12 @@ Cotton.Behavior.Passive.Parser = Class
        * @returns url of the image
        */
       _findSearchImageResult : function() {
-        var sUrl = $("#imagebox_bigimages a.bia.uh_rl:first").attr("href");
+        var sUrl = $("#imagebox_bigimages a.uh_rl:first").attr("href");
         if (sUrl) {
           var oUrl = new parseUrl(sUrl);
           oUrl.fineDecomposition();
+          console.debug("Parser - a search image has been found");
+          console.debug(sUrl);
           return oUrl.dSearch['imgurl'];
         }
 
