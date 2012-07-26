@@ -45,7 +45,7 @@
           
           // event tracking
           var bScrolled = false;
-          $(window).bind('scroll.Storyline',function () { 
+          $(window).on('scroll.Storyline',function () { 
       		if (bScrolled == false){
       		  bScrolled = true;
       		  _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
@@ -91,7 +91,7 @@
   _.extend(Cotton.UI.Story.Storyline, {
     removeAnyOpenStoryline : function() {
       if (_oCurrentlyOpenStoryline) {
-      	$(window).unbind('scroll.Storyline');
+      	$(window).off('scroll.Storyline');
         _oCurrentlyOpenStoryline.remove();
       }
     }
