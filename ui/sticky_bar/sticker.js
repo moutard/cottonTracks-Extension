@@ -28,10 +28,17 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._isEditable = false;
   },
 
+  /**
+   * Return the DOM value.
+   * @return {HtmlElement}
+   */
   $ : function() {
     return this._$sticker;
   },
 
+  /**
+   * display the sticker.
+   */
   display : function() {
     var self = this;
 
@@ -105,6 +112,13 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   },
 
+  /**
+   * Translate the sticker after the user scroll the sticky_bar
+   *
+   * @param {int} iTranslateX : value of the translation
+   * @param {boolean} [bDoNotAnimate] : UNUSED
+   * @param {int} [iElastic] : value of an elastic effect when you scroll to much.
+   */
   translate : function(iTranslateX, bDoNotAnimate, iElastic) {
     iElastic = iElastic || 0;
     bDoNotAnimate = bDoNotAnimate || false;
@@ -119,6 +133,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     }
   },
 
+  /**
+   * Open the preview of the story
+   *
+   * DISABLE
+   */
   openSumUp : function() {
     var $sumUp = $('.ct-sumUp');
     $sumUp.append('<ul></ul>');
@@ -131,41 +150,54 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sumUp.css('top', '200px');
   },
 
+  /**
+   * Close the preview of the story.
+   *
+   * DISABLE
+   */
   closeSumUp : function() {
     $('.ct-sumUp').css('top', '100px');
     var $sumUpUl = $('.ct-sumUp ul');
     $sumUpUl.remove();
   },
 
+  /**
+   * Draw each visitItem in the story using the information on self._oStory.
+   */
+  drawStory : function(){
+    var oStoryline = new Cotton.UI.Story.Storyline();
+    _.each(self._oStory.visitItems(), function(oVisitItem, iI) {
+      var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
+      // var oItem = oStoryline.buildStory(oVisitItem);
+      setTimeout(function() {
+        oItem.$().css("opacity", "1");
+      }, iI * 100);
+    });
+    self._oBar.close();
+  },
+
+  /*
+   * Called when a stcker is cliked.
+   */
   openStory : function() {
     var self = this;
     this.closeSumUp();
     Cotton.UI.Homepage.HOMEPAGE.hide();
+    // TODO(rmoutard) : use a worker to get that.
+    // If the story is empty make a dbRequest to get the corresponding visitItems.
     if(self._oStory.visitItems().length === 0){
       new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
-        this.findGroup('visitItems', 'id', self._oStory.visitItemsId(), function(
-            lVisitItems) {
+        this.findGroup('visitItems', 'id', self._oStory.visitItemsId(),
+          function(lVisitItems) {
           self._oStory.setVisitItems(lVisitItems);
-          var oStoryline = new Cotton.UI.Story.Storyline();
-          _.each(self._oStory.visitItems(), function(oVisitItem, iI) {
-            var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
-            // var oItem = oStoryline.buildStory(oVisitItem);
-            setTimeout(function() {
-              oItem.$().css("opacity", "1");
-            }, iI * 100);
+          self.drawStory();
           });
-          /**
-           * Close the sticky_bar
-           */
-          self._oBar.close();
-        });
-
       });
+    } else {
+      self.drawStory();
     }
-
-
     // TODO(rmoutard) : avoid to manipulate DOM
     $('.ct-flip').text(self._oStory.title());
   },
@@ -174,7 +206,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
    *
-   * @param $img
+   * @param {HtmlElement} $img
    */
   resizeImg : function($img) {
     var iH = $img.height();
@@ -202,8 +234,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
-   *
-   * @returns {editable}
    */
   editable : function() {
     var self = this;
