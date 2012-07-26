@@ -242,7 +242,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       this._isEditable = true;
       var $removeButton = $("<div class='ct-stickers_removeButton' ></div>");
       $removeButton.click(function() {
-        var bClear = confirm("Do you really want to remove this story ?");
+        var bClear = confirm("Are you sure you want to delete the story " + self._oStory.title() + "?\n" +
+        "This story will be permanently removed from cottonTracks.\n(elements will remain in your Chrome history)");
         if (bClear) {
         new Cotton.DB.Store('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
