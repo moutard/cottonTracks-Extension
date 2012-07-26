@@ -253,6 +253,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             });
         });
         self.$().remove();
+		self.closeSumUp();
+		Cotton.UI.Homepage.HOMEPAGE.show();
+		self._oBar.open();
         var lUpperStickers = _.filter(self._oBar._lStickers,
           function(oSticker){
             return oSticker._iPosition > self._iPosition;
