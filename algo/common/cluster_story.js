@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @param {Array} lVisitItems : array of DbRecordVisitItem
+ * @param {Array.<Object>} lVisitItems : array of DbRecordVisitItem
  * @param {int} iNbCluster
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
