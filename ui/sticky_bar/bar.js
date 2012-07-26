@@ -55,7 +55,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
         'mousewheel',
         function(oEvent) {
           // TODO(fwouts): Use constants.
-          var iDelta = oEvent['originalEvent']['wheelDeltaX'] * 0.5;
+          if(oEvent['originalEvent']['wheelDeltaX'] === 0) {
+            var iDelta = oEvent['originalEvent']['wheelDeltaY'] * 0.5;
+          } else {
+            var iDelta = oEvent['originalEvent']['wheelDeltaX'] * 0.5;
+          }
           var iPosition = self._iTranslateX + iDelta;
           // position = (1-|K/L|)*(L-K/2)*H + M + M'
           var K = 10 // self._lStickers.length initial
