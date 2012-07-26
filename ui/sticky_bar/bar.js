@@ -186,8 +186,10 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
-    this._$stickyBar.addClass('close');
-    $('#ct-story-homepage').addClass('close');
+  	if (this._bEditMode === false){
+      this._$stickyBar.addClass('close');
+      $('#ct-story-homepage').addClass('close');
+  	}
   },
 
   /**
