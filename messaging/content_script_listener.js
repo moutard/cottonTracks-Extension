@@ -46,12 +46,15 @@ function onRequest(request, sender, sendResponse) {
       // Other processing following this.
 
       // TODO(rmoutard) : use DB system, or a singleton.
-      var oToolsContainer = new Cotton.Algo.ToolsContainer(); // return a list of Tools
+      var oToolsContainer = new Cotton.Model.ToolsContainer(); // return a list of Tools
       var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the visitItem only if it's not a Tool.
-      if (oToolsContainer.alreadyExist(sHostname) === -1) {
+      // Put the visitItem only if it's not a Tool, and it's not in the exluded
+      // urls.
+      if (oToolsContainer.alreadyExist(sHostname) === -1
+          && _.indexOf(Cotton.Config.Parameters.lExcludeUrls,
+                        oVisitItem.url()) === -1  ) {
         var oStore = new Cotton.DB.Store('ct', {
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
@@ -71,6 +74,8 @@ function onRequest(request, sender, sendResponse) {
           });
 
         });
+      } else {
+        console.debug("Content Script Listener - This visit item is a tool or an exluded url.");
       }
     };
 

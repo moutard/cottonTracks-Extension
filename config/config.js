@@ -6,6 +6,7 @@ Cotton.Config.Parameters = {
       'continuousintegration.corp.ltutech.com', 'docs.google.com',
       'grooveshark.com', 'github.com', 'www.facebook.com', 'www.deezer.com',
       'www.wordreference.com', 'twitter.com' ],
+  lExcludeUrls : ['http://www.google.fr/webhp?sourceid=chrome-instant&ie=UTF-8', 'http://www.google.com/webhp?sourceid=chrome-instant&ie=UTF-8'],
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
   // DBSCAN
@@ -31,6 +32,6 @@ Cotton.Config.Parameters = {
     'hostname' : 0.2,
     'search' : 0.2
   },
-// DBSCAN2
-bDevMode : false
+  // DBSCAN2
+  bDevMode : true,
 };
