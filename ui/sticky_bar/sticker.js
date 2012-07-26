@@ -165,6 +165,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    * Draw each visitItem in the story using the information on self._oStory.
    */
   drawStory : function(){
+    var self = this;
     var oStoryline = new Cotton.UI.Story.Storyline();
     _.each(self._oStory.visitItems(), function(oVisitItem, iI) {
       var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
