@@ -98,6 +98,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
           // Event Tracker on first scroll
           if (bScrolled == false) {
+            bScrolled = true;
             _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
                 'Scroll in story selector' ]);
           }
