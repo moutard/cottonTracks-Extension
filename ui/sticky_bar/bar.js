@@ -1,7 +1,10 @@
 'use strict';
-
-// Represents the bar displayed in the middle of the screen, containing stickers
-// for each story.
+/**
+ * @Class Cotton.UI.StickyBar
+ *
+ * Represents the bar displayed in the middle of the screen, containing
+ * stickers for each story.
+ */
 Cotton.UI.StickyBar.Bar = Class.extend({
 
   _lStickers : null,
@@ -13,6 +16,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   _bLoading : false,
   _bEditMode : false,
 
+  /**
+   * @constructor
+   */
   init : function() {
     var self = this;
     this._lStickers = [];
@@ -27,6 +33,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
     var bScrolled = false;
 
+    // CLICK - On arrow left
     this._$stickyBar.find('.ct-arrow_left').click(
         function() {
           // TODO(fwouts): Use constants.
@@ -39,6 +46,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           }
         });
 
+    // CLICK - On arrow right
     this._$stickyBar.find('.ct-arrow_right').click(
         function() {
           // TODO(fwouts): Use constants.
@@ -51,6 +59,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           }
         });
 
+    // MOUSEWHEEL
     this._$stickyBar.find('.ct-container').bind(
         'mousewheel',
         function(oEvent) {
@@ -91,7 +100,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           if (bScrolled == false) {
             _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
                 'Scroll in story selector' ]);
-            // bTranslated = true;
           }
         });
 
@@ -107,12 +115,21 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
   },
 
-  // Returns the jQuery element.
+  /*
+   * Returns the jQuery element.
+   *
+   * @return {HtmlElement}
+   */
   $ : function() {
     return this._$stickyBar;
   },
 
-  // Creates a new sticker and adds it to the bar.
+  /**
+   * Creates a new sticker and adds it to the bar.
+   *
+   * @param {Cotton.Model.Story} oStory
+   * @return {Cotton.UI.StickyBar.Sticker}
+   */
   buildSticker : function(oStory) {
     // Each sticker will have a different position.
     var iPosition = this._lStickers.length;
@@ -121,17 +138,33 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     return oSticker;
   },
 
+  /**
+   * Return the number of stickers
+   *
+   * @return {int}
+   */
   stickerCount : function() {
     return this._lStickers.length;
   },
 
-  // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
+  /**
+   * Append a sticker to the stickyBar
+   *
+   * @param {HtmlElement} $sticker
+   */
   append : function($sticker) {
     // Note that we append the element to the .container, not directly to
     // the sticky bar.
+    // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
     this._$stickyBar.find('> .ct-container').append($sticker);
   },
 
+  /**
+   * Translate all the stickers. Plug to mouseWheel.
+   *
+   * @param {int} iTranslateX : value of the translation.
+   * @param {boolean} [bDoNotAnimate] : UNUSED
+   */
   translateStickers : function(iTranslateX, bDoNotAnimate) {
     bDoNotAnimate = bDoNotAnimate || false;
     this._iTranslateX = iTranslateX;
@@ -140,14 +173,25 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
   },
 
+  /**
+   * Open the sticky bar.
+   */
   open : function() {
     this._$stickyBar.removeClass('close');
     $('#ct-story-homepage').removeClass('close');
   },
+
+  /**
+   * Close the sticky bar
+   */
   close : function() {
     this._$stickyBar.addClass('close');
     $('#ct-story-homepage').addClass('close');
   },
+
+  /**
+   * Switch between open and close. Plug to flip-button.
+   */
   openClose : function() {
     if (this._$stickyBar.hasClass('close')) {
       this.open();
@@ -156,6 +200,10 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     }
   },
 
+
+  /**
+   * Make a DbRequest to get the following stories and display more stickers.
+   */
   getMoreStories : function() {
     var self = this;
 
