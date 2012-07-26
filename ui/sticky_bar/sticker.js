@@ -252,6 +252,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             });
         });
         self.$().remove();
+        var lUpperStickers = _.filter(self._oBar._lStickers,
+          function(oSticker){
+            return oSticker._iPosition > self._iPosition;
+        });
+        for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
+          oSticker._iPosition-=1;
+          var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+          oSticker.$().css("left", iLeft+"px");
+        }
         // event tracking
         _gaq.push(['_trackEvent', 'Story modification', 'delete']);
         }
