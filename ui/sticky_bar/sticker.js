@@ -252,7 +252,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
               console.log("delete story");
             });
         });
-        self.$().remove();
+        self.$().animate({width: 0, height:0}, 200, function(){
+ 		  self.$().remove();
+ 		});
 		self.closeSumUp();
 		Cotton.UI.Homepage.HOMEPAGE.show();
 		self._oBar.open();
@@ -263,7 +265,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
           oSticker._iPosition-=1;
           var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-          oSticker.$().css("left", iLeft+"px");
+          oSticker.$().animate({left: iLeft+"px"}, 500);
         }
         // event tracking
         _gaq.push(['_trackEvent', 'Story modification', 'delete']);
