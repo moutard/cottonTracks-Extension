@@ -139,7 +139,7 @@ Cotton.Model.Story = Class.extend({
   /**
    * Replace the whole visit items list.
    *
-   * @param {Array} lVisitItems
+   * @param {Array.<Cotton.Model.VisitItem>} lVisitItems
    */
   setVisitItems : function(lVisitItems) {
     this._lVisitItems = lVisitItems;
