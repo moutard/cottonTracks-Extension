@@ -28,12 +28,6 @@ Cotton.UI.World = Class.extend({
         });
       });
     });
-
-    Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
-    $('.ct-iconButton_home').click(function() {
-      Cotton.UI.Homepage.HOMEPAGE.show();
-      self._oStickyBar.open();
-    });
   },
 
   /**
