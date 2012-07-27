@@ -50,7 +50,7 @@ function getVisitItems(lVisitItemId){
   var oStore = new Cotton.DB.Store('ct', {
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
   }, function() {
-      oStore.findGroup('visitItems', 'id', oStory.visitItemsId(),
+      oStore.findGroup('visitItems', 'id', lVisitItemId,
         function(lVisitItems) {
           /** Send data to the main thread. Data are serialized */
           self.postMessage(lVisitItems);
