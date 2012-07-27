@@ -30,3 +30,34 @@ importScripts('../../model/visit_item.js');
 importScripts('../../translators/init.js');
 importScripts('../../translators/visit_item_translators.js');
 
+self.addEventListener('message', function(e) {
+  /**
+   * Connect worker with main thread.
+   * Worker starts when it receive postMessage().
+   * Data received are serialized.
+   * i.e. it's non Cotton.Model.VisitItem, but object.
+   */
+  // e.data is a array of id you want to get.
+  getVisitItems(e.data);
+}, false);
+
+/**
+ * Get visitItems you want.
+ *
+ * @param {Array.<int>} lVisitItemId : list of visitItems id you want to grab.
+ */
+function getVisitItems(lVisitItemId){
+  var oStore = new Cotton.DB.Store('ct', {
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  }, function() {
+      oStore.findGroup('visitItems', 'id', oStory.visitItemsId(),
+        function(lVisitItems) {
+          /** Send data to the main thread. Data are serialized */
+          self.postMessage(lVisitItems);
+
+          /** Terminates the worker */
+          self.close();
+        });
+  });
+}
+
