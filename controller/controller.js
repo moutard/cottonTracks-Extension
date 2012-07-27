@@ -93,7 +93,7 @@ Cotton.Controller = Class.extend({
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore){
             // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
-            //Cotton.UI.oWorld.update();
+            Cotton.UI.oWorld.update();
       });
     }, false);
 
