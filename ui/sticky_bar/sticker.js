@@ -92,12 +92,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     $sticker.hover(function() {
       // In
-      if (Cotton.Config.Parameters.bDevMode == true){
+      if (Cotton.Config.Parameters.bActiveSumup === true){
         self.openSumUp();
       }
     }, function() {
       // Out
-      if (Cotton.Config.Parameters.bDevMode == true){
+      if (Cotton.Config.Parameters.bActiveSumup  === true){
         self.closeSumUp();
       }
     });
