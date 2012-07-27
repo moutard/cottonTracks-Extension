@@ -8,6 +8,7 @@
 Cotton.UI.World = function() {
   var self = this;
   var oStickyBar = self._oStickyBar = new Cotton.UI.StickyBar.Bar();
+  Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
 
   oStickyBar.on('ready', function() {
     console.debug("world ready");
@@ -23,12 +24,6 @@ Cotton.UI.World = function() {
         oSticker.display();
       });
     });
-  });
-
-  Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
-  $('.ct-iconButton_home').click(function() {
-    Cotton.UI.Homepage.HOMEPAGE.show();
-    self._oStickyBar.open();
   });
 };
 
