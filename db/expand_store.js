@@ -57,14 +57,13 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
   });
 };
 
-Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
+Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
   var oStore = new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
 
   }, function() {
     oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
-        /*
         var count = 0;
         var lStoriesTemp = lStories;
         for ( var i = 0; i < lStoriesTemp.length; i++) {
@@ -75,18 +74,27 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
             lStoriesTemp[count].setVisitItems(lVisitItems);
 
             if (count == (lStoriesTemp.length - 1)) {
-              console.log('forFwouts');
-              console.log(lStoriesTemp);
               mCallBackFunction(lStoriesTemp);
             }
             count++;
           });
         }
-        */
-       mCallBackFunction(lStories);
       });
   });
 };
+
+Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
+  var oStore = new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+
+  }, function() {
+    oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
+        mCallBackFunction(lStories);
+      });
+  });
+};
+
 /**
  * VisitItems
  */

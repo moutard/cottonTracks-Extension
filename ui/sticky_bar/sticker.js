@@ -14,7 +14,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _$sticker : null,
   _$img : null,
   _isEditable : null,
-
+  _wGetVisitItems : null,
   /**
    * @constructor
    * @param oBar
@@ -26,6 +26,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._iPosition = iPosition;
     this._oStory = oStory;
     this._isEditable = false;
+    this.initGetVisitItemsWorker();
   },
 
   /**
@@ -284,6 +285,23 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       this._isEditable = false;
       self._$sticker.find('.ct-stickers_removeButton').remove();
     }
+  },
+
+  initGetVisitItemsWorker : function(){
+    var self = this;
+    self._wGetVisitItems = new Worker("ui/sticky_bar/w_get_visit_items.js");
+
+    self._wGetVisitItems.addEventListener('message', function(e) {
+      var lVisitItemsSerialized = e.data;
+      var lVisitItems = [];
+      for(var i = 0, dVisitItem; dVisitItem = lVisitItemsSerialized[i]; i++){
+        var oVisitItem = new Cotton.Model.VisitItem();
+        oVisitItem.deserialize(dVisitItem);
+        lVisitItems.push(oVisitItem);
+      }
+      self._oStory.setVisitItems(lVisitItems);
+    });
+
   },
 });
 
