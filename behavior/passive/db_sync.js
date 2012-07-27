@@ -73,10 +73,10 @@ var sync = new Cotton.Behavior.Passive.DbSync();
 
 $(document).ready(function() {
   // Need to wait the document is ready to get the title.
-
-  sync.start();
-  new Cotton.Behavior.Active.ReadingRater();
-
+  if(!chrome.extension.inIncognitoContext){
+      sync.start();
+      new Cotton.Behavior.Active.ReadingRater();
+  }
 });
 
 
