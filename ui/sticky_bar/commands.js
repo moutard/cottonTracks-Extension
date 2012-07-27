@@ -1,5 +1,13 @@
 'use strict'
-
+/**
+ *  Commands bar in the StickyBar.
+ *
+ *  Contains all the button.
+ *  - homepage
+ *  - edit
+ *  - flip
+ *  - search
+ */
 Cotton.UI.StickyBar.Commands = Class.extend({
 
   _oBar : null,
@@ -14,6 +22,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$ShareButton : null,
   _$SearchButton : null,
 
+  /**
+   * @constructor
+   */
   init : function(oBar) {
     var self = this;
     this._oBar = oBar;
@@ -57,7 +68,10 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     });
   },
 
+  /**
+   * @return {HtmlElement}
+   */
   $ : function() {
-    return this._$comands;
+    return this._$commands;
   },
 });
