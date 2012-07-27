@@ -27,7 +27,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    * @return {boolean}
    */
   isExcluded : function(sUrl) {
-    var oUrl = new parseUrl(dVisitItem.url);
+    var oUrl = new parseUrl(sUrl);
     var sProtocol = oUrl.protocol;
 
     // exlude Https except if it's google.
