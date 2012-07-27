@@ -300,7 +300,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         lVisitItems.push(oVisitItem);
       }
       self._oStory.setVisitItems(lVisitItems);
+      console.debug("stckers - loading finished");
+      console.debug(lVisitItems);
     });
+    self._wGetVisitItems.postMessage(self._oStory.visitItemsId());
 
   },
 });
