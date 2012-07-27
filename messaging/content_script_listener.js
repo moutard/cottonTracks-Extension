@@ -2,19 +2,18 @@
 
 /**
  * Content Script Listener
- *
- * Instance host by background.html
- * Listen all the messages send by content scripts (i.e. scritps
- * injected directly in the page.
- *
+ * 
+ * Instance host by background.html Listen all the messages send by content
+ * scripts (i.e. scritps injected directly in the page.
+ * 
  * See below page for more informations.
  * http://code.google.com/chrome/extensions/messaging.html
  */
 
 /**
- * onRequest :
- * link with the chrome API method chrome.extension.onRequest.addListener
- *
+ * onRequest : link with the chrome API method
+ * chrome.extension.onRequest.addListener
+ * 
  * Called when a message is passed by a content script.
  */
 function onRequest(request, sender, sendResponse) {
@@ -46,15 +45,15 @@ function onRequest(request, sender, sendResponse) {
       // Other processing following this.
 
       // TODO(rmoutard) : use DB system, or a singleton.
-      var oToolsContainer = new Cotton.Model.ToolsContainer(); // return a list of Tools
+      var oToolsContainer = new Cotton.Utils.ToolsContainer();
+      var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+
       var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
       var sPutId = ""; // put return the auto-incremented id in the database.
 
       // Put the visitItem only if it's not a Tool, and it's not in the exluded
       // urls.
-      if (oToolsContainer.alreadyExist(sHostname) === -1
-          && _.indexOf(Cotton.Config.Parameters.lExcludeUrls,
-                        oVisitItem.url()) === -1  ) {
+      if (!oToolsContainer.isTool(sHostname) && !oExcludeContainer.isExluded()) {
         var oStore = new Cotton.DB.Store('ct', {
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
@@ -75,25 +74,26 @@ function onRequest(request, sender, sendResponse) {
 
         });
       } else {
-        console.debug("Content Script Listener - This visit item is a tool or an exluded url.");
+        console
+            .debug("Content Script Listener - This visit item is a tool or an exluded url.");
       }
     };
 
     var sReferringUrl = oVisitItem.referrerUrl();
     if (sReferringUrl) {
       chrome.history.getVisits({
-        url: sReferringUrl
+        url : sReferringUrl
       }, mGetVisitsHandler);
     } else {
       mGetVisitsHandler([]);
     }
 
     break;
-  case 'update_visit_item' :
+  case 'update_visit_item':
     break;
   }
 
- };
+};
 
 // Listen for the content script to send a message to the background page.
 chrome.extension.onRequest.addListener(onRequest);
