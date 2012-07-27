@@ -245,7 +245,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
             $highlightedContentBlocks = $([]);
             return;
           }
-          sync.current().extractedDNA().addHighLightedText(
+          sync.current().extractedDNA().addHighlightedText(
               oSelection.toString());
           var oStartNode = oSelection.anchorNode;
           var oEndNode = oSelection.focusNode;
