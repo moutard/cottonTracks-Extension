@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-SOURCE_PATH='/usr/local/rmoutard/sz/'
+GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+SOURCE_PATH='/Users/rmoutard/src/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/usr/local/rmoutard/'
+DESTINATION_PATH='/Users/rmoutard/Downloads/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
+
 
 # -- PRETREATMENT -------------------------------------------------------------
 
@@ -114,6 +115,13 @@ model_input_files=( './model/init.js'
                     './model/tool.js'
                     './model/tools_container.js')
 model_output_file="model.js"
+
+# UTILS
+utils_input_files=( './utils/init.js'
+                    './utils/tools_container.js'
+                    './utils/exclude_container.js'
+                    )
+utils_output_file="utils.js"
 
 # TRANSLATORS
 translators_input_files=( './translators/init.js'
@@ -225,6 +233,7 @@ declare -a index_includes_files
 index_includes_files=(
                       ${cotton_input_files[@]}
                       ${config_input_files[@]}
+                      ${utils_input_files[@]}
                       ${db_input_files[@]}
                       ${model_input_files[@]}
                       ${translators_input_files[@]}
@@ -253,6 +262,7 @@ declare -a background_includes_files
 background_includes_files=( ${background_lib[@]}
                             ${cotton_input_files[@]}
                             ${config_input_files[@]}
+                            ${utils_input_files[@]}
                             ${db_input_files[@]}
                             ${model_input_files[@]}
                             ${translators_input_files[@]}
