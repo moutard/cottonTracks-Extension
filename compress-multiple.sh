@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-SOURCE_PATH='/Users/rmoutard/src/'
+GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+SOURCE_PATH='/usr/local/rmoutard/sz/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/Downloads/'
+DESTINATION_PATH='/usr/local/rmoutard/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
 
@@ -308,6 +308,32 @@ removePath worker_includes_files[@] './algo/dbscan1/worker.js'
 generateMultipleMinFile worker_includes_files[@] 'worker.js'
 mv './worker.min.js' './algo/dbscan1/worker.js'
 
+# -- WORKER - GET_VISIT_ITEMS -------------------------------------------------
+declare -a worker_lib
+worker_get_visit_items_lib=( './lib/class.js'
+                             './lib/underscore.js')
+
+worker_get_visit_items_missing_files=( './db/init.js'
+                       './db/engine.js'
+                       './db/translator.js'
+                       './db/store.js'
+                       './model/init.js'
+                       './model/extracted_dna.js'
+                       './model/visit_item.js'
+                       './translators/init.js'
+                       './translators/visit_item_translators.js'
+                     )
+
+declare -a worker_get_visit_items_includes_files
+worker_get_visit_items_includes_files=( ${worker_get_visit_items_lib[@]}
+                                        ${cotton_input_files[@]}
+                                        ${worker_get_visit_items_missing_files[@]}
+                                      )
+
+# Becarefull the order is not the same.
+removePath worker_get_visit_items_includes_files[@] './ui/sticky_bar/w_get_visit_items.js'
+generateMultipleMinFile worker_get_visit_items_includes_files[@] 'w_get_visit_items.js'
+mv './w_get_visit_items.min.js' './ui/sticky_bar/w_get_visit_items.js'
 
 # -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
