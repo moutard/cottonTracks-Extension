@@ -242,33 +242,41 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       this._isEditable = true;
       var $removeButton = $("<div class='ct-stickers_removeButton' ></div>");
       $removeButton.click(function() {
-        var bClear = confirm("Are you sure you want to delete the story " + self._oStory.title() + "?\n" +
-        "This story will be permanently removed from cottonTracks.\n(elements will remain in your Chrome history)");
+        var bClear = confirm(
+          "Are you sure you want to delete the story " +
+          self._oStory.title() + "?\n" +
+          "This story will be permanently removed from cottonTracks.\n" +
+          "(elements will remain in your Chrome history)"
+        );
+
         if (bClear) {
-        new Cotton.DB.Store('ct', {
-          'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        }, function() {
-            this.delete('stories', self._oStory.id(), function() {
-              console.log("delete story");
-            });
-        });
-        self.$().animate({width: 0, height:0}, 200, function(){
- 		  self.$().remove();
- 		  self.closeSumUp();
- 		  Cotton.UI.Homepage.HOMEPAGE.show();
- 		  self._oBar.open();
- 		});
-        var lUpperStickers = _.filter(self._oBar._lStickers,
-          function(oSticker){
-            return oSticker._iPosition > self._iPosition;
-        });
-        for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
-          oSticker._iPosition-=1;
-          var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-          oSticker.$().animate({left: iLeft+"px"}, 500);
-        }
-        // event tracking
-        _gaq.push(['_trackEvent', 'Story modification', 'delete']);
+          new Cotton.DB.Store('ct', {
+            'stories' : Cotton.Translators.STORY_TRANSLATORS,
+          }, function() {
+              this.delete('stories', self._oStory.id(), function() {
+                console.log("delete story");
+              });
+          });
+
+          self.$().animate({width: 0, height:0}, 200, function(){
+            self.$().remove();
+            self.closeSumUp();
+            Cotton.UI.Homepage.HOMEPAGE.show();
+            self._oBar.open();
+          });
+
+          var lUpperStickers = _.filter(self._oBar._lStickers,
+            function(oSticker){
+              return oSticker._iPosition > self._iPosition;
+          });
+
+          for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
+            oSticker._iPosition-=1;
+            var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+            oSticker.$().animate({left: iLeft+"px"}, 500);
+          }
+          // event tracking
+          _gaq.push(['_trackEvent', 'Story modification', 'delete']);
         }
       });
       self._$sticker.append($removeButton);
