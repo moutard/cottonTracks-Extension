@@ -31,6 +31,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Return the DOM value.
+   * 
    * @return {HtmlElement}
    */
   $ : function() {
@@ -46,12 +47,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
 
     var lVisitItems = this._oStory.visitItems();
-    //var oLastVisitItem = _.last(lVisitItems);
-    //this._oStory.computeTitle();
-    //this._oStory.computeFeaturedImage();
+    // var oLastVisitItem = _.last(lVisitItems);
+    // this._oStory.computeTitle();
+    // this._oStory.computeFeaturedImage();
     var $title = $('<h3>').text(this._oStory.title());
 
-    //var oExtractedDna = oLastVisitItem.extractedDNA();
+    // var oExtractedDna = oLastVisitItem.extractedDNA();
 
     this._$img = $('<img src="/media/images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
@@ -115,10 +116,13 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   *
-   * @param {int} iTranslateX : value of the translation
-   * @param {boolean} [bDoNotAnimate] : UNUSED
-   * @param {int} [iElastic] : value of an elastic effect when you scroll to much.
+   * 
+   * @param {int}
+   *          iTranslateX : value of the translation
+   * @param {boolean}
+   *          [bDoNotAnimate] : UNUSED
+   * @param {int}
+   *          [iElastic] : value of an elastic effect when you scroll to much.
    */
   translate : function(iTranslateX, bDoNotAnimate, iElastic) {
     iElastic = iElastic || 0;
@@ -136,7 +140,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   *
+   * 
    * DISABLE
    */
   openSumUp : function() {
@@ -153,7 +157,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   *
+   * 
    * DISABLE
    */
   closeSumUp : function() {
@@ -186,7 +190,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this.closeSumUp();
     Cotton.UI.Homepage.HOMEPAGE.hide();
     // TODO(rmoutard) : use a worker to get that.
-    // If the story is empty make a dbRequest to get the corresponding visitItems.
+    // If the story is empty make a dbRequest to get the corresponding
+    // visitItems.
     if(self._oStory.visitItems().length === 0){
       new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
@@ -198,17 +203,19 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           });
       });
     } else {
-      self.drawStory();
+      self.drawStory(self._oStory.visitItems());
     }
     // TODO(rmoutard) : avoid to manipulate DOM
     $('.ct-flip').text(self._oStory.title());
+    console.log(self._oStory.visitItems());
   },
 
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   *
-   * @param {HtmlElement} $img
+   * 
+   * @param {HtmlElement}
+   *          $img
    */
   resizeImg : function($img) {
     var iH = $img.height();
@@ -233,7 +240,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   *
+   * 
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
@@ -300,8 +307,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         lVisitItems.push(oVisitItem);
       }
       self._oStory.setVisitItems(lVisitItems);
-      console.debug("stckers - loading finished");
-      console.debug(lVisitItems);
+      // console.debug("stckers - loading finished");
+      // console.debug(lVisitItems);
     });
     self._wGetVisitItems.postMessage(self._oStory.visitItemsId());
 
