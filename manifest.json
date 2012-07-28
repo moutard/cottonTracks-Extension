@@ -21,6 +21,7 @@
                    "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*", "https://www.google.co.uk/*",
                    "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*"
                  ],
+      "exclude_matches" : ["https://www.google.com/url", "https://www.google.fr/url", "http://www.google.com/url", "http://www.google.fr/url"], 
       "css": [],
       "js": [
               "lib/class.js", "lib/jquery.min.js",
