@@ -1,9 +1,9 @@
 'use strict';
 /**
- * @Class Cotton.UI.StickyBar
- *
- * Represents the bar displayed in the middle of the screen, containing
- * stickers for each story.
+ * Cotton.UI.StickyBar
+ * 
+ * Represents the bar displayed in the middle of the screen, containing stickers
+ * for each story.
  */
 Cotton.UI.StickyBar.Bar = Class.extend({
 
@@ -64,7 +64,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
         'mousewheel',
         function(oEvent) {
           // TODO(fwouts): Use constants.
-          if(oEvent['originalEvent']['wheelDeltaX'] === 0) {
+          if (oEvent['originalEvent']['wheelDeltaX'] === 0) {
             var iDelta = oEvent['originalEvent']['wheelDeltaY'] * 0.5;
           } else {
             var iDelta = oEvent['originalEvent']['wheelDeltaX'] * 0.5;
@@ -118,7 +118,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /*
    * Returns the jQuery element.
-   *
+   * 
    * @return {HtmlElement}
    */
   $ : function() {
@@ -127,8 +127,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Creates a new sticker and adds it to the bar.
-   *
-   * @param {Cotton.Model.Story} oStory
+   * 
+   * @param {Cotton.Model.Story}
+   *          oStory
    * @return {Cotton.UI.StickyBar.Sticker}
    */
   buildSticker : function(oStory) {
@@ -141,7 +142,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Return the number of stickers
-   *
+   * 
    * @return {int}
    */
   stickerCount : function() {
@@ -150,8 +151,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Append a sticker to the stickyBar
-   *
-   * @param {HtmlElement} $sticker
+   * 
+   * @param {HtmlElement}
+   *          $sticker
    */
   append : function($sticker) {
     // Note that we append the element to the .container, not directly to
@@ -162,9 +164,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Translate all the stickers. Plug to mouseWheel.
-   *
-   * @param {int} iTranslateX : value of the translation.
-   * @param {boolean} [bDoNotAnimate] : UNUSED
+   * 
+   * @param {int}
+   *          iTranslateX : value of the translation.
+   * @param {boolean}
+   *          [bDoNotAnimate] : UNUSED
    */
   translateStickers : function(iTranslateX, bDoNotAnimate) {
     bDoNotAnimate = bDoNotAnimate || false;
@@ -186,10 +190,10 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
-  	if (this._bEditMode === false){
+    if (this._bEditMode === false) {
       this._$stickyBar.addClass('close');
       $('#ct-story-homepage').addClass('close');
-  	}
+    }
   },
 
   /**
@@ -202,7 +206,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       this.close();
     }
   },
-
 
   /**
    * Make a DbRequest to get the following stories and display more stickers.
