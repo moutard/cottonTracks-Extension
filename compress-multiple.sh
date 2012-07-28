@@ -356,6 +356,7 @@ manifest_lib=( './lib/parse_url.js')
 declare -a content_script_includes_files
 content_script_includes_files=( ${manifest_lib[@]}
                                 ${cotton_input_files[@]}
+                                ${config_input_files[@]}
                                 ${model_input_files[@]}
                                 ${behavior_input_files[@]}
                               )
