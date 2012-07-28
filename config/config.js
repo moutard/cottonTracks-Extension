@@ -10,7 +10,9 @@ Cotton.Config.Parameters = {
       'http://www.google.fr/webhp?sourceid=chrome-instant&ie=UTF-8',
       'http://www.google.com/webhp?sourceid=chrome-instant&ie=UTF-8' ],
   lExcludePatterns : [ 'http://www.google.fr/url*',
-      'http://www.google.com/url*' ],
+      'http://www.google.com/url*', 'https://www.google.fr/webhp*',
+      'https://www.google.fr/webhp*', 'http://www.google.fr/accounts/*',
+      'http://www.google.com/accounts/*' ],
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
   // DBSCAN
