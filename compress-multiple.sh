@@ -53,7 +53,7 @@ function generateMultipleMinFile {
     INPUT_LIST="$INPUT_LIST --js $file"
   done
 
-  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js"
+  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js --externs ./lib/html5.externs.js"
   $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE $EXTERNS
   echo "$OUTPUT_MIN_FILE has been generated"
 
@@ -113,7 +113,7 @@ model_input_files=( './model/init.js'
                     './model/extracted_dna.js'
                     './model/visit_item.js'
                     './model/tool.js'
-                    './model/tools_container.js')
+             	  )
 model_output_file="model.js"
 
 # UTILS
@@ -147,6 +147,7 @@ ui_input_files=(  './ui/init.js'
                   './ui/sticky_bar/sticker.js'
                   './ui/story/init.js'
                   './ui/story/default_item.js'
+                  './ui/story/search_item.js'
                   './ui/story/image_item.js'
                   './ui/story/video_item.js'
                   './ui/story/map_item.js'
@@ -332,18 +333,20 @@ worker_get_visit_items_missing_files=( './db/init.js'
                        './model/visit_item.js'
                        './translators/init.js'
                        './translators/visit_item_translators.js'
+                       './ui/sticky_bar/w_get_visit_items.js'
                      )
 
 declare -a worker_get_visit_items_includes_files
-worker_get_visit_items_includes_files=( ${worker_get_visit_items_lib[@]}
-                                        ${cotton_input_files[@]}
+worker_get_visit_items_includes_files=( ${cotton_input_files[@]}
+										${config_input_files[@]}
                                         ${worker_get_visit_items_missing_files[@]}
                                       )
 
 # Becarefull the order is not the same.
-removePath worker_get_visit_items_includes_files[@] './ui/sticky_bar/w_get_visit_items.js'
-generateMultipleMinFile worker_get_visit_items_includes_files[@] 'w_get_visit_items.js'
-mv './w_get_visit_items.min.js' './ui/sticky_bar/w_get_visit_items.js'
+#removePath worker_get_visit_items_includes_files[@] './ui/sticky_bar/w_get_visit_items.js'
+#generateMultipleMinFile worker_get_visit_items_includes_files[@] 'w_get_visit_items.js'
+#sed -i '' -e "s/'use strict'/'use strict';importScripts('..\/..\/lib\/class.js');importScripts('..\/..\/lib\/underscore.js');/g" './w_get_visit_items.min.js'
+#mv './w_get_visit_items.min.js' './ui/sticky_bar/w_get_visit_items.js'
 
 # -- MANIFEST -----------------------------------------------------------------
 # CONTENT_SCRIPTS
@@ -358,8 +361,8 @@ content_script_includes_files=( ${manifest_lib[@]}
                               )
 generateMultipleMinFile content_script_includes_files[@] 'content_script.js'
 
-sed -i '' -e "28,34d" './manifest.json'
-sed -i '' -e "27 a\\
+sed -i '' -e "29,35d" './manifest.json'
+sed -i '' -e "28 a\\
   \"content_script.min.js\"
   " './manifest.json'
 
@@ -392,6 +395,11 @@ function removeFolders {
 	rm -rf model
 	rm -rf translators
 	rm -rf ui
+	#rm -rf ui/homepage
+	#rm -rf ui/story
+	#rm ui/init.js ui/loading.js ui/ui.js ui/world.js
+	#rm ui/sticky_bar/bar.js ui/sticky_bar/commands.js ui/sticky_bar/init.js ui/sticky_bar/sticker.js
+	rm -rf utils
 	rm -rf .git
 	rm -rf .gitignore
 	rm -rf .project
@@ -399,9 +407,9 @@ function removeFolders {
 	rm compress.py
 	rm compress.sh
 	rm compress-multiple.sh
-	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js
+	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js lib/html5.externs.js
 }
 
 removeFolders
 
-/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --pack-extension="$DESTINATION_PATH$TAR_NAME$VERSION"
+#/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --pack-extension="$DESTINATION_PATH$TAR_NAME$VERSION"

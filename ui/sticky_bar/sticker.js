@@ -26,7 +26,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._iPosition = iPosition;
     this._oStory = oStory;
     this._isEditable = false;
-    this.initGetVisitItemsWorker();
+    // this.initGetVisitItemsWorker();
+    this.getVisits();
   },
 
   /**
@@ -207,6 +208,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     }
     // TODO(rmoutard) : avoid to manipulate DOM
     $('.ct-flip').text(self._oStory.title());
+    console.log("pp");
     console.log(self._oStory.visitItems());
   },
 
@@ -307,11 +309,22 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         lVisitItems.push(oVisitItem);
       }
       self._oStory.setVisitItems(lVisitItems);
-      // console.debug("stckers - loading finished");
-      // console.debug(lVisitItems);
+      console.debug("stickers - loading finished");
+      console.debug(lVisitItems);
     });
     self._wGetVisitItems.postMessage(self._oStory.visitItemsId());
 
+  },
+
+  getVisits : function(){
+    var self = this;
+    var oStore = new Cotton.DB.Store('ct', {
+      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    }, function() {
+      oStore.findGroup('visitItems', 'id', self._oStory.visitItemsId(), function(lVisitItems) {
+        self._oStory.setVisitItems(lVisitItems);
+      });
+    });
   },
 });
 
