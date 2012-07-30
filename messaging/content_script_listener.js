@@ -2,10 +2,10 @@
 
 /**
  * Content Script Listener
- * 
+ *
  * Instance host by background.html Listen all the messages send by content
  * scripts (i.e. scritps injected directly in the page.
- * 
+ *
  * See below page for more informations.
  * http://code.google.com/chrome/extensions/messaging.html
  */
@@ -13,34 +13,42 @@
 /**
  * onRequest : link with the chrome API method
  * chrome.extension.onRequest.addListener
- * 
+ *
  * Called when a message is passed by a content script.
  */
 function onRequest(request, sender, sendResponse) {
 
   console.log(request);
 
-  switch (request.action) {
+  switch (request['action']) {
   case 'create_visit_item':
-    // request.historyItem is serialized by the sender. So it's just
-    // a dictionary. We need to deserialized it before putting it in the DB.
-    var oVisitItem = new Cotton.Model.VisitItem();
-    oVisitItem.deserialize(request.params.visitItem);
 
+    /**
+     * Because Model are compiled in two different way by google closure
+     * compiler we need a common structure to communicate throught messaging.
+     * We use dbRecord, and translators give us a simple serialisation process.
+     */
+    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+    var oTranslator = lTranslators[lTranslators.length - 1];
+    var oVisitItem = oTranslator.dbRecordToObject(
+                                                request['params']['visitItem']
+                                                  );
+    console.debug(oVisitItem.url());
     // Compute the referer id as it should be returned by the Chrome Extension
     // History API. We need this algorithm because in some cases, such as when
     // you open a link in a new tab, the referer id is not filled by Chrome, so
     // we need to fill it ourselves.
     // TODO(fwouts): Move out of here.
 
-    var mGetVisitsHandler = function(lChromeReferrerVisitItems) {
+//    var mGetVisitsHandler = function(lChromeReferrerVisitItems) {
       // Select the last one the visit items.
-      if (lChromeReferrerVisitItems && lChromeReferrerVisitItems.length > 0) {
+
+      /*if (lChromeReferrerVisitItems && lChromeReferrerVisitItems.length > 0) {
         var iIndex = lChromeReferrerVisitItems.length - 1;
         var oReferrerVisitItem = lChromeReferrerVisitItems[iIndex];
         // Update the visit item accordingly.
         oVisitItem.setChromeReferringVisitId(oReferrerVisitItem.visitId);
-      }
+      }*/
 
       // Other processing following this.
 
@@ -48,12 +56,13 @@ function onRequest(request, sender, sendResponse) {
       var oToolsContainer = new Cotton.Utils.ToolsContainer();
       var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
-      var sHostname = new parseUrl(oVisitItem._sUrl).hostname;
+      var sHostname = new parseUrl(oVisitItem.url()).hostname;
       var sPutId = ""; // put return the auto-incremented id in the database.
 
       // Put the visitItem only if it's not a Tool, and it's not in the exluded
       // urls.
-      if (!oToolsContainer.isTool(sHostname) && !oExcludeContainer.isExluded()) {
+      // TODO (rmoutard) : parseUrl is called twice. avoid that.
+      if (!oToolsContainer.isTool(sHostname) && !oExcludeContainer.isExcluded(oVisitItem.url())) {
         var oStore = new Cotton.DB.Store('ct', {
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
@@ -66,8 +75,8 @@ function onRequest(request, sender, sendResponse) {
 
             // Return nothing to let the connection be cleaned up.
             sendResponse({
-              received : "true",
-              id : sPutId,
+              'received' : "true",
+              'id' : sPutId,
             });
 
           });
@@ -77,8 +86,9 @@ function onRequest(request, sender, sendResponse) {
         console
             .debug("Content Script Listener - This visit item is a tool or an exluded url.");
       }
-    };
+//    };
 
+    /*
     var sReferringUrl = oVisitItem.referrerUrl();
     if (sReferringUrl) {
       chrome.history.getVisits({
@@ -87,6 +97,7 @@ function onRequest(request, sender, sendResponse) {
     } else {
       mGetVisitsHandler([]);
     }
+    */
 
     break;
   case 'update_visit_item':
