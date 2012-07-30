@@ -39,6 +39,6 @@ Cotton.Config.Parameters = {
     'search' : 0.2
   },
   // DBSCAN2
-  bDevMode : true,
+  bDevMode : false,
   bActiveSumup : false,
 };
