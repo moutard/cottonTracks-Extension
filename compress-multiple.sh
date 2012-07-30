@@ -357,9 +357,17 @@ declare -a content_script_includes_files
 content_script_includes_files=( ${manifest_lib[@]}
                                 ${cotton_input_files[@]}
                                 ${config_input_files[@]}
-                                ${model_input_files[@]}
+                                './db/init.js'
+                                './db/translator.js'
+                                './model/init.js'
+                                './model/extracted_dna.js'
+                                './model/visit_item.js'
+                                './translators/init.js'
+                                './translators/visit_item.js'
+                                './translators/visit_item_translators.js'
                                 ${behavior_input_files[@]}
                               )
+
 generateMultipleMinFile content_script_includes_files[@] 'content_script.js'
 
 sed -i '' -e "29,35d" './manifest.json'
