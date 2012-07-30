@@ -31,15 +31,26 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
   // For the moment create and update are exactly the same
   createVisit : function(){
     var self = this;
+
+    /**
+     * sendRequest serialize the params. So we will put a dbRecord.
+     */
+    // TODO (rmoutard) sendRequest seems deprecated. now called sendMessage but not in the externs file yet.
+
+    // in the content_scitps it's always the last version of the model.
+    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+    var oTranslator = lTranslators[lTranslators.length - 1];
+    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
+
     chrome.extension.sendRequest({
-      action: 'create_visit_item',
-      params: {
-        visitItem: this._oCurrentVisitItem
+      'action': 'create_visit_item',
+      'params': {
+        'visitItem': dDbRecord
       }
     }, function(response) {
       console.log(response);
-      self._iId = response.id;
-      self._oCurrentVisitItem.initId(response.id);
+      self._iId = response['id'];
+      self._oCurrentVisitItem.initId(response['id']);
       console.log("dbSync create visit");
       console.log(self._oCurrentVisitItem);
     });
@@ -48,13 +59,19 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   updateVisit : function(){
     var self = this;
+
+      // in the content_scitps it's always the last version of the model.
+    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+    var oTranslator = lTranslators[lTranslators.length - 1];
+    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
+
     if(self._oCurrentVisitItem.id() === undefined){
       console.log("can't update id is not set.");
     } else {
       chrome.extension.sendRequest({
-        action: 'create_visit_item',
-        params: {
-          visitItem: this._oCurrentVisitItem
+        'action' : 'create_visit_item',
+        'params' : {
+          'visitItem' : dDbRecord
         }
       }, function(response) {
         console.log("dbSync update visit");
