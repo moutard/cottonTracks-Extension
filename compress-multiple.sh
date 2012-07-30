@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-SOURCE_PATH='/Users/rmoutard/src/'
+GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+SOURCE_PATH='/usr/local/rmoutard/sz/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/Downloads/'
+DESTINATION_PATH='/usr/local/rmoutard/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
 
@@ -363,7 +363,6 @@ content_script_includes_files=( ${manifest_lib[@]}
                                 './model/extracted_dna.js'
                                 './model/visit_item.js'
                                 './translators/init.js'
-                                './translators/visit_item.js'
                                 './translators/visit_item_translators.js'
                                 ${behavior_input_files[@]}
                               )
