@@ -16,6 +16,7 @@ Cotton.Model.VisitItem = Class
       _sReferrerUrl : undefined,
       _sTitle : "",
       _iVisitTime : undefined,
+      _sFavicon : "",
 
       // Added by preTreatment
       // this._oUrl ?
@@ -37,7 +38,7 @@ Cotton.Model.VisitItem = Class
 
         // Information of historyItem that are pertinent with this model.
         this._sTitle = "";
-
+        this._sFavivon = "";
         // Informations of historyItem that are NOT pertinent th this model.
         // this._iLastVisitTime;
         // this._iVisitCount;
@@ -88,6 +89,12 @@ Cotton.Model.VisitItem = Class
       },
       setVisitTime : function(iVisitTime){
         this._iVisitTime = iVisitTime;
+      },
+      favicon : function(){
+        return this._sFavicon;
+      },
+      setFavicon : function(sFavicon){
+        this._sFavicon = sFavicon;
       },
       //
       storyId : function() {
@@ -140,7 +147,8 @@ Cotton.Model.VisitItem = Class
         this._sTitle = window.document.title;
         this._iVisitTime = new Date().getTime();
         this._sReferrerUrl = document.referrer;
-
+        // TODO(rmoutard) : find a better solution
+        this._sFavicon = $("link[rel*='icon']").attr("href") || "";
         // This method is called in a content_script, but due to chrome
         // security
         // options maybe not work if not called by the extension.
