@@ -20,6 +20,10 @@ Cotton.Behavior.Passive.Parser = Class
        */
       _bLoggingEnabled : false,
 
+      init : function(){
+
+      },
+
       log : function(msg) {
         if (this._bLoggingEnabled) {
           console.log(msg);
