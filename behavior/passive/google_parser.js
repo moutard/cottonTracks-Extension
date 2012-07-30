@@ -1,8 +1,9 @@
 'use strict';
 
 /**
- * @class : GoogleParser
+ * Google Parser
  *
+ * @extends Cotton.Behavior.Passive.Parser.
  * Created by : content_scripts.
  *
  * Find relevant block in a google search page. The compisition of search page
@@ -10,7 +11,7 @@
  * new parser.
  */
 
-Cotton.Behavior.Passive.GoogleParser = Class.extend({
+Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
 
   /**
    * true if we should send debugging messages to the JS console.
@@ -26,7 +27,7 @@ Cotton.Behavior.Passive.GoogleParser = Class.extend({
   },
 
   init : function() {
-
+    this._super();
   },
 
   /**
