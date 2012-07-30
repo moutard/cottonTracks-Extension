@@ -105,8 +105,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = Math.round(100 * fPageScore);
-        self._$feedback.text(iPercent + '%');
-
+        if(Cotton.Config.Parameters.bDevMode){
+          self._$feedback.text(iPercent + '%');
+        }
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
         // console.log(oCurrentVisitItem);
