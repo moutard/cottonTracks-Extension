@@ -11,6 +11,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'sUrl' : oVisitItem.url(),
       'sTitle' : oVisitItem.title(),
       'iVisitTime' : oVisitItem.visitTime(),
+      'sFavicon' : oVisitItem.favicon(),
       'sStoryId' : oVisitItem.storyId(),
       'lQueryWords' : oVisitItem.queryWords(),
       'lExtractedWords' : oVisitItem.extractedWords(),
@@ -54,6 +55,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oVisitItem.initUrl(oDbRecord['sUrl']);
     oVisitItem.setTitle(oDbRecord['sTitle']);
     oVisitItem.setVisitTime(oDbRecord['iVisitTime']);
+    oVisitItem.setFavicon(oDbRecord['sFavicon']);
 
     oVisitItem.setQueryWords(oDbRecord['lQueryWords']);
     oVisitItem.setExtractedWords(oDbRecord['lExtractedWords']);
