@@ -16,7 +16,9 @@
  *
  * Called when a message is passed by a content script.
  */
-function onRequest(request, sender, sendResponse) {
+
+// Listen for the content script to send a message to the background page.
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
   console.log(request);
 
@@ -99,12 +101,10 @@ function onRequest(request, sender, sendResponse) {
     }
     */
 
-    break;
+    // to allow sendResponse
+    return true;
   case 'update_visit_item':
-    break;
+    return true;
   }
 
-};
-
-// Listen for the content script to send a message to the background page.
-chrome.extension.onRequest.addListener(onRequest);
+});
