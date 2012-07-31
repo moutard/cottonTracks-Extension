@@ -92,8 +92,10 @@ var sync = new Cotton.Behavior.Passive.DbSync();
 
 $(document).ready(function() {
   // Need to wait the document is ready to get the title.
+
+  // Do not store informations in incognito mode.
   if(!chrome.extension.inIncognitoContext){
-      sync.start();
+    sync.start();
     new Cotton.Behavior.Active.ReadingRater();
   }
 });
