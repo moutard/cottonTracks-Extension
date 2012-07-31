@@ -108,7 +108,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.click(function() {
       self.openStory();
       // event tracking
-      _gaq.push(['_trackEvent', 'Story trafic', 'Enter story', 'Click on sticker']);
+      if (Cotton.Config.Parameters.bAnalytics === true) {
+        _gaq.push(['_trackEvent', 'Story trafic', 'Enter story', 'Click on sticker']);
+      }
     });
 
     this._oBar.append($sticker);
@@ -286,7 +288,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             oSticker.$().animate({left: iLeft+"px"}, 500);
           }
           // event tracking
-          _gaq.push(['_trackEvent', 'Story modification', 'delete']);
+          if (Cotton.Config.Parameters.bAnalytics === true) {
+            _gaq.push(['_trackEvent', 'Story modification', 'delete']);
+          }
         }
       });
       self._$sticker.append($removeButton);
