@@ -41,4 +41,5 @@ Cotton.Config.Parameters = {
   // DBSCAN2
   bDevMode : false,
   bActiveSumup : false,
+  bAnalytics : false,
 };

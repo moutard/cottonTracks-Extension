@@ -46,7 +46,9 @@ Cotton.UI.Story.ImageItem = Class.extend({
 
     // event tracking
     $mainImage.click(function() {
-      _gaq.push([ '_trackEvent', 'Story use', 'Image viewed' ]);
+      if (Cotton.Config.Parameters.bAnalytics === true) {
+        _gaq.push([ '_trackEvent', 'Story use', 'Image viewed' ]);
+      }
     });
   },
 
