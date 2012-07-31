@@ -48,7 +48,9 @@
           $(window).on('scroll.Storyline',function () { 
       		if (bScrolled == false){
       		  bScrolled = true;
-      		  _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
+      		  if (Cotton.Config.Parameters.bAnalytics === true) {
+      		    _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
+      		  }
       		}
    		  });
         },

@@ -52,7 +52,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
           oSticker.editable();
         });
         // Event tracking
-        _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
+        if (Cotton.Config.Parameters.bAnalytics === true) {
+          _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
+        }
       } else {
         self._oBar._bEditMode = false;
         $(this).removeClass('edit_mode_on');
@@ -62,7 +64,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
           oSticker.editable();
         });
         // Event tracking
-        _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
+        if (Cotton.Config.Parameters.bAnalytics === true) {
+          _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
+        }
       }
 
     });
