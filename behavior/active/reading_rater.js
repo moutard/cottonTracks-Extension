@@ -78,7 +78,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       oParser.parse();
       var $bestImg = oParser.findBestImage();
       if ($bestImg) {
-        self._$bestImg.attr('src', $bestImg);
+         if (Cotton.Config.Parameters.bDevMode === true){
+          self._$bestImg.attr('src', $bestImg);
+         }
         // Update oCurrentVisitItem
         sync._oCurrentVisitItem.extractedDNA().setImageUrl($bestImg);
         // console.log(oCurrentVisitItem);
