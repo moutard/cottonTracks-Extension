@@ -42,4 +42,5 @@ Cotton.Config.Parameters = {
   bDevMode : false,
   bActiveSumup : false,
   bAnalytics : false,
+  bLoggingEnabled : false,
 };
