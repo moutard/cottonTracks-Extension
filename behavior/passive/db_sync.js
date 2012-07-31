@@ -43,7 +43,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
 
-    chrome.extension.sendRequest({
+    chrome.extension.sendMessage({
       'action': 'create_visit_item',
       'params': {
         'visitItem': dDbRecord
@@ -70,7 +70,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
       console.log("can't update id is not set.");
       console.log(self._oCurrentVisitItem);
     } else {
-      chrome.extension.sendRequest({
+      chrome.extension.sendMessage({
         'action' : 'create_visit_item',
         'params' : {
           'visitItem' : dDbRecord
