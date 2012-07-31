@@ -18,16 +18,9 @@ Cotton.Behavior.Passive.Parser = Class
        *
        * @type boolean
        */
-      _bLoggingEnabled : false,
 
       init : function(){
 
-      },
-
-      log : function(msg) {
-        if (this._bLoggingEnabled) {
-          console.log(msg);
-        }
       },
 
       parse : function() {
@@ -64,14 +57,14 @@ Cotton.Behavior.Passive.Parser = Class
         // matching.".match(rLongEnoughSentenceRegex));
 
         // Loop through all the paragraphs to find the actual textual content.
-        this.log("Finding all potentially meaningful paragraphs...");
+        Cotton.Utils.log("Finding all potentially meaningful paragraphs...");
         $('p, dd').each(
             function() {
               var $paragraph = $(this);
               var $container = $paragraph.parent();
 
-              self.log("Parsing the paragraph:");
-              self.log($paragraph.text());
+              Cotton.Utils.log("Parsing the paragraph:");
+              Cotton.Utils.log($paragraph.text());
 
               // In any article, the text should have a sufficient width to be
               // comfortable
@@ -90,7 +83,7 @@ Cotton.Behavior.Passive.Parser = Class
                 // For example, it could be a small message "Connect with your
                 // email"
                 // in a sidebar.
-                self.log("Ignoring because of insufficient width.");
+                Cotton.Utils.log("Ignoring because of insufficient width.");
                 return true;
               }
 
@@ -103,16 +96,16 @@ Cotton.Behavior.Passive.Parser = Class
               // three
               // long-enough words).
 
-              self.log("Searching for sentences...");
+              Cotton.Utils.log("Searching for sentences...");
 
               // TODO(fwouts): Consider something else than text()?
               var lSentencesMatching = $paragraph.text().match(
                   rLongEnoughSentenceRegex);
               if (lSentencesMatching) {
-                self.log(lSentencesMatching.length + " sentences found.");
+                Cotton.Utils.log(lSentencesMatching.length + " sentences found.");
                 self._markMeaningfulBlock($paragraph);
               } else {
-                self.log("No sentences found.");
+                Cotton.Utils.log("No sentences found.");
               }
             });
 
@@ -135,13 +128,13 @@ Cotton.Behavior.Passive.Parser = Class
         });
 
         // Loop through all interactive content such as Flash.
-        this.log("Finding all potentially meaningful objects...");
+        Cotton.Utils.log("Finding all potentially meaningful objects...");
         $('object, img').each(
             function() {
               var $object = $(this);
               if ($object.width() < MIN_OBJECT_WIDTH
                   || $object.height() < MIN_OBJECT_HEIGHT) {
-                self.log("Ignoring because of insufficient size.");
+                Cotton.Utils.log("Ignoring because of insufficient size.");
                 return true;
               }
               // Since the object is big enough, we can consider that it belongs
@@ -153,7 +146,7 @@ Cotton.Behavior.Passive.Parser = Class
         $('pre').each(function() {
           var $pre = $(this);
           if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
-            self.log("Ignoring because of insufficient size.");
+            Cotton.Utils.log("Ignoring because of insufficient size.");
             return true;
           }
           self._markMeaningfulBlock($pre);
@@ -179,7 +172,7 @@ Cotton.Behavior.Passive.Parser = Class
         // TODO(fwouts): Move constants.
         var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
 
-        this.log("Keeping only groups of meaningful blocks...");
+        Cotton.Utils.log("Keeping only groups of meaningful blocks...");
 
         // Separate step because we need to know the list of all meaningful
         // elements at this point.
@@ -361,7 +354,7 @@ Cotton.Behavior.Passive.Parser = Class
         // iScore = iSurface;
 
         /** Data-meaningful */
-        console.log($img.attr("data-meaningful"));
+        Cotton.Utils.log($img.attr("data-meaningful"));
         if ($img.attr("data-meaningful") === "true") {
           iScore = iScore + 5000;
         }

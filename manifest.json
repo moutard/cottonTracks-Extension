@@ -30,7 +30,7 @@
               "model/init.js","model/extracted_dna.js", "model/visit_item.js", "db/init.js", "db/translator.js", "translators/init.js", "translators/visit_item_translators.js",
               "behavior/init.js",
               "behavior/passive/init.js", "behavior/passive/db_sync.js", "behavior/passive/parser.js",
-              "config/init.js", "config/config.js",
+              "config/init.js", "config/config.js", "utils/init.js", "utils/log.js",
               "behavior/passive/google_parser.js",
               "behavior/active/init.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"
               ],

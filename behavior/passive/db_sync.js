@@ -32,6 +32,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
   createVisit : function(){
     var self = this;
 
+    console.log("create visit");
     /**
      * sendRequest serialize the params. So we will put a dbRecord.
      */
@@ -67,6 +68,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
     if(self._oCurrentVisitItem.id() === undefined){
       console.log("can't update id is not set.");
+      console.log(self._oCurrentVisitItem);
     } else {
       chrome.extension.sendRequest({
         'action' : 'create_visit_item',
@@ -92,7 +94,7 @@ $(document).ready(function() {
   // Need to wait the document is ready to get the title.
   if(!chrome.extension.inIncognitoContext){
       sync.start();
-      new Cotton.Behavior.Active.ReadingRater();
+    new Cotton.Behavior.Active.ReadingRater();
   }
 });
 
