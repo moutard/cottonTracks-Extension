@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "cottonTracks",
-  "version": "0.0.2.8",
+  "version": "0.0.2.9",
   "icons": {
     "16": "/media/images/cTfav_16.png",
     "48": "/media/images/cTfav_48.png",
