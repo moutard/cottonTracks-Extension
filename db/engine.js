@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- *
+ * 
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- *
+ * 
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -16,9 +16,8 @@
 
 
 /**
- * IndexedDB API
- * http://www.w3.org/TR/IndexedDB/
- *
+ * IndexedDB API http://www.w3.org/TR/IndexedDB/
+ * 
  */
 
 Cotton.DB.Engine = Class.extend({
@@ -88,40 +87,70 @@ Cotton.DB.Engine = Class.extend({
         // We can only create Object stores in a setVersion transaction.
         var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
-        oSetVersionRequest.onsuccess = function(oEvent) {
+        oSetVersionRequest.onsuccess = function(event) {
+           
+          var oTransaction = event.target.result;
+          
+          oTransaction.oncomplete = function(){
+            console.log("setVersion result transaction oncomplete");
+            mOnReadyCallback.call(self); 
+          };
+          
+          oTransaction.onabort = function(){
+            console.log("setVersion result transaction onabort");
+            oDb.close();
+          };
+          
+          oTransaction.ontimeout = function(){
+            console.log("setVersion result transaction ontimeout");
+            oDb.close();
+          };
+          
+          try {
+            for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+              // Create the new object store.
+              console.log('Creating object store ' + sMissingObjectStoreName);
+              var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
+                'keyPath': 'id',
+                'autoIncrement': true
+              });
+              // Add all the indexes on the newly created object store.
+              var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
+              _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
+                objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
+              });
+            }
 
-          for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
-            // Create the new object store.
-            console.log('Creating object store ' + sMissingObjectStoreName);
-            var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
-              'keyPath': 'id',
-              'autoIncrement': true
+            // Add all the missing indexes on the existing object stores.
+            _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
+              var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
+              var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
+              _.each(lMissingIndexKeys, function(sIndexKey) {
+                console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+                objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
+              });
             });
-            // Add all the indexes on the newly created object store.
-            var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
-            _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
-              objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
-            });
+
+          } catch (oError){
+            console.log("createObjectStore exception : " + oError.message);
+            oTransaction.abort();
           }
 
-          // Add all the missing indexes on the existing object stores.
-          _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
-            var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
-            var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
-            _.each(lMissingIndexKeys, function(sIndexKey) {
-              console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
-              objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
-            });
-          });
-
-          mOnReadyCallback.call(self);
         };
 
         // TODO(fwouts): Implement.
         oSetVersionRequest.onerror = function(oEvent){
-          console.error("Can't set version");
+          console.error("setVersion error" + oEvent.message);
           console.error(oEvent);
           console.error(this);
+          oDb.close();
+        };
+        
+        oSetVersionRequest.onblocked = function(oEvent){
+          console.error("setVersion blocked. " + oEvent.message);
+          console.error(oEvent);
+          console.error(this);
+          oDb.close();
         };
       } else {
         // The database is already up to date, so we are ready.
@@ -139,9 +168,11 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * Return true if the store is empty.
-   *
-   * @param {string} sObjectStoreName
-   * @param {function} mResultElementCallback
+   * 
+   * @param {string}
+   *          sObjectStoreName
+   * @param {function}
+   *          mResultElementCallback
    */
   empty : function(sObjectStoreName, mResultElementCallback){
     var self = this;
@@ -172,9 +203,11 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * Call the call back function on every element of the store.
-   *
-   * @param {string} sObjectStoreName
-   * @param {function} mResultElementCallback
+   * 
+   * @param {string}
+   *          sObjectStoreName
+   * @param {function}
+   *          mResultElementCallback
    */
   iterList: function(sObjectStoreName, mResultElementCallback) {
     var self = this;
@@ -487,13 +520,14 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getLastEntry :
-   *
-   *  the last item in the database. Equivalent to getLast with sIndex = id
-   *
-   *  @param sObjectStoreName
-   *  @param mResultElementCallback call back function
-   *
-   *  @return the call back function return an dDBRecord element.
+   * 
+   * the last item in the database. Equivalent to getLast with sIndex = id
+   * 
+   * @param sObjectStoreName
+   * @param mResultElementCallback
+   *          call back function
+   * 
+   * @return the call back function return an dDBRecord element.
    */
   getLastEntry : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
@@ -528,14 +562,17 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getLast :
-   *
-   *  the last item sorted by sIndexKey.
-   *
-   *  @param {string} sObjectStoreName : Object store name
-   *  @param {string} sIndexKey : name of the index used for sorting
-   *  @param {function} mResultElementCallback : callback function
-   *
-   *  @return the call back function return an dDBRecord element.
+   * 
+   * the last item sorted by sIndexKey.
+   * 
+   * @param {string}
+   *          sObjectStoreName : Object store name
+   * @param {string}
+   *          sIndexKey : name of the index used for sorting
+   * @param {function}
+   *          mResultElementCallback : callback function
+   * 
+   * @return the call back function return an dDBRecord element.
    */
   getLast : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
     var self = this;
@@ -548,7 +585,7 @@ Cotton.DB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    // TODO(rmoutard) :  oKeyRange seems not used.
+    // TODO(rmoutard) : oKeyRange seems not used.
     var oKeyRange = webkitIDBKeyRange.only(0);
     var oCursorRequest = oIndex.openCursor(null, 2);
 
@@ -571,17 +608,22 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getXItems :
-   *
+   * 
    * get X items in a given direction
-   *
-   * @param {string} sObjectStoreName : Object store name
-   * @param {int} iX : number of element you want
-   * @param {string} sIndexKey : name of the index used for sorting
-   * @param {string} iDirection :
-   * @param {function} mResultElementCallback : callback function
-   *
+   * 
+   * @param {string}
+   *          sObjectStoreName : Object store name
+   * @param {int}
+   *          iX : number of element you want
+   * @param {string}
+   *          sIndexKey : name of the index used for sorting
+   * @param {string}
+   *          iDirection :
+   * @param {function}
+   *          mResultElementCallback : callback function
+   * 
    * @return the call back function return an dDBRecord element.
-
+   * 
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
