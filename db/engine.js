@@ -64,7 +64,7 @@ Cotton.DB.Engine = Class.extend({
       // index.
       var dMissingIndexKeysForObjectStoreNames = {};
       if (lExistingObjectStoreNames.lenght > 0) {
-        var oTransaction = oDb.transaction(lExistingObjectStoreNames, webkitIDBTransaction.READ_WRITE);
+        var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
         _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
           var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
           _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
@@ -178,7 +178,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      webkitIDBTransaction.READ_WRITE);
+      "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // TODO(rmoutard) : do something faster without using cursor
@@ -213,7 +213,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      webkitIDBTransaction.READ_WRITE);
+      "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -241,7 +241,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -274,7 +274,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -299,7 +299,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -331,7 +331,7 @@ Cotton.DB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -364,7 +364,7 @@ Cotton.DB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -407,7 +407,7 @@ Cotton.DB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              webkitIDBTransaction.READ_WRITE);
+                                              "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -447,7 +447,7 @@ Cotton.DB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              webkitIDBTransaction.READ_WRITE);
+                                              "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -487,7 +487,7 @@ Cotton.DB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              webkitIDBTransaction.READ_WRITE);
+                                              "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -533,7 +533,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the Range.
@@ -578,7 +578,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define Index.
@@ -638,7 +638,7 @@ Cotton.DB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                        webkitIDBTransaction.READ_WRITE);
+                        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -686,7 +686,7 @@ Cotton.DB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                        webkitIDBTransaction.READ_WRITE);
+                        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -729,7 +729,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
 
@@ -774,7 +774,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // TODO(fwouts): Checks on the type of data contained in dItem?
@@ -798,7 +798,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
     // TODO(fwouts): Checks on the type of data contained in dItem?
     // if (!dItem.id) {
@@ -842,7 +842,7 @@ Cotton.DB.Engine = Class.extend({
 
   AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     for(var i = 0; i < lItems.length; i++){
@@ -866,7 +866,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -906,7 +906,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        webkitIDBTransaction.READ_WRITE);
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     var oDeleteRequest = oStore.delete(oId);
@@ -923,7 +923,7 @@ Cotton.DB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      webkitIDBTransaction.READ_WRITE);
+      "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
