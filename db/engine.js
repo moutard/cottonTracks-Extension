@@ -83,7 +83,7 @@ Cotton.DB.Engine = Class.extend({
       }
 
       if (bHasMissingObjectStore || bHasMissingIndexKey) {
-
+        console.log("A setVersion is needed");
         var iNewVersion = parseInt(oDb.version) + 1;
 
         // We need to update the database.
@@ -91,7 +91,7 @@ Cotton.DB.Engine = Class.extend({
         var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
         oSetVersionRequest.onsuccess = function(event) {
-           
+          console.log("setVersion onsuccess");
           var oTransaction = event.target.result;
           
           oTransaction.oncomplete = function(){
@@ -157,6 +157,7 @@ Cotton.DB.Engine = Class.extend({
         };
       } else {
         // The database is already up to date, so we are ready.
+        console.log("The database is already up to date");
         mOnReadyCallback.call(self);
       }
     };
