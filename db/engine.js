@@ -30,6 +30,9 @@ Cotton.DB.Engine = Class.extend({
     // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
     this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE",
                                "PREV", "PREV_NO_DUPLICATE"];
+    
+    this._lNonDeprecatedCursorDirections = ["next", "nextunique",
+                                            "prev", "prevunique"];
 
     var oRequest = webkitIndexedDB.open(sDatabaseName);
     oRequest.onsuccess = function(oEvent) {
@@ -403,7 +406,9 @@ Cotton.DB.Engine = Class.extend({
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
-
+    // use non deprecated cursor direction.
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+    
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -415,7 +420,7 @@ Cotton.DB.Engine = Class.extend({
 
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
-    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
 
@@ -444,7 +449,8 @@ Cotton.DB.Engine = Class.extend({
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
-
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+    
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
                                               "readwrite");
@@ -455,7 +461,7 @@ Cotton.DB.Engine = Class.extend({
 
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
-    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
 
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -484,6 +490,7 @@ Cotton.DB.Engine = Class.extend({
     // Allow user to put "PREV" instead of 2 to get readable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -496,7 +503,7 @@ Cotton.DB.Engine = Class.extend({
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             bStrictLower, bStrictUpper);
-    var oCursorRequest = oIndex.openCursor(oKeyRange, iDirection);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
 
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -634,7 +641,8 @@ Cotton.DB.Engine = Class.extend({
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
-
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+    
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -645,7 +653,7 @@ Cotton.DB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     var iCursorCount = 0;
-    var oCursorRequest = oIndex.openCursor(null, iDirection);
+    var oCursorRequest = oIndex.openCursor(null, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       iCursorCount+=1;
       var oResult = oEvent.target.result;
@@ -682,7 +690,8 @@ Cotton.DB.Engine = Class.extend({
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
-
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+    
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -693,7 +702,7 @@ Cotton.DB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     var iCursorCount = 0;
-    var oCursorRequest = oIndex.openCursor(null, iDirection);
+    var oCursorRequest = oIndex.openCursor(null, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       iCursorCount+=1;
       var oResult = oEvent.target.result;
