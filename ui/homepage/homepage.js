@@ -16,7 +16,17 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
       function() {
-		self.switchView();
+        if (localStorage['gridMode'] == 'apps') {
+          self._oFavoritesGrid.show();
+          self._oAppsGrid.hide();
+          localStorage['gridMode'] = 'favorites';
+          $(this).find('h2').text("Apps");
+        } else {
+          self._oFavoritesGrid.hide();
+          self._oAppsGrid.show();
+          localStorage['gridMode'] = 'apps';
+          $(this).find('h2').text("Favorites");
+        }
       }).appendTo(this._$homepage);
 
     this._$homepage.append(this._oFavoritesGrid.$());
@@ -58,19 +68,5 @@ Cotton.UI.Homepage.Homepage = Class.extend({
       cursor : 'default'
     });
   },
-
-  switchView : function() {
-    if (localStorage['gridMode'] == 'apps') {
-      this._oFavoritesGrid.show();
-      this._oAppsGrid.hide();
-      localStorage['gridMode'] = 'favorites';
-      $(this._$SwitchButton).find('h2').text("Apps");
-    } else {
-      this._oFavoritesGrid.hide();
-      this._oAppsGrid.show();
-      localStorage['gridMode'] = 'apps';
-      $(this._$SwitchButton).find('h2').text("Favorites");
-    }
-  },
-
+  
 });
