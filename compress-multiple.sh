@@ -369,8 +369,8 @@ content_script_includes_files=( ${manifest_lib[@]}
 
 generateMultipleMinFile content_script_includes_files[@] 'content_script.js'
 
-sed -i '' -e "29,35d" './manifest.json'
-sed -i '' -e "28 a\\
+sed -i '' -e "30,36d" './manifest.json'
+sed -i '' -e "29 a\\
   \"content_script.min.js\"
   " './manifest.json'
 
