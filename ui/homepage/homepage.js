@@ -6,7 +6,6 @@ Cotton.UI.Homepage.Homepage = Class.extend({
   _oFavoritesGrid : null,
   _oAppsGrid : null,
   _$SwitchButton : null,
-  _bFavoritesVisible : true,
 
   init : function() {
     var self = this;
@@ -16,26 +15,19 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     this._oAppsGrid = new Cotton.UI.Homepage.AppsGrid();
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
-        function() {
-          if (self._bFavoritesVisible) {
-            self._oFavoritesGrid.hide();
-            self._oAppsGrid.show();
-            self._bFavoritesVisible = false;
-            $(this).find('h2').text("Favorites");
-          } else {
-            self._oFavoritesGrid.show();
-            self._oAppsGrid.hide();
-            self._bFavoritesVisible = true;
-            $(this).find('h2').text("Apps");
-          }
-        }).appendTo(this._$homepage);
-    this._$SwitchButton.append("<h2>Apps</h2>");
+      function() {
+		self.switchView();
+      }).appendTo(this._$homepage);
 
     this._$homepage.append(this._oFavoritesGrid.$());
     this._$homepage.append(this._oAppsGrid.$());
-    this._oAppsGrid.hide();
-
-    this._bFavoritesVisible = true;
+    if (localStorage['gridMode'] == 'apps'){
+      this._oFavoritesGrid.hide();
+      this._$SwitchButton.append("<h2>Favorites</h2>");
+    } else {
+      this._oAppsGrid.hide();
+      this._$SwitchButton.append("<h2>Apps</h2>");
+    }
   },
 
   $ : function() {
@@ -68,14 +60,16 @@ Cotton.UI.Homepage.Homepage = Class.extend({
   },
 
   switchView : function() {
-    if (this._bFavoritesVisible) {
-      this._oFavoritesGrid.hide();
-      this._oAppsGrid.show();
-      this._bFavoritesVisible = false;
-    } else {
+    if (localStorage['gridMode'] == 'apps') {
       this._oFavoritesGrid.show();
       this._oAppsGrid.hide();
-      this._bFavoritesVisible = true;
+      localStorage['gridMode'] = 'favorites';
+      $(this._$SwitchButton).find('h2').text("Apps");
+    } else {
+      this._oFavoritesGrid.hide();
+      this._oAppsGrid.show();
+      localStorage['gridMode'] = 'apps';
+      $(this._$SwitchButton).find('h2').text("Favorites");
     }
   },
 
