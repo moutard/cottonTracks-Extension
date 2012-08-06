@@ -2,10 +2,10 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
- * 
+ *
  * Engine should not be used directly. It should be accessed through more
  * abstract layers which hide its inner workings.
- * 
+ *
  * sDatabaseName = the name of the database we want to use (it will be created
  * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
  * names of object stores we need to use (they will be created if necessary) and
@@ -17,7 +17,7 @@
 
 /**
  * IndexedDB API http://www.w3.org/TR/IndexedDB/
- * 
+ *
  */
 
 Cotton.DB.Engine = Class.extend({
@@ -30,7 +30,7 @@ Cotton.DB.Engine = Class.extend({
     // https://developer.mozilla.org/en/IndexedDB/IDBCursor#Constants
     this._lCursorDirections = ["NEXT", "NEXT_NO_DUPLICATE",
                                "PREV", "PREV_NO_DUPLICATE"];
-    
+
     this._lNonDeprecatedCursorDirections = ["next", "nextunique",
                                             "prev", "prevunique"];
 
@@ -93,22 +93,22 @@ Cotton.DB.Engine = Class.extend({
         oSetVersionRequest.onsuccess = function(event) {
           console.log("setVersion onsuccess");
           var oTransaction = event.target.result;
-          
+
           oTransaction.oncomplete = function(){
             console.log("setVersion result transaction oncomplete");
-            mOnReadyCallback.call(self); 
+            mOnReadyCallback.call(self);
           };
-          
+
           oTransaction.onabort = function(){
             console.log("setVersion result transaction onabort");
             oDb.close();
           };
-          
+
           oTransaction.ontimeout = function(){
             console.log("setVersion result transaction ontimeout");
             oDb.close();
           };
-          
+
           try {
             for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
               // Create the new object store.
@@ -148,7 +148,7 @@ Cotton.DB.Engine = Class.extend({
           console.error(this);
           oDb.close();
         };
-        
+
         oSetVersionRequest.onblocked = function(oEvent){
           console.error("setVersion blocked. " + oEvent.message);
           console.error(oEvent);
@@ -172,7 +172,7 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * Return true if the store is empty.
-   * 
+   *
    * @param {string}
    *          sObjectStoreName
    * @param {function}
@@ -207,7 +207,7 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * Call the call back function on every element of the store.
-   * 
+   *
    * @param {string}
    *          sObjectStoreName
    * @param {function}
@@ -250,7 +250,7 @@ Cotton.DB.Engine = Class.extend({
 
     // Get everything in the store.
     var oKeyRange = webkitIDBKeyRange.lowerBound(0);
-    var oCursorRequest = oStore.openCursor(oKeyRange, 2);
+    var oCursorRequest = oStore.openCursor(oKeyRange, "prev");
 
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -341,7 +341,7 @@ Cotton.DB.Engine = Class.extend({
     // Get everything in the store.
     var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
-    var oCursorRequest = oStore.openCursor(oKeyRange, 2);
+    var oCursorRequest = oStore.openCursor(oKeyRange, "prev");
     // direction 2 : prev
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -377,7 +377,7 @@ Cotton.DB.Engine = Class.extend({
     // Define the Range.
     var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
-    var oCursorRequest = oIndex.openCursor(oKeyRange, 2);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, "prev");
     // direction 2 : prev
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -409,7 +409,7 @@ Cotton.DB.Engine = Class.extend({
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
     // use non deprecated cursor direction.
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
-    
+
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -451,7 +451,7 @@ Cotton.DB.Engine = Class.extend({
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
-    
+
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
                                               "readwrite");
@@ -528,13 +528,13 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getLastEntry :
-   * 
+   *
    * the last item in the database. Equivalent to getLast with sIndex = id
-   * 
+   *
    * @param sObjectStoreName
    * @param mResultElementCallback
    *          call back function
-   * 
+   *
    * @return the call back function return an dDBRecord element.
    */
   getLastEntry : function(sObjectStoreName, mResultElementCallback) {
@@ -549,7 +549,7 @@ Cotton.DB.Engine = Class.extend({
     var oKeyRange = webkitIDBKeyRange.only(0);
     // http://www.w3.org/TR/IndexedDB/#widl-IDBObjectStore-openCursor-IDBRequest-any-range-DOMString-direction
     // The first argument is nullabe.
-    var oCursorRequest = oStore.openCursor(null, 2);
+    var oCursorRequest = oStore.openCursor(null, "prev");
 
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -570,16 +570,16 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getLast :
-   * 
+   *
    * the last item sorted by sIndexKey.
-   * 
+   *
    * @param {string}
    *          sObjectStoreName : Object store name
    * @param {string}
    *          sIndexKey : name of the index used for sorting
    * @param {function}
    *          mResultElementCallback : callback function
-   * 
+   *
    * @return the call back function return an dDBRecord element.
    */
   getLast : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
@@ -595,7 +595,7 @@ Cotton.DB.Engine = Class.extend({
     // Define the Range.
     // TODO(rmoutard) : oKeyRange seems not used.
     var oKeyRange = webkitIDBKeyRange.only(0);
-    var oCursorRequest = oIndex.openCursor(null, 2);
+    var oCursorRequest = oIndex.openCursor(null, "prev");
 
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -616,9 +616,9 @@ Cotton.DB.Engine = Class.extend({
 
   /**
    * getXItems :
-   * 
+   *
    * get X items in a given direction
-   * 
+   *
    * @param {string}
    *          sObjectStoreName : Object store name
    * @param {int}
@@ -629,9 +629,9 @@ Cotton.DB.Engine = Class.extend({
    *          iDirection :
    * @param {function}
    *          mResultElementCallback : callback function
-   * 
+   *
    * @return the call back function return an dDBRecord element.
-   * 
+   *
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
@@ -643,7 +643,7 @@ Cotton.DB.Engine = Class.extend({
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
-    
+
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -692,7 +692,7 @@ Cotton.DB.Engine = Class.extend({
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
     if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
-    
+
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
