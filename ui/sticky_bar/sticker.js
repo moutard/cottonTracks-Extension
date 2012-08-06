@@ -32,7 +32,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Return the DOM value.
-   * 
+   *
    * @return {HtmlElement}
    */
   $ : function() {
@@ -119,7 +119,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   * 
+   *
    * @param {int}
    *          iTranslateX : value of the translation
    * @param {boolean}
@@ -143,7 +143,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   * 
+   *
    * DISABLE
    */
   openSumUp : function() {
@@ -160,7 +160,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   * 
+   *
    * DISABLE
    */
   closeSumUp : function() {
@@ -171,11 +171,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Draw each visitItem in the story using the information on self._oStory.
+   * @param {Array.<Cotton.Model.VisitItem>} lVisitItems
    */
-  drawStory : function(){
+  drawStory : function(lVisitItems){
     var self = this;
     var oStoryline = new Cotton.UI.Story.Storyline();
-    _.each(self._oStory.visitItems(), function(oVisitItem, iI) {
+    _.each(lVisitItems, function(oVisitItem, iI) {
       var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
       // var oItem = oStoryline.buildStory(oVisitItem);
       setTimeout(function() {
@@ -196,28 +197,32 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     // If the story is empty make a dbRequest to get the corresponding
     // visitItems.
     if(self._oStory.visitItems().length === 0){
+      console.debug('ct - visitItems not loaded');
       new Cotton.DB.Store('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
         this.findGroup('visitItems', 'id', self._oStory.visitItemsId(),
           function(lVisitItems) {
+          console.debug("ct - visitItems has been loaded in the database");
           self._oStory.setVisitItems(lVisitItems);
-          self.drawStory();
+          self.drawStory(lVisitItems);
           });
       });
     } else {
+      console.debug("ct - visitItems already loaded");
+      console.debug("ct - visitItems corresponding to the clicked story");
+      console.debug(self._oStory.visitItems());
+
       self.drawStory(self._oStory.visitItems());
     }
     // TODO(rmoutard) : avoid to manipulate DOM
     $('.ct-flip').text(self._oStory.title());
-    console.log("pp");
-    console.log(self._oStory.visitItems());
   },
 
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param {HtmlElement}
    *          $img
    */
@@ -244,7 +249,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   * 
+   *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
