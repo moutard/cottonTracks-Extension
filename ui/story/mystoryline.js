@@ -14,45 +14,62 @@
         _$storyLine : null,
         _$storyColLeft : null,
         _$storyColRight : null,
+        _oCurrentStory : null,
 
         /**
          * A jQuery DOM object representing the vertical line joining all items.
+         * @param {Cotton.Model.Story} oStory
          */
-        init : function() {
+        init : function(oStory) {
+          var self = this;
 
-          Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
+          if(!_oCurrentlyOpenStoryline ||
+              _oCurrentlyOpenStoryline._oCurrentStory.id() !== oStory.id()){
 
-          this._$storyHomepage = $('<div id="ct-story-homepage" class="clearfix"></div>');
-          this._$storyLine = $('<div class="ct-mystoryLine"></div>');
-          this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
-          this._$storyColRight = $('<div class="ct-storyColRight"></div>');
+            self._oCurrentStory = oStory;
+            Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
-          $('#ct').append(this._$storyHomepage);
-          // this._$storyLine.append(this._$storyColLeft);
-          // this._$storyLine.append(this._$storyColRight);
+            this._$storyHomepage = $('<div id="ct-story-homepage" class="clearfix"></div>');
+            this._$storyLine = $('<div class="ct-mystoryLine"></div>');
+            this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
+            this._$storyColRight = $('<div class="ct-storyColRight"></div>');
 
-          this._$storyHomepage.append(this._$storyColLeft);
-          this._$storyHomepage.append(this._$storyLine);
-          this._$storyHomepage.append(this._$storyColRight);
-          this._$storyHomepage.css('display', '');
-          this._$storyHomepage.addClass('clearfix');
-          // TODO(fwouts): Improve/cleanup.
-          this._$storyLine.css({
-          // height : window.innerHeight
-          });
+            $('#ct').append(this._$storyHomepage);
+            // this._$storyLine.append(this._$storyColLeft);
+            // this._$storyLine.append(this._$storyColRight);
 
-          _oCurrentlyOpenStoryline = this;
-          
-          // event tracking
-          var bScrolled = false;
-          $(window).on('scroll.Storyline',function () { 
-      		if (bScrolled == false){
-      		  bScrolled = true;
-      		  if (Cotton.Config.Parameters.bAnalytics === true) {
-      		    _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
-      		  }
-      		}
-   		  });
+            this._$storyHomepage.append(this._$storyColLeft);
+            this._$storyHomepage.append(this._$storyLine);
+            this._$storyHomepage.append(this._$storyColRight);
+            this._$storyHomepage.css('display', '');
+            this._$storyHomepage.addClass('clearfix');
+            // TODO(fwouts): Improve/cleanup.
+            this._$storyLine.css({
+            // height : window.innerHeight
+            });
+
+            _oCurrentlyOpenStoryline = this;
+
+            _.each(self._oCurrentStory.visitItems(), function(oVisitItem, iI) {
+                var oItem = self.addVisitItem(oVisitItem,
+                                              iI % 2 == 0 ? 'left' : 'right');
+                // var oItem = oStoryline.buildStory(oVisitItem);
+                setTimeout(function() {
+                  oItem.$().css("opacity", "1");
+                }, iI * 100);
+            });
+
+            // event tracking
+            var bScrolled = false;
+            $(window).on('scroll.Storyline',function () {
+              if (bScrolled == false){
+                bScrolled = true;
+                if (Cotton.Config.Parameters.bAnalytics === true) {
+                  _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
+                }
+              }
+            });
+          }
         },
 
         addVisitItem : function(oVisitItem, sParam) {
