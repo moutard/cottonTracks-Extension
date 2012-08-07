@@ -175,14 +175,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    */
   drawStory : function(lVisitItems){
     var self = this;
-    var oStoryline = new Cotton.UI.Story.Storyline();
-    _.each(lVisitItems, function(oVisitItem, iI) {
-      var oItem = oStoryline.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left' : 'right');
-      // var oItem = oStoryline.buildStory(oVisitItem);
-      setTimeout(function() {
-        oItem.$().css("opacity", "1");
-      }, iI * 100);
-    });
+    var oStoryline = new Cotton.UI.Story.Storyline(self._oStory);
     self._oBar.close();
   },
 
