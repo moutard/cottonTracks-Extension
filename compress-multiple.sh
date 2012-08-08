@@ -118,6 +118,7 @@ model_output_file="model.js"
 
 # UTILS
 utils_input_files=( './utils/init.js'
+                    './utils/ga.js'
                     './utils/tools_container.js'
                     './utils/exclude_container.js'
                     )
