@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "cottonTracks",
-  "version": "0.0.2.9",
+  "version": "0.0.2.10",
   "minimum_chrome_version": "18",
   "icons": {
     "16": "/media/images/cTfav_16.png",
