@@ -28,6 +28,13 @@ cd $DESTINATION_PATH$TAR_NAME$VERSION
 rm -rf test
 echo 'Useless folders have been removed'
 
+
+# -- PROD CONFIG --------------------------------------------------------------
+sed -i '' -e 's/.*bDevMode.*/bDevMode:false,/' './config/config.js'
+sed -i '' -e 's/.*bActiveSumup.*/bActiveSumup:false,/' './config/config.js'
+sed -i '' -e 's/.*bAnalytics.*/bAnalytics:true,/' './config/config.js'
+sed -i '' -e 's/.*bLoggingEnabled.*/bLoggingEnabled:true,/' './config/config.js'
+
 # -- COMPILE ------------------------------------------------------------------
 COMPILE_COMMAND="java -jar $GOOGLE_CLOSURE_COMPILER "
 COMPILE_OPTIONS="--language_in=ECMASCRIPT5_STRICT"
