@@ -286,6 +286,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             oSticker.$().animate({left: iLeft+"px"}, 500);
           }
           // event tracking
+          // Cotton.ANALYTICS.deleteSory();
           if (Cotton.Config.Parameters.bAnalytics === true) {
             _gaq.push(['_trackEvent', 'Story modification', 'delete']);
           }
