@@ -41,10 +41,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           if (bScrolled == false) {
             bScrolled = true;
             // Event Tracking
-            if (Cotton.Config.Parameters.bAnalytics === true) {
-              _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-                  'Left arrow in story selector' ]);
-            }
+            Cotton.ANALYTICS.scrollWithLeftArrow();
           }
         });
 
@@ -56,10 +53,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           if (bScrolled == false) {
             bScrolled = true;
             // Event Tracking
-            if (Cotton.Config.Parameters.bAnalytics === true) {
-              _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-                  'Right arrow in story selector' ]);
-            }
+            Cotton.ANALYTICS.scrollWithRightArrow();
           }
         });
 
@@ -103,10 +97,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           // Event Tracker on first scroll
           if (bScrolled == false) {
             bScrolled = true;
-            if (Cotton.Config.Parameters.bAnalytics === true) {
-              _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-                  'Scroll in story selector' ]);
-            }
+            Cotton.ANALYTICS.scrollStorySelector();
           }
         });
 
