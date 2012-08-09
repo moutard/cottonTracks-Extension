@@ -64,9 +64,7 @@
             $(window).on('scroll.Storyline',function () {
               if (bScrolled == false){
                 bScrolled = true;
-                if (Cotton.Config.Parameters.bAnalytics === true) {
-                  _gaq.push(['_trackEvent', 'Story use', 'Scroll']);
-                }
+                Cotton.ANALYTICS.scrollStory();
               }
             });
           }

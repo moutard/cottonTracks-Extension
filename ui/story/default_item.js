@@ -64,14 +64,10 @@ Cotton.UI.Story.DefaultItem = Class.extend({
 
     // event tracking
     $title.click(function() {
-      if (Cotton.Config.Parameters.bAnalytics === true) {
-        _gaq.push([ '_trackEvent', 'Story use', 'Title' ]);
-      }
+      Cotton.ANALYTICS.clickDefaultElementTitle();
     });
     $featuredImage.click(function() {
-      if (Cotton.Config.Parameters.bAnalytics === true) {
-        _gaq.push([ '_trackEvent', 'Story use', 'Featured Image' ]);
-      }
+      Cotton.ANALYTICS.clickDefaultElementFeaturedImage();
     });
   },
 

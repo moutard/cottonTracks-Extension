@@ -51,9 +51,7 @@ Cotton.UI.Story.SlideshowItem = Class
 
         // event tracking
         $slideshow.click(function() {
-          if (Cotton.Config.Parameters.bAnalytics === true) {
-            _gaq.push([ '_trackEvent', 'Story use', 'slideshow' ]);
-          }
+          Cotton.ANALYTICS.viewSlideshow();
         });
       },
 
