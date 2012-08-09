@@ -33,63 +33,63 @@ Cotton.Analytics = Class.extend({
                 'Enter story', 'Click on sticker']);
   },
 
-  modifyStory = function(){
+  modifyStory : function(){
     _gaq.push(['_trackEvent', 'Story modification', 'modify']);
   },
 
-  deleteStory = function(){
+  deleteStory : function(){
     _gaq.push(['_trackEvent', 'Story modification', 'delete']);
   },
 
-  editModeOn = function(){
+  editModeOn : function(){
     _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
   },
 
-  editModeOff = function(){
+  editModeOff : function(){
     _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
   },
-  
-  scrollWithLeftArrow = function(){
+
+  scrollWithLeftArrow : function(){
     _gaq.push([ '_trackEvent', 'Hook', 'Browse stories', 'Left arrow in story selector' ]);
   },
-  
-  scrollWithRightArrow = function(){
+
+  scrollWithRightArrow : function(){
     _gaq.push([ '_trackEvent', 'Hook', 'Browse stories', 'Right arrow in story selector' ]);
   },
-  
-  scrollStorySelector = function(){
+
+  scrollStorySelector : function(){
     _gaq.push([ '_trackEvent', 'Hook', 'Browse stories', 'Scroll in story selector' ]);
   },
-  
-  clickDefaultElementTitle = function(){
+
+  clickDefaultElementTitle : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Element Title Clicked', 'Default Element' ]);
   },
-  
-  clickDefaultElementFeaturedImage = function(){
+
+  clickDefaultElementFeaturedImage : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Element Featured Image Clicked', 'Default Element' ]);
   },
-  
-  clickSearchElementTitle = function(){
+
+  clickSearchElementTitle : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Element Title Clicked', 'Search Element' ]);
   },
-  
-  clickSearchElementFeaturedImage = function(){
+
+  clickSearchElementFeaturedImage : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Element Featured Image Clicked', 'Search Element' ]);
   },
-  
-  viewImageElement = function(){
+
+  viewImageElement : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Element' ]);
   },
-  
-  viewSlideshow = function(){
+
+  viewSlideshow : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed', 'Slideshow Element' ]);
   },
 
-  viewVideo = function(){
+  viewVideo : function(){
     _gaq.push([ '_trackEvent', 'Story use', 'Video viewed', 'Video Element' ]);
   },
-  
-  scrollStory = function(){
+
+  scrollStory : function(){
     _gaq.push(['_trackEvent', 'Story use', 'Scroll Story', 'Story']);
   },
 });
