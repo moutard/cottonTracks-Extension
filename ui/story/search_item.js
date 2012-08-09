@@ -46,14 +46,10 @@ Cotton.UI.Story.SearchItem = Class.extend({
 
     // event tracking
     $title.click(function() {
-      if (Cotton.Config.Parameters.bAnalytics === true) {
-        _gaq.push([ '_trackEvent', 'Story use', 'Title' ]);
-      }
+      Cotton.ANALYTICS.clickSearchElementTitle();
     });
     $featuredImage.click(function() {
-      if (Cotton.Config.Parameters.bAnalytics === true) {
-        _gaq.push([ '_trackEvent', 'Story use', 'Featured Image' ]);
-      }
+      Cotton.ANALYTICS.clickSearchElementFeaturedImage();
     });
   },
 

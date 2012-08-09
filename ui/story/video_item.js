@@ -63,9 +63,7 @@ Cotton.UI.Story.VideoItem = Class
 
         // event tracking
         $video.click(function() {
-          if (Cotton.Config.Parameters.bAnalytics === true) {
-            _gaq.push([ '_trackEvent', 'Story use', 'video' ]);
-          }
+          Cotton.ANALYTICS.viewVideo();
         });
       },
 
