@@ -15,19 +15,19 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     this._oAppsGrid = new Cotton.UI.Homepage.AppsGrid();
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
-      function() {
-        if (localStorage['ct-grid_mode'] == 'apps') {
-          self._oFavoritesGrid.show();
-          self._oAppsGrid.hide();
-          localStorage['ct-grid_mode'] = 'favorites';
-          $(this).find('h2').text("Apps");
-        } else {
-          self._oFavoritesGrid.hide();
-          self._oAppsGrid.show();
-          localStorage['ct-grid_mode'] = 'apps';
-          $(this).find('h2').text("Favorites");
-        }
-      }).appendTo(this._$homepage);
+        function() {
+          if (localStorage['ct-grid_mode'] == 'apps') {
+            self._oFavoritesGrid.show();
+            self._oAppsGrid.hide();
+            localStorage['ct-grid_mode'] = 'favorites';
+            $(this).find('h2').text("Apps");
+          } else {
+            self._oFavoritesGrid.hide();
+            self._oAppsGrid.show();
+            localStorage['ct-grid_mode'] = 'apps';
+            $(this).find('h2').text("Favorites");
+          }
+        }).appendTo(this._$homepage);
 
     this._$homepage.append(this._oFavoritesGrid.$());
     this._$homepage.append(this._oAppsGrid.$());
