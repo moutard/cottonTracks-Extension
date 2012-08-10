@@ -34,13 +34,15 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
       lStories[lVisitItems[j]['clusterId']].addDbRecordVisitItem(lVisitItems[j]);
 
       // Set story title.
+
       if(lStories[lVisitItems[j]['clusterId']].title() === "" ||
           lStories[lVisitItems[j]['clusterId']]['temptitle'] === true ){
         if (lVisitItems[j]['lQueryWords'].length !== 0) {
-          lStories[lVisitItems[j]['clusterId']].setTitle(lVisitItems[j]['lQueryWords']
-              .join(" "));
+          lStories[lVisitItems[j]['clusterId']].setTitle(
+                                        lVisitItems[j]['lQueryWords'].join(" ")
+                                                );
            lStories[lVisitItems[j]['clusterId']]['temptitle'] = false;
-        } else {
+        } else if(lVisitItems[j]['sTitle'] !== "") {
            lStories[lVisitItems[j]['clusterId']].setTitle(lVisitItems[j]['sTitle']);
            lStories[lVisitItems[j]['clusterId']]['temptitle'] = true;
         }
