@@ -16,22 +16,22 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
       function() {
-        if (localStorage['gridMode'] == 'apps') {
+        if (localStorage['ct-grid_mode'] == 'apps') {
           self._oFavoritesGrid.show();
           self._oAppsGrid.hide();
-          localStorage['gridMode'] = 'favorites';
+          localStorage['ct-grid_mode'] = 'favorites';
           $(this).find('h2').text("Apps");
         } else {
           self._oFavoritesGrid.hide();
           self._oAppsGrid.show();
-          localStorage['gridMode'] = 'apps';
+          localStorage['ct-grid_mode'] = 'apps';
           $(this).find('h2').text("Favorites");
         }
       }).appendTo(this._$homepage);
 
     this._$homepage.append(this._oFavoritesGrid.$());
     this._$homepage.append(this._oAppsGrid.$());
-    if (localStorage['gridMode'] == 'apps'){
+    if (localStorage['ct-grid_mode'] == 'apps'){
       this._oFavoritesGrid.hide();
       this._$SwitchButton.append("<h2>Favorites</h2>");
     } else {
