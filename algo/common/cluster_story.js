@@ -1,7 +1,9 @@
 'use strict';
 /**
- * @param {Array.<Object>} lVisitItems : array of DbRecordVisitItem
- * @param {int} iNbCluster
+ * @param {Array.
+ *          <Object>} lVisitItems : array of DbRecordVisitItem
+ * @param {int}
+ *          iNbCluster
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   // Create an Array of stories with lVisitItems
@@ -31,27 +33,28 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lVisitItems[j]['clusterId'] !== "NOISE") {
       bStoryUnderConstruction = false;
-      lStories[lVisitItems[j]['clusterId']].addDbRecordVisitItem(lVisitItems[j]);
+      lStories[lVisitItems[j]['clusterId']]
+          .addDbRecordVisitItem(lVisitItems[j]);
 
       // Set story title.
-
-      if(lStories[lVisitItems[j]['clusterId']].title() === "" ||
-          lStories[lVisitItems[j]['clusterId']]['temptitle'] === true ){
+      if (lStories[lVisitItems[j]['clusterId']].title() === ""
+          || lStories[lVisitItems[j]['clusterId']]['temptitle'] === true) {
         if (lVisitItems[j]['lQueryWords'].length !== 0) {
-          lStories[lVisitItems[j]['clusterId']].setTitle(
-                                        lVisitItems[j]['lQueryWords'].join(" ")
-                                                );
-           lStories[lVisitItems[j]['clusterId']]['temptitle'] = false;
-        } else if(lVisitItems[j]['sTitle'] !== "") {
-           lStories[lVisitItems[j]['clusterId']].setTitle(lVisitItems[j]['sTitle']);
-           lStories[lVisitItems[j]['clusterId']]['temptitle'] = true;
+          lStories[lVisitItems[j]['clusterId']]
+              .setTitle(lVisitItems[j]['lQueryWords'].join(" "));
+          lStories[lVisitItems[j]['clusterId']]['temptitle'] = false;
+        } else if (lVisitItems[j]['sTitle'] !== "") {
+          lStories[lVisitItems[j]['clusterId']]
+              .setTitle(lVisitItems[j]['sTitle']);
+          lStories[lVisitItems[j]['clusterId']]['temptitle'] = true;
         }
       }
 
       // Set Featured image
       var reg = new RegExp(".(jpg|png|gif)$", "g");
       if (reg.exec(lVisitItems[j]['sUrl'])) {
-        lStories[lVisitItems[j]['clusterId']].setFeaturedImage(lVisitItems[j]['sUrl']);
+        lStories[lVisitItems[j]['clusterId']]
+            .setFeaturedImage(lVisitItems[j]['sUrl']);
       }
 
     } else if (bStoryUnderConstruction) {
@@ -65,13 +68,12 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   });
 
   /**
-   * Compute title and featured Image
-   * Can't use this for the moment because addDbRecordVisitItem don't put
-   * a Cotton.Model.VisitItem.
+   * Compute title and featured Image Can't use this for the moment because
+   * addDbRecordVisitItem don't put a Cotton.Model.VisitItem.
    */
-  for(var k = 0, oStory; oStory = lStories[k]; k++ ){
-    //oStory.computeTitle();
-    //oStory.computeFeaturedImage();
+  for ( var k = 0, oStory; oStory = lStories[k]; k++) {
+    // oStory.computeTitle();
+    // oStory.computeFeaturedImage();
     console.log(oStory);
   }
   // the lStories[iNbcluster] is the story under constructrion
@@ -81,4 +83,3 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     'storyUnderConstruction' : oStoryUnderConstruction
   };
 };
-
