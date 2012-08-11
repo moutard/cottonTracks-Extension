@@ -41,6 +41,7 @@ Cotton.Config.Parameters = {
   // DBSCAN2
 
   // UI
+  sGrid : "MostVisited", // choose among "MostVisited" or "Favorites"
   iNbMostVisited : 8,
 
   // PROD

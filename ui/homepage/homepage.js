@@ -11,7 +11,13 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     var self = this;
     this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
 
-    this._oFavoritesGrid = new Cotton.UI.Homepage.MostVisitedGrid();
+    // Favorites or MostVisited
+    if (Cotton.Config.Parameters['sGrid'] === "MostVisited") {
+      this._oFavoritesGrid = new Cotton.UI.Homepage.MostVisitedGrid();
+    } else {
+      this._oFavoritesGrid = new Cotton.UI.Homepage.FavoritesGrid();
+    }
+
     this._oAppsGrid = new Cotton.UI.Homepage.AppsGrid();
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
