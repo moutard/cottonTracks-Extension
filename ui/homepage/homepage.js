@@ -11,7 +11,7 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     var self = this;
     this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
 
-    this._oFavoritesGrid = new Cotton.UI.Homepage.FavoritesGrid();
+    this._oFavoritesGrid = new Cotton.UI.Homepage.MostVisitedGrid();
     this._oAppsGrid = new Cotton.UI.Homepage.AppsGrid();
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
@@ -31,7 +31,7 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
     this._$homepage.append(this._oFavoritesGrid.$());
     this._$homepage.append(this._oAppsGrid.$());
-    if (localStorage['ct-grid_mode'] == 'apps'){
+    if (localStorage['ct-grid_mode'] == 'apps') {
       this._oFavoritesGrid.hide();
       this._$SwitchButton.append("<h2>Favorites</h2>");
     } else {
@@ -51,7 +51,7 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
   hide : function() {
     this._$homepage.hide();
-    //TODO:put in the less file
+    // TODO:put in the less file
     $('.ct-iconButton_home').css({
       background : 'url("/media/images/topbar/home.png")',
       cursor : 'pointer'
@@ -62,11 +62,11 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
     this._$homepage.show();
     $('.ct-flip').text('Welcome');
-    //TODO: Put in the less file
+    // TODO: Put in the less file
     $('.ct-iconButton_home').css({
       background : 'url("/media/images/topbar/home_selected.png")',
       cursor : 'default'
     });
   },
-  
+
 });
