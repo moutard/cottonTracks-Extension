@@ -40,6 +40,9 @@ Cotton.Config.Parameters = {
   },
   // DBSCAN2
 
+  // UI
+  iNbMostVisited : 8,
+
   // PROD
   bDevMode : false,
   bActiveSumup : false,
