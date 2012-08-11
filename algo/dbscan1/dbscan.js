@@ -7,15 +7,16 @@ Cotton.Algo.initSetOfPoints = function(lSetOfPoints) {
   }
 };
 
-Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
+Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps, mDistance) {
   // return the Eps-Neighborhood i.e. all the point in lSetOfPoints that are
   // close to oPoint (distance <= Eps)
 
   // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
-  // TODO(rmoutard): maybe use a yield to not store a new array ! NO : we need to know the number of Eps-Neighboor
+  // TODO(rmoutard): maybe use a yield to not store a new array ! NO : we need
+  // to know the number of Eps-Neighboor
   var lEpsNeighborhood = [];
   for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
-    if (Cotton.Algo.distanceComplexe(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
+    if (mDistance(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
       lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
   }
@@ -23,11 +24,12 @@ Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps) {
   return lEpsNeighborhood;
 };
 
-Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts) {
+Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps,
+    iMinPts, mDistance) {
   // Check if we can expand a cluster
 
   // get fEps-Neighborhood of oPoint
-  var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps);
+  var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps, mDistance);
 
   if (lSeeds.length <= iMinPts) {
     // the fEps-Neighborhood is not wide enough to create a cluster
@@ -53,7 +55,8 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
       oCurrentSeedPoint = lSeeds.pop();
 
       // lResult is the fEps-Neighborhood of the oCurrentSeedPoint
-      var lResult = Cotton.Algo.regionQuery(lSetOfPoints, oCurrentSeedPoint, fEps);
+      var lResult = Cotton.Algo.regionQuery(lSetOfPoints, oCurrentSeedPoint,
+          fEps, mDistance);
 
       if (lResult.length >= iMinPts) {
 
@@ -62,8 +65,8 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
           var oCurrentResultPoint = lResult[iResultIndex];
           if (oCurrentResultPoint['clusterId'] === 'UNCLASSIFIED'
               || oCurrentResultPoint['clusterId'] === 'NOISE') {
-              // if NOISE then we were wrong now the point is in the cluster
-              // if UNCLASSIFIED the point is in the cluster and ...
+            // if NOISE then we were wrong now the point is in the cluster
+            // if UNCLASSIFIED the point is in the cluster and ...
             if (oCurrentResultPoint['clusterId'] === 'UNCLASSIFIED') {
               // ...we had it in the seeds to check its fEps-Neighborhood
               lSeeds.push(oCurrentResultPoint);
@@ -80,21 +83,21 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps, iMi
   }
 };
 
-Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
+Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts, mDistance) {
   // Main part of the algorithm
 
   // Mark all the point as UNCLASSIFIED
   Cotton.Algo.initSetOfPoints(lSetOfPoints);
 
   var iClusterId = 0; // current clusterId
-  var oPoint;         // current point
-
+  var oPoint; // current point
 
   for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
     oPoint = lSetOfPoints[iLoop];
 
     if (oPoint['clusterId'] === 'UNCLASSIFIED') {
-      if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps, iMinPts)) {
+      if (Cotton.Algo.expandCluster(lSetOfPoints, oPoint, iClusterId, fEps,
+          iMinPts, mDistance)) {
         iClusterId++;
 
       }
@@ -103,5 +106,3 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts) {
 
   return iClusterId;
 };
-
-
