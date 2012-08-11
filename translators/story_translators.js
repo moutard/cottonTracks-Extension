@@ -15,6 +15,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'fLastVisitTime' : oStory.lastVisitTime(),
       'fRelevance' : oStory.relevance(),
       'sTitle' : oStory.title(),
+      'sFeaturedImage' : oStory.featuredImage(),
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -35,9 +36,10 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       oStory.setRelevance(oDbRecord['fRelevance']);
     }
     oStory.setTitle(oDbRecord['sTitle']);
+    oStory.setFeaturedImage(oDbRecord['sFeaturedImage']);
+
     if (oDbRecord['lVisitItemsId'] !== undefined) {
-      for ( var i = 0, iVisitItemId;
-          iVisitItemId = oDbRecord['lVisitItemsId'][i]; i++) {
+      for ( var i = 0, iVisitItemId; iVisitItemId = oDbRecord['lVisitItemsId'][i]; i++) {
         oStory.addVisitItemId(iVisitItemId);
       }
     }
