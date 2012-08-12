@@ -264,7 +264,8 @@ declare -a background_lib
 background_lib=( './lib/date.format.js'
                  './lib/parse_url.js')
 
-background_missing_files=( './messaging/content_script_listener.js'
+background_missing_files=( 	'./messaging/content_script_listener.js'
+							'./controller/first_launch.js'
                          )
 
 declare -a background_includes_files
