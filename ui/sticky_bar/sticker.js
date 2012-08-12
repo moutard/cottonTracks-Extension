@@ -32,7 +32,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Return the DOM value.
-   *
+   * 
    * @return {HtmlElement}
    */
   $ : function() {
@@ -117,7 +117,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   *
+   * 
    * @param {int}
    *          iTranslateX : value of the translation
    * @param {boolean}
@@ -141,7 +141,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   *
+   * 
    * DISABLE
    */
   openSumUp : function() {
@@ -158,7 +158,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   *
+   * 
    * DISABLE
    */
   closeSumUp : function() {
@@ -169,7 +169,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Draw each visitItem in the story using the information on self._oStory.
-   * @param {Array.<Cotton.Model.VisitItem>} lVisitItems
+   * 
+   * @param {Array.
+   *          <Cotton.Model.VisitItem>} lVisitItems
    */
   drawStory : function(lVisitItems){
     var self = this;
@@ -213,7 +215,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   *
+   * 
    * @param {HtmlElement}
    *          $img
    */
@@ -240,7 +242,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   *
+   * 
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
@@ -265,13 +267,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
                 console.log("delete story");
               });
           });
-
-          self.$().animate({width: 0, height:0}, 200, function(){
-            self.$().remove();
-            self.closeSumUp();
-            Cotton.UI.Homepage.HOMEPAGE.show();
-            self._oBar.open();
-          });
+          
+          self.$().remove();
+          self.closeSumUp();
+          Cotton.UI.Homepage.HOMEPAGE.show();
+          self._oBar.open();
 
           var lUpperStickers = _.filter(self._oBar._lStickers,
             function(oSticker){
@@ -281,7 +281,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
             oSticker._iPosition-=1;
             var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-            oSticker.$().animate({left: iLeft+"px"}, 500);
+            oSticker.$().css("left", iLeft+"px");
           }
           // event tracking
           Cotton.ANALYTICS.deleteSory();
