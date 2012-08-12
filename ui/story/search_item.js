@@ -41,8 +41,7 @@ Cotton.UI.Story.SearchItem = Class.extend({
         $('<div class="ct-storyItemLinkDot"></div>'))), $content.append(
     // $deleteButton,
     // $grabHandle,
-    $featuredImage, $title.append($originLink), $legend, $summary), $bottom,
-        $quote);
+    $featuredImage, $title.append($originLink), $legend, $summary), $bottom);
 
     // event tracking
     $title.click(function() {
