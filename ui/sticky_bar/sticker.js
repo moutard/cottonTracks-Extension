@@ -284,7 +284,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             oSticker.$().css("left", iLeft+"px");
           }
           // event tracking
-          Cotton.ANALYTICS.deleteSory();
+          Cotton.ANALYTICS.deleteStory();
         }
       });
       self._$sticker.append($removeButton);
