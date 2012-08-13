@@ -188,9 +188,25 @@ body {
         top: 12px;
         cursor: pointer;
 
-	&:hover{
-	  color: @golden;
-	}
+        > a {
+          text-decoration: none;
+          color :  #e5e5e5;
+        }
+
+        > a:hover {
+          text-decoration: none;
+          color :  #e5e5e5;
+        }
+
+        > a:visited {
+          text-decoration: none;
+          color :  #e5e5e5;
+
+        }
+
+	      &:hover{
+	        color: @golden;
+	      }
 
         &.ct-textButton_edit {
           margin-left: -210px;
@@ -245,10 +261,10 @@ body {
   box-shadow: 0 0 2px #a6a6a6;
   border-radius: 5px;
   overflow: hidden;
-  
+
   -webkit-transition-duration: 0.5s;
   -webkit-transition-property: left;
-  
+
   > .ct-container {
   }
 }
@@ -377,7 +393,7 @@ body {
    	 > .ct-ticketImage {
 	    //margin-left: 11px; /* original value : Did not exist*/
         //height: 100px; /* original value 200px*/
-        width: 100%; 
+        width: 100%;
         //test
         max-width: 215px;
         min-width: 150px;
@@ -426,12 +442,12 @@ body {
         text-align: center;
         font-weight: normal;
         //font-size: 1.2em;
-        
+
         position: relative;
 		z-index: 3;
 		//top: -10em;
     	}
-    }    
+    }
 }
 
 @media screen and (min-width:0px) {
@@ -439,23 +455,23 @@ body {
     	width: 150px;
         margin-right: 5%;
         margin-left: 5%;
-        	
+
         	.ct-ticketEnvelope{
         	top: -50px;	/*-25px;*/
-        	}	
-        
+        	}
+
         	.ct-ticketCount{
         	font-size: 0.7em;
         	top: -160px;
         		> b {
           		font-size: 2.5em; /*3em*/
-       		 	}  
-        	}     	
+       		 	}
+        	}
         }
      .ct-ticket h3 {
        	top: -160px; /*-10em*/
        	font-size: 0.8em; /*1.2em*/
-       	} 	   
+       	}
 }
 
 @media screen and (min-width:500px) {
@@ -464,20 +480,20 @@ body {
         margin-left: 10%;
         	}
         }
-        
+
 @media screen and (min-width:725px) {
     .ct-ticket {
         margin-right: 2%;
         margin-left: 2%;
         	}
-        }         
+        }
 
 @media screen and (min-width:875px) {
     .ct-ticket {
         margin-right: 4%;
         margin-left: 4%;
         	}
-        } 
+        }
 
 @media screen and (min-width:1200px) {
     .ct-ticket {
@@ -485,23 +501,23 @@ body {
     	width: 215px;
         margin-right: 2.5%;
         margin-left: 2.5%;
-        
+
         	.ct-ticketEnvelope{
         	top: -25px;
-        	}	
-        
+        	}
+
         	.ct-ticketCount{
         	font-size: 0.8em;
         	top: -190px;
         		> b {
           		font-size: 3em;
-       		 	}  
-        	}     	
+       		 	}
+        	}
         }
      .ct-ticket h3 {
        	top: -10em;
        	font-size: 1.2em;
-       	} 	   
+       	}
 }
 
 
