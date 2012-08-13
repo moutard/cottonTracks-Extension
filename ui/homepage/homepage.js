@@ -12,7 +12,7 @@ Cotton.UI.Homepage.Homepage = Class.extend({
     this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
 
     // Favorites or MostVisited
-    if (Cotton.Config.Parameters['sGrid'] === "MostVisited") {
+    if (localStorage['ct-settings_grid'] === "MostVisited") {
       this._oFavoritesGrid = new Cotton.UI.Homepage.MostVisitedGrid();
     } else {
       this._oFavoritesGrid = new Cotton.UI.Homepage.FavoritesGrid();
