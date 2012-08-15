@@ -1,11 +1,11 @@
 'use strict'
 /**
  * Controller
- *
+ * 
  * Inspired by MVC pattern.
- *
+ * 
  * Handles DB, and UI.
- *
+ * 
  */
 Cotton.Controller = Class.extend({
 
@@ -13,6 +13,7 @@ Cotton.Controller = Class.extend({
   _oWorld : null,
   _wDBSCAN1 : null,
   _wDBSCAN2 : null,
+  _wDBSCAN3 : null,
 
   /**
    * @constructor
@@ -27,6 +28,7 @@ Cotton.Controller = Class.extend({
     });
     self.initWorkerDBSCAN1();
     self.initWorkerDBSCAN2();
+    self.initWorkerDBSCAN3();
     /**
      * Check if a ct database already exists.
      */
@@ -118,19 +120,65 @@ Cotton.Controller = Class.extend({
 
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'], function(oStore){
         // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
-        //Cotton.UI.oWorld.update();
+        // Cotton.UI.oWorld.update();
       });
 
     }, false);
 
   },
+  
+  /**
+   * Initialize the worker in charge of DBSCAN3, and link it to 'message'
+   * listener.
+   */
+  initWorkerDBSCAN3 : function(){
+    var self = this;
+    self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
+    self._wDBSCAN3.addEventListener('message', function(e) {
+      Cotton.Utils.debug("DBSCAN 3 - MESSAGE");
+      Cotton.Utils.debug(e);
+      
+      // Is called when a message is sent by the worker.
+      Cotton.UI.openCurtain();
+      // Use local storage, to see that's it's not the first visit.
+      localStorage['CottonFirstOpening'] = "false";
+      console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
+
+      // Update the visitItems with extractedWords and queryWords.
+      for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
+        // var oVisitItem = new Cotton.Model.VisitItem();
+        // oVisitItem.deserialize(e.data.lVisitItems[i]);
+        var oTranslator = self._oStore._translatorForDbRecord('visitItems',
+                                                      e.data['lVisitItems'][i]);
+        var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
+
+
+        self._oStore.put('visitItems', oVisitItem, function() {
+          console.log("update queryKeywords");
+        });
+      }
+
+      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+                                              e.data['iNbCluster']);
+      // Add stories
+      // var lStories = dStories['stories'].reverse();
+      console.log(dStories);
+      Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
+          function(oStore){
+            // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+            Cotton.UI.oWorld.update();
+      });
+    }, false);
+
+  },
+  
   /**
    * Install
-   *
+   * 
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   *
+   * 
    */
   install : function(){
     console.debug("Controller - install");
@@ -150,7 +198,7 @@ Cotton.Controller = Class.extend({
           lAllVisitDict.push(dItem);
         }
         console.debug(lAllVisitDict);
-        self._wDBSCAN1.postMessage(lAllVisitDict);
+        self._wDBSCAN3.postMessage(lAllVisitDict);
         });
     });
 
@@ -158,7 +206,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   *
+   * 
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -187,7 +235,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   *
+   * 
    * ct is well installed, start the application.
    */
   start : function(){
