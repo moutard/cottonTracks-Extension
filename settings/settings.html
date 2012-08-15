@@ -6,7 +6,15 @@
 <!-- Library -->
 <script type='text/javascript' src='../lib/jquery.min.js'></script>
 <script type='text/javascript' src='../lib/class.js'></script>
-<script type='text/javascript' src='settings.js'></script>
+
+<script type='text/javascript' src='../init.js'></script>
+<script type='text/javascript' src='../config/init.js'></script>
+<script type='text/javascript' src='../config/config.js'></script>
+
+<script type='text/javascript' src='../utils/init.js'></script>
+<script type='text/javascript' src='../utils/import_export_history.js'></script>
+
+
 
 <!-- FIXME(rmoutard): load only if necessary -->
 <link rel="stylesheet/less" type="text/css" href="../media/settings.less" />
@@ -68,9 +76,18 @@
     <label>You don't want that some websites appear, exlude them.</label>
   </form>
 
+  <h2>Import History</h2>
+  <form id="import">
+    <input type="file" id="files" name="files[]" multiple />
+  </form>
+  
+  <h2>Export History</h2>
+  <form id="text-options">
+    <input type="submit" value="Export"/>
+  </form>
 
-
-
-
+<script type='text/javascript' src='../lib/blob_builder.min.js'></script>
+<script type='text/javascript' src='../lib/file_saver.min.js'></script>
+<script type='text/javascript' src='../settings/settings.js'></script>
 </body>
 </html>
