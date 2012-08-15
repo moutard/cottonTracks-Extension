@@ -1,0 +1,22 @@
+'use strict';
+
+Cotton.Utils.exportHistory = function(mCallBack) {
+  // Export the history in the JSON.
+  chrome.history.search({
+    text : '',
+    startTime : 0,
+    "maxResults" : Cotton.Config.Parameters.iMaxResult,
+  }, function(lHistoryItems) {
+    console.debug('Export History - chrome history search has returned '
+        + lHistoryItems.length + ' items');
+    var oHistory = {
+      'history' : lHistoryItems,
+    };
+    var sHistory = JSON.stringify(oHistory);
+    mCallBack(sHistory);
+  });
+};
+
+Cotton.Utils.importHistory = function(sHistoryBlob) {
+  var oHistory = JSON.parse(sHistoryBlob);
+};
