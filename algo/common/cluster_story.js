@@ -14,12 +14,15 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
    */
   console.debug(lVisitItems);
   console.debug(iNbCluster);
-  var lStories = new Array();
+  var lStories = [];
   var oStoryUnderConstruction = new Cotton.Model.Story();
 
   // initialized
   if (lVisitItems.length === 0 || iNbCluster === 0) {
-    return lStories;
+    return {
+      'stories' : lStories,
+      'storyUnderConstruction' : oStoryUnderConstruction
+    };
   }
 
   // inferior or equal is needed <= /
