@@ -1,23 +1,27 @@
 'use strict';
+
 /**
+ * Given an array of visitItem labeled with a "clusterId", return a list of
+ * stories, that contains all visitItems with the same label.
+ * 
  * @param {Array.
- *          <Object>} lVisitItems : array of DbRecordVisitItem
+ *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
+ *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
+ * @returns {Object} dStories list of all the stories.
+ * 
+ * 
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
-  // Create an Array of stories with lVisitItems
-  // lVisitItems should be sorted by fLastvisitTime
 
-  /**
-   * Rq:can't put this directly on the worker because the return is serialized.
-   */
-  console.debug(lVisitItems);
-  console.debug(iNbCluster);
+  Cotton.Utils.debug(lVisitItems);
+  Cotton.Utils.debug(iNbCluster);
   var lStories = [];
+  // TODO(rmoutard) : storyUnderConstruction is usless now.
   var oStoryUnderConstruction = new Cotton.Model.Story();
 
-  // initialized
+  // There is nothing to cluster.
   if (lVisitItems.length === 0 || iNbCluster === 0) {
     return {
       'stories' : lStories,
@@ -25,17 +29,21 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     };
   }
 
-  // inferior or equal is needed <= /
-  for ( var i = 0; i <= iNbCluster; i++) {
+  // initialized
+  for ( var i = 0; i < iNbCluster; i++) {
     lStories[i] = new Cotton.Model.Story();
   }
 
   var bStoryUnderConstruction = true;
-  //
+
   for ( var j = 0; j < lVisitItems.length; j++) {
     if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lVisitItems[j]['clusterId'] !== "NOISE") {
+
+      // 
       bStoryUnderConstruction = false;
+
+      // Add the visitItem in the corresponding story.
       lStories[lVisitItems[j]['clusterId']]
           .addDbRecordVisitItem(lVisitItems[j]);
 
@@ -61,7 +69,6 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
       }
 
     } else if (bStoryUnderConstruction) {
-      // remove the noise
       oStoryUnderConstruction.addDbRecordVisitItem(lVisitItems[j]);
     }
   }
@@ -70,17 +77,6 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     return oStory.lastVisitTime() === 0;
   });
 
-  /**
-   * Compute title and featured Image Can't use this for the moment because
-   * addDbRecordVisitItem don't put a Cotton.Model.VisitItem.
-   */
-  for ( var k = 0, oStory; oStory = lStories[k]; k++) {
-    // oStory.computeTitle();
-    // oStory.computeFeaturedImage();
-    console.log(oStory);
-  }
-  // the lStories[iNbcluster] is the story under constructrion
-  // remove it
   return {
     'stories' : lStories,
     'storyUnderConstruction' : oStoryUnderConstruction
