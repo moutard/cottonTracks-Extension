@@ -34,7 +34,8 @@ Cotton.Algo.PreTreatment.computeClosestGeneratedPage = function(lVisitItems) {
       lVisitItems[i]['lQueryWords'] = oUrl.keywords;
       oCurrentSearchPage = lVisitItems[i];
     } else {
-      if (Math.abs(oCurrentSearchPage['iVisitTime'] - lVisitItems[i]['iVisitTime']) <= iSliceTime) {
+      if (Math.abs(oCurrentSearchPage['iVisitTime']
+          - lVisitItems[i]['iVisitTime']) <= iSliceTime) {
 
         lVisitItems[i]['sClosestGeneratedPage'] = oCurrentSearchPage['sUrl'];
         lVisitItems[i]['lQueryWords'] = oCurrentSearchPage['lQueryWords'];
@@ -53,12 +54,19 @@ Cotton.Algo.PreTreatment.computeExtractedWordsFromTitle = function(lVisitItems) 
   // Instead of computing every time you compute a distance
 
   for ( var i = 0; i < lVisitItems.length; i++) {
-    lVisitItems[i]['lExtractedWords'] = Cotton.Algo
+    lVisitItems[i]['lExtractedWords'] = Cotton.Algo.Tools
         .extractWords(lVisitItems[i]['sTitle']);
   }
   return lVisitItems;
 };
 
+/**
+ * Apply all the pretreatment to lVisitItems.
+ * 
+ * @param {Array.
+ *          <Object>} lVisitItems
+ * @returns {Array.<Object>}
+ */
 Cotton.Algo.PreTreatment.suite = function(lVisitItems) {
   lVisitItems = Cotton.Algo.PreTreatment
       .computeClosestGeneratedPage(lVisitItems);
