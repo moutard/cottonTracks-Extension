@@ -1,6 +1,19 @@
-// Tools
+/**
+ * Distance
+ * 
+ * This file contains all the distance, that you can use for DBSCAN algorithm.
+ */
+Cotton.Algo.Distance = {};
+Cotton.Algo.Tools = {};
 
-Cotton.Algo.extractWords = function(sTitle) {
+/**
+ * Extract words in a title.
+ * 
+ * @param {string}
+ *          sTitle
+ * @returns {Boolean}
+ */
+Cotton.Algo.Tools.extractWords = function(sTitle) {
   // We cannot use the \b boundary symbol in the regex because accented
   // characters would not be considered (not art of \w).
   // Include all normal characters, dash, accented characters.
@@ -11,7 +24,7 @@ Cotton.Algo.extractWords = function(sTitle) {
   // such as "-".
 
   // Lower case to compare correctly.
-  for(var i = 0; i < lMatches.length; i++){
+  for ( var i = 0; i < lMatches.length; i++) {
     lMatches[i] = lMatches[i].toLowerCase();
   }
   lMatches = _.filter(lMatches, function(sWord) {
@@ -20,44 +33,88 @@ Cotton.Algo.extractWords = function(sTitle) {
   return lMatches;
 };
 
-Cotton.Algo.commonWords = function(oVisitItem1, oVisitItem2) {
-  // Return the number of common words
-  var iTitleWordsAmount = 0;
+/**
+ * Get the number of common words in the title of two visitItems.
+ * 
+ * @param {Object}
+ *          oVisitItem1
+ * @param {Object}
+ *          oVisitItem2
+ * @returns {int}
+ */
+Cotton.Algo.Tools.commonWords = function(oVisitItem1, oVisitItem2) {
   var lWords1, lWords2, lCommonWords;
 
-  if(oVisitItem1['sTitle'] === "" && oVisitItem2['sTitle'] === ""){
+  if (oVisitItem1['sTitle'] === "" && oVisitItem2['sTitle'] === "") {
     return -1;
   }
 
-  if(oVisitItem1['lExtractedWords'] === undefined ||
-      oVisitItem2['lExtractWords'] === undefined ){
+  if (oVisitItem1['lExtractedWords'] === undefined
+      || oVisitItem2['lExtractWords'] === undefined) {
     // this part may be deleted but may be usefull in some case.
-    lWords1 = Cotton.Algo.extractWords(oVisitItem1['sTitle']);
-    lWords2 = Cotton.Algo.extractWords(oVisitItem2['sTitle']);
-  }
-  else{
+    lWords1 = Cotton.Algo.Tools.extractWords(oVisitItem1['sTitle']);
+    lWords2 = Cotton.Algo.Tools.extractWords(oVisitItem2['sTitle']);
+  } else {
     // already computed in preTreatment
     lWords1 = oVisitItem1['sExtractedWords'];
     lWords2 = oVisitItems2['sExtractedWords'];
   }
 
-    lCommonWords = _.intersection(lWords1, lWords2);
-    return lCommonWords.length;
+  lCommonWords = _.intersection(lWords1, lWords2);
+  return lCommonWords.length;
 };
 
-Cotton.Algo.distance = function(oHistoryItem1, oHistoryItem2) {
-  // compute distance between two historyItems
-
-};
-
-Cotton.Algo.distanceId = function(oVisitItem1, oVisitItem2) {
-  // compute the Id distance
+/**
+ * Compute the distance between the id.
+ * 
+ * @param {Object}
+ *          oVisitItem1
+ * @param {Object}
+ *          oVisitItem2
+ * @returns {int}
+ */
+Cotton.Algo.Distance.distanceId = function(oVisitItem1, oVisitItem2) {
   return Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']));
 };
 
-Cotton.Algo.distanceLastVisitTime = function(oVisitItem1, oVisitItem2) {
-  // compute the last visit distance
+/**
+ * Compute the distance between the last visitTime.
+ * 
+ * @param {Object}
+ *          oVisitItem1
+ * @param {Object}
+ *          oVisitItem2
+ * @returns {float}
+ */
+Cotton.Algo.Distance.distanceVisitTime = function(oVisitItem1, oVisitItem2) {
   return Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime']);
+};
+
+/**
+ * Compute the distance for the given key. Global version, of previous distance.
+ * 
+ * @param {string}
+ *          sKey : the key that will be used to compute distance.
+ * @param {Object}
+ *          oObject1
+ * @param {Object}
+ *          oObject2
+ * @returns {float}
+ */
+Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
+  return Math.abs(oObject1.sKey - oObject2.sKey);
+};
+
+/**
+ * Compute a distance, but only use the meaning. - title - url - queryKeywords
+ * 
+ * @param {Object}
+ *          oVisitItem : need generatedPage computed.
+ * @param {Object}
+ *          oVisitItem : need generatedPage computed.
+ */
+Cotton.Algo.Distance.meaning = function(oVisitItem, oVisitItem) {
+
 };
 
 // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
@@ -72,7 +129,7 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
       * Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']))
-      / 200 ;
+      / 200;
 
   // lastTimeVisit
   // lastTimeVisit close => items close
@@ -80,65 +137,36 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
       * Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime'])
-      / 1000000 ;
+      / 1000000;
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   // close if 0(1) far if 0.
-  var iCommonWords =  Cotton.Algo.commonWords(oVisitItem1, oVisitItem2);
-  if(iCommonWords === 0){
-     sum += coeff.penalty; // try to detect parallel stories.
-      }
-  else if(iCommonWords === -1){
+  var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
+  if (iCommonWords === 0) {
+    sum += coeff.penalty; // try to detect parallel stories.
+  } else if (iCommonWords === -1) {
     // if there is no title do not put the penalty
     // or put low penalty
     sum += coeff.penalty;
-  }
-  else{
+  } else {
     sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
   }
 
   // Query keywords
   var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
-          oVisitItem1,
-          oVisitItem2);
-  sum += (coeff.queryKeywords
-          / ((1 + iCommonQueryKeywords)*(1 + iCommonQueryKeywords)) );
-
+      oVisitItem1, oVisitItem2);
+  sum += (coeff.queryKeywords / ((1 + iCommonQueryKeywords) * (1 + iCommonQueryKeywords)));
 
   return sum;
 };
 
-/*
- * Distance between generated pages
- */
-
-Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1,
-    oVisitItem2) {
+Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1, oVisitItem2) {
 
   var keywords1 = oVisitItem1['lQueryKeywords'];
   var keywords2 = oVisitItem2['lQueryKeywords'];
 
   var result = _.intersection(keywords1, keywords2);
   return result.length;
-}
-
-/*
- * HistoryItem An object encapsulating one result of a history query.
- *
- * id ( string ) The unique identifier for the item. url ( optional string ) The
- * URL navigated to by a user. title ( optional string ) The title of the page
- * when it was last loaded. lastVisitTime ( optional number ) When this page was
- * last loaded, represented in milliseconds since the epoch. visitCount (
- * optional integer ) The number of times the user has navigated to this page.
- * typedCount ( optional integer ) The number of times the user has navigated to
- * this page by typing in the address.
- */
-
-/*
- * Url generated by google q=jennifer+aniston& // query
- * pq=tets&pf=p&sclient=psy-ab& //previous query site=webhp&source=hp&pbx=1&
- * oq=jennifer+a& // auto completion
- * aq=0&aqi=g4&aql=&gs_sm=&gs_upl=&bav=on.2,or.r_gc.r_pw.r_cp.,cf.osb&fp=6fc8c6804cede81f&ix=seb&ion=1&biw=1438&bih=727
- */
+};
