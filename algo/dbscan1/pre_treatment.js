@@ -22,7 +22,10 @@ Cotton.Algo.PreTreatment.computeParseUrl = function(lVisitItems) {
 
   for ( var i = 0; i < lVisitItems.length; i++) {
     var oUrl = new parseUrl(lVisitItems[i]['sUrl']);
+    // assign oUrl.
     lVisitItems[i]['oUrl'] = oUrl;
+    lVisitItems[i]['sPathname'] = oUrl.pathname;
+    lVisitItems[i]['sHostname'] = oUrl.hostname;
   }
   return lVisitItems;
 };
@@ -102,36 +105,32 @@ Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage = function(lVisitItems) 
   // After this time a page is considered as non-linked with a query search page
 
   var sNonFound = "http://www.google.fr/";
-  var oCurrentSearchPage = {
-    'sUrl' : "http://www.google.fr/",
-    'iVisitTime' : 0
-  };
 
-  for ( var i = lVisitItems.length - 1; i >= 0; i--) {
-    // Inverse Loop.
-    // This method is working because lVisitItems is sorted by iVisitTime.
-    var oUrl = new parseUrl(lVisitItems[i]['sUrl']);
-    lVisitItems[i]['oUrl'] = oUrl;
-    lVisitItems[i]['sPathname'] = oUrl.pathname;
-    lVisitItems[i]['sHostname'] = oUrl.hostname;
-    if (oUrl.pathname === "/search") {
-      // We found a google search by a search with query keywords
-      oUrl.generateKeywords();
+  for ( var i = 0; i < lVisitItems.length; i++) {
+    var oCurrentPage = lVisitItems[i];
+    var iSearchIndex = i;
+    var oTempPage = lVisitItems[iSearchIndex];
 
-      lVisitItems[i]['sClosestGeneratedPage'] = lVisitItems[i]['sUrl'];
-      lVisitItems[i]['lQueryWords'] = oUrl.keywords;
-      oCurrentSearchPage = lVisitItems[i];
-    } else {
-      if (Math.abs(oCurrentSearchPage['iVisitTime']
-          - lVisitItems[i]['iVisitTime']) <= iSliceTime) {
+    // value by default
+    oCurrentPage['sClosestGeneratedPage'] = sNonFound;
+    oCurrentPage['lQueryWords'] = [];
 
-        lVisitItems[i]['sClosestGeneratedPage'] = oCurrentSearchPage['sUrl'];
-        lVisitItems[i]['lQueryWords'] = oCurrentSearchPage['lQueryWords'];
-      } else {
-
-        lVisitItems[i]['sClosestGeneratedPage'] = sNonFound;
-        lVisitItems[i]['lQueryWords'] = new Array();
-      }
+    while(oTempPage &&
+        Math.abs(oCurrentPage['iVisitTime'] - oTempPage['iVisitTime']) < iSliceTime
+        ){
+        if (oTempPage['oUrl']['keywords'] &&
+            _.intersection( oTempPage['oUrl']['keywords'],
+                            oCurrentPage['lExtractedWords']).length > 0 ){
+          // we found a page that should be the google closest query page.
+          oCurrentPage['sClosestGeneratedPage'] = oTempPage['sUrl'];
+          oCurrentPage['lQueryWords'] = oTempPage['oUrl']['keywords'];
+          break;
+        } else {
+          // the temp page is not a good google search page.
+          // try the newt one.
+          iSearchIndex += 1;
+          oTempPage = lVisitItems[iSearchIndex];
+        }
     }
   }
 
@@ -140,7 +139,7 @@ Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage = function(lVisitItems) 
 
 /**
  * Apply all the pretreatment to lVisitItems.
- *
+ * Note: array is a primitive type so it's passed by value.
  * @param {Array.
  *          <Object>} lVisitItems
  * @returns {Array.<Object>}
@@ -150,7 +149,7 @@ Cotton.Algo.PreTreatment.suite = function(lVisitItems) {
   lVisitItems = Cotton.Algo.PreTreatment.computeParseUrl(lVisitItems);
   lVisitItems = Cotton.Algo.PreTreatment.computeExtractedWords(lVisitItems);
   lVisitItems = Cotton.Algo.PreTreatment
-      .computeClosestGeneratedPage(lVisitItems);
+      .computeClosestGoogleSearchPage(lVisitItems);
 
   return lVisitItems;
 };
