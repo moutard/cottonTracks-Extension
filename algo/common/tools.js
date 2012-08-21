@@ -40,7 +40,7 @@ Cotton.Algo.Tools.extractWordsUrl = function(sUrl) {
   // For the moment exactly the same than extractWords. But just in case we
   // will keep two different functions.
   var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var lMatches = sTitle.match(oRegexp) || [];
+  var lMatches = sUrl.match(oRegexp) || [];
 
   // Lower case to compare correctly.
   for ( var i = 0; i < lMatches.length; i++) {
@@ -64,22 +64,7 @@ Cotton.Algo.Tools.extractWordsUrl = function(sUrl) {
  */
 Cotton.Algo.Tools.commonWords = function(oVisitItem1, oVisitItem2) {
 
-  if (oVisitItem1['sTitle'] === "" || oVisitItem2['sTitle'] === "") {
-    return -1;
-  }
-
-  if (oVisitItem1['lExtractedWords'] === undefined
-      || oVisitItem2['lExtractWords'] === undefined) {
-    Cotton.Utils.error("lExtractedWords has not been computed. Before using the method.");
-    return -1;
-  } else if(oVisitItem1['lExtractedWords'].length === 0
-      || oVisitItem2['lExtractedWords'].length === 0 ){
-    // We can't compare.
-    return -1;
-  } else {
-    // return the number of common words.
     return _.intersection(oVisitItem1['lExtractedWords'],
                           oVisitItem2['lExtractedWords']).length;
-  }
 };
 
