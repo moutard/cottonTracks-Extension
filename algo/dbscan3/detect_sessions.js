@@ -21,8 +21,10 @@ Cotton.Algo.roughlySeparateSession = function(lVisitItems, mCallBack) {
     if (i === 0) {
       iPreviousTime = oCurrentVisitItem['iVisitTime'];
     }
+    // var a = new Date(iPreviousTime).toLocaleString();
+    // var b = new Date(oCurrentVisitItem['iVisitTime']).toLocaleString();
 
-    if ((oCurrentVisitItem['iVisitTime'] - iPreviousTime) <= threshold) {
+    if (Math.abs(oCurrentVisitItem['iVisitTime'] - iPreviousTime) <= threshold) {
       lNewRoughSession.push(oCurrentVisitItem);
     } else {
       mCallBack(lNewRoughSession);
