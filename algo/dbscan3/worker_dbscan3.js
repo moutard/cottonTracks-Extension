@@ -48,7 +48,7 @@ function handleVisitItems3(lVisitItems) {
 
     // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
-        Cotton.Algo.distanceComplexe);
+        Cotton.Algo.Distance.meaning);
     /**
      * This worker has no access to window or DOM. So update DOM should be done
      * in the main thread.
