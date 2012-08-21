@@ -54,29 +54,30 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
  * @param {Object}
  *          oVisitItem : need generatedPage computed.
  */
-Cotton.Algo.Distance.meaning = function(oVisitItem, oVisitItem) {
+Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
 
+  // In this version, coeff.queryWords + coeff.commonWords = 1
   var coeff = Cotton.Config.Parameters.distanceCoeff;
+  var sum = 0;
 
-  // Common words
-  // number of common words is high => items close
-  // ordre de grandeur = O(5)
-  // close if 0(1) far if 0.
+  // ExtractedWords
   var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
-  if (iCommonWords === 0) {
-    sum += coeff.penalty; // try to detect parallel stories.
-  } else if (iCommonWords === -1) {
-    // if there is no title do not put the penalty
-    // or put low penalty
-    sum += coeff.penalty;
-  } else {
-    sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
-  }
 
-  // Query keywords
-  var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
-      oVisitItem1, oVisitItem2);
-  sum += (coeff.queryKeywords / ((1 + iCommonQueryKeywords) * (1 + iCommonQueryKeywords)));
+  var A = Math.max(1, Math.min(oVisitItem1['lExtractedWords'].length,
+                   oVisitItem2['lExtractedWords'].length));
+
+  // TODO(rmoutard) : compare with penalty
+  sum += coeff.commonWords *
+    ((1 + A) / A) * Math.pow((iCommonWords / (1 + iCommonWords)) , 2);
+
+  // QueryWords
+  var iCommonQueryWords = Cotton.Algo.distanceBetweenGeneratedPages(oVisitItem1,
+                                                                    oVisitItem2);
+  var B = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
+                   oVisitItem2['lQueryWords'].length));
+
+  sum += coeff.queryWords *
+    ((1 + B) / B) * Math.pow((iCommonQueryWords / (1 + iCommonQueryWords)) , 2);
 
   return sum;
 };
@@ -112,10 +113,9 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // close if 0(1) far if 0.
   var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
   if (iCommonWords === 0) {
-    sum += coeff.penalty; // try to detect parallel stories.
+    // Try to detect parallel stories.
+    sum += coeff.penalty;
   } else if (iCommonWords === -1) {
-    // if there is no title do not put the penalty
-    // or put low penalty
     sum += coeff.penalty;
   } else {
     sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
@@ -134,14 +134,14 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
  *
  * @param {Object}
  *          oVisitItem1
- * @param {Object}ÊoVisitItem2
+ * @param {Object}
+ *          oVisitItem2 : need pretreatment.
  * @returns {int} number of common queryKeymords.
  */
 Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1, oVisitItem2) {
 
-  var keywords1 = oVisitItem1['lQueryKeywords'];
-  var keywords2 = oVisitItem2['lQueryKeywords'];
+  var lQueryWords1 = oVisitItem1['lQueryWords'];
+  var lQueryWords2 = oVisitItem2['lQueryWords'];
 
-  var result = _.intersection(keywords1, keywords2);
-  return result.length;
+  return _.intersection(lQueryWords1, lQueryWords2).length;
 };
