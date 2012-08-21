@@ -1,7 +1,7 @@
 'use strict';
 /**
  * DBSCAN1 Worker
- * 
+ *
  * Workers are in charge of parallelize task.
  */
 
@@ -19,6 +19,8 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
+importScripts('../../algo/common/init.js');
+importScripts('../../algo/common/tools.js');
 importScripts('../../algo/dbscan1/init.js');
 importScripts('../../algo/dbscan1/pre_treatment.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
