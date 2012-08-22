@@ -99,6 +99,7 @@ window.onload = function() {
 
       // Closure to capture the file information.
       reader.onload = (function(theFile) {
+        console.log(theFile);
         return function(e) {
           // Render thumbnail.
           console.log(e.target.result)
@@ -110,7 +111,7 @@ window.onload = function() {
       reader.readAsDataURL(f);
     }
   }
-
+ document.getElementById('files').addEventListener('change', handleFileSelect, false);
   // SAVE
 
 };
