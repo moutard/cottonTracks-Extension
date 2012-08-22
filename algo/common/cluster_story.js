@@ -3,20 +3,20 @@
 /**
  * Given an array of visitItem labeled with a "clusterId", return a list of
  * stories, that contains all visitItems with the same label.
- * 
+ *
  * @param {Array.
  *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
  *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
  * @returns {Object} dStories list of all the stories.
- * 
- * 
+ *
+ *
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
 
-  Cotton.Utils.debug(lVisitItems);
-  Cotton.Utils.debug(iNbCluster);
+  console.debug(lVisitItems);
+  console.debug(iNbCluster);
   var lStories = [];
   // TODO(rmoutard) : storyUnderConstruction is usless now.
   var oStoryUnderConstruction = new Cotton.Model.Story();
@@ -40,7 +40,7 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lVisitItems[j]['clusterId'] !== "NOISE") {
 
-      // 
+      //
       bStoryUnderConstruction = false;
 
       // Add the visitItem in the corresponding story.
@@ -81,4 +81,56 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     'stories' : lStories,
     'storyUnderConstruction' : oStoryUnderConstruction
   };
+};
+
+/**
+ * Given an array of visitItem labeled with a "clusterId", return a list of
+ * list (cluster), that contains all visitItems with the same label.
+ *
+ * @param {Array.
+ *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
+ *          have been serialized by the worker.)
+ * @param {int}
+ *          iNbCluster
+ * @returns {Array.<Array.<visitItem>>} list of list that contains cluster.
+ *
+ */
+
+Cotton.Algo.simpleCuster = function(lVisitItems, iNbCluster){
+  var llClusters = [];
+
+  // initialized
+  for ( var i = 0; i < iNbCluster; i++) {
+    llClusters[i] = [];
+  }
+
+  for ( var j = 0; j < lVisitItems.length; j++) {
+      if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
+        && lVisitItems[j]['clusterId'] !== "NOISE") {
+        llClusters[lVisitItems[j]['clusterId'] ].push(lVisitItems[j]);
+      }
+  }
+
+  return _.reject(llClusters, function(lCluster) {
+    return lCluster.length === 0;
+  });
+
+};
+
+/**
+ * Given an array of visitItem labeled with a "clusterId", return a list of
+ * list (cluster), that contains all visitItems with the same label.
+ *
+ * @param {Array.
+ *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
+ *          have been serialized by the worker.)
+ * @param {int}
+ *          iNbCluster
+ * @returns {Array.<Array.<visitItem>>} list of list that contains cluster.
+ *
+ */
+
+Cotton.Algo.elegantCuster = function(lVisitItems, iNbCluster){
+  // TODO(rmoutard) : reject NOISE and UNCLASSIFIED
+  return _.value(_.groupBy(lVisitItems, function(oItem){return oItem['clusterId'];}));
 };
