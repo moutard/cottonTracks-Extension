@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <!-- Code you want to test -->
+
+  <script type='text/javascript' src='../lib/class.js'></script>
+  <script type='text/javascript' src='../lib/underscore.js'></script>
+  <script type='text/javascript' src='../lib/parse_url.js'></script>
+
+  <script type='text/javascript' src='../init.js'></script>
+
+  <script type='text/javascript' src='../config/init.js'></script>
+  <script type='text/javascript' src='../config/config.js'></script>
+
+  <script type='text/javascript' src='../model/init.js'></script>
+  <script type='text/javascript' src='../model/tool.js'></script>
+  <script type='text/javascript' src='../model/extracted_dna.js'></script>
+  <script type='text/javascript' src='../model/visit_item.js'></script>
+  <script type='text/javascript' src='../model/story.js'></script>
+
+  <script type='text/javascript' src='../utils/init.js'></script>
+  <script type='text/javascript' src='../utils/tools_container.js'></script>
+  <script type='text/javascript' src='../utils/exclude_container.js'></script>
+  <script type='text/javascript' src='../utils/pre_remove_tools.js'></script>
+  <script type='text/javascript' src='../utils/log.js'></script>
+
+
+  <script type='text/javascript' src='../algo/init.js'></script>
+  <script type='text/javascript' src='../algo/common/init.js'></script>
+  <script type='text/javascript' src='../algo/common/tools.js'></script>
+  <script type='text/javascript' src='../algo/common/cluster_story.js'></script>
+
+  <script type='text/javascript' src='../algo/dbscan1/init.js'></script>
+  <script type='text/javascript' src='../algo/dbscan1/pre_treatment.js'></script>
+  <script type='text/javascript' src='../algo/dbscan1/distance.js'></script>
+  <script type='text/javascript' src='../algo/dbscan1/dbscan.js'></script>
+
+  <script type='text/javascript' src='../algo/dbscan3/init.js'></script>
+  <script type='text/javascript' src='../algo/dbscan3/detect_sessions.js'></script>
+
+
+  <!-- QUnit for testing -->
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <!-- With internet connection
+
+  <link rel="stylesheet"
+    href="http://code.jquery.com/qunit/git/qunit.css" type="text/css"
+    media="screen"
+  />
+  <script type="text/javascript"
+    src="http://code.jquery.com/qunit/git/qunit.js">
+  </script>
+
+  -->
+  <link rel="stylesheet" href="qunit-git.css" type="text/css" media="screen" />
+  <script type="text/javascript" src="qunit-git.js"></script>
+
+  <!-- File with tests -->
+  <script type="text/javascript" src="history-sample.js"></script>
+  <script type="text/javascript" src="dbscan3_test.js"></script>
+
+</head>
+<body>
+ <h1 id="qunit-header">Unittest : ALGO</h1>
+ <h2 id="qunit-banner"></h2>
+ <div id="qunit-testrunner-toolbar"></div>
+ <h2 id="qunit-userAgent"></h2>
+ <ol id="qunit-tests"></ol>
+ <div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
