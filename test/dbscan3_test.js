@@ -40,8 +40,8 @@ module(
 );
 
 
-test("Cotton.Algo.Distance.meaning", function() {
-  var fExpectedDistance = 670;
+test("Cotton.Algo.Distance.meaning - Test maximum distance", function() {
+  var fExpectedDistance = 1;
 
   var fDistance = Cotton.Algo.Distance.meaning(lVisitItems[0], lVisitItems[1]);
 
@@ -51,6 +51,19 @@ test("Cotton.Algo.Distance.meaning", function() {
   equal(fDistance, fExpectedDistance, sMessage);
 
 });
+
+test("Cotton.Algo.Distance.meaning - Test minimal distance", function() {
+  var fExpectedDistance = 0.3;
+
+  var fDistance = Cotton.Algo.Distance.meaning(lVisitItems[1], lVisitItems[1]);
+
+  var sMessage = "Cotton.Algo.Distance.meaning has changed \n";
+  sMessage  += "Expected Value is " + fExpectedDistance
+            + " but there are " + fDistance;
+  equal(fDistance, fExpectedDistance, sMessage);
+
+});
+
 
 test("Cotton.Algo.DBSCAN3", function() {
 
@@ -64,7 +77,8 @@ test("Cotton.Algo.DBSCAN3", function() {
 
   Cotton.Algo.roughlySeparateSession(lVisitItems, function(lSession) {
     // For each rough session, launch dbscan1.
-
+    console.log("New session : " + lSession.length);
+    console.log(lSession);
     // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
         Cotton.Algo.Distance.meaning);
@@ -78,8 +92,45 @@ test("Cotton.Algo.DBSCAN3", function() {
 
     var dStories = Cotton.Algo.clusterStory(dData['lVisitItems'],
                                             dData['iNbCluster']);
-
   });
+
+});
+
+test("Cotton.Algo.DBSCAN3 : improvement", function() {
+
+  var sMessage = "The value of the distance has changed \n";
+
+  // PARAMETERS
+  // Max Distance between neighborhood
+  var fEps = Cotton.Config.Parameters.fEps;
+  // Min Points in a cluster
+  var iMinPts = Cotton.Config.Parameters.iMinPts;
+
+  Cotton.Algo.roughlySeparateSession(lVisitItems, function(lSession) {
+    // For each rough session, launch dbscan1.
+    console.log("New session : " + lSession.length);
+    console.log(lSession);
+    // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, 3*60*1000, iMinPts,
+        Cotton.Algo.Distance.distanceVisitTime);
+
+    var llClusters = Cotton.Algo.simpleCuster(lSession, iNbCluster);
+
+    for(var i = 0; i < llClusters.length; i++){
+      var lCluster = llClusters[i];
+      console.log("New sub-session : " + lCluster.length);
+      console.log(lCluster);
+      var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
+        Cotton.Algo.Distance.meaning);
+
+        var dData = {};
+        dData['iNbCluster'] = iNbSubCluster
+        dData['lVisitItems'] = lCluster;
+
+       var dStories = Cotton.Algo.clusterStory( dData['lVisitItems'],
+                                                dData['iNbCluster']);
+    }
+     });
 
 });
 
