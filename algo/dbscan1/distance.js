@@ -63,21 +63,24 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
   // ExtractedWords
   var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
 
+  // A is the max possible common words between two visit items.
   var A = Math.max(1, Math.min(oVisitItem1['lExtractedWords'].length,
                    oVisitItem2['lExtractedWords'].length));
+  // To avoid using Math.pow that I suspect to be slow.
+  A = A*A;
 
   // TODO(rmoutard) : compare with penalty
   sum += coeff.commonWords *
-    ((1 + A) / A) * Math.pow((iCommonWords / (1 + iCommonWords)) , 2);
+    (((1 + A) / A) * (1 / (1 + Math.pow(iCommonWords, 2))) - (1 / A));
 
   // QueryWords
   var iCommonQueryWords = Cotton.Algo.distanceBetweenGeneratedPages(oVisitItem1,
                                                                     oVisitItem2);
   var B = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
                    oVisitItem2['lQueryWords'].length));
-
+  B = B * B;
   sum += coeff.queryWords *
-    ((1 + B) / B) * Math.pow((iCommonQueryWords / (1 + iCommonQueryWords)) , 2);
+    (((1 + B) / B) * (1 / (1 + Math.pow(iCommonQueryWords, 2))) - (1 / B));
 
   return sum;
 };
