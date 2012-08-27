@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Setup all variables once before all the tests. For the moment we don't need
+ * to setup before each test.
+ */
 var lSampleHistoryItems = initlHistoryItems();
 var lHistoryItems = [];
 var lVisitItems = [];
