@@ -2,7 +2,7 @@
 
 /**
  * World class representing the whole interface.
- * 
+ *
  * @constructor
  */
 Cotton.UI.World = Class.extend({
@@ -31,6 +31,8 @@ Cotton.UI.World = Class.extend({
   },
 
   /**
+   * Note : this method is not really MVC friendly. Because the UI, has
+   * access to the DB without passing by the controller.
    * @this {World}
    */
   update : function() {
@@ -48,6 +50,23 @@ Cotton.UI.World = Class.extend({
         oSticker.display();
       });
     });
+  },
+
+  /**
+   *
+   */
+  pushStories : function(lStories){
+    var self = this;
+    var lStickers = [];
+    _.each(lStories, function(oStory) {
+        var oSticker = self._oStickyBar.buildSticker(oStory);
+        lStickers.push(oSticker);
+    });
+
+    _.each(lStickers, function(oSticker) {
+      oSticker.display();
+    });
+
   },
 });
 
