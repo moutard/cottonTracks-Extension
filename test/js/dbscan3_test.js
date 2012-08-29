@@ -119,7 +119,7 @@ test("Cotton.Algo.DBSCAN3 : improvement", function() {
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
         Cotton.Algo.Distance.distanceVisitTime);
 
-    var llClusters = Cotton.Algo.simpleCuster(lSession, iNbCluster);
+    var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
 
     for(var i = 0; i < llClusters.length; i++){
       var lCluster = llClusters[i];
