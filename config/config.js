@@ -47,7 +47,7 @@ Cotton.Config.Parameters = {
   distanceVisitTime : {
     fEps : 3 * 60 * 1000,
     iMinPts : 5,
-  }
+  },
 
   // UI
   sGrid : "MostVisited", // choose among "MostVisited" or "Favorites"
