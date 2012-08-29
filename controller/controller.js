@@ -1,11 +1,11 @@
 'use strict'
 /**
  * Controller
- * 
+ *
  * Inspired by MVC pattern.
- * 
+ *
  * Handles DB, and UI.
- * 
+ *
  */
 Cotton.Controller = Class.extend({
 
@@ -126,7 +126,7 @@ Cotton.Controller = Class.extend({
     }, false);
 
   },
-  
+
   /**
    * Initialize the worker in charge of DBSCAN3, and link it to 'message'
    * listener.
@@ -138,24 +138,24 @@ Cotton.Controller = Class.extend({
     self._wDBSCAN3.addEventListener('message', function(e) {
       Cotton.Utils.debug("DBSCAN 3 - MESSAGE");
       Cotton.Utils.debug(e);
-      
+
       // Is called when a message is sent by the worker.
       Cotton.UI.openCurtain();
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
-      console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
+      Cotton.Utils.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
+      Cotton.Utils.log('wDBSCAN - Worker ends: ', e.data['lVisitItems']);
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
-        // var oVisitItem = new Cotton.Model.VisitItem();
-        // oVisitItem.deserialize(e.data.lVisitItems[i]);
+        // Data sent by the worker are serialized. Deserialize using translator.
         var oTranslator = self._oStore._translatorForDbRecord('visitItems',
                                                       e.data['lVisitItems'][i]);
         var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
 
 
         self._oStore.put('visitItems', oVisitItem, function() {
-          console.log("update queryKeywords");
+          Cotton.Utils.log("update queryKeywords");
         });
       }
 
@@ -163,7 +163,7 @@ Cotton.Controller = Class.extend({
                                               e.data['iNbCluster']);
       // Add stories
       // var lStories = dStories['stories'].reverse();
-      console.log(dStories);
+      Cotton.Utils.log(dStories);
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore){
             // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
@@ -172,13 +172,13 @@ Cotton.Controller = Class.extend({
     }, false);
 
   },
-  
+
   /**
    * Install
-   * 
+   *
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   * 
+   *
    */
   install : function(){
     console.debug("Controller - install");
@@ -206,7 +206,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   * 
+   *
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -235,7 +235,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   * 
+   *
    * ct is well installed, start the application.
    */
   start : function(){
