@@ -108,7 +108,7 @@ window.onload = function() {
       })(f);
 
       // Read in the image file as a data URL.
-      reader.readAsDataURL(f);
+      reader.readAsText(f);
     }
   }
  document.getElementById('files').addEventListener('change', handleFileSelect, false);
