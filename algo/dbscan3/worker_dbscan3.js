@@ -2,7 +2,7 @@
 /**
  * DBSCAN3 Worker
  *
- * Workers are in charge of parallelize task.
+ * Workers are in charge of parallelize tasks.
  */
 
 // Worker has no access to external librairies loaded in the main thread.
@@ -29,41 +29,60 @@ importScripts('../../algo/dbscan3/detect_sessions.js');
 
 function handleVisitItems3(lVisitItems) {
   /**
-   * This method has 3 steps : - Separate Roughly the visitItems in sessions. -
-   * (OPTIONAL) Then compute for each rough sessions dbscan1 with distance only
-   * on the time. to refine session. - For each session, compute dbscan1.
+   * This method has 3 steps :
+   * - Separate Roughly the visitItems in sessions.
+   * - Then compute for each rough sessions dbscan1 with distance only
+   * on the time, to refine session.
+   * - For each session, compute dbscan1 with the meaning distance.
    */
 
-  // PARAMETERS
-  // Max Distance between neighborhood
-  var fEps = Cotton.Config.Parameters.fEps;
-  // Min Points in a cluster
-  var iMinPts = Cotton.Config.Parameters.iMinPts;
+  // Max Distance between neighborhood.
+  var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
+  var fEpsTime =  Cotton.Config.Parameters.distanceVisitTime.fEps;
+  // Min Points in a cluster.
+  var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
+  var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
 
-  // TOOLS
+  // Applyed all the pretreatment first.
   lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
 
+
+  // Step 1.
   Cotton.Algo.roughlySeparateSession(lVisitItems, function(lSession) {
-    // For each rough session, launch dbscan1.
 
-    // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
-    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
+    // Do this for each session.
+
+    // Step 2.
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
+      Cotton.Algo.Distance.distanceVisitTime
+    );
+
+    // Cluster each session after a dbscan algorithm.
+    var llClusters = Cotton.Algo.simpleCuster(lSession, iNbCluster);
+
+    // For each session clustered by time, use DBSCAN1 with meaning distance.
+    for(var i = 0; i < llClusters.length; i++){
+      var lCluster = llClusters[i];
+
+      // Step 3.
+      var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
         Cotton.Algo.Distance.meaning);
-    /**
-     * This worker has no access to window or DOM. So update DOM should be done
-     * in the main thread.
-     */
-    var dData = {};
-    dData['iNbCluster'] = iNbCluster;
-    dData['lVisitItems'] = lSession;
 
-    /** Send data to the main thread. Data are serialized */
-    self.postMessage(dData);
+      var dData = {};
+      dData['iNbCluster'] = iNbSubCluster
+      dData['lVisitItems'] = lCluster;
+
+      // Send data to the main thread. Data are serialized.
+      self.postMessage(dData);
+
+    }
+
+    // Terminates the worker.
+    self.close();
+
+
   });
-
-  /** Terminates the worker */
-  self.close();
-}
+ }
 
 self.addEventListener('message', function(e) {
   /**
