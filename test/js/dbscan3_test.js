@@ -104,18 +104,19 @@ test("Cotton.Algo.DBSCAN3 : improvement", function() {
 
   var sMessage = "The value of the distance has changed \n";
 
-  // PARAMETERS
-  // Max Distance between neighborhood
-  var fEps = Cotton.Config.Parameters.fEps;
-  // Min Points in a cluster
-  var iMinPts = Cotton.Config.Parameters.iMinPts;
+  // Max Distance between neighborhood.
+  var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
+  var fEpsTime =  Cotton.Config.Parameters.distanceVisitTime.fEps;
+  // Min Points in a cluster.
+  var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
+  var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
 
   Cotton.Algo.roughlySeparateSession(lVisitItems, function(lSession) {
     // For each rough session, launch dbscan1.
     console.log("New session : " + lSession.length);
     console.log(lSession);
     // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
-    var iNbCluster = Cotton.Algo.DBSCAN(lSession, 3*60*1000, iMinPts,
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
         Cotton.Algo.Distance.distanceVisitTime);
 
     var llClusters = Cotton.Algo.simpleCuster(lSession, iNbCluster);
@@ -127,14 +128,14 @@ test("Cotton.Algo.DBSCAN3 : improvement", function() {
       var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
         Cotton.Algo.Distance.meaning);
 
-        var dData = {};
-        dData['iNbCluster'] = iNbSubCluster
-        dData['lVisitItems'] = lCluster;
+      var dData = {};
+      dData['iNbCluster'] = iNbSubCluster
+      dData['lVisitItems'] = lCluster;
 
-       var dStories = Cotton.Algo.clusterStory( dData['lVisitItems'],
+      var dStories = Cotton.Algo.clusterStory(  dData['lVisitItems'],
                                                 dData['iNbCluster']);
     }
-     });
+  });
 
 });
 

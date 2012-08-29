@@ -24,9 +24,9 @@ Cotton.Config.Parameters = {
   distanceCoeff : {
     id : 0.10,
     lastVisitTime : 0.35,
-    commonWords : 0.50,
-    queryKeywords : 0.20,
-    penalty : 0.1,
+    commonWords : 0.70,
+    queryWords : 0.30,
+    penalty : 0.3,
   },
 
   // storySELECT
@@ -38,15 +38,24 @@ Cotton.Config.Parameters = {
     'hostname' : 0.2,
     'search' : 0.2
   },
-  // DBSCAN2
+
+  // DBSCAN3
+  distanceMeaning : {
+    fEps : 0.40,
+    iMinPts : 5,
+  },
+  distanceVisitTime : {
+    fEps : 3 * 60 * 1000,
+    iMinPts : 5,
+  }
 
   // UI
   sGrid : "MostVisited", // choose among "MostVisited" or "Favorites"
   iNbMostVisited : 8,
 
   // PROD
-  bDevMode : false,
+  bDevMode : true,
   bActiveSumup : false,
   bAnalytics : false,
-  bLoggingEnabled : false,
+  bLoggingEnabled : true,
 };
