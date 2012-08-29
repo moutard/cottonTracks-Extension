@@ -21,6 +21,7 @@ importScripts('../../config/config.js');
 importScripts('../../algo/init.js');
 importScripts('../../algo/common/init.js');
 importScripts('../../algo/common/tools.js');
+importScripts('../../algo/common/simple_cluster.js');
 importScripts('../../algo/dbscan1/init.js');
 importScripts('../../algo/dbscan1/pre_treatment.js');
 importScripts('../../algo/dbscan1/distance.js');
@@ -58,7 +59,7 @@ function handleVisitItems3(lVisitItems) {
     );
 
     // Cluster each session after a dbscan algorithm.
-    var llClusters = Cotton.Algo.simpleCuster(lSession, iNbCluster);
+    var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
 
     // For each session clustered by time, use DBSCAN1 with meaning distance.
     for(var i = 0; i < llClusters.length; i++){
