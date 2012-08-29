@@ -10,7 +10,7 @@ Cotton.Utils.exportHistory = function(mCallBack) {
     console.debug('Export History - chrome history search has returned '
         + lHistoryItems.length + ' items');
     var oHistory = {
-      'history' : lHistoryItems,
+      'lHistoryItems' : lHistoryItems,
     };
     var sHistory = JSON.stringify(oHistory);
     mCallBack(sHistory);
@@ -19,4 +19,15 @@ Cotton.Utils.exportHistory = function(mCallBack) {
 
 Cotton.Utils.importHistory = function(sHistoryBlob) {
   var oHistory = JSON.parse(sHistoryBlob);
+
+   chrome.extension.sendMessage({
+      'action': 'import_history',
+      'params': {
+        'history': oHistory
+      }
+    }, function(response) {
+      console.log(response);
+      console.log("import history has been done");
+    });
+
 };

@@ -105,6 +105,83 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     return true;
   case 'update_visit_item':
     return true;
+
+  case 'import_history':
+     var oStore = new Cotton.DB.Store('ct', {
+         'stories' : Cotton.Translators.STORY_TRANSLATORS,
+         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+
+       }, function() {
+         console.log('purge begin');
+          oStore.purge('visitItems', function(){
+            console.log('purge half');
+            oStore.purge('stories', function(){
+              console.log('purge ok');
+
+                 Cotton.DB.Populate.visitItemsFromFile(oStore, request['params']['history']['lHistoryItems'],
+                  function(oStore) {
+                    oStore.getList('visitItems', function(lAllVisitItems) {
+                      console.debug('FirstInstallation - Start wDBSCAN with '
+                          + lAllVisitItems.length + ' items');
+                      console.debug(lAllVisitItems);
+                      var lAllVisitDict = [];
+                      for(var i = 0, oItem; oItem = lAllVisitItems[i]; i++){
+                        // maybe a setFormatVersion problem
+                        var oTranslator = this._translatorForObject('visitItems', oItem);
+                        var dItem = oTranslator.objectToDbRecord(oItem);
+                        lAllVisitDict.push(dItem);
+                      }
+                      console.debug(lAllVisitDict);
+
+                      var wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
+
+                      wDBSCAN3.addEventListener('message', function(e) {
+                      Cotton.Utils.debug("DBSCAN 3 - MESSAGE");
+                      Cotton.Utils.debug(e);
+
+                      // Use local storage, to see that's it's not the first visit.
+                      console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
+                      console.log('wDBSCAN - Worker ends: ', e.data['lVisitItems']);
+
+                      // Update the visitItems with extractedWords and queryWords.
+                      for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
+                        // Data sent by the worker are serialized. Deserialize using translator.
+                        var oTranslator = oStore._translatorForDbRecord('visitItems',
+                                                                      e.data['lVisitItems'][i]);
+                        var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
+
+
+                        oStore.put('visitItems', oVisitItem, function() {
+                          console.log("update queryKeywords");
+                        });
+                      }
+
+                      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+                                                              e.data['iNbCluster']);
+                      // Add stories
+                      console.log(dStories);
+                      Cotton.DB.Stories.addStories(oStore, dStories['stories'],
+                          function(oStore){
+                      });
+                    }, false);
+
+
+                      wDBSCAN3.postMessage(lAllVisitDict);
+                      sendResponse({
+                        'received' : "true",
+                        'id' : sPutId,
+                      });
+
+                      });
+                  });
+
+                         });
+              //self.importHistory(lHistoryItems);
+          });
+      });
+    //oBackgroundController.purgeAndImport(request['params']['history']['lHistoryItems']);
+    return true;
+
   }
 
 });
