@@ -15,6 +15,8 @@ Cotton.Controller = Class.extend({
   _wDBSCAN2 : null,
   _wDBSCAN3 : null,
 
+  _iTmpId : 0,
+
   /**
    * @constructor
    */
@@ -29,6 +31,8 @@ Cotton.Controller = Class.extend({
     self.initWorkerDBSCAN1();
     self.initWorkerDBSCAN2();
     self.initWorkerDBSCAN3();
+
+    self._iTmpId = 0;
     /**
      * Check if a ct database already exists.
      */
@@ -136,15 +140,12 @@ Cotton.Controller = Class.extend({
     self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
     self._wDBSCAN3.addEventListener('message', function(e) {
-      Cotton.Utils.debug("DBSCAN 3 - MESSAGE");
-      Cotton.Utils.debug(e);
 
       // Is called when a message is sent by the worker.
       Cotton.UI.openCurtain();
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
-      Cotton.Utils.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
-      Cotton.Utils.log('wDBSCAN - Worker ends: ', e.data['lVisitItems']);
+      console.log('wDBSCAN3 - Worker ends with ', e.data['iNbCluster'], 'clusters.');
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
@@ -161,13 +162,18 @@ Cotton.Controller = Class.extend({
 
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                               e.data['iNbCluster']);
+
+      // Set story with a temporary id.
+      _.each(dStories['stories'], function(oStory){
+        oStory.setId(self._iTmpId);
+        self._iTmpId+=1;
+        console.log(' frf rfrf r f ' + self._iTmpId);
+      })
+      Cotton.UI.oWorld.pushStories(dStories['stories']);
+
       // Add stories
-      // var lStories = dStories['stories'].reverse();
-      Cotton.Utils.log(dStories);
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore){
-            // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
-            Cotton.UI.oWorld.update();
       });
     }, false);
 
