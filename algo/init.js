@@ -1,2 +1,2 @@
-'use strict';                                                                                 
-Cotton.Algo = {}; 
+'use strict';
+Cotton.Algo = {};
