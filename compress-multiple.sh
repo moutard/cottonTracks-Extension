@@ -145,6 +145,7 @@ ui_input_files=(  './ui/init.js'
                   './ui/homepage/homepage.js'
                   './ui/homepage/favorites_grid.js'
                   './ui/homepage/favorites_ticket.js'
+                  './ui/homepage/most_visited_grid.js'
                   './ui/homepage/apps_grid.js'
                   './ui/homepage/apps_ticket.js'
                   './ui/homepage/grid.js'
@@ -230,7 +231,8 @@ index_lib=( './lib/date.format.js'
             './lib/parse_url.js')
 
 
-index_missing_files=( './db/expand_store.js'
+index_missing_files=( './utils/log.js'
+                      './db/expand_store.js'
                       './db/populate_db.js'
                       './algo/init.js'
                       './algo/common/init.js'
@@ -264,8 +266,15 @@ declare -a background_lib
 background_lib=( './lib/date.format.js'
                  './lib/parse_url.js')
 
-background_missing_files=( 	'./messaging/content_script_listener.js'
-							'./controller/first_launch.js'
+background_missing_files=( 	'./utils/log.js'
+                            './db/expand_store.js'
+                            './db/populate_db.js'
+                            './algo/init.js'
+                            './algo/common/init.js'
+                            './algo/common/cluster_story.js'
+                            './messaging/content_script_listener.js'
+							              './controller/first_launch.js'
+
                          )
 
 declare -a background_includes_files
@@ -285,7 +294,7 @@ removePath background_includes_files[@] 'background.html'
 
 addPath 'background.min.js' 'Cotton.config' 'background.html'
 
-# -- WORKER.JS ----------------------------------------------------------------
+# -- TOOLS - WORKER -----------------------------------------------------------
 function addWorkerPath {
   # 2 Parameters
   # Array of input files
@@ -294,7 +303,7 @@ function addWorkerPath {
   # Correpondig Tag
   TAG=$2
 
-  # Name of the output file
+  # Name of the input file
   INPUT_FILE=$3
 
   sed -i '' -e "/$TAG/a\\
@@ -305,10 +314,35 @@ function addWorkerPath {
 
 }
 
+function addLibInWorker {
+  # Array of lib name you want to include
+  declare -a INCLUDE_LIB=("${!1}")
+
+  # INPUT_FILE
+  INPUT_FILE=$2
+  STRING=''
+
+  for lib in ${INCLUDE_LIB[@]}
+  do
+    STRING="$STRING importScripts('../../$lib');"
+  done
+
+  #
+  STRING=$(echo $STRING | sed 's/\//\\\//g')
+
+  echo $STRING
+  echo $INPUT_FILE
+  sed -i '' -e "s/'use strict';/'use strict'; $STRING/" "./$INPUT_FILE"
+}
+
+# -- WORKER - DBSCAN1 -----------------------------------------------------------
+
 declare -a worker_lib
 worker_lib=( './lib/parse_url.js')
 
 worker_missing_files=( './algo/init.js'
+                       './algo/common/init.js'
+                       './algo/common/tools.js'
                        './algo/dbscan1/init.js'
                        './algo/dbscan1/pre_treatment.js'
                        './algo/dbscan1/distance.js'
@@ -347,9 +381,39 @@ worker_get_visit_items_missing_files=( './db/init.js'
 
 declare -a worker_get_visit_items_includes_files
 worker_get_visit_items_includes_files=( ${cotton_input_files[@]}
-										${config_input_files[@]}
+										                    ${config_input_files[@]}
                                         ${worker_get_visit_items_missing_files[@]}
                                       )
+# -- WORKER - DBSCAN3 -------------------------------------------------
+declare -a worker_dbscan3_lib
+worker_dbscan3_lib=( './lib/class.js'
+                     './lib/underscore.js'
+                     './lib/parse_url.js')
+
+worker_dbscan3_missing_files=( './algo/init.js'
+                       './algo/common/init.js'
+                       './algo/common/tools.js'
+                       './algo/common/simple_cluster.js'
+                       './algo/dbscan1/init.js'
+                       './algo/dbscan1/pre_treatment.js'
+                       './algo/dbscan1/distance.js'
+                       './algo/dbscan1/dbscan.js'
+                       './algo/dbscan3/detect_sessions.js'
+                       './algo/dbscan3/worker_dbscan3.js'
+                     )
+
+declare -a worker_dbscan3_includes_files
+worker_dbscan3_includes_files=( ${cotton_input_files[@]}
+										            ${config_input_files[@]}
+                                ${worker_dbscan3_missing_files[@]}
+                              )
+
+# Becarefull the order is not the same.
+#removePath worker_dbscan3_lib[@] './algo/dbscan3/worker_dbscan3.js'
+removePath worker_dbscan3_includes_files[@] './algo/dbscan3/worker_dbscan3.js'
+generateMultipleMinFile worker_dbscan3_includes_files[@] 'worker_dbscan3.js'
+#addLibInWorker worker_dbscan3_lib[@] 'worker_dbscan3.min.js'
+mv './worker_dbscan3.min.js' './algo/dbscan3/worker_dbscan3.js'
 
 # Becarefull the order is not the same.
 #removePath worker_get_visit_items_includes_files[@] './ui/sticky_bar/w_get_visit_items.js'
