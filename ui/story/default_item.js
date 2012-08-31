@@ -3,27 +3,31 @@
 Cotton.UI.Story.DefaultItem = Class.extend({
 
   _oVisitItem : null,
+
   _$item : null,
+
+  _oItemContent : null,
   _$storyLink : null,
 
   init : function(oVisitItem) {
+    // Cotton.Model.VisitItem contains all data.
     this._oVisitItem = oVisitItem;
 
+    // current element.
     this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
+
+    // current sub elements.
+    this._oItemContent = new Cotton.UI.Story.Item.Content();
     var $content = $('<div class="ct-storyContent"></div>');
     var $deleteButton = $('<div class="ct-storyDelete"></div>');
-    var $grabHandle = $('<div class="ct-storyGrab"></div>');
+
     var $featuredImage = $('<img class="ct-storyFeaturedImage" />');
     var $title = $('<h3></h3>');
     var $legend = $('<span class="ct-legend"></span>');
     var $summary = $('<p></p>');
-    var $bottom = $('<div class="ct-item_bottom"></div>');
     var $quote = $('<div class="ct-quote"></div>');
 
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
-
-    // TODO(fwouts): Cleanup.
-    // $title.text(oVisitItem.title());
 
     var sUrl = oVisitItem.url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
@@ -54,13 +58,14 @@ Cotton.UI.Story.DefaultItem = Class.extend({
       // $featuredImage.attr("src", "/media/images/story_preview.png");
     }
 
-    this._$item.append(this._$storyLink.append($(
-        '<div class="ct-storyItemLinkLine"></div>').append(
-        $('<div class="ct-storyItemLinkDot"></div>'))), $content.append(
-    // $deleteButton,
-    // $grabHandle,
-    $featuredImage, $title.append($originLink), $legend, $summary), $bottom,
-        $quote);
+    this._$item.append(
+        this._$storyLink.append(
+          $('<div class="ct-storyItemLinkLine"></div>').append(
+            $('<div class="ct-storyItemLinkDot"></div>')
+          )
+        ),
+        this._oItemContent.$()
+    );
 
     // event tracking
     $title.click(function() {
