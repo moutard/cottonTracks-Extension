@@ -19,7 +19,6 @@ Cotton.UI.Story.MapItem = Class
         var $title = $('<h3></h3>');
         var $legend = $('<span class="ct-legend"></span>');
         var $summary = $('<p></p>');
-        var $bottom = $('<div class="ct-item_bottom"></div>');
         var $quote = $('<div class="ct-quote"></div>');
         this._$storyLink = $('<div class="ct-storyItemLink"></div>');
 
@@ -45,7 +44,7 @@ Cotton.UI.Story.MapItem = Class
         this._$item.append(this._$storyLink.append($(
             '<div class="ct-storyItemLinkLine"></div>').append(
             $('<div class="ct-storyItemLinkDot"></div>'))), $content
-            .append($map), $bottom);
+            .append($map));
       },
 
       $ : function() {

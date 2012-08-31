@@ -17,7 +17,6 @@ Cotton.UI.Story.SearchItem = Class.extend({
     var $title = $('<h3></h3>');
     var $legend = $('<span class="ct-legend"></span>');
     var $summary = $('<p></p>');
-    var $bottom = $('<div class="ct-item_bottom"></div>');
     var $quote = $('<div class="ct-quote"></div>');
 
     this._$storyLink = $('<div class="ct-storyItemLink"></div>');
@@ -41,7 +40,7 @@ Cotton.UI.Story.SearchItem = Class.extend({
         $('<div class="ct-storyItemLinkDot"></div>'))), $content.append(
     // $deleteButton,
     // $grabHandle,
-    $featuredImage, $title.append($originLink), $legend, $summary), $bottom);
+    $featuredImage, $title.append($originLink), $legend, $summary));
 
     // event tracking
     $title.click(function() {
