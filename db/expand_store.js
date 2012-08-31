@@ -17,8 +17,9 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
   for ( var i = 0; i < lStories.length; i++) {
     var oStory = lStories[lStories.length - 1 - i];
     oStore.put('stories', oStory, function(iId) {
+      oStory.setId(iId);
       if (iCount === iLength) {
-        mCallBackFunction(oStore);
+        mCallBackFunction(oStore, lStories);
       }
       iCount += 1;
     });
