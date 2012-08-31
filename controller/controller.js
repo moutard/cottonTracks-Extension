@@ -112,7 +112,7 @@ Cotton.Controller = Class.extend({
   initWorkerDBSCAN2 : function(){
     // TODO(rmoutard) : create DBSCAN2
     var self = this;
-    self._wDBSCAN2 = new Worker('algo/dbscan1/worker.js');
+    self._wDBSCAN2 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
     self._wDBSCAN2.addEventListener('message', function(e) {
       console.log("After dbscan2");
@@ -122,9 +122,11 @@ Cotton.Controller = Class.extend({
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
           e.data['iNbCluster']);
 
-      Cotton.DB.Stories.addStories(self._oStore, dStories['stories'], function(oStore){
+      Cotton.DB.Stories.addStories(self._oStore, dStories['stories'], function(oStore, lStories){
         // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
         // Cotton.UI.oWorld.update();
+        console.log(lStories);
+        //Cotton.UI.oWorld.pushStories(lStories);
       });
 
     }, false);
@@ -173,7 +175,8 @@ Cotton.Controller = Class.extend({
 
       // Add stories
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
-          function(oStore){
+          function(oStore, lStories){
+            console.log(lStories);
       });
     }, false);
 
@@ -254,15 +257,15 @@ Cotton.Controller = Class.extend({
        * Delete the last story and recompute it.
        */
       var lVisitItemsId = oLastStory.visitItemsId();
-      self._oStore.delete('stories', oLastStory.id(), function(iId){
-        console.log("story deleted");
-      });
+      //self._oStore.delete('stories', oLastStory.id(), function(iId){
+      //  console.log("story deleted");
+      //});
 
-      var lPoolVisitItems = new Array();
+      var lPoolVisitItems = [];
 
-      self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
-        function(lLastStoryVisitItems) {
-          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+      //self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
+        //function(lLastStoryVisitItems) {
+          //lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
 
           self._oStore.getLowerBound('visitItems', 'iVisitTime',
             oLastStory.lastVisitTime(), "PREV", false,
@@ -280,7 +283,7 @@ Cotton.Controller = Class.extend({
 
                 self._wDBSCAN2.postMessage(lPoolVisitDict);
               });
-        });
+        //});
     });
   },
 
