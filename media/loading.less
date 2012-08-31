@@ -7,6 +7,9 @@
 @boardHeight: 465px;
 @openingDuration: 1s;
 
+@lensWidth: 301px;
+@lensHeight: 301px;
+
 @font-face {
   font-family: 'AbrahamLincoln';
   src: url('/media/fonts/AbrahamLincoln.ttf');
@@ -47,48 +50,10 @@ body {
   }
 }
 
-// Background landscape.
-.ct-window {
-  position : absolute;
-  width: 100%;
-  overflow : hidden;
-  height: 80%;
-  bottom: 0px;
-}
-.ct-landscape {
-  background: url('/media/images/landscapev2.png') left repeat-x;
-  position: absolute;
-  width: 5464px;
-  height: 100%;
-  bottom: 0;
-  z-index: 10;
-
-  -webkit-transition-duration: @openingDuration;
-
-}
-
-@-webkit-keyframes running {
-  from {
-    -webkit-transform : translateX(0px);
-  }
-  to {
-    -webkit-transform : translateX(-2732px);
-  }
-}
-.ct-landscape.running {
-  -webkit-animation-name: running;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: linear;
-	-webkit-animation-duration: 5s;
-}
-
-.ct-landscape.fadeIn {
-  opacity:0;
-}
 
 // Curtain on top of the landscape.
 .ct-curtain {
-  background-image: @curtainGradient, url('/media/images/background.png');
+  background-color: #f8f8f8;
   position: absolute;
   width: 100%;
   // Sometimes using 80% results in a 1px white line.
@@ -98,54 +63,92 @@ body {
 
   &:after {
     content: "";
-    background-image: @curtainGradient, url('/media/images/background2.png');
     z-index: -1;
     position: absolute;
     width: 100%;
     height: 116px;
     bottom: 0;
-    box-shadow: 0 0 15px black;
   }
 
-  // Welcome board.
-  .ct-board {
+  .ct-lens {
     position: absolute;
-    left: 50%;
-    top: 0;
-    margin-left: -(@boardWidth / 2);
-    width: @boardWidth;
-    height: @boardHeight;
-    background-image: url('/media/images/board.png');
+    left: 20%;
+    top: 40%;
+    width: @lensWidth;
+    height: @lensHeight;
+    background-image: url('/media/images/loading/lens_background.png');
     background-size: 100% 100%;
-
+    z-index : 0;
     -webkit-transition-duration: @openingDuration;
 
-    h1 {
-      font-family: BallparkWeiner;
+    > .shadow {
+      width: @lensWidth;
+      height: @lensHeight;
       position: absolute;
-      top: 70px;
-      left: 140px;
-      font-size: 44px;
-      text-indent: -1.5em;
-      -webkit-transform: rotateZ(-5deg);
-      color: #c63a15;
+      z-index: 1;
+      background-image: url('/media/images/loading/lens_border_shadow.png');
+    }
 
-      > em{
-        font-style: normal;
-        font-size: 64px;
+    > .glass {
+      width: @lensWidth;
+      height: @lensHeight;
+      position: absolute;
+      z-index: 10;
+      background-image: url('/media/images/loading/lens_glass.png');
+    }
+
+    > .gear1 {
+      position:absolute;
+      top : 30px;
+      left: 50px;
+
+      &.middlescrew {
+        width: 117px;
+        height: 117px;
+        position: absolute;
+        z-index: 5;
+        background-image: url('/media/images/loading/lens_gears1_middlescrew.png');
+      }
+
+      &.shine {
+        z-index : 4;
+        -webkit-mask-box-image: url('/media/images/loading/lens_gears1.gif');
+      }
+
+      &.perspective {
+        z-index : 3;
+        margin-top:2px;
+        margin-left:2px;
       }
     }
+  }
 
-    p {
-      font-family: AbrahamLincoln;
-      position: absolute;
-      top: 220px;
-      left: 10%;
-      width: 80%;
-      font-size: 20px;
-      color: #4d4d4d;
+  h1 {
+    font-family: BallparkWeiner;
+    position: absolute;
+    top: 70px;
+    left: 140px;
+    font-size: 44px;
+    text-indent: -1.5em;
+    -webkit-transform: rotateZ(-5deg);
+    color: #c63a15;
+
+    > em{
+      font-style: normal;
+      font-size: 64px;
     }
   }
+
+  p {
+    font-family: AbrahamLincoln;
+    position: absolute;
+    top: 220px;
+    left: 10%;
+    width: 80%;
+    font-size: 20px;
+    color: #4d4d4d;
+  }
+
 }
 
 .ct-body-open {
@@ -162,5 +165,10 @@ body {
     .ct-board {
       top: -@boardHeight;
     }
+
+    .ct-lens {
+      top: -@lensHeight;
+    }
+
   }
 }
