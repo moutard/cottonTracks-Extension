@@ -13,7 +13,7 @@ Cotton.UI.Story.Item.Content.Image = Class.extend({
   _$img : null,
   _oItemToolbox : null,
 
-  init : function(oItem) {
+  init : function(oItem, sType) {
     // current parent element.
     this._oItem = oItem;
 
@@ -25,7 +25,13 @@ Cotton.UI.Story.Item.Content.Image = Class.extend({
     this._oItemToolbox = new Cotton.UI.Story.Item.Toolbox(this);
 
     this._$img = $('<img ></img>');
-    this._$img.attr("src", this._oItem._oVisitItem.url());
+
+    if (sType === "img") {
+      this._$img.attr("src", this._oItem._oVisitItem.url());
+    }
+    if (sType === "imgres") {
+      this._$img.attr("src", this._oItem._oVisitItem._oUrl.dSearch['imgurl']);
+    }
     this._$featured_image.append(this._$img);
 
     // create the item

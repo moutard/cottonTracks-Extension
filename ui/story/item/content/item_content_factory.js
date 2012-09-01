@@ -4,7 +4,7 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
   var oUrl = new parseUrl(oItem._oVisitItem.url());
   oUrl.fineDecomposition();
-  oItem._oVisitItem.oUrl = oUrl;
+  oItem._oVisitItem._oUrl = oUrl;
   // Detect if it's an image.
   var reg = new RegExp(".(jpg|png|gif)$", "g");
   var sLastStringFromPathname = oUrl.pathname.split('/')[oUrl.pathname
@@ -14,8 +14,10 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
   if (reg.exec(oItem._oVisitItem.url())) {
     // Image
-    console.log("Image");
-    return new Cotton.UI.Story.Item.Content.Image(oItem);
+    return new Cotton.UI.Story.Item.Content.Image(oItem, "img");
+  } else if (oUrl.pathname === "/imgres") {
+    // Image, from google search image result.
+    return new Cotton.UI.Story.Item.Content.Image(oItem, "imgres");
   } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
     // Video - Youtube
     console.log("Video");
