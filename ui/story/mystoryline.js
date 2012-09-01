@@ -18,13 +18,15 @@
 
         /**
          * A jQuery DOM object representing the vertical line joining all items.
-         * @param {Cotton.Model.Story} oStory
+         * 
+         * @param {Cotton.Model.Story}
+         *          oStory
          */
         init : function(oStory) {
           var self = this;
 
-          if(!_oCurrentlyOpenStoryline ||
-              _oCurrentlyOpenStoryline._oCurrentStory.id() !== oStory.id()){
+          if (!_oCurrentlyOpenStoryline
+              || _oCurrentlyOpenStoryline._oCurrentStory.id() !== oStory.id()) {
 
             self._oCurrentStory = oStory;
             Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
@@ -51,18 +53,18 @@
             _oCurrentlyOpenStoryline = this;
 
             _.each(self._oCurrentStory.visitItems(), function(oVisitItem, iI) {
-                var oItem = self.addVisitItem(oVisitItem,
-                                              iI % 2 == 0 ? 'left' : 'right');
-                // var oItem = oStoryline.buildStory(oVisitItem);
-                setTimeout(function() {
-                  oItem.$().css("opacity", "1");
-                }, iI * 100);
+              var oItem = self.addVisitItem(oVisitItem, iI % 2 == 0 ? 'left'
+                  : 'right');
+              // var oItem = oStoryline.buildStory(oVisitItem);
+              setTimeout(function() {
+                oItem.$().css("opacity", "1");
+              }, iI * 100);
             });
 
             // event tracking
             var bScrolled = false;
-            $(window).on('scroll.Storyline',function () {
-              if (bScrolled == false){
+            $(window).on('scroll.Storyline', function() {
+              if (bScrolled == false) {
                 bScrolled = true;
                 Cotton.ANALYTICS.scrollStory();
               }
@@ -71,7 +73,7 @@
         },
 
         addVisitItem : function(oVisitItem, sParam) {
-          var oItem = new Cotton.UI.Story.ItemFactory(oVisitItem);
+          var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
           oItem.$().css("opacity", "0");
           if (sParam === "left") {
             oItem.setSide('left');
@@ -87,7 +89,7 @@
         },
 
         buildStory : function(oVisitItem) {
-          var oItem = Cotton.UI.Story.ItemFactory(oVisitItem);
+          var oItem = Cotton.UI.Story.Item.Element(oVisitItem);
           oItem.appendTo(this);
           return oItem;
         },
@@ -108,7 +110,7 @@
   _.extend(Cotton.UI.Story.Storyline, {
     removeAnyOpenStoryline : function() {
       if (_oCurrentlyOpenStoryline) {
-      	$(window).off('scroll.Storyline');
+        $(window).off('scroll.Storyline');
         _oCurrentlyOpenStoryline.remove();
       }
     }
