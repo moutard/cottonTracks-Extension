@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * In charge of displaying an item (dot + link + content). Handle his position
+ * in the storyline.
+ */
 Cotton.UI.Story.Item.Element = Class
     .extend({
 
@@ -34,16 +38,31 @@ Cotton.UI.Story.Item.Element = Class
         return this._$item;
       },
 
+      visitItem : function() {
+        return this._oVisitItem;
+      },
+
       appendTo : function(oStoryLine) {
         oStoryLine.$().append(this._$item);
       },
 
+      /**
+       * Set top position on the storyline.
+       * 
+       * @param iTop
+       */
       setTop : function(iTop) {
         this._$item.css({
           top : iTop
         });
       },
 
+      /**
+       * Set the side of the element
+       * 
+       * @param {string}
+       *          sSide : can contain value 'left' of 'right'
+       */
       setSide : function(sSide) {
         switch (sSide) {
         case 'left':
