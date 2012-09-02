@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * In function of the data stored in oItem._oVisitItem, we know how the content
+ * should be display. Using on the specific type of Item.Content
+ * 
+ * @param oItem
+ * @returns {Cotton.UI.Story.Item.Content}
+ */
 Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
   var oUrl = new parseUrl(oItem._oVisitItem.url());
