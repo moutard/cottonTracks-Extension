@@ -76,7 +76,7 @@ body {
     top: 40%;
     width: @lensWidth;
     height: @lensHeight;
-    background-image: url('/media/images/loading/lens_background.png');
+    background-image: url('/media/images/loading/background.png');
     background-size: 100% 100%;
     z-index : 0;
     -webkit-transition-duration: @openingDuration;
@@ -97,7 +97,7 @@ body {
       background-image: url('/media/images/loading/lens_glass.png');
     }
 
-    @-webkit-keyframes rotate {
+    @-webkit-keyframes rotate-clockwise {
       from {
         -webkit-transform: rotate(0deg);
       }
@@ -105,35 +105,63 @@ body {
         -webkit-transform: rotate(360deg);
       }
     }
+
+    @-webkit-keyframes rotate-counter-clockwise {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+      to {
+        -webkit-transform: rotate(-360deg);
+      }
+    }
+
+    > .rotate-clockwise {
+      -webkit-animation-name: rotate-clockwise;
+      -webkit-animation-duration: 10000ms;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+    }
+
+    > .rotate-counter-clockwise {
+      -webkit-animation-name: rotate-counter-clockwise;
+      -webkit-animation-duration: 10000ms;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: linear;
+    }
+
     > .gear1 {
       position:absolute;
-      top : 30px;
-      left: 50px;
+      top : 99px;
+      left: -5px;
 
       &.middlescrew {
         width: 117px;
         height: 117px;
         position: absolute;
         z-index: 5;
-        background-image: url('/media/images/loading/lens_gears1_middlescrew.png');
       }
 
       &.shine {
         z-index : 4;
-        -webkit-mask-box-image: url('/media/images/loading/lens_gears1.gif');
+        .rotate-clockwise;
+        -webkit-animation-duration: 10000ms;
+
       }
 
       &.perspective {
         z-index : 3;
         margin-top:2px;
         margin-left:2px;
+
+        .rotate-clockwise;
+        -webkit-animation-duration: 10000ms;
       }
     }
 
     > .gear2 {
       position:absolute;
-      top : 40px;
-      left: 110px;
+      top : 170px;
+      left: 50px;
 
       &.middlescrew {
         width: 117px;
@@ -145,10 +173,8 @@ body {
 
       &.shine {
         z-index : 4;
-        -webkit-animation-name: rotate;
-        -webkit-animation-duration: 10000ms; /* 40 seconds */
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 10000ms;
       }
 
       &.perspective {
@@ -156,13 +182,48 @@ body {
         margin-top:2px;
         margin-left:2px;
 
-        -webkit-animation-name: rotate;
-        -webkit-animation-duration: 10000ms; /* 40 seconds */
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 10000ms;
+
       }
     }
 
+    > .gear3 {
+      position:absolute;
+      top : -85px;
+      left: -120px;
+
+      &.middlescrew {
+        width: 117px;
+        height: 117px;
+        margin: 47px 0 0 47px;
+        position: absolute;
+        z-index: 5;
+      }
+
+      &.shine {
+        z-index : 4;
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 10000ms;
+      }
+
+      &.perspective {
+        z-index : 3;
+        margin-top:2px;
+        margin-left:2px;
+
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 10000ms;
+
+      }
+    }
+
+    > .border {
+      position: absolute;
+      top: -249px;
+      left: -249px;
+      z-index: 20;
+    }
   }
 
   h1 {
