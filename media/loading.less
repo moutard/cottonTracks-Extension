@@ -97,6 +97,14 @@ body {
       background-image: url('/media/images/loading/lens_glass.png');
     }
 
+    @-webkit-keyframes rotate {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
     > .gear1 {
       position:absolute;
       top : 30px;
@@ -121,6 +129,40 @@ body {
         margin-left:2px;
       }
     }
+
+    > .gear2 {
+      position:absolute;
+      top : 40px;
+      left: 110px;
+
+      &.middlescrew {
+        width: 117px;
+        height: 117px;
+        margin: 47px 0 0 47px;
+        position: absolute;
+        z-index: 5;
+      }
+
+      &.shine {
+        z-index : 4;
+        -webkit-animation-name: rotate;
+        -webkit-animation-duration: 10000ms; /* 40 seconds */
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+      }
+
+      &.perspective {
+        z-index : 3;
+        margin-top:2px;
+        margin-left:2px;
+
+        -webkit-animation-name: rotate;
+        -webkit-animation-duration: 10000ms; /* 40 seconds */
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear;
+      }
+    }
+
   }
 
   h1 {
