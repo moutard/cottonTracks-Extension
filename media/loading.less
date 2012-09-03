@@ -218,6 +218,36 @@ body {
       }
     }
 
+    > .gear4 {
+      position:absolute;
+      top : -85px;
+      left: 120px;
+
+      &.middlescrew {
+        width: 117px;
+        height: 117px;
+        margin: 47px 0 0 47px;
+        position: absolute;
+        z-index: 5;
+      }
+
+      &.shine {
+        z-index : 4;
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 20000ms;
+      }
+
+      &.perspective {
+        z-index : 3;
+        margin-top:2px;
+        margin-left:2px;
+
+        .rotate-counter-clockwise;
+        -webkit-animation-duration: 20000ms;
+
+      }
+    }
+
     > .border {
       position: absolute;
       top: -249px;
