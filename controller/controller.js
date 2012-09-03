@@ -257,15 +257,15 @@ Cotton.Controller = Class.extend({
        * Delete the last story and recompute it.
        */
       var lVisitItemsId = oLastStory.visitItemsId();
-      //self._oStore.delete('stories', oLastStory.id(), function(iId){
-      //  console.log("story deleted");
-      //});
+      self._oStore.delete('stories', oLastStory.id(), function(iId){
+        console.log("story deleted");
+      });
 
       var lPoolVisitItems = [];
 
-      //self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
-        //function(lLastStoryVisitItems) {
-          //lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+      self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
+        function(lLastStoryVisitItems) {
+          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
 
           self._oStore.getLowerBound('visitItems', 'iVisitTime',
             oLastStory.lastVisitTime(), "PREV", false,
@@ -283,7 +283,7 @@ Cotton.Controller = Class.extend({
 
                 self._wDBSCAN2.postMessage(lPoolVisitDict);
               });
-        //});
+        });
     });
   },
 
