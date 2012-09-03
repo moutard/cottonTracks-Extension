@@ -10,6 +10,17 @@ $(window).load(
       } else {
         //Cotton.UI.openCurtain();
       }
+
+      $(".meter > span").each(function() {
+				$(this)
+					.data("origWidth", $(this).width())
+					.width(0)
+					.animate({
+						width: $(this).data("origWidth")
+					}, 1200);
+			});
+
+
     });
 
 Cotton.UI.openCurtain = function() {
