@@ -5,7 +5,7 @@ Cotton.UI.Curtain = Class.extend({
   _$meter : null,
   _$progressBar : null,
   _$percentage : null,
-  _iPercentage : 0,
+  _iPercentage : 20,
 
   init : function(){
     this._$gears = $('.gear');
@@ -43,14 +43,27 @@ Cotton.UI.Curtain = Class.extend({
    * @param {int} : iPercentage this value should be between 0 and 100.
    */
   increasePercentage : function(iPercentage){
-    this._iPercentage = Math.max(0,
+    var toPercentage = Math.max(0,
                                 Math.min(100, this._iPercentage + iPercentage));
 
     // set the ui.
-    this.set$percentage(this._iPercentage);
-    this.setProgressBar(this._iPercentage);
+    this._increase$percentage(toPercentage);
+    this.setProgressBar(toPercentage);
   },
 
+  _increase$percentage : function(toPercentage){
+    var self = this;
+    var fromPercentage = this._iPercentage;
+    var iTemp = fromPercentage;
+    for( var i=fromPercentage; i <= toPercentage; i++){
+      setTimeout(function(){
+        console.log(iTemp);
+        $('.percentage').text(iTemp + '%');
+        iTemp+=1;
+      }, (i - fromPercentage) * 50);
+    }
+   this._iPercentage = toPercentage;
+  },
   /**
    * Start animation. (gears + progressbar)
    */
