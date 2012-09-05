@@ -1,6 +1,7 @@
 'use strict';
 
 Cotton.UI.oCurtain = {};
+var iTimeoutIndex;
 
 $(window).load(
     function() {
@@ -23,10 +24,15 @@ $(window).load(
 					}, 1200);
 			});
 
+      // Throw a timeout if the installation exeed one minute.
+      var iTimeoutIndex = setTimeout(function(){
+        throw new Error("Timeout - The installation is too long. Maybe try to close this tab and open a new one.")
+      }, 6000);
 
     });
 
 Cotton.UI.openCurtain = function() {
+  clearTimeout(iTimeoutIndex);
   $('body').addClass('ct-body-open');
   $('.ct-landscape').removeClass('running');
   $('.ct-landscape').css('opacity', '0');

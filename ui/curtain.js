@@ -1,21 +1,28 @@
 'use strict';
 
 Cotton.UI.Curtain = Class.extend({
+
+  _$curtain : null,
+
   _$gears :  null,
+  _$board : null,
   _$meter : null,
   _$progressBar : null,
   _$percentage : null,
   _iPercentage : 20,
   _oErrorHandler : null,
-  _$pError : null,
+  _$error : null,
 
   init : function($window){
+
+    this._$curtain = $('ct-curtain');
     this._$gears = $('.gear');
+    this._$board = $('.ct-board');
     this._$progressBar = $('.progress_bar');
     this._$percentage = $('.percentage');
     this._$meter = $('.meter');
     this._oErrorHandler = new Cotton.UI.ErrorHandler(this, $window);
-    this._$pError = $('<p class="error"></p>');
+    this._$error = $('<div class="error"></div>');
   },
 
   percentage : function() {
@@ -89,6 +96,14 @@ Cotton.UI.Curtain = Class.extend({
   displayError: function(sMessage, sUrl, iLine){
     this.stop();
     this._$meter.addClass("red");
-    this._$metter.removeClass("yellow");
+    this._$meter.removeClass("yellow");
+    var $humam_message = $('<p></p>').text(
+        "An error occured during cottonTracks installation :"
+        );
+    var $message = $('<p></p>').text(sMessage);
+    var $info = $('<p></p>').text(sUrl + ':' + iLine);
+
+    this._$error.append($humam_message, $message, $info);
+    this._$board.append(this._$error);
   },
 });
