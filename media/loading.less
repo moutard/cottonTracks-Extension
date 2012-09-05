@@ -302,11 +302,11 @@ body {
     .ct-lens {
       top: -2*@lensHeight;
     }
-    
+
     .border {
       top: -550px;
     }
-    
+
   }
 }
 .ct-board {
@@ -316,7 +316,7 @@ body {
 	width: 560px;
 	height: @boardHeight;
 	padding-left: 2%;
-	
+
 	> h1 {
     font-family: BallparkWeiner;
     position: absolute;
@@ -345,37 +345,54 @@ body {
     line-height: 25px;
     text-align: right;
   }
-  
+
+  > .error {
+    position: absolute;
+    top : 95%;
+    color: red;
+    font-family: Calibri;
+    text-align: left;
+
+    > p {
+      margin: 10px 0 0 0;
+      padding: 0;
+      font-size: 20px;
+    }
+
+  }
+
   > .ct-bar{
     position: absolute;
     top: 55%;
     right: 0%;
     width : 500px;
-    
+
     > .meter {
       right: 2%;
     }
   }
-	
+
 	> .progress_bar {
     -webkit-transition: width 2s;
   }
-  
+
   .percentage {
 	  position: absolute;
 	  top: -55%;
 	  right: 0%;
-	
+
 	  height: 80px;
 	  width: 80px;
 	  background-image: url('/media/images/loading/percentage.png');
-	
+
 	  line-height: 80px;
 	  font-size: 22px;
 	  text-align: center;
 	  font-family: BallparkWeiner;
   }
-	
+
+
+
 }
 
 .meter {
@@ -395,10 +412,10 @@ body {
   height: 100%;
      -webkit-border-top-right-radius: 8px;
   -webkit-border-bottom-right-radius: 8px;
-        
+
       -webkit-border-top-left-radius: 20px;
    -webkit-border-bottom-left-radius: 20px;
-       
+
   background-color: rgb(43,194,83);
   background-image: -webkit-gradient(
     linear,
@@ -407,7 +424,7 @@ body {
     color-stop(0, rgb(43,194,83)),
     color-stop(1, rgb(84,240,84))
    );
-  
+
   -webkit-box-shadow:
     inset 0 2px 9px  rgba(255,255,255,0.3),
     inset 0 -2px 6px rgba(0,0,0,0.4);
@@ -426,7 +443,7 @@ body {
         color-stop(.75, rgba(255, 255, 255, .2)),
         color-stop(.75, transparent), to(transparent)
      );
-  
+
   z-index: 1;
   -webkit-background-size: 50px 50px;
   -webkit-animation: move 2s linear infinite;
