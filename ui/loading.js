@@ -4,7 +4,7 @@ Cotton.UI.oCurtain = {};
 
 $(window).load(
     function() {
-      Cotton.UI.oCurtain = new Cotton.UI.Curtain();
+      Cotton.UI.oCurtain = new Cotton.UI.Curtain(window);
       $('body').addClass('ct-body-loaded');
       $('.ct-landscape').addClass('running');
       // If it's not the first time curtain is already open.
