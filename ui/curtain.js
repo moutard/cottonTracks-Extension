@@ -6,12 +6,16 @@ Cotton.UI.Curtain = Class.extend({
   _$progressBar : null,
   _$percentage : null,
   _iPercentage : 20,
+  _oErrorHandler : null,
+  _$pError : null,
 
-  init : function(){
+  init : function($window){
     this._$gears = $('.gear');
     this._$progressBar = $('.progress_bar');
     this._$percentage = $('.percentage');
     this._$meter = $('.meter');
+    this._oErrorHandler = new Cotton.UI.ErrorHandler(this, $window);
+    this._$pError = $('<p class="error"></p>');
   },
 
   percentage : function() {
@@ -80,5 +84,11 @@ Cotton.UI.Curtain = Class.extend({
     this._$gears.find('.shine').removeClass('animate');
     this._$gears.find('.perspective').removeClass('animate');
     this._$meter.removeClass('animate');
+  },
+
+  displayError: function(sMessage, sUrl, iLine){
+    this.stop();
+    this._$meter.addClass("red");
+    this._$metter.removeClass("yellow");
   },
 });
