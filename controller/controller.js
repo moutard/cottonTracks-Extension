@@ -145,6 +145,7 @@ Cotton.Controller = Class.extend({
 
       // Is called when a message is sent by the worker.
       Cotton.UI.openCurtain();
+      if(Cotton.UI.oCurtain){ Cotton.UI.oCurtain.increasePercentage(5);}
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
       console.log('wDBSCAN3 - Worker ends with ', e.data['iNbCluster'], 'clusters.');
@@ -193,8 +194,9 @@ Cotton.Controller = Class.extend({
     console.debug("Controller - install");
 
     var self = this;
-
+    if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(20)};
     Cotton.DB.Populate.visitItems(self._oStore, function(oStore) {
+      if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(20);}
       oStore.getList('visitItems', function(lAllVisitItems) {
         console.debug('FirstInstallation - Start wDBSCAN with '
             + lAllVisitItems.length + ' items');
@@ -206,6 +208,7 @@ Cotton.Controller = Class.extend({
           var dItem = oTranslator.objectToDbRecord(oItem);
           lAllVisitDict.push(dItem);
         }
+        if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(10);}
         console.debug(lAllVisitDict);
         self._wDBSCAN3.postMessage(lAllVisitDict);
         });

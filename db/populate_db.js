@@ -50,6 +50,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     console.debug('PopulateDB - chrome history search has returned '
         + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
+    if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(10)};
 
     // TODO(rmoutard): Discuss if we can improve populate using all the
     // visitItem for each historyItem. For the moment we consider that an
@@ -62,6 +63,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
+      if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(5)};
       console.debug("PopulateDB - visitItems store ready");
       for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
         var oVisitItem = new Cotton.Model.VisitItem();
