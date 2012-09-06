@@ -12,7 +12,7 @@ $(window).load(
       if (localStorage['CottonFirstOpening'] === undefined
           || localStorage['CottonFirstOpening'] === "true") {
       } else {
-        //Cotton.UI.openCurtain();
+        Cotton.UI.openCurtain();
       }
 
       $(".meter > span").each(function() {
