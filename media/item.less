@@ -119,21 +119,22 @@
 
     // Used to close the div after the floating ct-storyFeaturedImage.
     overflow: hidden;
-    
+
     > *:not(:last-child) {
       background: url('/media/images/story/item/element_line.png');
       background-repeat : repeat-x;
       background-position: bottom;
     }
-    
+
     > .ct-featured_image {
       float: left;
       margin: 0px;
       width: 400px;
-      
+
       > img {
         width: 400px;
       }
+
     }
 
     > .ct-item_toolbox {
@@ -142,12 +143,16 @@
 
       width: 380px;
       margin: 0px;
-      padding: 2px 10px;
+      padding: 10px;
+
+      background: url('/media/images/story/item/element_line.png');
+      background-repeat : repeat-x;
+      background-position: bottom;
 
 
       > .ct-date {
         float: left;
-        margin: 12px 12px 0 5px;
+        margin: 15px 15px 0 5px;
 
         font-size: 20px;
         text-transform:uppercase;
@@ -194,18 +199,18 @@
       > h2 {
         text-align: center;
         margin: 0;
-        
+
         > a {
           font-size: 18px;
           text-decoration: none;
           color: #333;
-          
+
           &:visited {
             text-decoration: none;
             color: #333;
           }
         }
-        
+
       }
 
       > p {
