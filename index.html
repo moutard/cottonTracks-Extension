@@ -23,6 +23,8 @@
 <script type='text/javascript' src='ui/init.js'></script>
 <script type='text/javascript' src='ui/ui.js'></script>
 <script type='text/javascript' src='ui/world.js'></script>
+<script type='text/javascript' src='ui/curtain.js'></script>
+<script type='text/javascript' src='ui/error_handler.js'></script>
 <script type='text/javascript' src='ui/homepage/init.js'></script>
 <script type='text/javascript' src='ui/homepage/homepage.js'></script>
 <script type='text/javascript' src='ui/homepage/favorites_grid.js'></script>
@@ -37,14 +39,21 @@
 <script type='text/javascript' src='ui/sticky_bar/bar.js'></script>
 <script type='text/javascript' src='ui/sticky_bar/sticker.js'></script>
 <script type='text/javascript' src='ui/story/init.js'></script>
-<script type='text/javascript' src='ui/story/default_item.js'></script>
-<script type='text/javascript' src='ui/story/search_item.js'></script>
-<script type='text/javascript' src='ui/story/image_item.js'></script>
-<script type='text/javascript' src='ui/story/video_item.js'></script>
-<script type='text/javascript' src='ui/story/map_item.js'></script>
-<script type='text/javascript' src='ui/story/slideshow_item.js'></script>
-<script type='text/javascript' src='ui/story/item.js'></script>
 <script type='text/javascript' src='ui/story/mystoryline.js'></script>
+<script type='text/javascript' src='ui/story/item/init.js'></script>
+<script type='text/javascript' src='ui/story/item/item.js'></script>
+<script type='text/javascript' src='ui/story/item/item_description.js'></script>
+<script type='text/javascript' src='ui/story/item/item_toolbox.js'></script>
+<script type='text/javascript' src='ui/story/item/item_dna.js'></script>
+<script type='text/javascript' src='ui/story/item/content/init.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_factory.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_default.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_image.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_map.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_search.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_slideshow.js'></script>
+<script type='text/javascript' src='ui/story/item/content/item_content_video.js'></script>
+
 <script type='text/javascript' src='ui/loading.js'></script>
 
 <!-- Cotton.db -->
@@ -65,6 +74,7 @@
 <script type='text/javascript' src='utils/tools_container.js'></script>
 <script type='text/javascript' src='utils/exclude_container.js'></script>
 <script type='text/javascript' src='utils/ga.js'></script>
+<script type='text/javascript' src='utils/error.js'></script>
 <script type='text/javascript' src='utils/log.js'></script>
 
 <!-- Cotton.translators -->
@@ -85,7 +95,7 @@
 
 <link rel="stylesheet/less" type="text/css" href="media/startpage.less" />
 <link rel="stylesheet/less" type="text/css" href="media/story.less" />
-
+<link rel="stylesheet/less" type="text/css" href="media/item.less" />
 <!-- FIXME(rmoutard): load only if necessary -->
 <link rel="stylesheet/less" type="text/css" href="media/loading.less" />
 <!-- less script should be after .less file -->
@@ -95,17 +105,57 @@
 </head>
 <body>
   <div id="ct">
-    <div class="ct-window">
-      <div class="ct-landscape"></div>
-    </div>
     <div class="ct-curtain">
-      <div class="ct-board">
-        <h1>
-          <em>Please</em><br />have a seat!
-        </h1>
-        <p>We are currently taking a look at your train of thoughts to identify the best of what you browsed recently. It should not take more than a couple of minutes.</p>
+      <div class="ct-lens">
+        <div class='shadow'></div>
+        <div class='glass'></div>
+        <div class="gear gear1">
+          <img class="shine animate" src="media/images/loading/gear1.png" >
+          <img class="perspective animate" src="media/images/loading/gear1_perspective.png" >
+          <img class="middlescrew" src="media/images/loading/lens_gears1_middlescrew.png">
+        </div>
+
+        <div class="gear gear2">
+          <img class="shine animate" src="media/images/loading/gear2.png" >
+          <img class="perspective animate" src="media/images/loading/gear2_perspective.png" >
+          <img class="middlescrew" src="media/images/loading/lens_gears1_middlescrew.png">
+        </div>
+
+        <div class="gear gear3">
+          <img class="shine animate" src="media/images/loading/gear3.png" >
+          <img class="perspective animate" src="media/images/loading/gear3_perspective.png" >
+          <img class="middlescrew" src="media/images/loading/lens_gears1_middlescrew.png">
+        </div>
+
+        <div class="gear gear4">
+          <img class="shine animate" src="media/images/loading/gear4.png" >
+          <img class="perspective animate" src="media/images/loading/gear4_perspective.png" >
+          <img class="middlescrew" src="media/images/loading/lens_gears1_middlescrew.png">
+        </div>
+
+          <img class="border" src="media/images/loading/border3.png">
+
       </div>
+
+      <div class='ct-board'>
+      <h1>cottonTracks</h1>
+      <p>We are currently taking a look at your train of thoughts to identify the best of what you browsed recently. It should not take more than a couple of minutes.</p>
+	     <div class="ct-bar">
+	       <div class="meter animate yellow">
+          <span class="progress_bar" style="width:20%;">
+            <span class="stripe"></span>
+          </span>
+          <div class="percentage">
+            20%
+          </div>
+         </div>
+	     </div>
+
+
+      </div>
+
     </div>
+
     <div id="ct-stickyBar_bar">
       <div class="ct-container">
   	      <div class="ct-arrow ct-arrow_left"></div>
