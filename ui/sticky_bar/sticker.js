@@ -32,7 +32,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Return the DOM value.
-   * 
+   *
    * @return {HtmlElement}
    */
   $ : function() {
@@ -117,7 +117,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   * 
+   *
    * @param {int}
    *          iTranslateX : value of the translation
    * @param {boolean}
@@ -141,7 +141,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   * 
+   *
    * DISABLE
    */
   openSumUp : function() {
@@ -158,7 +158,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   * 
+   *
    * DISABLE
    */
   closeSumUp : function() {
@@ -169,7 +169,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Draw each visitItem in the story using the information on self._oStory.
-   * 
+   *
    * @param {Array.
    *          <Cotton.Model.VisitItem>} lVisitItems
    */
@@ -215,7 +215,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param {HtmlElement}
    *          $img
    */
@@ -242,7 +242,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   * 
+   *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
