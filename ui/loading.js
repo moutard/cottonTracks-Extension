@@ -5,6 +5,14 @@ var iTimeoutIndex;
 
 $(window).load(
     function() {
+
+      // Start the timer.
+      // Throw a timeout if the installation exeed one minute.
+      iTimeoutIndex = setTimeout(function(){
+        throw new Error("Timeout - The installation is too long. Maybe try to close this tab and open a new one.")
+      }, 50000);
+
+
       Cotton.UI.oCurtain = new Cotton.UI.Curtain(window);
       $('body').addClass('ct-body-loaded');
       $('.ct-landscape').addClass('running');
@@ -23,11 +31,6 @@ $(window).load(
 						width: $(this).data("origWidth")
 					}, 1200);
 			});
-
-      // Throw a timeout if the installation exeed one minute.
-      iTimeoutIndex = setTimeout(function(){
-        throw new Error("Timeout - The installation is too long. Maybe try to close this tab and open a new one.")
-      }, 50000);
 
     });
 
