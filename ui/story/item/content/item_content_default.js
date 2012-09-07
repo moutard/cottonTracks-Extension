@@ -10,6 +10,7 @@ Cotton.UI.Story.Item.Content.Default = Class.extend({
   _$item_content : null,
 
   _$featured_image : null,
+  _$img : null,
   _oItemToolbox : null,
   _oItemDescription : null,
   _oItemDna : null,
@@ -27,15 +28,20 @@ Cotton.UI.Story.Item.Content.Default = Class.extend({
     this._oItemDescription = new Cotton.UI.Story.Item.Description(this);
     this._oItemDna = new Cotton.UI.Story.Item.Dna(this);
 
-    // Image Url
-    if (this._oItem._oVisitItem.extractedDNA().imageUrl() !== "") {
-      this._$featured_image.attr("src", this._oItem._oVisitItem.extractedDNA()
-          .imageUrl());
+    // set image
+    this._$img = $('<img ></img>');
+    if(this._oItem.visitItem().extractedDNA().imageUrl() !== ""){
+      this._$img.attr('src', this._oItem.visitItem().extractedDNA().imageUrl());
+      this._$featured_image.append(this._$img);
     }
 
     // create the item
-    this._$item_content.append(this._$featured_image, this._oItemToolbox.$(),
-        this._oItemDescription.$(), this._oItemDna.$());
+    this._$item_content.append(
+        this._$featured_image,
+        this._oItemToolbox.$(),
+        this._oItemDescription.$(),
+        this._oItemDna.$()
+    );
   },
 
   $ : function() {
