@@ -128,6 +128,7 @@ utils_input_files=( './utils/init.js'
                     './utils/ga.js'
                     './utils/tools_container.js'
                     './utils/exclude_container.js'
+                    './utils/error.js'
                     )
 utils_output_file="utils.js"
 
@@ -141,11 +142,13 @@ translators_output_file='translators.js'
 ui_input_files=(  './ui/init.js'
                   './ui/ui.js'
                   './ui/world.js'
+                  './ui/curtain.js'
+                  './ui/error_handler.js'
                   './ui/homepage/init.js'
                   './ui/homepage/homepage.js'
                   './ui/homepage/favorites_grid.js'
-                  './ui/homepage/favorites_ticket.js'
                   './ui/homepage/most_visited_grid.js'
+                  './ui/homepage/favorites_ticket.js'
                   './ui/homepage/apps_grid.js'
                   './ui/homepage/apps_ticket.js'
                   './ui/homepage/grid.js'
@@ -155,14 +158,20 @@ ui_input_files=(  './ui/init.js'
                   './ui/sticky_bar/bar.js'
                   './ui/sticky_bar/sticker.js'
                   './ui/story/init.js'
-                  './ui/story/default_item.js'
-                  './ui/story/search_item.js'
-                  './ui/story/image_item.js'
-                  './ui/story/video_item.js'
-                  './ui/story/map_item.js'
-                  './ui/story/slideshow_item.js'
-                  './ui/story/item.js'
                   './ui/story/mystoryline.js'
+                  './ui/story/item/init.js'
+                  './ui/story/item/item.js'
+                  './ui/story/item/item_description.js'
+                  './ui/story/item/item_toolbox.js'
+                  './ui/story/item/item_dna.js'
+                  './ui/story/item/content/init.js'
+                  './ui/story/item/content/item_content_factory.js'
+                  './ui/story/item/content/item_content_default.js'
+                  './ui/story/item/content/item_content_image.js'
+                  './ui/story/item/content/item_content_map.js'
+                  './ui/story/item/content/item_content_search.js'
+                  './ui/story/item/content/item_content_slideshow.js'
+                  './ui/story/item/content/item_content_video.js'
                   './ui/loading.js')
 ui_output_file='ui.js'
 
@@ -467,7 +476,8 @@ function removeFolders {
 	rm -rf algo/dbscan2/
 	rm algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
 	rm algo/dbscan1/pre_treatment.js algo/dbscan1/to_test_dbscan.js
-	rm -rf behavior
+	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js
+  rm -rf behavior
 	rm config/init.js
 	rm config/config.js
 	rm -rf controller
