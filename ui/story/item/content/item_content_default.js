@@ -48,6 +48,10 @@ Cotton.UI.Story.Item.Content.Default = Class.extend({
     return this._$item_content;
   },
 
+  item : function(){
+    return this._oItem;
+  },
+
   appendTo : function(oItem) {
     oItem.$().append(this._$item_content);
   },

@@ -52,6 +52,10 @@ Cotton.UI.Story.Item.Content.Search = Class.extend({
     return this._$item_content;
   },
 
+  item : function(){
+    return this._oItem;
+  },
+
   appendTo : function(oItem) {
     oItem.$().append(this._$item_content);
   },
