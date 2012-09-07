@@ -25,9 +25,9 @@ Cotton.UI.Story.Item.Dna = Class
         // set values
 
         // TextHighlight
-        if (this._oItemContent._oItem._oVisitItem.extractedDNA()
+        if (this._oItemContent.item().visitItem().extractedDNA()
             .highlightedText().length !== 0) {
-          this._$quote.text(oVisitItem.extractedDNA().highlightedText()[0]);
+          this._$quote.text(this._oItemContent.item().visitItem().extractedDNA().highlightedText()[0]);
         } else {
           this._$quote = null;
         }
