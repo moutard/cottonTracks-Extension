@@ -3,18 +3,18 @@
 /**
  * Given an array of visitItem labeled with a "clusterId", return a list of
  * stories, that contains all visitItems with the same label.
- *
+ * 
  * @param {Array.
  *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
  *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
  * @returns {Object} dStories list of all the stories.
- *
- *
+ * 
+ * 
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
-
+  console.debug("cluster story")
   console.debug(lVisitItems);
   console.debug(iNbCluster);
   var lStories = [];
@@ -50,6 +50,9 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
       // Set story title.
       if (lStories[lVisitItems[j]['clusterId']].title() === ""
           || lStories[lVisitItems[j]['clusterId']]['temptitle'] === true) {
+        // first condition indicates that title is not defined
+        // second condition indicates we can find a better title
+        // in both case we recompute the title.
         if (lVisitItems[j]['lQueryWords'].length !== 0) {
           lStories[lVisitItems[j]['clusterId']]
               .setTitle(lVisitItems[j]['lQueryWords'].join(" "));
@@ -62,10 +65,21 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
       }
 
       // Set Featured image
-      var reg = new RegExp(".(jpg|png|gif)$", "g");
-      if (reg.exec(lVisitItems[j]['sUrl'])) {
-        lStories[lVisitItems[j]['clusterId']]
-            .setFeaturedImage(lVisitItems[j]['sUrl']);
+      if (lStories[lVisitItems[j]['clusterId']].featuredImage() === ""
+          || lStories[lVisitItems[j]['clusterId']]['tempimage'] === true) {
+        // first condition indicates that imageFeatured is not defined
+        // second condition indicates we can find a better image
+        // in both case we recompute the title.
+        var reg = new RegExp(".(jpg|png|gif)$", "g");
+        if (reg.exec(lVisitItems[j]['sUrl'])) {
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage(lVisitItems[j]['sUrl']);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (lVisitItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage(lVisitItems[j]['oExtractedDNA']['sImageUrl']);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = true;
+        }
       }
 
     } else if (bStoryUnderConstruction) {
@@ -82,5 +96,3 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
     'storyUnderConstruction' : oStoryUnderConstruction
   };
 };
-
-
