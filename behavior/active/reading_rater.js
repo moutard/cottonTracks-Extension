@@ -6,40 +6,47 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   *
+   * 
    * @type boolean
    */
   _bDocumentActive : false,
 
   /**
-   * true if we should send debugging messages to the JS console.
-   *
-   * @type boolean
-   */
-  _bLoggingEnabled : false,
-
-  /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   *
+   * 
    * @type Cotton.Behavior.Passive.Parser
    */
   _oParser : null,
 
   /**
    * A DOM element containing the current estimated reading rate.
-   *
+   * 
    * @type jQuery DOM
    */
   _$feedback : null,
 
   /**
-   * A DOM element containing an <img /> supposed to represent the most relevant
-   * image on the page.
-   *
+   * A DOM element containing the current estimated reading rate.
+   * 
    * @type jQuery DOM
    */
-  _$bestImg : null,
+  _$feedback_percentage : null,
+
+  /**
+   * A DOM element containing an <img /> supposed to represent the most relevant
+   * image on the page.
+   * 
+   * @type jQuery DOM
+   */
+  _$feedback_best_img : null,
+
+  /**
+   * A DOM element containing an <img /> supposed to represent the favicon.
+   * 
+   * @type jQuery DOM
+   */
+  _$feedback_favicon : null,
 
   init : function() {
     var self = this;
@@ -58,31 +65,30 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }, 10000);
     });
 
-    this._bLoggingEnabled = false;
+    this._oParser = new Cotton.Behavior.Passive.Parser();
+  },
 
-    var oParser = this._oParser = new Cotton.Behavior.Passive.Parser();
-    // var oGoogleParser = this._oParser = new
-    // Cotton.Behavior.Passive.GoogleParser();
-    // oGoogleParser._findSearchImageResult();
+  start : function() {
+    var self = this;
 
-    if (Cotton.Config.Parameters.bDevMode === true){
-    	this._generateFeedbackElement();
+    if (Cotton.Config.Parameters.bDevMode === true) {
+      this._generateFeedbackElement();
     }
-
-    this._initializeHighlightListener();
 
     // We will relaunch the parsing every 5 seconds. We do not use
     // setInterval
     // for performance issues.
     var mRefreshParsing = function() {
-      oParser.parse();
-      var $bestImg = oParser.findBestImage();
-      if ($bestImg) {
-         if (Cotton.Config.Parameters.bDevMode === true){
-          self._$bestImg.attr('src', $bestImg);
-         }
+      self._oParser.parse();
+
+      // Set $feedback
+      var sBestImg = self._oParser.bestImage();
+      if (sBestImg) {
+        if (Cotton.Config.Parameters.bDevMode === true) {
+          self._$feedback_best_img.attr('src', sBestImg);
+        }
         // Update oCurrentVisitItem
-        sync._oCurrentVisitItem.extractedDNA().setImageUrl($bestImg);
+        sync._oCurrentVisitItem.extractedDNA().setImageUrl(sBestImg);
         // console.log(oCurrentVisitItem);
         sync.updateVisit();
       }
@@ -107,8 +113,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = Math.round(100 * fPageScore);
-        if(Cotton.Config.Parameters.bDevMode){
-          self._$feedback.text(iPercent + '%');
+        if (Cotton.Config.Parameters.bDevMode) {
+          self._$feedback_percentage.text(iPercent + '%');
         }
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
@@ -122,17 +128,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     };
 
     mRefreshReadingRate();
-  },
 
-  log : function(msg) {
-    if (this._bLoggingEnabled) {
-      console.log(msg);
-    }
+    this._initializeHighlightListener();
   },
 
   /**
    * Computes the page score.
-   *
+   * 
    * @returns float between 0 and 1
    */
   _computePageScore : function() {
@@ -200,11 +202,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    * Prepares a block to give feedback on the reading percentage.
    */
   _generateFeedbackElement : function() {
-    if (this._$feedback) {
+    var self = this;
+    if (this._$feedback_percentage) {
       return;
     }
 
-    var $container = $('<div>').css({
+    var $feedback = $('<div class="feedback">').css({
       position : 'fixed',
       left : 0,
       bottom : 0,
@@ -214,14 +217,29 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       padding : '0.4em'
     });
 
-    this._$feedback = $('<p>');
+    this._$feedback_percentage = $('<p class="percentage">');
 
-    this._$bestImg = $('<img />').css({
+    this._$feedback_best_img = $('<img class="best_image"/>').css({
       width : 50,
       height : 50
     });
+    var sBestImg = self._oParser.bestImage();
+    if (sBestImg) {
+      this._$feedback_best_img.attr('src', sBestImg);
+    }
 
-    $('body').append($container.append(this._$feedback, this._$bestImg));
+    this._$feedback_favicon = $('<img class="favicon"/>').css({
+      width : 16,
+      height : 16
+    });
+    var sFavicon = self._oParser.favicon();
+    if (sFavicon) {
+      this._$feedback_favicon.attr('src', sFavicon);
+    }
+
+    $('body').append(
+        $feedback.append(this._$feedback_percentage, this._$feedback_best_img,
+            this._$feedback_favicon));
   },
 
   /**
@@ -234,7 +252,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     /**
      * A jQuery DOM object used to keep in memory highlighted blocks in order to
      * re-augment their score in case they are copied (Ctrl/Cmd+C).
-     *
+     * 
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
@@ -290,7 +308,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   *
+   * 
    * @returns jQuery DOM
    */
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
@@ -304,7 +322,15 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
 Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 200;
 
-// For testing.
-// $(function() {
-// new Cotton.Behavior.Active.ReadingRater();
-// });
+var sync = new Cotton.Behavior.Passive.DbSync();
+var readingRater = new Cotton.Behavior.Active.ReadingRater();
+
+$(document).ready(function() {
+  // Need to wait the document is ready to get the title.
+
+  // Do not store informations in incognito mode.
+  if (!chrome.extension.inIncognitoContext) {
+    sync.start();
+    readingRater.start();
+  }
+});
