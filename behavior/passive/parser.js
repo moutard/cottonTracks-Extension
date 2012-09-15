@@ -2,9 +2,9 @@
 
 /**
  * @class : Parser
- *
+ * 
  * Created by : content_scripts.
- *
+ * 
  * Find relevant block in a page.
  */
 
@@ -12,23 +12,58 @@ Cotton.Behavior.Passive.Parser = Class
     .extend({
 
       /**
-       * true if we should send debugging messages to the JS console.
-       *
-       * TODO(rmoutard) : Put that in a common file.
-       *
-       * @type boolean
+       * Used to stored the detected favicon.
        */
+      _sFavicon : null,
 
-      init : function(){
+      /**
+       * Used to stored the detected best image.
+       */
+      _sBestImage : null,
+
+      /**
+       * Meaningful blocks
+       */
+      _lMeaningfulBlocks : null,
+
+      /**
+       * @constructor
+       */
+      init : function() {
 
       },
 
+      favicon : function() {
+        return this._sFavicon;
+      },
+
+      bestImage : function() {
+        return this._sBestImage;
+      },
+      /**
+       * Parse all the blocks and add the attribute 'data-meaningful', if the
+       * block is considered interesting. Then remove the some meaningful
+       * blocks.
+       */
       parse : function() {
+        // Find the favicon
+        this._sFavicon = $("link[rel$=icon]").attr("href");
+        sync.current().setFavicon(this._sFavicon);
+        sync.updateVisit();
+
         $('[data-meaningful]').removeAttr('data-meaningful');
         this._findMeaningfulBlocks();
         this._removeLeastMeaningfulBlocks();
+
+        this.findBestImage();
       },
 
+      /**
+       * Parse all the blocks and add the attribute 'data-meaningful', if the
+       * block is considered interesting.
+       * 
+       * @returns
+       */
       _findMeaningfulBlocks : function() {
         var self = this;
 
@@ -57,14 +92,14 @@ Cotton.Behavior.Passive.Parser = Class
         // matching.".match(rLongEnoughSentenceRegex));
 
         // Loop through all the paragraphs to find the actual textual content.
-        Cotton.Utils.log("Finding all potentially meaningful paragraphs...");
+        // Cotton.Utils.log("Finding all potentially meaningful paragraphs...");
         $('p, dd').each(
             function() {
               var $paragraph = $(this);
               var $container = $paragraph.parent();
 
-              Cotton.Utils.log("Parsing the paragraph:");
-              Cotton.Utils.log($paragraph.text());
+              // Cotton.Utils.log("Parsing the paragraph:");
+              // Cotton.Utils.log($paragraph.text());
 
               // In any article, the text should have a sufficient width to be
               // comfortable
@@ -83,7 +118,7 @@ Cotton.Behavior.Passive.Parser = Class
                 // For example, it could be a small message "Connect with your
                 // email"
                 // in a sidebar.
-                Cotton.Utils.log("Ignoring because of insufficient width.");
+                // Cotton.Utils.log("Ignoring because of insufficient width.");
                 return true;
               }
 
@@ -96,16 +131,17 @@ Cotton.Behavior.Passive.Parser = Class
               // three
               // long-enough words).
 
-              Cotton.Utils.log("Searching for sentences...");
+              // Cotton.Utils.log("Searching for sentences...");
 
               // TODO(fwouts): Consider something else than text()?
               var lSentencesMatching = $paragraph.text().match(
                   rLongEnoughSentenceRegex);
               if (lSentencesMatching) {
-                Cotton.Utils.log(lSentencesMatching.length + " sentences found.");
+                // Cotton.Utils.log(lSentencesMatching.length
+                // + " sentences found.");
                 self._markMeaningfulBlock($paragraph);
               } else {
-                Cotton.Utils.log("No sentences found.");
+                // Cotton.Utils.log("No sentences found.");
               }
             });
 
@@ -128,13 +164,13 @@ Cotton.Behavior.Passive.Parser = Class
         });
 
         // Loop through all interactive content such as Flash.
-        Cotton.Utils.log("Finding all potentially meaningful objects...");
+        // Cotton.Utils.log("Finding all potentially meaningful objects...");
         $('object, img').each(
             function() {
               var $object = $(this);
               if ($object.width() < MIN_OBJECT_WIDTH
                   || $object.height() < MIN_OBJECT_HEIGHT) {
-                Cotton.Utils.log("Ignoring because of insufficient size.");
+                // Cotton.Utils.log("Ignoring because of insufficient size.");
                 return true;
               }
               // Since the object is big enough, we can consider that it belongs
@@ -146,7 +182,7 @@ Cotton.Behavior.Passive.Parser = Class
         $('pre').each(function() {
           var $pre = $(this);
           if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
-            Cotton.Utils.log("Ignoring because of insufficient size.");
+            // Cotton.Utils.log("Ignoring because of insufficient size.");
             return true;
           }
           self._markMeaningfulBlock($pre);
@@ -158,7 +194,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       _markMeaningfulBlock : function($block) {
         $block.attr('data-meaningful', 'true');
-        if (Cotton.Config.Parameters.bDevMode === true){
+        if (Cotton.Config.Parameters.bDevMode === true) {
           $block.css('border', '1px dashed #35d');
         }
         if (sync.current().extractedDNA().firstParagraph() === "") {
@@ -172,7 +208,7 @@ Cotton.Behavior.Passive.Parser = Class
         // TODO(fwouts): Move constants.
         var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
 
-        Cotton.Utils.log("Keeping only groups of meaningful blocks...");
+        // Cotton.Utils.log("Keeping only groups of meaningful blocks...");
 
         // Separate step because we need to know the list of all meaningful
         // elements at this point.
@@ -231,23 +267,28 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in the whole page.
-       *
+       * 
        * @returns jQuery DOM representing the given <img /> or null
        * @returns src
        */
       findBestImage : function() {
         var sSrc = this._findSearchImageResult();
-        return sSrc ? sSrc : this._findBestImageInBlocks($('body'));
+        if (sSrc) {
+          this._sBestImage = sSrc;
+        } else {
+          this._sBestImage = this._findBestImageInBlocks($('body'));
+        }
+        return this._sBestImage;
       },
 
       /**
        * Finds the best image in a given set of blocks.
-       *
+       * 
        * The idea is mainly to pick the biggest image.
-       *
+       * 
        * TODO(fwouts): Consider the ratio of images, since there could be very
        * narrow images that have a bigger surface than the actual best pick.
-       *
+       * 
        * @returns jQuery DOM representing the given <img /> or null
        */
       _findBestImageInBlocks : function($blocks) {
@@ -310,15 +351,18 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds google image result. When they are included to a google search.
-       *
-       *
-       * @param : none
+       * 
+       * 
+       * @param :
+       *          none
        * @returns url of the image
        */
       _findSearchImageResult : function() {
         var sUrl = $("#imagebox_bigimages a.uh_rl:first").attr("href");
         if (sUrl) {
-          if(sUrl[0]==="/"){sUrl="http://google.fr"+sUrl;}
+          if (sUrl[0] === "/") {
+            sUrl = "http://google.fr" + sUrl;
+          }
           var oUrl = new parseUrl(sUrl);
           oUrl.fineDecomposition();
           console.debug(oUrl);
@@ -331,7 +375,7 @@ Cotton.Behavior.Passive.Parser = Class
       /**
        * Compute the score of an image. The score is higher when the image is
        * higher, when it's first, when data-meaningful equal true.
-       *
+       * 
        * @param $img
        * @param iPosition
        * @return iScore
@@ -343,7 +387,7 @@ Cotton.Behavior.Passive.Parser = Class
         var iWidth = $img.width();
         var iHeight = $img.height();
 
-        if(iWidth < 200 || iHeight < 120){
+        if (iWidth < 200 || iHeight < 120) {
           /**
            * Discriminate pictures too small. Avoid pixel line 3000x1px.
            * Moreover avoid a bad resize.
