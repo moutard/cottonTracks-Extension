@@ -155,11 +155,15 @@ body {
       cursor: pointer;
 
       &.ct-iconButton_home {
-        background: url('/media/images/topbar/home_left_selected.png');
+        background: url('/media/images/topbar/home_left.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
         
-        &:hover {
+        &.selected {
           background: url('/media/images/topbar/home_left_selected.png');
+        }
+        
+        &:hover {
+          .selected;
         }
       }
 
@@ -167,17 +171,25 @@ body {
         background: url('/media/images/topbar/search_left.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
 
-        &:hover {
+        &.selected {
           background: url('/media/images/topbar/search_left_selected.png');
+        }
+        
+        &:hover {
+          .selected;
         }
       }
       
       &.ct-iconButton_recent {
         background: url('/media/images/topbar/recent.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) - @stickyBar_bar_commands_iconButton_width;
-
-        &:hover {
+        
+        &.selected {
           background: url('/media/images/topbar/recent_selected.png');
+        }
+        
+        &:hover {
+          .selected;
         }
       }
       
@@ -185,8 +197,12 @@ body {
         background: url('/media/images/topbar/share.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
 
-        &:hover {
+        &.selected {
           background: url('/media/images/topbar/share_selected.png');
+        }
+        
+        &:hover {
+          .selected;
         }
       }
       
@@ -194,7 +210,7 @@ body {
         //background: url('/media/images/topbar/share.png');
         margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
 
-        &:hover {
+        &.selected {
           //background: url('/media/images/topbar/share_selected.png');
         }
       }
