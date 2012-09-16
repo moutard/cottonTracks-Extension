@@ -11,16 +11,16 @@
 @stickyBar_bar_close_transitionDuration: 1s;
 
 @stickyBar_bar_commands_container: 160px;
-@stickyBar_bar_commands_middle_width: 494px;
+@stickyBar_bar_commands_middle_width: 100px;
 @stickyBar_bar_commands_middle_height: 45px;
 
 @stickyBar_bar_commands_middle_flip_width: 283px;
 @stickyBar_bar_commands_middle_flip_height: 37px;
 @stickyBar_bar_commands_middle_flip_line_padding: 4px;
 
-@stickyBar_bar_commands_iconButton_width: 35px;
+@stickyBar_bar_commands_iconButton_width: 100px;
 @stickyBar_bar_commands_iconButton_height: 45px;
-@stickyBar_bar_commands_iconButton_spaceFromCenter: 340px;
+@stickyBar_bar_commands_iconButton_spaceFromCenter: 200px;
 
 @stickyBar_bar_commands_sumUp_height: 100px;
 
@@ -142,7 +142,7 @@ body {
     top: @stickyBar_bar_commands_container;
     width: 100%;
     height: @stickyBar_bar_commands_middle_height;
-  	background: url('/media/images/topbar/topbar_background.png');
+  	background: url('/media/images/topbar/background.png');
 
     z-index : 2;
 
@@ -152,28 +152,70 @@ body {
       position: absolute;
       left: 50%;
       z-index: 1;
+      cursor: pointer;
 
       &.ct-iconButton_home {
-        background: url('/media/images/topbar/home_selected.png');
+        background: url('/media/images/topbar/home_left_selected.png');
         margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+        
+        &:hover {
+          background: url('/media/images/topbar/home_left_selected.png');
+        }
       }
 
       &.ct-iconButton_search {
-        background: url('/media/images/topbar/search.png');
-        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
-		cursor: pointer;
+        background: url('/media/images/topbar/search_left.png');
+        margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
 
         &:hover {
-          background: url('/media/images/topbar/search_selected.png');
+          background: url('/media/images/topbar/search_left_selected.png');
         }
       }
+      
+      &.ct-iconButton_recent {
+        background: url('/media/images/topbar/recent.png');
+        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) - @stickyBar_bar_commands_iconButton_width;
+
+        &:hover {
+          background: url('/media/images/topbar/recent_selected.png');
+        }
+      }
+      
+      &.ct-iconButton_share {
+        background: url('/media/images/topbar/share.png');
+        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+
+        &:hover {
+          background: url('/media/images/topbar/share_selected.png');
+        }
+      }
+      
+      &.ct-iconButton_edit {
+        //background: url('/media/images/topbar/share.png');
+        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
+
+        &:hover {
+          //background: url('/media/images/topbar/share_selected.png');
+        }
+      }
+      
+      &.ct-iconButton_settings {
+        //background: url('/media/images/topbar/share.png');
+        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + 2*@stickyBar_bar_commands_iconButton_width;
+
+        &:hover {
+          //background: url('/media/images/topbar/share_selected.png');
+        }
+      }
+      
+      
     }
 
   	> .ct-middle {
       width: @stickyBar_bar_commands_middle_width;
       height: @stickyBar_bar_commands_middle_height;
       margin: auto;
-      background: url('/media/images/topbar/flip_background.png');
+      background: url('/media/images/topbar/logo_center.png');
 
       position: absolute;
       left: 50%;
