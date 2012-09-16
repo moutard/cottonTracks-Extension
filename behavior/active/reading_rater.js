@@ -68,10 +68,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
 
     // Detect if the user is focused on the current window.
-    $(document).mouseout(function() {
+    $(window).blur(function() {
+      console.log("blur");
       self._bDocumentActive = false;
     });
-    $(document).mouseover(function() {
+    $(window).focus(function() {
+      console.log("focus");
       self._bDocumentActive = true;
     });
 
