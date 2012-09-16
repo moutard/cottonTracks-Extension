@@ -68,8 +68,8 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
       console.log(response);
       self._iId = response['id'];
       self._oCurrentVisitItem.initId(response['id']);
-      console.log("dbSync create visit");
-      console.log(self._oCurrentVisitItem);
+      // console.log("dbSync create visit");
+      // console.log(self._oCurrentVisitItem);
     });
 
   },
@@ -98,9 +98,9 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
           'visitItem' : dDbRecord
         }
       }, function(response) {
-        console.log("dbSync update visit");
-        console.log(response);
-        console.log(self._oCurrentVisitItem);
+        // console.log("dbSync update visit");
+        // console.log(response);
+        // console.log(self._oCurrentVisitItem);
       });
     }
 
