@@ -1,6 +1,5 @@
 'use strict';
 
-// TODO(fwouts): Cleanup the whole structure of this file.
 Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
@@ -48,6 +47,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   _$feedback_favicon : null,
 
+  /**
+   * @constructor
+   */
   init : function() {
     var self = this;
 
@@ -65,19 +67,31 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }, 10000);
     });
 
+    // Detect if the user is focused on the current window.
+    $(document).mouseout(function() {
+      self._bDocumentActive = false;
+    });
+    $(document).mouseover(function() {
+      self._bDocumentActive = true;
+    });
+
+    // Create the parser but don't start it.
     this._oParser = new Cotton.Behavior.Passive.Parser();
   },
 
+  /**
+   * Start when the document is ready. Start parser and reading rater. Refresh
+   * parser and reading rater every 5 seconds.
+   */
   start : function() {
     var self = this;
 
+    // If devMode display the div feeback.
     if (Cotton.Config.Parameters.bDevMode === true) {
       this._generateFeedbackElement();
     }
 
-    // We will relaunch the parsing every 5 seconds. We do not use
-    // setInterval
-    // for performance issues.
+    // We will relaunch the parsing every 5 seconds.
     var mRefreshParsing = function() {
       self._oParser.parse();
 
@@ -199,7 +213,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
 
   /**
-   * Prepares a block to give feedback on the reading percentage.
+   * Prepares a block to give feedback on the reading percentage, and append it
+   * to the body.
    */
   _generateFeedbackElement : function() {
     var self = this;
@@ -322,6 +337,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
 Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 200;
 
+// We don't need to wait document 'ready' signal to create instance.
 var sync = new Cotton.Behavior.Passive.DbSync();
 var readingRater = new Cotton.Behavior.Active.ReadingRater();
 
