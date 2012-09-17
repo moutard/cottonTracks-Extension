@@ -40,7 +40,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       self._oBar.openClose();
     });
 
-    this._$EditButton = $('.ct-textButton_edit');
+    this._$EditButton = $('.ct-iconButton_edit');
     this._$EditButton.addClass('edit_mode_off');
     this._$EditButton.click(function() {
       if ($(this).hasClass('edit_mode_off')) {
