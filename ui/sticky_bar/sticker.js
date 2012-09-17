@@ -266,7 +266,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           }, function() {
               for(var i = 0; i < self._oStory.visitItemsId().length; i++){
                 var iId = self._oStory.visitItemsId()[i];
-                this.delete('visitItems', iId, function(){});
+                this.delete('visitItems', iId, function(){
+                  console.log("delete visitItem");
+                });
               }
               this.delete('stories', self._oStory.id(), function() {
                 console.log("delete story");
