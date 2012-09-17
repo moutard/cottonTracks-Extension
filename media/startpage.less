@@ -149,19 +149,20 @@ body {
     .ct-iconButton {
       width: @stickyBar_bar_commands_iconButton_width;
       height: @stickyBar_bar_commands_iconButton_height;
-      position: absolute;
-      left: 50%;
+      //position: absolute;
+      //left: 50%;
+      float:left;
       z-index: 1;
       cursor: pointer;
 
       &.ct-iconButton_home {
         background: url('/media/images/topbar/home_left.png');
-        margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
-        
+        //margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+        left:0;
         &.selected {
           background: url('/media/images/topbar/home_left_selected.png');
         }
-        
+
         &:hover {
           .selected;
         }
@@ -169,73 +170,88 @@ body {
 
       &.ct-iconButton_search {
         background: url('/media/images/topbar/search_left.png');
-        margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
-
+        //margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
+        left: @stickyBar_bar_commands_iconButton_width;
         &.selected {
           background: url('/media/images/topbar/search_left_selected.png');
         }
-        
+
         &:hover {
           .selected;
         }
       }
-      
+
+      &.ct-iconButton_logo {
+        background: url('/media/images/topbar/logo_center.png');
+        //margin-left: -@stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
+        left: 2*@stickyBar_bar_commands_iconButton_width;
+
+
+        &.selected {
+          background: url('/media/images/topbar/logo_center.png');
+        }
+
+        &:hover {
+          .selected;
+        }
+      }
+
+
       &.ct-iconButton_recent {
         background: url('/media/images/topbar/recent.png');
-        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) - @stickyBar_bar_commands_iconButton_width;
-        
+        //margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) - @stickyBar_bar_commands_iconButton_width;
+        left: 3*@stickyBar_bar_commands_iconButton_width;
+
         &.selected {
           background: url('/media/images/topbar/recent_selected.png');
         }
-        
+
         &:hover {
           .selected;
         }
       }
-      
+
       &.ct-iconButton_share {
         background: url('/media/images/topbar/share.png');
-        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+        //margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2);
+        left : 4*@stickyBar_bar_commands_iconButton_width;
 
         &.selected {
           background: url('/media/images/topbar/share_selected.png');
         }
-        
+
         &:hover {
           .selected;
         }
       }
-      
+    }
+
+    .ct-iconButtonSmall {
+      width: @stickyBar_bar_commands_iconButton_width;
+      height: @stickyBar_bar_commands_iconButton_height;
+      position: absolute;
+      right : 0;
+      z-index: 1;
+      cursor: pointer;
+
       &.ct-iconButton_edit {
-        //background: url('/media/images/topbar/share.png');
-        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + @stickyBar_bar_commands_iconButton_width;
-
+        top: 7px;
         &.selected {
-          //background: url('/media/images/topbar/share_selected.png');
         }
       }
-      
-      &.ct-iconButton_settings {
-        //background: url('/media/images/topbar/share.png');
-        margin-left: @stickyBar_bar_commands_iconButton_spaceFromCenter - (@stickyBar_bar_commands_iconButton_width / 2) + 2*@stickyBar_bar_commands_iconButton_width;
 
+      &.ct-iconButton_settings {
+        top: 22px;
         &:hover {
-          //background: url('/media/images/topbar/share_selected.png');
         }
       }
-      
-      
+
     }
 
   	> .ct-middle {
-      width: @stickyBar_bar_commands_middle_width;
+      width : 5*@stickyBar_bar_commands_iconButton_width;
       height: @stickyBar_bar_commands_middle_height;
       margin: auto;
-      background: url('/media/images/topbar/logo_center.png');
-
-      position: absolute;
-      left: 50%;
-      margin-left: -(@stickyBar_bar_commands_middle_width / 2);
 
       > .ct-textButton {
         position: absolute;
