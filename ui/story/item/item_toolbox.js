@@ -17,8 +17,10 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
   _$url : null,
   _$edit_button : null,
   _$lock_button : null,
+  _oItemEditbox : null,
 
   init : function(oContentItem) {
+    var self = this;
     // current parent element.
     this._oContentItem = oContentItem;
 
@@ -32,6 +34,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$url = $('<div class="ct-item_url"></div>');
     this._$edit_button = $('<div class="ct-edit_button"></div>');
     this._$lock_button = $('<div class="ct-lock_button"></div>');
+    this._oItemEditbox = new Cotton.UI.Story.Item.Editbox();
 
     // set the value
 
@@ -41,14 +44,18 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$date.text(lDate[2] + " " + lDate[1]);
 
     // favicon
-    this._$favicon.attr("src", "/media/images/story/default_favicon.png");
+    this._$favicon.attr("src", "/media/images/story/item/default_favicon.png");
     this._$faviconButton.append(this._$favicon);
 
     // button
     this._$edit_button
-        .append('<img src="/media/images/story/default_favicon.png">');
+        .append('<img src="/media/images/story/item/settings_favicon.png">');
+    this._$edit_button.click(function(){
+      self._oItemEditbox.openClose();
+    });
+
     this._$lock_button
-        .append('<img src="/media/images/story/default_favicon.png">');
+        .append('<img src="/media/images/story/item/history_favicon.png">');
 
     // url
     var sUrl = this._oContentItem._oItem._oVisitItem.url();
@@ -59,11 +66,15 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
 
     // create the item
     this._$item_toolbox.append(this._$date, this._$faviconButton,
-        this._$edit_button, this._$lock_button);
+        this._$edit_button, this._$lock_button, this._oItemEditbox.$());
   },
 
   $ : function() {
     return this._$item_toolbox;
+  },
+
+  contentItem : function(){
+    return this._oContentItem;
   },
 
   appendTo : function(oItem) {
