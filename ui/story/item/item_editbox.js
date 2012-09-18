@@ -35,8 +35,14 @@ Cotton.UI.Story.Item.Editbox = Class.extend({
     });
     this._$set_image_button.click(function(){
     });
+
     this._$remove_button.click(function(){
-      self.itemToolbox().contentItem()
+      // Send message to the controller.
+      var iVisitItem = self.itemToolbox().contentItem().item().visitItem().id();
+      Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
+
+      // Update the view.
+      self.itemToolbox().contentItem().item().$().remove();
     });
 
     // create the item

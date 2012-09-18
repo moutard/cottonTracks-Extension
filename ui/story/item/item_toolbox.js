@@ -34,7 +34,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$url = $('<div class="ct-item_url"></div>');
     this._$edit_button = $('<div class="ct-edit_button"></div>');
     this._$lock_button = $('<div class="ct-lock_button"></div>');
-    this._oItemEditbox = new Cotton.UI.Story.Item.Editbox();
+    this._oItemEditbox = new Cotton.UI.Story.Item.Editbox(self);
 
     // set the value
 
