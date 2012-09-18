@@ -1,31 +1,28 @@
 'use strict'
 /**
  * Controller
- *
+ * 
  * Inspired by MVC pattern.
- *
+ * 
  * Handles DB, and UI.
- *
+ * 
  */
 Cotton.Controller = Class.extend({
 
   /**
-   * "Model" in MVC pattern.
-   * Global Store, that allow controller to make call to the database. So it
-   * Contains 'visitItems' and 'stories'.
+   * "Model" in MVC pattern. Global Store, that allow controller to make call to
+   * the database. So it Contains 'visitItems' and 'stories'.
    */
   _oStore : null,
 
   /**
-   * "View" in MVC pattern.
-   * Global view, contains the stickybar, the homepage.
+   * "View" in MVC pattern. Global view, contains the stickybar, the homepage.
    */
   _oWorld : null,
 
   /*
-   * "Installer"
-   * TODO(rmoutard) : use event chrome.runtime.onInstalled
-   * Maybe create an installer. (By the way with events page there is onInstallation)
+   * "Installer" TODO(rmoutard) : use event chrome.runtime.onInstalled Maybe
+   * create an installer. (By the way with events page there is onInstallation)
    */
 
   _wDBSCAN1 : null,
@@ -143,7 +140,7 @@ Cotton.Controller = Class.extend({
         // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
         // Cotton.UI.oWorld.update();
         console.log(lStories);
-        //Cotton.UI.oWorld.pushStories(lStories);
+        // Cotton.UI.oWorld.pushStories(lStories);
       });
 
     }, false);
@@ -184,13 +181,11 @@ Cotton.Controller = Class.extend({
                                               e.data['iNbCluster']);
 
       // Set story with a temporary id.
-      /*_.each(dStories['stories'], function(oStory){
-        oStory.setId(self._iTmpId);
-        self._iTmpId+=1;
-        console.log(' frf rfrf r f ' + self._iTmpId);
-      })
-      Cotton.UI.oWorld.pushStories(dStories['stories']);
-      */
+      /*
+       * _.each(dStories['stories'], function(oStory){
+       * oStory.setId(self._iTmpId); self._iTmpId+=1; console.log(' frf rfrf r f ' +
+       * self._iTmpId); }) Cotton.UI.oWorld.pushStories(dStories['stories']);
+       */
       // Add stories
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore, lStories){
@@ -203,10 +198,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   *
+   * 
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   *
+   * 
    */
   install : function(){
     console.debug("Controller - install");
@@ -236,7 +231,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   *
+   * 
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -265,7 +260,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   *
+   * 
    * ct is well installed, start the application.
    */
   start : function(){
@@ -309,27 +304,41 @@ Cotton.Controller = Class.extend({
   },
 
   /**
-   * Controller - Notication Center
-   * Each time the UI, is modify, the UI call the controller.
+   * Controller - Notication Center Each time the UI, is modify, the UI call the
+   * controller.
    */
 
   /**
-   * Remove the visit in a given Story.
-   * Send by {Cotton.UI.Story.ItemEditbox}.
-   *
-   * @param {int} iStoryId : id is found using mystoryline.
-   * @param {int} iVisitItemId : id is send by th
+   * Remove the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
+   * 
+   * @param {int}
+   *          iStoryId : id is found using mystoryline.
+   * @param {int}
+   *          iVisitItemId : id is send by the item_editbox.
    */
   removeVisitItemInStory : function(iVisitItemId){
     var self = this;
-    //TODO(rmoutard) : solve problem with
-    //var iStoryId = self._oWorld.storyline().story().id();
+    // TODO(rmoutard) : solve problem with
+    // var iStoryId = self._oWorld.storyline().story().id();
     var iStoryId = _oCurrentlyOpenStoryline.story().id();
     Cotton.DB.Stories.removeVisitItemInStory(self._oStore,
         iStoryId, iVisitItemId,
         function(){
           console.log('ok - removeVisitItem');
     });
+  },
+  
+  /**
+   * Set the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
+   * 
+   * @param {Cotton.Model.VisitItem}
+   *          oVisitItem : after set the visitItem put.
+   */
+  setVisitItem : function(oVisitItem){
+    var self = this;
+    self._oStore.put('visitItems', oVisitItem, function(id){
+      console.log("setVisit id : " + id);
+    })
   },
 });
 

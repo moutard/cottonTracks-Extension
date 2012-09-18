@@ -61,4 +61,32 @@ Cotton.UI.Story.Item.Description = Class
         oItemContent.$().append(this._$item_description);
       },
 
+      /**
+       * Make the title editable.
+       */
+      editTitle : function() {
+        var self = this;
+
+        // Create an input field to change the title.
+        var $input_text = $('<input class="ct-editable_title" type="text" name="title">');
+
+        // Set the default value, with the current title.
+        $input_text.val(self._$title.text());
+        $input_text.keypress(function(event) {
+          // on press 'Enter' event.
+          if (event.which == 13) {
+            var sTitle = $input_text.val();
+            self._$title.text(sTitle);
+            $input_text.remove();
+            self._$title.show();
+
+            // TODO(rmoutard) : set the title in the model.
+          }
+        });
+
+        // hide the title and replace it by the input field.
+        self._$title.hide();
+        $input_text.insertAfter(self._$title);
+      },
+
     });
