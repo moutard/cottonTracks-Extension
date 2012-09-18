@@ -36,7 +36,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       self._oBar.open();
     });
 
-    $('.ct-flip').click(function() {
+    $('.ct-iconButton_logo').click(function() {
       self._oBar.openClose();
     });
 
