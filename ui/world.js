@@ -34,6 +34,8 @@ Cotton.UI.World = Class.extend({
     // Create homepage
     self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage();
 
+    self._oStoryline = _oCurrentlyOpenStoryline;
+
     self._oStickyBar.on('ready', function() {
       console.log('world ready');
 
@@ -51,6 +53,18 @@ Cotton.UI.World = Class.extend({
         });
       });
     });
+  },
+
+  stickyBar : function(){
+    return this._oStickyBar;
+  },
+
+  storyline : function(){
+    return this._oStoryline;
+  },
+
+  homepage : function(){
+    return this._oHomepage;
   },
 
   /**

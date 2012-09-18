@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+//(function() {
 
   /**
    * We keep the currently open storyline in order to close it if we try to open
@@ -13,6 +13,7 @@
 
         _oCurrentStory : null,
 
+        //TODO(rmoutard) : use coherent notation, when the ui will be definitive.
         _$storyHomepage : null,
         _$storyLine : null,
 
@@ -40,18 +41,12 @@
             this._$storyColRight = $('<div class="ct-storyColRight"></div>');
 
             $('#ct').append(this._$storyHomepage);
-            // this._$storyLine.append(this._$storyColLeft);
-            // this._$storyLine.append(this._$storyColRight);
 
             this._$storyHomepage.append(this._$storyColLeft);
             this._$storyHomepage.append(this._$storyLine);
             this._$storyHomepage.append(this._$storyColRight);
             this._$storyHomepage.css('display', '');
             this._$storyHomepage.addClass('clearfix');
-            // TODO(fwouts): Improve/cleanup.
-            this._$storyLine.css({
-            // height : window.innerHeight
-            });
 
             _oCurrentlyOpenStoryline = this;
 
@@ -73,6 +68,10 @@
               }
             });
           }
+        },
+
+        story : function(){
+          return this._oCurrentStory;
         },
 
         addVisitItem : function(oVisitItem, sParam) {
@@ -99,7 +98,6 @@
 
         remove : function() {
           this._$storyHomepage.remove();
-          // this._$storyLine.remove();
           this._$storyHomepage = null;
           _oCurrentlyOpenStoryline = null;
         },
@@ -118,4 +116,4 @@
       }
     }
   });
-})();
+//})();

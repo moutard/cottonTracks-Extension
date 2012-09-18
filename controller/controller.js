@@ -9,8 +9,25 @@
  */
 Cotton.Controller = Class.extend({
 
+  /**
+   * "Model" in MVC pattern.
+   * Global Store, that allow controller to make call to the database. So it
+   * Contains 'visitItems' and 'stories'.
+   */
   _oStore : null,
+
+  /**
+   * "View" in MVC pattern.
+   * Global view, contains the stickybar, the homepage.
+   */
   _oWorld : null,
+
+  /*
+   * "Installer"
+   * TODO(rmoutard) : use event chrome.runtime.onInstalled
+   * Maybe create an installer. (By the way with events page there is onInstallation)
+   */
+
   _wDBSCAN1 : null,
   _wDBSCAN2 : null,
   _wDBSCAN3 : null,
@@ -291,6 +308,29 @@ Cotton.Controller = Class.extend({
     });
   },
 
+  /**
+   * Controller - Notication Center
+   * Each time the UI, is modify, the UI call the controller.
+   */
+
+  /**
+   * Remove the visit in a given Story.
+   * Send by {Cotton.UI.Story.ItemEditbox}.
+   *
+   * @param {int} iStoryId : id is found using mystoryline.
+   * @param {int} iVisitItemId : id is send by th
+   */
+  removeVisitItemInStory : function(iVisitItemId){
+    var self = this;
+    //TODO(rmoutard) : solve problem with
+    //var iStoryId = self._oWorld.storyline().story().id();
+    var iStoryId = _oCurrentlyOpenStoryline.story().id();
+    Cotton.DB.Stories.removeVisitItemInStory(self._oStore,
+        iStoryId, iVisitItemId,
+        function(){
+          console.log('ok - removeVisitItem');
+    });
+  },
 });
 
-Cotton.oController = new Cotton.Controller();
+Cotton.CONTROLLER = new Cotton.Controller();

@@ -26,6 +26,16 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
   }
 };
 
+Cotton.DB.Stories.removeVisitItemInStory = function(oStore, iStoryId, iVisitItemId, mCallBackFunction){
+  oStore.find('stories', 'id', iStoryId, function(oStory){
+    oStory.removeVisitItem(iVisitItemId);
+    oStore.put('stories', oStory, function(){
+      console.log("visitItem deleted in the story");
+      mCallBackFunction();
+    });
+  });
+};
+
 Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
   new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS
