@@ -1,6 +1,6 @@
 'use strict';
 
-Cotton.UI.Homepage = {
+Cotton.UI.Home = {
   HOMEPAGE : null,
   GRID : null
 };

@@ -3,7 +3,7 @@
 /**
  * Each apps tickets correspons to an extension installed on Chrome.
  */
-Cotton.UI.Homepage.AppsTicket = Class
+Cotton.UI.Home.AppsTicket = Class
     .extend({
 
       _$appsTicket : null,
