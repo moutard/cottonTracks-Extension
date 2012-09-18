@@ -10,15 +10,18 @@
 
   Cotton.UI.Story.Storyline = Class
       .extend({
+
+        _oCurrentStory : null,
+
         _$storyHomepage : null,
         _$storyLine : null,
+
         _$storyColLeft : null,
         _$storyColRight : null,
-        _oCurrentStory : null,
 
         /**
          * A jQuery DOM object representing the vertical line joining all items.
-         * 
+         *
          * @param {Cotton.Model.Story}
          *          oStory
          */
