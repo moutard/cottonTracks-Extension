@@ -5,49 +5,30 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   * 
+   *
    * @type boolean
    */
   _bDocumentActive : false,
 
   /**
+   * An int that contain the percentage of reading.
+   */
+  _iReadingRate : 0,
+
+  /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   * 
+   *
    * @type Cotton.Behavior.Passive.Parser
    */
   _oParser : null,
 
   /**
-   * A DOM element containing the current estimated reading rate.
-   * 
-   * @type jQuery DOM
+   *
    */
-  _$feedback : null,
+  _oFeedbackElement : null,
 
-  /**
-   * A DOM element containing the current estimated reading rate.
-   * 
-   * @type jQuery DOM
-   */
-  _$feedback_percentage : null,
-
-  /**
-   * A DOM element containing an <img /> supposed to represent the most relevant
-   * image on the page.
-   * 
-   * @type jQuery DOM
-   */
-  _$feedback_best_img : null,
-
-  /**
-   * A DOM element containing an <img /> supposed to represent the favicon.
-   * 
-   * @type jQuery DOM
-   */
-  _$feedback_favicon : null,
-
-  /**
+    /**
    * @constructor
    */
   init : function() {
@@ -79,6 +60,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     // Create the parser but don't start it.
     this._oParser = new Cotton.Behavior.Passive.Parser();
+    this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
   },
 
   /**
@@ -88,11 +70,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   start : function() {
     var self = this;
 
-    // If devMode display the div feeback.
-    if (Cotton.Config.Parameters.bDevMode === true) {
-      this._generateFeedbackElement();
-    }
-
     // We will relaunch the parsing every 5 seconds.
     var mRefreshParsing = function() {
       self._oParser.parse();
@@ -100,14 +77,18 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // Set $feedback
       var sBestImg = self._oParser.bestImage();
       if (sBestImg) {
-        if (Cotton.Config.Parameters.bDevMode === true) {
-          self._$feedback_best_img.attr('src', sBestImg);
-        }
+        self._oFeedbackElement.setBestImage(sBestImg);
+
         // Update oCurrentVisitItem
         sync._oCurrentVisitItem.extractedDNA().setImageUrl(sBestImg);
-        // console.log(oCurrentVisitItem);
         sync.updateVisit();
       }
+
+      var sFavicon = self._oParser.favicon();
+      if (sFavicon) {
+        self._oFeedbackElement.setFavicon(sFavicon);
+      }
+
       // Refresh every 5 seconds.
       setTimeout(mRefreshParsing, 5000);
     };
@@ -115,6 +96,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // Launch almost immediately (but try to avoid freezing the page).
     setTimeout(mRefreshParsing, 0);
 
+    // TODO(rmoutard) : don't understand
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -128,13 +110,11 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // Do not increase scores if the document is inactive.
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
-        var iPercent = Math.round(100 * fPageScore);
-        if (Cotton.Config.Parameters.bDevMode) {
-          self._$feedback_percentage.text(iPercent + '%');
-        }
+        var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
+        self._oFeedbackElement.setPercentage(iPercent + '%');
+
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
-        // console.log(oCurrentVisitItem);
         sync.updateVisit();
       }
 
@@ -148,9 +128,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._initializeHighlightListener();
   },
 
+  readingRate : function(){
+    return this._iReadingRate;
+  },
+
+  parser : function(){
+    return this._oParser;
+  },
   /**
    * Computes the page score.
-   * 
+   *
    * @returns float between 0 and 1
    */
   _computePageScore : function() {
@@ -215,51 +202,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
 
   /**
-   * Prepares a block to give feedback on the reading percentage, and append it
-   * to the body.
-   */
-  _generateFeedbackElement : function() {
-    var self = this;
-    if (this._$feedback_percentage) {
-      return;
-    }
-
-    var $feedback = $('<div class="feedback">').css({
-      position : 'fixed',
-      left : 0,
-      bottom : 0,
-      border : '3px solid #000',
-      background : '#fff',
-      fontSize : '2em',
-      padding : '0.4em'
-    });
-
-    this._$feedback_percentage = $('<p class="percentage">');
-
-    this._$feedback_best_img = $('<img class="best_image"/>').css({
-      width : 50,
-      height : 50
-    });
-    var sBestImg = self._oParser.bestImage();
-    if (sBestImg) {
-      this._$feedback_best_img.attr('src', sBestImg);
-    }
-
-    this._$feedback_favicon = $('<img class="favicon"/>').css({
-      width : 16,
-      height : 16
-    });
-    var sFavicon = self._oParser.favicon();
-    if (sFavicon) {
-      this._$feedback_favicon.attr('src', sFavicon);
-    }
-
-    $('body').append(
-        $feedback.append(this._$feedback_percentage, this._$feedback_best_img,
-            this._$feedback_favicon));
-  },
-
-  /**
    * Adds a document listener to know when a selection happens and increment the
    * score of the relevant content block consequently.
    */
@@ -269,7 +211,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     /**
      * A jQuery DOM object used to keep in memory highlighted blocks in order to
      * re-augment their score in case they are copied (Ctrl/Cmd+C).
-     * 
+     *
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
@@ -325,7 +267,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   * 
+   *
    * @returns jQuery DOM
    */
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
