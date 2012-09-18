@@ -1,6 +1,6 @@
 'use strict';
 
-Cotton.UI.Homepage.AppsGrid = Class.extend({
+Cotton.UI.Home.AppsGrid = Class.extend({
 
   _$AppsGrid : null,
   _lApps : [],
@@ -26,7 +26,7 @@ Cotton.UI.Homepage.AppsGrid = Class.extend({
     chrome.management.getAll(function(info) {
       for ( var i = 0, oExtensionInfo; oExtensionInfo = info[i]; i++) {
         if (oExtensionInfo.isApp) {
-          new Cotton.UI.Homepage.AppsTicket(self, oExtensionInfo);
+          new Cotton.UI.Home.AppsTicket(self, oExtensionInfo);
           // appList.push(oExtensionInfo);
         }
       }
@@ -37,7 +37,7 @@ Cotton.UI.Homepage.AppsGrid = Class.extend({
        * 'chrome://extension-icon/ahfgeienlihckogmohjhadlkjgocpleb/128/1' } ],
        * id : 'ahfgeienlihckogmohjhadlkjgocpleb', name : 'Chrome Web Store',
        * mayDisable : false })
-       * 
+       *
        * console.log(appList);
        */
     });

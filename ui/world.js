@@ -2,21 +2,44 @@
 
 /**
  * World class representing the whole interface.
- * 
- * @constructor
+ * Represents the View in a MVC pattern.
  */
 Cotton.UI.World = Class.extend({
+
+  /**
+   * {Cotton.UI.StickyBar.Bar}
+   */
   _oStickyBar : null,
 
+  /**
+   * {Cotton.UI.Story.Storyline}
+   */
+  _oStoryline : null,
+
+  /**
+   * {Cotton.UI.Homepage.Homepage}
+   */
+  _oHomepage : null,
+
+
+  /**
+   * @constructor
+   */
   init : function() {
     var self = this;
+
+    // Create stickybar
     self._oStickyBar = new Cotton.UI.StickyBar.Bar();
-    Cotton.UI.Homepage.HOMEPAGE = new Cotton.UI.Homepage.Homepage();
+
+    // Create homepage
+    self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage();
 
     self._oStickyBar.on('ready', function() {
       console.log('world ready');
+
+      // TODO(rmoutard) : not MVC compliant.
       Cotton.DB.Stories.getXStories(10, function(lStories) {
-        // Various initializers, mostly for testing.
+        // Populate the stickybar with the 10th last story.
         var lStickers = [];
         _.each(lStories, function(oStory) {
           var oSticker = self._oStickyBar.buildSticker(oStory);
@@ -33,7 +56,7 @@ Cotton.UI.World = Class.extend({
   /**
    * Note : this method is not really MVC friendly. Because the UI, has access
    * to the DB without passing by the controller.
-   * 
+   *
    * @this {World}
    */
   update : function() {
@@ -54,7 +77,7 @@ Cotton.UI.World = Class.extend({
   },
 
   /**
-   * 
+   *
    */
   pushStories : function(lStories) {
     var self = this;

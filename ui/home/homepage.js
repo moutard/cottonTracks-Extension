@@ -1,8 +1,16 @@
 'use strict';
 
-Cotton.UI.Homepage.Homepage = Class.extend({
+/**
+ * Display the homepage by default.
+ */
+Cotton.UI.Home.Homepage = Class.extend({
 
+  /**
+   * DOM Element, that handle the class ct-homepage.
+   */
   _$homepage : null,
+
+
   _oFavoritesGrid : null,
   _oAppsGrid : null,
   _$SwitchButton : null,
@@ -13,12 +21,12 @@ Cotton.UI.Homepage.Homepage = Class.extend({
 
     // Favorites or MostVisited
     if (localStorage['ct-settings_grid'] === "MostVisited") {
-      this._oFavoritesGrid = new Cotton.UI.Homepage.MostVisitedGrid();
+      this._oFavoritesGrid = new Cotton.UI.Home.MostVisitedGrid();
     } else {
-      this._oFavoritesGrid = new Cotton.UI.Homepage.FavoritesGrid();
+      this._oFavoritesGrid = new Cotton.UI.Home.FavoritesGrid();
     }
 
-    this._oAppsGrid = new Cotton.UI.Homepage.AppsGrid();
+    this._oAppsGrid = new Cotton.UI.Home.AppsGrid();
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
         function() {
