@@ -100,11 +100,8 @@ Cotton.Behavior.Active.FeedbackElement = Class.extend({
       this.setPercentage(oReadingRater.parser().favicon());
       this.setBestImage(oReadingRater.readingRate());
       this.setFavicon(oReadingRater.parser().favicon());
-
     }
-  }
-
-
+  },
 
 });
 
