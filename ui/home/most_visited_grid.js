@@ -1,6 +1,6 @@
 'use strict';
 
-Cotton.UI.Homepage.MostVisitedGrid = Class.extend({
+Cotton.UI.Home.MostVisitedGrid = Class.extend({
 
   _$MostVisitedGrid : null,
 
@@ -11,7 +11,7 @@ Cotton.UI.Homepage.MostVisitedGrid = Class.extend({
     chrome.topSites.get(function(lTopSites) {
       for ( var i = 0, oTopSite; (oTopSite = lTopSites[i])
           && (i < Cotton.Config.Parameters['iNbMostVisited']); i++) {
-        new Cotton.UI.Homepage.Ticket(self,
+        new Cotton.UI.Home.Ticket(self,
             '/media/images/home/tickets/TC.jpg', Math
                 .floor(Math.random() * 80 + 10), oTopSite['title'],
             oTopSite['url']);

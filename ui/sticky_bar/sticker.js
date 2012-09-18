@@ -185,7 +185,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   openStory : function() {
     var self = this;
     this.closeSumUp();
-    Cotton.UI.Homepage.HOMEPAGE.hide();
+    Cotton.UI.Home.HOMEPAGE.hide();
     // TODO(rmoutard) : use a worker to get that.
     // If the story is empty make a dbRequest to get the corresponding
     // visitItems.
@@ -277,7 +277,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
           self.$().remove();
           self.closeSumUp();
-          Cotton.UI.Homepage.HOMEPAGE.show();
+          Cotton.UI.Home.HOMEPAGE.show();
           self._oBar.open();
 
           var lUpperStickers = _.filter(self._oBar._lStickers,

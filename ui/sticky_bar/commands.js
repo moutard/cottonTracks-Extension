@@ -32,7 +32,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$HomepageButton = $('.ct-iconButton_home');
 
     this._$HomepageButton.click(function() {
-      Cotton.UI.Homepage.HOMEPAGE.show();
+      Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
     });
 
