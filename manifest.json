@@ -33,7 +33,7 @@
               "behavior/passive/init.js", "behavior/passive/db_sync.js", "behavior/passive/parser.js",
               "config/init.js", "config/config.js", "utils/init.js", "utils/log.js",
               "behavior/passive/google_parser.js",
-              "behavior/active/init.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"
+              "behavior/active/init.js", "behavior/active/feedback_element.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"
               ],
       "run_at": "document_idle"
     }
