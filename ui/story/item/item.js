@@ -27,10 +27,13 @@ Cotton.UI.Story.Item.Element = Class
         this._$storyLink = $('<div class="ct-storyItemLink"></div>');
 
         // create item
-        this._$item.append(this._$storyLink.append($(
-            '<div class="ct-storyItemLinkLine"></div>').append(
-            $('<div class="ct-storyItemLinkDot"></div>'))), this._oItemContent
-            .$());
+        this._$item.append(
+            this._$storyLink.append(
+              $('<div class="ct-storyItemLinkLine"></div>').append(
+              $('<div class="ct-storyItemLinkDot"></div>'))
+            ),
+            this._oItemContent.$()
+        );
 
       },
 
@@ -48,7 +51,7 @@ Cotton.UI.Story.Item.Element = Class
 
       /**
        * Set top position on the storyline.
-       * 
+       *
        * @param iTop
        */
       setTop : function(iTop) {
@@ -59,7 +62,7 @@ Cotton.UI.Story.Item.Element = Class
 
       /**
        * Set the side of the element
-       * 
+       *
        * @param {string}
        *          sSide : can contain value 'left' of 'right'
        */
