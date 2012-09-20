@@ -3,27 +3,15 @@
 /**
  * Item content In the UI V2, item without the link.
  */
-Cotton.UI.Story.Item.Content.Image = Class.extend({
-
-  _oItem : null,
-
-  _$item_content : null,
+Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend({
 
   _$featured_image : null,
   _$img : null,
-  _oItemToolbox : null,
 
   init : function(oItem, sType) {
-    // current parent element.
-    this._oItem = oItem;
+    this._super(oItem);
 
-    // current item.
-    this._$item_content = $('<div class="ct-item_content"></div>');
-
-    // current sub elements.
     this._$featured_image = $('<div class="ct-featured_image"></div>');
-    this._oItemToolbox = new Cotton.UI.Story.Item.Toolbox(this);
-
     this._$img = $('<img ></img>');
 
     if (sType === "img") {
@@ -36,18 +24,6 @@ Cotton.UI.Story.Item.Content.Image = Class.extend({
 
     // create the item
     this._$item_content.append(this._$featured_image, this._oItemToolbox.$());
-  },
-
-  $ : function() {
-    return this._$item_content;
-  },
-
-  item : function(){
-    return this._oItem;
-  },
-
-  appendTo : function(oItem) {
-    oItem.$().append(this._$item_content);
   },
 
 });
