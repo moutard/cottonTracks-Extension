@@ -44,7 +44,9 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$date.text(lDate[2] + " " + lDate[1]);
 
     // favicon
-    this._$favicon.attr("src", "/media/images/story/item/default_favicon.png");
+    var sFavicon = this._oContentItem.item().visitItem().favicon();
+    if(sFavicon === "") { sFavicon = "/media/images/story/item/default_favicon.png"; }
+    this._$favicon.attr("src", sFavicon);
     this._$faviconButton.append(this._$favicon);
 
     // button

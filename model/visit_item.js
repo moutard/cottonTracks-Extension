@@ -38,7 +38,7 @@ Cotton.Model.VisitItem = Class
 
         // Information of historyItem that are pertinent with this model.
         this._sTitle = "";
-        this._sFavivon = "";
+        this._sFavicon = "";
         // Informations of historyItem that are NOT pertinent th this model.
         // this._iLastVisitTime;
         // this._iVisitCount;
