@@ -49,7 +49,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     var sFavicon = $("link[rel$=icon]").attr("href");
     var oRegexp = new RegExp("^http://");
     if(!oRegexp.test(sFavicon)){
-      sFavicon = window.location.href + '/' + sFavicon;
+      sFavicon = window.location.origin + '/' + sFavicon;
     }
     this._sFavicon = sFavicon;
 
