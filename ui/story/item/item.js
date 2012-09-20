@@ -45,6 +45,16 @@ Cotton.UI.Story.Item.Element = Class
         return this._oVisitItem;
       },
 
+      /**
+       * Like a call back function, should be called every time a visitItem is
+       * set. But not sure it's the best way in term of performance. Or if it
+       * should be put directly in the Model.
+       */
+      visitItemHasBeenSet : function(){
+        var self = this;
+        Cotton.CONTROLLER.setVisitItem(this._oVisitItem);
+      },
+
       appendTo : function(oStoryLine) {
         oStoryLine.$().append(this._$item);
       },
