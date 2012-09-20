@@ -70,25 +70,28 @@ Cotton.UI.Story.Item.Description = Class
         if(!self._sTitleAlreadyEditable){
           self._sTitleAlreadyEditable = true;
           // Create an input field to change the title.
-          var $input_text = $('<input class="ct-editable_title" type="text" name="title">');
+          var $input_title = $('<input class="ct-editable_title" type="text" name="title">');
 
           // Set the default value, with the current title.
-          $input_text.val(self._$title.text());
-          $input_text.keypress(function(event) {
+          $input_title.val(self._$title.text());
+          $input_title.keypress(function(event) {
             // on press 'Enter' event.
             if (event.which == 13) {
-              var sTitle = $input_text.val();
+              var sTitle = $input_title.val();
               self._$title.text(sTitle);
-              $input_text.remove();
+              $input_title.remove();
               self._$title.show();
               self._sTitleAlreadyEditable = false;
-              // TODO(rmoutard) : set the title in the model.
+
+              // Set the title in the model.
+              self._oItemContent.item().visitItem().setTitle(sTitle);
+              self._oItemContent.item().visitItemHasBeenSet();
             }
           });
 
           // hide the title and replace it by the input field.
           self._$title.hide();
-          $input_text.insertAfter(self._$title);
+          $input_title.insertAfter(self._$title);
         }
       },
 
