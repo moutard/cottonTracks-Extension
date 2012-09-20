@@ -3,34 +3,19 @@
 /**
  * Item content In the UI V2, item without the link.
  */
-Cotton.UI.Story.Item.Content.Video = Class
+Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
     .extend({
-
-      _oItem : null,
-
-      _$item_content : null,
 
       _$video : null,
       _sVideoType : null,
-      _oItemToolbox : null,
-      _oItemDescription : null,
-      _oItemDna : null,
 
       init : function(oItem, sVideoType, sEmbedCode) {
-        // current parent element.
-        this._oItem = oItem;
+        this._spuer(oItem);
 
         this._sVideoType = sVideoType;
-        // current item.
-        this._$item_content = $('<div class="ct-item_content"></div>');
 
         // current sub elements.
         this._$video = $('<div class="ct-featured_image"></div>');
-        this._oItemToolbox = new Cotton.UI.Story.Item.Toolbox(this);
-        this._oItemDescription = new Cotton.UI.Story.Item.Description(this);
-        this._oItemDna = new Cotton.UI.Story.Item.Dna(this);
-
-        // set values
 
         // video
         // Uses the right embed code depending on the video provider
@@ -52,20 +37,12 @@ Cotton.UI.Story.Item.Content.Video = Class
         }
 
         // create the item
-        this._$item_content.append(this._$video, this._oItemToolbox.$(),
-            this._oItemDescription.$(), this._oItemDna.$());
+        this._$item_content.append(
+            this._$video,
+            this._oItemToolbox.$(),
+            this._oItemDescription.$(),
+            this._oItemDna.$()
+        );
       },
 
-      $ : function() {
-        return this._$item_content;
-      },
-
-      item : function(){
-        return this._oItem;
-      },
-
-      appendTo : function(oItem) {
-        oItem.$().append(this._$item_content);
-      },
-
-    });
+});
