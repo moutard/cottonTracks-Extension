@@ -17,7 +17,7 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
 
     // create the item
     this._$item_content.append(
-        this._oFeaturedImage.$(),
+        this._oItemFeaturedImage.$(),
         this._oItemDescription.$(),
         this._oItemToolbox.$()
         );
