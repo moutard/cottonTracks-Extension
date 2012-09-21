@@ -1,12 +1,8 @@
 'use strict'
 /**
- *  Commands bar in the StickyBar.
- *
- *  Contains all the button.
- *  - homepage
- *  - edit
- *  - flip
- *  - search
+ * Commands bar in the StickyBar.
+ * 
+ * Contains all the button. - homepage - edit - flip - search
  */
 Cotton.UI.StickyBar.Commands = Class.extend({
 
@@ -14,13 +10,11 @@ Cotton.UI.StickyBar.Commands = Class.extend({
 
   _$commands : null,
 
-  _$HomepageButton : null,
-  _$EditButton : null,
+  _$homepage_button : null,
+  _$edit_button : null,
 
-  _$Flip : null,
-
-  _$ShareButton : null,
-  _$SearchButton : null,
+  _$share_button : null,
+  _$search_button : null,
 
   /**
    * @constructor
@@ -29,9 +23,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     var self = this;
     this._oBar = oBar;
     this._$commands = $('.ct-commands');
-    this._$HomepageButton = $('.ct-iconButton_home');
-
-    this._$HomepageButton.click(function() {
+    this._$homepage_button = $('.ct-icon_button_home');
+    this._$share_button = $('');
+    this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
     });
@@ -40,9 +34,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       self._oBar.openClose();
     });
 
-    this._$EditButton = $('.ct-iconButton_edit');
-    this._$EditButton.addClass('edit_mode_off');
-    this._$EditButton.click(function() {
+    this._$edit_button = $('.ct-iconButton_edit');
+    this._$edit_button.addClass('edit_mode_off');
+    this._$edit_button.click(function() {
       if ($(this).hasClass('edit_mode_off')) {
         self._oBar._bEditMode = true;
         $(this).removeClass('edit_mode_off');
