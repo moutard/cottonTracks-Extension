@@ -10,7 +10,7 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
       _sVideoType : null,
 
       init : function(oItem, sVideoType, sEmbedCode) {
-        this._spuer(oItem);
+        this._super(oItem);
 
         this._sVideoType = sVideoType;
 
