@@ -45,30 +45,32 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
 
     // favicon
     var sFavicon = this._oContentItem.item().visitItem().favicon();
-    if(sFavicon === "") { sFavicon = "/media/images/story/item/default_favicon.png"; }
+    if (sFavicon === "") {
+      sFavicon = "/media/images/story/item/default_favicon.png";
+    }
     this._$favicon.attr("src", sFavicon);
     this._$favicon_button.append(this._$favicon);
-    this._$favicon_button.click(function(){
+    this._$favicon_button.click(function() {
 
     });
 
     // button
     this._$edit_button
         .append('<img src="/media/images/story/item/settings_favicon.png">');
-    this._$edit_button.click(function(){
+    this._$edit_button.mouseup(function() {
       self._oItemEditbox.openClose();
     });
     // Qtip library is used to display an help bubble on hover.
     this._$edit_button.qtip({
-        content: 'Edit this item',
-        position: {
-          my: 'top left',
-          at: 'bottom right'
-        },
-        style: {
-          tip: true,
-          classes: 'ui-tooltip-yellow'
-        }
+      content : 'Edit this item',
+      position : {
+        my : 'top left',
+        at : 'bottom right'
+      },
+      style : {
+        tip : true,
+        classes : 'ui-tooltip-yellow'
+      }
     });
 
     this._$lock_button
@@ -90,7 +92,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     return this._$item_toolbox;
   },
 
-  contentItem : function(){
+  contentItem : function() {
     return this._oContentItem;
   },
 
