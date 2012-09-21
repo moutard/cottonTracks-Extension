@@ -35,10 +35,10 @@
             self._oCurrentStory = oStory;
             Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
-            this._$storyHomepage = $('<div id="ct-story-homepage" class="clearfix"></div>');
-            this._$storyLine = $('<div class="ct-mystoryLine"></div>');
-            this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
-            this._$storyColRight = $('<div class="ct-storyColRight"></div>');
+            this._$storyHomepage = $('<div id="ct-story_homepage" class="clearfix"></div>');
+            this._$storyLine = $('<div class="ct-mystory_line"></div>');
+            this._$storyColLeft = $('<div class="ct-story_column_left"></div>');
+            this._$storyColRight = $('<div class="ct-story_column_right"></div>');
 
             $('#ct').append(this._$storyHomepage);
 
@@ -57,6 +57,27 @@
               setTimeout(function() {
                 oItem.$().css("opacity", "1");
               }, iI * 100);
+            });
+
+            // Make sortable and draggable
+            self._$storyColLeft.sortable({
+              // Sortable only on vertical axis.
+              axis: "y",
+              // Se can't drag an element out of containment.
+              containment : ".ct-story_column_left",
+              // Element draggable.
+              handle : ".ct-item_content",
+              // Drag start after 10px movement.
+              distance : 0,
+              // Callback stop function.
+              stop : function(event, ui){
+                //self._$storyColLeft.find('.ct-story_item').each(function(){
+                  // Update position.
+
+                //});
+              },
+
+
             });
 
             // event tracking
