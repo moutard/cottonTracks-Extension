@@ -10,7 +10,6 @@ Cotton.UI.Home.Homepage = Class.extend({
    */
   _$homepage : null,
 
-
   _oFavoritesGrid : null,
   _oAppsGrid : null,
   _$SwitchButton : null,
@@ -65,14 +64,14 @@ Cotton.UI.Home.Homepage = Class.extend({
 
   hide : function() {
     this._$homepage.hide();
-    $('.ct-iconButton_home').removeClass("selected");
+    $('.ct-icon_button_home').removeClass("selected");
   },
 
   show : function() {
     Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
     this._$homepage.show();
     // $('.ct-flip').text('Welcome');
-    $('.ct-iconButton_home').addClass("selected");
+    $('.ct-icon_button_home').addClass("selected");
   },
 
 });
