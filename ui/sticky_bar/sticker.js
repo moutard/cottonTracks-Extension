@@ -105,7 +105,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     
     // Create editable button.
     this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
-    this._$editable_button.mouseup(function(){});
+    this._$editable_button.click(function(){
+      self.makeItEditable();
+    });
     
     // Create element.
     $sticker.append($title, this._$img, this._$editable_button);
@@ -153,14 +155,19 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // Hide editable button.
       self._$editable_button.hide();
     });
-
-
-    // ANALYTICS
-    $sticker.click(function() {
-      self.openStory();
-      // event tracking
-      Cotton.ANALYTICS.enterStory();
+    
+    // CLICK
+    
+    $sticker.click(function(e) {
+      if($(e.target).is('.ct-stickers_button_editable')){
+        // Do not open if we click on the editable.
+        e.preventDefault();
+        return;
+      }
+      self.openStory(); // event tracking
+      Cotton.ANALYTICS.enterStory(); 
     });
+    
 
     this._oBar.append($sticker);
 
@@ -410,6 +417,67 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
   },
+  
+  /**
+   * Make the stickers completely editable. Including image, title, and remove
+   * button.
+   */
+    makeItEditable : function(){
+      var self = this;
+      var self = this;
+      if (self._isEditable === false) {
+        this._isEditable = true;
+        var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
+        $remove_button.mouseup(function() {
+          var bClear = confirm(
+            "Are you sure you want to delete the story " +
+            self._oStory.title() + "?\n" +
+            "This story will be permanently removed from cottonTracks.\n" +
+            "(elements will remain in your Chrome history)"
+          );
+
+          if (bClear) {
+            new Cotton.DB.Store('ct', {
+              'stories' : Cotton.Translators.STORY_TRANSLATORS,
+              'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+            }, function() {
+                for(var i = 0; i < self._oStory.visitItemsId().length; i++){
+                  var iId = self._oStory.visitItemsId()[i];
+                  this.delete('visitItems', iId, function(){
+                    console.log("delete visitItem");
+                  });
+                }
+                this.delete('stories', self._oStory.id(), function() {
+                  console.log("delete story");
+                });
+            });
+
+            self.$().remove();
+            self.closeSumUp();
+            Cotton.UI.Home.HOMEPAGE.show();
+            self._oBar.open();
+
+            var lUpperStickers = _.filter(self._oBar._lStickers,
+              function(oSticker){
+                return oSticker._iPosition > self._iPosition;
+            });
+
+            for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
+              oSticker._iPosition-=1;
+              var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+              oSticker.$().css("left", iLeft+"px");
+            }
+            // event tracking
+            Cotton.ANALYTICS.deleteStory();
+          }
+        });
+        
+        self._$sticker.append($remove_button);
+      } else {
+        this._isEditable = false;
+        self._$sticker.find('.ct-stickers_button_remove').remove();
+      }
+    },
 });
 
 _.extend(Cotton.UI.StickyBar.Sticker.prototype, Backbone.Events);
