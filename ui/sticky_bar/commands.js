@@ -11,10 +11,12 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$commands : null,
 
   _$homepage_button : null,
-  _$edit_button : null,
-
-  _$share_button : null,
   _$search_button : null,
+  _$logo_button : null,
+  _$recent_button : null,
+  _$share_button : null,
+
+  _$edit_button : null,
 
   /**
    * @constructor
@@ -23,14 +25,22 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     var self = this;
     this._oBar = oBar;
     this._$commands = $('.ct-commands');
+
+    // Sub elements
     this._$homepage_button = $('.ct-icon_button_home');
-    this._$share_button = $('');
+    this._$search_button = $('.ct-icon_button_search');
+
+    this._$logo_button = $('.ct-icon_button_logo');
+
+    this._$recent_button = $('.ct-icon_button_recent');
+    this._$share_button = $('.ct-icon_button_share');
+
     this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
     });
 
-    $('.ct-iconButton_logo').click(function() {
+    this._$logo_button.click(function() {
       self._oBar.openClose();
     });
 
@@ -60,6 +70,25 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       }
 
     });
+
+    // Unused button
+    var dQtipParameters = {
+      content : 'Non available yet',
+      position : {
+        my : 'top left',
+        at : 'bottom right'
+      },
+      show : 'click',
+      hide : 'mouseleave',
+      style : {
+        tip : true,
+        classes : 'ui-tooltip-red'
+      }
+    };
+
+    this._$search_button.qtip(dQtipParameters);
+    this._$recent_button.qtip(dQtipParameters);
+    this._$share_button.qtip(dQtipParameters);
   },
 
   /**
