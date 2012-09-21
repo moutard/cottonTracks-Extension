@@ -9,8 +9,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   // TODO(rmoutard) : try to refactor to remove rmoutard.
   _oBar : null,
+  
   _iPosition : null,
   _oStory : null,
+  
+  _$editable_button : null,
+  
   _$sticker : null,
   _$img : null,
   _isEditable : null,
@@ -29,13 +33,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._iPosition = iPosition;
     this._oStory = oStory;
     this._isEditable = false;
-    // this.initGetVisitItemsWorker();
     this.getVisits();
   },
 
   /**
    * Return the DOM value.
-   *
+   * 
    * @return {HtmlElement}
    */
   $ : function() {
@@ -58,12 +61,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     // DRAGGABLE
     $sticker.draggable({
         revert: function (event, ui) {
-            //overwrite original position
+            // overwrite original position
             $(this).data("draggable").originalPosition = {
               top : 0,
               left: self._iCurrentPosition,
             };
-            //return boolean
+            // return boolean
             return !event;
         }
     });
@@ -88,27 +91,26 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     });
     var lVisitItems = this._oStory.visitItems();
-    // var oLastVisitItem = _.last(lVisitItems);
-    // this._oStory.computeTitle();
-    // this._oStory.computeFeaturedImage();
     var $title = $('<h3>').text(this._oStory.title());
-
-    // var oExtractedDna = oLastVisitItem.extractedDNA();
 
     this._$img = $('<img src="/media/images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
       this._$img.attr("src", this._oStory._sFeaturedImage);
     }
 
-    /**
-     * load is a callback function, called when the image is ready.
-     */
+    // load is a callback function, called when the image is ready.
     this._$img.load(function() {
       self.resizeImg($(this));
     });
-
-    $sticker.append($title, this._$img);
-
+    
+    // Create editable button.
+    this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
+    this._$editable_button.mouseup(function(){});
+    
+    // Create element.
+    $sticker.append($title, this._$img, this._$editable_button);
+    
+    // Set the position.
     var iStickerCount = this._oBar.stickerCount();
     var iFinalPosition = self._iCurrentPosition = self._iOriginalPosition = (this._iPosition)
         * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
@@ -118,7 +120,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     } else {
       var iInitialPosition = iFinalPosition;
     }
-
+    
     $sticker.css({
       position : "absolute",
       left : iInitialPosition
@@ -133,17 +135,23 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     }, 'slow', function() {
       self.trigger('ready');
     });
-
+    
+    // HOVER
     $sticker.hover(function() {
-      // In
+      // Display Sumup.
       if (Cotton.Config.Parameters.bActiveSumup === true){
         self.openSumUp();
       }
+      // Display editable button.
+      self._$editable_button.show();
+      
     }, function() {
-      // Out
+      // Hide Sumup.
       if (Cotton.Config.Parameters.bActiveSumup  === true){
         self.closeSumUp();
       }
+      // Hide editable button.
+      self._$editable_button.hide();
     });
 
 
@@ -160,7 +168,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   *
+   * 
    * @param {int}
    *          iTranslateX : value of the translation
    * @param {boolean}
@@ -187,7 +195,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   *
+   * 
    * DISABLE
    */
   openSumUp : function() {
@@ -204,7 +212,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   *
+   * 
    * DISABLE
    */
   closeSumUp : function() {
@@ -215,7 +223,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Draw each visitItem in the story using the information on self._oStory.
-   *
+   * 
    * @param {Array.
    *          <Cotton.Model.VisitItem>} lVisitItems
    */
@@ -261,7 +269,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   *
+   * 
    * @param {HtmlElement}
    *          $img
    */
@@ -288,7 +296,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   *
+   * 
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
