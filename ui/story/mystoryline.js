@@ -14,11 +14,11 @@
         _oCurrentStory : null,
 
         //TODO(rmoutard) : use coherent notation, when the ui will be definitive.
-        _$storyHomepage : null,
-        _$storyLine : null,
+        _$story_homepage : null,
+        _$story_line : null,
 
-        _$storyColLeft : null,
-        _$storyColRight : null,
+        _$story_column_left : null,
+        _$story_column_right : null,
 
         /**
          * A jQuery DOM object representing the vertical line joining all items.
@@ -35,18 +35,18 @@
             self._oCurrentStory = oStory;
             Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
-            this._$storyHomepage = $('<div id="ct-story_homepage" class="clearfix"></div>');
-            this._$storyLine = $('<div class="ct-mystory_line"></div>');
-            this._$storyColLeft = $('<div class="ct-story_column_left"></div>');
-            this._$storyColRight = $('<div class="ct-story_column_right"></div>');
+            this._$story_homepage = $('<div id="ct-story_homepage" class="clearfix"></div>');
+            this._$story_line = $('<div class="ct-mystory_line"></div>');
+            this._$story_column_left = $('<div class="ct-story_column_left"></div>');
+            this._$story_column_right = $('<div class="ct-story_column_right"></div>');
 
-            $('#ct').append(this._$storyHomepage);
+            $('#ct').append(this._$story_homepage);
 
-            this._$storyHomepage.append(this._$storyColLeft);
-            this._$storyHomepage.append(this._$storyLine);
-            this._$storyHomepage.append(this._$storyColRight);
-            this._$storyHomepage.css('display', '');
-            this._$storyHomepage.addClass('clearfix');
+            this._$story_homepage.append(this._$story_column_left);
+            this._$story_homepage.append(this._$story_line);
+            this._$story_homepage.append(this._$story_column_right);
+            this._$story_homepage.css('display', '');
+            this._$story_homepage.addClass('clearfix');
 
             _oCurrentlyOpenStoryline = this;
 
@@ -60,7 +60,7 @@
             });
 
             // Make sortable and draggable
-            self._$storyColLeft.sortable({
+            self._$story_column_left.sortable({
               // Sortable only on vertical axis.
               axis: "y",
               // Se can't drag an element out of containment.
@@ -71,7 +71,7 @@
               distance : 0,
               // Callback stop function.
               stop : function(event, ui){
-                //self._$storyColLeft.find('.ct-story_item').each(function(){
+                //self._$story_column_left.find('.ct-story_item').each(function(){
                   // Update position.
 
                 //});
@@ -100,11 +100,11 @@
           oItem.$().css("opacity", "0");
           if (sParam === "left") {
             oItem.setSide('left');
-            this._$storyColLeft.append(oItem.$());
+            this._$story_column_left.append(oItem.$());
 
           } else if (sParam === "right") {
             oItem.setSide('right');
-            this._$storyColRight.append(oItem.$());
+            this._$story_column_right.append(oItem.$());
 
           }
 
@@ -118,13 +118,13 @@
         },
 
         remove : function() {
-          this._$storyHomepage.remove();
-          this._$storyHomepage = null;
+          this._$story_homepage.remove();
+          this._$story_homepage = null;
           _oCurrentlyOpenStoryline = null;
         },
 
         $ : function() {
-          return this._$storyHomepage;
+          return this._$story_homepage;
         }
       });
 
