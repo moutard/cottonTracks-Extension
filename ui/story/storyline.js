@@ -21,19 +21,19 @@
 
       Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
-      this._$storyLine = $('<div class="ct-storyLine"></div>');
-      this._$mystoryLine = $('<div class="ct-mystoryLine"></div>');
-      this._$storyColLeft = $('<div class="ct-storyColLeft"></div>');
-      this._$storyColRight = $('<div class="ct-storyColRight"></div>');
+      this._$storyLine = $('<div class="ct-story_line"></div>');
+      this._$mystoryLine = $('<div class="ct-mystory_line"></div>');
+      this._$storyColLeft = $('<div class="ct-story_column_left"></div>');
+      this._$storyColRight = $('<div class="ct-story_column_right"></div>');
 
-      // $('#ct-story-homepage').append(this._$storyLine);
+      // $('#ct-story_homepage').append(this._$storyLine);
       // this._$storyLine.append(this._$storyColLeft);
       // this._$storyLine.append(this._$storyColRight);
 
-      $('#ct-story-homepage').append(this._$storyColLeft);
-      $('#ct-story-homepage').append(this._$mystoryLine);
-      $('#ct-story-homepage').append(this._$storyColRight);
-      $('#ct-story-homepage').css('display', '');
+      $('#ct-story_homepage').append(this._$storyColLeft);
+      $('#ct-story_homepage').append(this._$mystoryLine);
+      $('#ct-story_homepage').append(this._$storyColRight);
+      $('#ct-story_homepage').css('display', '');
 
       // TODO(fwouts): Improve/cleanup.
       this._$storyLine.css({
