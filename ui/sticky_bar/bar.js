@@ -1,7 +1,7 @@
 'use strict';
 /**
  * Cotton.UI.StickyBar
- * 
+ *
  * Represents the bar displayed in the middle of the screen, containing stickers
  * for each story.
  */
@@ -167,7 +167,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /*
    * Returns the jQuery element.
-   * 
+   *
    * @return {HtmlElement}
    */
   $ : function() {
@@ -176,7 +176,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Creates a new sticker and adds it to the bar.
-   * 
+   *
    * @param {Cotton.Model.Story}
    *          oStory
    * @return {Cotton.UI.StickyBar.Sticker}
@@ -191,7 +191,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Return the number of stickers
-   * 
+   *
    * @return {int}
    */
   stickerCount : function() {
@@ -200,7 +200,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Append a sticker to the stickyBar
-   * 
+   *
    * @param {HtmlElement}
    *          $sticker
    */
@@ -213,7 +213,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Translate all the stickers. Plug to mouseWheel.
-   * 
+   *
    * @param {int}
    *          iTranslateX : value of the translation.
    * @param {boolean}
@@ -232,7 +232,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    */
   open : function() {
     this._$stickyBar.removeClass('close');
-    $('#ct-story-homepage').removeClass('close');
+    $('#ct-story_homepage').removeClass('close');
   },
 
   /**
@@ -241,7 +241,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   close : function() {
     if (this._bEditMode === false) {
       this._$stickyBar.addClass('close');
-      $('#ct-story-homepage').addClass('close');
+      $('#ct-story_homepage').addClass('close');
     }
   },
 

@@ -19,7 +19,7 @@ Cotton.UI.Story.Item.Element = Class
         this._oVisitItem = oVisitItem;
 
         // current element.
-        this._$item = $('<div class="ct-storyItem ct-storyItem_left"></div>');
+        this._$item = $('<div class="ct-story_item ct-storyItem_left"></div>');
 
         // current sub elements.
         this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
