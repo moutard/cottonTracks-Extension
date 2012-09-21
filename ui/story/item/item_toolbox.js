@@ -12,7 +12,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
   _$item_toolbox : null,
 
   _$date : null,
-  _$faviconButton : null,
+  _$favicon_button : null,
   _$favicon : null,
   _$url : null,
   _$edit_button : null,
@@ -29,7 +29,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
 
     // current sub elements.
     this._$date = $('<div class="ct-date"></div>');
-    this._$faviconButton = $('<div class="ct-favicon"></div>');
+    this._$favicon_button = $('<div class="ct-favicon"></div>');
     this._$favicon = $('<img>');
     this._$url = $('<div class="ct-item_url"></div>');
     this._$edit_button = $('<div class="ct-edit_button"></div>');
@@ -47,7 +47,10 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     var sFavicon = this._oContentItem.item().visitItem().favicon();
     if(sFavicon === "") { sFavicon = "/media/images/story/item/default_favicon.png"; }
     this._$favicon.attr("src", sFavicon);
-    this._$faviconButton.append(this._$favicon);
+    this._$favicon_button.append(this._$favicon);
+    this._$favicon_button.click(function(){
+
+    });
 
     // button
     this._$edit_button
@@ -79,7 +82,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$url.text(sDomain);
 
     // create the item
-    this._$item_toolbox.append(this._$date, this._$faviconButton,
+    this._$item_toolbox.append(this._$date, this._$favicon_button,
         this._$edit_button, this._$lock_button, this._oItemEditbox.$());
   },
 
