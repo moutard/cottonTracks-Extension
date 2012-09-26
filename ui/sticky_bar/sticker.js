@@ -15,7 +15,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _$img : null,
   _isEditable : null,
   _wGetVisitItems : null,
-  _iFinalPosition : null,
+  _iOriginalPosition : 0,
+  _iCurrentPosition : 0,
 
   /**
    * @constructor
@@ -60,7 +61,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             //overwrite original position
             $(this).data("draggable").originalPosition = {
               top : 0,
-              left: self._iFinalPosition,
+              left: self._iCurrentPosition,
             };
             //return boolean
             return !event;
@@ -109,7 +110,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.append($title, this._$img);
 
     var iStickerCount = this._oBar.stickerCount();
-    var iFinalPosition = self._iFinalPosition = (this._iPosition)
+    var iFinalPosition = self._iCurrentPosition = self._iOriginalPosition = (this._iPosition)
         * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
     var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
     if (iStickerCount === 10) {
@@ -168,15 +169,18 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    *          [iElastic] : value of an elastic effect when you scroll to much.
    */
   translate : function(iTranslateX, bDoNotAnimate, iElastic) {
+    var self = this;
     iElastic = iElastic || 0;
     bDoNotAnimate = bDoNotAnimate || false;
+    self._iCurrentPosition = self._iOriginalPosition + iTranslateX;
+
     if (bDoNotAnimate) {
       this._$sticker.stop().css({
-        marginLeft : iTranslateX
+        left : self._iCurrentPosition
       });
     } else {
       this._$sticker.stop().animate({
-        marginLeft : iTranslateX
+        left : self._iCurrentPosition
       });
     }
   },
