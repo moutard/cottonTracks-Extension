@@ -336,8 +336,8 @@ body {
   border-radius: 5px;
   overflow: hidden;
 
-  -webkit-transition-duration: 0.5s;
-  -webkit-transition-property: left;
+  //-webkit-transition-duration: 0.5s;
+  //-webkit-transition-property: left;
 
   > .ct-container {
   }
@@ -378,6 +378,17 @@ body {
       }
 
   &.editable {
+
+  }
+
+  &.drophover {
+    box-shadow: 0 0px 20px #D2AC28
+  }
+
+  &.can_be_dropped {
+    z-index : 100;
+    width: 100px;
+    height: 60px;
 
   }
 }
