@@ -105,7 +105,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     
     // Create editable button.
     this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
-    this._$editable_button.click(function(){
+    this._$editable_button.mouseup(function(){
       self.makeItEditable();
     });
     
@@ -155,10 +155,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // Hide editable button.
       self._$editable_button.hide();
     });
-    
+
     // CLICK
-    
-    $sticker.click(function(e) {
+    $sticker.mouseup(function(e) {
       if($(e.target).is('.ct-stickers_button_editable')){
         // Do not open if we click on the editable.
         e.preventDefault();
@@ -167,8 +166,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       self.openStory(); // event tracking
       Cotton.ANALYTICS.enterStory(); 
     });
-    
 
+    // DRAGGABLE
+    // this._$sticker.draggable({'axis' : 'x'});
+    // Create elements.
     this._oBar.append($sticker);
 
   },
@@ -240,7 +241,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     self._oBar.close();
   },
 
-  /*
+  /**
    * Called when a stcker is cliked.
    */
   openStory : function() {
@@ -417,7 +418,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
   },
-  
+
   /**
    * Make the stickers completely editable. Including image, title, and remove
    * button.
@@ -471,7 +472,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             Cotton.ANALYTICS.deleteStory();
           }
         });
-        
+
         self._$sticker.append($remove_button);
       } else {
         this._isEditable = false;
