@@ -327,6 +327,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
               return oSticker._iPosition > self._iPosition;
           });
 
+          self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
+            return oSticker._iPosition === self._iPosition;
+          });
+
           for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
             oSticker._iPosition-=1;
             var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
@@ -383,11 +387,16 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         return oSticker._iPosition > self._iPosition;
     });
 
+    self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
+      return oSticker._iPosition === self._iPosition;
+    });
+
     _.each(lUpperStickers, function(oSticker){
       oSticker._iPosition-=1;
-      var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+      var iLeft = self._iFinalPosition = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
       oSticker.$().css("left", iLeft+"px");
     });
+
   },
 });
 
