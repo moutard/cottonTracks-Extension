@@ -124,7 +124,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       left : iInitialPosition
     })
     $sticker.css({
-      'margin-left' : this._oBar._iTranslateX
+      'left' : iFinalPosition + this._oBar._iTranslateX
     })
 
     // TODO(fwouts): Use CSS animations.
