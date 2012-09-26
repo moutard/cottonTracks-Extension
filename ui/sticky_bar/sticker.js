@@ -15,6 +15,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _$img : null,
   _isEditable : null,
   _wGetVisitItems : null,
+  _iFinalPosition : null,
+
   /**
    * @constructor
    * @param oBar
@@ -47,6 +49,43 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
 
+    $sticker.bind({'_remove': function(){
+                                self.remove()
+                              }
+    });
+
+    // DRAGGABLE
+    $sticker.draggable({
+        revert: function (event, ui) {
+            //overwrite original position
+            $(this).data("draggable").originalPosition = {
+              top : 0,
+              left: self._iFinalPosition,
+            };
+            //return boolean
+            return !event;
+        }
+    });
+
+    // DROPPABLE
+    $sticker.droppable({
+      drop: function(event, ui){
+        // merge stories
+
+        // remove the old stories
+        ui.draggable.trigger('_remove');
+
+        // recompute position for upper stickers
+      },
+      hoverClass: "drophover",
+      over: function(event, ui){
+        ui.draggable.addClass("can_be_dropped");
+      },
+      out: function(event, ui){
+        ui.draggable.removeClass("can_be_dropped");
+      },
+
+    });
     var lVisitItems = this._oStory.visitItems();
     // var oLastVisitItem = _.last(lVisitItems);
     // this._oStory.computeTitle();
@@ -70,7 +109,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.append($title, this._$img);
 
     var iStickerCount = this._oBar.stickerCount();
-    var iFinalPosition = (this._iPosition)
+    var iFinalPosition = self._iFinalPosition = (this._iPosition)
         * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
     var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
     if (iStickerCount === 10) {
@@ -80,6 +119,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     }
 
     $sticker.css({
+      position : "absolute",
       left : iInitialPosition
     })
     $sticker.css({
@@ -105,6 +145,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       }
     });
 
+
+    // ANALYTICS
     $sticker.click(function() {
       self.openStory();
       // event tracking
@@ -329,6 +371,22 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       oStore.findGroup('visitItems', 'id', self._oStory.visitItemsId(), function(lVisitItems) {
         self._oStory.setVisitItems(lVisitItems);
       });
+    });
+  },
+
+  remove : function(){
+    var self = this;
+    self.$().remove();
+
+    var lUpperStickers = _.filter(self._oBar._lStickers,
+      function(oSticker){
+        return oSticker._iPosition > self._iPosition;
+    });
+
+    _.each(lUpperStickers, function(oSticker){
+      oSticker._iPosition-=1;
+      var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+      oSticker.$().css("left", iLeft+"px");
     });
   },
 });
