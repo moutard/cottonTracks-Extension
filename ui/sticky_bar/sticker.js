@@ -53,9 +53,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
 
-    $sticker.bind({'_remove': function(){
-                                self.remove()
-                              }
+    // Bind remove.
+    $sticker.bind({'_remove': function(event){
+        self._remove();
+      }
+    });
+    // Bind merge.
+    $sticker.bind({'_merge': function(event, ui, iSubStoryId){
+        self._merge(iSubStoryId);
+      }
     });
 
     // DRAGGABLE
@@ -66,7 +72,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
               top : 0,
               left: self._iCurrentPosition,
             };
-            // return boolean
             return !event;
         }
     });
@@ -75,21 +80,20 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.droppable({
       drop: function(event, ui){
         // merge stories
-
-        // remove the old stories
-        ui.draggable.trigger('_remove');
-
-        // recompute position for upper stickers
+        ui.draggable.trigger('_merge', ui, self._oStore.id());
       },
+      // Add class to the drop container.
       hoverClass: "drophover",
+      // Add class to the drag element.
       over: function(event, ui){
         ui.draggable.addClass("can_be_dropped");
       },
       out: function(event, ui){
         ui.draggable.removeClass("can_be_dropped");
       },
-
     });
+
+    // CONTENT
     var lVisitItems = this._oStory.visitItems();
     var $title = $('<h3>').text(this._oStory.title());
 
@@ -131,7 +135,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       'left' : iFinalPosition + this._oBar._iTranslateX
     })
 
-    // TODO(fwouts): Use CSS animations.
     $sticker.animate({
       left : iFinalPosition
     }, 'slow', function() {
@@ -167,8 +170,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       Cotton.ANALYTICS.enterStory();
     });
 
-    // DRAGGABLE
-    // this._$sticker.draggable({'axis' : 'x'});
     // Create elements.
     this._oBar.append($sticker);
 
@@ -333,25 +334,51 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
   },
 
-  remove : function(){
+  /**
+   * Remove the stickers and the corresponding story.
+   */
+  _remove : function(){
     var self = this;
-    self.$().remove();
 
+    // Remove DOM element.
+    self.$().remove();
+    self.closeSumUp();
+    Cotton.UI.Home.HOMEPAGE.show();
+    self._oBar.open();
+
+    // Get all stickers on the left.
     var lUpperStickers = _.filter(self._oBar._lStickers,
       function(oSticker){
         return oSticker._iPosition > self._iPosition;
     });
 
+    // Remove from bar the current stickers.
     self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
       return oSticker._iPosition === self._iPosition;
     });
 
+    // Set position of upper stickers to move forward them to dig the hole.
     _.each(lUpperStickers, function(oSticker){
       oSticker._iPosition-=1;
+      self._iOriginalPosition -=  Cotton.UI.StickyBar.HORIZONTAL_SPACING;
       var iLeft = self._iFinalPosition = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
       oSticker.$().css("left", iLeft+"px");
     });
 
+  },
+
+  /**
+   * Merge the given story to the self one.
+   *
+   * @param {int}
+   *          iSubStoryId : id of the story to merge with the self one.
+   */
+  _merge : function(ui, iSubStoryId){
+    var self = this;
+    var iMainStoryId = self._oStory.id();
+    Cotton.CONTROLLER.mergeStoryInOtherStory(iMainStoryId, iSubStoryId);
+
+    ui.trigger("_remove");
   },
 
   /**
@@ -360,9 +387,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    */
     makeItEditable : function(){
       var self = this;
-      var self = this;
+
       if (self._isEditable === false) {
-        this._isEditable = true;
+        self._isEditable = true;
         var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
         $remove_button.mouseup(function() {
           var bClear = confirm(
@@ -373,52 +400,14 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           );
 
           if (bClear) {
-            new Cotton.DB.Store('ct', {
-              'stories' : Cotton.Translators.STORY_TRANSLATORS,
-              'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
-            }, function() {
-                for(var i = 0; i < self._oStory.visitItemsId().length; i++){
-                  var iId = self._oStory.visitItemsId()[i];
-                  this.delete('visitItems', iId, function(){
-                    console.log("delete visitItem");
-                  });
-                }
-                this.delete('stories', self._oStory.id(), function() {
-                  console.log("delete story");
-                });
-            });
-
-            self.$().remove();
-            self.closeSumUp();
-            Cotton.UI.Home.HOMEPAGE.show();
-            self._oBar.open();
-
-            // Get all the stickers on the right of the one you remove.
-            var lUpperStickers = _.filter(self._oBar._lStickers,
-              function(oSticker){
-                return oSticker._iPosition > self._iPosition;
-            });
-
-            // Remove the sticker from the stickers list.
-            self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
-              return oSticker._iPosition === self._iPosition;
-            });
-
-            // Set new position.
-            for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
-              oSticker._iPosition-=1;
-              var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-              oSticker._iOriginalPosition -= Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-              oSticker.$().css("left", iLeft+"px");
-            }
-            // event tracking
-            Cotton.ANALYTICS.deleteStory();
+            self._remove();
+            Cotton.CONTROLLER.deleteStoryAndVisitItems(self._oStory.id());
           }
         });
 
         self._$sticker.append($remove_button);
       } else {
-        this._isEditable = false;
+        self._isEditable = false;
         self._$sticker.find('.ct-stickers_button_remove').remove();
       }
     },
