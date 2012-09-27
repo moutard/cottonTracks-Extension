@@ -343,9 +343,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     // Remove DOM element.
     self.$().remove();
     self.closeSumUp();
-    Cotton.UI.Home.HOMEPAGE.show();
-    self._oBar.open();
-
+    // if the current story is open in the story line show homepage.
+    if(self._oStory.id() === _oCurrentlyOpenStoryline.story().id()){
+      Cotton.UI.Home.HOMEPAGE.show();
+      self._oBar.open();
+    }
     // Get all stickers on the left.
     var lUpperStickers = _.filter(self._oBar._lStickers,
       function(oSticker){
