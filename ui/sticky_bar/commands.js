@@ -54,7 +54,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       content : 'Non available yet',
       position : {
         my : 'top left',
-        at : 'bottom right'
+        at : 'bottom center'
       },
       show : 'click',
       hide : 'mouseleave',
