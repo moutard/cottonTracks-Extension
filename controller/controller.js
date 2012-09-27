@@ -1,11 +1,11 @@
 'use strict'
 /**
  * Controller
- * 
+ *
  * Inspired by MVC pattern.
- * 
+ *
  * Handles DB, and UI.
- * 
+ *
  */
 Cotton.Controller = Class.extend({
 
@@ -198,10 +198,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   * 
+   *
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   * 
+   *
    */
   install : function(){
     console.debug("Controller - install");
@@ -231,7 +231,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   * 
+   *
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -260,7 +260,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   * 
+   *
    * ct is well installed, start the application.
    */
   start : function(){
@@ -310,7 +310,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Remove the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {int}
    *          iStoryId : id is found using mystoryline.
    * @param {int}
@@ -327,10 +327,10 @@ Cotton.Controller = Class.extend({
           console.log('ok - removeVisitItem');
     });
   },
-  
+
   /**
    * Set the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {Cotton.Model.VisitItem}
    *          oVisitItem : after set the visitItem put.
    */
@@ -340,6 +340,79 @@ Cotton.Controller = Class.extend({
       console.log("setVisit id : " + id);
     })
   },
+
+  /**
+   * Merge two stories.
+   * Becareful parameters are not symetric. All the elments of sub_story
+   * will be put in the main_story, and then the sub story will be removed.
+   *
+   * @param {int}
+   *          iMainStoryId : id of the story that receive new elements
+   * @param {int}
+   *          iSubStoryId : id of the story that is removed
+   */
+  mergeStoryInOtherStory : function(iMainStoryId, iSubStoryId){
+    var self = this;
+
+    // get the two stories.
+    self._oStore.find('stories', 'id', iMainStoryId, function(oMainStory){
+      self._oStore.find('stories', 'id', iSubStoryId, function(oSubstory){
+
+        // Add each visitItem in the oMainStory.
+        for(var i=0; i < oSubStory.visitItemsId().length; i++){
+          var iId = oSubStory.visitItemsId()[i];
+          oMainStory.addVisitItemId(iId);
+        }
+
+        // Update the main story.
+        self._oStore.put('stories', oMainStory, function(iId){
+
+          // Remove the sub story.
+          self._oStore.delete('stories', 'id', iSubStoryId, function(){
+            console.log("controller - stories merged");
+          });
+        });
+
+      });
+    });
+  },
+
+  /**
+   * Delete the story with the given story id.
+   *
+   * @param {int} :
+   *          iStoryId
+   */
+  deleteStory : function(iStoryId){
+    var self = this;
+
+    self._oStore.delete('stories', 'id', iStoryId, function(){
+      console.log("controller - delete story");
+    });
+  },
+
+  /**
+   * Delete the story and visitItems with the given story id.
+   *
+   * @param {int} :
+   *          iStoryId
+   */
+  deleteStoryAndVisitItems : function(iStoryId){
+    var self = this;
+
+    self._oStore.find('stories', 'id', iStoryId, function(oStory){
+      for(var i = 0; i < oStory.visitItemsId().length; i++){
+        var iId = oStory.visitItemsId()[i];
+        this.delete('visitItems', iId, function(){
+          console.log("delete visitItem");
+        });
+      }
+      this.delete('stories', oStory.id(), function() {
+        console.log("delete story");
+      });
+    });
+  },
+
 });
 
 Cotton.CONTROLLER = new Cotton.Controller();
