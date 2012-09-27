@@ -404,7 +404,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
               return oSticker._iPosition === self._iPosition;
             });
 
-            // Set new postion.
+            // Set new position.
             for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
               oSticker._iPosition-=1;
               var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
