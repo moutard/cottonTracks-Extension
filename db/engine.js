@@ -141,12 +141,13 @@ Cotton.DB.Engine = Class.extend({
 
         };
 
-        // TODO(fwouts): Implement.
         oSetVersionRequest.onerror = function(oEvent){
           console.error("setVersion error" + oEvent.message);
           console.error(oEvent);
           console.error(this);
           oDb.close();
+
+          throw "SetVersionRequest error";
         };
 
         oSetVersionRequest.onblocked = function(oEvent){
@@ -154,6 +155,8 @@ Cotton.DB.Engine = Class.extend({
           console.error(oEvent);
           console.error(this);
           oDb.close();
+
+          throw "SetVersionRequest blocked";
         };
       } else {
         // The database is already up to date, so we are ready.
@@ -162,12 +165,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(fwouts): Implement.
     oRequest.onerror = function(oEvent){
       console.error("Can't open the database");
       console.error(oEvent);
       console.error(this);
-    } ;
+
+      throw "Request Error - init engine";
+    };
   },
 
   /**
@@ -237,8 +241,13 @@ Cotton.DB.Engine = Class.extend({
       oResult.continue();
     };
 
-    // TODO(fwouts): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+
+      throw "Cursor Request Error - iterList";
+    };
   },
 
   listInverse: function(sObjectStoreName, mResultElementCallback) {
@@ -265,8 +274,14 @@ Cotton.DB.Engine = Class.extend({
       oResult.continue();
     };
 
-    // TODO(fwouts): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+
+      throw "Cursor Request Error - listInverse";
+    };
+
   },
 
   getList : function(sObjectStoreName, mResultElementCallback) {
@@ -325,8 +340,14 @@ Cotton.DB.Engine = Class.extend({
       oResult.continue();
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+
+      throw "Cursor Request Error - iterRange";
+    };
+
   },
 
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound,
@@ -358,8 +379,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - get Range";
+    };
+
   },
 
   getKeyRange : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
@@ -394,8 +420,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getKeyRange";
+    };
+
   },
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
@@ -436,8 +467,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getUpperBound";
+    };
+
 
   },
 
@@ -478,8 +514,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getLowerBound";
+    };
+
 
   },
 
@@ -520,8 +561,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getBound";
+    };
+
 
 
   },
@@ -563,8 +609,13 @@ Cotton.DB.Engine = Class.extend({
 
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getLastEntry";
+    };
+
 
   },
 
@@ -609,8 +660,13 @@ Cotton.DB.Engine = Class.extend({
 
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getLast";
+    };
+
 
   },
 
@@ -677,8 +733,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getXItems";
+    };
+
 
   },
 
@@ -730,8 +791,13 @@ Cotton.DB.Engine = Class.extend({
       }
     };
 
-    // TODO(rmoutard): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getXYItems";
+    };
+
 
   },
 
@@ -752,8 +818,13 @@ Cotton.DB.Engine = Class.extend({
       mResultCallback.call(self, oResult);
     };
 
-    // TODO(fwouts): Implement.
-    // oFindRequest.onerror = ;
+     oFindRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Find Request Error";
+    };
+
   },
 
   findGroup: function(sObjectStoreName, sIndexKey, lIndexValue,
@@ -823,10 +894,13 @@ Cotton.DB.Engine = Class.extend({
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
-    // TODO(fwouts): Implement.
     oPutRequest.onerror = function(oEvent){
-      console.error("oPutRequest Error");
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Put Request Error";
     };
+
   },
 
 
@@ -864,10 +938,13 @@ Cotton.DB.Engine = Class.extend({
         // mOnSaveCallback.call(self, oEvent.target.result);
       };
 
-      // TODO(fwouts): Implement.
       oPutRequest.onerror = function(oEvent){
-        console.error("oPutRequest Error");
+        console.error("Can't open the database");
+        console.error(oEvent);
+        console.error(this);
+        throw "Put Request Error - AputList";
       };
+
     }
 
   },
@@ -903,12 +980,19 @@ Cotton.DB.Engine = Class.extend({
         oUpdateRequest.onerror = function(oEvent){
           console.log("can not update your entry");
           console.log(oEvent);
+          throw "Update Request Error";
         };
       }
     };
 
-// TODO(rmoutard): Implement.
-// oCursorRequest.onerror = ;
+
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - update";
+    };
+
 
   },
   // TODO(fwouts): Can there be keys that are not strings and not integers?
@@ -925,8 +1009,13 @@ Cotton.DB.Engine = Class.extend({
       mOnDeleteCallback.call(self);
     };
 
-    // TODO(fwouts): Implement.
-    // oDeleteRequest.onerror = ;
+    oDeleteRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Delete Request Error";
+    };
+
   },
 
   purge: function(sObjectStoreName, mResultElementCallback) {
@@ -955,8 +1044,13 @@ Cotton.DB.Engine = Class.extend({
       oResult.continue();
     };
 
-    // TODO(fwouts): Implement.
-    // oCursorRequest.onerror = ;
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - purge";
+    };
+
   },
 
 });
