@@ -9,12 +9,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   // TODO(rmoutard) : try to refactor to remove rmoutard.
   _oBar : null,
-  
+
   _iPosition : null,
   _oStory : null,
-  
+
   _$editable_button : null,
-  
+
   _$sticker : null,
   _$img : null,
   _isEditable : null,
@@ -38,7 +38,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Return the DOM value.
-   * 
+   *
    * @return {HtmlElement}
    */
   $ : function() {
@@ -102,16 +102,16 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._$img.load(function() {
       self.resizeImg($(this));
     });
-    
+
     // Create editable button.
     this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
     this._$editable_button.mouseup(function(){
       self.makeItEditable();
     });
-    
+
     // Create element.
     $sticker.append($title, this._$img, this._$editable_button);
-    
+
     // Set the position.
     var iStickerCount = this._oBar.stickerCount();
     var iFinalPosition = self._iCurrentPosition = self._iOriginalPosition = (this._iPosition)
@@ -122,7 +122,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     } else {
       var iInitialPosition = iFinalPosition;
     }
-    
+
     $sticker.css({
       position : "absolute",
       left : iInitialPosition
@@ -137,7 +137,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     }, 'slow', function() {
       self.trigger('ready');
     });
-    
+
     // HOVER
     $sticker.hover(function() {
       // Display Sumup.
@@ -146,7 +146,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       }
       // Display editable button.
       self._$editable_button.show();
-      
+
     }, function() {
       // Hide Sumup.
       if (Cotton.Config.Parameters.bActiveSumup  === true){
@@ -157,14 +157,14 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
     // CLICK
-    $sticker.mouseup(function(e) {
+    $sticker.click(function(e) {
       if($(e.target).is('.ct-stickers_button_editable')){
         // Do not open if we click on the editable.
         e.preventDefault();
         return;
       }
       self.openStory(); // event tracking
-      Cotton.ANALYTICS.enterStory(); 
+      Cotton.ANALYTICS.enterStory();
     });
 
     // DRAGGABLE
@@ -176,7 +176,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Translate the sticker after the user scroll the sticky_bar
-   * 
+   *
    * @param {int}
    *          iTranslateX : value of the translation
    * @param {boolean}
@@ -203,7 +203,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Open the preview of the story
-   * 
+   *
    * DISABLE
    */
   openSumUp : function() {
@@ -220,7 +220,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Close the preview of the story.
-   * 
+   *
    * DISABLE
    */
   closeSumUp : function() {
@@ -231,7 +231,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Draw each visitItem in the story using the information on self._oStory.
-   * 
+   *
    * @param {Array.
    *          <Cotton.Model.VisitItem>} lVisitItems
    */
@@ -277,7 +277,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Resize the image so it takes the whole place in the div sticker. Call on
    * the load callback function.
-   * 
+   *
    * @param {HtmlElement}
    *          $img
    */
@@ -304,7 +304,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * editable
-   * 
+   *
    * Add the remove button. On click remove the story on the database, and
    * remove the current sticker.
    */
@@ -461,6 +461,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             var lUpperStickers = _.filter(self._oBar._lStickers,
               function(oSticker){
                 return oSticker._iPosition > self._iPosition;
+            });
+
+            self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
+              return oSticker._iPosition === self._iPosition;
             });
 
             for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
