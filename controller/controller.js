@@ -351,12 +351,12 @@ Cotton.Controller = Class.extend({
    * @param {int}
    *          iSubStoryId : id of the story that is removed
    */
-  mergeStoryInOtherStory : function(iMainStoryId, iSubStoryId){
+  mergeStoryInOtherStory : function(iMainStoryId, iSubStoryId, mCallBackFunction){
     var self = this;
 
     // get the two stories.
     self._oStore.find('stories', 'id', iMainStoryId, function(oMainStory){
-      self._oStore.find('stories', 'id', iSubStoryId, function(oSubstory){
+      self._oStore.find('stories', 'id', iSubStoryId, function(oSubStory){
 
         // Add each visitItem in the oMainStory.
         for(var i=0; i < oSubStory.visitItemsId().length; i++){
@@ -368,8 +368,9 @@ Cotton.Controller = Class.extend({
         self._oStore.put('stories', oMainStory, function(iId){
 
           // Remove the sub story.
-          self._oStore.delete('stories', 'id', iSubStoryId, function(){
+          self._oStore.delete('stories', iSubStoryId, function(){
             console.log("controller - stories merged");
+            mCallBackFunction();
           });
         });
 

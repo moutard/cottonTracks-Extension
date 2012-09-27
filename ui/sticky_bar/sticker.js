@@ -60,7 +60,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
     // Bind merge.
     $sticker.bind({'_merge': function(event, ui, iSubStoryId){
-        self._merge(iSubStoryId);
+        self._merge(ui, iSubStoryId);
       }
     });
 
@@ -80,7 +80,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.droppable({
       drop: function(event, ui){
         // merge stories
-        ui.draggable.trigger('_merge', ui, self._oStore.id());
+        ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
       },
       // Add class to the drop container.
       hoverClass: "drophover",
@@ -376,9 +376,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _merge : function(ui, iSubStoryId){
     var self = this;
     var iMainStoryId = self._oStory.id();
-    Cotton.CONTROLLER.mergeStoryInOtherStory(iMainStoryId, iSubStoryId);
+    Cotton.CONTROLLER.mergeStoryInOtherStory(iMainStoryId, iSubStoryId, function(){
+      ui.draggable.trigger("_remove");
+    });
 
-    ui.trigger("_remove");
   },
 
   /**
