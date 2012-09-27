@@ -32,8 +32,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _$img : null,
   _$title : null,
 
-  _wGetVisitItems : null,
-
   // Parameters
   _isEditable : false,
 
@@ -326,26 +324,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // landscape
       $img.height(iDivH);
     }
-  },
-
-  initGetVisitItemsWorker : function(){
-    var self = this;
-    self._wGetVisitItems = new Worker("ui/sticky_bar/w_get_visit_items.js");
-
-    self._wGetVisitItems.addEventListener('message', function(e) {
-      var lVisitItemsSerialized = e.data;
-      var lVisitItems = [];
-      for(var i = 0, dVisitItem; dVisitItem = lVisitItemsSerialized[i]; i++){
-        var oVisitItem = new Cotton.Model.VisitItem();
-        oVisitItem.deserialize(dVisitItem);
-        lVisitItems.push(oVisitItem);
-      }
-      self._oStory.setVisitItems(lVisitItems);
-      console.debug("stickers - loading finished");
-      console.debug(lVisitItems);
-    });
-    self._wGetVisitItems.postMessage(self._oStory.visitItemsId());
-
   },
 
   /**
