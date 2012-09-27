@@ -3,36 +3,63 @@
 Cotton.UI.StickyBar.HORIZONTAL_SPACING = 250;
 
 /**
- * @class Represent a sticker
+ * Sticker
+ * Each sticker corresponds to a story. They are display in the sticky_bar.
+ *
+ * on click : the correponding story is oppened in the story line.
+ * on hover : the editable button appear.
+ * draggable : drag an sticker in another sticker will merge both stories.
+ * droppable :
  */
 Cotton.UI.StickyBar.Sticker = Class.extend({
 
-  // TODO(rmoutard) : try to refactor to remove rmoutard.
   _oBar : null,
 
+  _$sticker : null,
+
+  /**
+   * {int} its position in the list of stickers.
+   */
   _iPosition : null,
+
+  /**
+   * {Cotton.Model.Story} data of the sticker.
+   */
   _oStory : null,
 
+  // DOM - sub elements
   _$editable_button : null,
-
-  _$sticker : null,
   _$img : null,
-  _isEditable : null,
+  _$title : null,
+
   _wGetVisitItems : null,
+
+  // Parameters
+  _isEditable : false,
+
+  /**
+   * {int} position without translation.
+   */
   _iOriginalPosition : 0,
+
+  /**
+   * {int} position with translation.
+   */
   _iCurrentPosition : 0,
 
   /**
    * @constructor
+   *
    * @param oBar
    * @param iPosition
    * @param oStory
    */
   init : function(oBar, iPosition, oStory) {
+
     this._oBar = oBar;
     this._iPosition = iPosition;
     this._oStory = oStory;
-    this._isEditable = false;
+
     this.getVisits();
   },
 
@@ -46,100 +73,13 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   },
 
   /**
-   * display the sticker.
+   * Display the sticker.
+   * Handle the UI, and bind to every events.
    */
   display : function() {
     var self = this;
 
-    var $sticker = this._$sticker = $('<div class="ct-stickyBar_sticker">');
-
-    // Bind remove.
-    $sticker.bind({'_remove': function(event){
-        self._remove();
-      }
-    });
-    // Bind merge.
-    $sticker.bind({'_merge': function(event, ui, iSubStoryId){
-        self._merge(ui, iSubStoryId);
-      }
-    });
-
-    // DRAGGABLE
-    $sticker.draggable({
-        revert: function (event, ui) {
-            // overwrite original position
-            $(this).data("draggable").originalPosition = {
-              top : 0,
-              left: self._iCurrentPosition,
-            };
-            return !event;
-        }
-    });
-
-    // DROPPABLE
-    $sticker.droppable({
-      drop: function(event, ui){
-        // merge stories
-        ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
-      },
-      // Add class to the drop container.
-      hoverClass: "drophover",
-      // Add class to the drag element.
-      over: function(event, ui){
-        ui.draggable.addClass("can_be_dropped");
-      },
-      out: function(event, ui){
-        ui.draggable.removeClass("can_be_dropped");
-      },
-    });
-
-    // CONTENT
-    var lVisitItems = this._oStory.visitItems();
-    var $title = $('<h3>').text(this._oStory.title());
-
-    this._$img = $('<img src="/media/images/default_preview7.png" />');
-    if (this._oStory._sFeaturedImage !== "") {
-      this._$img.attr("src", this._oStory._sFeaturedImage);
-    }
-
-    // load is a callback function, called when the image is ready.
-    this._$img.load(function() {
-      self.resizeImg($(this));
-    });
-
-    // Create editable button.
-    this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
-    this._$editable_button.mouseup(function(){
-      self.makeItEditable();
-    });
-
-    // Create element.
-    $sticker.append($title, this._$img, this._$editable_button);
-
-    // Set the position.
-    var iStickerCount = this._oBar.stickerCount();
-    var iFinalPosition = self._iCurrentPosition = self._iOriginalPosition = (this._iPosition)
-        * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
-    var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
-    if (iStickerCount === 10) {
-      var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
-    } else {
-      var iInitialPosition = iFinalPosition;
-    }
-
-    $sticker.css({
-      position : "absolute",
-      left : iInitialPosition
-    })
-    $sticker.css({
-      'left' : iFinalPosition + this._oBar._iTranslateX
-    })
-
-    $sticker.animate({
-      left : iFinalPosition
-    }, 'slow', function() {
-      self.trigger('ready');
-    });
+    var $sticker = self._$sticker = $('<div class="ct-stickyBar_sticker">');
 
     // HOVER
     $sticker.hover(function() {
@@ -166,8 +106,94 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         e.preventDefault();
         return;
       }
-      self.openStory(); // event tracking
+      self.openStory();
+      // event tracking
       Cotton.ANALYTICS.enterStory();
+    });
+
+    // _REMOVE.
+    $sticker.bind({'_remove': function(event){
+        self._remove();
+      }
+    });
+
+    // _MERGE.
+    $sticker.bind({'_merge': function(event, ui, iSubStoryId){
+        self._merge(ui, iSubStoryId);
+      }
+    });
+
+    // DRAGGABLE
+    $sticker.draggable({
+        revert: function (event, ui) {
+            // Return to original position if not drop on droppable element.
+            $(this).data("draggable").originalPosition = {
+              top : 0,
+              left: self._iCurrentPosition,
+            };
+            return !event;
+        }
+    });
+
+    // DROPPABLE
+    $sticker.droppable({
+      drop: function(event, ui){
+        // Merge stories.
+        ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
+      },
+      // Add class to the drop container.
+      hoverClass: "drophover",
+      // Add class to the drag element.
+      over: function(event, ui){
+        ui.draggable.addClass("can_be_dropped");
+      },
+      out: function(event, ui){
+        ui.draggable.removeClass("can_be_dropped");
+      },
+    });
+
+    // CONTENT
+    var lVisitItems = self._oStory.visitItems();
+    var $title = $('<h3>').text(self._oStory.title());
+
+    this._$img = $('<img src="/media/images/default_preview7.png" />');
+    if (this._oStory._sFeaturedImage !== "") {
+      this._$img.attr("src", self._oStory._sFeaturedImage);
+    }
+
+    // Load is a callback function, called when the image is ready.
+    this._$img.load(function() {
+      self.resizeImg($(this));
+    });
+
+    // Create editable button.
+    this._$editable_button = $('<div class="ct-stickers_button_editable"></div>').hide();
+    this._$editable_button.mouseup(function(){
+      self.makeItEditable();
+    });
+
+    // Create element.
+    $sticker.append($title, this._$img, this._$editable_button);
+
+    // Set the position.
+    var iStickerCount = this._oBar.stickerCount();
+    var iFinalPosition = self._iCurrentPosition = self._iOriginalPosition = (this._iPosition)
+        * Cotton.UI.StickyBar.HORIZONTAL_SPACING + 20;
+    var iDistanceToCenter = this._oBar.$().width() / 2 - iFinalPosition;
+    var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
+
+    $sticker.css({
+      position : "absolute",
+      left : iInitialPosition
+    })
+    $sticker.css({
+      'left' : iFinalPosition + this._oBar._iTranslateX
+    })
+
+    $sticker.animate({
+      left : iFinalPosition
+    }, 'slow', function() {
+      self.trigger('ready');
     });
 
     // Create elements.
@@ -243,15 +269,18 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   },
 
   /**
-   * Called when a stcker is cliked.
+   * Check that visitItems id correctly load, if not load it. Then call
+   * draw story, to create the storyline.
+   *
+   * Bind on event : "click"
    */
   openStory : function() {
     var self = this;
+
     this.closeSumUp();
     Cotton.UI.Home.HOMEPAGE.hide();
-    // TODO(rmoutard) : use a worker to get that.
-    // If the story is empty make a dbRequest to get the corresponding
-    // visitItems.
+
+    // If the story is empty make a request to get corresponding visitItems.
     if(self._oStory.visitItems().length === 0){
       console.debug('ct - visitItems not loaded');
       new Cotton.DB.Store('ct', {
@@ -259,9 +288,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       }, function() {
         this.findGroup('visitItems', 'id', self._oStory.visitItemsId(),
           function(lVisitItems) {
-          console.debug("ct - visitItems has been loaded in the database");
-          self._oStory.setVisitItems(lVisitItems);
-          self.drawStory(lVisitItems);
+            console.debug("ct - visitItems has been loaded in the database");
+            self._oStory.setVisitItems(lVisitItems);
+            self.drawStory(lVisitItems);
           });
       });
     } else {
@@ -271,8 +300,6 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
       self.drawStory(self._oStory.visitItems());
     }
-    // TODO(rmoutard) : avoid to manipulate DOM
-    $('.ct-flip').text(self._oStory.title());
   },
 
   /**
@@ -293,13 +320,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var fDivRatio = iDivW / iDivH;
 
     if (fDivRatio > fRatio) {
-      /** portrait */
+      // portrait
       $img.width(iDivW);
-      // this._$('img').css('top', Math.round((div_h - h) / 2) + 'px');
     } else {
-      /** landscape */
+      // landscape
       $img.height(iDivH);
-      // this._$('img').css('margin-left', Math.round(w / 2) + 'px');
     }
   },
 
@@ -323,6 +348,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   },
 
+  /**
+   * Make a db request to get corresponding visitItems.
+   * Called when the sticker is initialized.
+   */
   getVisits : function(){
     var self = this;
     var oStore = new Cotton.DB.Store('ct', {
@@ -336,6 +365,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
   /**
    * Remove the stickers and the corresponding story.
+   *
+   * Bind to event : "_remove"
    */
   _remove : function(){
     var self = this;
@@ -372,6 +403,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Merge the given story to the self one.
    *
+   * Bind on event : "_merge"
+   *
    * @param {int}
    *          iSubStoryId : id of the story to merge with the self one.
    */
@@ -387,14 +420,20 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   /**
    * Make the stickers completely editable. Including image, title, and remove
    * button.
+   *
+   * Bind to event : "$editable_button.click"
    */
     makeItEditable : function(){
       var self = this;
 
       if (self._isEditable === false) {
         self._isEditable = true;
+
         var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
+
+        // Bind mouseup.
         $remove_button.mouseup(function() {
+          // Ask confirmation.
           var bClear = confirm(
             "Are you sure you want to delete the story " +
             self._oStory.title() + "?\n" +
@@ -403,7 +442,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           );
 
           if (bClear) {
+            // Remove DOM element.
             self._remove();
+            // Call the controller to remove story in the database.
             Cotton.CONTROLLER.deleteStoryAndVisitItems(self._oStory.id());
           }
         });
