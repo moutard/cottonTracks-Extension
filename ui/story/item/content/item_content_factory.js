@@ -3,7 +3,7 @@
 /**
  * In function of the data stored in oItem._oVisitItem, we know how the content
  * should be display. Using on the specific type of Item.Content
- * 
+ *
  * @param oItem
  * @returns {Cotton.UI.Story.Item.Content}
  */
@@ -27,7 +27,6 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
     return new Cotton.UI.Story.Item.Content.Image(oItem, "imgres");
   } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
     // Video - Youtube
-    console.log("Video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "youtube",
         oUrl.dSearch['v']);
   } else if (oUrl.host === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
@@ -47,16 +46,13 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
   } else if (oUrl.host === "www.slideshare.net"
       && oUrl.pathname.match(/(\-[0-9]+)$/)) {
     // Slideshare
-    console.log("Video");
     return new Cotton.UI.Story.Item.Content.Slideshow(oItem,
         sLastStringFromHyphen);
   } else if (oUrl.dSearch['q']) {
     // Search
-    console.log("Search");
     return new Cotton.UI.Story.Item.Content.Search(oItem);
   } else {
     // Default
-    console.log("Default");
     return new Cotton.UI.Story.Item.Content.Default(oItem);
   }
 };
