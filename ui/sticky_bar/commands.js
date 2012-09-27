@@ -1,8 +1,8 @@
 'use strict'
 /**
  * Commands bar in the StickyBar.
- * 
- * Contains all the button. - homepage - edit - flip - search
+ *
+ * Contains all the button. - homepage  search
  */
 Cotton.UI.StickyBar.Commands = Class.extend({
 
@@ -15,8 +15,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$logo_button : null,
   _$recent_button : null,
   _$share_button : null,
+  _$settings_button : null,
 
-  _$edit_button : null,
 
   /**
    * @constructor
@@ -35,6 +35,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$recent_button = $('.ct-icon_button_recent');
     this._$share_button = $('.ct-icon_button_share');
 
+    this._$settings_button = $('.ct-icon_button_settings');
+
     this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
@@ -44,33 +46,9 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       self._oBar.openClose();
     });
 
-    this._$edit_button = $('.ct-iconButton_edit');
-    this._$edit_button.addClass('edit_mode_off');
-    this._$edit_button.click(function() {
-      if ($(this).hasClass('edit_mode_off')) {
-        self._oBar._bEditMode = true;
-        $(this).removeClass('edit_mode_off');
-        $(this).addClass('edit_mode_on');
-        _.each(self._oBar._lStickers, function(oSticker) {
-          // oSticker.$().addClass('editable');
-          oSticker.editable();
-        });
-        // Event tracking
-        Cotton.ANALYTICS.editModeOn();
-      } else {
-        self._oBar._bEditMode = false;
-        $(this).removeClass('edit_mode_on');
-        $(this).addClass('edit_mode_off');
-        _.each(self._oBar._lStickers, function(oSticker) {
-          // oSticker.$().removeClass('editable');
-          oSticker.editable();
-        });
-        // Event tracking
-        Cotton.ANALYTICS.editModeOff();
-      }
-
+    this._$settings_button.click(function(){
+      document.location.href="settings/settings.html"
     });
-
     // Unused button
     var dQtipParameters = {
       content : 'Non available yet',

@@ -14,7 +14,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   _$sumUp : null,
   _iTranslateX : 0,
   _bLoading : false,
-  _bEditMode : false,
 
   /**
    * @constructor
@@ -239,10 +238,8 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
-    if (this._bEditMode === false) {
       this._$stickyBar.addClass('close');
       $('#ct-story_homepage').addClass('close');
-    }
   },
 
   /**
@@ -269,13 +266,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       _.each(lStories, function(oStory) {
         var oSticker = self.buildSticker(oStory);
         oSticker.display();
-        if (self._bEditMode) {
-          oSticker.editable();
-        }
       });
-      /*
-       * _.each(lStickers, function(oSticker) { oSticker.display(); });
-       */
       self._bLoading = false;
     });
   },
