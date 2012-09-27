@@ -393,18 +393,22 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
             Cotton.UI.Home.HOMEPAGE.show();
             self._oBar.open();
 
+            // Get all the stickers on the right of the one you remove.
             var lUpperStickers = _.filter(self._oBar._lStickers,
               function(oSticker){
                 return oSticker._iPosition > self._iPosition;
             });
 
+            // Remove the sticker from the stickers list.
             self._oBar._lStickers = _.reject(self._oBar._lStickers, function(oSticker){
               return oSticker._iPosition === self._iPosition;
             });
 
+            // Set new postion.
             for(var i = 0, oSticker; oSticker = lUpperStickers[i]; i++){
               oSticker._iPosition-=1;
               var iLeft = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+              oSticker._iOriginalPosition -= Cotton.UI.StickyBar.HORIZONTAL_SPACING;
               oSticker.$().css("left", iLeft+"px");
             }
             // event tracking
