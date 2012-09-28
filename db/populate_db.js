@@ -52,10 +52,6 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
     if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(10)};
 
-    // TODO(rmoutard): Discuss if we can improve populate using all the
-    // visitItem for each historyItem. For the moment we consider that an
-    // historyItem is the lastVisitItem. Considering more is maybe a useless
-    // complication.
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 
@@ -112,10 +108,6 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
         + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
-    // TODO(rmoutard): Discuss if we can improve populate using all the
-    // visitItem for each historyItem. For the moment we consider that an
-    // historyItem is the lastVisitItem. Considering more is maybe a useless
-    // complication.
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 
@@ -160,10 +152,6 @@ Cotton.DB.Populate.visitItemsFromFile = function(oStore, lHistoryItems, mCallBac
         + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
-    // TODO(rmoutard): Discuss if we can improve populate using all the
-    // visitItem for each historyItem. For the moment we consider that an
-    // historyItem is the lastVisitItem. Considering more is maybe a useless
-    // complication.
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 

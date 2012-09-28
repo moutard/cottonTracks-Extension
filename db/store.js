@@ -7,7 +7,6 @@ Cotton.DB.Store = Class.extend({
     this._dTranslators = dTranslators;
 
     var dIndexesForObjectStoreNames = {};
-    // TODO: Use _.each everywhere instead of ugly for loops?
     _.each(dTranslators, function(lTranslators, sObjectStoreName) {
       dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
     });
