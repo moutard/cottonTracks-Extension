@@ -60,7 +60,6 @@ Cotton.UI.StickyBar.Commands = Class.extend({
         'tip' : true,
         'classes' : 'ui-tooltip-yellow'
       }
-
     });
 
     // Unused button
