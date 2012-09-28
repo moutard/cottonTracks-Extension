@@ -189,7 +189,6 @@ Cotton.DB.Engine = Class.extend({
       "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    // TODO(rmoutard) : do something faster without using cursor
     // Get everything in the store.
     var oKeyRange = webkitIDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
@@ -590,9 +589,6 @@ Cotton.DB.Engine = Class.extend({
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    // Define the Range.
-    // TODO(rmoutard) : oKeyRange seems not used.
-    var oKeyRange = webkitIDBKeyRange.only(0);
     // http://www.w3.org/TR/IndexedDB/#widl-IDBObjectStore-openCursor-IDBRequest-any-range-DOMString-direction
     // The first argument is nullabe.
     var oCursorRequest = oStore.openCursor(null, "prev");
@@ -643,9 +639,6 @@ Cotton.DB.Engine = Class.extend({
     // Define Index.
     var oIndex = oStore.index(sIndexKey);
 
-    // Define the Range.
-    // TODO(rmoutard) : oKeyRange seems not used.
-    var oKeyRange = webkitIDBKeyRange.only(0);
     var oCursorRequest = oIndex.openCursor(null, "prev");
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -849,8 +842,8 @@ Cotton.DB.Engine = Class.extend({
 
   },
 
-  // TODO(fwouts): Dictionary or object?
   // Seems there is a problem with put and auto-incremented.
+  // DEPRECATED
   add: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -871,8 +864,13 @@ Cotton.DB.Engine = Class.extend({
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
-    // TODO(fwouts): Implement.
-    // oPutRequest.onerror = ;
+    oPutRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Put Request Error";
+    };
+
   },
 
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
@@ -881,13 +879,7 @@ Cotton.DB.Engine = Class.extend({
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
-    // TODO(fwouts): Checks on the type of data contained in dItem?
-    // if (!dItem.id) {
-      // In order for the id to be automatically generated, we cannot set it to
-      // undefined or null, it
-      // must not exist.
-      // delete dItem.id;
-    // }
+
     var oPutRequest = oStore.put(dItem);
 
     oPutRequest.onsuccess = function(oEvent) {
@@ -995,7 +987,7 @@ Cotton.DB.Engine = Class.extend({
 
 
   },
-  // TODO(fwouts): Can there be keys that are not strings and not integers?
+
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;
 
