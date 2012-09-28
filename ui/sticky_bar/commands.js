@@ -48,7 +48,21 @@ Cotton.UI.StickyBar.Commands = Class.extend({
 
     this._$settings_button.click(function(){
       document.location.href="settings/settings.html"
+    }).qtip({
+      'content' : 'Settings',
+      'position' : {
+        'my' : 'top center',
+        'at' : 'bottom left'
+      },
+      'show' : 'mouseover',
+      'hide' : 'mouseleave',
+      'style' : {
+        'tip' : true,
+        'classes' : 'ui-tooltip-yellow'
+      }
+
     });
+
     // Unused button
     var dQtipParameters = {
       'content' : 'Non available yet',
