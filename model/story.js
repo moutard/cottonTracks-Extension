@@ -88,18 +88,6 @@ Cotton.Model.Story = Class.extend({
     var self = this;
     if (_.indexOf(this._lVisitItemsId, oVisitItemDbRecord['id']) === -1) {
       this._lVisitItemsId.push(oVisitItemDbRecord['id']);
-      // TODO(rmoutard) find a way to not use store.
-      /*
-      new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-      }, function() {
-        var oTranslator = this._translatorForObject('visitItems',
-                                                          oVisitItemDbRecord);
-        var oVisitItem = oTranslator.dbRecordToObject(oVisitItemDbRecord,
-                                                          oVisitItemDbRecord);
-        self._lVisitItems.push(oVisitItem);
-      });
-      */
 
       if (oVisitItemDbRecord['iVisitTime'] > this._fLastVisitTime) {
         this._fLastVisitTime = oVisitItemDbRecord['iVisitTime'];
@@ -144,20 +132,17 @@ Cotton.Model.Story = Class.extend({
   setVisitItems : function(lVisitItems) {
     this._lVisitItems = lVisitItems;
   },
-  // TODO: Remove the "get" from simple getters, add "compute" prefix to complex
-  // ones.
-  getLastVisitItemId : function() {
+
+  maxVisitItemId : function() {
     return _.max(this._lVisitItemsId);
   },
-  getStartPoint : function() {
+  firstVisitItem : function() {
     return this._lVisitItemsId[0];
   },
-  getEndPoint : function() {
+  lastVisitItem : function() {
     return this._lVisitItemsId[lVisitItems.length - 1];
   },
-  getMainPoint : function() {
-  },
-  getVisitItemPosition : function(sID) {
+  visitItemPosition : function(sID) {
     for ( var i = 0; i < this.lVisitItemsId; i++) {
       if (this.lVisitItems[i] === sID) {
         return i;
@@ -165,84 +150,16 @@ Cotton.Model.Story = Class.extend({
     }
     return -1;
   },
-  storySCAN : function() {
-  },
   removeVisitItem : function(sID) {
-    // TODO(rmoutard) : maybe use a temp trash
     this._lVisitItemsId = _.reject(this._lVisitItemsId, function(iVisitItemId) {
       return iVisitItemId === sID;
     });
   },
-  moveHistoryItem : function(sIDtoMove, sIDPrevious) {
-    // DEPRECATED.
-    var lElementToMove = _.filter(this._lHistoryItems, function(oHistoryItem) {
-      return oHistoryItem.id === sIDtoMove;
-    });
-    if (lElementToMove.length > 0) {
-      var iNewPosition = 0;
-      if (sIDPrevious !== undefined) {
-        iNewPosition = this.getHistoryItemPosition(sIDPrevious);
-      }
-      this._lHistoryItems.splice(iNewPosition, 0, lElementToMove[0]);
-    }
-  },
-  countSearchPathname : function() {
-    // DEPRECATED.
-    var lTemp = _.filter(this._lHistoryItems, function(oHistoryItem) {
-      // TODO(rmoutard) : not really a clean solution.
-      // see pretreatment
-      return oHistoryItem.pathname === "/search";
-    });
-    return lTemp.length;
-  },
-  countUniqHostname : function() {
-    // DEPRECATED.
-    var lTemp = _.uniq(this._lHistoryItems, false, function(oHistoryItem) {
-      return oHistoryItem.hostname;
-    });
-    return lTemp.length;
-  },
-  computeRelevance : function() {
-    // Compute the relevance of the story.
-    // some crtieria may be interesting :
-    // - length
-    // - lastVisitTime
-    // - number of different hostname
-    // - number of /search path name
-    // please complete the list.
 
-    var coeff = Cotton.Config.Parameters.computeRelevanceCoeff;
-
-    this._fRelevance = coeff.length * this.length() + coeff.lastVisitTime
-        * (this._fLastVisitTime / new Date().getTime())
-    // TODO(rmoutard) : find a way to retore it.
-    // + coeff.hostname * this.countUniqHostname()
-    // + coeff.search * this.countSearchPathname();
-    ;
-  },
-  computeKeywords : function() {
-    // DEPRECATED.
-    for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
-      this._lKeywords = this._lKeywords.concat(oHistoryItem.extractedWords);
-    }
-  },
   merge : function(oStory) {
     this._lVisitItemsId = _.union(this._lVisitItemsId, oStory.iter());
     this._fLastVisitTime = Math.max(this._fLastVisitTime, oStory
         .lastVisitTime());
-  },
-
-  computeVisitItems : function() {
-    var self = this;
-    new Cotton.DB.Store('ct', {
-      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-    }, function() {
-      this.findGroup('visitItems', 'id', self.visitItemsId(), function(
-          lVisitItems) {
-        self.setVisitItems(lVisitItems);
-      });
-
-    });
   },
 
   /**
@@ -307,8 +224,6 @@ Cotton.Model.Story = Class.extend({
             this._sFeaturedImage = oVisitItem.extractedDNA().imageUrl();
           }
         }
-        // TODO(rmoutard) : Do best than that with most frequent keywords.
-
       }
     }
   },
