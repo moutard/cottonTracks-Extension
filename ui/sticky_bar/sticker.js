@@ -31,6 +31,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   _$editable_button : null,
   _$img : null,
   _$title : null,
+  _$input_title : null,
 
   // Parameters
   _isEditable : false,
@@ -99,7 +100,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     // CLICK
     $sticker.click(function(e) {
-      if($(e.target).is('.ct-stickers_button_editable')){
+      if($(e.target).is('.ct-stickers_button_editable')
+          || $(e.target).is('.ct-story_editable_title') ){
         // Do not open if we click on the editable.
         e.preventDefault();
         return;
@@ -172,7 +174,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     // CONTENT
     var lVisitItems = self._oStory.visitItems();
-    var $title = $('<h3>').text(self._oStory.title());
+    this._$title = $('<h3>').text(self._oStory.title());
 
     this._$img = $('<img src="/media/images/default_preview7.png" />');
     if (this._oStory._sFeaturedImage !== "") {
@@ -191,7 +193,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     });
 
     // Create element.
-    $sticker.append($title, this._$img, this._$editable_button);
+    $sticker.append(this._$title, this._$img, this._$editable_button);
 
     // Set the position.
     var iStickerCount = this._oBar.stickerCount();
@@ -427,6 +429,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       if (self._isEditable === false) {
         self._isEditable = true;
 
+        // REMOVE
         var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
 
         // Bind mouseup.
@@ -447,11 +450,47 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           }
         });
 
+        // SET TITLE
+        // Create an input field to change the title.
+        var $input_title = $('<input class="ct-story_editable_title" type="text" name="title">');
+
+        // Set the default value, with the current title.
+        $input_title.val(self._oStory.title());
+        $input_title.keypress(function(event) {
+          // on press 'Enter' event.
+          if (event.which == 13) {
+            var sTitle = $input_title.val();
+            self._$title.text(sTitle);
+            $input_title.remove();
+            self._$title.show();
+            self._sTitleAlreadyEditable = false;
+
+            // Set the title in the model.
+            self._oStory.setTitle(sTitle);
+            self.makeItNonEditable();
+            Cotton.CONTROLLER.setStory(self._oStory);
+          }
+        });
+
+        // hide the title and replace it by the input field.
+        self._$title.hide();
+        $input_title.insertAfter(self._$title);
+
         self._$sticker.append($remove_button);
       } else {
-        self._isEditable = false;
-        self._$sticker.find('.ct-stickers_button_remove').remove();
+        self.makeItNonEditable();
       }
+    },
+
+    /**
+     * Make it non editable
+     */
+    makeItNonEditable : function(){
+      var self = this;
+      self._isEditable = false;
+      self._$sticker.find('.ct-story_editable_title').remove();
+      self._$title.show();
+      self._$sticker.find('.ct-stickers_button_remove').remove();
     },
 });
 
