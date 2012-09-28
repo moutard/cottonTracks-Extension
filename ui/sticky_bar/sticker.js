@@ -101,7 +101,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     // CLICK
     $sticker.click(function(e) {
       if($(e.target).is('.ct-stickers_button_editable')
-          || $(e.target).is('.ct-story_editable_title') ){
+          || $(e.target).is('.ct-story_editable_title')
+          || $(e.target).is('.ct-story_editable_image') ){
         // Do not open if we click on the editable.
         e.preventDefault();
         return;
@@ -450,6 +451,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           }
         });
 
+        self._$sticker.append($remove_button);
+
         // SET TITLE
         // Create an input field to change the title.
         var $input_title = $('<input class="ct-story_editable_title" type="text" name="title">');
@@ -476,7 +479,26 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         self._$title.hide();
         $input_title.insertAfter(self._$title);
 
-        self._$sticker.append($remove_button);
+        // SET IMAGE
+        var $icon_image = $('<img class="ct-story_icon_image" src="/media/images/topbar/sticker/images.png">');
+        var $input_image = $('<input class="ct-story_editable_image" type="text" name="image">');
+
+        // Set the default value, with the current title.
+        $input_image.val(self._$img.attr('src') || 'http://');
+        $input_image.keypress(function(event) {
+          // on press 'Enter' event.
+          if (event.which == 13) {
+            var sImageUrl = $input_image.val();
+            self._$img.attr('src', sImageUrl);
+
+            self.makeItNonEditable();
+            self._oStory.setFeaturedImage(sImageUrl);
+            Cotton.CONTROLLER.setStory(self._oStory);
+          }
+        });
+
+        self._$sticker.append($icon_image, $input_image);
+
       } else {
         self.makeItNonEditable();
       }
@@ -489,8 +511,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       var self = this;
       self._isEditable = false;
       self._$sticker.find('.ct-story_editable_title').remove();
-      self._$title.show();
+      self._$sticker.find('.ct-story_editable_image').remove();
+      self._$sticker.find('.ct-story_icon_image').remove();
       self._$sticker.find('.ct-stickers_button_remove').remove();
+      self._$title.show();
     },
 });
 
