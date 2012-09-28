@@ -51,16 +51,16 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     });
     // Unused button
     var dQtipParameters = {
-      content : 'Non available yet',
-      position : {
-        my : 'top left',
-        at : 'bottom center'
+      'content' : 'Non available yet',
+      'position' : {
+        'my' : 'top left',
+        'at' : 'bottom center'
       },
-      show : 'click',
-      hide : 'mouseleave',
-      style : {
-        tip : true,
-        classes : 'ui-tooltip-red'
+      'show' : 'click',
+      'hide' : 'mouseleave',
+      'style' : {
+        'tip' : true,
+        'classes' : 'ui-tooltip-red'
       }
     };
 
