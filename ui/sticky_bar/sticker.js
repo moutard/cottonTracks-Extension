@@ -158,6 +158,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.droppable({
       'drop': function(event, ui){
         // Merge stories.
+        $sticker.qtip('hide');
         ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
       },
       // Add class to the drop container.
