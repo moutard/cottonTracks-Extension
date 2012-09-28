@@ -478,7 +478,6 @@ function removeFolders {
 	rm -rf algo/common
 	rm -rf algo/dbscan2/
 	rm algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
-	rm algo/dbscan1/pre_treatment.js algo/dbscan1/to_test_dbscan.js
 	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js
   rm -rf behavior
 	rm config/init.js
