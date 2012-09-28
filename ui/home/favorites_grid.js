@@ -6,6 +6,7 @@ Cotton.UI.Home.FavoritesGrid = Class
       _$FavoritesGrid : null,
 
       init : function() {
+
         this._$FavoritesGrid = $('<div class="ct-favorites-grid">');
         for ( var iI = 0; iI < 1; iI++) {
           new Cotton.UI.Home.Ticket(this,
@@ -41,7 +42,6 @@ Cotton.UI.Home.FavoritesGrid = Class
         return this._$FavoritesGrid;
       },
 
-      // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
       append : function($ticket) {
         this._$FavoritesGrid.append($ticket);
       },

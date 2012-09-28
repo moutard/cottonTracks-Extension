@@ -20,12 +20,12 @@ Cotton.UI.Home.Homepage = Class.extend({
 
     // Favorites or MostVisited
     if (localStorage['ct-settings_grid'] === "MostVisited") {
-      this._oFavoritesGrid = new Cotton.UI.Home.MostVisitedGrid();
+      this._oFavoritesGrid = new Cotton.UI.Home.MostVisitedGrid(this);
     } else {
-      this._oFavoritesGrid = new Cotton.UI.Home.FavoritesGrid();
+      this._oFavoritesGrid = new Cotton.UI.Home.FavoritesGrid(this);
     }
 
-    this._oAppsGrid = new Cotton.UI.Home.AppsGrid();
+    this._oAppsGrid = new Cotton.UI.Home.AppsGrid(this);
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
         function() {
