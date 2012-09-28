@@ -57,7 +57,6 @@ Cotton.UI.Home.Homepage = Class.extend({
     return this._$homepage;
   },
 
-  // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
   append : function($ticket) {
     this._$homepage.append($ticket);
   },
