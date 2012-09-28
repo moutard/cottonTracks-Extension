@@ -33,21 +33,3 @@ Cotton.Algo.simpleCluster = function(lVisitItems, iNbCluster){
   });
 
 };
-
-/**
- * Given an array of visitItem labeled with a "clusterId", return a list of
- * list (cluster), that contains all visitItems with the same label.
- *
- * @param {Array.
- *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
- *          have been serialized by the worker.)
- * @param {int}
- *          iNbCluster
- * @returns {Array.<Array.<visitItem>>} list of list that contains cluster.
- *
- */
-
-Cotton.Algo.elegantCuster = function(lVisitItems, iNbCluster){
-  // TODO(rmoutard) : reject NOISE and UNCLASSIFIED
-  return _.value(_.groupBy(lVisitItems, function(oItem){return oItem['clusterId'];}));
-};

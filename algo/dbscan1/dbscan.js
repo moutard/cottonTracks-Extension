@@ -12,8 +12,6 @@ Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps, mDistance) {
   // close to oPoint (distance <= Eps)
 
   // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
-  // TODO(rmoutard): maybe use a yield to not store a new array ! NO : we need
-  // to know the number of Eps-Neighboor
   var lEpsNeighborhood = [];
   for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
     if (mDistance(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
