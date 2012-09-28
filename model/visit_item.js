@@ -147,32 +147,9 @@ Cotton.Model.VisitItem = Class
         this._sTitle = window.document.title;
         this._iVisitTime = new Date().getTime();
         this._sReferrerUrl = document.referrer;
-        // TODO(rmoutard) : find a better solution
-        this._sFavicon = $("link[rel*='icon']").attr("href") || "";
-        // This method is called in a content_script, but due to chrome
-        // security
-        // options maybe not work if not called by the extension.
-        /*
-         * chrome.history.getVisits({ 'url' : this._sUrl },
-         * function(lVisitItems) { if(lVisitItems.length > 0){this._sChromeId =
-         * lVisitItem[0].id; } } );
-         */
+
       },
-      concat : function(oNewVisitItem) {
-        // TODO(rmoutard) : check the default value is undefined.
-        if (oNewVisitItem.id() === undefined
-            && oNewVisitItem.url() === this.url()) {
-          // TODO(rmoutard) : depends on how you update historyItem
-          // in the file content_script_listener.
-          this._sTextHighlighter = concat(this._sTextHighlighter,
-              oNewVisitItem.textHighLighter);
-          this.setScrollCount(oNewVisitItem.scrollCount());
-          // TODO(rmoutard) complete the list.
-        } else {
-          console
-              .log("Conflict : Can't update historyItem with two differents id");
-        }
-      },
+
       deserialize : function(dVisitItemSerialized) {
         // Use to restore a visitItem after it has been serialized by a worker.
         this._sId = dVisitItemSerialized._sId || undefined;
