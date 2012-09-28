@@ -103,11 +103,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         // Do not open if we click on the editable.
         e.preventDefault();
         return;
+      } else if($(this).is('.ui-draggable-dragging')) {
+        // Do not open if we click on the editable.
+        return;
       }
       self.openStory();
       // event tracking
       Cotton.ANALYTICS.enterStory();
     });
+
 
     // _REMOVE.
     $sticker.bind({'_remove': function(event){
@@ -123,11 +127,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     // DRAGGABLE
     $sticker.draggable({
-        revert: function (event, ui) {
+        'revert': function (event, ui) {
             // Return to original position if not drop on droppable element.
             $(this).data("draggable").originalPosition = {
-              top : 0,
-              left: self._iCurrentPosition,
+              'top' : 0,
+              'left': self._iCurrentPosition,
             };
             return !event;
         }
@@ -135,17 +139,17 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     // DROPPABLE
     $sticker.droppable({
-      drop: function(event, ui){
+      'drop': function(event, ui){
         // Merge stories.
         ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
       },
       // Add class to the drop container.
-      hoverClass: "drophover",
+      'hoverClass': "drophover",
       // Add class to the drag element.
-      over: function(event, ui){
+      'over': function(event, ui){
         ui.draggable.addClass("can_be_dropped");
       },
-      out: function(event, ui){
+      'out': function(event, ui){
         ui.draggable.removeClass("can_be_dropped");
       },
     });
@@ -353,7 +357,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     self.$().remove();
     self.closeSumUp();
     // if the current story is open in the story line show homepage.
-    if(self._oStory.id() === _oCurrentlyOpenStoryline.story().id()){
+    if(_oCurrentlyOpenStoryline && self._oStory.id() === _oCurrentlyOpenStoryline.story().id()){
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
     }
@@ -371,7 +375,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     // Set position of upper stickers to move forward them to dig the hole.
     _.each(lUpperStickers, function(oSticker){
       oSticker._iPosition-=1;
-      self._iOriginalPosition -=  Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+      oSticker._iOriginalPosition -=  Cotton.UI.StickyBar.HORIZONTAL_SPACING;
       var iLeft = self._iFinalPosition = parseInt(oSticker.$().css('left')) - Cotton.UI.StickyBar.HORIZONTAL_SPACING;
       oSticker.$().css("left", iLeft+"px");
     });
