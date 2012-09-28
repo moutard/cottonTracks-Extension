@@ -137,6 +137,20 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         }
     });
 
+    $sticker.qtip({
+      'content' : 'Drop it to merge both stories',
+      'position' : {
+        'my' : 'top center',
+        'at' : 'bottom center'
+      },
+      'show' : '',
+      'hide' : '',
+      'style' : {
+        'tip' : true,
+        'classes' : 'ui-tooltip-yellow'
+      }
+    });
+
     // DROPPABLE
     $sticker.droppable({
       'drop': function(event, ui){
@@ -148,9 +162,11 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       // Add class to the drag element.
       'over': function(event, ui){
         ui.draggable.addClass("can_be_dropped");
+        $sticker.qtip('show');
       },
       'out': function(event, ui){
         ui.draggable.removeClass("can_be_dropped");
+        $sticker.qtip('hide');
       },
     });
 
