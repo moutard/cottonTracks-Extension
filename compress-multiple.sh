@@ -60,7 +60,7 @@ function generateMultipleMinFile {
     INPUT_LIST="$INPUT_LIST --js $file"
   done
 
-  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js --externs ./lib/html5.externs.js"
+  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js --externs ./lib/html5.externs.js --externs ./lib/jquery.qtip.externs.js --externs ./lib/jquery-ui.externs.js"
   $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE $EXTERNS
   echo "$OUTPUT_MIN_FILE has been generated"
 
@@ -144,15 +144,15 @@ ui_input_files=(  './ui/init.js'
                   './ui/world.js'
                   './ui/curtain.js'
                   './ui/error_handler.js'
-                  './ui/homepage/init.js'
-                  './ui/homepage/homepage.js'
-                  './ui/homepage/favorites_grid.js'
-                  './ui/homepage/most_visited_grid.js'
-                  './ui/homepage/favorites_ticket.js'
-                  './ui/homepage/apps_grid.js'
-                  './ui/homepage/apps_ticket.js'
-                  './ui/homepage/grid.js'
-                  './ui/homepage/ticket.js'
+                  './ui/home/init.js'
+                  './ui/home/homepage.js'
+                  './ui/home/favorites_grid.js'
+                  './ui/home/most_visited_grid.js'
+                  './ui/home/favorites_ticket.js'
+                  './ui/home/apps_grid.js'
+                  './ui/home/apps_ticket.js'
+                  './ui/home/grid.js'
+                  './ui/home/ticket.js'
                   './ui/sticky_bar/init.js'
                   './ui/sticky_bar/commands.js'
                   './ui/sticky_bar/bar.js'
@@ -164,14 +164,17 @@ ui_input_files=(  './ui/init.js'
                   './ui/story/item/item_description.js'
                   './ui/story/item/item_toolbox.js'
                   './ui/story/item/item_dna.js'
+                  './ui/story/item/item_featured_image.js'
+                  './ui/story/item/item_editbox.js'
                   './ui/story/item/content/init.js'
-                  './ui/story/item/content/item_content_factory.js'
+                  './ui/story/item/content/item_content.js'
                   './ui/story/item/content/item_content_default.js'
                   './ui/story/item/content/item_content_image.js'
                   './ui/story/item/content/item_content_map.js'
                   './ui/story/item/content/item_content_search.js'
                   './ui/story/item/content/item_content_slideshow.js'
                   './ui/story/item/content/item_content_video.js'
+                  './ui/story/item/content/item_content_factory.js'
                   './ui/loading.js')
 ui_output_file='ui.js'
 
