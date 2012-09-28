@@ -30,16 +30,6 @@ Cotton.UI.Home.AppsGrid = Class.extend({
           // appList.push(oExtensionInfo);
         }
       }
-      /*
-       * appList .push({ appLaunchUrl :
-       * 'https://chrome.google.com/webstore/category/home', optionsUrl : '',
-       * enabled : true, icons : [ { size : 128, url :
-       * 'chrome://extension-icon/ahfgeienlihckogmohjhadlkjgocpleb/128/1' } ],
-       * id : 'ahfgeienlihckogmohjhadlkjgocpleb', name : 'Chrome Web Store',
-       * mayDisable : false })
-       *
-       * console.log(appList);
-       */
     });
 
   },
@@ -48,7 +38,6 @@ Cotton.UI.Home.AppsGrid = Class.extend({
     return this._$AppsGrid;
   },
 
-  // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
   append : function($appsticket) {
     this._$AppsGrid.append($appsticket);
   },

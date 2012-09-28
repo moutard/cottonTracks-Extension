@@ -23,7 +23,6 @@ Cotton.UI.Home.MostVisitedGrid = Class.extend({
     return this._$MostVisitedGrid;
   },
 
-  // TODO(fwouts): Find a way to avoid having to manipulate DOM elements.
   append : function($ticket) {
     this._$MostVisitedGrid.append($ticket);
   },
