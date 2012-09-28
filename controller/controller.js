@@ -377,6 +377,19 @@ Cotton.Controller = Class.extend({
   },
 
   /**
+   * Set story
+   *
+   * @param {Cotton.Model.Story} oStory
+   */
+
+  setStory : function(oStory){
+    var self = this;
+    self._oStore.put('stories', oStory, function(iId){
+      console.log('controller - story updated');
+    });
+  },
+
+  /**
    * Delete the story with the given story id.
    *
    * @param {int} :
