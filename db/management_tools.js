@@ -6,7 +6,6 @@ Cotton.DB.ManagementTools.dStores = {
     // "pool" : "HISTORY_ITEM_TRANSLATORS",
     "visitItems" : "VISIT_ITEM_TRANSLATORS",
 };
-// maybe add historyItem
 
 Cotton.DB.ManagementTools.clearDB = function(){
   console.log("CLEAR DB");
@@ -100,7 +99,7 @@ Cotton.DB.ManagementTools.addStories = function (lStories) {
           }
         }
       );
-}
+};
 
 Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
    var oStore = new Cotton.DB.Store('ct',
@@ -114,105 +113,4 @@ Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
           }
         }
       );
-
-}
-
-Cotton.DB.ManagementTools.poeut = function(lStories){
-  new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS
-  }, function() {
-    this.putList('stories', lStories, function(lAllId) {
-      console.log("Stories added");
-      console.log(lAllId);
-      Cotton.UI.oWorld.update();
-    });
-  });
-};
-
-Cotton.DB.ManagementTools.addStoriesByChronology = function(lStories) {
-  console.log("Add Stories by chronology");
-  var startTime = new Date().getTime();
-  var elapsedTime = 0;
-  var oStore = new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS
-  }, function() {
-      console.log("store ready");
-      elapsedTime = (new Date().getTime() - startTime) / 1000;
-      console.log("@@Time to create stories store " + elapsedTime + "s");
-      var i;
-      for(i = 0; i < lStories.length; i++){
-        var oStory = lStories[lStories.length - 1 - i];
-        this.put('stories', oStory, function(iId) {
-          console.log("Story added");
-        });
-      }
-      // TODO(rmoutard) : remove that to use putList.
-      setTimeout(function(){
-        console.log('rere');
-        Cotton.UI.oWorld = new Cotton.UI.World();
-        // Cotton.UI.oWorld.update();
-      }, 1000);
-  });
-};
-
-Cotton.DB.ManagementTools.syncDatabaseWithChrome = function(){
-
-  // TODO(rmoutard) : implement and launch each time Cotton is opened ?
-};
-
-Cotton.DB.ManagementTools.test = function(){
-
-  var oStore = new Cotton.DB.Store('ct', {
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-  }, function() {
-    console.log("store ready");
-
-      var oVisitItem = new Cotton.Model.VisitItem();
-      oVisitItem._sId = 188;
-      oVisitItem._sUrl = "http://digitaldraft.fr";
-      oVisitItem._sTitle = "Raphael";
-      oVisitItem._iVisitTime = new Date().getTime();
-      // ._sReferrerUrl = document.referrer;
-      console.log(oVisitItem);
-      oStore.put('visitItems', oVisitItem, function(iId) {
-        console.log(iId);
-      });
-  });
-};
-
-
-Cotton.DB.ManagementTools.test2 = function(){
-
-  var oStore = new Cotton.DB.Store('ct', {
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-  }, function() {
-    console.log("store ready");
-      oStore.getLastEntry('visitItems', function(oVisitItem){
-        oVisitItem._sTitle = "poeueuet";
-        oStore.put('visitItems', oVisitItem, function(iId) {
-          console.log(iId);
-        });
-      });
-
-  });
-};
-
-
-Cotton.DB.ManagementTools.test3 = function(){
-  var u;
-  var oStore = new Cotton.DB.Store('ct', {
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-  }, function() {
-    console.log("store ready");
-      oStore.getLastEntry('visitItems', function(oVisitItem){
-        oVisitItem._sId = 187;
-        oVisitItem._sTitle = "encore";
-        oVisitItem._oExtractedDNA._fPageScore = 2;
-        oStore.put('visitItems', oVisitItem, function(iId) {
-          console.log(iId);
-        });
-      });
-
-  });
-
 };
