@@ -22,15 +22,16 @@ Cotton.UI.Story.Storyline = Class
 
       /**
        * A jQuery DOM object representing the vertical line joining all items.
-       * 
+       *
        * @param {Cotton.Model.Story}
        *          oStory
        */
-      init : function(oStory) {
+      init : function(oStory, bForceReload) {
         var self = this;
 
         if (!_oCurrentlyOpenStoryline
-            || _oCurrentlyOpenStoryline._oCurrentStory.id() !== oStory.id()) {
+            || _oCurrentlyOpenStoryline._oCurrentStory.id() !== oStory.id()
+            || bForceReload) {
 
           self._oCurrentStory = oStory;
           Cotton.UI.Story.Storyline.removeAnyOpenStoryline();

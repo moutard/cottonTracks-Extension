@@ -355,7 +355,7 @@ Cotton.Controller = Class.extend({
     // get the two stories.
     self._oStore.find('stories', 'id', iMainStoryId, function(oMainStory){
       self._oStore.find('stories', 'id', iSubStoryId, function(oSubStory){
-
+        var lVisitItemsIdToAdd = oSubStory.visitItemsId();
         // Add each visitItem in the oMainStory.
         for(var i=0; i < oSubStory.visitItemsId().length; i++){
           var iId = oSubStory.visitItemsId()[i];
@@ -368,7 +368,7 @@ Cotton.Controller = Class.extend({
           // Remove the sub story.
           self._oStore.delete('stories', iSubStoryId, function(){
             console.log("controller - stories merged");
-            mCallBackFunction();
+            mCallBackFunction(lVisitItemsIdToAdd);
           });
         });
 

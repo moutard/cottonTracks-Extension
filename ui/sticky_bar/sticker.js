@@ -59,7 +59,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     this._iPosition = iPosition;
     this._oStory = oStory;
 
-    this.getVisits();
+    this.getVisits(function(){});
   },
 
   /**
@@ -79,6 +79,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var self = this;
 
     var $sticker = self._$sticker = $('<div class="ct-stickyBar_sticker">');
+    $sticker.attr('ct-story_id', self._oStory.id());
 
     // HOVER
     $sticker.hover(function() {
@@ -159,7 +160,8 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       'drop': function(event, ui){
         // Merge stories.
         $sticker.qtip('hide');
-        ui.draggable.trigger('_merge', [ui, self._oStory.id()]);
+        self._merge(parseInt(ui.draggable.attr('ct-story_id')));
+        ui.draggable.trigger('_remove');
       },
       // Add class to the drop container.
       'hoverClass': "drophover",
@@ -284,9 +286,9 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    * @param {Array.
    *          <Cotton.Model.VisitItem>} lVisitItems
    */
-  drawStory : function(lVisitItems){
+  drawStory : function(lVisitItems, bForceReload){
     var self = this;
-    var oStoryline = new Cotton.UI.Story.Storyline(self._oStory);
+    var oStoryline = new Cotton.UI.Story.Storyline(self._oStory, bForceReload);
     self._oBar.close();
   },
 
@@ -296,7 +298,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    *
    * Bind on event : "click"
    */
-  openStory : function() {
+  openStory : function(bForceReload) {
     var self = this;
 
     this.closeSumUp();
@@ -320,7 +322,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       console.debug("ct - visitItems corresponding to the clicked story");
       console.debug(self._oStory.visitItems());
 
-      self.drawStory(self._oStory.visitItems());
+      self.drawStory(self._oStory.visitItems(), bForceReload);
     }
   },
 
@@ -354,13 +356,14 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    * Make a db request to get corresponding visitItems.
    * Called when the sticker is initialized.
    */
-  getVisits : function(){
+  getVisits : function(mCallBackFunction){
     var self = this;
     var oStore = new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       oStore.findGroup('visitItems', 'id', self._oStory.visitItemsId(), function(lVisitItems) {
         self._oStory.setVisitItems(lVisitItems);
+        mCallBackFunction();
       });
     });
   },
@@ -408,13 +411,20 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
    * Bind on event : "_merge"
    *
    * @param {int}
-   *          iSubStoryId : id of the story to merge with the self one.
+   *          iMainStoryId : id of the story to merge with the self one.
    */
-  _merge : function(ui, iSubStoryId){
+  _merge : function(iSubStoryId){
     var self = this;
     var iMainStoryId = self._oStory.id();
-    Cotton.CONTROLLER.mergeStoryInOtherStory(iMainStoryId, iSubStoryId, function(){
-      ui.draggable.trigger("_remove");
+    Cotton.CONTROLLER.mergeStoryInOtherStory(iMainStoryId, iSubStoryId,
+        function(lVisitItemsIdToAdd){
+          for(var i = 0; i < lVisitItemsIdToAdd.length; i++){
+            self._oStory.addVisitItemId(lVisitItemsIdToAdd[i]);
+          }
+          // reload the visits.
+          self.getVisits(function(){
+            self.openStory(true);
+          });
     });
 
   },
