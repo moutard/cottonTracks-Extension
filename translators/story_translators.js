@@ -52,7 +52,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
    * fRelevance: { unique: false } };
    */
   var dIndexes = {
-    // TODO(fwouts) : id should be index automatically !
+    // optional id is indexed automatically.
     'id' : {
       'unique' : true
     },
