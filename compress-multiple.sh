@@ -1,19 +1,31 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-SOURCE_PATH='/usr/local/rmoutard/sz/'
+#GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+#SOURCE_PATH='/usr/local/rmoutard/sz/'
+#SOURCE_NAME='SubZoom-Proto1'
+#DESTINATION_PATH='/usr/local/rmoutard/'
+#TAR_NAME='cottontracks-beta'
+#VERSION='0.1'
+
+# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
+GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+SOURCE_PATH='/Users/rmoutard/src/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/usr/local/rmoutard/'
+DESTINATION_PATH='/Users/rmoutard/Downloads/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
+
 
 
 # -- PRETREATMENT -------------------------------------------------------------
 
 echo '-------- Start Pretreatment --------'
 rm -rf $DESTINATION_PATH$TAR_NAME$VERSION
+echo 'delete'
 rm -rf "$DESTINATION_PATH$TAR_NAME$VERSION.pem"
+echo 'delete'
+
 # Copy the folder to avoid bad surprise
 cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
 #mv $DESTINATION_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
@@ -151,7 +163,6 @@ ui_input_files=(  './ui/init.js'
                   './ui/home/favorites_ticket.js'
                   './ui/home/apps_grid.js'
                   './ui/home/apps_ticket.js'
-                  './ui/home/grid.js'
                   './ui/home/ticket.js'
                   './ui/sticky_bar/init.js'
                   './ui/sticky_bar/commands.js'
@@ -416,7 +427,7 @@ worker_dbscan3_missing_files=( './algo/init.js'
 
 declare -a worker_dbscan3_includes_files
 worker_dbscan3_includes_files=( ${cotton_input_files[@]}
-										            ${config_input_files[@]}
+								${config_input_files[@]}
                                 ${worker_dbscan3_missing_files[@]}
                               )
 
