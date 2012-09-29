@@ -70,7 +70,6 @@ Cotton.UI.Curtain = Class.extend({
     var iTemp = fromPercentage;
     for ( var i = fromPercentage; i <= toPercentage; i++) {
       setTimeout(function() {
-        console.log(iTemp);
         $('.percentage').text(iTemp + '%');
         iTemp += 1;
       }, (i - fromPercentage) * 50);
