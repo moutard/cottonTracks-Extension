@@ -2,7 +2,7 @@
 
 /**
  * PopulateDB
- * 
+ *
  * A group of method used during the installation to populate visitItem DB from
  * chrome history visitItem database.
  */
@@ -11,28 +11,23 @@ Cotton.DB.Populate = {};
 
 /**
  * PreRemoveTools
- * 
+ *
  * @param: list of serialized visitItems. (see chrome api for more informations)
  *         remove visitItems that are https, or that are tools.
  */
 Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
   console.debug('New PreRemoveTools - Start');
 
-  var oToolsContainer = new Cotton.Utils.ToolsContainer();
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
   return _.reject(lVisitItems, function(dVisitItem) {
-    var oUrl = new parseUrl(dVisitItem['url']);
-    var sHostname = oUrl.hostname;
-    var sProtocol = oUrl.protocol;
-    return (oExcludeContainer.isExcluded(dVisitItem['url']) || oToolsContainer
-        .isTool(sHostname));
+    return (oExcludeContainer.isExcluded(dVisitItem['url']));
   });
 };
 
 /**
  * Populate the database using the chrome history database
- * 
+ *
  * @param :
  *          mCallBackFunction
  */
@@ -90,7 +85,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
 
 /**
  * Populate visitItems with a given store. (faster than the previous)
- * 
+ *
  * @param :
  *          oStore
  * @param :
@@ -141,7 +136,7 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
 /**
  * Populate visitItems with a given store, without using chrome history, but
  * given data.
- * 
+ *
  * @param :
  *          oStore
  * @param :

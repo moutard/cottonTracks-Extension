@@ -70,16 +70,14 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       // Other processing following this.
 
       // TODO(rmoutard) : use DB system, or a singleton.
-      var oToolsContainer = new Cotton.Utils.ToolsContainer();
       var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
-      var sHostname = new parseUrl(oVisitItem.url()).hostname;
       var sPutId = ""; // put return the auto-incremented id in the database.
 
       // Put the visitItem only if it's not a Tool, and it's not in the exluded
       // urls.
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oToolsContainer.isTool(sHostname) && !oExcludeContainer.isExcluded(oVisitItem.url())) {
+      if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
         var oStore = new Cotton.DB.Store('ct', {
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
