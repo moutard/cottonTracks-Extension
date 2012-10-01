@@ -40,7 +40,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    */
   isExcludedUrl : function(sUrl){
     var self = this;
-    return _.indexOf(self._lExludeUrls, sHostname) !== -1;
+    return _.indexOf(self._lExludeUrls, sUrl) !== -1;
   },
 
   /**
@@ -50,12 +50,13 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    * @return {boolean}
    */
   isExcludedPattern : function(sUrl){
+    var self = this;
     for ( var i = 0, sPattern; sPattern = self._lExludePatterns[i]; i++) {
       var oRegExp = new RegExp(sPattern, "g");
       if (oRegExp.test(sUrl)) {
         return true;
+      }
     }
-
     return false;
   },
 
@@ -76,4 +77,6 @@ Cotton.Utils.ExcludeContainer = Class.extend({
 
     return self.isHttps(oUrl) || self.isExcludedPattern(sUrl) ||
       self.isExcludedUrl(sUrl) || self.isTool(oUrl.hostname);
+  },
+
 });
