@@ -10,195 +10,23 @@
 @quoteHorizontalPadding: 20px;
 @quoteVerticalPadding: 20px;
 
-@storyLineColor: #d2ac28;
+@storyLineColor: #b3b3b3;
 @storyLineWidth: 50px;
 @storyDotLineWidth : 5px;
 @storyLineDotRadius: 10px;
 
 @storyItemLinkWidth: 100px;
 @columnWidth : 400px;
-/*
-body {
-  background: url('/media/images/story/paper_background.png');
-}
-*/
-
-.ct-story_item {
-  width: @storyItemWidth;
-
-  //border: 1px solid #b3b3b3;
-  //-webkit-box-shadow: 0px 10px 10px -8px #CCC ;
-
-  position: relative;
-  margin: 40px 0 10px 0;
-  z-index: 1;
-
-  //-webkit-transition-duration: 1s;
-
-  > .ct-storyItemLink {
-    position: absolute;
-
-    top: 18px;
-
-    > .ct-storyItemLinkLine {
-      position: absolute;
-      border: 2px solid @storyLineColor;
-      width: @storyItemLinkWidth;
-
-      > .ct-storyItemLinkDot {
-        position: absolute;
-        border-radius: @storyLineDotRadius;
-        border: @storyLineDotRadius solid @storyLineColor;
-        margin-top: -@storyLineDotRadius;
-      }
-    }
-  }
-
-  &.ct-storyItem_left {
-    //margin-left: -@storyItemWidth - @storyItemLinkWidth;
-
-    > .ct-storyItemLink {
-      right: 0;
-
-      > .ct-storyItemLinkLine {
-
-        > .ct-storyItemLinkDot {
-          right: -@storyLineDotRadius;
-        }
-      }
-    }
-  }
-
-  &.ct-storyItem_right {
-    //margin-left: @storyItemLinkWidth;
-    margin-top: 60px;
-    > .ct-storyItemLink {
-      left: 0;
-      margin-left: -@storyItemLinkWidth;
-
-      > .ct-storyItemLinkLine {
-
-        > .ct-storyItemLinkDot {
-          left: -@storyLineDotRadius;
-        }
-      }
-    }
-  }
-
-  > .ct-storyContent {
-    background: #F8F8F8;
-    position: relative;
-    font-family: @helvetica;
-    color: #595959;
-    padding: 10px;
-    font-size: 14px;
-
-    // Used to close the div after the floating ct-storyFeaturedImage.
-    overflow: hidden;
-
-    &:before {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      left: -1px; // Because of the border.
-      bottom: -@storyItemBottomHeight;
-      width: @storyItemWidth;
-      height: @storyItemBottomHeight;
-      background: url('/media/images/story/element_bottom.png');
-    }
-
-    > .ct-storyDelete {
-      width: 35px;
-      height: 34px;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: url('/media/images/story/delete_left.png');
-      cursor: pointer;
-    }
-
-    > .ct-storyGrab {
-      content: '';
-      position: absolute;
-      right: 0;
-      top: 50%;
-      margin-top: -(@storyItemGrabHeight / 2);
-      width: @storyItemGrabWidth;
-      height: @storyItemGrabHeight;
-      background: url('/media/images/story/pic_grab.png');
-      cursor: pointer;
-    }
-
-    > .ct-storyFeaturedImage {
-      display: block;
-      float: left;
-      margin-right: 10px;
-      max-width: 130px;
-    }
-
-    > .ct-storyMainImage {
-      display: block;
-      float: left;
-      width: 380px;
-    }
-
-    > h3 {
-      > a {
-        text-decoration : none;
-        color: #333333;
-        &:visited {
-          color: #333333;
-        }
-      }
-
-    }
-
-    > .ct-legend {
-      font-size: 0.8em;
-      color: #595959;
-    }
-  }
-
-  > .ct-quote {
-    width: (@quoteWidth - 2 * @quoteHorizontalPadding);
-    margin-left: (@storyItemWidth - @quoteWidth) / 2;
-    margin-top: -25px;
-    background: url('/media/images/story/quote_paper.png');
-    position: relative;
-    // TODO(fwouts): Find other fallback fonts.
-    font-family: 'Times New Roman';
-    padding: @quoteVerticalPadding @quoteHorizontalPadding;
-
-    &:before {
-      content: '';
-      height: 16px;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      background: url('/media/images/story/quote_bottom.png');
-    }
-  }
-
-  > .ct-item_bottom {
-    position: relative;
-    margin-top: -1px;
-    //bottom: 20px;
-    height: 25px;
-    width: 400px;
-    background: url('/media/images/story/element_bottom.png');
-    z-index:1;
-
-  }
-}
 
 .ct-story_line {
-  border-right: @storyLineWidth dashed #999;
+  //border-right: @storyLineWidth dashed #999;
+  background: url('/media/images/story/path/path_line.png') repeat-y;
   position: absolute;
   height: 100%;
   left: 50%;
   margin-left: -@storyLineWidth / 2;
   z-index: 1;
+  width: 38px;
 }
 
 .ct-story_column_left {
@@ -221,11 +49,13 @@ body {
 }
 
 .ct-mystory_line {
-  border-right: @storyDotLineWidth dashed #999;
+  //border-right: @storyDotLineWidth dashed #999;
+  //border-right: @storyLineWidth dashed #999;
+  background: url('/media/images/story/path/path_line.png') repeat-y;
   position: absolute;
   top: 0px;
   left: 500px - (@storyLineWidth/2);
-  width : @storyDotLineWidth;
+  width : 38px;
   height: 100%;
   margin-left: @storyLineWidth / 2 - @storyDotLineWidth;
   margin-right: @storyLineWidth / 2 - @storyDotLineWidth;
