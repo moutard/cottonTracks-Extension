@@ -14,6 +14,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   _$sumUp : null,
   _iTranslateX : 0,
   _bLoading : false,
+  _iScrollCount : 0,
 
   /**
    * @constructor
@@ -149,6 +150,17 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       if (bScrolled == false) {
         bScrolled = true;
         Cotton.ANALYTICS.scrollStorySelector();
+      }
+    });
+
+    $(window).bind('mousewheel', function(oEvent) {
+      if (oEvent['originalEvent']['wheelDeltaX'] === 0) {
+        self._iScrollCount = Math.min(0,
+          self._iScrollCount + oEvent['originalEvent']['wheelDeltaY']);
+        console.log(self._iScrollCount);
+        if(self._iScrollCount === 0){
+          self.openClose();
+        }
       }
     });
 
