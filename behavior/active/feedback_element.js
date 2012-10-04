@@ -103,5 +103,12 @@ Cotton.Behavior.Active.FeedbackElement = Class.extend({
     }
   },
 
+  stop : function(){
+    this._$feedback_percentage.css("color", "red");
+  },
+
+  start : function(){
+    this._$feedback_percentage.css("color", "black");
+  },
 });
 
