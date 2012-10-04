@@ -203,3 +203,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   }
 
 });
+
+chrome.runtime.onInstalled.addListener(function() {
+  console.log("on installed");
+});
