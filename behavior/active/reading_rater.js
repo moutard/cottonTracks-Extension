@@ -33,7 +33,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   _oTimeoutSession : null,
 
-    /**
+  /**
    * @constructor
    */
   init : function() {
@@ -45,7 +45,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
-      if(self._bDocumentActive === false){
+      if (self._bDocumentActive === false) {
         self.restart();
       }
       self._bDocumentActive = true;
@@ -76,7 +76,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Start when the document is ready. Start parser and reading rater. Refresh
-   * parser and reading rater every 5 seconds.
+   * reading rater every 5 seconds. To improve performance no need to refresh
+   * parser.
    */
   start : function() {
     var self = this;
@@ -107,7 +108,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // Launch almost immediately (but try to avoid freezing the page).
     setTimeout(mRefreshParsing, 0);
 
-    // TODO(rmoutard) : don't understand
+    // Livequery is a plugin jQuery.
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -138,10 +139,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   },
 
-  restart : function(){
+  restart : function() {
+    var self = this;
     self._bDocumentActive = true;
 
-    // TODO(rmoutard) : don't understand
+    self._oFeedbackElement.start();
+
+    // livequery is a jQuery plugin.
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -171,16 +175,18 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     self._oTimeoutSession = setTimeout(mRefreshReadingRate, 500);
   },
 
-  stop : function(){
+  stop : function() {
+    var self = this;
     self._bDocumentActive = false;
     clearTimeout(self._oTimeoutSession);
+    self._oFeedbackElement.stop();
   },
 
-  readingRate : function(){
+  readingRate : function() {
     return this._iReadingRate;
   },
 
-  parser : function(){
+  parser : function() {
     return this._oParser;
   },
   /**
