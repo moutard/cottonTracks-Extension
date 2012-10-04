@@ -24,9 +24,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _oParser : null,
 
   /**
-   *
+   * {Cotton.Behavior.Active.FeedbackElement}
    */
   _oFeedbackElement : null,
+
+  /**
+   * Current session of the timeout. Clear it to stop parser.
+   */
+  _oTimeoutSession : null,
 
     /**
    * @constructor
@@ -40,23 +45,29 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
+      if(self._bDocumentActive === false){
+        self.restart();
+      }
       self._bDocumentActive = true;
 
       clearTimeout(oTimeout);
       oTimeout = setTimeout(function() {
         self._bDocumentActive = false;
+        self.stop();
       }, 10000);
     });
 
     // Detect if the user is focused on the current window.
     $(window).blur(function() {
-      console.log("blur");
       self._bDocumentActive = false;
+      self.stop();
     });
     $(window).focus(function() {
-      console.log("focus");
       self._bDocumentActive = true;
+      self.restart();
     });
+
+    this._initializeHighlightListener();
 
     // Create the parser but don't start it.
     this._oParser = new Cotton.Behavior.Passive.Parser();
@@ -90,7 +101,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
 
       // Refresh every 5 seconds.
-      setTimeout(mRefreshParsing, 5000);
+      // setTimeout(mRefreshParsing, 5000);
     };
 
     // Launch almost immediately (but try to avoid freezing the page).
@@ -119,13 +130,50 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
 
       // Refresh after a little while.
-      setTimeout(mRefreshReadingRate,
+      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
           Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
     };
 
-    mRefreshReadingRate();
+    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 0);
 
-    this._initializeHighlightListener();
+  },
+
+  restart : function(){
+    self._bDocumentActive = true;
+
+    // TODO(rmoutard) : don't understand
+    $('[data-meaningful]').livequery(function() {
+      var $block = $(this);
+      var oScore = $block.data('score');
+      if (!oScore) {
+        oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
+        $block.data('score', oScore);
+      }
+    });
+
+    var mRefreshReadingRate = function() {
+      // Do not increase scores if the document is inactive.
+      if (self._bDocumentActive) {
+        var fPageScore = self._computePageScore();
+        var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
+        self._oFeedbackElement.setPercentage(iPercent + '%');
+
+        sync.current().extractedDNA().setPageScore(fPageScore);
+        sync.current().extractedDNA().setPercent(iPercent);
+        sync.updateVisit();
+      }
+
+      // Refresh after a little while.
+      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
+          Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+    };
+
+    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 500);
+  },
+
+  stop : function(){
+    self._bDocumentActive = false;
+    clearTimeout(self._oTimeoutSession);
   },
 
   readingRate : function(){
