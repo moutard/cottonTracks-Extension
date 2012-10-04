@@ -402,7 +402,7 @@ Cotton.Behavior.Passive.Parser = Class.extend({
     // iScore = iSurface;
 
     /** Data-meaningful */
-    Cotton.Utils.log($img.attr("data-meaningful"));
+    console.log($img.attr("data-meaningful"));
     if ($img.attr("data-meaningful") === "true") {
       iScore = iScore + 5000;
     }
