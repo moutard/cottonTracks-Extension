@@ -24,11 +24,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _oParser : null,
 
   /**
-   *
+   * {Cotton.Behavior.Active.FeedbackElement}
    */
   _oFeedbackElement : null,
 
-    /**
+  /**
+   * Current session of the timeout. Clear it to stop parser.
+   */
+  _oTimeoutSession : null,
+
+  /**
    * @constructor
    */
   init : function() {
@@ -40,23 +45,29 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = true;
     var oTimeout = null;
     $(document).mousemove(function() {
+      if (self._bDocumentActive === false) {
+        self.restart();
+      }
       self._bDocumentActive = true;
 
       clearTimeout(oTimeout);
       oTimeout = setTimeout(function() {
         self._bDocumentActive = false;
+        self.stop();
       }, 10000);
     });
 
     // Detect if the user is focused on the current window.
     $(window).blur(function() {
-      console.log("blur");
       self._bDocumentActive = false;
+      self.stop();
     });
     $(window).focus(function() {
-      console.log("focus");
       self._bDocumentActive = true;
+      self.restart();
     });
+
+    this._initializeHighlightListener();
 
     // Create the parser but don't start it.
     this._oParser = new Cotton.Behavior.Passive.Parser();
@@ -65,7 +76,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Start when the document is ready. Start parser and reading rater. Refresh
-   * parser and reading rater every 5 seconds.
+   * reading rater every 5 seconds. To improve performance no need to refresh
+   * parser.
    */
   start : function() {
     var self = this;
@@ -90,13 +102,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
 
       // Refresh every 5 seconds.
-      setTimeout(mRefreshParsing, 5000);
+      // setTimeout(mRefreshParsing, 5000);
     };
 
     // Launch almost immediately (but try to avoid freezing the page).
     setTimeout(mRefreshParsing, 0);
 
-    // TODO(rmoutard) : don't understand
+    // Livequery is a plugin jQuery.
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -119,20 +131,62 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
 
       // Refresh after a little while.
-      setTimeout(mRefreshReadingRate,
+      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
           Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
     };
 
-    mRefreshReadingRate();
+    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 0);
 
-    this._initializeHighlightListener();
   },
 
-  readingRate : function(){
+  restart : function() {
+    var self = this;
+    self._bDocumentActive = true;
+
+    self._oFeedbackElement.start();
+
+    // livequery is a jQuery plugin.
+    $('[data-meaningful]').livequery(function() {
+      var $block = $(this);
+      var oScore = $block.data('score');
+      if (!oScore) {
+        oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
+        $block.data('score', oScore);
+      }
+    });
+
+    var mRefreshReadingRate = function() {
+      // Do not increase scores if the document is inactive.
+      if (self._bDocumentActive) {
+        var fPageScore = self._computePageScore();
+        var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
+        self._oFeedbackElement.setPercentage(iPercent + '%');
+
+        sync.current().extractedDNA().setPageScore(fPageScore);
+        sync.current().extractedDNA().setPercent(iPercent);
+        sync.updateVisit();
+      }
+
+      // Refresh after a little while.
+      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
+          Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+    };
+
+    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 500);
+  },
+
+  stop : function() {
+    var self = this;
+    self._bDocumentActive = false;
+    clearTimeout(self._oTimeoutSession);
+    self._oFeedbackElement.stop();
+  },
+
+  readingRate : function() {
     return this._iReadingRate;
   },
 
-  parser : function(){
+  parser : function() {
     return this._oParser;
   },
   /**
