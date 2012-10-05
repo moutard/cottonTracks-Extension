@@ -154,7 +154,7 @@
     }
 
     > .ct-featured_image {
-      float: left;
+      //float: left;
       margin: 0px;
       width: 400px;
 
@@ -162,8 +162,19 @@
         width: 400px;
       }
 
+       > .ct-item_icon_image {
+        position : absolute;
+        top : 5px;
+        left: 5px;
+        width: 16px;
+        height: 16px;
+
+        z-index : 1;
+      }
+
       > .ct-editable_image {
-        width: 380px;
+        width: 370px;
+        margin-left: 28px;
         font-size: 18px;
         text-align: center;
         boder: none;
@@ -227,6 +238,18 @@
 
       > .ct-lock_button {
         .ct-item_button;
+      }
+
+      > .ct-item_button_remove {
+        position: relative;
+        bottom: 8px;
+        left: -8px;
+        z-index : 1;
+        width: 30px;
+        height: 22px;
+        background: url(/media/images/topbar/sticker/delete.png) no-repeat center bottom;
+        cursor : pointer;
+
       }
     }
 

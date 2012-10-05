@@ -48,20 +48,22 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         var self = this;
         if(!self._sImageAlreadyEditable){
           self._sImageAlreadyEditable = true;
+          self._$icon_image = $('<img src="/media/images/story/item/images.png" class="ct-item_icon_image"></div>');
           // Create an input field to change the title.
-          var $input_image = $('<input class="ct-editable_image" type="text" name="image">');
+          self._$input_image = $('<input class="ct-editable_image" type="text" name="image">');
 
           // Set the default value, with the current title.
-          $input_image.val(self._$img.attr('src') || 'http://');
-          $input_image.keypress(function(event) {
+          self._$input_image.val(self._$img.attr('src') || 'http://');
+          self._$input_image.keypress(function(event) {
             // on press 'Enter' event.
             if (event.which == 13) {
               if(!self._sImageUrl){
                 self._$featured_image.append(self._$img);
               }
-              self._sImageUrl = $input_image.val();
+              self._sImageUrl = self._$input_image.val();
               self._$img.attr('src', self._sImageUrl);
-              $input_image.remove();
+              self._$icon_image.remove();
+              self._$input_image.remove();
               //self._$title.show();
               self._sImageAlreadyEditable = false;
 
@@ -73,8 +75,15 @@ Cotton.UI.Story.Item.FeaturedImage = Class
 
           // hide the title and replace it by the input field.
           //self._$title.hide();
-          self._$featured_image.append($input_image);
+          self._$featured_image.append(self._$icon_image, self._$input_image);
         }
+      },
+
+      stopEditImage :function(){
+        var self = this;
+        self._$icon_image.remove();
+        self._$input_image.remove();
+        self._sImageAlreadyEditable = false;
       },
 
 });
