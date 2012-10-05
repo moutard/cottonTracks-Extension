@@ -17,7 +17,6 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
   _$url : null,
   _$edit_button : null,
   _$lock_button : null,
-  _oItemEditbox : null,
   _$removeButton : null,
 
   init : function(oContentItem) {
@@ -35,7 +34,6 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$url = $('<div class="ct-item_url"></div>');
     this._$edit_button = $('<div class="ct-edit_button"></div>');
     this._$lock_button = $('<div class="ct-lock_button"></div>');
-    this._oItemEditbox = new Cotton.UI.Story.Item.Editbox(self);
 
     // set the value
 
@@ -59,7 +57,6 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$edit_button
         .append('<img src="/media/images/story/item/settings_favicon.png">');
     this._$edit_button.mouseup(function() {
-      //self._oItemEditbox.openClose();
       self._oContentItem.editable();
     });
     // Qtip library is used to display an help bubble on hover.
@@ -87,7 +84,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
 
     // create the item
     this._$item_toolbox.append(this._$date, this._$favicon_button,
-        this._$edit_button, this._$lock_button, this._oItemEditbox.$());
+        this._$edit_button, this._$lock_button);
   },
 
   $ : function() {
