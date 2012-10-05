@@ -21,6 +21,7 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
   _oItemToolbox : null,
   _oItemDescription : null,
   _oItemDna : null,
+  _bIsEditable : false,
 
   init : function(oItem) {
     // current parent element.
@@ -50,5 +51,20 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     this._oItem.$().append(this._$item_content);
   },
 
+  editable : function(){
+    var self = this;
+    if(self._bIsEditable === false){
+      self._bIsEditable = true;
+      self._oItemDescription.editTitle();
+      self._oItemFeaturedImage.editImage();
+      self._oItemToolbox.addRemoveButton();
+    } else {
+      self._bIsEditable = false;
+      self._oItemDescription.editTitle(true);
+      self._oItemFeaturedImage.stopEditImage();
+      self._oItemToolbox.removeRemoveButton();
+    }
+
+  },
 });
 

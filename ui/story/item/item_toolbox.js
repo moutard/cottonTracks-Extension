@@ -18,6 +18,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
   _$edit_button : null,
   _$lock_button : null,
   _oItemEditbox : null,
+  _$removeButton : null,
 
   init : function(oContentItem) {
     var self = this;
@@ -58,7 +59,8 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$edit_button
         .append('<img src="/media/images/story/item/settings_favicon.png">');
     this._$edit_button.mouseup(function() {
-      self._oItemEditbox.openClose();
+      //self._oItemEditbox.openClose();
+      self._oContentItem.editable();
     });
     // Qtip library is used to display an help bubble on hover.
     this._$edit_button.qtip({
@@ -100,4 +102,27 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     oItem.$().append(this._$item_toolbox);
   },
 
+  addRemoveButton : function(){
+    var self = this;
+    if(!self._$removeButton){
+      self._$removeButton = $('<div class="ct-item_button_remove"></div>');
+      self._$removeButton.mouseup(function(){
+        // Send message to the controller.
+        var iVisitItem = self._oContentItem.item().visitItem()
+              .id();
+        Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
+
+        // Update the view.
+        self._oContentItem.item().$().remove();
+      });
+
+      self._$item_toolbox.append(self._$removeButton);
+    }
+  },
+
+  removeRemoveButton : function(){
+    var self = this;
+    self._$removeButton.remove();
+    self._$removeButton = null;
+  },
 });
