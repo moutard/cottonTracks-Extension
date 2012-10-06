@@ -33,18 +33,18 @@ Cotton.UI.Story.Item.Editbox = Class
         this._$remove_button = $('<div class="ct-text_button ct-remove_button">Remove Item</div>');
 
         // Set Title
-        this._$set_title_button.click(function() {
+        this._$set_title_button.mouseup(function() {
           self._oItemToolbox._oContentItem._oItemDescription.editTitle();
           self.openClose();
         });
 
         // Set Image
-        this._$set_image_button.click(function() {
+        this._$set_image_button.mouseup(function() {
           self._oItemToolbox._oContentItem._oItemFeaturedImage.editImage();
           self.openClose();
         });
 
-        this._$remove_button.click(function() {
+        this._$remove_button.mouseup(function() {
           // Send message to the controller.
           var iVisitItem = self.itemToolbox().contentItem().item().visitItem()
               .id();
