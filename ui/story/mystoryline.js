@@ -37,7 +37,7 @@ Cotton.UI.Story.Storyline = Class
           Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
 
           this._$story_homepage = $('<div id="ct-story_homepage" class="clearfix"></div>');
-          this._$story_line = $('<div class="ct-mystory_line"></div>');
+          this._$story_line = $('<div class="ct-mystory_line"><div class="ct-path_end"></div></div>');
           this._$story_column_left = $('<div class="ct-story_column_left"></div>');
           this._$story_column_right = $('<div class="ct-story_column_right"></div>');
 
