@@ -16,6 +16,8 @@
 @storyLineDotRadius: 10px;
 
 @storyItemLinkWidth: 100px;
+//@storyItemNodeWidth: 38px;
+@storyItemNodeWidth: 17px;
 @columnWidth : 400px;
 
 // CLEARFIX
@@ -55,22 +57,34 @@
 
   > .ct-storyItemLink {
     position: absolute;
-
+    z-index: 2;
     top: 18px;
 
     > .ct-storyItemLinkLine {
       position: absolute;
       border: 2px solid @storyLineColor;
       width: @storyItemLinkWidth;
+      z-index: 2;
 
       > .ct-storyItemLinkDot {
+        width: 19px;
+        height: 19px;
         position: absolute;
-        border-radius: @storyLineDotRadius;
-        border: @storyLineDotRadius solid @storyLineColor;
         margin-top: -@storyLineDotRadius;
-        background: url('/media/images/story/path/path_node.png');
+        background: url('/media/images/story/path/path_node_point_center.png');
+        z-index: 2;
       }
+      
     }
+    
+     > .ct-storyItemLinkDotOnLine {
+        width: 38px;
+        height: 42px;
+        position: absolute;
+        margin-top: -20px;
+        background: url('/media/images/story/path/path_node.png');
+        z-index: 1;
+      }
   }
 
   &.ct-storyItem_left {
@@ -84,6 +98,12 @@
         > .ct-storyItemLinkDot {
           right: -@storyLineDotRadius;
         }
+        
+      }
+      
+      > .ct-storyItemLinkDotOnLine {
+          left: @storyItemLinkWidth - @storyItemNodeWidth;
+
       }
     }
   }
@@ -101,6 +121,10 @@
           left: -@storyLineDotRadius;
         }
       }
+      
+      > .ct-storyItemLinkDotOnLine {
+          left: -@storyItemNodeWidth;
+      }
     }
   }
 
@@ -117,7 +141,7 @@
     font-family: @helvetica;
     color: #595959;
     font-size: 14px;
-
+    z-index: 5;
     // Used to close the div after the floating ct-storyFeaturedImage.
     //overflow: hidden;
 

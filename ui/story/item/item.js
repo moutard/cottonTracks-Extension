@@ -29,8 +29,8 @@ Cotton.UI.Story.Item.Element = Class
         // create item
         this._$item.append(
             this._$storyLink.append(
-              $('<div class="ct-storyItemLinkLine"></div>').append(
-              $('<div class="ct-storyItemLinkDot"></div>'))
+              $('<div class="ct-storyItemLinkLine"></div><div class="ct-storyItemLinkDotOnLine"></div>').append(
+              $(''))
             ),
             this._oItemContent.$()
         );
