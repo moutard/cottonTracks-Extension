@@ -56,9 +56,22 @@
   top: 0px;
   left: 500px - (@storyLineWidth/2);
   width : 38px;
-  height: 100%;
+  height: 99%;
   //margin-left: @storyLineWidth / 2 - @storyDotLineWidth;
   margin-left: 8px;
   margin-right: @storyLineWidth / 2 - @storyDotLineWidth;
   z-index: 0;
+}
+
+.ct-mystory_line {
+	
+	>.ct-path_end {
+	 position: absolute;
+	 bottom:0px;
+   margin-bottom: -10px;
+
+   width: 38px;
+   height: 41px;
+   background:url('/media/images/story/path/path_end.png');
+  }
 }
