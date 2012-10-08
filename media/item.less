@@ -16,7 +16,8 @@
 @storyLineDotRadius: 10px;
 
 @storyItemLinkWidth: 100px;
-//@storyItemNodeWidth: 38px;
+@storyItemLinkDotOnLineWidth: 38px;
+@storyItemLinkDotOnLineHeight: 42px;
 @storyItemNodeWidth: 17px;
 @columnWidth : 400px;
 
@@ -65,15 +66,6 @@
       border: 2px solid @storyLineColor;
       width: @storyItemLinkWidth;
       z-index: 2;
-
-      > .ct-storyItemLinkDot {
-        width: 19px;
-        height: 19px;
-        position: absolute;
-        margin-top: -@storyLineDotRadius;
-        background: url('/media/images/story/path/path_node_point_center.png');
-        z-index: 2;
-      }
       
     }
     
@@ -84,6 +76,16 @@
         margin-top: -20px;
         background: url('/media/images/story/path/path_node.png');
         z-index: 1;
+        
+        > .ct-storyItemLinkDot {
+          width: 19px;
+          height: 19px;
+          position: absolute;
+          margin-top: 12;
+          margin-left: 10px;
+          background: url('/media/images/story/path/path_node_point_center.png');
+          z-index: 2;
+        }
       }
   }
 
