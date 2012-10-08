@@ -488,8 +488,8 @@ function removeFiles {
 function removeFolders {
 	rm -rf algo/common
 	rm -rf algo/dbscan2/
-	rm algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
-	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js
+	rm algo/init.js algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
+	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js algo/dbscan3/pre_treatment.js
   rm -rf behavior
 	rm config/init.js
 	rm config/config.js
@@ -511,7 +511,7 @@ function removeFolders {
 	rm compress.py
 	rm compress.sh
 	rm compress-multiple.sh
-	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js lib/html5.externs.js
+	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js lib/html5.externs.js lib/jquery.qtip.externs.js lib/jquery-ui.externs.js
 }
 
 removeFolders
