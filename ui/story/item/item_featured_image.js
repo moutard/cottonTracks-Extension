@@ -12,17 +12,34 @@ Cotton.UI.Story.Item.FeaturedImage = Class
 
       _$img : null,
       _sImageUrl : null,
+      _bIsCropped : false,
 
       init : function(oItemContent) {
+        var self = this;
+
         // current parent element.
         this._oItemContent = oItemContent;
-
+        this._bIsCropped = this._oItemContent.item().visitItem().extractedDNA().imageCropped();
         // current item.
         this._$featured_image = $('<div class="ct-featured_image"></div>');
         this._$img = $('<img ></img>');
         if(this._oItemContent.item().visitItem().extractedDNA().imageUrl()){
           this._sImageUrl = this._oItemContent.item().visitItem().extractedDNA().imageUrl();
           this._$img.attr('src', this._sImageUrl);
+          this._$img.draggable({
+                'axis' : 'y',
+                'stop' : function(event, ui){
+                  self._oItemContent.item().visitItem().extractedDNA().setImageMarginTop(ui['position']['top']);
+                  self._oItemContent.item().visitItemHasBeenSet();
+                },
+              });
+          this._$img.draggable( 'disable' );
+          if(this._bIsCropped){
+            this._$featured_image.addClass('crop');
+            var sMarginTop = this._oItemContent.item().visitItem().extractedDNA().imageMarginTop();
+            this._$img.css("top", sMarginTop+"px");
+          }
+
           this._$featured_image.append(this._$img);
         }
 
@@ -48,7 +65,31 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         var self = this;
         if(!self._sImageAlreadyEditable){
           self._sImageAlreadyEditable = true;
-          self._$icon_image = $('<img src="/media/images/story/item/images.png" class="ct-item_icon_image"></div>');
+          self._$button_crop_image = $('<div class="ct-button_crop_image"></div>');
+
+          // Crop the image
+          self._$button_crop_image.mouseup(function(){
+            if(!self._bIsCropped){
+              self._bIsCropped = true;
+              // Remember that the image is cropped.
+              self._oItemContent.item().visitItem().extractedDNA().setImageCropped(1);
+              self._oItemContent.item().visitItemHasBeenSet();
+
+              // Allow to move the image to feat perfectly.
+              self._$featured_image.addClass("crop");
+              self._$img.draggable('enable').css("cursor", "move");
+            } else {
+              self._bIsCropped = false;
+              // Remember that the image is not cropped.
+              self._oItemContent.item().visitItem().extractedDNA().setImageCropped(0);
+              self._oItemContent.item().visitItemHasBeenSet();
+
+              //
+              self._$featured_image.removeClass("crop");
+              self._$img.draggable('disable').css('top', '0px').css("cursor", "auto");
+            }
+          });
+
           // Create an input field to change the title.
           self._$input_image = $('<input class="ct-editable_image" type="text" name="image">');
 
@@ -64,7 +105,6 @@ Cotton.UI.Story.Item.FeaturedImage = Class
               self._$img.attr('src', self._sImageUrl);
               self._$icon_image.remove();
               self._$input_image.remove();
-              //self._$title.show();
               self._sImageAlreadyEditable = false;
 
               // Set the title in the model.
@@ -74,14 +114,13 @@ Cotton.UI.Story.Item.FeaturedImage = Class
           });
 
           // hide the title and replace it by the input field.
-          //self._$title.hide();
-          self._$featured_image.append(self._$icon_image, self._$input_image);
+          self._$featured_image.append(self._$button_crop_image, self._$input_image);
         }
       },
 
       stopEditImage :function(){
         var self = this;
-        self._$icon_image.remove();
+        self._$button_crop_image.remove();
         self._$input_image.remove();
         self._sImageAlreadyEditable = false;
       },

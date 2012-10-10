@@ -22,6 +22,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
         'sFirstParagraph' : oVisitItem.extractedDNA().firstParagraph(),
         'iPercent' : oVisitItem.extractedDNA().percent(),
         'fPageScore' : oVisitItem.extractedDNA().pageScore(),
+        'iImageCropped' : oVisitItem.extractedDNA().imageCropped(),
+        'iImageMarginTop' : oVisitItem.extractedDNA().imageMarginTop(),
+        'iScrollablePosition' : oVisitItem.extractedDNA().scrollablePosition(),
       },
     };
 
@@ -68,6 +71,9 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
     oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
     oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
+    oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);
+    oExtractedDNA.setImageMarginTop(dExtractedDNA['iImageMarginTop']);
+    oExtractedDNA.setScrollablePosition(dExtractedDNA['iScrollablePosition']);
 
     oVisitItem.setExtractedDNA(oExtractedDNA);
 
