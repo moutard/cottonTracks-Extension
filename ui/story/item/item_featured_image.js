@@ -23,17 +23,19 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         // current item.
         this._$featured_image = $('<div class="ct-featured_image"></div>');
         this._$img = $('<img ></img>');
-        if(this._oItemContent.item().visitItem().extractedDNA().imageUrl()){
-          this._sImageUrl = this._oItemContent.item().visitItem().extractedDNA().imageUrl();
-          this._$img.attr('src', this._sImageUrl);
-          this._$img.draggable({
+        this._$img.draggable({
                 'axis' : 'y',
                 'stop' : function(event, ui){
                   self._oItemContent.item().visitItem().extractedDNA().setImageMarginTop(ui['position']['top']);
                   self._oItemContent.item().visitItemHasBeenSet();
                 },
               });
-          this._$img.draggable( 'disable' );
+        this._$img.draggable( 'disable' );
+
+
+        if(this._oItemContent.item().visitItem().extractedDNA().imageUrl()){
+          this._sImageUrl = this._oItemContent.item().visitItem().extractedDNA().imageUrl();
+          this._$img.attr('src', this._sImageUrl);
           if(this._bIsCropped){
             this._$featured_image.addClass('crop');
             var sMarginTop = this._oItemContent.item().visitItem().extractedDNA().imageMarginTop();
