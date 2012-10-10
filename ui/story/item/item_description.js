@@ -15,6 +15,8 @@ Cotton.UI.Story.Item.Description = Class
       _$quote : null,
 
       init : function(oItemContent) {
+        var self = this;
+
         // current parent element.
         this._oItemContent = oItemContent;
 
@@ -30,10 +32,16 @@ Cotton.UI.Story.Item.Description = Class
 
         // Title
         if (this._oItemContent._oItem._oVisitItem.title() !== "") {
-          var $title_link = $('<a></a>');
-          $title_link.attr("href", this._oItemContent._oItem._oVisitItem.url());
-          $title_link.text(this._oItemContent._oItem._oVisitItem.title());
-          this._$title.append($title_link);
+          //var $title_link = $('<a></a>');
+          //$title_link.attr("href", this._oItemContent._oItem._oVisitItem.url());
+          //$title_link.text(this._oItemContent._oItem._oVisitItem.title());
+
+          this._$title.text(this._oItemContent._oItem._oVisitItem.title()).click(function(){
+            chrome.tabs.create({
+              'url': self._oItemContent._oItem._oVisitItem.url(),
+              'selected': true
+            });
+          });
         }
         // First Paragraph
         if (this._oItemContent._oItem._oVisitItem.extractedDNA()
