@@ -15,6 +15,9 @@ Cotton.Model.ExtractedDNA = Class.extend({
   _lScores : [],
   _lHighlightedText : [],
   _sImageUrl : "",
+  _iImageCropped : 0,
+  _iImageMarginTop : 0,
+  _iScrollablePosition : undefined,
   _sFirstParagraph : "",
 
   /**
@@ -53,6 +56,24 @@ Cotton.Model.ExtractedDNA = Class.extend({
   },
   setImageUrl : function(sImageUrl) {
     this._sImageUrl = sImageUrl;
+  },
+  imageCropped : function(){
+    return this._iImageCropped;
+  },
+  setImageCropped : function(isCropped){
+    this._iImageCropped = isCropped;
+  },
+  imageMarginTop : function(){
+    return this._iImageMarginTop;
+  },
+  setImageMarginTop : function(iMarginTop){
+    this._iImageMarginTop = iMarginTop;
+  },
+  scrollablePosition : function(){
+    return this._iScrollablePosition;
+  },
+  setScrollablePosition : function(iScrollablePosition){
+    this._iScrollablePosition = iScrollablePosition;
   },
   percent : function() {
     return this._iPercent;
