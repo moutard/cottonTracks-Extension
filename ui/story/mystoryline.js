@@ -68,7 +68,7 @@ Cotton.UI.Story.Storyline = Class
             // Se can't drag an element out of containment.
             containment : ".ct-story_column_left",
             // Element draggable.
-            handle : ".ct-item_content",
+            handle : ".ct-item_toolbox",
             // Drag start after 10px movement.
             distance : 0,
             // Callback stop function.
