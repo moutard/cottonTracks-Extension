@@ -64,6 +64,10 @@ Cotton.Model.Story = Class.extend({
   visitItemsId : function() {
     return this._lVisitItemsId;
   },
+  setVisitItemsId : function(lVisitItemsId) {
+    this._lVisitItemsId = lVisitItemsId;
+  },
+
   lastVisitTime : function() {
     return this._fLastVisitTime;
   },
