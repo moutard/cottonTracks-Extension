@@ -1,11 +1,11 @@
 'use strict'
 /**
  * Controller
- * 
+ *
  * Inspired by MVC pattern.
- * 
+ *
  * Handles DB, and UI.
- * 
+ *
  */
 Cotton.Controller = Class.extend({
 
@@ -163,7 +163,7 @@ Cotton.Controller = Class.extend({
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
       console.log('wDBSCAN3 - Worker ends with ', e.data['iNbCluster'], 'clusters.', ' For ', e.data['lVisitItems'].length, ' visitItems');
-      
+
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
         // Data sent by the worker are serialized. Deserialize using translator.
@@ -198,10 +198,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   * 
+   *
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   * 
+   *
    */
   install : function(){
     console.debug("Controller - install");
@@ -231,7 +231,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   * 
+   *
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -260,7 +260,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   * 
+   *
    * ct is well installed, start the application.
    */
   start : function(){
@@ -273,16 +273,23 @@ Cotton.Controller = Class.extend({
        * Delete the last story and recompute it.
        */
       var lVisitItemsId = oLastStory.visitItemsId();
-      self._oStore.delete('stories', oLastStory.id(), function(iId){
-        console.log("story deleted");
-      });
+      var iLastStoryId =  oLastStory.id();
+      //self._oStore.delete('stories', oLastStory.id(), function(iId){
+      //  console.log("story deleted");
+      //});
 
       var lPoolVisitItems = [];
 
+      // Get visitItems of the last story.
       self._oStore.findGroup('visitItems', 'id', lVisitItemsId,
         function(lLastStoryVisitItems) {
-          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
 
+          lPoolVisitItems = lPoolVisitItems.concat(lLastStoryVisitItems);
+          // Remember that those elements were in a story.
+          _.each(lPoolVisitItems, function(oVisitItem){
+            oVisitItem.setStoryId(iLastStoryId);
+          });
+          // Get visitItems not computed.
           self._oStore.getLowerBound('visitItems', 'iVisitTime',
             oLastStory.lastVisitTime(), "PREV", false,
               function(lUnclassifiedVisitItem) {
@@ -310,7 +317,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Remove the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {int}
    *          iStoryId : id is found using mystoryline.
    * @param {int}
@@ -328,7 +335,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Set the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {Cotton.Model.VisitItem}
    *          oVisitItem : after set the visitItem put.
    */
@@ -343,7 +350,7 @@ Cotton.Controller = Class.extend({
    * Merge two stories. Becareful parameters are not symetric. All the elments
    * of sub_story will be put in the main_story, and then the sub story will be
    * removed.
-   * 
+   *
    * @param {int}
    *          iMainStoryId : id of the story that receive new elements
    * @param {int}
@@ -378,7 +385,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Set story
-   * 
+   *
    * @param {Cotton.Model.Story}
    *          oStory
    */
@@ -392,7 +399,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Delete the story with the given story id.
-   * 
+   *
    * @param {int} :
    *          iStoryId
    */
@@ -406,7 +413,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Delete the story and visitItems with the given story id.
-   * 
+   *
    * @param {int} :
    *          iStoryId
    */
