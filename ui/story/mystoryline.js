@@ -84,6 +84,17 @@ Cotton.UI.Story.Storyline = Class
               } else if($newList.hasClass('ct-story_column_right')) {
                 $(ui.item).addClass('ct-storyItem_right');
               }
+              var lLeftId = self._$story_column_left.sortable('toArray');
+              var lRightId = self._$story_column_right.sortable('toArray');
+              var lNewPosition = [];
+              for(var i = 0; i < lLeftId.length; i++){
+                lNewPosition.push(parseInt(lLeftId[i]));
+                if(i < lRightId.length) lNewPosition.push(parseInt(lRightId[i]));
+              }
+              console.log(self._oCurrentStory);
+              console.log(lNewPosition);
+              self._oCurrentStory.setVisitItemsId(lNewPosition);
+              Cotton.CONTROLLER.setStory(self._oCurrentStory);
             },
           };
 
@@ -107,6 +118,7 @@ Cotton.UI.Story.Storyline = Class
 
       addVisitItem : function(oVisitItem, sParam) {
         var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
+        oItem.$().attr('id', oVisitItem.id());
         oItem.$().css("opacity", "0");
         if (sParam === "left") {
           oItem.setSide('left');
