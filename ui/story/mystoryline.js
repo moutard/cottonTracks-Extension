@@ -38,8 +38,8 @@ Cotton.UI.Story.Storyline = Class
 
           this._$story_homepage = $('<div id="ct-story_homepage" class="clearfix"></div>');
           this._$story_line = $('<div class="ct-mystory_line"><div class="ct-path_end"></div></div>');
-          this._$story_column_left = $('<div class="ct-story_column_left"></div>');
-          this._$story_column_right = $('<div class="ct-story_column_right"></div>');
+          this._$story_column_left = $('<div class="ct-story_column_left connectedSortable"></div>');
+          this._$story_column_right = $('<div class="ct-story_column_right connectedSortable"></div>');
 
           $('#ct').append(this._$story_homepage);
 
@@ -61,22 +61,29 @@ Cotton.UI.Story.Storyline = Class
           });
 
           // Make sortable and draggable
-
+          var $oldList, $newList;
           var dSortableParameters = {
-            // Sortable only on vertical axis.
-            axis : "y",
-            // Se can't drag an element out of containment.
-            containment : ".ct-story_column_left",
+            // connect story_column_right and story_column_left.
+            connectWith : ".connectedSortable",
             // Element draggable.
             handle : ".ct-item_toolbox",
             // Drag start after 10px movement.
             distance : 0,
             // Callback stop function.
+            start : function(event, ui){
+              $(ui.item).removeClass('ct-storyItem_left');
+              $(ui.item).removeClass('ct-storyItem_right');
+              $newList = $oldList = ui.item.parent();
+            },
+            change : function(event, ui){
+              if(ui.sender) $newList = ui.placeholder.parent();
+            },
             stop : function(event, ui) {
-              // self._$story_column_left.find('.ct-story_item').each(function(){
-              // Update position.
-
-              // });
+              if($newList.hasClass('ct-story_column_left')){
+                $(ui.item).addClass('ct-storyItem_left');
+              } else if($newList.hasClass('ct-story_column_right')) {
+                $(ui.item).addClass('ct-storyItem_right');
+              }
             },
           };
 
