@@ -58,11 +58,18 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       self._oItemDescription.editTitle();
       self._oItemFeaturedImage.editImage();
       self._oItemToolbox.addRemoveButton();
+      // TODO(rmoutard) : avoid manipulating DOM
+      $('.connectedSortable').sortable('disable')
+
     } else {
       self._bIsEditable = false;
       self._oItemDescription.editTitle(true);
       self._oItemFeaturedImage.stopEditImage();
       self._oItemToolbox.removeRemoveButton();
+
+      // TODO(rmoutard) : avoid manipulating DOM
+      $('.connectedSortable').sortable('enable')
+
     }
 
   },
