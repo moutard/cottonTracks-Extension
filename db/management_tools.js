@@ -114,3 +114,25 @@ Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
         }
       );
 };
+
+Cotton.DB.ManagementTools.getVisitItems = function (iId) {
+  var oStore = new Cotton.DB.Store('ct',
+       { 'visitItems': Cotton.Translators.VISIT_ITEM_TRANSLATORS },
+       function() {
+         oStore.find('visitItems', 'id', iId, function(oVisitItem) {
+           return oVisitItem;
+         });
+       }
+     );
+};
+
+Cotton.DB.ManagementTools.editVisitItems = function (oVisitItem) {
+  var oStore = new Cotton.DB.Store('ct',
+       { 'visitItems': Cotton.Translators.VISIT_ITEM_TRANSLATORS },
+       function() {
+         oStore.put('visitItems', oVisitItem, function() {
+           console.log("edit visitItem ok");
+         });
+       }
+     );
+};
