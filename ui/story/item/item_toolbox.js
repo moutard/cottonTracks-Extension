@@ -110,7 +110,13 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
         Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
 
         // Update the view.
-        self._oContentItem.item().$().remove();
+        // TODO(rmoutard) : to be MVC complient update the controller should
+        // remove the item then call the view to tell her to remove the item.
+        self._oContentItem.item().$().hide(
+          'slow',
+          function(){
+            self._oContentItem.item().$().remove();
+          });
       });
 
       self._$item_toolbox.append(self._$removeButton);
