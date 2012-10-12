@@ -104,8 +104,13 @@ Cotton.UI.Story.Item.FeaturedImage = Class
                 self._$featured_image.append(self._$img);
               }
               self._sImageUrl = self._$input_image.val();
-              self._$img.attr('src', self._sImageUrl);
-              self._$icon_image.remove();
+              if((self._sImageUrl === "") || (self._sImageUrl === "http://")){
+                self._$img.remove();
+                self._$img = $('<img ></img>');
+              } else {
+                self._$img.attr('src', self._sImageUrl);
+              }
+              self._$button_crop_image.remove();
               self._$input_image.remove();
               self._sImageAlreadyEditable = false;
 
@@ -116,7 +121,11 @@ Cotton.UI.Story.Item.FeaturedImage = Class
           });
 
           // hide the title and replace it by the input field.
-          self._$featured_image.append(self._$button_crop_image, self._$input_image);
+          self._$featured_image.append(self._$input_image);
+          // Put crop only if there is an image.
+          if(self._$img.attr('src')){
+            self._$featured_image.append(self._$button_crop_image);
+          }
         }
       },
 
