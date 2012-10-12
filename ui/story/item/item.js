@@ -34,7 +34,6 @@ Cotton.UI.Story.Item.Element = Class
             ),
             this._oItemContent.$()
         );
-
       },
 
       $ : function() {

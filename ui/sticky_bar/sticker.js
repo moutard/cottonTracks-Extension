@@ -159,9 +159,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     $sticker.droppable({
       'drop': function(event, ui){
         // Merge stories.
+        if(ui.draggable.hasClass('ct-stickyBar_sticker')){
+          self._merge(parseInt(ui.draggable.attr('ct-story_id')));
+          ui.draggable.trigger('_remove');
+        } else if(ui.draggable.hasClass('ct-story_item')) {
+          self._addVisitItem(parseInt(ui.draggable.attr('id')));
+          Cotton.CONTROLLER.removeVisitItemInStory(ui.draggable.attr('id'));
+          ui.draggable.remove();
+        }
         $sticker.qtip('hide');
-        self._merge(parseInt(ui.draggable.attr('ct-story_id')));
-        ui.draggable.trigger('_remove');
       },
       // Add class to the drop container.
       'hoverClass': "drophover",
@@ -427,6 +433,12 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
           });
     });
 
+  },
+
+  _addVisitItem : function(iVisitItemId){
+    var self = this;
+    self._oStory.addVisitItemId(iVisitItemId);
+    Cotton.CONTROLLER.setStory(self._oStory);
   },
 
   /**
