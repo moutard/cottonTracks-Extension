@@ -102,21 +102,39 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
   addRemoveButton : function(){
     var self = this;
     if(!self._$removeButton){
-      self._$removeButton = $('<div class="ct-item_button_remove"></div>');
-      self._$removeButton.mouseup(function(){
-        // Send message to the controller.
-        var iVisitItem = self._oContentItem.item().visitItem()
-              .id();
-        Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
+      self._$removeButton = $('<div class="ct-item_button_remove"></div>')
+      self._$removeButton.append('<img src="/media/images/topbar/sticker/delete.png">');
+      self._$removeButton.mouseup(function(e){
 
-        // Update the view.
-        // TODO(rmoutard) : to be MVC complient update the controller should
-        // remove the item then call the view to tell her to remove the item.
-        self._oContentItem.item().$().hide(
-          'slow',
-          function(){
-            self._oContentItem.item().$().remove();
+        if($(e.target).is('h5')){
+          e.preventDefault();
+          return;
+        }
+
+        if(!self._bRemoveIsOpen){
+          self._bRemoveIsOpen = true;
+          self.$yes = $('<h5>Yes</h5>').mouseup(function(){
+            var iVisitItem = self._oContentItem.item().visitItem().id();
+            Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
+
+            // Update the view.
+            // TODO(rmoutard) : to be MVC complient update the controller should
+            // remove the item then call the view to tell her to remove the item.
+            self._oContentItem.item().$().hide(
+              'slow',
+              function(){
+                self._oContentItem.item().$().remove();
+              });
           });
+          self.$no = $('<h5>No</h5>').mouseup(function(){
+            self._$removeButton.removeClass('open');
+            self.$yes.remove();
+            self.$no.remove();
+            self._bRemoveIsOpen = false;
+          });
+          self._$removeButton.append(self.$yes, self.$no).addClass('open');
+        }
+
       });
 
       self._$item_toolbox.append(self._$removeButton);
