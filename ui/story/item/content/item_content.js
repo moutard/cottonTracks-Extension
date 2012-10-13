@@ -60,15 +60,17 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       self._oItemToolbox.addRemoveButton();
       // TODO(rmoutard) : avoid manipulating DOM
       $('.connectedSortable').sortable('disable')
+      self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon_selected.png");
 
     } else {
       self._bIsEditable = false;
       self._oItemDescription.editTitle(true);
       self._oItemFeaturedImage.stopEditImage();
       self._oItemToolbox.removeRemoveButton();
-
+      self._oItemToolbox._bRemoveIsOpen = false;
       // TODO(rmoutard) : avoid manipulating DOM
       $('.connectedSortable').sortable('enable')
+      self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon.png");
 
     }
 
