@@ -231,9 +231,14 @@
         -webkit-transition: width 1s ease-in;
 
         > img {
+          //display: inline;
+          float: left;
+          position: relative;
           width: 16px;
           height: 16px;
-          margin: 17px 0 0 17px;
+          //margin: 17px 0 0 17px;
+          top: 17px;
+          left: 17px;
         }
         
         &.open {
@@ -259,12 +264,14 @@
 
       > .ct-item_button_remove {
         .ct-item_button;
-        
+
         > h5 {
-          display: inline;
+          //display: inline;
+          float: left;
           margin : 10px;
           position: relative;
-          top: -3px;
+          top: 7px;
+          left: 20px;
         }
       }
     }
