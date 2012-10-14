@@ -125,13 +125,13 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
               function(){
                 self._oContentItem.item().$().remove();
               });
-          });
+          }).show('slow');
           self.$no = $('<h5>No</h5>').mouseup(function(){
             self._$removeButton.removeClass('open');
             self.$yes.remove();
             self.$no.remove();
             self._bRemoveIsOpen = false;
-          });
+          }).show('slow');
           self._$removeButton.append(self.$yes, self.$no).addClass('open');
         }
 
