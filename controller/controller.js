@@ -326,6 +326,7 @@ Cotton.Controller = Class.extend({
   removeVisitItemInStory : function(iVisitItemId){
     var self = this;
     var iStoryId = _oCurrentlyOpenStoryline.story().id();
+    _oCurrentlyOpenStoryline.story().removeVisitItem(iVisitItemId);
     Cotton.DB.Stories.removeVisitItemInStory(self._oStore,
         iStoryId, iVisitItemId,
         function(){
