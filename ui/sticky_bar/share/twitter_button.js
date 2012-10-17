@@ -10,7 +10,7 @@ Cotton.UI.StickyBar.Share.TwitterButton = Class.extend({
 
   init: function(){
     var self = this;
-    this._$twitter_button = $('<div class="ct-twitter_button"></div>').click(function(){
+    this._$twitter_button = $('<div class="ct-twitter_button">Tweet it</div>').click(function(){
     });
   },
 
