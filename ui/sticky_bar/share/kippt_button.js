@@ -10,7 +10,7 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
 
   init: function(){
     var self = this;
-    this._$kippt_button = $('<div class="ct-kippt_button"></div>').click(function(){
+    this._$kippt_button = $('<div class="ct-kippt_button">Kippt it</div>').click(function(){
       self.connectOnKippt();
     });
   },
