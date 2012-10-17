@@ -158,6 +158,12 @@ Cotton.Model.Story = Class.extend({
     this._lVisitItemsId = _.reject(this._lVisitItemsId, function(iVisitItemId) {
       return iVisitItemId === sID;
     });
+    if(this._lVisitItems){
+      this._lVisitItems = _.reject(this._lVisitItems, function(oVisitItem) {
+      return oVisitItem.id() === sID;
+    });
+
+    }
   },
 
   merge : function(oStory) {
