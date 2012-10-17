@@ -17,6 +17,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$share_button : null,
   _$settings_button : null,
 
+  _oSocialButtons : null,
 
   /**
    * @constructor
@@ -80,16 +81,21 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$search_button.qtip(dQtipParameters);
     this._$recent_button.qtip(dQtipParameters);
     this._$share_button.qtip(dQtipParameters).click(function(){
-      self.connectOnKippt();
+      self.openShareButtons();
     });
 
-    },
+    this._oSocialButtons = new Cotton.UI.StickyBar.Share.SocialButtons();
+  },
 
   /**
    * @return {HtmlElement}
    */
   $ : function() {
     return this._$commands;
+  },
+
+  openShareButtons : function(){
+    this._oSocialButtons.open();
   },
 
   connectOnKippt : function(){
@@ -142,8 +148,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
             alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
         });
     });
-  } else {
-    console.log("Nothing to share");
-  }
+    } else {
+      console.log("Nothing to share");
+    }
   },
 });
