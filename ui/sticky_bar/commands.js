@@ -37,6 +37,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$share_button = $('.ct-icon_button_share');
 
     this._$settings_button = $('.ct-icon_button_settings');
+    this._oSocialButtons = new Cotton.UI.StickyBar.Share.SocialButtons();
 
     this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
@@ -80,11 +81,10 @@ Cotton.UI.StickyBar.Commands = Class.extend({
 
     this._$search_button.qtip(dQtipParameters);
     this._$recent_button.qtip(dQtipParameters);
-    this._$share_button.qtip(dQtipParameters).click(function(){
+    this._$share_button.append(self._oSocialButtons.$()).qtip(dQtipParameters).click(function(){
       self.openShareButtons();
     });
 
-    this._oSocialButtons = new Cotton.UI.StickyBar.Share.SocialButtons();
   },
 
   /**
