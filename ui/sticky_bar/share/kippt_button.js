@@ -7,10 +7,19 @@
 Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
 
   _$kippt_button: null,
+  _$kippt_icon: null,
+  _$kippt_title: null,
 
   init: function(){
     var self = this;
-    this._$kippt_button = $('<div class="ct-kippt_button">Kippt it</div>').click(function(){
+    this._$kippt_icon = $('<img src="/media/images/topbar/share/kippt.png"></img>');
+    this._$kippt_title = $('<h2>Kippt it</h2>');
+    this._$kippt_button = $('<div class="ct-social_button ct-kippt"></div>').append(
+      this._$kippt_icon,
+      this._$kippt_title
+    );
+
+    this._$kippt_button.click(function(){
       self.connectOnKippt();
     });
   },
@@ -39,9 +48,10 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
         self.shareOnKippt();
     })
     .fail(function(jqXHR, textStatus){
-        // Logged out user, open login page
-        //Kippt.openTab('https://kippt.com/login/');
-        //Kippt.closePopover();
+      chrome.tabs.create({
+        'url': 'https://kippt.com/login/',
+        'selected': true
+      });
     });
 
   },
