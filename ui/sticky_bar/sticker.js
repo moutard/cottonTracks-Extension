@@ -213,15 +213,15 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     var iInitialPosition = iFinalPosition - iDistanceToCenter * 0.2;
 
     $sticker.css({
-      position : "absolute",
-      left : iInitialPosition
+      'position' : "absolute",
+      'left' : iInitialPosition
     })
     $sticker.css({
-      'left' : iFinalPosition + this._oBar._iTranslateX
+      //'left' : iFinalPosition + this._oBar._iTranslateX
     })
 
     $sticker.animate({
-      left : iFinalPosition
+      'left' : iFinalPosition + this._oBar._iTranslateX
     }, 'slow', function() {
       self.trigger('ready');
     });
