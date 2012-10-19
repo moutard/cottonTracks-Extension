@@ -37,8 +37,8 @@ Cotton.UI.World = Class.extend({
     self._oStickyBar = new Cotton.UI.StickyBar.Bar();
 
     // Create homepage
-    self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage();
-    self._oSearchpage = Cotton.UI.Search.SEARCHPAGE = new Cotton.UI.Search.Searchpage();
+    self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage(self);
+    self._oSearchpage = Cotton.UI.Search.SEARCHPAGE = new Cotton.UI.Search.Searchpage(self);
 
     self._oStoryline = _oCurrentlyOpenStoryline;
 
@@ -73,6 +73,16 @@ Cotton.UI.World = Class.extend({
     return this._oHomepage;
   },
 
+  searchpage : function(){
+    return this._oSearchpage;
+  },
+
+  reset : function(){
+    var self = this;
+    Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
+    self._oHomepage.hide();
+    self._oSearchpage.hide();
+  },
   /**
    * Note : this method is not really MVC friendly. Because the UI, has access
    * to the DB without passing by the controller.
