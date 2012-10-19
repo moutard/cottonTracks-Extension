@@ -432,6 +432,12 @@ Cotton.Controller = Class.extend({
   searchStoryFromTags : function(lTags, mCallbackFunction){
     var self = this;
     self._oStore.search('stories', 'lTags', lTags[0] , function(lStories){
+      var _lStories = lStories;
+      var lStoriesId = [];
+      _.each(_lStories, function(oStory){
+        lStoriesId.push(oStory.id());
+      });
+      self._oWorld.stickyBar().removeStickersFromStoriesId(lStoriesId);
       mCallbackFunction(lStories);
     });
   },

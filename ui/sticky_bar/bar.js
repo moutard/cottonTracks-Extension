@@ -285,6 +285,39 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
   },
 
+  /**
+   * Remove the sticker from the UI.
+   *
+   * @param {Cotton.UI.StickyBar.Sticker} oSticker
+   */
+  removeSticker : function(iId){
+    var self = this;
+    // remove the DOM element.
+    var oSticker = _.find(self._lStickers, function(oSticker){
+      return oSticker._oStory.id() === iId;
+    });
+    oSticker._remove();
+    // remove lStickers.
+    self._lStickers = _.reject(self._lStickers, function(oSticker){
+      return oSticker._oStory.id() === iId;
+    });
+
+  },
+
+  /**
+   * Remove all the stickers that are not in the corresponding to the story id.
+   *
+   * @param {Array.<int>} lStoriesId
+   */
+  removeStickersFromStoriesId : function(lStoriesId){
+    var self = this;
+    _.each(self._lStickers, function(oSticker){
+      if(_.indexOf(lStoriesId, oSticker.story().id()) === -1){
+        self.removeSticker(oSticker.story().id());
+      }
+    });
+  },
+
 });
 
 _.extend(Cotton.UI.StickyBar.Bar.prototype, Backbone.Events);
