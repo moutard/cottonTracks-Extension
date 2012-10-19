@@ -17,9 +17,14 @@ Cotton.UI.World = Class.extend({
   _oStoryline : null,
 
   /**
-   * {Cotton.UI.Homepage.Homepage}
+   * {Cotton.UI.Home.Homepage}
    */
   _oHomepage : null,
+
+  /**
+   * {Cotton.UI.Search.Searchpage}
+   */
+  _oSearchpage : null,
 
 
   /**
@@ -33,6 +38,7 @@ Cotton.UI.World = Class.extend({
 
     // Create homepage
     self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage();
+    self._oSearchpage = Cotton.UI.Search.SEARCHPAGE = new Cotton.UI.Search.Searchpage();
 
     self._oStoryline = _oCurrentlyOpenStoryline;
 

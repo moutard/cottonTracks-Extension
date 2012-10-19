@@ -79,7 +79,10 @@ Cotton.UI.StickyBar.Commands = Class.extend({
       }
     };
 
-    this._$search_button.qtip(dQtipParameters);
+    this._$search_button.click(function(){
+      Cotton.UI.Home.HOMEPAGE.hide();
+      Cotton.UI.Search.SEARCHPAGE.show();
+    });
     this._$recent_button.qtip(dQtipParameters);
     this._$share_button.append(self._oSocialButtons.$()).click(function(){
       self.openShareButtons();
