@@ -71,6 +71,10 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
     return this._$sticker;
   },
 
+  story : function(){
+    return this._oStory;
+  },
+
   /**
    * Display the sticker.
    * Handle the UI, and bind to every events.
@@ -376,7 +380,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
   },
 
   /**
-   * Remove the stickers and the corresponding story.
+   * Remove the stickers and the corresponding storyline if open.
    *
    * Bind to event : "_remove"
    */
