@@ -66,6 +66,7 @@ Cotton.DB.Engine = Class.extend({
       // Check if, among the present object stores, there is any that miss an
       // index.
       var dMissingIndexKeysForObjectStoreNames = {};
+      // TODO(rmoutard) this part create a problem.
       if (lExistingObjectStoreNames.lenght > 0) {
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
         _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
@@ -839,6 +840,41 @@ Cotton.DB.Engine = Class.extend({
       });
     }
 
+
+  },
+
+  search: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+    // sIndexKey should have a multipleEntry as true.
+    var self = this;
+
+    var lResults = [];
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+    var oIndex = oStore.index(sIndexKey);
+
+    var oRangeSearch = webkitIDBKeyRange.only(oIndexValue);
+    // Get the requested record in the store.
+    var oSearchRequest = oIndex.openCursor(oRangeSearch);
+
+    oSearchRequest.onsuccess = function(oEvent) {
+      var oCursor = oEvent.target.result;
+      if(oCursor){
+        lResults.push(oCursor.value);
+        oCursor.continue();
+      } else {
+        // If there was no result, it will send back null.
+        mResultCallback.call(self, lResults);
+      }
+    };
+
+    oSearchRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Search Request Error";
+    };
 
   },
 
