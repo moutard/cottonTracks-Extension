@@ -309,6 +309,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
 
     this.closeSumUp();
     Cotton.UI.Home.HOMEPAGE.hide();
+    Cotton.UI.Search.SEARCHPAGE.hide();
 
     // If the story is empty make a request to get corresponding visitItems.
     if(self._oStory.visitItems().length === 0){

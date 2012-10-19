@@ -5,6 +5,8 @@
  */
 Cotton.UI.Home.Homepage = Class.extend({
 
+  _oWorld : null,
+
   /**
    * DOM Element, that handle the class ct-homepage.
    */
@@ -14,8 +16,10 @@ Cotton.UI.Home.Homepage = Class.extend({
   _oAppsGrid : null,
   _$SwitchButton : null,
 
-  init : function() {
+  init : function(oWorld) {
     var self = this;
+
+    this._oWorld = oWorld;
     this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
 
     // Favorites or MostVisited
@@ -67,9 +71,8 @@ Cotton.UI.Home.Homepage = Class.extend({
   },
 
   show : function() {
-    Cotton.UI.Story.Storyline.removeAnyOpenStoryline();
+    this._oWorld.reset();
     this._$homepage.show();
-    // $('.ct-flip').text('Welcome');
     $('.ct-icon_button_home').addClass("selected");
   },
 

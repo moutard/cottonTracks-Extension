@@ -5,6 +5,8 @@
  */
 Cotton.UI.Search.Searchpage = Class.extend({
 
+  _oWorld : null,
+
   /**
    * DOM Element, that handle the class ct-searchpage.
    */
@@ -13,8 +15,10 @@ Cotton.UI.Search.Searchpage = Class.extend({
   _$title : null,
   _$search_bar : null,
 
-  init : function() {
+  init : function(oWorld) {
     var self = this;
+
+    self._oWorld = oWorld;
     self._$searchpage = $('<div class="ct-searchpage">').hide().appendTo('#ct');
 
     self._$title = $('<h1>Search among all the elements in cottonTracks</h1>');
@@ -28,6 +32,7 @@ Cotton.UI.Search.Searchpage = Class.extend({
   },
 
   show : function(){
+    this._oWorld.reset();
     this._$searchpage.show();
   },
   hide : function(){
