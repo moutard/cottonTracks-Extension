@@ -34,20 +34,16 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
         url: 'https://kippt.com/api/account/?include_data=services',
         type: "GET",
         dataType: 'json'
-    })
-    .done(function(data){
+    }).done(function(data){
         var useriD = data['id'];
         localStorage.setItem('kipptUserId', data['id']);
 
         $.each(data.services, function(name, connected) {
             if (connected) {
-                //$("#kippt-actions ." + name).toggleClass("connected", connected);
-                //$("#kippt-actions ." + name).css('display', 'inline-block');
             }
         });
         self.shareOnKippt();
-    })
-    .fail(function(jqXHR, textStatus){
+    }).fail(function(jqXHR, textStatus){
       chrome.tabs.create({
         'url': 'https://kippt.com/login/',
         'selected': true
@@ -58,27 +54,47 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
 
   shareOnKippt : function(){
     if(_oCurrentlyOpenStoryline){
+      // Create a list
       var type = 'POST';
-      var url = 'https://kippt.com/api/clips/';
+      var list_url = 'https://kippt.com/api/lists/';
+      var clip_url = 'https://kippt.com/api/clips/';
 
-      _.each(_oCurrentlyOpenStoryline.story().visitItems(), function(oVisitItem){
-        var msg = JSON.stringify({url: oVisitItem.url()});
+      var list_data = JSON.stringify({
+        'title': _oCurrentlyOpenStoryline.story().title()
+      });
 
-        $.ajax({
-            url: url,
-            type: type,
-            dataType: 'json',
-            data: msg
-        })
-        .done(function(){
-            // Clear page cache
-            //localStorage.removeItem('cache-title');
-            //localStorage.removeItem('cache-notes');
-        })
-        .fail(function(jqXHR, textStatus){
-            alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
+      $.ajax({
+            'url': list_url,
+            'type': type,
+            'dataType': 'json',
+            'data': list_data
+      }).done(function(sResponse){
+        var dResponse = sResponse;
+        // For each item create a new clip and put it in the list.
+        // The list is defined not by this id but by the resource_uri,
+        // that contain this id.
+        _.each(_oCurrentlyOpenStoryline.story().visitItems(), function(oVisitItem){
+          var clip_data = JSON.stringify({
+            'url': oVisitItem.url(),
+            'list': dResponse['resource_uri']
+          });
+
+          $.ajax({
+              'url': clip_url,
+              'type': type,
+              'dataType': 'json',
+              'data': clip_data
+          }).done(function(){
+          }).fail(function(jqXHR, textStatus){
+              alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
+          });
         });
-    });
+
+      }).fail(function(jqXHR, textStatus){
+            alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
+      });
+
+
     } else {
       console.log("Nothing to share");
     }
