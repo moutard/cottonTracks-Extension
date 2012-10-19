@@ -17,6 +17,8 @@ Cotton.Model.Story = Class.extend({
   _lVisitItemsId : null,
   _lVisitItems : null,
 
+  _lTags : [],
+
   /**
    * @constructor
    */
@@ -41,6 +43,7 @@ Cotton.Model.Story = Class.extend({
   },
   setTitle : function(sTitle) {
     this._sTitle = sTitle;
+    this.computeTags();
   },
   featuredImage : function() {
     return this._sFeaturedImage;
@@ -79,6 +82,15 @@ Cotton.Model.Story = Class.extend({
   },
   setRelevance : function(fRelevance) {
     this._fRelevance = fRelevance;
+  },
+  tags : function(){
+    return this._lTags;
+  },
+  setTags : function(lTags){
+    this._lTags = lTags;
+  },
+  addTags : function(sTag){
+    this._lTags.push(sTag);
   },
 
   /**
@@ -236,5 +248,9 @@ Cotton.Model.Story = Class.extend({
         }
       }
     }
+  },
+
+  computeTags : function(){
+    this._lTags = this._sTitle.split(" ");
   },
 });

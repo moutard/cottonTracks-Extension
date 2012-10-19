@@ -297,6 +297,25 @@ Cotton.DB.Store = Class.extend({
     });
   },
 
+  search: function(sObjectStoreName, sIndexKey, oIndexValue,
+                  mResultElementCallback) {
+    var self = this;
+    var lObjects = [];
+
+    this._oEngine.search(sObjectStoreName, sIndexKey, oIndexValue,
+      function(lResults) {
+        for (var i = 0; i < lResults.length; i++) {
+          var oResult = lResults[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+                                                      oResult);
+          var oObject = oTranslator.dbRecordToObject(oResult);
+          lObjects.push(oObject);
+        }
+
+        mResultElementCallback.call(self, lObjects);
+    });
+  },
+
   add: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
 

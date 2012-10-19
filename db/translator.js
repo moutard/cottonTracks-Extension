@@ -7,6 +7,7 @@ Cotton.DB.Translator = Class.extend({
     this._sFormatVersion = sFormatVersion;
     this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
     this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
+    // TODO(rmoutard) : "Why it's not a {} ?"
     this._dIndexDescriptions = dOptionalIndexDescriptions || [];
   },
 

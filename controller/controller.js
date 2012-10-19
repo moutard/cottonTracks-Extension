@@ -429,6 +429,13 @@ Cotton.Controller = Class.extend({
     });
   },
 
+  searchStoryFromTags : function(lTags, mCallbackFunction){
+    var self = this;
+    self._oStore.search('stories', 'lTags', lTags[0] , function(lStories){
+      mCallbackFunction(lStories);
+    });
+  },
+
 });
 
 Cotton.CONTROLLER = new Cotton.Controller();
