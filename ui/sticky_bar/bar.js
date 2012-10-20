@@ -7,6 +7,11 @@
  */
 Cotton.UI.StickyBar.Bar = Class.extend({
 
+  /**
+   * Cotton.Model.World : parent element.
+   */
+  _oWorld : null,
+
   _lStickers : null,
   _$stickyBar : null,
   _oCommands : null,
@@ -19,8 +24,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   /**
    * @constructor
    */
-  init : function() {
+  init : function(oWorld) {
     var self = this;
+
+    self._oWorld = oWorld;
+
     this._lStickers = [];
     this._$stickyBar = $('#ct-stickyBar_bar');
 
@@ -286,6 +294,25 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   },
 
   /**
+   * From stories create corresponding stickers, and add them to the sticky_bar.
+   *
+   * @param {Array.<Cotton.Model.Story>} lStories
+   */
+  pushStories : function(lStories) {
+    var self = this;
+    var lStickers = [];
+    _.each(lStories, function(oStory) {
+      var oSticker = self.buildSticker(oStory);
+      lStickers.push(oSticker);
+    });
+
+    _.each(lStickers, function(oSticker) {
+      oSticker.display();
+    });
+
+  },
+
+  /**
    * Remove the sticker from the UI.
    *
    * @param {Cotton.UI.StickyBar.Sticker} oSticker
@@ -305,17 +332,25 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   },
 
   /**
-   * Remove all the stickers that are not in the corresponding to the story id.
-   *
-   * @param {Array.<int>} lStoriesId
+   * Remove all stickers.
    */
-  removeStickersFromStoriesId : function(lStoriesId){
+  removeAllStickers : function(){
     var self = this;
     _.each(self._lStickers, function(oSticker){
-      if(_.indexOf(lStoriesId, oSticker.story().id()) === -1){
         self.removeSticker(oSticker.story().id());
-      }
     });
+    self._lStickers = [];
+  },
+
+  /**
+   * Show all the results from a search.
+   *
+   * @param {Array.<Cotton.Model.Story>} lStories
+   */
+  showResultFromSearch : function(lStories){
+    var self = this;
+    self.removeAllStickers();
+    self.pushStories(lStories);
   },
 
 });

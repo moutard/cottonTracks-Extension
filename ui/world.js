@@ -34,7 +34,7 @@ Cotton.UI.World = Class.extend({
     var self = this;
 
     // Create stickybar
-    self._oStickyBar = new Cotton.UI.StickyBar.Bar();
+    self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
 
     // Create homepage
     self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage(self);
@@ -83,6 +83,7 @@ Cotton.UI.World = Class.extend({
     self._oHomepage.hide();
     self._oSearchpage.hide();
   },
+
   /**
    * Note : this method is not really MVC friendly. Because the UI, has access
    * to the DB without passing by the controller.
@@ -106,22 +107,6 @@ Cotton.UI.World = Class.extend({
     });
   },
 
-  /**
-   *
-   */
-  pushStories : function(lStories) {
-    var self = this;
-    var lStickers = [];
-    _.each(lStories, function(oStory) {
-      var oSticker = self._oStickyBar.buildSticker(oStory);
-      lStickers.push(oSticker);
-    });
-
-    _.each(lStickers, function(oSticker) {
-      oSticker.display();
-    });
-
-  },
 });
 
 // We need an object to communicate via BackBone with the algorithm.

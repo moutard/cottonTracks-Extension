@@ -14,6 +14,8 @@ Cotton.UI.Search.Searchpage = Class.extend({
 
   _$title : null,
   _$search_bar : null,
+  _$undo_button : null,
+  _$spinner : null,
 
   init : function(oWorld) {
     var self = this;
@@ -26,19 +28,26 @@ Cotton.UI.Search.Searchpage = Class.extend({
     self._$search_bar.keypress(function(event) {
       // on press 'Enter' event.
       if (event.which == 13) {
-        var sTags = self._$search_bar.val();
-          if(sTags!==""){
-            var lTags = sTags.toLowerCase().split(" ");
-            if(lTags.length > 0){
-              Cotton.CONTROLLER.searchStoryFromTags(lTags, function(lStories){
-                console.log(lStories);
-              });
-            }
-          }
+        self._$spinner.show();
+        var sSearchPattern = self._$search_bar.val();
+        // Put the search in a worker.
+        setTimeout(function(){
+          Cotton.CONTROLLER.searchStoryFromTags(sSearchPattern, function(lStories){
+            $spinner.remove();
+          });
+        }, 10);
       }
     });
+
+    self._$undo_button = $('<div class="ct-search_undo_button"></div>').click(function(){
+      self._$search_bar.val("");
+      Cotton.CONTROLLER.resetSearch();
+    });
+
     var $warning = $("<p>Warning : The search feature is still in beta version. You would be enjoy soon this amazing feature.</p>");
-    self._$searchpage.append(self._$title, self._$search_bar, $warning);
+    self._$spinner = $('<div class="ct-spinning_gears medium animate"></div>').hide();
+
+    self._$searchpage.append(self._$title, self._$undo_button, self._$search_bar, $warning, self._$spinner);
   },
 
   $ : function(){
