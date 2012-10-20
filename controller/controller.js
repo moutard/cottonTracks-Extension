@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 /**
  * Controller
  *
@@ -140,7 +140,6 @@ Cotton.Controller = Class.extend({
         // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
         // Cotton.UI.oWorld.update();
         console.log(lStories);
-        // Cotton.UI.oWorld.pushStories(lStories);
       });
 
     }, false);
@@ -185,7 +184,7 @@ Cotton.Controller = Class.extend({
           function(oStore, lStories){
             console.log("proroor");
             console.log(lStories);
-            Cotton.UI.oWorld.pushStories(lStories);
+            Cotton.UI.oWorld.stickyBar().pushStories(lStories);
       });
     }, false);
 
@@ -305,7 +304,7 @@ Cotton.Controller = Class.extend({
     });
   },
 
-  /**
+  /** --------------------------------------------------------------------------
    * Controller - Notication Center Each time the UI, is modify, the UI call the
    * controller.
    */
@@ -429,17 +428,34 @@ Cotton.Controller = Class.extend({
     });
   },
 
-  searchStoryFromTags : function(lTags, mCallbackFunction){
+  /**
+   * Received from the UI the search parameters. Make the search. And return
+   * the stories that corresponds to the search pattern.
+   *
+   * @param {string} sSearchPattern
+   * @param mCallbackFunction
+   */
+  searchStoryFromTags : function(sSearchPattern, mCallbackFunction){
     var self = this;
-    self._oStore.search('stories', 'lTags', lTags[0] , function(lStories){
-      var _lStories = lStories;
-      var lStoriesId = [];
-      _.each(_lStories, function(oStory){
-        lStoriesId.push(oStory.id());
-      });
-      self._oWorld.stickyBar().removeStickersFromStoriesId(lStoriesId);
-      mCallbackFunction(lStories);
-    });
+    // TODO(rmoutard) : simply use the first tag. Do better.
+    if(sSearchPattern!==""){
+      var lTags = sSearchPattern.toLowerCase().split(" ");
+      if(lTags.length > 0){
+        self._oStore.search('stories', 'lTags', lTags[0] , function(lStories){
+          self._oWorld.stickyBar().showResultFromSearch(lStories);
+          mCallbackFunction(lStories);
+        });
+      }
+    }
+  },
+
+  /**
+   * Remove the search result stickers, and put the world as it was before.
+   */
+  resetSearch : function(){
+    var self = this;
+    self._oWorld.stickyBar().removeAllStickers();
+    self._oWorld.update();
   },
 
 });
