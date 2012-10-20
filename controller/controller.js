@@ -53,7 +53,8 @@ Cotton.Controller = Class.extend({
 
     self._oStore = new Cotton.DB.Store('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+          'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
           }, function() {
             console.debug('Global store created');
             self._oStore.empty('visitItems', function(bIsEmpty){
