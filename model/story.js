@@ -251,6 +251,10 @@ Cotton.Model.Story = Class.extend({
   },
 
   computeTags : function(){
-    this._lTags = this._sTitle.split(" ");
+    this._lTags = this._sTitle.toLowerCase().split(" ");
+  },
+
+  searchKeywords : function() {
+    return this._sTitle.toLowerCase().split(" ");
   },
 });

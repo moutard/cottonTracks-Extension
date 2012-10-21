@@ -15,6 +15,8 @@ Cotton.Model.SearchKeyword = Class.extend({
    */
   init : function(sKeyword) {
     this._sKeyword = sKeyword;
+    this._lReferringVisitItemsId = [];
+    this._lReferringStoriesId = [];
   },
 
   id : function() {
@@ -40,7 +42,9 @@ Cotton.Model.SearchKeyword = Class.extend({
   },
 
   addReferringVisitItemId : function(iVisitItemId) {
-    this._lReferringVisitItemsId.push(iVisitItemId);
+    if(_.indexOf(this._lReferringVisitItemsId, iVisitItemId)===-1){
+      this._lReferringVisitItemsId.push(iVisitItemId);
+    }
   },
 
   referringStoriesId : function() {
@@ -52,7 +56,9 @@ Cotton.Model.SearchKeyword = Class.extend({
   },
 
   addReferringStoryId : function(iStoryId) {
-    this._lReferringStoriesId.push(iStoryId);
+    if(_.indexOf(this._lReferringStoriesId, iStoryId)===-1){
+      this._lReferringStoriesId.push(iStoryId);
+    }
   },
 
 });
