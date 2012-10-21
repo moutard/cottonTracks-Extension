@@ -178,4 +178,8 @@ Cotton.Model.VisitItem = Class
           this[key] = dDict[key];
         }
       },
+
+      searchKeywords : function() {
+        return this._sTitle.toLowerCase().split(" ");
+      },
     });
