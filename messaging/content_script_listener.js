@@ -79,7 +79,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
       if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
         var oStore = new Cotton.DB.Store('ct', {
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+          'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
         }, function() {
 
           // you want to create it for the first time.
@@ -87,12 +88,26 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
             console.log("visitItem added");
             console.log(iId);
             sPutId = iId;
+            var _iId = iId;
+            _.each(oVisitItem.searchKeywords(), function(sKeyword){
+              // PROBLEM if not find.
+              oStore.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
+                if(!oSearchKeyword) {
+                  oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+                }
 
-            // Return nothing to let the connection be cleaned up.
-            sendResponse({
-              'received' : "true",
-              'id' : sPutId,
+                oSearchKeyword.addReferringVisitItemId(_iId);
+
+                oStore.put('searchKeywords', oSearchKeyword, function(iiId){
+                  // Return nothing to let the connection be cleaned up.
+                  sendResponse({
+                    'received' : "true",
+                    'id' : sPutId,
+                  });
+                });
+              });
             });
+
 
           });
 
