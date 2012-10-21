@@ -33,7 +33,7 @@ Cotton.UI.Search.Searchpage = Class.extend({
         // Put the search in a worker.
         setTimeout(function(){
           Cotton.CONTROLLER.searchStoryFromTags(sSearchPattern, function(lStories){
-            $spinner.remove();
+            self._$spinner.remove();
           });
         }, 10);
       }
