@@ -1,2 +1,2 @@
-'use stict';
+'use strict';
 Cotton.UI.Search = {};
