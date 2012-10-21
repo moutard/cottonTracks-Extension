@@ -44,10 +44,6 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
         var useriD = data['id'];
         localStorage.setItem('kipptUserId', data['id']);
 
-        $.each(data.services, function(name, connected) {
-            if (connected) {
-            }
-        });
         self.shareOnKippt();
     }).fail(function(jqXHR, textStatus){
       chrome.tabs.create({

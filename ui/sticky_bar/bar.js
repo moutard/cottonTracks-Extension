@@ -337,9 +337,10 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   removeAllStickers : function(){
     var self = this;
     _.each(self._lStickers, function(oSticker){
-        self.removeSticker(oSticker.story().id());
+        oSticker.$().remove();
     });
     self._lStickers = [];
+    self._iTranslateX = 0;
   },
 
   /**

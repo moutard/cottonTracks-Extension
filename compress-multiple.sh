@@ -132,6 +132,7 @@ model_input_files=( './model/init.js'
                     './model/extracted_dna.js'
                     './model/visit_item.js'
                     './model/tool.js'
+                    './model/search_keyword.js'
              	  )
 model_output_file="model.js"
 
@@ -147,7 +148,9 @@ utils_output_file="utils.js"
 # TRANSLATORS
 translators_input_files=( './translators/init.js'
                           './translators/story_translators.js'
-                          './translators/visit_item_translators.js')
+                          './translators/visit_item_translators.js'
+                          './translators/search_keyword_translators.js'
+                        )
 translators_output_file='translators.js'
 
 # UI
@@ -164,8 +167,14 @@ ui_input_files=(  './ui/init.js'
                   './ui/home/apps_grid.js'
                   './ui/home/apps_ticket.js'
                   './ui/home/ticket.js'
+                  './ui/search/init.js'
+                  './ui/search/searchpage.js'
                   './ui/sticky_bar/init.js'
                   './ui/sticky_bar/commands.js'
+                  './ui/sticky_bar/share/init.js'
+                  './ui/sticky_bar/share/social_buttons.js'
+                  './ui/sticky_bar/share/kippt_button.js'
+                  './ui/sticky_bar/share/twitter_button.js'
                   './ui/sticky_bar/bar.js'
                   './ui/sticky_bar/sticker.js'
                   './ui/story/init.js'
@@ -176,7 +185,6 @@ ui_input_files=(  './ui/init.js'
                   './ui/story/item/item_toolbox.js'
                   './ui/story/item/item_dna.js'
                   './ui/story/item/item_featured_image.js'
-                  './ui/story/item/item_editbox.js'
                   './ui/story/item/content/init.js'
                   './ui/story/item/content/item_content.js'
                   './ui/story/item/content/item_content_default.js'
@@ -292,11 +300,12 @@ background_lib=( './lib/date.format.js'
 background_missing_files=( 	'./utils/log.js'
                             './db/expand_store.js'
                             './db/populate_db.js'
+                            './db/routine.js'
                             './algo/init.js'
                             './algo/common/init.js'
                             './algo/common/cluster_story.js'
                             './messaging/content_script_listener.js'
-							              './controller/first_launch.js'
+							'./controller/first_launch.js'
 
                          )
 
@@ -489,10 +498,9 @@ function removeFolders {
 	rm -rf algo/common
 	rm -rf algo/dbscan2/
 	rm algo/init.js algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
-	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js algo/dbscan3/pre_treatment.js
-  rm -rf behavior
-	rm config/init.js
-	rm config/config.js
+	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js algo/dbscan1/pre_treatment.js
+  	rm -rf behavior
+	rm -rf config
 	rm -rf controller
 	rm -rf db
 	rm -rf messaging
