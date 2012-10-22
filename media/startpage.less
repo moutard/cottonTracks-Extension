@@ -775,20 +775,35 @@ body {
 
   > .ct-social_button {
     position: relative;
-    width: 80px;
+    width: 100px;
     height: 20px;
     background-color: #f8f8f8;
-    left: 380px;
+    left: 360px;
     padding: 5px 10px 5px 10px;
     text-align: center;
     border: 1px solid #aaa;
 
+    &:hover {
+      box-shadow: 0 0px 5px #D2AC28
+    }
+
+    &.succeed {
+
+      > h2 {
+        cont-style: italic;
+        &:after {
+          margin-left: 5px;
+          content : "✓";
+        }
+      }
+    }
+
     &.ct-kippt {
-      top: 10px;
+      top: 20px;
     }
 
     &.ct-twitter {
-      top: 40px;
+      top: 37px;
     }
 
     > img {
@@ -798,21 +813,24 @@ body {
     }
 
     > h2 {
-      width: 50px;
+      width: 60px;
       float: left;
       font-size: 12px;
       color: #333;
       margin-left: 10px;
       margin: 3px 0 0 10px;
     }
+
   }
 
   > p {
     position: absolute;
+    top: 55px;
     left: 20px;
-    width: 200px;
+    width: 300px;
     color: #333;
     font-size: 14px;
+    text-align: justify;
   }
 }
 
