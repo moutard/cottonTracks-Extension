@@ -103,7 +103,7 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     var self = this;
     if(!self._$removeButton){
       self._$removeButton = $('<div class="ct-item_button_remove"></div>')
-      self._$removeButton.append('<img src="/media/images/topbar/sticker/delete.png">');
+      self._$removeButton.append('<img src="/media/images/story/item/delete_favicon.png">');
       self._$removeButton.mouseup(function(e){
 
         if($(e.target).is('h5')){

@@ -13,7 +13,7 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
 
     // set favicon
     this._oItemToolbox._$favicon.attr("src",
-        "/media/images/story/google_favicon.png");
+        "/media/images/story/item/google_favicon.png");
 
     // create the item
     this._$item_content.append(
