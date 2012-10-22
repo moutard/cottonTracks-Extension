@@ -18,7 +18,7 @@ Cotton.UI.StickyBar.Share.SocialButtons = Class.extend({
     this._$title = $('<h1>Share this story.</h1>');
     this._oKipptButton = new Cotton.UI.StickyBar.Share.KipptButton();
     this._oTwitterButton = new Cotton.UI.StickyBar.Share.TwitterButton();
-    var $paragraph = $('<p>Only element marked as public will be share. Private element will stay yours.</p>');
+    var $paragraph = $('<p>Only element marked as public will be shared. Private elements, marked by a lock, will stay yours.</p>');
     this._$social_buttons.append(this._$title, $paragraph, this._oKipptButton.$(), this._oTwitterButton.$());
 
   },
@@ -34,8 +34,19 @@ Cotton.UI.StickyBar.Share.SocialButtons = Class.extend({
       this._$social_buttons.hide();
     } else {
       self._bIsOpen = true;
+      if(!_oCurrentlyOpenStoryline){
+        self._oKipptButton.$().click(false);
+        self._oTwitterButton.$().click(false);
+      } else {
+        self._oKipptButton.$().click(true);
+        self._oTwitterButton.$().click(true);
+      }
       this._$social_buttons.show();
     }
   },
+
+  deactivateButton : function() {
+
+  }
 
 });
