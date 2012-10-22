@@ -20,6 +20,12 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
     );
 
     this._$kippt_button.click(function(){
+      self._$kippt_button.css('background-color', '#D2AC28');
+      self._$kippt_button.animate({
+        'background-color': '#f8f8f8',
+        }, 500, function(){
+      });
+
       self.connectOnKippt();
     });
   },
@@ -53,6 +59,8 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
   },
 
   shareOnKippt : function(){
+    var self = this;
+
     if(_oCurrentlyOpenStoryline){
       // Create a list
       var type = 'POST';
@@ -78,6 +86,11 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
             'url': oVisitItem.url(),
             'list': dResponse['resource_uri']
           });
+          self._$kippt_button.css('background-color', '#7AF187');
+          self._$kippt_button.animate({
+              'background-color': '#f8f8f8',
+            }, 1000, function(){
+          });
 
           $.ajax({
               'url': clip_url,
@@ -85,13 +98,20 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
               'dataType': 'json',
               'data': clip_data
           }).done(function(){
+
           }).fail(function(jqXHR, textStatus){
               alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
           });
         });
 
       }).fail(function(jqXHR, textStatus){
-            alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
+        self._$kippt_button.css('background-color', '#F17B7A');
+        self._$kippt_button.animate({
+          'background-color': '#f8f8f8',
+          }, 1000, function(){
+        });
+
+          //alert( "Something went wrong when saving. Try again or contact hello@kippt.com");
       });
 
 
