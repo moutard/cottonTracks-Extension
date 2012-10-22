@@ -99,20 +99,20 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     oItem.$().append(this._$item_toolbox);
   },
 
-  addRemoveButton : function(){
+  addDeleteButton : function(){
     var self = this;
-    if(!self._$removeButton){
-      self._$removeButton = $('<div class="ct-item_button_remove"></div>')
-      self._$removeButton.append('<img src="/media/images/story/item/delete_favicon.png">');
-      self._$removeButton.mouseup(function(e){
+    if(!self._$delete_button){
+      self._$delete_button = $('<div class="ct-item_button_remove"></div>')
+      self._$delete_button.append('<img src="/media/images/story/item/delete_favicon.png">');
+      self._$delete_button.mouseup(function(e){
 
         if($(e.target).is('h5')){
           e.preventDefault();
           return;
         }
 
-        if(!self._bRemoveIsOpen){
-          self._bRemoveIsOpen = true;
+        if(!self._bDeleteIsOpen){
+          self._bDeleteIsOpen = true;
           self.$yes = $('<h5>Yes</h5>').mouseup(function(){
             var iVisitItem = self._oContentItem.item().visitItem().id();
             Cotton.CONTROLLER.removeVisitItemInStory(iVisitItem);
@@ -127,23 +127,23 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
               });
           }).show('slow');
           self.$no = $('<h5>No</h5>').mouseup(function(){
-            self._$removeButton.removeClass('open');
+            self._$delete_button.removeClass('open');
             self.$yes.remove();
             self.$no.remove();
-            self._bRemoveIsOpen = false;
+            self._bDeleteIsOpen = false;
           }).show('slow');
-          self._$removeButton.append(self.$yes, self.$no).addClass('open');
+          self._$delete_button.append(self.$yes, self.$no).addClass('open');
         }
 
       });
 
-      self._$item_toolbox.append(self._$removeButton);
+      self._$item_toolbox.append(self._$delete_button);
     }
   },
 
-  removeRemoveButton : function(){
+  removeDeleteButton : function(){
     var self = this;
-    self._$removeButton.remove();
-    self._$removeButton = null;
+    self._$delete_button.remove();
+    self._$delete_button = null;
   },
 });
