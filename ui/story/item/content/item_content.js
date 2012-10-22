@@ -57,7 +57,7 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       self._bIsEditable = true;
       self._oItemDescription.editTitle();
       self._oItemFeaturedImage.editImage();
-      self._oItemToolbox.addRemoveButton();
+      self._oItemToolbox.addDeleteButton();
       // TODO(rmoutard) : avoid manipulating DOM
       $('.connectedSortable').sortable('disable')
       self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon_selected.png");
@@ -66,8 +66,8 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       self._bIsEditable = false;
       self._oItemDescription.editTitle(true);
       self._oItemFeaturedImage.stopEditImage();
-      self._oItemToolbox.removeRemoveButton();
-      self._oItemToolbox._bRemoveIsOpen = false;
+      self._oItemToolbox.removeDeleteButton();
+      self._oItemToolbox._bDeleteIsOpen = false;
       // TODO(rmoutard) : avoid manipulating DOM
       $('.connectedSortable').sortable('enable')
       self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon.png");
