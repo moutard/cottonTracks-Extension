@@ -180,15 +180,10 @@ Cotton.Controller = Class.extend({
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                               e.data['iNbCluster']);
 
-      // Set story with a temporary id.
-      /*
-       * _.each(dStories['stories'], function(oStory){
-       * oStory.setId(self._iTmpId); self._iTmpId+=1; console.log(' frf rfrf r f ' +
-       * self._iTmpId); }) Cotton.UI.oWorld.pushStories(dStories['stories']);
-       */
       // Add stories
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore, lStories){
+            console.log("proroor");
             console.log(lStories);
             Cotton.UI.oWorld.pushStories(lStories);
       });
