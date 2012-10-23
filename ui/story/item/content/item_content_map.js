@@ -15,7 +15,7 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
         this._oUrl = oUrl;
 
         // current sub elements.
-        this._$map = $('<iframe width="380" height="380" src="" frameborder="0"></iframe>');
+        this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');
         var sEmbedUrl = this._oUrl.href + "&output=embed";
         this._$map.attr('src', sEmbedUrl);
 
