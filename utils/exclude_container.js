@@ -62,7 +62,8 @@ Cotton.Utils.ExcludeContainer = Class.extend({
 
   isHttps : function(oUrl){
     // exlude Https except if it's google.
-    return oUrl.protocol === "https:" && !oUrl.isGoogle;
+    return oUrl.protocol === "https:" && !oUrl.isGoogle
+      && !oUrl.isGoogleMap;
   },
 
   /**
@@ -71,7 +72,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    * @param sUrl
    * @return {boolean}
    */
-  isExcluded : function(sUrl) {
+  isExcluded : function(sUrl){
     var self = this;
     var oUrl = new parseUrl(sUrl);
 
