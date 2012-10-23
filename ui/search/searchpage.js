@@ -32,7 +32,7 @@ Cotton.UI.Search.Searchpage = Class.extend({
         var sSearchPattern = self._$search_bar.val();
         // Put the search in a worker.
         setTimeout(function(){
-          Cotton.CONTROLLER.searchStoryFromTags(sSearchPattern, function(lStories){
+          Cotton.CONTROLLER.searchStoryFromSearchKeywords(sSearchPattern, function(lStories){
             self._$spinner.remove();
           });
         }, 10);
@@ -61,5 +61,16 @@ Cotton.UI.Search.Searchpage = Class.extend({
 
   hide : function(){
     this._$searchpage.hide();
+  },
+
+  nothingFoundError : function(){
+    var self = this;
+    var $nothing_found = $('<p class="ct-nothing_found">Nothing found</p>');
+    self._$searchpage.append($nothing_found);
+    self._$search_bar.css("background-color", "#DE4646");
+    self._$search_bar.animate({
+      "background-color" :  "#FFFFFF"
+    }, 1000);
+    setTimeout(function(){ $nothing_found.remove();}, 1000);
   },
 });

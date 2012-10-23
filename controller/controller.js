@@ -451,6 +451,40 @@ Cotton.Controller = Class.extend({
   },
 
   /**
+   * Received from the UI the search parameters. Search the corresponding
+   * keyword on the database 'searchKeywords'. And return
+   * the stories that corresponds to those keywords.
+   *
+   * @param {string} sSearchPattern
+   * @param mCallbackFunction
+   */
+  searchStoryFromSearchKeywords : function(sSearchPattern, mCallbackFunction){
+    var self = this;
+    // TODO(rmoutard) : simply use the first tag. Do better.
+    if(sSearchPattern!==""){
+      var lTags = sSearchPattern.toLowerCase().split(" ");
+      if(lTags.length > 0){
+        self._oStore.find('searchKeywords', 'sKeyword', lTags[0],
+            function(oSearchKeyword){
+              if(oSearchKeyword){
+              console.log(oSearchKeyword);
+              self._oStore.findGroup('stories', 'id', oSearchKeyword.referringStoriesId(),
+                function(lStories){
+                  console.log(lStories);
+                  self._oWorld.stickyBar().showResultFromSearch(lStories);
+                  mCallbackFunction(lStories);
+                });
+              } else {
+                // TODO(rmoutard) : return a non find message.
+                self._oWorld.searchpage().nothingFoundError();
+                mCallbackFunction();
+              }
+            });
+      }
+    }
+  },
+
+  /**
    * Remove the search result stickers, and put the world as it was before.
    */
   resetSearch : function(){
