@@ -28,6 +28,7 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
         });
       });
       if (iCount === iLength) {
+        Cotton.DB.SearchKeywords.updateStoriesSearchKeywords(oStore, lStories);
         mCallBackFunction(oStore, lStories);
       }
       iCount += 1;
@@ -116,5 +117,50 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
 };
 
 /**
+ * ----------------------------------------------------------------------------
+ * SearchKeywords
+ */
+Cotton.DB.SearchKeywords = {};
+
+Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories){
+    var lKeywordsAndId = [];
+    _.each(lStories, function(oStory){
+        _.each(oStory.searchKeywords(), function(sKeyword){
+          var oKeywordAndId = {
+              'sKeyword': sKeyword,
+              'iStoryId' : oStory.id()
+          };
+          lKeywordsAndId.push(oKeywordAndId);
+        })
+      });
+
+      var f = function(lKeywordsAndId, i){
+        var self = this;
+
+        var _i = i;
+        var oKeywordAndId = lKeywordsAndId[_i];
+        if(oKeywordAndId){
+          oStore.find('searchKeywords', 'sKeyword', oKeywordAndId['sKeyword'], function(oSearchKeyword){
+            // If not find, oSearchKeyword is null.
+            if(!oSearchKeyword) {
+              oSearchKeyword = new Cotton.Model.SearchKeyword(oKeywordAndId['sKeyword']);
+            }
+
+            oSearchKeyword.addReferringStoryId(oKeywordAndId['iStoryId']);
+
+            oStore.put('searchKeywords', oSearchKeyword, function(iId){
+              // Becarefull with asynchronous.
+              f(lKeywordsAndId, _i+1);
+            });
+          });
+        }
+      };
+
+      f(lKeywordsAndId, 0);
+};
+
+
+/**
+ * ----------------------------------------------------------------------------
  * VisitItems
  */
