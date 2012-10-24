@@ -1,11 +1,45 @@
 'use strict';
 
+/**
+ * Score is used to compute the value of pertinence of a given paragraph.
+ * See {Cotton.Model.ExtractedParagraph} for the data model link to the
+ * database.
+ */
+
 Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
+
+  _iId : undefined,
+  _$block : null,
+  _fScore : 0,
 
   init: function($block) {
     this._$block = $block;
+    this._iId = $block.attr('ct-id');
     this._fScore = 0;
     this._bLoggingEnabled = false;
+  },
+
+  id : function() {
+    return this._iId;
+  },
+
+  score : function() {
+    return this._fScore;
+  },
+
+  text : function() {
+    return this._$block.text();
+  },
+
+  serialize : function() {
+    var self = this;
+    var dDBRecord = {
+      'id' : self._iId,
+      'sText' : self._$block.text(),
+      'fScore' : self._fScore
+    };
+
+    return dDBRecord;
   },
 
   increment: function(fIncrement) {
@@ -20,10 +54,6 @@ Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
       this._$block.css('color', '#000');
       this.log("Score updated to " + this._fScore);
     }
-  },
-
-  score: function() {
-    return this._fScore;
   },
 
   // TODO(fwouts): Move this method out of there.

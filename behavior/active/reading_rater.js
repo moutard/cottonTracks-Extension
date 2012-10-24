@@ -114,6 +114,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var oScore = $block.data('score');
       if (!oScore) {
         oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
+        sync.current().extractedDNA().addScore(oScore);
         $block.data('score', oScore);
       }
     });
@@ -126,6 +127,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         self._oFeedbackElement.setPercentage(iPercent + '%');
 
         sync.current().extractedDNA().setPageScore(fPageScore);
+        //sync.current().extractedDNA().setScores(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
         sync.updateVisit();
       }
@@ -223,6 +225,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       oScore.increment(fFocusProportion * this.iVisibleSurface
           / Math.pow(this.iTotalSurface, 2) * 1000
           * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+
+      var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
+      oParagraph.setId(oScore.id());
+      oParagraph.setPercent(oScore.score());
+      console.log('paragraph');
+      console.log(oParagraph);
+      sync.current().extractedDNA().addParagraph(oParagraph);
+
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
     });
     return fPageScore;
