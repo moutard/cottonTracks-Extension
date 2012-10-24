@@ -544,6 +544,41 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
       self._$sticker.find('.ct-stickers_button_remove').remove();
       self._$title.show();
     },
+
+    /**
+     * Recycle method is used to avoid issue performance. The idea is to use,
+     * the memory already created and change parameters. That's avoid of
+     * removing a sticker and create a new one.
+     *
+     * Moreover due to some issues i don't understand yet, remove all the
+     * stickers is a guzzling time process. This method will avoid that.
+     *
+     * @param {Cotton.Model.Story} oStory
+     */
+
+    recycle : function(oStory){
+      var self = this;
+
+      self._oStory = oStory;
+      self.getVisits(function(){});
+      self._$sticker.attr('ct-story_id', self._oStory.id());
+
+      // CONTENT
+      var lVisitItems = self._oStory.visitItems();
+      self._$title.text(self._oStory.title());
+
+      if (self._oStory._sFeaturedImage !== "") {
+        self._$img.attr("src", self._oStory._sFeaturedImage);
+      } else {
+       self._$img.attr("src", "/media/images/default_preview7.png");
+      }
+
+      // Load is a callback function, called when the image is ready.
+      self._$img.load(function() {
+        self.resizeImg($(this));
+      });
+
+    },
 });
 
 _.extend(Cotton.UI.StickyBar.Sticker.prototype, Backbone.Events);
