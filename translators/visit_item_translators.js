@@ -17,14 +17,16 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'lExtractedWords' : oVisitItem.extractedWords(),
       'oExtractedDNA' : {
         'lHighlightedText' : oVisitItem.extractedDNA().highlightedText(),
-        'lScores' : oVisitItem.extractedDNA().scores(),
+        'lScores' : _.collect(oVisitItem.extractedDNA().scores(), function(oScore){ return oScore.serialize();}),
         'sImageUrl' : oVisitItem.extractedDNA().imageUrl(),
         'sFirstParagraph' : oVisitItem.extractedDNA().firstParagraph(),
+        'sMostReadParagraph' : oVisitItem.extractedDNA().mostReadParagraph(),
         'iPercent' : oVisitItem.extractedDNA().percent(),
         'fPageScore' : oVisitItem.extractedDNA().pageScore(),
         'iImageCropped' : oVisitItem.extractedDNA().imageCropped(),
         'iImageMarginTop' : oVisitItem.extractedDNA().imageMarginTop(),
         'iScrollablePosition' : oVisitItem.extractedDNA().scrollablePosition(),
+        'lParagraphs' : _.collect(oVisitItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
       },
     };
 
@@ -69,6 +71,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oExtractedDNA.setScores(dExtractedDNA['lScores']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
+    oExtractedDNA.setMostReadParagraph(dExtractedDNA['sMostReadParagraph']);
     oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
     oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
     oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);

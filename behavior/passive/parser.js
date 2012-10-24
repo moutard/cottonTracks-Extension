@@ -28,7 +28,8 @@ Cotton.Behavior.Passive.Parser = Class.extend({
    * @constructor
    */
   init : function() {
-
+    this._MeaningFulBlocks = [];
+    this._iNbMeaningfulBlock = 0;
   },
 
   favicon : function() {
@@ -198,7 +199,11 @@ Cotton.Behavior.Passive.Parser = Class.extend({
   },
 
   _markMeaningfulBlock : function($block) {
+    //this._lMeaningfulBlock.push($block);
+    var i = this._iNbMeaningfulBlock;
+    this._iNbMeaningfulBlock += 1;
     $block.attr('data-meaningful', 'true');
+    $block.attr('ct-id', i);
     if (Cotton.Config.Parameters.bDevMode === true) {
       $block.css('border', '1px dashed #35d');
     }

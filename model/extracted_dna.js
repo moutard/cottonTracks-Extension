@@ -19,6 +19,8 @@ Cotton.Model.ExtractedDNA = Class.extend({
   _iImageMarginTop : 0,
   _iScrollablePosition : undefined,
   _sFirstParagraph : "",
+  _sMostReadParagraph : "",
+  _lParagraphs : [],
 
   /**
    * @constructor
@@ -30,13 +32,27 @@ Cotton.Model.ExtractedDNA = Class.extend({
     this._lHighlightedText = [];
     this._sImageUrl = "";
     this._sFirstParagraph = "";
+    this._sMostReadParagraph = "";
+    this._lParagraphs = [];
   },
 
   scores : function() {
     return this._lScores;
   },
   addScore : function(oScore) {
-    this._lScores.push(oScore);
+    var self = this;
+    var iIndexOfScore = _.indexOf(_.collect(self._lScores,
+                                  function(oScore){
+                                    return oScore.id();
+                                  }),
+                                  oScore.id()
+                        );
+    // Add the score if it doesn't exists. If not set it.
+    if(iIndexOfScore === -1){
+      self._lScores.push(oScore);
+    } else {
+      self._lScores[iIndexOfScore] = oScore;
+    }
   },
   setScores : function(lScores) {
     this._lScores = lScores;
@@ -93,5 +109,34 @@ Cotton.Model.ExtractedDNA = Class.extend({
   setFirstParagraph : function(sFirstParagraph) {
     this._sFirstParagraph = sFirstParagraph;
   },
+  mostReadParagraph : function(){
+    return this._sMostReadParagraph;
+  },
+  setMostReadParagraph : function(sMostReadParagraph){
+    this._sMostReadParagraph = sMostReadParagraph;
+  },
+
+  paragraphs : function() {
+    return this._lParagraphs;
+  },
+  addParagraph : function(oParagraph) {
+    var self = this;
+    var iIndexOfParagraph = _.indexOf(_.collect(self._lParagraphs,
+                                  function(_oParagraph){
+                                    return _oParagraph.id();
+                                  }),
+                                  oParagraph.id()
+                        );
+    // Add the score if it doesn't exists. If not set it.
+    if(iIndexOfParagraph === -1){
+      self._lParagraphs.push(oParagraph);
+    } else {
+      self._lParagraphs[iIndexOfParagraph] = oParagraph;
+    }
+  },
+  setParagraphs : function(lParagraphs) {
+    this._lParagraphs = lParagraphs;
+  },
+
 
 });
