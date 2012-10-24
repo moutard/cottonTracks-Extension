@@ -17,7 +17,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'lExtractedWords' : oVisitItem.extractedWords(),
       'oExtractedDNA' : {
         'lHighlightedText' : oVisitItem.extractedDNA().highlightedText(),
-        'lScores' : _.collect(oVisitItem.extractedDNA().scores(), function(oScore){ return oScore.serialize();}),
         'sImageUrl' : oVisitItem.extractedDNA().imageUrl(),
         'sFirstParagraph' : oVisitItem.extractedDNA().firstParagraph(),
         'sMostReadParagraph' : oVisitItem.extractedDNA().mostReadParagraph(),
@@ -68,12 +67,19 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
     var oExtractedDNA = new Cotton.Model.ExtractedDNA();
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
-    oExtractedDNA.setScores(dExtractedDNA['lScores']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
     oExtractedDNA.setMostReadParagraph(dExtractedDNA['sMostReadParagraph']);
     oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
     oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
+
+    var lParagraphs = _.collect(dExtractedDNA['lParagraphs'], function(dDBRecord){
+      var extractedParagraph = new Cotton.Model.ExtractedParagraph();
+      extractedParagraph.deserialize(dDBRecord)
+      return extractedParagraph;
+    })
+    oExtractedDNA.setParagraphs(lParagraphs);
+
     oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);
     oExtractedDNA.setImageMarginTop(dExtractedDNA['iImageMarginTop']);
     oExtractedDNA.setScrollablePosition(dExtractedDNA['iScrollablePosition']);
