@@ -32,8 +32,9 @@ Cotton.UI.Search.Searchpage = Class.extend({
         var sSearchPattern = self._$search_bar.val();
         // Put the search in a worker.
         //setTimeout(function(){
-          Cotton.CONTROLLER.searchStoryFromSearchKeywords(sSearchPattern, function(lStories){
+          Cotton.CONTROLLER.searchStoryFromSearchKeywords(sSearchPattern, function(iNbOfStoriesToChange){
             //self._$spinner.remove();
+            self._iNbOfStoriesToChange = iNbOfStoriesToChange;
           });
         //}, 10);
       }
@@ -41,7 +42,7 @@ Cotton.UI.Search.Searchpage = Class.extend({
 
     self._$undo_button = $('<div class="ct-search_undo_button"></div>').click(function(){
       self._$search_bar.val("");
-      Cotton.CONTROLLER.resetSearch();
+      Cotton.CONTROLLER.resetSearch(self._iNbOfStoriesToChange);
     });
 
     var $warning = $("<p>Warning : The search feature is still in beta version. You would be enjoy soon this amazing feature.</p>");
