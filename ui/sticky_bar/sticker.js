@@ -578,6 +578,7 @@ Cotton.UI.StickyBar.Sticker = Class.extend({
         self.resizeImg($(this));
       });
 
+      self.$().show();
     },
 });
 
