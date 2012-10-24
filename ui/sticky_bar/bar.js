@@ -379,8 +379,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   showResultFromSearch : function(lStories){
     var self = this;
     var iStickerIndex = 0;
-    // TODO(rmoutard) : problem if there amre more results than stickers !
-    // FIXME
     _.each(self._lStickers, function(oSticker){
       if(iStickerIndex < lStories.length){
         oSticker.recycle(lStories[iStickerIndex]);
@@ -389,6 +387,12 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       }
       iStickerIndex += 1;
     });
+
+    // Handle the case where there are more results than stickers. We need to
+    // create new stickers to receive stories.
+    if(iStickerIndex < lStories.length){
+      self.pushStories(lStories.slice(iStickerIndex));
+    }
   },
 
   /**
@@ -398,7 +402,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     var self = this;
     var iStickerIndex = 0;
     // TODO(rmoutard) : problem if there amre more results than stickers !
-    // FIXME
+    // I think there will be always the right number.
     _.each(self._lStickers, function(oSticker){
       if(iStickerIndex < lStories.length){
         oSticker.recycle(lStories[iStickerIndex]);
