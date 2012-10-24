@@ -468,11 +468,13 @@ Cotton.Controller = Class.extend({
             function(oSearchKeyword){
               if(oSearchKeyword){
               console.log(oSearchKeyword);
-              self._oStore.findGroup('stories', 'id', oSearchKeyword.referringStoriesId(),
+              var lReferringStoriesId =  oSearchKeyword.referringStoriesId();
+
+              self._oStore.findGroup('stories', 'id', lReferringStoriesId,
                 function(lStories){
                   console.log(lStories);
                   self._oWorld.stickyBar().showResultFromSearch(lStories);
-                  mCallbackFunction(lStories);
+                  //mCallbackFunction([oStory]);
                 });
               } else {
                 // TODO(rmoutard) : return a non find message.

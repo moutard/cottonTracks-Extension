@@ -28,14 +28,14 @@ Cotton.UI.Search.Searchpage = Class.extend({
     self._$search_bar.keypress(function(event) {
       // on press 'Enter' event.
       if (event.which == 13) {
-        self._$spinner.show();
+        //self._$spinner.show();
         var sSearchPattern = self._$search_bar.val();
         // Put the search in a worker.
-        setTimeout(function(){
+        //setTimeout(function(){
           Cotton.CONTROLLER.searchStoryFromSearchKeywords(sSearchPattern, function(lStories){
-            self._$spinner.remove();
+            //self._$spinner.remove();
           });
-        }, 10);
+        //}, 10);
       }
     });
 

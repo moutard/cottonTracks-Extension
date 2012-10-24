@@ -14,6 +14,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   _lStickers : null,
   _$stickyBar : null,
+  _$container : null,
   _oCommands : null,
   _$commands : null,
   _$sumUp : null,
@@ -31,6 +32,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
     this._lStickers = [];
     this._$stickyBar = $('#ct-stickyBar_bar');
+    this._$container = $('.ct-container');
 
     this._oCommands = new Cotton.UI.StickyBar.Commands(self);
     this._$commands = $('.ct-commands');
@@ -294,11 +296,32 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   },
 
   /**
-   * From stories create corresponding stickers, and add them to the sticky_bar.
+   * From stories create corresponding stickers, and add them at the end of
+   * the sticky_bar.
    *
    * @param {Array.<Cotton.Model.Story>} lStories
    */
   pushStories : function(lStories) {
+    var self = this;
+    var lStickers = [];
+    _.each(lStories, function(oStory) {
+      var oSticker = self.buildSticker(oStory);
+      lStickers.push(oSticker);
+    });
+
+    _.each(lStickers, function(oSticker) {
+      oSticker.display();
+    });
+
+  },
+
+  /**
+   * From stories create corresponding stickers, and add them at the
+   * beginning of the sticky_bar.
+   *
+   * @param {Array.<Cotton.Model.Story>} lStories
+   */
+  appendStories : function(lStories) {
     var self = this;
     var lStickers = [];
     _.each(lStories, function(oStory) {
@@ -336,9 +359,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    */
   removeAllStickers : function(){
     var self = this;
-    _.each(self._lStickers, function(oSticker){
+/*    _.each(self._lStickers, function(oSticker){
         oSticker.$().remove();
     });
+*/
+    self._$container.empty();
     self._lStickers = [];
     self._iTranslateX = 0;
   },
@@ -350,8 +375,13 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    */
   showResultFromSearch : function(lStories){
     var self = this;
-    self.removeAllStickers();
-    self.pushStories(lStories);
+    //self.removeAllStickers();
+    //self.pushStories(lStories);
+    var iStickerIndex = 0;
+    _.each(lStories, function(oStory){
+      self._lStickers[iStickerIndex].recycle(oStory);
+      iStickerIndex+=1;
+    });
   },
 
 });
