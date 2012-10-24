@@ -29,10 +29,10 @@ Cotton.Model.ExtractedParagraph = Class.extend({
     this._iId = iId;
   },
   text : function(){
-    return this._stext;
+    return this._sText;
   },
   setText : function(sText){
-    this._stext = sText;
+    this._sText = sText;
   },
   percent : function(){
     return this._fPercent;
@@ -53,6 +53,12 @@ Cotton.Model.ExtractedParagraph = Class.extend({
     };
 
     return dDBRecord;
+  },
+
+  deserialize : function(dDBRecord){
+    this._iId = dDBRecord['id'];
+    this._fPercent = dDBRecord['fPercent'];
+    this._sText = dDBRecord['sText'];
   },
 
 });

@@ -12,7 +12,6 @@ Cotton.Model.ExtractedDNA = Class.extend({
 
   _iPercent : 0,
   _fPageScore : 0,
-  _lScores : [],
   _lHighlightedText : [],
   _sImageUrl : "",
   _iImageCropped : 0,
@@ -28,34 +27,11 @@ Cotton.Model.ExtractedDNA = Class.extend({
   init : function() {
     this._iPercent = 0;
     this._fPageScore = 0;
-    this._lScores = [];
     this._lHighlightedText = [];
     this._sImageUrl = "";
     this._sFirstParagraph = "";
     this._sMostReadParagraph = "";
     this._lParagraphs = [];
-  },
-
-  scores : function() {
-    return this._lScores;
-  },
-  addScore : function(oScore) {
-    var self = this;
-    var iIndexOfScore = _.indexOf(_.collect(self._lScores,
-                                  function(oScore){
-                                    return oScore.id();
-                                  }),
-                                  oScore.id()
-                        );
-    // Add the score if it doesn't exists. If not set it.
-    if(iIndexOfScore === -1){
-      self._lScores.push(oScore);
-    } else {
-      self._lScores[iIndexOfScore] = oScore;
-    }
-  },
-  setScores : function(lScores) {
-    this._lScores = lScores;
   },
 
   highlightedText : function() {

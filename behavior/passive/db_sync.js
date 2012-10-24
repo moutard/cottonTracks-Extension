@@ -19,7 +19,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
   /**
    * Cotton.Model.VisitItem, stores results of the parser and reading_rater.
    */
-  _oCurrentvisitItem : undefined,
+  _oCurrentVisitItem : undefined,
 
   /**
    * @constructor
@@ -82,6 +82,14 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
    */
   updateVisit : function() {
     var self = this;
+
+    // Place here the code to only store the most read paragraph.
+    var lParagraphs = self._oCurrentVisitItem.extractedDNA().paragraphs();
+    lParagraphs = _.sortBy(lParagraphs, function(oParagraph){
+      return -1 * oParagraph.percent();
+    });
+    lParagraphs = lParagraphs.slice(0,2);
+    self._oCurrentVisitItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
     var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
