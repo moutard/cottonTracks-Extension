@@ -356,6 +356,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
   /**
    * Remove all stickers.
+   *
+   * For some unknown reasons this is really, really slow !!
+   * Don't use it !
    */
   removeAllStickers : function(){
     var self = this;
@@ -375,12 +378,34 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    */
   showResultFromSearch : function(lStories){
     var self = this;
-    //self.removeAllStickers();
-    //self.pushStories(lStories);
     var iStickerIndex = 0;
-    _.each(lStories, function(oStory){
-      self._lStickers[iStickerIndex].recycle(oStory);
-      iStickerIndex+=1;
+    // TODO(rmoutard) : problem if there amre more results than stickers !
+    // FIXME
+    _.each(self._lStickers, function(oSticker){
+      if(iStickerIndex < lStories.length){
+        oSticker.recycle(lStories[iStickerIndex]);
+      } else {
+        oSticker.$().hide();
+      }
+      iStickerIndex += 1;
+    });
+  },
+
+  /**
+   * Reset Search
+   */
+  resetSearch : function(lStories){
+    var self = this;
+    var iStickerIndex = 0;
+    // TODO(rmoutard) : problem if there amre more results than stickers !
+    // FIXME
+    _.each(self._lStickers, function(oSticker){
+      if(iStickerIndex < lStories.length){
+        oSticker.recycle(lStories[iStickerIndex]);
+      } else {
+        oSticker.$().show();
+      }
+      iStickerIndex += 1;
     });
   },
 

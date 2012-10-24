@@ -474,7 +474,7 @@ Cotton.Controller = Class.extend({
                 function(lStories){
                   console.log(lStories);
                   self._oWorld.stickyBar().showResultFromSearch(lStories);
-                  //mCallbackFunction([oStory]);
+                  mCallbackFunction(lStories.length);
                 });
               } else {
                 // TODO(rmoutard) : return a non find message.
@@ -489,10 +489,12 @@ Cotton.Controller = Class.extend({
   /**
    * Remove the search result stickers, and put the world as it was before.
    */
-  resetSearch : function(){
+  resetSearch : function(iNbStoriesToChange){
     var self = this;
-    self._oWorld.stickyBar().removeAllStickers();
-    self._oWorld.update();
+    // TODO(rmoutard) : use the store of the controller.
+    Cotton.DB.Stories.getXStories(iNbStoriesToChange, function(lStories) {
+      self._oWorld.stickyBar().resetSearch(lStories);
+    });
   },
 
 });
