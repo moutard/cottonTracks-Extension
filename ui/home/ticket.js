@@ -1,32 +1,44 @@
 'use strict';
 
-Cotton.UI.Home.Ticket = Class
-    .extend({
+/**
+ * Ticket
+ */
+Cotton.UI.Home.Ticket = Class.extend({
 
-      _$ticket : null,
+  /**
+   * Grid
+   */
+  _oGrid : null,
+  _$ticket : null,
 
-      init : function(oGrid, sImageUrl, iStoryCount, sTitle, sSiteUrl) {
-        var $ticket = this._$ticket = $('<div class="ct-ticket"></div>');
-        var $ticketImage = $('<img class="ct-ticketImage"/>');
-        //var $ticketHead = $('<div class="ct-ticketHead"></div>')
-        var $ticketEnvelope = $('<img class="ct-ticketEnvelope" src ="/media/images/home/ticket_bottom.png">')
-        var $ticketCount = $('<div class="ct-ticketCount"><b class="ct-ticketCountNumber">99</b> stories</div>');
-        var $ticketTitle = $('<h3></h3>');
-        var $ticketLink = $('<a class="ct-ticketLink"></div>');
+  _$ticket_image : null,
+  _$ticket_head : null,
+  _$ticket_title : null,
+  _$ticket_link : null,
 
-       // $ticket.append($ticketLink, $ticketImage, $ticketHead.append(
-       //     $ticketCount, $ticketTitle));
+  init : function(oGrid, sImageUrl, sTitle, sSiteUrl) {
+    var self = this;
 
-       //test
-       $ticket.append($ticketLink, $ticketEnvelope, $ticketImage, $ticketCount, $ticketTitle);
+    self._oGrid = oGrid;
 
-        $ticketLink.append($ticketImage);
-        $ticketImage.attr('src', sImageUrl);
-        // $ticket.css('background-image', 'url(' + sImageUrl + ')');
-        $ticketCount.find('.ct-ticketCountNumber').html(iStoryCount);
-        $ticketTitle.text(sTitle);
-        $ticketLink.attr('href', sSiteUrl);
+    self._$ticket = $('<div class="ct-ticket"></div>');
+    self._$ticket_image = $('<img class="ct-ticketImage"/>');
+    self._$ticket_head = $('<div class="ct-ticketHead"></div>')
+    self._$ticket_title = $('<h3></h3>');
+    self._$ticket_link = $('<a class="ct-ticketLink"></div>');
 
-        oGrid.append($ticket);
-      }
-    });
+    self._$ticket_image.attr('src', sImageUrl);
+    self._$ticket_title.text(sTitle);
+    self._$ticket_link.attr('href', sSiteUrl);
+
+    self._$ticket.append(self._$ticket_link.append(self._$ticket_image),
+                          self._$ticket_head.append(self._$ticket_title));
+
+    //oGrid.append($ticket);
+
+  },
+
+  $ : function() {
+    return this._$ticket;
+  },
+});
