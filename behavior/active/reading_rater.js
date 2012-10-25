@@ -1,5 +1,7 @@
 'use strict';
 
+Cotton.Behavior.Active.REFRESH_RATE = 5; //seconds
+
 Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
@@ -82,7 +84,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   start : function() {
     var self = this;
 
-    // We will relaunch the parsing every 5 seconds.
+    // To increase performance the parsing is just lanched once.
     var mRefreshParsing = function() {
       self._oParser.parse();
 
@@ -101,26 +103,26 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         self._oFeedbackElement.setFavicon(sFavicon);
       }
 
-      // Refresh every 5 seconds.
-      // setTimeout(mRefreshParsing, 5000);
     };
 
     // Launch almost immediately (but try to avoid freezing the page).
     setTimeout(mRefreshParsing, 0);
 
     // Livequery is a plugin jQuery.
+    // For each block marked as meaningfull by the parser, the reading-rater
+    // will compute a score and will add it to the DOM data.
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
       if (!oScore) {
         oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
-        sync.current().extractedDNA().addScore(oScore);
         $block.data('score', oScore);
       }
     });
 
     var mRefreshReadingRate = function() {
       // Do not increase scores if the document is inactive.
+      console.log("start ----: " +  self._bDocumentActive);
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
@@ -132,12 +134,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         sync.updateVisit();
       }
 
-      // Refresh after a little while.
-      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
-          Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+      // Refresh after a REFRESH_RATE seconds.
+      self._oTimeoutSession = setTimeout(function(){
+        mRefreshReadingRate();
+      },
+      Cotton.Behavior.Active.REFRESH_RATE * 1000);
     };
 
-    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 0);
+    self._oTimeoutSession = setTimeout(function(){
+      mRefreshReadingRate();
+    }, 10);
 
   },
 
@@ -148,6 +154,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     self._oFeedbackElement.start();
 
     // livequery is a jQuery plugin.
+    // I think this is not usefull because it's done one in start function.
     $('[data-meaningful]').livequery(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -169,12 +176,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         sync.updateVisit();
       }
 
-      // Refresh after a little while.
-      self._oTimeoutSession = setTimeout(mRefreshReadingRate,
-          Cotton.Behavior.Active.ReadingRater.REFRESH_RATE * 100);
+      // Refresh after a REFRESH_RATE seconds.
+      self._oTimeoutSession = setTimeout(function(){
+        mRefreshReadingRate();
+      },
+      Cotton.Behavior.Active.REFRESH_RATE * 1000);
     };
 
-    self._oTimeoutSession = setTimeout(mRefreshReadingRate, 500);
+    self._oTimeoutSession = setTimeout(function(){
+      mRefreshReadingRate();
+    }, Cotton.Behavior.Active.REFRESH_RATE * 1000);
   },
 
   stop : function() {
@@ -224,13 +235,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // total visible surface?
       oScore.increment(fFocusProportion * this.iVisibleSurface
           / Math.pow(this.iTotalSurface, 2) * 1000
-          * Cotton.Behavior.Active.ReadingRater.REFRESH_RATE);
+          * Cotton.Behavior.Active.REFRESH_RATE);
 
+      // For each meanigful paragraph create a paragraph in the story.
       var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
       oParagraph.setId(oScore.id());
       oParagraph.setPercent(oScore.score());
-      console.log('paragraph');
-      console.log(oParagraph);
       sync.current().extractedDNA().addParagraph(oParagraph);
 
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
@@ -242,7 +252,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // Compute the visible surface of each block and the total visible
     // surface.
     var lBlockBundles = [];
-
     $('[data-meaningful]').each(function() {
       var $block = $(this);
       var oScore = $block.data('score');
@@ -262,6 +271,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // TODO(fwouts): Check if it is ever possible to not have oScore.
     });
 
+    console.log("after");
+    console.log(lBlockBundles);
     return lBlockBundles;
   },
 
@@ -343,7 +354,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   }
 });
 
-Cotton.Behavior.Active.ReadingRater.REFRESH_RATE = 200;
 
 // We don't need to wait document 'ready' signal to create instance.
 var sync = new Cotton.Behavior.Passive.DbSync();
