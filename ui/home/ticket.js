@@ -41,4 +41,21 @@ Cotton.UI.Home.Ticket = Class.extend({
   $ : function() {
     return this._$ticket;
   },
+
+  setTop : function(iTop) {
+    this._$ticket.css('top', iTop + "px");
+  },
+
+  setLeft : function(iLeft) {
+    this._$ticket.css('left', iLeft + "px");
+  },
+
+  setWidth : function(iWidth) {
+    this._$ticket.css('width', iWidth + "px");
+  },
+
+  setMargin : function(iMargin) {
+    this._$ticket.css('margin-left', iMargin);
+    this._$ticket.css('margin-right', iMargin);
+  },
 });
