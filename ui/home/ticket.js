@@ -58,4 +58,28 @@ Cotton.UI.Home.Ticket = Class.extend({
     this._$ticket.css('margin-left', iMargin);
     this._$ticket.css('margin-right', iMargin);
   },
+
+  setSmall : function() {
+    this.setWidth(Cotton.UI.Home.SMALL_WIDTH_WITHOUT_PADDING);
+    this.setMargin(Cotton.UI.Home.SMALL_MARGIN);
+    this._$ticket_title.css('font-size', '12px');
+    this._$ticket_head.css('padding-top', '10px');
+    this._$ticket_head.css('padding-top', '5px');
+  },
+
+  setMedium : function() {
+    this.setWidth(Cotton.UI.Home.MEDIUM_WIDTH_WITHOUT_PADDING);
+    this.setMargin(Cotton.UI.Home.MEDIUM_MARGIN);
+    this._$ticket_title.css('font-size', '16px');
+    this._$ticket_head.css('padding-top', '18px');
+    this._$ticket_head.css('padding-top', '8px');
+  },
+
+  setLarge : function() {
+    this.setWidth(Cotton.UI.Home.LARGE_WIDTH_WITHOUT_PADDING);
+    this.setMargin(Cotton.UI.Home.LARGE_MARGIN);
+    this._$ticket_title.css('font-size', '16px');
+    this._$ticket_head.css('padding-top', '20px');
+    this._$ticket_head.css('padding-top', '10px');
+  },
 });
