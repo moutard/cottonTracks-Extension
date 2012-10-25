@@ -57,8 +57,16 @@ Cotton.UI.Home.FavoritesGrid = Class
       recomputeGrid : function() {
         var self = this;
 
+        var iEstmatedWidth = à;
         _.each(self._lFavoritesTicket, function(oTicket){
+          oTicket.setWidth(200);
+          oTicket.setMargin(10);
           self.append(oTicket.$());
         });
+
+        //var iMargin = ($(window).width() -) / 2;
+        //self._$FavoritesGrid.css('margin-left', iMargin + "px");
+        //self._$FavoritesGrid.css('margin-right', iMargin + "px");
+
       },
     });
