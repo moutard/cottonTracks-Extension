@@ -130,7 +130,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     */
 
     // to allow sendResponse
-    return true;
+    //return true;
 
   /**
    * DEPRECATED
