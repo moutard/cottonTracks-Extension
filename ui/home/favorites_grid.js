@@ -4,38 +4,38 @@ Cotton.UI.Home.FavoritesGrid = Class
     .extend({
 
       _$FavoritesGrid : null,
+      _lFavoritesTicket : [],
 
       init : function() {
+        var self = this;
 
-        this._$FavoritesGrid = $('<div class="ct-favorites-grid">');
-        for ( var iI = 0; iI < 1; iI++) {
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/TC.jpg', Math
-                  .floor(Math.random() * 80 + 10), 'Techcrunch',
-              'http://techcrunch.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/Fubiz.jpg', Math
-                  .floor(Math.random() * 80 + 10), 'Fubiz', 'http://fubiz.net');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/FB.jpg', Math
-                  .floor(Math.random() * 80 + 10), 'Facebook',
-              'http://facebook.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/Dribbble.jpg', Math.floor(Math
-                  .random() * 80 + 10), 'Dribbble', 'http://dribbble.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/PandoDaily.jpg', Math.floor(Math
-                  .random() * 80 + 10), 'PandoDaily', 'http://pandodaily.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/MTV.jpg', Math
-                  .floor(Math.random() * 80 + 10), 'MTV', 'http://www.mtv.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/Twitter.jpg', Math.floor(Math
-                  .random() * 80 + 10), 'Twitter', 'http://twitter.com');
-          new Cotton.UI.Home.Ticket(this,
-              '/media/images/home/tickets/Pinterest.jpg', Math.floor(Math
-                  .random() * 80 + 10), 'Pinterest', 'http://pinterest.com');
-        }
+        self._$FavoritesGrid = $('<div class="ct-favorites-grid">');
+        self._lFavoritesTicket = [];
+
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/TC.jpg', 'Techcrunch',
+              'http://techcrunch.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/Fubiz.jpg', 'Fubiz', 'http://fubiz.net'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/FB.jpg', 'Facebook',
+              'http://facebook.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/Dribbble.jpg', 'Dribbble', 'http://dribbble.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/PandoDaily.jpg', 'PandoDaily', 'http://pandodaily.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/MTV.jpg', 'MTV', 'http://www.mtv.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/Twitter.jpg', 'Twitter', 'http://twitter.com'));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              '/media/images/home/tickets/Pinterest.jpg', 'Pinterest', 'http://pinterest.com'));
+
+         $(window).resize(function(){
+          console.log($(this).width());
+          });
+
+          self.recomputeGrid();
       },
 
       $ : function() {
@@ -52,5 +52,13 @@ Cotton.UI.Home.FavoritesGrid = Class
 
       show : function() {
         this._$FavoritesGrid.show();
-      }
+      },
+
+      recomputeGrid : function() {
+        var self = this;
+
+        _.each(self._lFavoritesTicket, function(oTicket){
+          self.append(oTicket.$());
+        });
+      },
     });
