@@ -94,7 +94,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         self._oFeedbackElement.setBestImage(sBestImg);
 
         // Update oCurrentVisitItem
-        sync._oCurrentVisitItem.extractedDNA().setImageUrl(sBestImg);
+        sync.current().extractedDNA().setImageUrl(sBestImg);
         sync.updateVisit();
       }
 
@@ -129,7 +129,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         self._oFeedbackElement.setPercentage(iPercent + '%');
 
         sync.current().extractedDNA().setPageScore(fPageScore);
-        //sync.current().extractedDNA().setScores(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
         sync.updateVisit();
       }
@@ -271,8 +270,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // TODO(fwouts): Check if it is ever possible to not have oScore.
     });
 
-    console.log("after");
-    console.log(lBlockBundles);
     return lBlockBundles;
   },
 
@@ -331,6 +328,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // highlighted content blocks that are also copied.
     $(document).bind('copy', function() {
       $highlightedContentBlocks.each(function() {
+        sync.current().extractedDNA().addCopyPaste($(this).text());
+        sync.updateVisit();
         var oScore = $(this).data('score');
         if (oScore) {
           // TODO(fwouts): Tweak the incremental score.
