@@ -31,8 +31,8 @@ Cotton.UI.Home.Ticket = Class.extend({
     self._$ticket_title.text(sTitle);
     self._$ticket_link.attr('href', sSiteUrl);
 
-    self._$ticket.append(self._$ticket_link.append(self._$ticket_image),
-                          self._$ticket_head.append(self._$ticket_title));
+    self._$ticket.append(self._$ticket_link.append(self._$ticket_image,
+                          self._$ticket_head.append(self._$ticket_title)));
 
     //oGrid.append($ticket);
 
