@@ -533,15 +533,15 @@ body {
 	  > .ct-ticketLink {
 	    position: relative;
 	    width: 100%;
+	    text-decoration: none;
 
    	  > .ct-ticketImage {
         width: 100%;
         border-radius: 3px; /* original value : Did not exist*/
 
       }
-    }
-
-    > .ct-ticketHead {
+      
+     > .ct-ticketHead {
       
       padding-top: 20px;
       padding-bottom: 10px;
@@ -553,9 +553,15 @@ body {
         text-align: center;
         font-weight: normal;
         color: #333333;
-		    z-index: 3;
+        z-index: 3;
+        width: 100%;
+        overflow: hidden;
+        height: 20px;
       }
     }
+    }
+
+
 
   }
 }
