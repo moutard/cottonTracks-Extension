@@ -6,30 +6,78 @@
 Cotton.UI.Home.AppsTicket = Class
     .extend({
 
-      _$appsTicket : null,
+      _$ticket : null,
+
+      _$ticket_image : null,
+      _$ticket_head : null,
+      _$ticket_title : null,
+      _$ticket_link : null,
 
       init : function(oGrid, oExtensionInfo) {
-        var $ticket = this._$appsticket = $('<div class="ct-ticket"></div>');
-        var $ticketImage = $('<img class="ct-ticketImage"/>');
-        var $ticketHead = $('<div class="ct-ticketHead"></div>');
-        // var $ticketCount = $('<div class="ct-ticketCount"><b
-        // class="ct-ticketCountNumber">99</b> stories</div>');
-        var $ticketTitle = $('<h3></h3>');
-        var $ticketLink = $('<a class="ct-ticketLink"></div>');
+        var self = this;
+        self._$ticket = $('<div class="ct-ticket"></div>');
+        self._$ticket_image = $('<img class="ct-ticketImage"/>');
+        self._$ticket_head = $('<div class="ct-ticketHead"></div>');
 
-        $ticket.append($ticketLink, $ticketImage, $ticketHead
-            .append($ticketTitle));
+        self._$ticket_title = $('<h3></h3>');
+        self._$ticket_link = $('<a class="ct-ticketLink"></div>');
 
-        $ticketLink.append($ticketImage);
-        $ticketImage.attr('src', _.max(oExtensionInfo.icons,
+        self._$ticket_image.attr('src', _.max(oExtensionInfo.icons,
             function(oIconInfo) {
               return oIconInfo.size;
             }).url);
-        // $ticket.css('background-image', 'url(' + sImageUrl + ')');
-        // $ticketCount.find('.ct-ticketCountNumber').html(iStoryCount);
-        $ticketTitle.text(oExtensionInfo.name);
-        $ticketLink.attr('href', oExtensionInfo.appLaunchUrl);
 
-        oGrid.append($ticket);
-      }
+        self._$ticket_title.text(oExtensionInfo.name);
+        self._$ticket_link.attr('href', oExtensionInfo.appLaunchUrl);
+
+        self._$ticket.append(self._$ticket_link.append(self._$ticket_image),
+            self._$ticket_head.append(self._$ticket_title));
+      },
+
+      $ : function() {
+        return this._$ticket;
+      },
+
+      setTop : function(iTop) {
+        this._$ticket.css('top', iTop + "px");
+      },
+
+      setLeft : function(iLeft) {
+        this._$ticket.css('left', iLeft + "px");
+      },
+
+      setWidth : function(iWidth) {
+        this._$ticket.css('width', iWidth + "px");
+      },
+
+      setMargin : function(iMargin) {
+        this._$ticket.css('margin-left', iMargin);
+        this._$ticket.css('margin-right', iMargin);
+      },
+
+      setSmall : function() {
+        this.setWidth(Cotton.UI.Home.Apps.SMALL_WIDTH);
+        this.setMargin(Cotton.UI.Home.Apps.SMALL_MARGIN);
+        this._$ticket_title.css('font-size', '12px');
+        this._$ticket_head.css('padding-top', '10px');
+        this._$ticket_head.css('padding-top', '5px');
+      },
+
+      setMedium : function() {
+        this.setWidth(Cotton.UI.Home.Apps.MEDIUM_WIDTH);
+        this.setMargin(Cotton.UI.Home.Apps.MEDIUM_MARGIN);
+        this._$ticket_title.css('font-size', '12px');
+        this._$ticket_head.css('padding-top', '18px');
+        this._$ticket_head.css('padding-top', '8px');
+      },
+
+      setLarge : function() {
+        this.setWidth(Cotton.UI.Home.Apps.LARGE_WIDTH);
+        this.setMargin(Cotton.UI.Home.Apps.LARGE_MARGIN);
+        this._$ticket_title.css('font-size', '16px');
+        this._$ticket_head.css('padding-top', '20px');
+        this._$ticket_head.css('padding-top', '10px');
+      },
+
+
     });
