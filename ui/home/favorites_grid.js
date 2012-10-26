@@ -23,8 +23,6 @@ Cotton.UI.Home.FavoritesGrid = Class
 
       _$FavoritesGrid : null,
       _lFavoritesTicket : [],
-      _iNbRow : 1,
-      _iNbColumn : 5,
 
       init : function() {
         var self = this;
@@ -32,24 +30,11 @@ Cotton.UI.Home.FavoritesGrid = Class
         self._$FavoritesGrid = $('<div class="ct-favorites-grid">');
         self._lFavoritesTicket = [];
 
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/TC.jpg', 'Techcrunch',
-            'http://techcrunch.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/Fubiz.jpg', 'Fubiz', 'http://fubiz.net'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/FB.jpg', 'Facebook',
-            'http://facebook.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/Dribbble.jpg', 'Dribbble', 'http://dribbble.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/PandoDaily.jpg', 'PandoDaily', 'http://pandodaily.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/MTV.jpg', 'MTV', 'http://www.mtv.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/Twitter.jpg', 'Twitter', 'http://twitter.com'));
-        self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-            '/media/images/home/tickets/Pinterest.jpg', 'Pinterest', 'http://pinterest.com'));
+        var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
+        _.each(lFavorites, function(dRecord){
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
+              dRecord['image'], dRecord['name'], dRecord['url']));
+        });
 
          $(window).resize(function(){
            self.recomputeGrid();
@@ -123,10 +108,5 @@ Cotton.UI.Home.FavoritesGrid = Class
           self._$FavoritesGrid.css('margin-left', iMargin + "px");
           //self._$FavoritesGrid.css('margin-right', iMargin + "px");
         }
-
-
-
-
-
       },
     });
