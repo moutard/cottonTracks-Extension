@@ -50,11 +50,11 @@ Cotton.UI.Home.MostVisitedGrid = Class
         var self = this;
 
         var iEstmatedLargeWidth = (Cotton.UI.Home.NB_COLUMN * Cotton.UI.Home.LARGE_WIDTH)
-          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.LARGE_MARGIN);
+          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.LARGE_MARGIN) + 2;
         var iEstmatedMediumWidth = (Cotton.UI.Home.NB_COLUMN * Cotton.UI.Home.MEDIUM_WIDTH)
-          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.MEDIUM_MARGIN);
+          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.MEDIUM_MARGIN) + 2;
         var iEstmatedSmallWidth = (Cotton.UI.Home.NB_COLUMN *  Cotton.UI.Home.SMALL_WIDTH)
-          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.SMALL_MARGIN);
+          + ((2 * Cotton.UI.Home.NB_COLUMN) * Cotton.UI.Home.SMALL_MARGIN) + 2;
 
         if(($(window).width() - iEstmatedLargeWidth) > 2 * Cotton.UI.Home.MIN_PADDING){
           // Large size fit well.
