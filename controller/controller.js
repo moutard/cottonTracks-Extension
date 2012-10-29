@@ -497,6 +497,42 @@ Cotton.Controller = Class.extend({
     });
   },
 
+  /** --------------------------------------------------------------------------
+   * Controller - Favorites Website
+   */
+
+  removeFavoritesWebsite : function(iId) {
+    var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
+    lFavorites = _.reject(lFavorites, function(dRecord){
+          return dRecord['id'] === iId;
+    });
+    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+  },
+
+  addFavoritesWebsite : function(sName, sUrl) {
+    var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
+    var iNextId = _.max(lFavorites, function(dRecord){
+      return dRecord['id'];
+    }) + 1;
+    lFavorites.push({
+      'id': iNextId,
+      'name': sName,
+      'url' : sUrl,
+      'image' : '/media/images/home/tickets/PandoDaily.jpg',
+    });
+    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+  },
+
+  setFavoritesWebsite : function(dRecord) {
+    var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
+    for(var i = 0; i < lFavorites.length; i++){
+      if(lFavorites[i]['id'] === dRecord['id']){
+        lFavorites[i] = dRecord;
+      }
+    }
+    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+  },
+
 });
 
 Cotton.CONTROLLER = new Cotton.Controller();
