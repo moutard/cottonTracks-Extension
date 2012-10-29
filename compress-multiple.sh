@@ -129,6 +129,7 @@ db_output_file='db.js'
 # MODEL
 model_input_files=( './model/init.js'
                     './model/story.js'
+                    './model/extracted_paragraph.js'
                     './model/extracted_dna.js'
                     './model/visit_item.js'
                     './model/tool.js'
