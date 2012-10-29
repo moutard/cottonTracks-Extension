@@ -527,6 +527,28 @@ body {
     border: 1px solid #b3b3b3;
     background-color: #f2f2f2;
 
+    > .ct-stickers_button_editable {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        z-index : 1;
+        width: 30px;
+        height: 22px;
+        background: url(/media/images/story/item/settings_favicon.png) no-repeat center bottom;
+        cursor : pointer;
+    }
+    
+    > .ct-stickers_button_remove {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      z-index : 1;
+      width: 30px;
+      height: 22px;
+      background: url(/media/images/topbar/sticker/delete_favicon.png) no-repeat center bottom;
+      cursor : pointer;
+    }
+
 	  > .ct-ticketLink {
 	    position: relative;
 	    width: 100%;
@@ -535,7 +557,6 @@ body {
    	  > .ct-ticketImage {
         width: 100%;
         border-radius: 3px; /* original value : Did not exist*/
-
       }
 
      > .ct-ticketHead {
@@ -556,11 +577,27 @@ body {
         overflow: hidden;
         height: 20px;
       }
+      
+      > .ct-story_editable_title {
+        position : relative;
+        z-index : 1;
+        width: 96%;
+        height: 13px;
+        padding-top: 2px;
+        font-size : 16px;
+        font-family: Helvetica;
+        font-weight: normal;
+        text-align: center;
+        text-transform: capitalize;
+
+        background-color : #EEE;
+        opacity: 0.7;
+
+        color: #aaa;
+        font-style: italic;
+      }
     }
-    }
-
-
-
+  }
   }
 }
 
@@ -575,7 +612,7 @@ body {
     float: left;
     overflow: hidden;
 
-	   > .ct-ticketLink {
+	  > .ct-ticketLink {
       position: relative;
       width: 100%;
 

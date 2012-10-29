@@ -32,8 +32,7 @@ Cotton.UI.Home.FavoritesGrid = Class
 
         var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
         _.each(lFavorites, function(dRecord){
-          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this,
-              dRecord['image'], dRecord['name'], dRecord['url']));
+          self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(this, dRecord));
         });
 
          $(window).resize(function(){
