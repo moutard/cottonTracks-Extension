@@ -224,42 +224,50 @@ chrome.runtime.onInstalled.addListener(function() {
 
   var lFavorites = [];
   lFavorites.push({
+    'id': 0,
     'image' : '/media/images/home/tickets/TC.jpg',
     'name' : 'Techcrunch',
     'url' : 'http://techcrunch.com'
   });
   lFavorites.push({
+    'id': 1,
     'image' : '/media/images/home/tickets/Fubiz.jpg',
     'name' : 'Fubiz',
     'url' : 'http://fubiz.net'
   });
   lFavorites.push({
+    'id': 2,
     'image' : '/media/images/home/tickets/FB.jpg',
     'name' : 'Facebook',
     'url' : 'http://facebook.com'
   });
   lFavorites.push({
+    'id': 3,
     'image' : '/media/images/home/tickets/Dribbble.jpg',
     'name' : 'Dribbble',
     'url' : 'http://dribbble.com'
   });
   //
   lFavorites.push({
+    'id': 4,
     'image' : '/media/images/home/tickets/MTV.jpg',
     'name' : 'MTV',
     'url' : 'http://www.mtv.com'
   });
   lFavorites.push({
+    'id': 5,
     'image' : '/media/images/home/tickets/PandoDaily.jpg',
     'name' : 'PandoDaily',
     'url' : 'http://pandodaily.com'
   });
   lFavorites.push({
+    'id': 6,
     'image' : '/media/images/home/tickets/Twitter.jpg',
     'name' : 'Twitter',
     'url' : 'http://twitter.com'
   });
   lFavorites.push({
+    'id': 7,
     'image' : '/media/images/home/tickets/Pinterest.jpg',
     'name' : 'Pinterest',
     'url' : 'http://pinterest.com'
