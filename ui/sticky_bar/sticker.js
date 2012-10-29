@@ -1,6 +1,6 @@
 'use strict';
 
-Cotton.UI.StickyBar.HORIZONTAL_SPACING = 250;
+Cotton.UI.StickyBar.HORIZONTAL_SPACING = 220;
 
 /**
  * Sticker
