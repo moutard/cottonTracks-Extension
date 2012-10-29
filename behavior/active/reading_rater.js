@@ -150,8 +150,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var self = this;
     self._bDocumentActive = true;
 
-    self._oFeedbackElement.start();
-
+    if(self._oFeedbackElement){
+      self._oFeedbackElement.start();
+    }
     // livequery is a jQuery plugin.
     // I think this is not usefull because it's done one in start function.
     $('[data-meaningful]').livequery(function() {
@@ -191,7 +192,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var self = this;
     self._bDocumentActive = false;
     clearTimeout(self._oTimeoutSession);
-    self._oFeedbackElement.stop();
+    if(self._oFeedbackElement){
+      self._oFeedbackElement.stop();
+    }
   },
 
   readingRate : function() {
