@@ -33,7 +33,7 @@ Cotton.UI.Home.Ticket = Class.extend({
     self._$ticket_link = $('<a class="ct-ticketLink"></div>');
 
     self._$ticket_image.attr('src', dRecord['image']);
-    self._$ticket_title.text(dRecord['title']);
+    self._$ticket_title.text(dRecord['name']);
     self._$ticket_link.attr('href', dRecord['url']);
 
     // Create editable button.
