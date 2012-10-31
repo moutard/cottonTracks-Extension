@@ -274,4 +274,5 @@ chrome.runtime.onInstalled.addListener(function() {
   });
 
   localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+  localStorage['ct-grid_mode'] = "favorites";
 });

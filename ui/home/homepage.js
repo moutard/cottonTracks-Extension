@@ -13,23 +13,44 @@ Cotton.UI.Home.Homepage = Class.extend({
   _$homepage : null,
 
   _oFavoritesGrid : null,
+  _oMVWGrid : null,
   _oAppsGrid : null,
   _$SwitchButton : null,
 
+  _$apps_grid_button : null,
+  _$favorites_grid_button : null,
+  _$mvw_grid_button : null,
+
+  /*
+   * @constructor
+   */
   init : function(oWorld) {
     var self = this;
 
-    this._oWorld = oWorld;
-    this._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
+    self._oWorld = oWorld;
+    self._$homepage = $('<div class="ct-homepage">').appendTo('#ct');
 
-    // Favorites or MostVisited
-    if (localStorage['ct-settings_grid'] === "MostVisited") {
-      this._oFavoritesGrid = new Cotton.UI.Home.MostVisitedGrid(this);
-    } else {
-      this._oFavoritesGrid = new Cotton.UI.Home.FavoritesGrid(this);
-    }
 
-    this._oAppsGrid = new Cotton.UI.Home.AppsGrid(this);
+    // GRID
+    self._oFavoritesGrid = new Cotton.UI.Home.FavoritesGrid(this);
+    self._oMVWGrid = new Cotton.UI.Home.MostVisitedGrid(this);
+    self._oAppsGrid = new Cotton.UI.Home.AppsGrid(this);
+
+    // GRID BUTTON
+    self._$switch_button = $('<div class="ct-homepage_switch_button"></div>');
+    self._$apps_grid_button = $('<div class="ct-homepage_select_button"><h2>Apps</h2><div>').click(
+        function(event){
+          self.selectGrid("apps");
+        });
+    self._$favorites_grid_button = $('<div class="ct-homepage_select_button"><h2>Favorites</h2></div>').click(
+        function(event){
+            self.selectGrid("favorites");
+        });
+    self._$mvw_grid_button = $('<div class="ct-homepage_select_button"><h2>Most Visited</h2></div>').click(
+        function(){
+            self.selectGrid("mvw");
+        });
+
 
     this._$SwitchButton = $('<div class="ct-homepage_switch_button">').click(
         function() {
@@ -44,17 +65,21 @@ Cotton.UI.Home.Homepage = Class.extend({
             localStorage['ct-grid_mode'] = 'apps';
             $(this).find('h2').text("Favorites");
           }
-        }).appendTo(this._$homepage);
+        });
 
-    this._$homepage.append(this._oFavoritesGrid.$());
-    this._$homepage.append(this._oAppsGrid.$());
-    if (localStorage['ct-grid_mode'] == 'apps') {
-      this._oFavoritesGrid.hide();
-      this._$SwitchButton.append("<h2>Favorites</h2>");
-    } else {
-      this._oAppsGrid.hide();
-      this._$SwitchButton.append("<h2>Apps</h2>");
-    }
+    this._$homepage.append( self._$switch_button.append(
+                              self._$apps_grid_button,
+                              self._$favorites_grid_button,
+                              self._$mvw_grid_button
+                            ),
+                            self._oFavoritesGrid.$(),
+                            self._oMVWGrid.$(),
+                            self._oAppsGrid.$());
+
+     // Open the good grid.
+    var oCurrentOpen = localStorage['ct-grid_mode'];
+    self.selectGrid(oCurrentOpen);
+
   },
 
   $ : function() {
@@ -76,4 +101,46 @@ Cotton.UI.Home.Homepage = Class.extend({
     $('.ct-icon_button_home').addClass("selected");
   },
 
+  /**
+   * Select the grid that corresponds to the given option.
+   * @param {String} sOption : can have value "favorites", "apps", "mvw"
+   */
+  selectGrid : function(sOption) {
+    var self = this;
+    switch(sOption){
+      case "favorites":
+        self._oFavoritesGrid.show();
+        self._oMVWGrid.hide();
+        self._oAppsGrid.hide();
+        localStorage['ct-grid_mode'] = 'favorites';
+        self._$apps_grid_button.removeClass("selected");
+        self._$favorites_grid_button.addClass("selected");
+        self._$mvw_grid_button.removeClass("selected");
+        break;
+
+      case "apps":
+        self._oFavoritesGrid.hide();
+        self._oMVWGrid.hide();
+        self._oAppsGrid.show();
+        localStorage['ct-grid_mode'] = 'apps';
+        self._$apps_grid_button.addClass("selected");
+        self._$favorites_grid_button.removeClass("selected");
+        self._$mvw_grid_button.removeClass("selected");
+
+        break;
+
+      case "mvw":
+        self._oFavoritesGrid.hide();
+        self._oMVWGrid.show();
+        self._oAppsGrid.hide();
+        localStorage['ct-grid_mode'] = 'mvw';
+        self._$apps_grid_button.removeClass("selected");
+        self._$favorites_grid_button.removeClass("selected");
+        self._$mvw_grid_button.addClass("selected");
+
+        break;
+
+    }
+
+  }
 });
