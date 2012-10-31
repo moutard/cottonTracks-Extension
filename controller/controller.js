@@ -509,28 +509,29 @@ Cotton.Controller = Class.extend({
     localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
   },
 
-  addFavoritesWebsite : function(sName, sUrl) {
+  addFavoritesWebsite : function(dRecord, mCallbackFunction) {
     var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
     var iNextId = _.max(lFavorites, function(dRecord){
       return dRecord['id'];
     }) + 1;
-    lFavorites.push({
-      'id': iNextId,
-      'name': sName,
-      'url' : sUrl,
-      'image' : '/media/images/home/tickets/PandoDaily.jpg',
-    });
+    dRecord['id'] = iNextId;
+    lFavorites.push(dRecord);
     localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+    mCallbackFunction(iNextId);
   },
 
-  setFavoritesWebsite : function(dRecord) {
-    var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
-    for(var i = 0; i < lFavorites.length; i++){
-      if(lFavorites[i]['id'] === dRecord['id']){
-        lFavorites[i] = dRecord;
+  setFavoritesWebsite : function(dRecord, mCallbackFunction) {
+    if(dRecord['id'] === -1){
+      this.addFavoritesWebsite(dRecord, mCallbackFunction);
+    } else {
+      var lFavorites = JSON.parse(localStorage['ct-favorites_webistes']);
+      for(var i = 0; i < lFavorites.length; i++){
+        if(lFavorites[i]['id'] === dRecord['id']){
+          lFavorites[i] = dRecord;
+        }
       }
+      localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
     }
-    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
   },
 
 });

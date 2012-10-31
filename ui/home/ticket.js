@@ -32,7 +32,9 @@ Cotton.UI.Home.Ticket = Class.extend({
     self._$ticket_title = $('<h3></h3>');
     self._$ticket_link = $('<div class="ct-ticket_link"></div>').click(
         function(event){
-          if($(event.target).is('.ct-favorite_save_button')){
+          if($(event.target).is('.ct-favorite_save_button')
+            || $(event.target).is('.ct-favorite_editable_url')
+            ||  $(event.target).is('.ct-favorite_editable_name')){
             event.preventDefault();
             return;
           }
@@ -155,7 +157,7 @@ Cotton.UI.Home.Ticket = Class.extend({
 
       // SET TITLE
       // Create an input field to change the title.
-      var $input_title = $('<input class="ct-story_editable_title" type="text" name="title">');
+      var $input_title = $('<input class="ct-favorite_editable_name" type="text" name="title">');
 
       // Set the default value, with the current title.
       $input_title.val(self._$ticket_title.text());
@@ -175,7 +177,7 @@ Cotton.UI.Home.Ticket = Class.extend({
         }
       });
 
-       // SET URL
+      // SET URL
       // Create an input field to change the title.
       var $input_url = $('<input class="ct-favorite_editable_url" type="text" name="url">');
 
@@ -198,16 +200,19 @@ Cotton.UI.Home.Ticket = Class.extend({
           event.preventDefault();
           self._dRecord['url'] =  $input_url.val();
           self._dRecord['name'] = $input_title.val();
-          Cotton.CONTROLLER.setFavoritesWebsite(self._dRecord);
+          Cotton.CONTROLLER.setFavoritesWebsite(self._dRecord, function(iId){
+            self._dRecord['id'] = iId;
+          });
           self.makeItNonEditable();
         });
-      // hide the title and replace it by the input field.
 
       self._$ticket_link.prepend( $edit_form.append(
             $remove_button,
             $input_url,
             $save_button)
           );
+
+      // hide the title and replace it by the input field.
       self._$ticket_title.hide();
       $input_title.insertAfter(self._$ticket_title);
 
@@ -244,9 +249,8 @@ Cotton.UI.Home.Ticket = Class.extend({
     var self = this;
     self._$ticket_image.css('top', '0px');
     self._isEditable = false;
-    self._$ticket.find('.ct-story_editable_title').remove();
+    self._$ticket.find('.ct-favorite_editable_name').remove();
     self._$ticket.find('.ct-favorite_edit_form').remove();
-    self._$ticket_title.show();
-    //self._$ticket_link.attr("href", self._dRecord['url']);
+    self._$ticket_title.text(self._dRecord['name']).show();
   },
 });
