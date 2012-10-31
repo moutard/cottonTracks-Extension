@@ -15,10 +15,12 @@ Cotton.UI.Home.MostVisitedGrid = Class
         chrome.topSites.get(function(lTopSites) {
           for ( var i = 0, oTopSite; (oTopSite = lTopSites[i])
               && (i < Cotton.Config.Parameters['iNbMostVisited']); i++) {
-            self._lFavoritesTicket.push(new Cotton.UI.Home.Ticket(self,
-                '/media/images/home/tickets/default_mvw.png',
-                oTopSite['title'],
-                oTopSite['url'])
+            self._lFavoritesTicket.push(new Cotton.UI.Home.MVWTicket(self,
+                { 'id' : i,
+                  'image' : '/media/images/home/tickets/default_mvw.png',
+                  'name' : oTopSite['title'],
+                  'url' : oTopSite['url'],
+                })
             );
           }
           self.recomputeGrid();

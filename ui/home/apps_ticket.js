@@ -16,11 +16,11 @@ Cotton.UI.Home.AppsTicket = Class
       init : function(oGrid, oExtensionInfo) {
         var self = this;
         self._$ticket = $('<div class="ct-ticket"></div>');
-        self._$ticket_image = $('<img class="ct-ticketImage"/>');
-        self._$ticket_head = $('<div class="ct-ticketHead"></div>');
+        self._$ticket_image = $('<img class="ct-ticket_image"/>');
+        self._$ticket_head = $('<div class="ct-ticket_head"></div>');
 
         self._$ticket_title = $('<h3></h3>');
-        self._$ticket_link = $('<a class="ct-ticketLink"></div>');
+        self._$ticket_link = $('<a class="ct-ticket_link"></div>');
 
         self._$ticket_image.attr('src', _.max(oExtensionInfo.icons,
             function(oIconInfo) {
