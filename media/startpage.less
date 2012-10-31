@@ -493,19 +493,33 @@ body {
   padding-top: 40px;
 
   > .ct-homepage_switch_button {
+    .clearfix;
+    margin: auto;
+    width: 360px;
+    margin-bottom: 30px;
+
+    > .ct-homepage_select_button {
+      float: left;
       width: 100px;
-      height: 10px;
-      margin: auto;
-      margin-bottom: 10px;
+      height: 6px;
+      margin: 10px;
       background-color : #ccc;
+      color : #ccc;
       cursor : pointer;
+
+      &.selected {
+        background-color : #333;
+        color : #333;
+      }
 
       > h2 {
         width: 100px;
-        font-size : 8px;
+        font-size : 10px;
         text-align: center;
-        color : white;
+        postion: relative;
+        top: -20px;
       }
+    }
   }
 
 }
