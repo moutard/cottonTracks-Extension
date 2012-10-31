@@ -23,14 +23,23 @@ Cotton.UI.Home.Ticket = Class.extend({
     var self = this;
 
     self._oGrid = oGrid;
-
+    self._dRecord = dRecord;
     self._iId = dRecord['id'];
 
     self._$ticket = $('<div class="ct-ticket"></div>');
-    self._$ticket_image = $('<img class="ct-ticketImage"/>');
-    self._$ticket_head = $('<div class="ct-ticketHead"></div>')
+    self._$ticket_image = $('<img class="ct-ticket_image"/>');
+    self._$ticket_head = $('<div class="ct-ticket_head"></div>')
     self._$ticket_title = $('<h3></h3>');
-    self._$ticket_link = $('<a class="ct-ticketLink"></div>');
+    self._$ticket_link = $('<div class="ct-ticket_link"></div>').click(
+        function(event){
+          if($(event.target).is('.ct-favorite_save_button')){
+            event.preventDefault();
+            return;
+          }
+          chrome.tabs.update({
+            'url': dRecord['url'],
+          })
+        });
 
     self._$ticket_image.attr('src', dRecord['image']);
     self._$ticket_title.text(dRecord['name']);
@@ -73,33 +82,48 @@ Cotton.UI.Home.Ticket = Class.extend({
     this._$ticket.css('width', iWidth + "px");
   },
 
+  setHeight : function(iHeight) {
+    this._$ticket.css('height', iHeight + "px");
+  },
+
   setMargin : function(iMargin) {
     this._$ticket.css('margin-left', iMargin);
     this._$ticket.css('margin-right', iMargin);
   },
 
   setSmall : function() {
-    this.setWidth(Cotton.UI.Home.SMALL_WIDTH_WITHOUT_PADDING);
-    this.setMargin(Cotton.UI.Home.SMALL_MARGIN);
+    this._$ticket.css({ 'width': Cotton.UI.Home.SMALL_WIDTH_WITHOUT_PADDING,
+                        'height': Cotton.UI.Home.SMALL_HEIGHT_WITHOUT_PADDING,
+                        'margin-left': Cotton.UI.Home.SMALL_MARGIN,
+                        'margin-right':  Cotton.UI.Home.SMALL_MARGIN
+    });
     this._$ticket_title.css('font-size', '12px');
-    this._$ticket_head.css('padding-top', '10px');
-    this._$ticket_head.css('padding-top', '5px');
+    this._$ticket_head.css({'padding-bottom': '10px',
+                            'padding-top': '5px'});
   },
 
   setMedium : function() {
-    this.setWidth(Cotton.UI.Home.MEDIUM_WIDTH_WITHOUT_PADDING);
-    this.setMargin(Cotton.UI.Home.MEDIUM_MARGIN);
+    this._$ticket.css({ 'width': Cotton.UI.Home.MEDIUM_WIDTH_WITHOUT_PADDING,
+                        'height': Cotton.UI.Home.MEDIUM_HEIGHT_WITHOUT_PADDING,
+                        'margin-left': Cotton.UI.Home.MEDIUM_MARGIN,
+                        'margin-right':  Cotton.UI.Home.MEDIUM_MARGIN
+    });
+
     this._$ticket_title.css('font-size', '16px');
-    this._$ticket_head.css('padding-top', '18px');
-    this._$ticket_head.css('padding-top', '8px');
+    this._$ticket_head.css({'padding-bottom': '18px',
+                            'padding-top': '8px'});
   },
 
   setLarge : function() {
-    this.setWidth(Cotton.UI.Home.LARGE_WIDTH_WITHOUT_PADDING);
-    this.setMargin(Cotton.UI.Home.LARGE_MARGIN);
+     this._$ticket.css({ 'width': Cotton.UI.Home.LARGE_WIDTH_WITHOUT_PADDING,
+                        'height': Cotton.UI.Home.LARGE_HEIGHT_WITHOUT_PADDING,
+                        'margin-left': Cotton.UI.Home.LARGE_MARGIN,
+                        'margin-right':  Cotton.UI.Home.LARGE_MARGIN
+    });
+
     this._$ticket_title.css('font-size', '16px');
-    this._$ticket_head.css('padding-top', '20px');
-    this._$ticket_head.css('padding-top', '10px');
+    this._$ticket_head.css({'padding-bottom': '20px',
+                            'padding-top': '10px'});
   },
 
   makeItEditable : function() {
@@ -107,7 +131,9 @@ Cotton.UI.Home.Ticket = Class.extend({
 
     if (self._isEditable === false) {
       self._isEditable = true;
+      self._$ticket_image.css('top', '-85px');
 
+      var $edit_form = $('<div class="ct-favorite_edit_form"></div>');
       // REMOVE
       var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
 
@@ -126,7 +152,6 @@ Cotton.UI.Home.Ticket = Class.extend({
         }
       });
 
-      self._$ticket.append($remove_button);
 
       // SET TITLE
       // Create an input field to change the title.
@@ -144,13 +169,45 @@ Cotton.UI.Home.Ticket = Class.extend({
           self._sTitleAlreadyEditable = false;
 
           // Set the title in the model.
-          self._dRecord['title'] = sTitle;
-          Cotton.CONTROLLER.setFavoritesWebsite(dRecord);
+          self._dRecord['name'] = sTitle;
+          Cotton.CONTROLLER.setFavoritesWebsite(self._dRecord);
 
         }
       });
 
+       // SET URL
+      // Create an input field to change the title.
+      var $input_url = $('<input class="ct-favorite_editable_url" type="text" name="url">');
+
+      // Set the default value, with the current title.
+      $input_url.val(self._dRecord['url']);
+      $input_url.keypress(function(event) {
+        // on press 'Enter' event.
+        if (event.which == 13) {
+          var sUrl = $input_url.val();
+          self._dRecord['url'] = sUrl;
+
+          Cotton.CONTROLLER.setFavoritesWebsite(self._dRecord);
+
+        }
+      });
+
+      // SAVE BUTTON
+      var $save_button = $('<div class="ct-favorite_save_button">Save</div>')
+        .click(function(event){
+          event.preventDefault();
+          self._dRecord['url'] =  $input_url.val();
+          self._dRecord['name'] = $input_title.val();
+          Cotton.CONTROLLER.setFavoritesWebsite(self._dRecord);
+          self.makeItNonEditable();
+        });
       // hide the title and replace it by the input field.
+
+      self._$ticket_link.prepend( $edit_form.append(
+            $remove_button,
+            $input_url,
+            $save_button)
+          );
       self._$ticket_title.hide();
       $input_title.insertAfter(self._$ticket_title);
 
@@ -185,11 +242,11 @@ Cotton.UI.Home.Ticket = Class.extend({
    */
   makeItNonEditable : function(){
     var self = this;
+    self._$ticket_image.css('top', '0px');
     self._isEditable = false;
     self._$ticket.find('.ct-story_editable_title').remove();
-    self._$ticket.find('.ct-story_editable_image').remove();
-    self._$ticket.find('.ct-story_icon_image').remove();
-    self._$ticket.find('.ct-stickers_button_remove').remove();
+    self._$ticket.find('.ct-favorite_edit_form').remove();
     self._$ticket_title.show();
+    //self._$ticket_link.attr("href", self._dRecord['url']);
   },
 });

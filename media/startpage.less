@@ -537,68 +537,134 @@ body {
         background: url(/media/images/story/item/settings_favicon.png) no-repeat center bottom;
         cursor : pointer;
     }
-    
-    > .ct-stickers_button_remove {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      z-index : 1;
-      width: 30px;
-      height: 22px;
-      background: url(/media/images/topbar/sticker/delete_favicon.png) no-repeat center bottom;
-      cursor : pointer;
-    }
 
-	  > .ct-ticketLink {
+   	> .ct-ticket_link {
+      display: block;
 	    position: relative;
 	    width: 100%;
+      height: 100%;
+      overflow: hidden;
 	    text-decoration: none;
+      cursor: pointer;
 
-   	  > .ct-ticketImage {
+   	  > .ct-ticket_image {
         width: 100%;
         border-radius: 3px; /* original value : Did not exist*/
+        position: relative;
+        -webkit-transition-property: top;
+        -webkit-transition-duration: 1s;
       }
 
-     > .ct-ticketHead {
+      > .ct-ticket_head {
 
-      padding-top: 20px;
-      padding-bottom: 10px;
-      overflow: hidden;
-
-      > h3 {
-        margin: 0;
-        font-size: 16px;
-        display: block;
-        text-align: center;
-        font-weight: normal;
-        color: #333333;
-        z-index: 3;
-        width: 100%;
+        padding-top: 20px;
+        padding-bottom: 10px;
         overflow: hidden;
-        height: 20px;
+
+        > h3 {
+          margin: 0;
+          font-size: 16px;
+          display: block;
+          text-align: center;
+          font-weight: normal;
+          color: #333333;
+          z-index: 3;
+          width: 100%;
+          overflow: hidden;
+          height: 20px;
+        }
+
+        > .ct-story_editable_title {
+          position : relative;
+          z-index : 1;
+          width: 96%;
+          height: 13px;
+          padding-top: 2px;
+          font-size : 12px;
+          font-family: Helvetica;
+          font-weight: normal;
+          text-align: center;
+          text-transform: capitalize;
+
+          background-color : #EEE;
+          opacity: 0.7;
+
+          color: #333;
+          font-style: italic;
+        }
       }
-      
-      > .ct-story_editable_title {
-        position : relative;
-        z-index : 1;
-        width: 96%;
-        height: 13px;
-        padding-top: 2px;
-        font-size : 16px;
-        font-family: Helvetica;
-        font-weight: normal;
-        text-align: center;
-        text-transform: capitalize;
 
-        background-color : #EEE;
-        opacity: 0.7;
+      > .ct-favorite_edit_form {
+        position: absolute;
+        padding-top: 10px;
+        width: 100%;
 
-        color: #aaa;
-        font-style: italic;
+        > .ct-stickers_button_remove {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          z-index : 1;
+          width: 30px;
+          height: 22px;
+          background: url(/media/images/topbar/sticker/delete_favicon.png) no-repeat center bottom;
+          cursor : pointer;
+        }
+
+        > .ct-favorite_editable_url {
+          position: relative;
+          top: 20px;
+          width: 100%;
+          background-color: #EEE;
+          opacity: 0.7;
+          color: #333;
+          font-style: italic;
+        }
+
+        > .ct-favorite_save_button {
+          width: 60px;
+          height: 20px;
+          background-color: #333;
+          color: #fff;
+          position: relative;
+          top: 30px;
+          right: 0;
+          margin: auto;
+          text-align: center;
+        }
+
       }
     }
   }
+
+  > .ct-add_favorite_button {
+    width: 10px;
+    height: 10px;
+    position: relative;
+    float: left;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #b3b3b3;
+    background-color: #f2f2f2;
+    line-height: 10px;
+    cursor: pointer;
   }
+
+  > .ct-add_favorite_form {
+    width: 188px;
+    height: 200px;
+    position: relative;
+    float: left;
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 5px;
+    border: 1px solid #b3b3b3;
+    background-color: #f2f2f2;
+    line-height: 10px;
+  }
+
 }
 
 .ct-apps-grid {
@@ -612,18 +678,19 @@ body {
     float: left;
     overflow: hidden;
 
-	  > .ct-ticketLink {
+	  > .ct-ticket_link {
       position: relative;
       width: 100%;
+      cursor: pointer;
 
-      > .ct-ticketImage {
+      > .ct-ticket_image {
         width: 100%;
         border-radius: 3px; /* original value : Did not exist*/
 
       }
     }
 
-   > .ct-ticketHead {
+   > .ct-ticket_head {
       padding-top: 20px;
       padding-bottom: 10px;
 
