@@ -12,6 +12,8 @@ Cotton.Model.ExtractedDNA = Class.extend({
 
   _iPercent : 0,
   _fPageScore : 0,
+  _fTimeTabActive : -1,
+  _fTimeTabOpen : -1,
   _lHighlightedText : [],
   _sImageUrl : "",
   _iImageCropped : 0,
@@ -28,6 +30,7 @@ Cotton.Model.ExtractedDNA = Class.extend({
   init : function() {
     this._iPercent = 0;
     this._fPageScore = 0;
+    this._iTimeSeen = -1;
     this._lHighlightedText = [];
     this._sImageUrl = "";
     this._sFirstParagraph = "";
@@ -80,6 +83,18 @@ Cotton.Model.ExtractedDNA = Class.extend({
   },
   setPageScore : function(fPageScore) {
     this._fPageScore = fPageScore;
+  },
+  timeTabActive : function() {
+    return this._fTimeTabActive;
+  },
+  setTimeTabActive : function(fTimeTabActive) {
+    this._fTimeTabActive = fTimeTabActive;
+  },
+  timeTabOpen : function() {
+    return this._fTimeTabActive;
+  },
+  setTimeTabOpen : function(fTimeTabOpen) {
+    this._fTimeTabOpen = fTimeTabOpen;
   },
   firstParagraph : function() {
     return this._sFirstParagraph;
