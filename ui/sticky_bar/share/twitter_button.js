@@ -19,8 +19,19 @@ Cotton.UI.StickyBar.Share.TwitterButton = Class.extend({
       this._$twitter_title
     );
 
-    this._$twitter_button.click(function(){
-    });
+    this._$twitter_button.qtip({
+      'content' : 'Non available yet',
+      'position' : {
+        'my' : 'top left',
+        'at' : 'bottom center'
+      },
+      'show' : 'click',
+      'hide' : 'mouseleave',
+      'style' : {
+        'tip' : true,
+        'classes' : 'ui-tooltip-red'
+      }
+    })
   },
 
   $ : function(){
