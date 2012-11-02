@@ -31,7 +31,7 @@ Cotton.UI.StickyBar.Share.TwitterButton = Class.extend({
         'tip' : true,
         'classes' : 'ui-tooltip-red'
       }
-    })
+    });
   },
 
   $ : function(){
