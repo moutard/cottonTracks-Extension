@@ -220,59 +220,66 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 });
 
 chrome.runtime.onInstalled.addListener(function() {
-  console.log("on installed");
-
-  var lFavorites = [];
-  lFavorites.push({
-    'id': 0,
-    'image' : '/media/images/home/tickets/TC.jpg',
-    'name' : 'Techcrunch',
-    'url' : 'http://techcrunch.com'
-  });
-  lFavorites.push({
-    'id': 1,
-    'image' : '/media/images/home/tickets/Fubiz.jpg',
-    'name' : 'Fubiz',
-    'url' : 'http://fubiz.net'
-  });
-  lFavorites.push({
-    'id': 2,
-    'image' : '/media/images/home/tickets/FB.jpg',
-    'name' : 'Facebook',
-    'url' : 'http://facebook.com'
-  });
-  lFavorites.push({
-    'id': 3,
-    'image' : '/media/images/home/tickets/Dribbble.jpg',
-    'name' : 'Dribbble',
-    'url' : 'http://dribbble.com'
-  });
-  //
-  lFavorites.push({
-    'id': 4,
-    'image' : '/media/images/home/tickets/MTV.jpg',
-    'name' : 'MTV',
-    'url' : 'http://www.mtv.com'
-  });
-  lFavorites.push({
-    'id': 5,
-    'image' : '/media/images/home/tickets/PandoDaily.jpg',
-    'name' : 'PandoDaily',
-    'url' : 'http://pandodaily.com'
-  });
-  lFavorites.push({
-    'id': 6,
-    'image' : '/media/images/home/tickets/Twitter.jpg',
-    'name' : 'Twitter',
-    'url' : 'http://twitter.com'
-  });
-  lFavorites.push({
-    'id': 7,
-    'image' : '/media/images/home/tickets/Pinterest.jpg',
-    'name' : 'Pinterest',
-    'url' : 'http://pinterest.com'
-  });
-
-  localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
-  localStorage['ct-grid_mode'] = "favorites";
+  
+  // Define favorites default values.
+  if(!localStorage['ct-favorites_webistes']){
+    var lFavorites = [];
+    lFavorites.push({
+      'id': 0,
+      'image' : '/media/images/home/tickets/TC.jpg',
+      'name' : 'Techcrunch',
+      'url' : 'http://techcrunch.com'
+    });
+    lFavorites.push({
+      'id': 1,
+      'image' : '/media/images/home/tickets/Fubiz.jpg',
+      'name' : 'Fubiz',
+      'url' : 'http://fubiz.net'
+    });
+    lFavorites.push({
+      'id': 2,
+      'image' : '/media/images/home/tickets/FB.jpg',
+      'name' : 'Facebook',
+      'url' : 'http://facebook.com'
+    });
+    lFavorites.push({
+      'id': 3,
+      'image' : '/media/images/home/tickets/Dribbble.jpg',
+      'name' : 'Dribbble',
+      'url' : 'http://dribbble.com'
+    });
+    //
+    lFavorites.push({
+      'id': 4,
+      'image' : '/media/images/home/tickets/MTV.jpg',
+      'name' : 'MTV',
+      'url' : 'http://www.mtv.com'
+    });
+    lFavorites.push({
+      'id': 5,
+      'image' : '/media/images/home/tickets/PandoDaily.jpg',
+      'name' : 'PandoDaily',
+      'url' : 'http://pandodaily.com'
+    });
+    lFavorites.push({
+      'id': 6,
+      'image' : '/media/images/home/tickets/Twitter.jpg',
+      'name' : 'Twitter',
+      'url' : 'http://twitter.com'
+    });
+    lFavorites.push({
+      'id': 7,
+      'image' : '/media/images/home/tickets/Pinterest.jpg',
+      'name' : 'Pinterest',
+      'url' : 'http://pinterest.com'
+    });
+    
+    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
+  }
+  
+  // ct-grid_mode
+  // Define which grid is seen first "favorites" by default.
+  if(!localStorage['ct-grid_mode']){
+    localStorage['ct-grid_mode'] = "favorites";
+  }
 });
