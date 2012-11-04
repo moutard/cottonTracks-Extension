@@ -83,7 +83,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   start : function() {
     var self = this;
-
+    sync.current().extractedDNA().setTimeTabActive(0);
+    sync.current().extractedDNA().setTimeTabOpen(0);
     // To increase performance the parsing is just lanched once.
     var mRefreshParsing = function() {
       self._oParser.parse();
@@ -126,7 +127,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     var mRefreshReadingRate = function() {
       // Do not increase scores if the document is inactive.
-      console.log("start ----: " +  self._bDocumentActive);
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
@@ -136,6 +136,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
+        sync.current().extractedDNA().setPercent(iPercent);
+        sync.current().extractedDNA().increaseTimeTabActive(Cotton.Behavior.Active.REFRESH_RATE * 1000);
         sync.updateVisit();
       }
 
