@@ -64,21 +64,21 @@ Cotton.UI.Story.Storyline = Class
           var $oldList, $newList;
           var dSortableParameters = {
             // connect story_column_right and story_column_left.
-            connectWith : ".connectedSortable",
+            'connectWith' : ".connectedSortable",
             // Element draggable.
-            handle : ".ct-item_toolbox",
+            'handle' : ".ct-item_toolbox",
             // Drag start after 10px movement.
-            distance : 0,
+            'distance' : 0,
             // Callback stop function.
-            start : function(event, ui){
+            'start' : function(event, ui){
               $(ui.item).removeClass('ct-storyItem_left');
               $(ui.item).removeClass('ct-storyItem_right');
               $newList = $oldList = ui.item.parent();
             },
-            change : function(event, ui){
+            'change' : function(event, ui){
               if(ui.sender) $newList = ui.placeholder.parent();
             },
-            stop : function(event, ui) {
+            'stop' : function(event, ui) {
               if($newList.hasClass('ct-story_column_left')){
                 $(ui.item).addClass('ct-storyItem_left');
               } else if($newList.hasClass('ct-story_column_right')) {
