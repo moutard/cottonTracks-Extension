@@ -91,7 +91,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // Set $feedback
       var sBestImg = self._oParser.bestImage();
       if (sBestImg) {
-        self._oFeedbackElement.setBestImage(sBestImg);
+        if(self._oFeedbackElement){
+          self._oFeedbackElement.setBestImage(sBestImg);
+        }
 
         // Update oCurrentVisitItem
         sync.current().extractedDNA().setImageUrl(sBestImg);
@@ -100,7 +102,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
       var sFavicon = self._oParser.favicon();
       if (sFavicon) {
-        self._oFeedbackElement.setFavicon(sFavicon);
+        if(self._oFeedbackElement){
+          self._oFeedbackElement.setFavicon(sFavicon);
+        }
       }
 
     };
@@ -126,7 +130,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
-        self._oFeedbackElement.setPercentage(iPercent + '%');
+        if(self._oFeedbackElement){
+          self._oFeedbackElement.setPercentage(iPercent + '%');
+        }
 
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
@@ -169,7 +175,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
-        self._oFeedbackElement.setPercentage(iPercent + '%');
+        if(self._oFeedbackElement){
+          self._oFeedbackElement.setPercentage(iPercent + '%');
+        }
 
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
