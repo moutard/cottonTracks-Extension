@@ -51,7 +51,7 @@ Cotton.Config.Parameters = {
 
   // UI
   sGrid : "MostVisited", // choose among "MostVisited" or "Favorites"
-  iNbMostVisited : 8,
+  iNbMostVisited : 10,
 
   // PROD
   bDevMode : true,

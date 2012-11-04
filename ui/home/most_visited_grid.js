@@ -14,7 +14,7 @@ Cotton.UI.Home.MostVisitedGrid = Class
 
         chrome.topSites.get(function(lTopSites) {
           for ( var i = 0, oTopSite; (oTopSite = lTopSites[i])
-              && (i < Cotton.Config.Parameters['iNbMostVisited']); i++) {
+              && (i < Cotton.Config.Parameters.iNbMostVisited); i++) {
             self._lFavoritesTicket.push(new Cotton.UI.Home.MVWTicket(self,
                 { 'id' : i,
                   'image' : '/media/images/home/tickets/default_mvw.png',
