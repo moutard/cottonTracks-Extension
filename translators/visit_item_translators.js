@@ -27,6 +27,8 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
         'iScrollablePosition' : oVisitItem.extractedDNA().scrollablePosition(),
         'lParagraphs' : _.collect(oVisitItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
         'lCopyPaste' : oVisitItem.extractedDNA().copyPaste(),
+        'fTimeTabActive' : oVisitItem.extractedDNA().timeTabActive(),
+        'fTimeTabOpen' : oVisitItem.extractedDNA().timeTabOpen(),
       },
     };
 
@@ -85,6 +87,8 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);
     oExtractedDNA.setImageMarginTop(dExtractedDNA['iImageMarginTop']);
     oExtractedDNA.setScrollablePosition(dExtractedDNA['iScrollablePosition']);
+    oExtractedDNA.setTimeTabActive(dExtractedDNA['fTimeTabActive']);
+    oExtractedDNA.setTimeTabOpen(dExtractedDNA['fTimeTabOpen']);
 
     oVisitItem.setExtractedDNA(oExtractedDNA);
 
