@@ -88,13 +88,19 @@ Cotton.Model.ExtractedDNA = Class.extend({
     return this._fTimeTabActive;
   },
   setTimeTabActive : function(fTimeTabActive) {
-    this._fTimeTabActive = fTimeTabActive;
+    this._fTimeTabActive = fTimeTabActive || -1;
+  },
+  increaseTimeTabActive : function(fTimeTabActive) {
+    this._fTimeTabActive += fTimeTabActive;
   },
   timeTabOpen : function() {
     return this._fTimeTabActive;
   },
   setTimeTabOpen : function(fTimeTabOpen) {
-    this._fTimeTabOpen = fTimeTabOpen;
+    this._fTimeTabOpen = fTimeTabOpen || -1;
+  },
+  increaseTimeTabOpen : function(fTimeTabOpen) {
+    this._fTimeTabOpen += fTimeTabOpen;
   },
   firstParagraph : function() {
     return this._sFirstParagraph;
