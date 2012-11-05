@@ -6,7 +6,7 @@
  * database.
  */
 
-Cotton.Behavior.Active.ReadingRater.Score = Class.extend({
+Cotton.Behavior.Active.Score = Class.extend({
 
   _iId : undefined,
   _$block : null,
