@@ -1,20 +1,20 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-#GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-#SOURCE_PATH='/usr/local/rmoutard/sz/'
-#SOURCE_NAME='SubZoom-Proto1'
-#DESTINATION_PATH='/usr/local/rmoutard/'
-#TAR_NAME='cottontracks-beta'
-#VERSION='0.1'
-
-# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-SOURCE_PATH='/Users/rmoutard/src/'
+GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+SOURCE_PATH='/usr/local/rmoutard/sz/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/Downloads/'
+DESTINATION_PATH='/usr/local/rmoutard/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
+
+# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
+#GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+#SOURCE_PATH='/Users/rmoutard/src/'
+#SOURCE_NAME='SubZoom-Proto1'
+#DESTINATION_PATH='/Users/rmoutard/Downloads/'
+#TAR_NAME='cottontracks-beta'
+#VERSION='0.1'
 
 
 
@@ -206,8 +206,9 @@ behavior_input_files=( './behavior/init.js'
                        './behavior/passive/parser.js'
                        './behavior/passive/google_parser.js'
                        './behavior/active/init.js'
-                       './behavior/active/reading_rater.js'
                        './behavior/active/reading_rater/score.js'
+                       './behavior/active/feedback_element.js'
+                       './behavior/active/reading_rater.js'
                        )
 behavior_output_file='behavior.js'
 
@@ -467,6 +468,7 @@ content_script_includes_files=( ${manifest_lib[@]}
                                 './db/init.js'
                                 './db/translator.js'
                                 './model/init.js'
+                                './model/extracted_paragraph.js'
                                 './model/extracted_dna.js'
                                 './model/visit_item.js'
                                 './translators/init.js'
