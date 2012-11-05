@@ -213,14 +213,14 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
                 });
           });
       });
-    return true;
+    //return true;
 
   }
 
 });
 
 chrome.runtime.onInstalled.addListener(function() {
-  
+
   // Define favorites default values.
   if(!localStorage['ct-favorites_webistes']){
     var lFavorites = [];
@@ -273,10 +273,10 @@ chrome.runtime.onInstalled.addListener(function() {
       'name' : 'Pinterest',
       'url' : 'http://pinterest.com'
     });
-    
+
     localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
   }
-  
+
   // ct-grid_mode
   // Define which grid is seen first "favorites" by default.
   if(!localStorage['ct-grid_mode']){

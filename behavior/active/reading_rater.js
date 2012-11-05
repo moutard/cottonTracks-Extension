@@ -45,6 +45,20 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // If they don't move it during 10 seconds, we conclude they are
     // inactive.
     this._bDocumentActive = true;
+
+    // Create the parser but don't start it.
+    this._oParser = new Cotton.Behavior.Passive.Parser();
+    this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
+  },
+
+  /**
+   * Start when the document is ready. Start parser and reading rater. Refresh
+   * reading rater every 5 seconds. To improve performance no need to refresh
+   * parser.
+   */
+  start : function() {
+    var self = this;
+
     var oTimeout = null;
     $(document).mousemove(function() {
       if (self._bDocumentActive === false) {
@@ -71,20 +85,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     this._initializeHighlightListener();
 
-    // Create the parser but don't start it.
-    this._oParser = new Cotton.Behavior.Passive.Parser();
-    this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
-  },
-
-  /**
-   * Start when the document is ready. Start parser and reading rater. Refresh
-   * reading rater every 5 seconds. To improve performance no need to refresh
-   * parser.
-   */
-  start : function() {
-    var self = this;
-    sync.current().extractedDNA().setTimeTabActive(0);
-    sync.current().extractedDNA().setTimeTabOpen(0);
+    //sync.current().extractedDNA().setTimeTabActive(0);
+    //sync.current().extractedDNA().setTimeTabOpen(0);
     // To increase performance the parsing is just lanched once.
     var mRefreshParsing = function() {
       self._oParser.parse();
@@ -120,7 +122,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var $block = $(this);
       var oScore = $block.data('score');
       if (!oScore) {
-        oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
+        oScore = new Cotton.Behavior.Active.Score($block);
         $block.data('score', oScore);
       }
     });
@@ -167,7 +169,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var $block = $(this);
       var oScore = $block.data('score');
       if (!oScore) {
-        oScore = new Cotton.Behavior.Active.ReadingRater.Score($block);
+        oScore = new Cotton.Behavior.Active.Score($block);
         $block.data('score', oScore);
       }
     });
