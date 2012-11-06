@@ -44,14 +44,6 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
         this._iNbMeaningfulBlock = 0;
       },
 
-      favicon : function() {
-        return this._sFavicon;
-      },
-
-      bestImage : function() {
-        return this._sBestImage;
-      },
-
       /**
        * Parse all the blocks and add the attribute 'data-meaningful', if the
        * block is considered interesting. Then remove the some meaningful
@@ -86,16 +78,16 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       },
 
       /**
-       * Finds the best image in the whole page. If there is an image in the
-       * infobox choose this one. Else find other image.
+       * Finds the best image in the wikipedia page. If there is an image in the
+       * infobox choose this one. Else find other image in thumbinner.
        * 
-       * @returns jQuery DOM representing the given <img /> or null
-       * @returns src
+       * @returns {String} src
        */
       findBestImage : function() {
         var self = this;
         if (self._$InfoBox) {
-          self._sBestImage = self._$InfoBox('.image:first img').attr('src');
+          self._sBestImage = self._$InfoBox.find('.image:first img')
+              .attr('src');
           // Get the first one, but we can do much better.
         } else {
           self._sBestImage = $('div.thumbinner:first img').attr('src');

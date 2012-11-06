@@ -2,46 +2,118 @@
 
 /**
  * Google Parser
- *
- * @extends Cotton.Behavior.Passive.Parser.
+ * 
  * Created by : content_scripts.
- *
- * Find relevant block in a google search page. The compisition of search page
- * is really different than a classic page. So It's more relevant to create a
- * new parser.
+ * 
+ * Find relevant block in a google result page.
  */
 
 Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
+  /**
+   * Used to stored the detected favicon.
+   */
+  _sFavicon : null,
 
   /**
-   * true if we should send debugging messages to the JS console.
-   *
-   * @type boolean
+   * Used to stored the detected best image.
    */
-  _bLoggingEnabled : true,
+  _sBestImage : null,
 
-  log : function(msg) {
-    if (this._bLoggingEnabled) {
-      console.log(msg);
-    }
-  },
+  /**
+   * Meaningful blocks
+   */
+  _lMeaningfulBlocks : null,
 
+  /**
+   * The box on the left, that contains specific informations. This corresponds
+   * to .infobox or .infobox_v2 class.
+   */
+  _$rhsBox : undefined,
+
+  /**
+   * @constructor
+   */
   init : function() {
     this._super();
+
+    this._MeaningFulBlocks = [];
+    this._iNbMeaningfulBlock = 0;
+  },
+
+  /**
+   * Parse all the blocks and add the attribute 'data-meaningful', if the block
+   * is considered interesting. Then remove the some meaningful blocks.
+   */
+  parse : function() {
+
+    // Find the favicon
+    var sFavicon = $("link[rel$=icon]").attr("href");
+    var oRegexp = new RegExp("^http://");
+    if (!oRegexp.test(sFavicon)) {
+      sFavicon = window.location.origin + '/' + sFavicon;
+    }
+    this._sFavicon = sFavicon;
+
+    sync.current().setFavicon(this._sFavicon);
+    sync.updateVisit();
+
+    // Detect rhsbox.
+    this._$InfoBox = $('#rhs'); // seems it doesn't work.
+
+    $('[data-meaningful]').removeAttr('data-meaningful');
+    this._findMeaningfulBlocks();
+    this._removeLeastMeaningfulBlocks();
+
+    this.findBestImage();
   },
 
   /**
    * Finds google image result. When they are included to a google search.
-   *
-   *
-   * @param : none
+   * 
+   * @param :
+   *          none
    * @returns url of the image
    */
   _findSearchImageResult : function() {
-    var sUrl = $("#imagebox_bigimages a.bia.uh_rl:first").attr("href");
-    var oUrl = new parseUrl(sUrl);
-    oUrl.fineDecomposition();
-    return oUrl.dSearch['imgurl'];
+    var sUrl = $("#imagebox_bigimages a.uh_rl:first").attr("href");
+    if (sUrl) {
+      if (sUrl[0] === "/") {
+        sUrl = "http://google.fr" + sUrl;
+      }
+      var oUrl = new parseUrl(sUrl);
+      oUrl.fineDecomposition();
+      console.debug(oUrl);
+      return oUrl.dSearch['imgurl'];
+    }
+
+    return undefined;
+  },
+
+  /**
+   * Finds google image result when it's actuality.
+   * 
+   * @param :
+   *          none
+   * @returns url of the image
+   */
+  _findActualityImageResult : function() {
+    return undefined;
+  },
+
+  /**
+   * Finds the best image in the wikipedia page. If there is an image in the
+   * infobox choose this one. Else find other image in thumbinner.
+   * 
+   * @returns {String} src
+   */
+  findBestImage : function() {
+    var sSrc = this._findSearchImageResult();
+    if (sSrc) {
+      this._sBestImage = sSrc;
+    } else {
+      this._sBestImage = this._findBestImageInBlocks($('body'));
+    }
+    return this._sBestImage;
   },
 
 });
