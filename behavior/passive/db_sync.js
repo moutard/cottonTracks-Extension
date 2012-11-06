@@ -33,7 +33,10 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
    * Start when the document is ready, to get title, and first information.
    */
   start : function() {
+    console.log('start1');
     this._oCurrentVisitItem.getInfoFromPage();
+    console.log('start2');
+    console.log(this._oCurrentVisitItem);
     this.createVisit();
   },
 
@@ -58,18 +61,19 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
-
+    
     chrome.extension.sendMessage({
       'action' : 'create_visit_item',
       'params' : {
         'visitItem' : dDbRecord
       }
     }, function(response) {
+      console.log('DBSync create visit - response :')
       console.log(response);
       self._iId = response['id'];
       self._oCurrentVisitItem.initId(response['id']);
-      // console.log("dbSync create visit");
-      // console.log(self._oCurrentVisitItem);
+      console.log("dbSync create visit");
+      console.log(self._oCurrentVisitItem);
     });
 
   },
@@ -108,9 +112,9 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
           'visitItem' : dDbRecord
         }
       }, function(response) {
-        // console.log("dbSync update visit");
-        // console.log(response);
-        // console.log(self._oCurrentVisitItem);
+        console.log("dbSync update visit - response :");
+        console.log(response);
+        console.log(self._oCurrentVisitItem);
       });
     }
 
