@@ -1,13 +1,13 @@
 'use strict';
 
-Cotton.Behavior.Active.REFRESH_RATE = 5; //seconds
+Cotton.Behavior.Active.REFRESH_RATE = 5; // seconds
 
 Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   *
+   * 
    * @type boolean
    */
   _bDocumentActive : false,
@@ -20,7 +20,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   *
+   * 
    * @type Cotton.Behavior.Passive.Parser
    */
   _oParser : null,
@@ -85,8 +85,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     this._initializeHighlightListener();
 
-    //sync.current().extractedDNA().setTimeTabActive(0);
-    //sync.current().extractedDNA().setTimeTabOpen(0);
+    sync.current().extractedDNA().setTimeTabActive(0);
+    sync.current().extractedDNA().setTimeTabOpen(0);
     // To increase performance the parsing is just lanched once.
     var mRefreshParsing = function() {
       self._oParser.parse();
@@ -94,7 +94,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       // Set $feedback
       var sBestImg = self._oParser.bestImage();
       if (sBestImg) {
-        if(self._oFeedbackElement){
+        if (self._oFeedbackElement) {
           self._oFeedbackElement.setBestImage(sBestImg);
         }
 
@@ -105,7 +105,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
       var sFavicon = self._oParser.favicon();
       if (sFavicon) {
-        if(self._oFeedbackElement){
+        if (self._oFeedbackElement) {
           self._oFeedbackElement.setFavicon(sFavicon);
         }
       }
@@ -132,25 +132,25 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
-        if(self._oFeedbackElement){
+        if (self._oFeedbackElement) {
           self._oFeedbackElement.setPercentage(iPercent + '%');
         }
 
         sync.current().extractedDNA().setPageScore(fPageScore);
         sync.current().extractedDNA().setPercent(iPercent);
         sync.current().extractedDNA().setPercent(iPercent);
-        sync.current().extractedDNA().increaseTimeTabActive(Cotton.Behavior.Active.REFRESH_RATE * 1000);
+        sync.current().extractedDNA().increaseTimeTabActive(
+            Cotton.Behavior.Active.REFRESH_RATE * 1000);
         sync.updateVisit();
       }
 
       // Refresh after a REFRESH_RATE seconds.
-      self._oTimeoutSession = setTimeout(function(){
+      self._oTimeoutSession = setTimeout(function() {
         mRefreshReadingRate();
-      },
-      Cotton.Behavior.Active.REFRESH_RATE * 1000);
+      }, Cotton.Behavior.Active.REFRESH_RATE * 1000);
     };
 
-    self._oTimeoutSession = setTimeout(function(){
+    self._oTimeoutSession = setTimeout(function() {
       mRefreshReadingRate();
     }, 10);
 
@@ -158,9 +158,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   restart : function() {
     var self = this;
+    console.log('restart');
     self._bDocumentActive = true;
 
-    if(self._oFeedbackElement){
+    if (self._oFeedbackElement) {
       self._oFeedbackElement.start();
     }
     // livequery is a jQuery plugin.
@@ -179,7 +180,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       if (self._bDocumentActive) {
         var fPageScore = self._computePageScore();
         var iPercent = self._iRatingRate = Math.round(100 * fPageScore);
-        if(self._oFeedbackElement){
+        if (self._oFeedbackElement) {
           self._oFeedbackElement.setPercentage(iPercent + '%');
         }
 
@@ -189,13 +190,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       }
 
       // Refresh after a REFRESH_RATE seconds.
-      self._oTimeoutSession = setTimeout(function(){
+      self._oTimeoutSession = setTimeout(function() {
         mRefreshReadingRate();
-      },
-      Cotton.Behavior.Active.REFRESH_RATE * 1000);
+      }, Cotton.Behavior.Active.REFRESH_RATE * 1000);
     };
 
-    self._oTimeoutSession = setTimeout(function(){
+    self._oTimeoutSession = setTimeout(function() {
       mRefreshReadingRate();
     }, Cotton.Behavior.Active.REFRESH_RATE * 1000);
   },
@@ -204,7 +204,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var self = this;
     self._bDocumentActive = false;
     clearTimeout(self._oTimeoutSession);
-    if(self._oFeedbackElement){
+    if (self._oFeedbackElement) {
       self._oFeedbackElement.stop();
     }
   },
@@ -218,7 +218,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
   /**
    * Computes the page score.
-   *
+   * 
    * @returns float between 0 and 1
    */
   _computePageScore : function() {
@@ -298,7 +298,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     /**
      * A jQuery DOM object used to keep in memory highlighted blocks in order to
      * re-augment their score in case they are copied (Ctrl/Cmd+C).
-     *
+     * 
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
@@ -356,7 +356,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   *
+   * 
    * @returns jQuery DOM
    */
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
@@ -367,7 +367,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     return $(lIntersectingAncestors);
   }
 });
-
 
 // We don't need to wait document 'ready' signal to create instance.
 var sync = new Cotton.Behavior.Passive.DbSync();
