@@ -47,7 +47,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = true;
 
     // Create the parser but don't start it.
-    this._oParser = new Cotton.Behavior.Passive.Parser();
+    this._oParser = new Cotton.Behavior.Passive.ParserFactory();
     this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
   },
 
