@@ -16,7 +16,7 @@ Cotton.DB.Populate = {};
  *         remove visitItems that are https, or that are tools.
  */
 Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
-  console.debug('New PreRemoveTools - Start');
+  DEBUG && console.debug('New PreRemoveTools - Start');
 
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
@@ -33,7 +33,7 @@ Cotton.DB.Populate.preRemoveTools = function(lVisitItems) {
  */
 Cotton.DB.Populate.start = function(mCallBackFunction) {
 
-  console.debug('PopulateDB - Start');
+  DEBUG && console.debug('PopulateDB - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
 
@@ -42,7 +42,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     startTime : 0,
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
-    console.debug('PopulateDB - chrome history search has returned '
+    DEBUG && console.debug('PopulateDB - chrome history search has returned '
         + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
     if (Cotton.UI.oCurtain) {
@@ -52,14 +52,14 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 
-    console.debug('PopulateDB - try to create new store');
+    DEBUG && console.debug('PopulateDB - try to create new store');
     new Cotton.DB.Store('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       if (Cotton.UI.oCurtain) {
         Cotton.UI.oCurtain.increasePercentage(5);
       }
-      console.debug("PopulateDB - visitItems store ready");
+      DEBUG && console.debug("PopulateDB - visitItems store ready");
       for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
         var oVisitItem = new Cotton.Model.VisitItem();
 
@@ -68,13 +68,11 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
         oVisitItem._iVisitTime = oHistoryItem.lastVisitTime;
 
         this.put('visitItems', oVisitItem, function(iId) {
-          console.debug('PopulateDB - visitItem added');
           iCount += 1;
 
           if (iCount === iPopulationLength) {
-            console.debug('PopulateDB - End');
             elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
-            console.log('@@Time to PopulateDB : ' + elapsedTime1 + 's');
+            DEBUG && console.log('PopulateDB end with time : ' + elapsedTime1 + 's');
             mCallBackFunction.call();
           }
         });
@@ -94,7 +92,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
 
 Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
   // Get all the history items from Chrome DB.
-  console.debug('PopulateVisitItems - Start');
+  DEBUG && console.debug('PopulateVisitItems - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
 
@@ -103,11 +101,11 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
     startTime : 0,
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lHistoryItems) {
-    console.debug('PopulateVisitItems - chrome history search has returned '
+    DEBUG && console.debug('PopulateVisitItems - chrome history search has returned '
         + lHistoryItems.length + ' items');
     lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
-    console.debug('PopulateVisitItems - after preRemoveTools left : '
+    DEBUG && console.debug('PopulateVisitItems - after preRemoveTools left : '
         + lHistoryItems.length + ' items');
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
@@ -120,12 +118,10 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
       oVisitItem.setVisitTime(oHistoryItem['lastVisitTime']);
 
       oStore.put('visitItems', oVisitItem, function(iId) {
-        console.debug('PopulateVisitItems - visitItem added');
         iCount += 1;
         if (iCount === iPopulationLength) {
-          console.debug('PopulateDB - End');
           elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
-          console.log('@@Time to PopulateStore : ' + elapsedTime1 + 's');
+          DEBUG && console.debug('PopulateDB end with time : ' + elapsedTime1 + 's');
           mCallBackFunction(oStore);
         }
       });
@@ -148,9 +144,9 @@ Cotton.DB.Populate.visitItems = function(oStore, mCallBackFunction) {
 Cotton.DB.Populate.visitItemsFromFile = function(oStore, lHistoryItems,
     mCallBackFunction) {
   // Get all the history items from Chrome DB.
-  console.debug('PopulateVisitItemsFromFile - Start');
+  DEBUG && console.debug('PopulateVisitItemsFromFile - Start');
 
-  console.debug('PopulateVisitItems - import history file has returned '
+  DEBUG && console.debug('PopulateVisitItems - import history file has returned '
       + lHistoryItems.length + ' items');
   lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
 
@@ -165,10 +161,9 @@ Cotton.DB.Populate.visitItemsFromFile = function(oStore, lHistoryItems,
     oVisitItem.setVisitTime(oHistoryItem['lastVisitTime']);
 
     oStore.put('visitItems', oVisitItem, function(iId) {
-      console.debug('PopulateVisitItems - visitItem added');
       iCount += 1;
       if (iCount === iPopulationLength) {
-        console.debug('PopulateDB - End');
+        DEBUG && console.debug('PopulateDB - End');
         mCallBackFunction(oStore);
       }
     });

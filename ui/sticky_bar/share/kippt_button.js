@@ -112,7 +112,7 @@ Cotton.UI.StickyBar.Share.KipptButton = Class.extend({
 
 
     } else {
-      console.log("Nothing to share");
+      // TODO(rmoutard) : do something to show that there is nothing to share.
     }
   },
 

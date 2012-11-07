@@ -43,7 +43,7 @@ Cotton.UI.World = Class.extend({
     self._oStoryline = _oCurrentlyOpenStoryline;
 
     self._oStickyBar.on('ready', function() {
-      console.log('world ready');
+      LOG && console.log('world ready');
 
       // TODO(rmoutard) : not MVC compliant.
       Cotton.DB.Stories.getXStories(10, function(lStories) {
@@ -91,7 +91,7 @@ Cotton.UI.World = Class.extend({
    * @this {World}
    */
   update : function() {
-    console.log('world update');
+    LOG && console.log('world update');
     var self = this;
     Cotton.DB.Stories.getXStories(10, function(lStories) {
       // Various initializers, mostly for testing.

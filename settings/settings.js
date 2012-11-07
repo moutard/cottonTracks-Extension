@@ -99,10 +99,8 @@ window.onload = function() {
 
       // Closure to capture the file information.
       reader.onload = (function(theFile) {
-        console.log(theFile);
         return function(e) {
           // Render thumbnail.
-          console.log(e.target.result)
           Cotton.Utils.importHistory(e.target.result);
         };
       })(f);

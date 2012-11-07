@@ -1,11 +1,11 @@
 'use strict';
 /**
  * Controller
- *
+ * 
  * Inspired by MVC pattern.
- *
+ * 
  * Handles DB, and UI.
- *
+ * 
  */
 Cotton.Controller = Class.extend({
 
@@ -37,7 +37,7 @@ Cotton.Controller = Class.extend({
   init : function(){
 
     var self = this;
-    console.debug("Controller - init -");
+    LOG && console.log("Controller - init -");
 
     $(window).load(function(){
         Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
@@ -56,21 +56,21 @@ Cotton.Controller = Class.extend({
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
           'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
           }, function() {
-            console.debug('Global store created');
+            DEBUG && console.debug('Global store created');
             self._oStore.empty('visitItems', function(bIsEmpty){
-              console.debug('Ask if empty');
+              DEBUG && console.debug('Ask if empty');
               if(bIsEmpty){
-                console.log('Installation : The database is empty - first Installation');
+                LOG && console.log('Installation : The database is empty - first Installation');
                 self.install();
               } else if (localStorage['CottonFirstOpening'] === undefined) {
                 // It's not the first installation.
                 // localStorage['CottonFirstOpening'] = false;
-                console.log('Installation : Already a data base - Not first Installation');
+                LOG && console.log('Installation : Already a data base - Not first Installation');
                 self.reinstall();
 
               } else {
                 // You open a tab after installation.
-                console.debug('Contoller : already installed - DBSCAN2');
+                DEBUG && console.debug('Contoller : already installed - DBSCAN2');
                 self.start();
               }
             })
@@ -90,7 +90,7 @@ Cotton.Controller = Class.extend({
       Cotton.UI.openCurtain();
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
-      console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
+      DEBUG && console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
@@ -102,15 +102,14 @@ Cotton.Controller = Class.extend({
 
 
         self._oStore.put('visitItems', oVisitItem, function() {
-          // console.log("update queryKeywords");
+          // pass
         });
       }
 
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                               e.data['iNbCluster']);
       // Add stories
-      // var lStories = dStories['stories'].reverse();
-      console.log(dStories);
+      DEBUG && console.debug(dStories);
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore){
             // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
@@ -130,9 +129,9 @@ Cotton.Controller = Class.extend({
     self._wDBSCAN2 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
     self._wDBSCAN2.addEventListener('message', function(e) {
-      console.log("After dbscan2");
-      console.log(e.data['lVisitItems']);
-      console.log(e.data['iNbCluster']);
+      DEBUG && console.debug("After dbscan2");
+      DEBUG && console.debug(e.data['lVisitItems']);
+      DEBUG && console.debug(e.data['iNbCluster']);
 
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
           e.data['iNbCluster']);
@@ -140,7 +139,7 @@ Cotton.Controller = Class.extend({
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'], function(oStore, lStories){
         // Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
         // Cotton.UI.oWorld.update();
-        console.log(lStories);
+        DEBUG && console.debug(lStories);
       });
 
     }, false);
@@ -162,7 +161,7 @@ Cotton.Controller = Class.extend({
       if(Cotton.UI.oCurtain){ Cotton.UI.oCurtain.increasePercentage(5);}
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
-      console.log('wDBSCAN3 - Worker ends with ', e.data['iNbCluster'], 'clusters.', ' For ', e.data['lVisitItems'].length, ' visitItems');
+      DEBUG && console.debug('wDBSCAN3 - Worker ends with ', e.data['iNbCluster'], 'clusters.', ' For ', e.data['lVisitItems'].length, ' visitItems');
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
@@ -173,7 +172,7 @@ Cotton.Controller = Class.extend({
 
 
         self._oStore.put('visitItems', oVisitItem, function() {
-          // console.log("update queryKeywords");
+          // pass
         });
       }
 
@@ -183,8 +182,6 @@ Cotton.Controller = Class.extend({
       // Add stories
       Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
           function(oStore, lStories){
-            console.log("proroor");
-            console.log(lStories);
             Cotton.UI.oWorld.stickyBar().pushStories(lStories);
       });
     }, false);
@@ -193,10 +190,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   *
+   * 
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   *
+   * 
    */
   install : function(){
     console.debug("Controller - install");
@@ -206,9 +203,9 @@ Cotton.Controller = Class.extend({
     Cotton.DB.Populate.visitItems(self._oStore, function(oStore) {
       if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(20);}
       oStore.getList('visitItems', function(lAllVisitItems) {
-        console.debug('FirstInstallation - Start wDBSCAN with '
+        LOG && console.log('FirstInstallation - Start wDBSCAN with '
             + lAllVisitItems.length + ' items');
-        console.debug(lAllVisitItems);
+        DEBUG && console.debug(lAllVisitItems);
         var lAllVisitDict = [];
         for(var i = 0, oItem; oItem = lAllVisitItems[i]; i++){
           // maybe a setFormatVersion problem
@@ -217,7 +214,7 @@ Cotton.Controller = Class.extend({
           lAllVisitDict.push(dItem);
         }
         if(Cotton.UI.oCurtain){Cotton.UI.oCurtain.increasePercentage(10);}
-        console.debug(lAllVisitDict);
+        DEBUG && console.debug(lAllVisitDict);
         self._wDBSCAN3.postMessage(lAllVisitDict);
         });
     });
@@ -226,12 +223,12 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   *
+   * 
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
   reinstall : function(){
-    console.debug("Controller - reinstall");
+    LOG && console.log("Controller - reinstall");
 
     var self = this;
 
@@ -255,11 +252,11 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   *
+   * 
    * ct is well installed, start the application.
    */
   start : function(){
-    console.debug("Controller - start");
+    LOG && console.log("Controller - start");
     var self = this;
     // Cotton.DBSCAN2.startDbscanUser();
 
@@ -269,9 +266,6 @@ Cotton.Controller = Class.extend({
        */
       var lVisitItemsId = oLastStory.visitItemsId();
       var iLastStoryId =  oLastStory.id();
-      //self._oStore.delete('stories', oLastStory.id(), function(iId){
-      //  console.log("story deleted");
-      //});
 
       var lPoolVisitItems = [];
 
@@ -290,7 +284,7 @@ Cotton.Controller = Class.extend({
               function(lUnclassifiedVisitItem) {
                 lPoolVisitItems = lPoolVisitItems
                     .concat(lUnclassifiedVisitItem);
-                console.log(lPoolVisitItems);
+                DEBUG && console.debug(lPoolVisitItems);
                 var lPoolVisitDict = [];
                 for(var i = 0, oItem; oItem = lPoolVisitItems[i]; i++){
                   // maybe a setFormatVersion problem
@@ -305,14 +299,15 @@ Cotton.Controller = Class.extend({
     });
   },
 
-  /** --------------------------------------------------------------------------
+  /**
+   * --------------------------------------------------------------------------
    * Controller - Notication Center Each time the UI, is modify, the UI call the
    * controller.
    */
 
   /**
    * Remove the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   *
+   * 
    * @param {int}
    *          iStoryId : id is found using mystoryline.
    * @param {int}
@@ -325,20 +320,20 @@ Cotton.Controller = Class.extend({
     Cotton.DB.Stories.removeVisitItemInStory(self._oStore,
         iStoryId, iVisitItemId,
         function(){
-          console.log('ok - removeVisitItem');
+          DEBUG && console.debug('ok - removeVisitItem');
     });
   },
 
   /**
    * Set the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   *
+   * 
    * @param {Cotton.Model.VisitItem}
    *          oVisitItem : after set the visitItem put.
    */
   setVisitItem : function(oVisitItem){
     var self = this;
     self._oStore.put('visitItems', oVisitItem, function(id){
-      console.log("setVisit id : " + id);
+      DEBUG && console.debug("setVisit id : " + id);
     })
   },
 
@@ -346,7 +341,7 @@ Cotton.Controller = Class.extend({
    * Merge two stories. Becareful parameters are not symetric. All the elments
    * of sub_story will be put in the main_story, and then the sub story will be
    * removed.
-   *
+   * 
    * @param {int}
    *          iMainStoryId : id of the story that receive new elements
    * @param {int}
@@ -370,7 +365,7 @@ Cotton.Controller = Class.extend({
 
           // Remove the sub story.
           self._oStore.delete('stories', iSubStoryId, function(){
-            console.log("controller - stories merged");
+            DEBUG && console.debug("controller - stories merged");
             mCallBackFunction(lVisitItemsIdToAdd);
           });
         });
@@ -381,7 +376,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Set story
-   *
+   * 
    * @param {Cotton.Model.Story}
    *          oStory
    */
@@ -389,13 +384,13 @@ Cotton.Controller = Class.extend({
   setStory : function(oStory){
     var self = this;
     self._oStore.put('stories', oStory, function(iId){
-      console.log('controller - story updated');
+      DEBUG && console.debug('controller - story updated');
     });
   },
 
   /**
    * Delete the story with the given story id.
-   *
+   * 
    * @param {int} :
    *          iStoryId
    */
@@ -403,13 +398,13 @@ Cotton.Controller = Class.extend({
     var self = this;
 
     self._oStore.delete('stories', 'id', iStoryId, function(){
-      console.log("controller - delete story");
+      DEBUG && console.debug("controller - delete story");
     });
   },
 
   /**
    * Delete the story and visitItems with the given story id.
-   *
+   * 
    * @param {int} :
    *          iStoryId
    */
@@ -420,20 +415,21 @@ Cotton.Controller = Class.extend({
       for(var i = 0; i < oStory.visitItemsId().length; i++){
         var iId = oStory.visitItemsId()[i];
         this.delete('visitItems', iId, function(){
-          console.log("delete visitItem");
+          DEBUG && console.debug("delete visitItem");
         });
       }
       this.delete('stories', oStory.id(), function() {
-        console.log("delete story");
+        DEBUG && console.debug("delete story");
       });
     });
   },
 
   /**
-   * Received from the UI the search parameters. Make the search. And return
-   * the stories that corresponds to the search pattern.
-   *
-   * @param {string} sSearchPattern
+   * Received from the UI the search parameters. Make the search. And return the
+   * stories that corresponds to the search pattern.
+   * 
+   * @param {string}
+   *          sSearchPattern
    * @param mCallbackFunction
    */
   searchStoryFromTags : function(sSearchPattern, mCallbackFunction){
@@ -452,10 +448,11 @@ Cotton.Controller = Class.extend({
 
   /**
    * Received from the UI the search parameters. Search the corresponding
-   * keyword on the database 'searchKeywords'. And return
-   * the stories that corresponds to those keywords.
-   *
-   * @param {string} sSearchPattern
+   * keyword on the database 'searchKeywords'. And return the stories that
+   * corresponds to those keywords.
+   * 
+   * @param {string}
+   *          sSearchPattern
    * @param mCallbackFunction
    */
   searchStoryFromSearchKeywords : function(sSearchPattern, mCallbackFunction){
@@ -467,12 +464,12 @@ Cotton.Controller = Class.extend({
         self._oStore.find('searchKeywords', 'sKeyword', lTags[0],
             function(oSearchKeyword){
               if(oSearchKeyword){
-              console.log(oSearchKeyword);
+              DEBUG && console.debug(oSearchKeyword);
               var lReferringStoriesId =  oSearchKeyword.referringStoriesId();
 
               self._oStore.findGroup('stories', 'id', lReferringStoriesId,
                 function(lStories){
-                  console.log(lStories);
+                  DEBUG && console.debug(lStories);
                   self._oWorld.stickyBar().showResultFromSearch(lStories);
                   mCallbackFunction(lStories.length);
                 });
@@ -497,7 +494,8 @@ Cotton.Controller = Class.extend({
     });
   },
 
-  /** --------------------------------------------------------------------------
+  /**
+   * --------------------------------------------------------------------------
    * Controller - Favorites Website
    */
 
