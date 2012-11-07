@@ -82,7 +82,6 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
       }
       var oUrl = new parseUrl(sUrl);
       oUrl.fineDecomposition();
-      console.debug(oUrl);
       return oUrl.dSearch['imgurl'];
     }
 

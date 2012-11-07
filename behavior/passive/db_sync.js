@@ -2,10 +2,10 @@
 
 /**
  * @class : DbSync
- *
+ * 
  * handles tabs openning. Each time a new tab is opened, a visitItem is created
  * Then send to the content_script_listener. That will put it in the database.
- *
+ * 
  * Because DbSync is in a content script, their options are limited.
  */
 
@@ -33,16 +33,13 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
    * Start when the document is ready, to get title, and first information.
    */
   start : function() {
-    console.log('start1');
     this._oCurrentVisitItem.getInfoFromPage();
-    console.log('start2');
-    console.log(this._oCurrentVisitItem);
     this.createVisit();
   },
 
   /**
    * return the current visitItem
-   *
+   * 
    * @returns {Cotton.Model.VisitItem}
    */
   current : function() {
@@ -61,19 +58,17 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
-    
+
     chrome.extension.sendMessage({
       'action' : 'create_visit_item',
       'params' : {
         'visitItem' : dDbRecord
       }
     }, function(response) {
-      console.log('DBSync create visit - response :')
-      console.log(response);
+      DEBUG && console.debug('DBSync create visit - response :')
+      DEBUG && console.debug(response);
       self._iId = response['id'];
       self._oCurrentVisitItem.initId(response['id']);
-      console.log("dbSync create visit");
-      console.log(self._oCurrentVisitItem);
     });
 
   },
@@ -81,7 +76,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
   /**
    * Use chrome messaging API, to send a message to the background page, that
    * will put the current visitItem is the database.
-   *
+   * 
    * For the moment, it's exaclty the same that create visit.
    */
   updateVisit : function() {
@@ -89,10 +84,10 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
     // Place here the code to only store the most read paragraph.
     var lParagraphs = self._oCurrentVisitItem.extractedDNA().paragraphs();
-    lParagraphs = _.sortBy(lParagraphs, function(oParagraph){
+    lParagraphs = _.sortBy(lParagraphs, function(oParagraph) {
       return -1 * oParagraph.percent();
     });
-    lParagraphs = lParagraphs.slice(0,2);
+    lParagraphs = lParagraphs.slice(0, 2);
     self._oCurrentVisitItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
@@ -100,11 +95,8 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
 
-    console.log('sync : updateVisit');
-    console.log(dDbRecord);
     if (self._oCurrentVisitItem.id() === undefined) {
-      console.log("can't update id is not set.");
-      console.log(self._oCurrentVisitItem);
+      DEBUG && console.debug("can't update id is not set.");
     } else {
       chrome.extension.sendMessage({
         'action' : 'create_visit_item',
@@ -112,9 +104,8 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
           'visitItem' : dDbRecord
         }
       }, function(response) {
-        console.log("dbSync update visit - response :");
-        console.log(response);
-        console.log(self._oCurrentVisitItem);
+        DEBUG && console.debug("dbSync update visit - response :");
+        DEBUG && console.debug(response);
       });
     }
 

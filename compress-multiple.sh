@@ -53,6 +53,8 @@ COMPILE_OPTIONS="--language_in=ECMASCRIPT5_STRICT"
 COMPILE_OPTIONS="$COMPILE_OPTIONS --compilation_level ADVANCED_OPTIMIZATIONS"
 COMPILE_OPTIONS="$COMPILE_OPTIONS --jscomp_off=globalThis"
 COMPILE_OPTIONS="$COMPILE_OPTIONS --warning_level DEFAULT"
+COMPILE_OPTIONS="$COMPILE_OPTIONS --define='DEBUG=false'"
+
 # For each folder concatenates all the file and respects the order.
 # Then compile each file.
 

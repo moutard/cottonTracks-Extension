@@ -183,7 +183,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
 
     Cotton.UI.World.COMMUNICATOR.on('story_element', function(oStoryElement) {
-      // console.log(oStoryElement.url);
+      // pass
     });
   },
 

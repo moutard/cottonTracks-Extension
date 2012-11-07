@@ -15,7 +15,6 @@ Cotton.Analytics = Class.extend({
     self._gaq = _gaq || [];
 
     if (Cotton.Config.Parameters.bAnalytics === true) {
-      console.log("Ct - analytics");
       _gaq.push([ '_setAccount', 'UA-30134257-1' ]);
       _gaq.push([ '_trackPageview' ]);
 

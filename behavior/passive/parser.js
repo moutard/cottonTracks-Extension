@@ -374,7 +374,6 @@ Cotton.Behavior.Passive.Parser = Class
           }
           var oUrl = new parseUrl(sUrl);
           oUrl.fineDecomposition();
-          console.debug(oUrl);
           return oUrl.dSearch['imgurl'];
         }
 
@@ -407,7 +406,6 @@ Cotton.Behavior.Passive.Parser = Class
         // iScore = iSurface;
 
         /** Data-meaningful */
-        console.log($img.attr("data-meaningful"));
         if ($img.attr("data-meaningful") === "true") {
           iScore = iScore + 5000;
         }
