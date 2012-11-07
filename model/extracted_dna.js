@@ -30,7 +30,8 @@ Cotton.Model.ExtractedDNA = Class.extend({
   init : function() {
     this._iPercent = 0;
     this._fPageScore = 0;
-    this._iTimeSeen = -1;
+    this._fTimeTabActive = -1;
+    this._fTimeTabOpen = -1;
     this._lHighlightedText = [];
     this._sImageUrl = "";
     this._sFirstParagraph = "";
