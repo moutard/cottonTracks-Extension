@@ -64,9 +64,10 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
 
         // Detect inforbox.
         this._$InfoBox = $('.infobox');
-        if (this._$InfoBox.length == 0) {
+        if (this._$InfoBox.length === 0) {
           this._$InfoBox = $('.infobox_v2');
-        } else if (this._$InfoBox.length == 0) {
+        }
+        if (this._$InfoBox.length === 0) {
           this._$InfoBox = $('.infobox_v3');
         }
 
@@ -85,7 +86,7 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
        */
       findBestImage : function() {
         var self = this;
-        if (self._$InfoBox) {
+        if (self._$InfoBox.length === 0) {
           self._sBestImage = self._$InfoBox.find('.image:first img')
               .attr('src');
           // Get the first one, but we can do much better.
