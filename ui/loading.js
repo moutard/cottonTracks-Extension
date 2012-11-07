@@ -13,8 +13,8 @@ $(window)
           iTimeoutIndex = setTimeout(
               function() {
                 throw new Error(
-                    "Timeout - The installation is too long. Maybe try to close this tab and open a new one.")
-              }, 50000);
+                    "Timeout - The installation is unexpectedly long. You should restart your browser.")
+              }, 30000);
 
           Cotton.UI.oCurtain = new Cotton.UI.Curtain(window);
           Cotton.UI.oErrorHandler.setCurtain(Cotton.UI.oCurtain);
