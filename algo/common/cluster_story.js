@@ -3,20 +3,20 @@
 /**
  * Given an array of visitItem labeled with a "clusterId", return a list of
  * stories, that contains all visitItems with the same label.
- *
+ * 
  * @param {Array.
  *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
  *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
  * @returns {Object} dStories list of all the stories.
- *
- *
+ * 
+ * 
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
-  console.debug("cluster story")
-  console.debug(lVisitItems);
-  console.debug(iNbCluster);
+  DEBUG && console.debug("cluster story")
+  DEBUG && console.debug(lVisitItems);
+  DEBUG && console.debug(iNbCluster);
   var lStories = [];
   // TODO(rmoutard) : storyUnderConstruction is usless now.
   var oStoryUnderConstruction = new Cotton.Model.Story();
@@ -48,10 +48,9 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
           .addDbRecordVisitItem(lVisitItems[j]);
       // If the visitItem was already in a story change the story Id. So when
       // you will put the story, it will be modified.
-      if(lVisitItems[j]['sStoryId']!=="UNCLASSIFIED"){
+      if (lVisitItems[j]['sStoryId'] !== "UNCLASSIFIED") {
         lStories[lVisitItems[j]['clusterId']].setId(lVisitItems[j]['sStoryId']);
       }
-
 
       // Set story title.
       if (lStories[lVisitItems[j]['clusterId']].title() === ""

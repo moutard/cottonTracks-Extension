@@ -158,7 +158,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   restart : function() {
     var self = this;
-    console.log('restart');
     self._bDocumentActive = true;
 
     if (self._oFeedbackElement) {

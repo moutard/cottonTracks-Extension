@@ -10,8 +10,10 @@
 Cotton.DB.Stories = {};
 
 Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
-  console.log(lStories);
-  console.debug("DB - add stories");
+  
+  DEBUG && console.debug("DB - add stories");
+  DEBUG && console.debug(lStories);
+
   var iLength = lStories.length - 1;
   var iCount = 0;
   for ( var i = 0; i < lStories.length; i++) {
@@ -66,8 +68,6 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
             lStoriesTemp[count].setVisitItems(lVisitItems);
 
             if (count == (lStoriesTemp.length - 1)) {
-              console.log('forFwouts');
-              console.log(lStoriesTemp);
               mCallBackFunction(lStoriesTemp);
             }
             count++;

@@ -6,7 +6,7 @@
  *         remove visitItems that are https, or that are tools.
  */
 Cotton.Utils.preRemoveTools = function(lVisitItems) {
-  console.debug('New PreRemoveTools - Start');
+  DEBUG && console.debug('New PreRemoveTools - Start');
 
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 

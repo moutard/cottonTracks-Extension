@@ -20,7 +20,7 @@
 // Listen for the content script to send a message to the background page.
 chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
-  console.log(request);
+  DEBUG && console.debug(request);
 
   /**
    * DISPACHER
@@ -50,7 +50,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     var oVisitItem = oTranslator.dbRecordToObject(
                                                 request['params']['visitItem']
                                                   );
-    console.debug(oVisitItem.url());
+    DEBUG && console.debug(oVisitItem.url());
     // Compute the referer id as it should be returned by the Chrome Extension
     // History API. We need this algorithm because in some cases, such as when
     // you open a link in a new tab, the referer id is not filled by Chrome, so
@@ -85,8 +85,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
           // you want to create it for the first time.
           oStore.put('visitItems', oVisitItem, function(iId) {
-            console.log("visitItem added");
-            console.log(iId);
+            DEBUG && console.debug("visitItem added" + iId);
             sPutId = iId;
             var _iId = iId;
             _.each(oVisitItem.searchKeywords(), function(sKeyword){
@@ -113,7 +112,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
         });
       } else {
-        console
+        DEBUG && console
             .debug("Content Script Listener - This visit item is a tool or an exluded url.");
       }
 //    };
@@ -155,7 +154,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
               Cotton.DB.Populate.visitItemsFromFile(oStore, request['params']['history']['lHistoryItems'],
                   function(oStore) {
                     oStore.getList('visitItems', function(lAllVisitItems) {
-                      console.debug('FirstInstallation - Start wDBSCAN with '
+                      DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
                           + lAllVisitItems.length + ' items');
                       console.debug(lAllVisitItems);
                       var lAllVisitDict = [];
@@ -165,18 +164,14 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
                         var dItem = oTranslator.objectToDbRecord(oItem);
                         lAllVisitDict.push(dItem);
                       }
-                      console.debug(lAllVisitDict);
+                      DEBUG && console.debug(lAllVisitDict);
 
                       // Define the worker.
                       var wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
                       wDBSCAN3.addEventListener('message', function(e) {
-                        Cotton.Utils.debug("DBSCAN 3 - MESSAGE");
-                        Cotton.Utils.debug(e);
-
-                        // Use local storage, to see that's it's not the first visit.
-                        console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
-                        console.log('wDBSCAN - Worker ends: ', e.data['lVisitItems']);
+                        DEBUG && console.debug("DBSCAN 3 - MESSAGE");
+                        DEBUG && console.debug(e);
 
                         // Update the visitItems with extractedWords and queryWords.
                         for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
@@ -194,7 +189,7 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
                         var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                                                 e.data['iNbCluster']);
                         // Add stories
-                        console.log(dStories);
+                        DEBUG && console.debug(dStories);
                         Cotton.DB.Stories.addStories(oStore, dStories['stories'],
                             function(oStore){
                         });

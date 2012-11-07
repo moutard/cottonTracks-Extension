@@ -91,8 +91,7 @@ Cotton.UI.Story.Storyline = Class
                 lNewPosition.push(parseInt(lLeftId[i]));
                 if(i < lRightId.length) lNewPosition.push(parseInt(lRightId[i]));
               }
-              console.log(self._oCurrentStory);
-              console.log(lNewPosition);
+
               self._oCurrentStory.setVisitItemsId(lNewPosition);
               Cotton.CONTROLLER.setStory(self._oCurrentStory);
             },

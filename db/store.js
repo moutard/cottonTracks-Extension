@@ -351,8 +351,7 @@ Cotton.DB.Store = Class.extend({
       var dDbRecord = oTranslator.objectToDbRecord(oObject);
       lAllItems.push(dDbRecord);
     }
-    // console.debug('putList After translate');
-    // console.debug(lAllItems);
+
     this._oEngine.AputList(sObjectStoreName, lAllItems, function(lAllId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, lAllId);
