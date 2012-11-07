@@ -140,7 +140,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         sync.current().extractedDNA().setPercent(iPercent);
         sync.current().extractedDNA().setPercent(iPercent);
         sync.current().extractedDNA().increaseTimeTabActive(
-            Cotton.Behavior.Active.REFRESH_RATE * 1000);
+            Cotton.Behavior.Active.REFRESH_RATE);
         sync.updateVisit();
       }
 
