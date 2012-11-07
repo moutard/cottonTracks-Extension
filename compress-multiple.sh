@@ -1,20 +1,20 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-SOURCE_PATH='/usr/local/rmoutard/sz/'
-SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/usr/local/rmoutard/'
-TAR_NAME='cottontracks-beta'
-VERSION='0.1'
-
-# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
-#GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-#SOURCE_PATH='/Users/rmoutard/src/'
+#GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+#SOURCE_PATH='/usr/local/rmoutard/sz/'
 #SOURCE_NAME='SubZoom-Proto1'
-#DESTINATION_PATH='/Users/rmoutard/Downloads/'
+#DESTINATION_PATH='/usr/local/rmoutard/'
 #TAR_NAME='cottontracks-beta'
 #VERSION='0.1'
+
+# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
+GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+SOURCE_PATH='/Users/rmoutard/src/'
+SOURCE_NAME='SubZoom-Proto1'
+DESTINATION_PATH='/Users/rmoutard/Downloads/'
+TAR_NAME='cottontracks-beta'
+VERSION='0.1'
 
 
 
@@ -72,7 +72,7 @@ function generateMultipleMinFile {
     INPUT_LIST="$INPUT_LIST --js $file"
   done
 
-  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js --externs ./lib/html5.externs.js --externs ./lib/jquery.qtip.externs.js --externs ./lib/jquery-ui.externs.js"
+  EXTERNS="--externs ./lib/jquery-1.3.2.externs.js --externs ./lib/backbone-0.9.2.externs.js --externs ./lib/underscore-1.3.3.externs.js --externs ./lib/class.externs.js --externs ./lib/w3c_indexeddb.externs.js --externs ./lib/chrome_extensions.externs.js --externs ./lib/parse_url.externs.js --externs ./lib/html5.externs.js --externs ./lib/jquery.qtip.externs.js --externs ./lib/jquery-ui.externs.js --externs ./lib/google_analytics.externs.js"
   $COMPILE_COMMAND $COMPILE_OPTIONS $INPUT_LIST --js_output_file $OUTPUT_MIN_FILE $EXTERNS
   echo "$OUTPUT_MIN_FILE has been generated"
 
