@@ -1,7 +1,9 @@
 'use strict';
 
 function firstInstall() {
-  var oTabProperties = {};
+  var oTabProperties = {
+      'url': 'index.html'
+  };
   chrome.tabs.create(oTabProperties);
 }
 
