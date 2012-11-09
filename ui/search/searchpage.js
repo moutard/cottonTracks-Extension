@@ -48,23 +48,29 @@ Cotton.UI.Search.Searchpage = Class.extend({
     var $warning = $("<p>Warning : The search feature is still in beta version. You would be enjoy soon this amazing feature.</p>");
     self._$spinner = $('<div class="ct-spinning_gears medium animate"></div>').hide();
 
+    $(window).resize(function(){
+      self.recomputeSize();
+    });
+
+
     self._$searchpage.append(self._$title, self._$undo_button, self._$search_bar, $warning, self._$spinner);
+    self.recomputeSize();
   },
 
-  $ : function(){
+  $ : function() {
     return this._searchpage;
   },
 
-  show : function(){
+  show : function() {
     this._oWorld.reset();
     this._$searchpage.show();
   },
 
-  hide : function(){
+  hide : function() {
     this._$searchpage.hide();
   },
 
-  nothingFoundError : function(){
+  nothingFoundError : function() {
     var self = this;
     var $nothing_found = $('<p class="ct-nothing_found">Nothing found</p>');
     self._$searchpage.append($nothing_found);
@@ -74,4 +80,9 @@ Cotton.UI.Search.Searchpage = Class.extend({
     }, 1000);
     setTimeout(function(){ $nothing_found.remove();}, 1000);
   },
+
+  recomputeSize : function() {
+    var iMargin = ($(window).width() - this._$searchpage.width())/2;
+    this._$searchpage.css('left', iMargin + "px");
+  }
 });
