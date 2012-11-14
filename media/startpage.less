@@ -494,6 +494,7 @@ body {
   //width: @homepage_grid_width;
   width : 100%;
   padding-top: 40px;
+  z-index: -1;
 
   > .ct-homepage_switch_button {
     .clearfix;
@@ -880,3 +881,17 @@ body {
 
 }
 
+#feedback{
+  position: fixed;
+  left: -70px;
+  top: 300px;
+  padding: 20px;
+  text-decoration: none;
+  font-size: 1.2em;
+  color: #333;
+  border: solid 3px #333;
+  cursor: pointer;
+  background-color: #E76B6B;
+  z-index: 2;
+  -webkit-transform: rotate(-90deg);
+}
