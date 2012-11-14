@@ -177,6 +177,8 @@ Cotton.UI.StickyBar.Sticker = Class
                   Cotton.CONTROLLER.removeVisitItemInStory(ui.draggable
                       .attr('id'));
                   ui.draggable.remove();
+                  // Event tracking
+                  Cotton.ANALYTICS.changeStory();
                 }
                 $sticker.qtip('hide');
               },
