@@ -75,6 +75,8 @@ Cotton.UI.Story.Storyline = Class
               $(ui.item).removeClass('ct-storyItem_left');
               $(ui.item).removeClass('ct-storyItem_right');
               $newList = $oldList = ui.item.parent();
+              // event tracking
+              Cotton.ANALYTICS.moveItem();
             },
             'change' : function(event, ui){
               if(ui.sender) $newList = ui.placeholder.parent();
