@@ -76,9 +76,17 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
         // second condition indicates we can find a better image
         // in both case we recompute the title.
         var reg = new RegExp(".(jpg|png|gif)$", "g");
+        var oUrl = new parseUrl(lVisitItems[j]['sUrl']);
+        oUrl.fineDecomposition();
         if (reg.exec(lVisitItems[j]['sUrl'])) {
+        	//Image
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage(lVisitItems[j]['sUrl']);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.pathname === "/imgres") {
+        	//Image from google image search
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage(oUrl.dSearch['imgurl']);
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (lVisitItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lVisitItems[j]['clusterId']]
