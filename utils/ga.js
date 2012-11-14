@@ -115,6 +115,10 @@ Cotton.Analytics = Class.extend({
   changeStory : function() {
     _gaq.push([ '_trackEvent', 'Element modification', 'Changed of story' ]);
   },
+  
+  moveItem : function() {
+  	_gaq.push([ '_trackEvent', 'Element modification', 'Position changed' ]);
+  },
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();
