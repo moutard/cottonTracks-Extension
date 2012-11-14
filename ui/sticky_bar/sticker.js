@@ -112,6 +112,8 @@ Cotton.UI.StickyBar.Sticker = Class
             e.preventDefault();
             return;
           } else if ($(this).is('.ui-draggable-dragging')) {
+            // Event tracking
+            Cotton.ANALYTICS.dragStory();
             // Do not open if we click on the editable.
             return;
           }
@@ -168,6 +170,8 @@ Cotton.UI.StickyBar.Sticker = Class
                 if (ui.draggable.hasClass('ct-stickyBar_sticker')) {
                   self._merge(parseInt(ui.draggable.attr('ct-story_id')));
                   ui.draggable.trigger('_remove');
+                  // Event tracking
+                  Cotton.ANALYTICS.mergeStory();
                 } else if (ui.draggable.hasClass('ct-story_item')) {
                   self._addVisitItem(parseInt(ui.draggable.attr('id')));
                   Cotton.CONTROLLER.removeVisitItemInStory(ui.draggable

@@ -52,6 +52,14 @@ Cotton.Analytics = Class.extend({
     _gaq.push([ '_trackEvent', 'Story modification', 'Thumbnail changed' ]);
   },
 
+  dragStory : function() {
+    _gaq.push([ '_trackEvent', 'Story modification', 'Story dragged' ]);
+  },
+
+  mergeStory : function() {
+    _gaq.push([ '_trackEvent', 'Story modification', 'Story merged' ]);
+  },
+
   scrollWithLeftArrow : function() {
     _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
         'Left arrow in story selector' ]);
