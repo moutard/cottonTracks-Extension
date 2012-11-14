@@ -93,6 +93,16 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage("http://img.youtube.com/vi/" + oUrl.dSearch['v'] + "/mqdefault.jpg");
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.host === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
+        	//Dailymotion video (from video page)
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage("http://" + oUrl.host + "/thumbnail" + oUrl.pathname);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.host === "www.dailymotion.com" && oUrl.dHash['video']) {
+        	//Dailymotionvideo (from channel page)
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage("http://" + oUrl.host + "/thumbnail/video/" + dHash['video']);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (lVisitItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage(lVisitItems[j]['oExtractedDNA']['sImageUrl']);
