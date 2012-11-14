@@ -32,20 +32,24 @@ Cotton.Analytics = Class.extend({
         'Click on sticker' ]);
   },
 
-  modifyStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'modify' ]);
-  },
-
   deleteStory : function() {
     _gaq.push([ '_trackEvent', 'Story modification', 'delete' ]);
   },
 
-  editModeOn : function() {
+  editStickerOn : function() {
     _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
   },
 
-  editModeOff : function() {
+  editStickerOff : function() {
     _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
+  },
+
+  changeStoryTitle : function() {
+    _gaq.push([ '_trackEvent', 'Story modification', 'Title changed' ]);
+  },
+  
+  changeStoryThumbnail : function() {
+    _gaq.push([ '_trackEvent', 'Story modification', 'Thumbnail changed' ]);
   },
 
   scrollWithLeftArrow : function() {
