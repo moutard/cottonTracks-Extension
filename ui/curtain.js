@@ -29,7 +29,7 @@ Cotton.UI.Curtain = Class.extend({
 
   /**
    * Change the percentage value by the new one.
-   * 
+   *
    * @param {int} :
    *          iPercentage this value should be between 0 and 100.
    */
@@ -51,7 +51,7 @@ Cotton.UI.Curtain = Class.extend({
 
   /**
    * Increase the percentage, sum it with the given value.
-   * 
+   *
    * @param {int} :
    *          iPercentage this value should be between 0 and 100.
    */
@@ -82,6 +82,7 @@ Cotton.UI.Curtain = Class.extend({
   start : function() {
     this._$gears.find('.shine').addClass('animate');
     this._$gears.find('.perspective').addClass('animate');
+    this._$gears.find('.shadow').addClass('animate');
     this._$meter.addClass('animate');
   },
 
@@ -91,6 +92,7 @@ Cotton.UI.Curtain = Class.extend({
   stop : function() {
     this._$gears.find('.shine').removeClass('animate');
     this._$gears.find('.perspective').removeClass('animate');
+    this._$gears.find('.shadow').removeClass('animate');
     this._$meter.removeClass('animate');
   },
 
