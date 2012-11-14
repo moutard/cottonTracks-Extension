@@ -93,6 +93,19 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage("http://img.youtube.com/vi/" + oUrl.dSearch['v'] + "/mqdefault.jpg");
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.host === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
+        	//Vimeo video
+          var thumbnail_src;
+          $.ajax({
+              url: 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json',
+              dataType: 'json',
+              async: false,
+              success: function(data) {
+              thumbnail_src = data[0].thumbnail_large;
+            }
+          });
+          lStories[lVisitItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.host === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
         	//Dailymotion video (from video page)
           lStories[lVisitItems[j]['clusterId']]
