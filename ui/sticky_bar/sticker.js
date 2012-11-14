@@ -468,6 +468,8 @@ Cotton.UI.StickyBar.Sticker = Class
 
         if (self._isEditable === false) {
           self._isEditable = true;
+          // event tracking
+          Cotton.ANALYTICS.editStickerOn();
 
           // REMOVE
           var $remove_button = $('<div class="ct-stickers_button_remove"></div>');
@@ -483,6 +485,8 @@ Cotton.UI.StickyBar.Sticker = Class
             if (bClear) {
               // Remove DOM element.
               self._remove();
+              // event tracking
+              Cotton.ANALYTICS.deleteStory();
               // Call the controller to remove story in the database.
               Cotton.CONTROLLER.deleteStoryAndVisitItems(self._oStory.id());
             }
@@ -504,6 +508,8 @@ Cotton.UI.StickyBar.Sticker = Class
               $input_title.remove();
               self._$title.show();
               self._sTitleAlreadyEditable = false;
+              // event tracking
+              Cotton.ANALYTICS.changeStoryTitle();
 
               // Set the title in the model.
               self._oStory.setTitle(sTitle);
@@ -527,6 +533,8 @@ Cotton.UI.StickyBar.Sticker = Class
             if (event.which == 13) {
               var sImageUrl = $input_image.val();
               self._$img.attr('src', sImageUrl);
+              // event tracking
+              Cotton.ANALYTICS.changeStoryThumbnail();
 
               self.makeItNonEditable();
               self._oStory.setFeaturedImage(sImageUrl);
@@ -547,6 +555,8 @@ Cotton.UI.StickyBar.Sticker = Class
       makeItNonEditable : function() {
         var self = this;
         self._isEditable = false;
+        // event tracking
+        Cotton.ANALYTICS.editStickerOff();
         self._$sticker.find('.ct-story_editable_title').remove();
         self._$sticker.find('.ct-story_editable_image').remove();
         self._$sticker.find('.ct-story_icon_image').remove();
