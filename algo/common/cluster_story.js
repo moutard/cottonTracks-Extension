@@ -103,6 +103,12 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage("http://" + oUrl.host + "/thumbnail/video/" + dHash['video']);
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
+        	//Google maps
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
+              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (lVisitItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage(lVisitItems[j]['oExtractedDNA']['sImageUrl']);
