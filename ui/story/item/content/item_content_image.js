@@ -29,16 +29,20 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
   },
   
   replaceHexa : function(sImageUrl) {
-    var sImgUrl = sImageUrl
-    sImgUrl = sImgUrl.replace('%2521','!');  	
-    sImgUrl = sImgUrl.replace('%2522','"');
-    sImgUrl = sImgUrl.replace('%2523','#');
-    sImgUrl = sImgUrl.replace('%2524','$');
-    sImgUrl = sImgUrl.replace('%2525','%');
-    sImgUrl = sImgUrl.replace('%2526','&');
-    sImgUrl = sImgUrl.replace('%2527',"'");	
-    sImgUrl = sImgUrl.replace('%253D','=');  
-    sImgUrl = sImgUrl.replace('%253F','?');
+    var sImgUrl = sImageUrl;
+    var reg = /\%25/;
+    if (reg.test(sImgUrl)){
+    	console.log('bite');
+      sImgUrl = sImgUrl.replace(/\%2525/g,'%');
+      sImgUrl = sImgUrl.replace(/\%2521/g,'!');  	
+      sImgUrl = sImgUrl.replace(/\%2522/g,'"');
+      sImgUrl = sImgUrl.replace(/\%2523/g,'#');
+      sImgUrl = sImgUrl.replace(/\%2524/g,'$');
+      sImgUrl = sImgUrl.replace(/\%2526/g,'&');
+      sImgUrl = sImgUrl.replace(/\%2527/g,"'");	
+      sImgUrl = sImgUrl.replace(/\%253D/g,'=');  
+      sImgUrl = sImgUrl.replace(/\%253F/g,'?');
+    }
     return sImgUrl;
   },
 });
