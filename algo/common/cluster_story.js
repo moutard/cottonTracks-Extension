@@ -88,6 +88,11 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage(oUrl.dSearch['imgurl']);
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
+        	//Youtube video
+          lStories[lVisitItems[j]['clusterId']]
+              .setFeaturedImage("http://img.youtube.com/vi/" + oUrl.dSearch['v'] + "/mqdefault.jpg");
+          lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (lVisitItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lVisitItems[j]['clusterId']]
               .setFeaturedImage(lVisitItems[j]['oExtractedDNA']['sImageUrl']);
