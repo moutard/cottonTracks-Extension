@@ -1,20 +1,20 @@
 #!/bin/bash
 
 # -- GLOBAL VARIABLES ---------------------------------------------------------
-#GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-#SOURCE_PATH='/usr/local/rmoutard/sz/'
-#SOURCE_NAME='SubZoom-Proto1'
-#DESTINATION_PATH='/usr/local/rmoutard/'
-#TAR_NAME='cottontracks-beta'
-#VERSION='0.1'
-
-# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-SOURCE_PATH='/Users/rmoutard/src/'
+GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
+SOURCE_PATH='/usr/local/rmoutard/sz/'
 SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/Downloads/'
+DESTINATION_PATH='/usr/local/rmoutard/'
 TAR_NAME='cottontracks-beta'
 VERSION='0.1'
+
+# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
+#GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
+#SOURCE_PATH='/Users/rmoutard/src/'
+#SOURCE_NAME='SubZoom-Proto1'
+#DESTINATION_PATH='/Users/rmoutard/Downloads/'
+#TAR_NAME='cottontracks-beta'
+#VERSION='0.1'
 
 
 
@@ -525,7 +525,6 @@ function removeFolders {
 	rm -rf .project
 	rm -rf .settings
 	rm compress.py
-	rm compress.sh
 	rm compress-multiple.sh
 	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js lib/html5.externs.js lib/jquery.qtip.externs.js lib/jquery-ui.externs.js lib/google_analytics.externs.js
 }
