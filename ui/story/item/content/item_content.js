@@ -62,6 +62,9 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       $('.connectedSortable').sortable('disable')
       self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon_selected.png");
 
+      // Event tracking
+      Cotton.ANALYTICS.editItemOff();
+
     } else {
       self._bIsEditable = false;
       self._oItemDescription.editTitle(true);
@@ -71,6 +74,9 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
       // TODO(rmoutard) : avoid manipulating DOM
       $('.connectedSortable').sortable('enable')
       self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon.png");
+
+      // Event tracking
+      Cotton.ANALYTICS.editItemOn();
 
     }
 
