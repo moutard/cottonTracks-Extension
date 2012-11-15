@@ -129,7 +129,7 @@ Cotton.Analytics = Class.extend({
   },
     
   changeItemTitle : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Title changed'  ]);
   },
     
   updateVersion : function(currVersion) {
