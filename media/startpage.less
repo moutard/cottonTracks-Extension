@@ -881,17 +881,27 @@ body {
 
 }
 
-#feedback{
+#feedback_background{
   position: fixed;
-  left: -70px;
+  left: -25px;
   top: 300px;
-  padding: 20px;
   text-decoration: none;
   font-size: 1.2em;
   color: #333;
   border: solid 3px #333;
   cursor: pointer;
-  background-color: #E76B6B;
+  background-color: grey;
   z-index: 2;
   -webkit-transform: rotate(-90deg);
+  
+  > #feedback{
+    margin: auto;
+    width: 90px;
+    height: 47px;
+    background: url('/media/images/home/feedback/feedback.png') no-repeat;
+    
+    &:hover{
+      background: url('/media/images/home/feedback/feedback_hover.png') no-repeat;
+    }
+  }
 }
