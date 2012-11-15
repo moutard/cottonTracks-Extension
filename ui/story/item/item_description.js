@@ -57,7 +57,7 @@ Cotton.UI.Story.Item.Description = Class
 
         // event tracking
         this._$title.click(function() {
-          Cotton.ANALYTICS.clickDefaultItemTitle();
+          Cotton.ANALYTICS.clickItemTitle();
         });
       },
 
