@@ -119,6 +119,10 @@ Cotton.Analytics = Class.extend({
   moveItem : function() {
   	_gaq.push([ '_trackEvent', 'Element modification', 'Position changed' ]);
   },
+  
+  updateVersion : function(currVersion) {
+    _gaq.push([ '_trackEvent', 'Extension update', currVersion ]);
+  },
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();
