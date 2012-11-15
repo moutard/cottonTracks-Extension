@@ -26,6 +26,11 @@ Cotton.UI.World = Class.extend({
    */
   _oSearchpage : null,
 
+  /**
+   * {Cotton.UI.Curtain}
+   */
+  _oCurtain : null,
+
 
   /**
    * @constructor
