@@ -75,9 +75,9 @@ Cotton.Analytics = Class.extend({
         'Scroll in story selector' ]);
   },
 
-  clickDefaultItemTitle : function() {
+  clickItemTitle : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
-        'Default Item' ]);
+        'Item' ]);
   },
 
   clickDefaultItemFeaturedImage : function() {
