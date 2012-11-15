@@ -1,6 +1,5 @@
 'use strict';
 
-Cotton.UI.oCurtain = {};
 Cotton.UI.oErrorHandler = new Cotton.UI.ErrorHandler(window);
 var iTimeoutIndex;
 

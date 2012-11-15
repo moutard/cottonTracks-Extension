@@ -14,7 +14,7 @@ Cotton.UI.Curtain = Class.extend({
 
   init : function($window) {
 
-    this._$curtain = $('ct-curtain');
+    this._$curtain = $('.ct-curtain');
     this._$gears = $('.gear');
     this._$board = $('.ct-board');
     this._$progressBar = $('.progress_bar');
