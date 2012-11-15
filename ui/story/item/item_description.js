@@ -91,12 +91,15 @@ Cotton.UI.Story.Item.Description = Class
               self._$title.show();
               self._sTitleAlreadyEditable = false;
 
+              // Event tracking
+              Cotton.ANALYTICS.changeItemTitle();
+
               // Set the title in the model.
               self._oItemContent.item().visitItem().setTitle(sTitle);
               self._oItemContent.item().visitItemHasBeenSet();
             }
           });
-
+              
           // hide the title and replace it by the input field.
           self._$title.hide();
           self._$input_title.insertAfter(self._$title);
