@@ -75,37 +75,37 @@ Cotton.Analytics = Class.extend({
         'Scroll in story selector' ]);
   },
 
-  clickDefaultElementTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Element Title Clicked',
-        'Default Element' ]);
+  clickDefaultItemTitle : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
+        'Default Item' ]);
   },
 
-  clickDefaultElementFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Element Featured Image Clicked',
-        'Default Element' ]);
+  clickDefaultItemFeaturedImage : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
+        'Default Item' ]);
   },
 
-  clickSearchElementTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Element Title Clicked',
-        'Search Element' ]);
+  clickSearchItemTitle : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
+        'Search Item' ]);
   },
 
-  clickSearchElementFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Element Featured Image Clicked',
-        'Search Element' ]);
+  clickSearchItemFeaturedImage : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
+        'Search Item' ]);
   },
 
-  viewImageElement : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Element' ]);
+  viewImageItem : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Item' ]);
   },
 
-  viewSlideshow : function() {
+  viewSlideshowItem : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed',
-        'Slideshow Element' ]);
+        'Slideshow Item' ]);
   },
 
-  viewVideo : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Video viewed', 'Video Element' ]);
+  viewVideoItem : function() {
+    _gaq.push([ '_trackEvent', 'Story use', 'Video viewed', 'Video Item' ]);
   },
 
   scrollStory : function() {
@@ -113,11 +113,11 @@ Cotton.Analytics = Class.extend({
   },
   
   changeStory : function() {
-    _gaq.push([ '_trackEvent', 'Element modification', 'Changed of story' ]);
+    _gaq.push([ '_trackEvent', 'Item modification', 'Changed of story' ]);
   },
   
   moveItem : function() {
-  	_gaq.push([ '_trackEvent', 'Element modification', 'Position changed' ]);
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Position changed' ]);
   },
   
   updateVersion : function(currVersion) {
