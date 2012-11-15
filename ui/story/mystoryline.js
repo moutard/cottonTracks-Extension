@@ -63,6 +63,7 @@ Cotton.UI.Story.Storyline = Class
           // Make sortable and draggable
           var $oldList, $newList;
           var dSortableParameters = {
+            'containment' : "document",
             // connect story_column_right and story_column_left.
             'connectWith' : ".connectedSortable",
             // Element draggable.
