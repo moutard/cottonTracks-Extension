@@ -123,6 +123,10 @@ Cotton.Analytics = Class.extend({
   moveItem : function() {
   	_gaq.push([ '_trackEvent', 'Item modification', 'Position changed' ]);
   },
+
+  deleteItem : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Item deleted' ]);
+  },
   
   updateVersion : function(currVersion) {
     _gaq.push([ '_trackEvent', 'Extension update', currVersion ]);

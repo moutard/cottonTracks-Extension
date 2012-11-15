@@ -125,6 +125,8 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
               function(){
                 self._oContentItem.item().$().remove();
               });
+            // Event tracking
+            Cotton.ANALYTICS.deleteItem();
           }).show('slow');
           self.$no = $('<h5>No</h5>').mouseup(function(){
             self._$delete_button.removeClass('open');
