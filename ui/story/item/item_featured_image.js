@@ -92,10 +92,10 @@ Cotton.UI.Story.Item.FeaturedImage = Class
             }
           });
 
-          // Create an input field to change the title.
+          // Create an input field to change the image url.
           self._$input_image = $('<input class="ct-editable_image" type="text" name="image">');
 
-          // Set the default value, with the current title.
+          // Set the default value, with the current image url.
           self._$input_image.val(self._$img.attr('src') || 'http://');
           self._$input_image.keypress(function(event) {
             // on press 'Enter' event.
@@ -113,14 +113,17 @@ Cotton.UI.Story.Item.FeaturedImage = Class
               self._$button_crop_image.remove();
               self._$input_image.remove();
               self._sImageAlreadyEditable = false;
+              
+              // Event tracking
+              Cotton.ANALYTICS.changeItemImage();
 
-              // Set the title in the model.
+              // Set the image url in the model.
               self._oItemContent.item().visitItem().extractedDNA().setImageUrl(self._sImageUrl);
               self._oItemContent.item().visitItemHasBeenSet();
             }
           });
 
-          // hide the title and replace it by the input field.
+          // Reveal the input field for image url.
           self._$featured_image.append(self._$input_image);
           // Put crop only if there is an image.
           if(self._$img.attr('src')){

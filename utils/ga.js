@@ -98,6 +98,10 @@ Cotton.Analytics = Class.extend({
   viewImageItem : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Item' ]);
   },
+  
+  changeItemImage : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+  },
 
   viewSlideshowItem : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed',
