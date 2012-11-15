@@ -1,22 +1,6 @@
 #!/bin/bash
 
-# -- GLOBAL VARIABLES ---------------------------------------------------------
-GOOGLE_CLOSURE_COMPILER='/usr/local/rmoutard/compiler.jar'
-SOURCE_PATH='/usr/local/rmoutard/sz/'
-SOURCE_NAME='SubZoom-Proto1'
-DESTINATION_PATH='/usr/local/rmoutard/'
-TAR_NAME='cottontracks-beta'
-VERSION='0.1'
-
-# -- GLOBAL VARIABLES MAC ---------------------------------------------------------
-#GOOGLE_CLOSURE_COMPILER='/Users/rmoutard/src/google_closure_compiler/compiler.jar'
-#SOURCE_PATH='/Users/rmoutard/src/'
-#SOURCE_NAME='SubZoom-Proto1'
-#DESTINATION_PATH='/Users/rmoutard/Downloads/'
-#TAR_NAME='cottontracks-beta'
-#VERSION='0.1'
-
-
+source config.sh
 
 # -- PRETREATMENT -------------------------------------------------------------
 
@@ -312,8 +296,7 @@ background_missing_files=( 	'./utils/log.js'
                             './algo/common/init.js'
                             './algo/common/cluster_story.js'
                             './messaging/content_script_listener.js'
-							'./controller/first_launch.js'
-
+														'./controller/first_launch.js'
                          )
 
 declare -a background_includes_files
@@ -498,16 +481,12 @@ function removeFiles {
   done
 }
 
-#removeFiles worker_includes_files[@]
-#removeFiles background_includes_files[@]
-#removeFiles index_includes_files[@]
-
 function removeFolders {
 	rm -rf algo/common
 	rm -rf algo/dbscan2/
 	rm algo/init.js algo/dbscan1/init.js algo/dbscan1/story_select.js algo/dbscan1/dbscan.js algo/dbscan1/distance.js
 	rm algo/dbscan3/detect_sessions.js algo/dbscan3/init.js algo/dbscan1/pre_treatment.js
-  	rm -rf behavior
+  rm -rf behavior
 	rm -rf config
 	rm -rf controller
 	rm -rf db
@@ -515,10 +494,6 @@ function removeFolders {
 	rm -rf model
 	rm -rf translators
 	rm -rf ui
-	#rm -rf ui/homepage
-	#rm -rf ui/story
-	#rm ui/init.js ui/loading.js ui/ui.js ui/world.js
-	#rm ui/sticky_bar/bar.js ui/sticky_bar/commands.js ui/sticky_bar/init.js ui/sticky_bar/sticker.js
 	rm -rf utils
 	rm -rf .git
 	rm -rf .gitignore
