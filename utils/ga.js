@@ -98,10 +98,6 @@ Cotton.Analytics = Class.extend({
   viewImageItem : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Item' ]);
   },
-  
-  changeItemImage : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
-  },
 
   viewSlideshowItem : function() {
     _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed',
@@ -128,6 +124,14 @@ Cotton.Analytics = Class.extend({
   	_gaq.push([ '_trackEvent', 'Item modification', 'Item deleted' ]);
   },
   
+  changeItemImage : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+  },
+    
+  changeItemTitle : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+  },
+    
   updateVersion : function(currVersion) {
     _gaq.push([ '_trackEvent', 'Extension update', currVersion ]);
   },
