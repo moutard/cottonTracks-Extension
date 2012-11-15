@@ -120,6 +120,14 @@ Cotton.Analytics = Class.extend({
   	_gaq.push([ '_trackEvent', 'Item modification', 'Position changed' ]);
   },
 
+  editItemOn : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit on' ]);
+  },
+
+  editItemOff : function() {
+  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit off' ]);
+  },
+
   deleteItem : function() {
   	_gaq.push([ '_trackEvent', 'Item modification', 'Item deleted' ]);
   },
