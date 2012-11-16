@@ -20,7 +20,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
   _$sumUp : null,
   _iTranslateX : 0,
   _bLoading : false,
-  _iScrollCount : 0,
 
   /**
    * @constructor
@@ -166,12 +165,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     // OPEN
     $(window).bind('mousewheel', function(oEvent) {
       if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] > 0){
-        // iScrollCount is used to compute the velocity of the scroll.
-        self._iScrollCount += 1;
-      }
-      if(self._iScrollCount > 8){
         self.open();
-        self._iScrollCount = 0;
       }
     });
 
@@ -261,7 +255,6 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
-      this._iScrollCount = 1;
       this._$stickyBar.addClass('close');
       $('#ct-story_homepage').addClass('close');
   },
