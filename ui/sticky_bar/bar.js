@@ -264,8 +264,11 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
+    if ($('.ct-homepage').css('display') != 'block'
+        && $('.ct-searchpage').css('display') != 'block'){
       this._$stickyBar.addClass('close');
       $('#ct-story_homepage').addClass('close');
+    }
   },
 
   /**
