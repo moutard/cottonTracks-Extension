@@ -83,6 +83,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     };
 
     this._$search_button.click(function(){
+      self._oBar.open();
       Cotton.UI.Home.HOMEPAGE.hide();
       Cotton.UI.Search.SEARCHPAGE.show();
     });
