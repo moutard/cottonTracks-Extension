@@ -171,7 +171,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
     // CLOSE
     $(window).bind('mousewheel', function(oEvent) {
-      if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] < 0){
+      if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] < 0
+          && !$(oEvent.target).parents().is('.ct-container')
+          && !$(oEvent.target).is('.ct-container')){
         self.close();
       }
     });
