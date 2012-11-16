@@ -16,6 +16,7 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$recent_button : null,
   _$share_button : null,
   _$settings_button : null,
+  _$feedback_button : null,
 
   _oSocialButtons : null,
 
@@ -39,6 +40,8 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$settings_button = $('.ct-icon_button_settings');
     this._oSocialButtons = new Cotton.UI.StickyBar.Share.SocialButtons();
 
+    this._$feedback_button = $('.ct-icon_button_feedback');
+    
     this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();

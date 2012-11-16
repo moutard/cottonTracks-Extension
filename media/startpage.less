@@ -247,6 +247,20 @@ body {
       }
 
     }
+    
+    .ct-icon_button_feedback {
+       position: relative;
+       left: 30px;
+       float: left;
+       cursor: pointer;
+       width: 90px;
+       height: @stickyBar_bar_commands_middle_height;
+       background: url('/media/images/home/feedback/feedback.png') no-repeat;
+
+       &:hover{
+         background: url('/media/images/home/feedback/feedback_hover.png') no-repeat;
+       }
+    }
 
   	> .ct-middle {
       width : 5*@stickyBar_bar_commands_iconButton_width;
@@ -879,29 +893,4 @@ body {
     cursor: pointer;
   }
 
-}
-
-#feedback_background{
-  position: fixed;
-  left: -25px;
-  top: 300px;
-  text-decoration: none;
-  font-size: 1.2em;
-  color: #333;
-  border: solid 3px #333;
-  cursor: pointer;
-  background-color: grey;
-  z-index: 2;
-  -webkit-transform: rotate(-90deg);
-  
-  > #feedback{
-    margin: auto;
-    width: 90px;
-    height: 47px;
-    background: url('/media/images/home/feedback/feedback.png') no-repeat;
-    
-    &:hover{
-      background: url('/media/images/home/feedback/feedback_hover.png') no-repeat;
-    }
-  }
 }
