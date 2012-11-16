@@ -163,6 +163,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
 
     // OPEN
+    // do not call open() method if scrolled in container
     $(window).bind('mousewheel', function(oEvent) {
       if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] > 0
           && !$(oEvent.target).parents().is('.ct-container')
@@ -172,6 +173,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
 
     // CLOSE
+    // do not close if scrolled in container
     $(window).bind('mousewheel', function(oEvent) {
       if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] < 0
           && !$(oEvent.target).parents().is('.ct-container')
@@ -258,6 +260,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Open the sticky bar.
    */
   open : function() {
+    // Scroll to top of story before opening topbar 
  	var self = this;
  	var scrollTime = Math.min(Math.sqrt(Math.abs($(window).scrollTop()))*20,1000);
     $('html,body').animate({scrollTop:0},scrollTime, function(){
@@ -270,6 +273,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Close the sticky bar
    */
   close : function() {
+  	// Do not allow closing topbar on home and search
     if ($('.ct-homepage').css('display') != 'block'
         && $('.ct-searchpage').css('display') != 'block'){
       this._$stickyBar.addClass('close');
