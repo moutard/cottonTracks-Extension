@@ -256,8 +256,12 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Open the sticky bar.
    */
   open : function() {
-    this._$stickyBar.removeClass('close');
-    $('#ct-story_homepage').removeClass('close');
+ 	var self = this;
+ 	var scrollTime = Math.min(Math.sqrt(Math.abs($(window).scrollTop()))*20,1000);
+    $('html,body').animate({scrollTop:0},scrollTime, function(){
+      self._$stickyBar.removeClass('close');
+      $('#ct-story_homepage').removeClass('close');
+    });
   },
 
   /**
