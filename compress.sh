@@ -1,5 +1,4 @@
 #!/bin/bash
-
 source parameters-compress.sh
 
 # -- PRETREATMENT -------------------------------------------------------------
@@ -11,19 +10,19 @@ rm -rf "$DESTINATION_PATH$TAR_NAME$VERSION.pem"
 echo 'delete'
 
 # Copy the folder to avoid bad surprise
-cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
-#mv $DESTINATION_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION
-echo 'Source folder has been copied'
+if ! cp -r $SOURCE_PATH$SOURCE_NAME $DESTINATION_PATH$TAR_NAME$VERSION;
+then
+  echo "$SOURCE_PATH$SOURCE_NAME doesnt exists, check parameters-compress.sh"
+  exit 0;
+else
+  echo 'Source folder has been copied'
+fi
 
 # Go to the copy folder
-cd $DESTINATION_PATH$TAR_NAME$VERSION
-
-# Remove useless folder
-#rm -rf .git
-#rm .gitignore
-rm -rf test
-echo 'Useless folders have been removed'
-
+if ! cd $DESTINATION_PATH$TAR_NAME$VERSION;
+then
+  exit 0;
+fi
 
 # -- PROD CONFIG --------------------------------------------------------------
 sed -i '' -e 's/.*bDevMode.*/bDevMode:false,/' './config/config.js'
@@ -495,15 +494,18 @@ function removeFolders {
 	rm -rf translators
 	rm -rf ui
 	rm -rf utils
+	rm -rf test
 	rm -rf .git
 	rm -rf .gitignore
 	rm -rf .project
 	rm -rf .settings
-	rm compress.py
-	rm compress-multiple.sh
+	rm compress.sh
+	rm parameters-compress.sh
 	rm lib/backbone-0.9.2.externs.js lib/chrome_extensions.externs.js lib/class.externs.js lib/jquery-1.3.2.externs.js lib/parse_url.externs.js lib/underscore-1.3.3.externs.js lib/w3c_indexeddb.externs.js lib/html5.externs.js lib/jquery.qtip.externs.js lib/jquery-ui.externs.js lib/google_analytics.externs.js
 }
 
 removeFolders
+
+echo "COMPRESS SUCCEED ! Congrat's seems everything went fine."
 
 #/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --pack-extension="$DESTINATION_PATH$TAR_NAME$VERSION"
