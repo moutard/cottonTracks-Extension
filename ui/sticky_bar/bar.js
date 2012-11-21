@@ -162,20 +162,17 @@ Cotton.UI.StickyBar.Bar = Class.extend({
       }
     });
 
-    // OPEN
-    // do not call open() method if scrolled in container
     $(window).bind('mousewheel', function(oEvent) {
+      // OPEN
+      // do not call open() method if scrolled in container
       if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] > 0
           && !$(oEvent.target).parents().is('.ct-container')
           && !$(oEvent.target).is('.ct-container')){
         self.open();
       }
-    });
-
-    // CLOSE
-    // do not close if scrolled in container
-    $(window).bind('mousewheel', function(oEvent) {
-      if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] < 0
+      // CLOSE
+      // do not close if scrolled in container
+      else if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] < 0
           && !$(oEvent.target).parents().is('.ct-container')
           && !$(oEvent.target).is('.ct-container')){
         self.close();
