@@ -2,10 +2,10 @@
 
 /**
  * @class : DbSync
- * 
+ *
  * handles tabs openning. Each time a new tab is opened, a visitItem is created
  * Then send to the content_script_listener. That will put it in the database.
- * 
+ *
  * Because DbSync is in a content script, their options are limited.
  */
 
@@ -39,7 +39,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   /**
    * return the current visitItem
-   * 
+   *
    * @returns {Cotton.Model.VisitItem}
    */
   current : function() {
@@ -76,7 +76,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
   /**
    * Use chrome messaging API, to send a message to the background page, that
    * will put the current visitItem is the database.
-   * 
+   *
    * For the moment, it's exaclty the same that create visit.
    */
   updateVisit : function() {
@@ -99,11 +99,12 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
       DEBUG && console.debug("can't update id is not set.");
     } else {
       chrome.extension.sendMessage({
-        'action' : 'create_visit_item',
+        'action' : 'update_visit_item',
         'params' : {
           'visitItem' : dDbRecord
         }
       }, function(response) {
+        // DEPRECATED - update_visit_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
       });
