@@ -221,7 +221,25 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   return true;
 });
 
-chrome.runtime.onInstalled.addListener(function() {
+chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
+  new Cotton.DB.Store('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+  }, function(){
+      console.log('Messaging - database instanciated');
+      if(oInstallationDetails['reason'] === "install"){
+        console.log('Messaging - onInstalled');
+        var oTabProperties = {
+          'url': 'index.html'
+        };
+        chrome.tabs.create(oTabProperties);
+      } else {
+        console.log('Messaging - onUpdate');
+      }
+      var details = chrome.app.getDetails();
+      localStorage['ct-version'] = details['version'];
+  });
 
   // Define favorites default values.
   if(!localStorage['ct-favorites_webistes']){
@@ -284,4 +302,5 @@ chrome.runtime.onInstalled.addListener(function() {
   if(!localStorage['ct-grid_mode']){
     localStorage['ct-grid_mode'] = "favorites";
   }
+  console.log('onInstalled ends up correctly');
 });

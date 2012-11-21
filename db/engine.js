@@ -66,6 +66,8 @@ Cotton.DB.Engine = Class.extend({
       // Check if, among the present object stores, there is any that miss an
       // index.
       var dMissingIndexKeysForObjectStoreNames = {};
+
+      // FIXME !!
       // TODO(rmoutard) this part create a problem.
       if (lExistingObjectStoreNames.lenght > 0) {
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
