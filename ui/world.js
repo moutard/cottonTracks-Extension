@@ -31,12 +31,22 @@ Cotton.UI.World = Class.extend({
    */
   _oCurtain : null,
 
-
   /**
    * @constructor
    */
   init : function() {
     var self = this;
+
+    Cotton.UI.oCurtain = self._oCurtain = new Cotton.UI.Curtain(window);
+    Cotton.UI.oErrorHandler.setCurtain(Cotton.UI.oCurtain);
+    // If it's not the first time curtain is already open.
+    if (localStorage['CottonFirstOpening'] === undefined
+              || localStorage['CottonFirstOpening'] === "true") {
+      $('body').addClass('ct-body-loaded');
+      Cotton.UI.oErrorHandler.startTimeoutError();
+    } else {
+      self._oCurtain.open();
+    }
 
     // Create stickybar
     self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
@@ -80,6 +90,10 @@ Cotton.UI.World = Class.extend({
 
   searchpage : function(){
     return this._oSearchpage;
+  },
+
+  curtain : function(){
+    return this._oCurtain;
   },
 
   reset : function(){

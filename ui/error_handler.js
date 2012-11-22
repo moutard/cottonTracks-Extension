@@ -6,6 +6,7 @@ Cotton.UI.ErrorHandler = Class.extend({
   _$window : null,
   _$p : null,
   _lErrors : [],
+  _iTimeoutErrorIndex : 0,
 
   init : function($global, oCurtain) {
     var self = this;
@@ -25,6 +26,18 @@ Cotton.UI.ErrorHandler = Class.extend({
       }
 
     }
+  },
+
+  startTimeoutError : function() {
+    var self = this;
+    self._iTimeoutErrorIndex = setTimeout(function() {
+        throw new Error("Timeout - The installation is unexpectedly long. You should restart your browser.")
+    }, 30000);
+  },
+
+  stopTimeoutError : function(){
+    var self = this;
+    clearTimeout(self._iTimeoutErrorIndex);
   },
 
   curtain : function() {
