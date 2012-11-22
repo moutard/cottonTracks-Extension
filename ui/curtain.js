@@ -117,6 +117,10 @@ Cotton.UI.Curtain = Class.extend({
     this._$board.append(this._$error);
   },
 
+  show : function() {
+    this._$curtain.show();
+  },
+
   open : function() {
     Cotton.UI.oErrorHandler.stopTimeoutError();
     this.stop();
