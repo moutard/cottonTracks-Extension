@@ -1,13 +1,13 @@
 'use strict';
 
-Cotton.Behavior.Active.REFRESH_RATE = 5; // seconds
+Cotton.Behavior.Active.REFRESH_RATE = 8; // seconds
 
 Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
-   * 
+   *
    * @type boolean
    */
   _bDocumentActive : false,
@@ -20,7 +20,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    * An parser used to regularly analyze the content on the page to detect
    * relevant content blocks.
-   * 
+   *
    * @type Cotton.Behavior.Passive.Parser
    */
   _oParser : null,
@@ -217,7 +217,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
   /**
    * Computes the page score.
-   * 
+   *
    * @returns float between 0 and 1
    */
   _computePageScore : function() {
@@ -297,7 +297,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     /**
      * A jQuery DOM object used to keep in memory highlighted blocks in order to
      * re-augment their score in case they are copied (Ctrl/Cmd+C).
-     * 
+     *
      * Initialized to $([]) to make sure we always have a jQuery DOM object.
      */
     var $highlightedContentBlocks = $([]);
@@ -355,7 +355,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * Finds all content blocks that are ancestors of both nodes.
-   * 
+   *
    * @returns jQuery DOM
    */
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
