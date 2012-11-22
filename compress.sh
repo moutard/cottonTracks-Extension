@@ -141,7 +141,6 @@ translators_output_file='translators.js'
 
 # UI
 ui_input_files=(  './ui/init.js'
-                  './ui/ui.js'
                   './ui/world.js'
                   './ui/curtain.js'
                   './ui/error_handler.js'
@@ -181,7 +180,7 @@ ui_input_files=(  './ui/init.js'
                   './ui/story/item/content/item_content_slideshow.js'
                   './ui/story/item/content/item_content_video.js'
                   './ui/story/item/content/item_content_factory.js'
-                  './ui/loading.js')
+                  )
 ui_output_file='ui.js'
 
 # BEHAVIOR
