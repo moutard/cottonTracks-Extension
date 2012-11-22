@@ -1,11 +1,11 @@
 'use strict';
 /**
  * Controller
- * 
+ *
  * Inspired by MVC pattern.
- * 
+ *
  * Handles DB, and UI.
- * 
+ *
  */
 Cotton.Controller = Class.extend({
 
@@ -19,6 +19,11 @@ Cotton.Controller = Class.extend({
    * "View" in MVC pattern. Global view, contains the stickybar, the homepage.
    */
   _oWorld : null,
+
+  /**
+   * Error Handler
+   */
+  _oErrorHandler : null,
 
   /*
    * "Installer" TODO(rmoutard) : use event chrome.runtime.onInstalled Maybe
@@ -38,6 +43,8 @@ Cotton.Controller = Class.extend({
 
     var self = this;
     LOG && console.log("Controller - init -");
+
+    Cotton.UI.oErrorHandler = self._oErrorHandler = new Cotton.UI.ErrorHandler(window);
 
     $(window).load(function(){
         Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
@@ -87,7 +94,7 @@ Cotton.Controller = Class.extend({
 
     self._wDBSCAN1.addEventListener('message', function(e) {
       // Is called when a message is sent by the worker.
-      Cotton.UI.openCurtain();
+      self._oWorld.curtain().open();
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
       DEBUG && console.log('wDBSCAN - Worker ends: ', e.data['iNbCluster']);
@@ -157,7 +164,7 @@ Cotton.Controller = Class.extend({
     self._wDBSCAN3.addEventListener('message', function(e) {
 
       // Is called when a message is sent by the worker.
-      Cotton.UI.openCurtain();
+      self._oWorld.curtain().open();
       if(Cotton.UI.oCurtain){ Cotton.UI.oCurtain.increasePercentage(5);}
       // Use local storage, to see that's it's not the first visit.
       localStorage['CottonFirstOpening'] = "false";
@@ -190,10 +197,10 @@ Cotton.Controller = Class.extend({
 
   /**
    * Install
-   * 
+   *
    * First installation, the database is empty. Need to populate. Then launch,
    * DBSCAN1 on the results.
-   * 
+   *
    */
   install : function(){
     console.debug("Controller - install");
@@ -223,7 +230,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Reinstall
-   * 
+   *
    * An old database has been found. Allow you to keep your old data, our clear
    * the database and restart from the begining.
    */
@@ -252,7 +259,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Start
-   * 
+   *
    * ct is well installed, start the application.
    */
   start : function(){
@@ -307,7 +314,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Remove the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {int}
    *          iStoryId : id is found using mystoryline.
    * @param {int}
@@ -326,7 +333,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Set the visit in a given Story. Send by {Cotton.UI.Story.ItemEditbox}.
-   * 
+   *
    * @param {Cotton.Model.VisitItem}
    *          oVisitItem : after set the visitItem put.
    */
@@ -341,7 +348,7 @@ Cotton.Controller = Class.extend({
    * Merge two stories. Becareful parameters are not symetric. All the elments
    * of sub_story will be put in the main_story, and then the sub story will be
    * removed.
-   * 
+   *
    * @param {int}
    *          iMainStoryId : id of the story that receive new elements
    * @param {int}
@@ -376,7 +383,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Set story
-   * 
+   *
    * @param {Cotton.Model.Story}
    *          oStory
    */
@@ -390,7 +397,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Delete the story with the given story id.
-   * 
+   *
    * @param {int} :
    *          iStoryId
    */
@@ -404,7 +411,7 @@ Cotton.Controller = Class.extend({
 
   /**
    * Delete the story and visitItems with the given story id.
-   * 
+   *
    * @param {int} :
    *          iStoryId
    */
@@ -427,7 +434,7 @@ Cotton.Controller = Class.extend({
   /**
    * Received from the UI the search parameters. Make the search. And return the
    * stories that corresponds to the search pattern.
-   * 
+   *
    * @param {string}
    *          sSearchPattern
    * @param mCallbackFunction
@@ -450,7 +457,7 @@ Cotton.Controller = Class.extend({
    * Received from the UI the search parameters. Search the corresponding
    * keyword on the database 'searchKeywords'. And return the stories that
    * corresponds to those keywords.
-   * 
+   *
    * @param {string}
    *          sSearchPattern
    * @param mCallbackFunction
