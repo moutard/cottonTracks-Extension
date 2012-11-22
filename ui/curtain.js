@@ -21,6 +21,14 @@ Cotton.UI.Curtain = Class.extend({
     this._$percentage = $('.percentage');
     this._$meter = $('.meter');
     this._$error = $('<div class="error"></div>');
+
+    // Animate the bar at the beginning.
+    $(".meter > span").each(function() {
+      $(this).data("origWidth", $(this).width()).width(0).animate({
+        width : $(this).data("origWidth")
+      }, 1200);
+    });
+
   },
 
   percentage : function() {
@@ -107,5 +115,15 @@ Cotton.UI.Curtain = Class.extend({
 
     this._$error.append($humam_message, $message, $info);
     this._$board.append(this._$error);
+  },
+
+  open : function() {
+    Cotton.UI.oErrorHandler.stopTimeoutError();
+    this.stop();
+    $('body').addClass('ct-body-open');
+  },
+
+  close : function() {
+    $('body').addClass('ct-body-open');
   },
 });

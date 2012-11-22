@@ -27,11 +27,6 @@
 body {
   margin: 0;
 
-  // Hide the body while it's not loaded yet.
-  opacity: 0;
-
-  -webkit-transition-duration: 3s;
-
   &.ct-body-loaded {
     opacity: 1;
   }
@@ -53,7 +48,7 @@ body {
   width: 1000px;
   margin: auto;
 }
-  
+
 // Curtain on top of the landscape.
 .ct-curtain {
   background-color: #f8f8f8;
@@ -78,21 +73,21 @@ body {
 	  background-color: #e6e6e6;
 	  position:relative;
 	  z-index:1;
-	
+
 	  #logo{
 	    width: 280px;
 	    float: left;
 	    margin-left: 116px;
 	  }
   }
-  
+
   .ct-leather {
     //position: absolute;
     //top: 40%;
     width: 100%;
     height: 385px;
     background-image: url('/media/images/loading/leather.png');
-    
+
     > .cache {
       position: relative;
       //top: -302px;
@@ -184,55 +179,55 @@ body {
 	    > * {
 	      position: absolute;
 	    }
-	
+
 	    &.gear1 {
-	
+
 	      top : 99px;
 	      left: -5px;
-	
+
 	      > .middlescrew {
 	        width: 117px;
 	        height: 117px;
 	        z-index: 5;
 	      }
-	
+
 	      > .shine {
 	        z-index : 4;
 	        &.animate{
 	          .rotate-clockwise;
 	          -webkit-animation-duration: 10000ms;
 	        }
-	
+
 	      }
-	
+
 	      > .perspective {
 	        z-index : 3;
 	        margin-top:2px;
 	        margin-left:2px;
-	
+
 	        &.animate{
 	          .rotate-clockwise;
 	          -webkit-animation-duration: 10000ms;
 	        }
 	      }
-	      
+
 	      > .shadow {
 		      z-index : 3;
 		      margin-top:-25px;
 		      margin-left:-30px;
-		
+
 		      &.animate{
 		        .rotate-clockwise;
 		        -webkit-animation-duration: 10000ms;
 		      }
 		    }
 	    }
-	
+
 	    &.gear2 {
-	
+
 	      top : 179px;
 	      left: 38px;
-	
+
 	      > .middlescrew {
 	        width: 117px;
 	        height: 117px;
@@ -240,119 +235,119 @@ body {
 	        position: absolute;
 	        z-index: 5;
 	      }
-	
+
 	      > .shine {
 	        z-index : 4;
 	        &.animate{
 	          .rotate-counter-clockwise;
 	          -webkit-animation-duration: 20000ms;
 	        }
-	
+
 	      }
-	
+
 	      > .perspective {
 	        z-index : 3;
 	        margin-top:2px;
 	        margin-left:2px;
-	
+
 	        &.animate{
 	          .rotate-counter-clockwise;
 	          -webkit-animation-duration: 20000ms;
 	        }
 	      }
-	      
+
 	      > .shadow {
 		      z-index : 3;
 		      margin-top:-18px;
 		      margin-left:-25px;
-		
+
 		      &.animate{
 		        .rotate-counter-clockwise;
 		        -webkit-animation-duration: 20000ms;
 		      }
 		    }
 	    }
-	
+
 	    &.gear3 {
-	
+
 	      top : -85px;
 	      left: -120px;
-	
+
 	      > .middlescrew {
 	        width: 117px;
 	        height: 117px;
 	        margin: 47px 0 0 47px;
 	        z-index: 5;
 	      }
-	
+
 	      > .shine {
 	        z-index : 4;
 	        &.animate{
 	          .rotate-counter-clockwise;
 	          -webkit-animation-duration: 20000ms;
 	        }
-	
+
 	      }
-	
+
 	      > .perspective {
 	        z-index : 3;
 	        margin-top:2px;
 	        margin-left:2px;
-	
+
 	        &.animate{
 	          .rotate-counter-clockwise;
 	          -webkit-animation-duration: 20000ms;
 	        }
 	      }
-	      
+
 	      > .shadow {
 		      z-index : 3;
 		      margin-top:-18px;
 		      margin-left:-25px;
-		
+
 		      &.animate{
 		        .rotate-counter-clockwise;
 		        -webkit-animation-duration: 20000ms;
 		      }
 		    }
 	    }
-	
+
 	    &.gear4 {
 	      top : -85px;
 	      left: 120px;
-	
+
 	      > .middlescrew {
 	        width: 117px;
 	        height: 117px;
 	        margin: 47px 0 0 47px;
 	        z-index: 5;
 	      }
-	
+
 	      > .shine {
 	        z-index : 4;
-	
+
 	        &.animate{
 	          .rotate-counter-clockwise-acoup;
 	          -webkit-animation-duration: 20000ms;
 	        }
 	      }
-	
+
 	      > .perspective {
 	        z-index : 3;
 	        margin-top:2px;
 	        margin-left:2px;
-	
+
 	         &.animate{
 	          .rotate-counter-clockwise-acoup;
 	          -webkit-animation-duration: 20000ms;
 	        }
 	      }
-	      
+
 	      > .shadow {
 		      z-index : 3;
 		      margin-top:-18px;
 		      margin-left:-25px;
-		
+
 		       &.animate{
 		        .rotate-counter-clockwise-acoup;
 		        -webkit-animation-duration: 20000ms;
@@ -388,17 +383,17 @@ body {
     .ct-lens {
       top: -2*@lensHeight;
     }
-    
+
     #transition {
       position: absolute;
       top: -890px;
     }
-    
+
     .ct-leather {
       position: absolute;
       top: -890px;
     }
-    
+
     #header{
       top: -890px;
     }
