@@ -40,10 +40,12 @@ Cotton.UI.World = Class.extend({
     Cotton.UI.oCurtain = self._oCurtain = new Cotton.UI.Curtain(window);
     Cotton.UI.oErrorHandler.setCurtain(Cotton.UI.oCurtain);
     // If it's not the first time curtain is already open.
+    $('body').addClass('ct-body-loaded');
     if (localStorage['CottonFirstOpening'] === undefined
               || localStorage['CottonFirstOpening'] === "true") {
-      $('body').addClass('ct-body-loaded');
+      self._oCurtain.show();
       Cotton.UI.oErrorHandler.startTimeoutError();
+
     } else {
       self._oCurtain.open();
     }

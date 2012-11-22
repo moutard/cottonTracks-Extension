@@ -27,6 +27,11 @@
 body {
   margin: 0;
 
+  // Hide the body while it's not loaded yet.
+  opacity: 0;
+
+  -webkit-transition-duration: 1s;
+
   &.ct-body-loaded {
     opacity: 1;
   }
@@ -51,6 +56,7 @@ body {
 
 // Curtain on top of the landscape.
 .ct-curtain {
+  display: none;
   background-color: #f8f8f8;
   position: absolute;
   width: 100%;
