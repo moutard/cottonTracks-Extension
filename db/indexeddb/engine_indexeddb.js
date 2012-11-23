@@ -1053,6 +1053,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // TODO(rmoutard): use
         // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
         // to get the right key.
+        var oTransaction = self._oDb.transaction([sObjectStoreName],
+        "readwrite");
+        var oStore =  oTransaction.objectStore(sObjectStoreName);
         var oIndex = oStore.index('sKeyword');
 
         // Get the requested record in the store.
