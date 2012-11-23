@@ -10,7 +10,7 @@
 Cotton.DB.Stories = {};
 
 Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
-  
+
   DEBUG && console.debug("DB - add stories");
   DEBUG && console.debug(lStories);
 
@@ -148,7 +148,7 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories
 
             oSearchKeyword.addReferringStoryId(oKeywordAndId['iStoryId']);
 
-            oStore.put('searchKeywords', oSearchKeyword, function(iId){
+            oStore.putUnique('searchKeywords', oSearchKeyword, function(iId){
               // Becarefull with asynchronous.
               f(lKeywordsAndId, _i+1);
             });
