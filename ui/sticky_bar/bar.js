@@ -408,6 +408,9 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     if(iStickerIndex < lStories.length){
       self.pushStories(lStories.slice(iStickerIndex));
     }
+
+    // reset the position to 0.
+    self.translateStickers(0);
   },
 
   /**
