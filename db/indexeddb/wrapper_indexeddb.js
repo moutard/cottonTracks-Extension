@@ -368,12 +368,12 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
-  putUnique: function(sObjectStoreName, oObject, mOnSaveCallback) {
+  putUniqueKeyword: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
 
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.putUnique(sObjectStoreName, dDbRecord, function(iId) {
+    this._oEngine.putUniqueKeyword(sObjectStoreName, dDbRecord, function(iId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, iId);
       }

@@ -1032,7 +1032,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
-  putUnique: function(sObjectStoreName, dItem, mOnSaveCallback) {
+  putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1057,15 +1057,31 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dItem['sKeyword']);
-
+        console.log(dItem['sKeyword'] + " already exists it will be updated");
         oFindRequest.onsuccess = function(oEvent) {
           var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
+          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
           dItem['id'] = oResult['id'];
+          dItem['lReferringStoriesId'] = dItem['lReferringStoriesId'].concat(oResult['lReferringStoriesId']);
+          dItem['lReferringVisitItemsId'] = dItem['lReferringVisitItemsId'].concat(oResult['lReferringVisitItemsId']);
+
           var oSecondPutRequest = oStore.put(dItem);
+
           oSecondPutRequest.onsuccess = function(oEvent) {
             mOnSaveCallback.call(self, oEvent.target.result);
           };
+
+          oSecondPutRequest.onerror = function(oEvent) {
+            console.error("can't put: " + dItem);
+          };
+
+        };
+
+        oFindRequest.onerror = function(oEvent) {
+          console.error(oEvent);
+          console.error(this);
+          console.error("can't find: " + dItem['sKeyword']);
         };
       }
     };

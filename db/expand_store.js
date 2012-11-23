@@ -121,8 +121,22 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
  * SearchKeywords
  */
 Cotton.DB.SearchKeywords = {};
-
 Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories){
+    var lKeywordsAndId = [];
+    _.each(lStories, function(oStory){
+
+        _.each(oStory.searchKeywords(), function(sKeyword){
+          var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+          oSearchKeyword.addReferringStoryId(oStory.id());
+          oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
+            // Becarefull with asynchronous.
+            console.log('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
+          });
+        })
+      });
+};
+
+Cotton.DB.SearchKeywords.updateStoriesSearchKeywords2 = function(oStore, lStories){
     var lKeywordsAndId = [];
     _.each(lStories, function(oStory){
         _.each(oStory.searchKeywords(), function(sKeyword){
@@ -148,7 +162,7 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories
 
             oSearchKeyword.addReferringStoryId(oKeywordAndId['iStoryId']);
 
-            oStore.putUnique('searchKeywords', oSearchKeyword, function(iId){
+            oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
               // Becarefull with asynchronous.
               f(lKeywordsAndId, _i+1);
             });
