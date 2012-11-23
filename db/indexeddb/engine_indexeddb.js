@@ -1032,6 +1032,45 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
+  putUnique: function(sObjectStoreName, dItem, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    var oPutRequest = oStore.put(dItem);
+
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    oPutRequest.onerror = function(oEvent){
+      // console.error(oEvent);
+      // console.error(this);
+      if(this['errorCode'] === 4){
+        // uniquiness unsatisfied
+        // TODO(rmoutard): use
+        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
+        // to get the right key.
+        var oIndex = oStore.index('sKeyword');
+
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem['sKeyword']);
+
+        oFindRequest.onsuccess = function(oEvent) {
+          var oResult = oEvent.target.result;
+          // If there was no result, it will send back null.
+          dItem['id'] = oResult['id'];
+          var oSecondPutRequest = oStore.put(dItem);
+          oSecondPutRequest.onsuccess = function(oEvent) {
+            mOnSaveCallback.call(self, oEvent.target.result);
+          };
+        };
+      }
+    };
+  },
+
   AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
@@ -1056,6 +1095,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
 
   },
+
 
   update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
     var self = this;

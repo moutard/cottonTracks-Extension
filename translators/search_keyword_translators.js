@@ -42,7 +42,7 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
       'unique' : true
     },
     'sKeyword' : {
-      'unique' : false
+      'unique' : true
     },
   };
 
