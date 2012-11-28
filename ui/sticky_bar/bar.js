@@ -121,48 +121,8 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     });
 
     // MOUSEWHEEL
-    this._$stickyBar.find('.ct-container').bind('mousewheel', function(oEvent) {
-      // TODO(fwouts): Use constants.
-      if (oEvent['originalEvent']['wheelDeltaX'] === 0) {
-        var iDelta = oEvent['originalEvent']['wheelDeltaY'] * 0.5;
-      } else {
-        var iDelta = oEvent['originalEvent']['wheelDeltaX'] * 0.5;
-      }
-      var iPosition = self._iTranslateX + iDelta;
-      // position = (1-|K/L|)*(L-K/2)*H + M + M'
-      var K = 10 // self._lStickers.length initial
-      var H = Cotton.UI.StickyBar.HORIZONTAL_SPACING;
-      var M1 = 100;
-      var M2 = 100;
-      var p = (2 * self.$().width()) / 3;
-      // var iPositionMax = (1 - Math.floor(K / self._lStickers.length))
-      // * (self._lStickers.length - K / 2) * H + M1;
-      var iPositionMax = (self._lStickers.length * H) - p + M1;
-      if (iPosition > 580.0) {
-        iPosition = 580;
-      } else if (iPosition < -(iPositionMax + M2)) {
-        // Stop the scroll.
-        iPosition = -(iPositionMax + M2);
-      } else if (iPosition < -(iPositionMax)) {
-        // Update the stickers bar.
-        if (self._bLoading === false) {
-          self._bLoading = true;
-          self.getMoreStories();
-        }
-
-      }
-
-      self.translateStickers(iPosition, true);
-      oEvent.preventDefault();
-
-      // Event Tracker on first scroll
-      if (bScrolled == false) {
-        bScrolled = true;
-        Cotton.ANALYTICS.scrollStorySelector();
-      }
-    });
-
     $(window).bind('mousewheel', function(oEvent) {
+
       // OPEN
       // do not call open() method if scrolled in container
       if($(this).scrollTop() === 0 && oEvent['originalEvent']['wheelDeltaY'] > 0
@@ -176,6 +136,47 @@ Cotton.UI.StickyBar.Bar = Class.extend({
           && !$(oEvent.target).parents().is('.ct-container')
           && !$(oEvent.target).is('.ct-container')){
         self.close();
+      }
+      // Scroll in Story Selector
+      else if ($(oEvent.target).parents().is('.ct-container')
+          || $(oEvent.target).is('.ct-container')){
+        // TODO(fwouts): Use constants.
+        if (oEvent['originalEvent']['wheelDeltaX'] === 0) {
+          var iDelta = oEvent['originalEvent']['wheelDeltaY'] * 0.5;
+        } else {
+          var iDelta = oEvent['originalEvent']['wheelDeltaX'] * 0.5;
+        }
+        var iPosition = self._iTranslateX + iDelta;
+        // position = (1-|K/L|)*(L-K/2)*H + M + M'
+        var K = 10 // self._lStickers.length initial
+        var H = Cotton.UI.StickyBar.HORIZONTAL_SPACING;
+        var M1 = 100;
+        var M2 = 100;
+        var p = (2 * self.$().width()) / 3;
+        // var iPositionMax = (1 - Math.floor(K / self._lStickers.length))
+        // * (self._lStickers.length - K / 2) * H + M1;
+        var iPositionMax = (self._lStickers.length * H) - p + M1;
+        if (iPosition > 580.0) {
+          iPosition = 580;
+        } else if (iPosition < -(iPositionMax + M2)) {
+          // Stop the scroll.
+          iPosition = -(iPositionMax + M2);
+        } else if (iPosition < -(iPositionMax)) {
+          // Update the stickers bar.
+          if (self._bLoading === false) {
+            self._bLoading = true;
+            self.getMoreStories();
+          }
+        }
+
+        self.translateStickers(iPosition, true);
+        oEvent.preventDefault();
+
+        // Event Tracker on first scroll
+        if (bScrolled == false) {
+          bScrolled = true;
+          Cotton.ANALYTICS.scrollStorySelector();
+        }
       }
     });
     
