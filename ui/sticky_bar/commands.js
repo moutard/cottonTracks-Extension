@@ -15,7 +15,6 @@ Cotton.UI.StickyBar.Commands = Class.extend({
   _$logo_button : null,
   _$recent_button : null,
   _$share_button : null,
-  _$settings_button : null,
   _$feedback_button : null,
 
   _oSocialButtons : null,
@@ -37,11 +36,10 @@ Cotton.UI.StickyBar.Commands = Class.extend({
     this._$recent_button = $('.ct-icon_button_recent');
     this._$share_button = $('.ct-icon_button_share');
 
-    this._$settings_button = $('.ct-icon_button_settings');
     this._oSocialButtons = new Cotton.UI.StickyBar.Share.SocialButtons();
 
     this._$feedback_button = $('.ct-icon_button_feedback');
-    
+
     this._$homepage_button.click(function() {
       Cotton.UI.Home.HOMEPAGE.show();
       self._oBar.open();
@@ -49,22 +47,6 @@ Cotton.UI.StickyBar.Commands = Class.extend({
 
     this._$logo_button.click(function() {
       self._oBar.openClose();
-    });
-
-    this._$settings_button.click(function(){
-      document.location.href="settings/settings.html"
-    }).qtip({
-      'content' : 'Settings',
-      'position' : {
-        'my' : 'top center',
-        'at' : 'bottom left'
-      },
-      'show' : 'mouseover',
-      'hide' : 'mouseleave',
-      'style' : {
-        'tip' : true,
-        'classes' : 'ui-tooltip-yellow'
-      }
     });
 
     // Unused button
