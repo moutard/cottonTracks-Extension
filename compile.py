@@ -37,7 +37,7 @@ def setPreprodConfig(psConfigFile):
   os.system("sed -i '' -e 's/.*bAnalytics.*/bAnalytics:true,/' '%s'" % psConfigFile)
   os.system("sed -i '' -e 's/.*bLoggingEnabled.*/bLoggingEnabled:true,/' '%s'" % psConfigFile)
 
-def getAllJavascriptIncludes(psFileName):
+def getJavascriptIncludes(psFileName):
   """ Given the name of an html file, find all the lines that includes
   javascript files.
   <script type='text/javascript' src='ui/story/init.js'></script>
@@ -71,7 +71,7 @@ def isLib(psFilePath):
 
 def getJavascriptIncludesWithoutLib(psFileName):
   """Return only javascript files that are not libraries."""
-  llJsIncludes = getAllJavascriptIncludes(psFileName)
+  llJsIncludes = getJavascriptIncludes(psFileName)
   return [lsFile for lsFile in llJsIncludes if not isLib(lsFile)]
 
 def getExternsFile(psExternsDir):
@@ -87,6 +87,12 @@ def getExternsFile(psExternsDir):
   return ["%s%s" % (psExternsDir, lsFile) for lsFile in llExterns]
 
 def googleCompile(plJavascriptFiles, psOutputFileName="output.min.js"):
+  """Use the google closure compiler with specific parameters to merge all
+  the plJavascriptFiles and compile them into one single file psOutputFileName.
+    Args:
+      -plJavascriptFiles
+      -psOutputFileName
+  """
   COMPILE_COMMAND="java -jar %s" % GOOGLE_CLOSURE_COMPILER
   COMPILE_OPTIONS=[
       "--language_in=ECMASCRIPT5_STRICT",
@@ -98,18 +104,37 @@ def googleCompile(plJavascriptFiles, psOutputFileName="output.min.js"):
 
   EXTERNS= getExternsFile("lib/externs/")
 
-  COMMAND= "%s %s %s %s %s" % (COMPILE_COMMAND,
+  COMMAND= "%s %s %s %s %s %s" % (COMPILE_COMMAND,
      " ".join(COMPILE_OPTIONS),
      " --externs ".join(EXTERNS),
-     " -js ".join(plJavascriptFiles),
-     " --output ",
+     " --js ".join(plJavascriptFiles),
+     " --js_output_file ",
      psOutputFileName)
 
   os.system(COMMAND)
+  print 'Google closure Compilation of %s - Success' % psOutputFileName
 
-def compile(psFile):
-  pretreatment(SOURCE_PATH, DESTINATION_PATH)
-  googleCompile(getAllJavascriptIncludes(psFile), "%s.min.js" % psFile[0:len(psFile) -3])
+def removeJsIncludesWithSed(psFile, plJavascriptFiles):
+  for lsFile in plJavascriptFiles:
+    lsPattern = re.escape(lsFile)
+    os.system('sed -i "" -e "/%s/d" "%s"' % (lsPattern, psFile))
+  print "Useless includes have been removed from %s" % psFile
+
+def addJsIncludeWithSed(psFile, psJsIncludeSrc):
+  os.system('sed -i "" -e "/Cotton.config/a\\<script type="text/javascript" src="%s"></script>" "%s"' % (psJsIncludeSrc, psFile))
+  print "Add %s to %s" % (psFile, psJsIncludeSrc)
+
+def compileFile(psFile):
+  lsOutputFile = "%s.min.js" % psFile.split('.')[0]
+  llJsIncludes = getJavascriptIncludesWithoutLib(psFile)
+  googleCompile(llJsIncludes, lsOutputFile)
+  removeJsIncludesWithSed(psFile, llJsIncludes)
+  addJsIncludeWithSed(psFile, lsOutputFile)
 
 if __name__ == '__main__':
-  compile('index.html')
+  pretreatment(SOURCE_PATH, DESTINATION_PATH)
+  os.chdir(DESTINATION_PATH)
+  compileFile('index.html')
+  compileFile('background.html')
+
+
