@@ -37,28 +37,41 @@ def setPreprodConfig(psConfigFile):
   os.system("sed -i '' -e 's/.*bAnalytics.*/bAnalytics:true,/' '%s'" % psConfigFile)
   os.system("sed -i '' -e 's/.*bLoggingEnabled.*/bLoggingEnabled:true,/' '%s'" % psConfigFile)
 
-def getJavascriptIncludes(psFileName):
+def getIncludes(psFile):
   """ Given the name of an html file, find all the lines that includes
-  javascript files.
+  javascript files and lines that includes less files.
   <script type='text/javascript' src='ui/story/init.js'></script>
     Args:
-      -psFileName : location of an html file.
+      -psFile : location of an html file.
       Ex : "./index.html" or "/usr/local/index.html"
     Return:
-      - list of all the src found in this folder.
+      - list of all the js src found in this file.
+      - list of all the js lib src found in this file.
+      - list of all the less href in this file.
   """
-  llJavacriptIncludes = []
+  llJsIncludes = []
+  llJsLibIncludes = []
+  llLessIncludes = []
+
   # Open the file in read mode.
-  loIndex = open(psFileName, 'r')
+  loFile = open(psFile, 'r')
   # For each line find the pattern src=''
   # FIXME(rmoutard) : doesn't work if you put all your script includes on
   # one line.
-  for lsLine in loIndex :
+  for lsLine in loFile :
     # FIXME(rmoutard) : allow double quote.
-    loRegExpResult = re.search('src\=\'(.+\.js)', lsLine)
-    if loRegExpResult:
-      llJavacriptIncludes.append(loRegExpResult.group(1))
-  return llJavacriptIncludes
+    loJsResult = re.search('src\=\'(.+\.js)', lsLine)
+    loLessResult = re.search('href\=\"(.+\.less)', lsLine)
+    if loJsResult:
+      if(isLib(loJsResult.group(1))):
+        llJsLibIncludes.append(loJsResult.group(1))
+      else:
+        llJsIncludes.append(loJsResult.group(1))
+    elif loLessResult:
+      llLessIncludes.append(loLessResult.group(1))
+
+  loFile.close()
+  return llJsIncludes, llJsLibIncludes, llLessIncludes
 
 def isLib(psFilePath):
   """Return True if the given file is a lib.
@@ -67,12 +80,6 @@ def isLib(psFilePath):
       -psFilePath:
   """
   return True if re.search("lib/", psFilePath) else False
-
-
-def getJavascriptIncludesWithoutLib(psFileName):
-  """Return only javascript files that are not libraries."""
-  llJsIncludes = getJavascriptIncludes(psFileName)
-  return [lsFile for lsFile in llJsIncludes if not isLib(lsFile)]
 
 def getExternsFile(psExternsDir):
   """ Given the name of a directory return the list of javascript files in this
@@ -86,7 +93,7 @@ def getExternsFile(psExternsDir):
       llExterns.append(files)
   return ["%s%s" % (psExternsDir, lsFile) for lsFile in llExterns]
 
-def googleCompile(plJavascriptFiles, psOutputFileName="output.min.js"):
+def compileJs(plJavascriptFiles, psOutputFileName="output.min.js"):
   """Use the google closure compiler with specific parameters to merge all
   the plJavascriptFiles and compile them into one single file psOutputFileName.
     Args:
@@ -111,30 +118,93 @@ def googleCompile(plJavascriptFiles, psOutputFileName="output.min.js"):
      " --js_output_file ",
      psOutputFileName)
 
+  print 'JS  Compilation of %s - START' % psOutputFileName
   os.system(COMMAND)
-  print 'Google closure Compilation of %s - Success' % psOutputFileName
+  print 'JS  Compilation of %s - SUCCESS' % psOutputFileName
 
-def removeJsIncludesWithSed(psFile, plJavascriptFiles):
-  for lsFile in plJavascriptFiles:
+def compileLess(plLessFiles, psOutput="output.min.css"):
+  """For each less file create a css file, then merge all those css files
+  in the same file.
+    Args:
+      -plLessFiles: list of less files.
+      -psOutput: path of the output.
+  """
+  llTempCssFiles = []
+  for lsLessFile in plLessFiles:
+    lsCssFile = "%s.min.css" % lsLessFile.split(".")[0]
+    llTempCssFiles.append(lsCssFile)
+    lsCommand = "lessc -x %s > %s" % (lsLessFile, lsCssFile)
+    print lsCommand
+    os.system(lsCommand)
+
+  print "cat %s > %s" % (" ".join(llTempCssFiles), psOutput)
+  # Merge all the css files.
+  os.system("cat %s > %s" % (" ".join(llTempCssFiles), psOutput))
+
+  # Remove temp files.
+  for lsTempFile in llTempCssFiles:
+    os.remove(lsTempFile)
+  print "CSS Compilation of %s - SUCCESS" % psOutput
+  return psOutput
+
+
+def removeJs(psFile, plJsFiles):
+  """Remove all the lines of psFiles that matched one of the files in plJsFiles.
+    Args:
+      -psFile: path of the file.
+      -plJsFiles: list of the files you want to remove in the previous file.
+  """
+  for lsFile in plJsFiles:
     lsPattern = re.escape(lsFile)
     os.system('sed -i "" -e "/%s/d" "%s"' % (lsPattern, psFile))
-  print "Useless includes have been removed from %s" % psFile
 
-def addJsIncludeWithSed(psFile, psJsIncludeSrc):
-  os.system('sed -i "" -e "/Cotton.config/a\\<script type="text/javascript" src="%s"></script>" "%s"' % (psJsIncludeSrc, psFile))
-  print "Add %s to %s" % (psFile, psJsIncludeSrc)
+def removeLess(psFile):
+  """Remove all the lines that contains the pattern .less
+  And remove the less.js includes.
+  Maybe to large, but simpler and faster that remove each files one by one.
+  """
+  os.system('sed -i "" -e "/\.less/d" "%s"' % psFile)
+  os.system('sed -i "" -e "/less\.js/d" "%s"' % psFile)
 
-def compileFile(psFile):
-  lsOutputFile = "%s.min.js" % psFile.split('.')[0]
-  llJsIncludes = getJavascriptIncludesWithoutLib(psFile)
-  googleCompile(llJsIncludes, lsOutputFile)
-  removeJsIncludesWithSed(psFile, llJsIncludes)
-  addJsIncludeWithSed(psFile, lsOutputFile)
+def removeWhiteLines(psFile):
+  os.system('sed -i "" -e "/^$/d" "%s"' % psFile)
+
+def removeComments(psFile):
+  os.system('sed -i "" -e "/<!--/d" "%s"' % psFile)
+
+def insertCompiledJs(psFile, psCompiledJs):
+  os.system('sed -i "" -e "/<\/head>/i\\<script type="text/javascript" src="%s"></script>" "%s"' % (psCompiledJs, psFile))
+
+def insertCompiledCss(psFile, psCompiledCss):
+  os.system('sed -i "" -e "/<\/head>/i\\<link rel="stylesheet" type="text/css" href="%s"/>" "%s"' % (psCompiledCss, psFile))
+
+
+def compileHtml(psFile):
+  lsJsOutput = "%s.min.js" % psFile.split('.')[0]
+  lsCssOutput = "%s.min.css" % psFile.split('.')[0]
+
+  llJs, llJsLib, llLess = getIncludes(psFile)
+
+  # Compile all the files.
+  compileJs(llJs, lsJsOutput)
+  compileLess(llLess, lsCssOutput)
+
+  # Remove files not compiled.
+  removeJs(psFile, llJs)
+  removeLess(psFile)
+  removeWhiteLines(psFile)
+  removeComments(psFile)
+
+  # Add new compiled files.
+  insertCompiledJs(psFile, lsJsOutput)
+  insertCompiledCss(psFile, lsCssOutput)
+
+  print 'Total compilation of %s - SUCCESS' %  psFile
 
 if __name__ == '__main__':
   pretreatment(SOURCE_PATH, DESTINATION_PATH)
   os.chdir(DESTINATION_PATH)
-  compileFile('index.html')
-  compileFile('background.html')
+  compileHtml('index.html')
+  #compileFile('background.html')
 
 
