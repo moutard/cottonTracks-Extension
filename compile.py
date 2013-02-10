@@ -4,6 +4,10 @@ GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
 SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
 DESTINATION_PATH='/usr/local/rmoutard/cottontracks-beta/'
 
+GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
+SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
+DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
+
 _LOG = logging.getLogger(__name__)
 
 def pretreatment(psSourcePath, psDestinationPath):
@@ -73,6 +77,34 @@ def getIncludes(psFile):
   loFile.close()
   return llJsIncludes, llJsLibIncludes, llLessIncludes
 
+def getImports(psFile):
+  """ Given the name of an js file, find all the lines that includes
+  javascript files and lines that includes less files.
+  importScripts('../../lib/underscore.js');
+    Args:
+      -psFile : location of a js file.
+      Ex : "./index.html" or "/usr/local/index.html"
+    Return:
+      - list of all the js src found in this file.
+  """
+  llJsImports = []
+
+  # Open the file in read mode.
+  loFile = open(psFile, 'r')
+  # For each line find the pattern src=''
+  # FIXME(rmoutard) : doesn't work if you put all your script includes on
+  # one line.
+  for lsLine in loFile :
+    # FIXME(rmoutard) : allow double quote.
+    loJsResult = re.search('importScripts\(\'(.+\.js)', lsLine)
+    if loJsResult:
+      if(not isLib(loJsResult.group(1))):
+        llJsImports.append(loJsResult.group(1))
+
+  loFile.close()
+  return llJsImports
+
+
 def isLib(psFilePath):
   """Return True if the given file is a lib.
   Helpful if you want to know if this file should be compile, or remove etc...
@@ -119,7 +151,8 @@ def compileJs(plJavascriptFiles, psOutputFileName="output.min.js"):
      psOutputFileName)
 
   print 'JS  Compilation of %s - START' % psOutputFileName
-  os.system(COMMAND)
+  if len(plJavascriptFiles) > 0:
+    os.system(COMMAND)
   print 'JS  Compilation of %s - SUCCESS' % psOutputFileName
 
 def compileLess(plLessFiles, psOutput="output.min.css"):
@@ -139,7 +172,8 @@ def compileLess(plLessFiles, psOutput="output.min.css"):
 
   print "cat %s > %s" % (" ".join(llTempCssFiles), psOutput)
   # Merge all the css files.
-  os.system("cat %s > %s" % (" ".join(llTempCssFiles), psOutput))
+  if len(llTempCssFiles) > 0 :
+    os.system("cat %s > %s" % (" ".join(llTempCssFiles), psOutput))
 
   # Remove temp files.
   for lsTempFile in llTempCssFiles:
@@ -170,14 +204,17 @@ def removeWhiteLines(psFile):
   os.system('sed -i "" -e "/^$/d" "%s"' % psFile)
 
 def removeComments(psFile):
-  os.system('sed -i "" -e "/<!--/d" "%s"' % psFile)
+  os.system('sed -i "" -e "/<\!--.*-->/d" "%s"' % psFile)
 
 def insertCompiledJs(psFile, psCompiledJs):
-  os.system('sed -i "" -e "/<\/head>/i\\<script type="text/javascript" src="%s"></script>" "%s"' % (psCompiledJs, psFile))
+  lsSedCommand = """sed -i '' -e '/<\/head>/i\\
+  <script type="text/javascript" src="%s"></script>' '%s'""" % (psCompiledJs, psFile)
+  os.system(lsSedCommand)
 
 def insertCompiledCss(psFile, psCompiledCss):
-  os.system('sed -i "" -e "/<\/head>/i\\<link rel="stylesheet" type="text/css" href="%s"/>" "%s"' % (psCompiledCss, psFile))
-
+  lsSedCommand = """sed -i '' -e '/<\/head>/i\\
+  <link rel="stylesheet" type="text/css" href="%s"/>' '%s'""" % (psCompiledCss, psFile)
+  os.system(lsSedCommand)
 
 def compileHtml(psFile):
   lsJsOutput = "%s.min.js" % psFile.split('.')[0]
@@ -201,10 +238,22 @@ def compileHtml(psFile):
 
   print 'Total compilation of %s - SUCCESS' %  psFile
 
+def compileWorker(psFile):
+  lsJsOutput = "%s.min.js" % psFile.split('.')[0]
+  llJs = getImports(psFile)
+  
+  # Remove files not compiled.
+  removeJs(psFile, llJs)
+
+  # Compile all the files.
+  compileJs([os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs], lsJsOutput)
+  os.system("mv %s %s" % (lsJsOutput, psFile))
+
+
 if __name__ == '__main__':
   pretreatment(SOURCE_PATH, DESTINATION_PATH)
   os.chdir(DESTINATION_PATH)
   compileHtml('index.html')
-  #compileFile('background.html')
-
+  compileHtml('background.html')
+  compileWorker('algo/dbscan1/worker.js')
 
