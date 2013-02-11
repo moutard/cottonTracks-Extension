@@ -4,9 +4,9 @@ GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
 SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
 DESTINATION_PATH='/usr/local/rmoutard/cottontracks-beta/'
 
-GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
-SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
+#GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
+#SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
+#DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
 
 _LOG = logging.getLogger(__name__)
 
@@ -125,6 +125,11 @@ def getExternsFile(psExternsDir):
       llExterns.append(files)
   return ["%s%s" % (psExternsDir, lsFile) for lsFile in llExterns]
 
+def simpleCompileJs(plJavascriptFiles, psOutput="output.min.js"):
+  if len(plJavascriptFiles) > 0 :
+    print "cat %s > %s" % (" ".join(plJavascriptFiles), psOutput)
+    os.system("cat %s > %s" % (" ".join(plJavascriptFiles), psOutput))
+
 def compileJs(plJavascriptFiles, psOutputFileName="output.min.js"):
   """Use the google closure compiler with specific parameters to merge all
   the plJavascriptFiles and compile them into one single file psOutputFileName.
@@ -170,9 +175,9 @@ def compileLess(plLessFiles, psOutput="output.min.css"):
     print lsCommand
     os.system(lsCommand)
 
-  print "cat %s > %s" % (" ".join(llTempCssFiles), psOutput)
   # Merge all the css files.
   if len(llTempCssFiles) > 0 :
+    print "cat %s > %s" % (" ".join(llTempCssFiles), psOutput)
     os.system("cat %s > %s" % (" ".join(llTempCssFiles), psOutput))
 
   # Remove temp files.
@@ -223,7 +228,8 @@ def compileHtml(psFile):
   llJs, llJsLib, llLess = getIncludes(psFile)
 
   # Compile all the files.
-  compileJs(llJs, lsJsOutput)
+  #compileJs(llJs, lsJsOutput)
+  simpleCompileJs(llJs, lsJsOutput)
   compileLess(llLess, lsCssOutput)
 
   # Remove files not compiled.
@@ -241,7 +247,7 @@ def compileHtml(psFile):
 def compileWorker(psFile):
   lsJsOutput = "%s.min.js" % psFile.split('.')[0]
   llJs = getImports(psFile)
-  
+
   # Remove files not compiled.
   removeJs(psFile, llJs)
 
@@ -249,11 +255,15 @@ def compileWorker(psFile):
   compileJs([os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs], lsJsOutput)
   os.system("mv %s %s" % (lsJsOutput, psFile))
 
-
-if __name__ == '__main__':
+def compileProject():
+  """Given a directory where the project is, compress all the js and less
+  files replace the includes in the worker and html. Remove useless files.
+  """
   pretreatment(SOURCE_PATH, DESTINATION_PATH)
   os.chdir(DESTINATION_PATH)
   compileHtml('index.html')
   compileHtml('background.html')
-  compileWorker('algo/dbscan1/worker.js')
 
+
+if __name__ == '__main__':
+  compileProject()
