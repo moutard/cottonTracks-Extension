@@ -75,6 +75,7 @@ body {
 
   // Non Hidden bar.
   top: 0px;
+  -webkit-transition-property: top;
   -webkit-transition-duration: @stickyBar_bar_close_transitionDuration;
 
   z-index: 100;
@@ -105,7 +106,7 @@ body {
     // Invisible by default.
     opacity: 0;
 
-    -webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
+    //-webkit-transition-duration: @stickyBar_bar_arrow_transitionDuration;
 
     &.ct-arrow_left {
       background: url('/media/images/topbar/navarrow_left.png');
@@ -248,7 +249,7 @@ body {
       }
 
     }
-    
+
     .ct-icon_button_feedback {
        position: relative;
        left: 30px;

@@ -50,14 +50,15 @@ Cotton.UI.World = Class.extend({
     }
 
     // Create stickybar
-    self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
+    //self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
 
     // Create homepage
-    self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage(self);
-    self._oSearchpage = Cotton.UI.Search.SEARCHPAGE = new Cotton.UI.Search.Searchpage(self);
+    //self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage(self);
+    //self._oSearchpage = Cotton.UI.Search.SEARCHPAGE = new Cotton.UI.Search.Searchpage(self);
 
     self._oStoryline = _oCurrentlyOpenStoryline;
 
+    /*
     self._oStickyBar.on('ready', function() {
       LOG && console.log('world ready');
 
@@ -75,6 +76,7 @@ Cotton.UI.World = Class.extend({
         });
       });
     });
+    */
   },
 
   stickyBar : function(){
