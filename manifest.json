@@ -24,7 +24,7 @@
       "exclude_matches" : ["https://www.google.com/url", "https://www.google.fr/url", "http://www.google.com/url", "http://www.google.fr/url"],
       "css": [],
       "js": [
-              "lib/class.js", "lib/jquery.min.js",
+              "lib/class.js", "lib/jquery-1.9.1.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js", "lib/parse_url.js",
               "init.js",
               "model/init.js","model/extracted_dna.js", "model/visit_item.js","model/extracted_paragraph.js", "db/init.js", "db/translator.js", "translators/init.js", "translators/visit_item_translators.js",
