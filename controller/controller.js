@@ -49,9 +49,9 @@ Cotton.Controller = Class.extend({
     $(window).load(function(){
         Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
     });
-    self.initWorkerDBSCAN1();
-    self.initWorkerDBSCAN2();
-    self.initWorkerDBSCAN3();
+    //self.initWorkerDBSCAN1();
+    //self.initWorkerDBSCAN2();
+    //self.initWorkerDBSCAN3();
 
     self._iTmpId = 0;
     /**
@@ -267,11 +267,9 @@ Cotton.Controller = Class.extend({
     var self = this;
     // Cotton.DBSCAN2.startDbscanUser();
 
+    /*
     self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory){
-      /**
-       * Delete the last story and recompute it.
-       */
-      var lVisitItemsId = oLastStory.visitItemsId();
+           var lVisitItemsId = oLastStory.visitItemsId();
       var iLastStoryId =  oLastStory.id();
 
       var lPoolVisitItems = [];
@@ -304,6 +302,7 @@ Cotton.Controller = Class.extend({
               });
         });
     });
+    */
   },
 
   /**
