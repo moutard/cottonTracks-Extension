@@ -1,12 +1,12 @@
 'use strict';
 
 /**
- * 
+ *
  * @returns {Cotton.Behavior.Passive.Parser}
  */
 Cotton.Behavior.Passive.ParserFactory = function() {
 
-  var oUrl = new parseUrl(window.location.href);
+  var oUrl = new UrlParser(window.location.href);
   oUrl.fineDecomposition();
 
   // Detect if it's wikipedia.
