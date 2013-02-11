@@ -1,7 +1,7 @@
 'use strict';
 /**
  * DBSCAN3 Worker
- * 
+ *
  * Workers are in charge of parallelize tasks.
  */
 
@@ -9,9 +9,9 @@
 // Cotton.lib.
 importScripts('../../lib/class.js');
 importScripts('../../lib/underscore.js');
-importScripts('../../lib/parse_url.js');
 
 importScripts('../../init.js');
+importScripts('../../utils/url_parser.js');
 
 // Cotton.config
 importScripts('../../config/init.js');

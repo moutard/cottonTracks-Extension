@@ -2,9 +2,9 @@
 
 /**
  * Google Parser
- * 
+ *
  * Created by : content_scripts.
- * 
+ *
  * Find relevant block in a google result page.
  */
 
@@ -69,7 +69,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
 
   /**
    * Finds google image result. When they are included to a google search.
-   * 
+   *
    * @param :
    *          none
    * @returns url of the image
@@ -80,7 +80,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
       if (sUrl[0] === "/") {
         sUrl = "http://google.fr" + sUrl;
       }
-      var oUrl = new parseUrl(sUrl);
+      var oUrl = new UrlParser(sUrl);
       oUrl.fineDecomposition();
       return oUrl.dSearch['imgurl'];
     }
@@ -90,7 +90,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
 
   /**
    * Finds google image result when it's actuality.
-   * 
+   *
    * @param :
    *          none
    * @returns url of the image
@@ -102,7 +102,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   /**
    * Finds the best image in the wikipedia page. If there is an image in the
    * infobox choose this one. Else find other image in thumbinner.
-   * 
+   *
    * @returns {String} src
    */
   findBestImage : function() {

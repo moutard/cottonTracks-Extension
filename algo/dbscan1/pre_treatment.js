@@ -21,7 +21,7 @@ Cotton.Algo.PreTreatment.computeParseUrl = function(lVisitItems) {
   // Instead of computing every time you compute a distance
 
   for ( var i = 0; i < lVisitItems.length; i++) {
-    var oUrl = new parseUrl(lVisitItems[i]['sUrl']);
+    var oUrl = new UrlParser(lVisitItems[i]['sUrl']);
     // assign oUrl.
     lVisitItems[i]['oUrl'] = oUrl;
     lVisitItems[i]['sPathname'] = oUrl.pathname;
