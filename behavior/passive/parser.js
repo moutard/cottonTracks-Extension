@@ -2,9 +2,9 @@
 
 /**
  * @class : Parser
- * 
+ *
  * Created by : content_scripts.
- * 
+ *
  * Find relevant block in a page.
  */
 
@@ -68,7 +68,7 @@ Cotton.Behavior.Passive.Parser = Class
       /**
        * Parse all the blocks and add the attribute 'data-meaningful', if the
        * block is considered interesting.
-       * 
+       *
        * @returns
        */
       _findMeaningfulBlocks : function() {
@@ -278,7 +278,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in the whole page.
-       * 
+       *
        * @returns {String} src
        */
       findBestImage : function() {
@@ -293,12 +293,12 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds the best image in a given set of blocks.
-       * 
+       *
        * The idea is mainly to pick the biggest image.
-       * 
+       *
        * TODO(fwouts): Consider the ratio of images, since there could be very
        * narrow images that have a bigger surface than the actual best pick.
-       * 
+       *
        * @returns jQuery DOM representing the given <img /> or null
        */
       _findBestImageInBlocks : function($blocks) {
@@ -361,7 +361,7 @@ Cotton.Behavior.Passive.Parser = Class
 
       /**
        * Finds google image result. When they are included to a google search.
-       * 
+       *
        * @param :
        *          none
        * @returns url of the image
@@ -372,7 +372,7 @@ Cotton.Behavior.Passive.Parser = Class
           if (sUrl[0] === "/") {
             sUrl = "http://google.fr" + sUrl;
           }
-          var oUrl = new parseUrl(sUrl);
+          var oUrl = new UrlParser(sUrl);
           oUrl.fineDecomposition();
           return oUrl.dSearch['imgurl'];
         }
@@ -383,7 +383,7 @@ Cotton.Behavior.Passive.Parser = Class
       /**
        * Compute the score of an image. The score is higher when the image is
        * higher, when it's first, when data-meaningful equal true.
-       * 
+       *
        * @param $img
        * @param iPosition
        * @return iScore

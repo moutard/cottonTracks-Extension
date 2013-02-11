@@ -3,15 +3,15 @@
 /**
  * Given an array of visitItem labeled with a "clusterId", return a list of
  * stories, that contains all visitItems with the same label.
- * 
+ *
  * @param {Array.
  *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
  *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
  * @returns {Object} dStories list of all the stories.
- * 
- * 
+ *
+ *
  */
 Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
   DEBUG && console.debug("cluster story")
@@ -76,7 +76,7 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
         // second condition indicates we can find a better image
         // in both case we recompute the title.
         var reg = new RegExp(".(jpg|png|gif)$", "g");
-        var oUrl = new parseUrl(lVisitItems[j]['sUrl']);
+        var oUrl = new UrlParser(lVisitItems[j]['sUrl']);
         oUrl.fineDecomposition();
         if (reg.exec(lVisitItems[j]['sUrl'])) {
         	//Image

@@ -74,7 +74,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    */
   isExcluded : function(sUrl){
     var self = this;
-    var oUrl = new parseUrl(sUrl);
+    var oUrl = new UrlParser(sUrl);
 
     return self.isHttps(oUrl) || self.isExcludedPattern(sUrl) ||
       self.isExcludedUrl(sUrl) || self.isTool(oUrl.hostname);
