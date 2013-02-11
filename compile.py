@@ -1,4 +1,4 @@
-import os, re, shutil, logging
+import os, re, shutil, logging, json
 
 GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
 SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
@@ -228,8 +228,8 @@ def compileHtml(psFile):
   llJs, llJsLib, llLess = getIncludes(psFile)
 
   # Compile all the files.
-  #compileJs(llJs, lsJsOutput)
-  simpleCompileJs(llJs, lsJsOutput)
+  compileJs(llJs, lsJsOutput)
+  #simpleCompileJs(llJs, lsJsOutput)
   compileLess(llLess, lsCssOutput)
 
   # Remove files not compiled.
@@ -255,6 +255,19 @@ def compileWorker(psFile):
   compileJs([os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs], lsJsOutput)
   os.system("mv %s %s" % (lsJsOutput, psFile))
 
+def compileManifest(psFile):
+  loFile = open(psFile, 'r')
+  ldManifest = json.loads(loFile.read())
+  for i, ldContentScript in enumerate(ldManifest['content_scripts']):
+    lsLib = [lsFile for lsFile in ldContentScript['js'] if isLib(lsFile)]
+    lsJs = [lsFile for lsFile in ldContentScript['js'] if not isLib(lsFile)]
+    compileJs(lsJs, 'content_scripts%s.min.js' % i)
+    ldContentScript['js'] = lsLib + ['content_scripts%s.min.js' % i,]
+  loFile.close()
+  loFile = open(psFile, 'w')
+  loFile.write(json.dumps(ldManifest))
+  loFile.close()
+
 def compileProject():
   """Given a directory where the project is, compress all the js and less
   files replace the includes in the worker and html. Remove useless files.
@@ -263,6 +276,7 @@ def compileProject():
   os.chdir(DESTINATION_PATH)
   compileHtml('index.html')
   compileHtml('background.html')
+  compileManifest('manifest.json')
 
 
 if __name__ == '__main__':
