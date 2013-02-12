@@ -228,8 +228,8 @@ def compileHtml(psFile):
   llJs, llJsLib, llLess = getIncludes(psFile)
 
   # Compile all the files.
-  compileJs(llJs, lsJsOutput)
-  #simpleCompileJs(llJs, lsJsOutput)
+  #compileJs(llJs, lsJsOutput)
+  simpleCompileJs(llJs, lsJsOutput)
   compileLess(llLess, lsCssOutput)
 
   # Remove files not compiled.

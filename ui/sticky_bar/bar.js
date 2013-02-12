@@ -33,7 +33,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     this._$stickyBar = $('#ct-stickyBar_bar');
     this._$container = $('.ct-container');
 
-    this._oCommands = new Cotton.UI.StickyBar.Commands(self);
+    //this._oCommands = new Cotton.UI.StickyBar.Commands(self);
     this._$commands = $('.ct-commands');
     this._iTranslateX = 0;
     this._bLoading = false;
@@ -179,7 +179,8 @@ Cotton.UI.StickyBar.Bar = Class.extend({
         }
       }
     });
-    
+
+    /*
     this._$stickyBar.animate({
       top : '0px'
     }, 'slow', function() {
@@ -190,6 +191,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
     Cotton.UI.World.COMMUNICATOR.on('story_element', function(oStoryElement) {
       // pass
     });
+    */
   },
 
   /*
@@ -258,7 +260,7 @@ Cotton.UI.StickyBar.Bar = Class.extend({
    * Open the sticky bar.
    */
   open : function() {
-    // Scroll to top of story before opening topbar 
+    // Scroll to top of story before opening topbar
  	var self = this;
  	var scrollTime = Math.min(Math.sqrt(Math.abs($(window).scrollTop()))*20,1000);
     $('html,body').animate({scrollTop:0},scrollTime, function(){
@@ -428,4 +430,4 @@ Cotton.UI.StickyBar.Bar = Class.extend({
 
 });
 
-_.extend(Cotton.UI.StickyBar.Bar.prototype, Backbone.Events);
+//_.extend(Cotton.UI.StickyBar.Bar.prototype, Backbone.Events);

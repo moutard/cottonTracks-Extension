@@ -16,6 +16,11 @@ Cotton.Controller = Class.extend({
   _oStore : null,
 
   /**
+   * Cache
+   */
+  _oCache : null,
+
+  /**
    * "View" in MVC pattern. Global view, contains the stickybar, the homepage.
    */
   _oWorld : null,
@@ -47,7 +52,9 @@ Cotton.Controller = Class.extend({
     Cotton.UI.oErrorHandler = self._oErrorHandler = new Cotton.UI.ErrorHandler(window);
 
     $(window).load(function(){
-        Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+      console.log('window loaded');
+      Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+      self._oWorld.stickyBar().appendStories(self._oCache.get());
     });
     //self.initWorkerDBSCAN1();
     //self.initWorkerDBSCAN2();
@@ -58,6 +65,8 @@ Cotton.Controller = Class.extend({
      * Check if a ct database already exists.
      */
 
+    self._oCache = new Cotton.DB.Cache();
+    /*
     self._oStore = new Cotton.DB.Store('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
@@ -82,6 +91,7 @@ Cotton.Controller = Class.extend({
               }
             })
     });
+    */
   },
 
   /**
@@ -265,6 +275,7 @@ Cotton.Controller = Class.extend({
   start : function(){
     LOG && console.log("Controller - start");
     var self = this;
+    var lCacheStories = self._oCache.get();
     // Cotton.DBSCAN2.startDbscanUser();
 
     /*
