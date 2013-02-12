@@ -212,12 +212,12 @@ def removeComments(psFile):
   os.system('sed -i "" -e "/<\!--.*-->/d" "%s"' % psFile)
 
 def insertCompiledJs(psFile, psCompiledJs):
-  lsSedCommand = """sed -i '' -e '/<\/head>/i\\
+  lsSedCommand = """sed -i '' -e '/<\/body>/i\\
   <script type="text/javascript" src="%s"></script>' '%s'""" % (psCompiledJs, psFile)
   os.system(lsSedCommand)
 
 def insertCompiledCss(psFile, psCompiledCss):
-  lsSedCommand = """sed -i '' -e '/<\/head>/i\\
+  lsSedCommand = """sed -i '' -e '/<head>/a\\
   <link rel="stylesheet" type="text/css" href="%s"/>' '%s'""" % (psCompiledCss, psFile)
   os.system(lsSedCommand)
 
