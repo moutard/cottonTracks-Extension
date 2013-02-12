@@ -3,6 +3,36 @@
 <head>
 <title>cottonTracks</title>
 
+<link rel="stylesheet/less" type="text/css" href="media/startpage.less" />
+<link rel="stylesheet/less" type="text/css" href="media/story.less" />
+<link rel="stylesheet/less" type="text/css" href="media/item.less" />
+<!-- FIXME(rmoutard): load only if necessary -->
+<link rel="stylesheet/less" type="text/css" href="media/loading.less" />
+<link rel="stylesheet/less" type="text/css" href="media/spinning_gears.less" />
+<!-- less script should be after .less file -->
+<script type='text/javascript' src='lib/less.js'></script>
+</head>
+<body>
+  <div id="ct">
+    <div id="ct-stickyBar_bar">
+      <div class="ct-container">
+  	    <div class="ct-arrow ct-arrow_left"></div>
+	      <div class="ct-arrow ct-arrow_right"></div>
+      </div>
+      <div class="ct-commands">
+        <a href='https://chrome.google.com/webstore/support/hhobcfjpebpjfinmcmgffnkghmhhiljo' target='blank'>
+          <div class="ct-icon_button_feedback"></div>
+        </a>
+        <div class="ct-middle">
+          <div class="ct-iconButton ct-icon_button_home selected"></div>
+          <div class="ct-iconButton ct-icon_button_search"></div>
+          <div class="ct-iconButton ct-icon_button_logo"></div>
+          <div class="ct-iconButton ct-icon_button_recent"></div>
+          <div class="ct-iconButton ct-icon_button_share"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Library -->
 <script type='text/javascript' src='lib/class.js'></script>
 <script type='text/javascript' src='lib/jquery-1.9.1.min.js'></script>
@@ -99,40 +129,5 @@
 <script type='text/javascript' src='algo/common/cluster_story.js'></script>
 
 <script type='text/javascript' src='controller/controller.js'></script>
-
-<link rel="stylesheet/less" type="text/css" href="media/startpage.less" />
-<link rel="stylesheet/less" type="text/css" href="media/story.less" />
-<link rel="stylesheet/less" type="text/css" href="media/item.less" />
-<!-- FIXME(rmoutard): load only if necessary -->
-<link rel="stylesheet/less" type="text/css" href="media/loading.less" />
-<link rel="stylesheet/less" type="text/css" href="media/spinning_gears.less" />
-<!-- less script should be after .less file -->
-<script type='text/javascript' src='lib/less.js'></script>
-</head>
-<body>
-  <div id="ct">
-
-
-    <div id="ct-stickyBar_bar">
-      <div class="ct-container">
-  	    <div class="ct-arrow ct-arrow_left"></div>
-	      <div class="ct-arrow ct-arrow_right"></div>
-      </div>
-      <div class="ct-commands">
-        <a href='https://chrome.google.com/webstore/support/hhobcfjpebpjfinmcmgffnkghmhhiljo' target='blank'>
-          <div class="ct-icon_button_feedback"></div>
-        </a>
-        <div class="ct-middle">
-          <div class="ct-iconButton ct-icon_button_home selected"></div>
-          <div class="ct-iconButton ct-icon_button_search"></div>
-          <div class="ct-iconButton ct-icon_button_logo"></div>
-          <div class="ct-iconButton ct-icon_button_recent"></div>
-          <div class="ct-iconButton ct-icon_button_share"></div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
 </body>
 </html>
