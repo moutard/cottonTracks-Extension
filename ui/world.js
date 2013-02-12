@@ -50,7 +50,7 @@ Cotton.UI.World = Class.extend({
     }
 
     // Create stickybar
-    //self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
+    self._oStickyBar = new Cotton.UI.StickyBar.Bar(self);
 
     // Create homepage
     //self._oHomepage = Cotton.UI.Home.HOMEPAGE = new Cotton.UI.Home.Homepage(self);
