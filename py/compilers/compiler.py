@@ -10,6 +10,7 @@ class Compiler(PreCompiler):
   def __init__(self, SOURCE_PATH, DESTINATION_PATH):
     self._SOURCE_PATH = SOURCE_PATH
     self._DESTINATION_PATH = DESTINATION_PATH
+    self._PRESERVED_FILES = []
 
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
@@ -17,6 +18,7 @@ class Compiler(PreCompiler):
     self.compileHtml('index.html')
     self.compileHtml('background.html')
     self.compileManifest('manifest.json')
+    self.removeUnpreservedFiles()
 
   def compileJs(self):
     raise NotImplementedError
@@ -41,6 +43,9 @@ class Compiler(PreCompiler):
     self.insertCompiledJs(psFile, lsJsOutput)
     self.insertCompiledCss(psFile, lsCssOutput)
 
+    # PRESERVED FILES.
+    self._PRESERVED_FILES.extend([psFile, lsJsOutput, lsCssOutput])
+    self._PRESERVED_FILES.extend(llJsLib)
     print 'Total compilation of %s - SUCCESS' %  psFile
 
   def compileLess(self, plLessFiles, psOutput="output.min.css"):
@@ -80,18 +85,26 @@ class Compiler(PreCompiler):
     self.compileJs([os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs], lsJsOutput)
     os.system("mv %s %s" % (lsJsOutput, psFile))
 
+    # PRESERVED FILES
+    self._PRESERVED_FILES.append(psFile)
+
   def compileManifest(self, psFile):
     loFile = open(psFile, 'r')
     ldManifest = json.loads(loFile.read())
     for i, ldContentScript in enumerate(ldManifest['content_scripts']):
-      lsLib = [lsFile for lsFile in ldContentScript['js'] if self.isLib(lsFile)]
-      lsJs = [lsFile for lsFile in ldContentScript['js'] if not self.isLib(lsFile)]
-      self.compileJs(lsJs, 'content_scripts%s.min.js' % i)
-      ldContentScript['js'] = lsLib + ['content_scripts%s.min.js' % i,]
+      llLib = [lsFile for lsFile in ldContentScript['js'] if self.isLib(lsFile)]
+      llJs = [lsFile for lsFile in ldContentScript['js'] if not self.isLib(lsFile)]
+      self.compileJs(llJs, 'content_scripts%s.min.js' % i)
+      ldContentScript['js'] = llLib + ['content_scripts%s.min.js' % i,]
+      self._PRESERVED_FILES.append('content_scripts%s.min.js' % i)
+      self._PRESERVED_FILES.extend(llLib)
     loFile.close()
     loFile = open(psFile, 'w')
     loFile.write(json.dumps(ldManifest))
     loFile.close()
+
+    # PRESERVED FILES
+    self._PRESERVED_FILES.append(psFile)
 
   def isLib(self, psFilePath):
     """Return True if the given file is a lib.
@@ -144,6 +157,7 @@ class Compiler(PreCompiler):
           llJsImports.append(loJsResult.group(1))
 
     loFile.close()
+    #FIXME(rmoutard): preserved files.
     return llJsImports
 
   def getIncludes(self, psFile):
@@ -205,5 +219,27 @@ class Compiler(PreCompiler):
     <link rel="stylesheet" type="text/css" href="%s"/>' '%s'""" % (psCompiledCss, psFile)
     os.system(lsSedCommand)
 
+  def removeUnpreservedFiles(self):
 
+    SAVED_FILES =  [os.path.join(self._DESTINATION_PATH, lsPath) for lsPath in self._PRESERVED_FILES]
+    SAVED_DIRECTORIES = ['media']
+    SAVED_EXTENSIONS = ['.jpg', '.png', '.ttf']
+
+    for path, dirs, files in os.walk(self._DESTINATION_PATH):
+      i = len(files)
+      for lsFile in files:
+        lsFilePath = os.path.join(path, lsFile)
+        fileName, fileExtension = os.path.splitext(lsFilePath)
+        if not (lsFilePath in SAVED_FILES) and not fileExtension in SAVED_EXTENSIONS:
+          os.remove(lsFilePath)
+          i-=1
+        # There was no sub folders and I removed all the files.
+        if (i==0) and len(dirs) == 0:
+          shutil.rmtree(path)
+    dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
+    for lsDir in dirToRemove:
+      try:
+        shutil.rmtree(os.path.join(self._DESTINATION_PATH, lsDir))
+      except OSError:
+        pass
 
