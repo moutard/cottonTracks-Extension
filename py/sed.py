@@ -15,3 +15,8 @@ def append(psFile, psBeforeTag, psTextToAppend):
   lsSedCommand = """sed -a '' -e '/%s/i\\
   %s' '%s'""" % (re.escape(psBeforeTag), re.escape(psTextToAppend), psFile)
   os.system(lsSedCommand)
+  
+def replace(psFile, psSearch, psReplace):
+  lsSedCommand = """sed -i '' -e 's/%s/%s/' '%s'""" % (re.escape(psSearch),
+                                                       re.escape(psReplace),
+                                                       psFile)
