@@ -10,6 +10,10 @@ class PRODCompiler(Compiler):
     self._GOOGLE_CLOSURE_COMPILER = GOOGLE_CLOSURE_COMPILER
     self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "prod")
     Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
+  
+  def compile(self):
+    Compiler.compile(self)
+    self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):
     """Use the google closure compiler with specific parameters to merge all

@@ -1,4 +1,4 @@
-import shutil, os
+import shutil, os, zipfile
 
 class FileManager(object):
 

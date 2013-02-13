@@ -1,6 +1,7 @@
 import os, re, shutil, logging, json, zipfile
 import py.sed
-from py.precompile import PreCompiler
+from py.file_manager import FileManager
+from py.precompiler import PreCompiler
 
 class Compiler(FileManager, PreCompiler):
   """Default class for all the compiler it contains a lot of usefull methods
