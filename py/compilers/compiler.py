@@ -1,8 +1,8 @@
-import os, re, shutil, logging, json
+import os, re, shutil, logging, json, zipfile
 import py.sed
 from py.precompile import PreCompiler
 
-class Compiler(PreCompiler):
+class Compiler(FileManager, PreCompiler):
   """Default class for all the compiler it contains a lot of usefull methods
 
   """
@@ -222,7 +222,7 @@ class Compiler(PreCompiler):
   def removeUnpreservedFiles(self):
 
     SAVED_FILES =  [os.path.join(self._DESTINATION_PATH, lsPath) for lsPath in self._PRESERVED_FILES]
-    SAVED_DIRECTORIES = ['media']
+    DIR_TO_SAVE = ['media']
     SAVED_EXTENSIONS = ['.jpg', '.png', '.ttf']
 
     for path, dirs, files in os.walk(self._DESTINATION_PATH):
