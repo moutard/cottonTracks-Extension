@@ -3,3 +3,4 @@
 .project
 .settings/
 parameters-compress.sh
+*.pyc
