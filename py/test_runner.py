@@ -1,3 +1,4 @@
+import os
 
 def runTest():
-  print "run test"
+  os.system("google-chrome unit_tests.html")

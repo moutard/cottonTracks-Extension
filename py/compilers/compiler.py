@@ -13,13 +13,16 @@ class Compiler(FileManager, PreCompiler):
     self._DESTINATION_PATH = DESTINATION_PATH
     self._PRESERVED_FILES = []
 
+    self._dirToRemove = []
+
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
     self.compileHtml('index.html')
     self.compileHtml('background.html')
+    self.compileWorker('algo/dbscan1/worker.js')
+    self.compileWorker('algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
-    self.removeUnpreservedFiles()
 
   def compileJs(self):
     raise NotImplementedError
@@ -77,7 +80,7 @@ class Compiler(FileManager, PreCompiler):
 
   def compileWorker(self, psFile):
     lsJsOutput = "%s.min.js" % psFile.split('.')[0]
-    llJs = getImports(psFile)
+    llJs = self.getImports(psFile)
 
     # Remove files not compiled.
     self._removeJs(psFile, llJs)
@@ -237,8 +240,7 @@ class Compiler(FileManager, PreCompiler):
         # There was no sub folders and I removed all the files.
         if (i==0) and len(dirs) == 0:
           shutil.rmtree(path)
-    dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
-    for lsDir in dirToRemove:
+    for lsDir in self._dirToRemove:
       try:
         shutil.rmtree(os.path.join(self._DESTINATION_PATH, lsDir))
       except OSError:
