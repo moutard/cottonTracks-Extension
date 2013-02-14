@@ -4,19 +4,20 @@ from py.test_runner import runTest
 from py.file_manager import FileManager
 from py.precompiler import PreCompiler
 from py.compilers.prod_compiler import PRODCompiler
+from py.compilers.preprod_compiler import PREPRODCompiler
 from py.compilers.dev_compiler import DEVCompiler
 
 GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
 SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
 DESTINATION_PATH='/usr/local/rmoutard/cottontracks-beta/'
 
-GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
-SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
+#GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
+#SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
+#DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
 
 class ProjectCompiler(FileManager, PreCompiler):
 
-  def __init__(self, pbPRODMode, pbDEVMode, pbForce):
+  def __init__(self, pbPRODMode, pbPREPRODMode, pbDEVMode,  pbForce):
 
     self._SOURCE = SOURCE_PATH
     self._LIB = os.path.join(SOURCE_PATH, 'lib')
@@ -26,9 +27,15 @@ class ProjectCompiler(FileManager, PreCompiler):
     if(pbPRODMode):
       loPRODCompiler = PRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
       loPRODCompiler.compile()
+    if(pbPREPRODMode):
+      loPREPRODCompiler = PREPRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
+      loPREPRODCompiler.compile()
+      runTest()
     if(pbDEVMode):
       loDEVCompiler = DEVCompiler(SOURCE_PATH, DESTINATION_PATH)
       loDEVCompiler.compile()
+      runTest()
+
 
 
 if __name__ == '__main__':
@@ -37,10 +44,13 @@ if __name__ == '__main__':
       help='compile in DEV mode')
   parser.add_argument('--prod', dest='PROD',action='store_true',
       help='compile in PROD mode')
+  parser.add_argument('--preprod', dest='PREPROD',action='store_true',
+      help='compile in PREPROD mode')
+
   parser.add_argument('--f', dest='FORCE',action='store_true',
       help='force the compilation. do not ask permission to remove old version.')
 
   args = parser.parse_args()
-  if(not args.PROD and not args.DEV):
+  if(not args.PROD and not args.DEV and not args.PREPROD):
     parser.error('No MODE precised, please provide --dev, --prod or both')
-  ProjectCompiler(args.PROD, args.DEV, args.FORCE)
+  ProjectCompiler(args.PROD, args.DEV, args.PREPROD, args.FORCE)
