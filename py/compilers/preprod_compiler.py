@@ -1,4 +1,4 @@
-import os
+import os, re
 from py.compilers.compiler import Compiler
 
 class PREPRODCompiler(Compiler):
