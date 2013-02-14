@@ -12,27 +12,43 @@
 	<script type='text/javascript' src='lib/jquery-ui-1.10.0.custom.min.js'></script>
 	<script type='text/javascript' src='lib/underscore.min.js'></script>
 	<script type='text/javascript' src='lib/backbone.min.js'></script>
-	
+
 	<!-- Cotton -->
 	<script type='text/javascript' src='init.js'></script>
-	
+
 	<!-- Cotton.config -->
 	<script type='text/javascript' src='config/init.js'></script>
 	<script type='text/javascript' src='config/config.js'></script>
-	
+
 	<!-- Cotton.db -->
   <script type='text/javascript' src='db/init.js'></script>
   <script type='text/javascript' src='db/engine.js'></script>
   <script type='text/javascript' src='db/translator.js'></script>
+  <script type='text/javascript' src='db/translators_collection.js'></script>
   <script type='text/javascript' src='db/store.js'></script>
   <script type='text/javascript' src='db/store_indexeddb.js'></script>
   <script type='text/javascript' src='db/cache.js'></script>
+  <!-- Cotton.model -->
+  <script type='text/javascript' src='model/init.js'></script>
+  <script type='text/javascript' src='model/story.js'></script>
+  <script type='text/javascript' src='model/extracted_paragraph.js'></script>
+  <script type='text/javascript' src='model/extracted_dna.js'></script>
+  <script type='text/javascript' src='model/visit_item.js'></script>
+  <script type='text/javascript' src='model/tool.js'></script>
+  <script type='text/javascript' src='model/search_keyword.js'></script>
+  <!-- Cotton.translators -->
+  <script type='text/javascript' src='translators/init.js'></script>
+  <script type='text/javascript' src='translators/story_translators.js'></script>
+  <script type='text/javascript' src='translators/visit_item_translators.js'></script>
+  <script type='text/javascript' src='translators/search_keyword_translators.js'></script>
+
 
   <!-- QUnit for testing -->
   <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen"/>
   <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-  
+
   <!-- File with tests -->
+  <script type="text/javascript" src="test/js/translator_tests.js"></script>
   <script type="text/javascript" src="test/js/cache_tests.js"></script>
 
 </head>
