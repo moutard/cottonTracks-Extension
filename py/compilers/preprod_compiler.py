@@ -1,22 +1,30 @@
 import os
 from py.compilers.compiler import Compiler
 
-class PRODCompiler(Compiler):
+class PREPRODCompiler(Compiler):
   """Default class for all the compiler it contains a lot of usefull methods
 
   """
 
   def __init__(self, SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER):
     self._GOOGLE_CLOSURE_COMPILER = GOOGLE_CLOSURE_COMPILER
-    self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "prod")
+    self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "preprod")
     Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
 
-    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
+    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'translators', 'ui', 'utils']
+
+  def isLib(self, psFilePath):
+    """Return True if the given file is a lib.
+    Helpful if you want to know if this file should be compile, or remove etc...
+      Args:
+        -psFilePath:
+    """
+    return True if re.search("lib/", psFilePath) or re.search("test/", psFilePath) else False
 
   def compile(self):
     Compiler.compile(self)
+    self.compileHtml('unit_tests.html')
     self.removeUnpreservedFiles()
-    self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):
     """Use the google closure compiler with specific parameters to merge all
