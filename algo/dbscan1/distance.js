@@ -43,7 +43,7 @@ Cotton.Algo.Distance.distanceVisitTime = function(oVisitItem1, oVisitItem2) {
  * @returns {float}
  */
 Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
-  return Math.abs(oObject1.sKey - oObject2.sKey);
+  return Math.abs(oObject1[sKey] - oObject2[sKey]);
 };
 
 /**
