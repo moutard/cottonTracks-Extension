@@ -10,12 +10,8 @@ Cotton.DB.Cache = Class.extend({
       dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
     });
 
-    this._oEngine = new Cotton.DB.Engine(
-        sDatabaseName,
-        dIndexesForObjectStoreNames,
-        function() {
-          mOnReadyCallback.call(self);
-    });
+    // TODO(rmoutard) : create an engine for localStorage.
+    this._oEngine = null;
   },
   get : function(){
     return JSON.parse(localStorage.getItem('ct-stories-cache'));

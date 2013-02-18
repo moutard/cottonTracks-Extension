@@ -41,6 +41,14 @@
   <script type='text/javascript' src='translators/story_translators.js'></script>
   <script type='text/javascript' src='translators/visit_item_translators.js'></script>
   <script type='text/javascript' src='translators/search_keyword_translators.js'></script>
+  <!-- Cotton.algo -->
+  <script type='text/javascript' src='algo/init.js'></script>
+  <script type='text/javascript' src='algo/common/init.js'></script>
+  <script type='text/javascript' src='algo/common/tools.js'></script>
+  <script type='text/javascript' src='algo/common/cluster_story.js'></script>
+  <script type='text/javascript' src='algo/dbscan1/distance.js'></script>
+  <script type='text/javascript' src='algo/dbscan1/dbscan.js'></script>
+
 
 
   <!-- QUnit for testing -->
@@ -48,8 +56,10 @@
   <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
 
   <!-- File with tests -->
-  <script type="text/javascript" src="test/js/translator_tests.js"></script>
-  <script type="text/javascript" src="test/js/cache_tests.js"></script>
+  <script type="text/javascript" src="test/js/db/translator_tests.js"></script>
+  <script type="text/javascript" src="test/js/db/cache_tests.js"></script>
+  <script type="text/javascript" src="test/js/algo/common/tools_tests.js"></script>
+  <script type="text/javascript" src="test/js/algo/dbscan1/distance_tests.js"></script>
 
 </head>
 <body>
