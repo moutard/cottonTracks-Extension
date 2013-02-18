@@ -47,10 +47,10 @@ if __name__ == '__main__':
   parser.add_argument('--preprod', dest='PREPROD',action='store_true',
       help='compile in PREPROD mode')
 
-  parser.add_argument('--f', dest='FORCE',action='store_true',
+  parser.add_argument('-f', '--force', dest='FORCE',action='store_true',
       help='force the compilation. do not ask permission to remove old version.')
 
   args = parser.parse_args()
   if(not args.PROD and not args.DEV and not args.PREPROD):
     parser.error('No MODE precised, please provide --dev, --prod or both')
-  ProjectCompiler(args.PROD, args.DEV, args.PREPROD, args.FORCE)
+  ProjectCompiler(args.PROD, args.PREPROD, args.DEV, args.FORCE)
