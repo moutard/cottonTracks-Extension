@@ -68,3 +68,18 @@ Cotton.Algo.Tools.commonWords = function(oVisitItem1, oVisitItem2) {
                           oVisitItem2['lExtractedWords']).length;
 };
 
+/**
+ * Get the number of common words in the title of two visitItems.
+ *
+ * @param {Object}
+ *          oVisitItem1 : pre_treatment computeExtractedWords is needed
+ * @param {Object}
+ *          oVisitItem2 : pre_treatment computeExtractedWords is needed
+ * @returns {int}
+ */
+Cotton.Algo.Tools.commonQueryWords = function(oVisitItem1, oVisitItem2) {
+
+    return _.intersection(oVisitItem1['lQueryWords'],
+                          oVisitItem2['lQueryWords']).length;
+};
+
