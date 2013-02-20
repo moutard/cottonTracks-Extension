@@ -51,8 +51,8 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
  *  - 0 all the possible words are common.
  *  - 1 if they are all different.
  *
- * @param : {Cotton.Model.VisitItem} : oVisitItem1
- * @param : {Cotton.Model.VisitItem} : oVisitItem2
+ * @param : {Object} dictionnary or json: oVisitItem1
+ * @param : {Object} dictionnayr or json : oVisitItem2
  */
 Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
 
@@ -74,8 +74,8 @@ Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
  *  - 0 all the possible words are common.
  *  - 1 if they are all different.
  *
- * @param : {Cotton.Model.VisitItem} : oVisitItem1
- * @param : {Cotton.Model.VisitItem} : oVisitItem2
+ * @param : {Object} dictionnary or json : oVisitItem1
+ * @param : {Object} dictionnary or json : oVisitItem2
  */
 Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
@@ -100,8 +100,8 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
  *   - 0 is good
  *   - 1 is bad
  *
- * @param : {Cotton.Model.VisitItem} : oVisitItem1
- * @param : {Cotton.Model.VisitItem} : oVisitItem2
+ * @param : {Object} dictionnary or json : oVisitItem1
+ * @param : {Object} dictionnary or json : oVisitItem2
  */
 Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
   var iCoeff = 0.5;
@@ -109,7 +109,15 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
     (1 - iCoeff) * Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem2);
 };
 
+/**
+ * Compute a distance between a visitItem and a storyItem
+ *
+ * @param : {Object} dictionnary or json : oVisitItem
+ * @param : {Object} dictionnary or json : oStoryItem
+ */
+Cotton.Algo.Distance.fromStory = function(oVisitItem, oStoryItem){
 
+};
 
 /**
  * Compute distance that use every criteria.
