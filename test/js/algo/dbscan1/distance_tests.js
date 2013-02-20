@@ -1,11 +1,11 @@
 'use strict';
 var oVisitItem1 = {
   lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
-  lQueryWords : ['alice', 'wonderland', 'film'],
+  lQueryWords : ['alice', 'wonderland', 'film', 'telerama'],
 };
 
 var oVisitItem2 = {
-  lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll'],
+  lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
   lQueryWords : ['alice', 'wonderland', 'novel'],
 };
 
@@ -33,7 +33,7 @@ test("Cotton.Algo.Distance - distance meaning for the same value.", function() {
 });
 
 test("Cotton.Algo.Distance - distance meaning.", function() {
-  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 1);
-  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItem1), 1);
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 4);
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItem1), 4);
 });
 
