@@ -64,24 +64,23 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
   var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
 
   // A is the max possible common words between two visit items.
-  var A = Math.max(1, Math.min(oVisitItem1['lExtractedWords'].length,
-                   oVisitItem2['lExtractedWords'].length));
-  // To avoid using Math.pow that I suspect to be slow.
-  A = A*A;
+  var iMaxCommonWords = Math.min(oVisitItem1['lExtractedWords'].length,
+    oVisitItem2['lExtractedWords'].length);
 
-  // TODO(rmoutard) : compare with penalty
-  sum += coeff.commonWords *
-    (((1 + A) / A) * (1 / (1 + Math.pow(iCommonWords, 2))) - (1 / A));
+  // TODO(rmoutard) : is this happens often ? if not remove.
+  if(iMaxCommonWords == 0){
+    sum = 4; // penalty because we can't compare them.
+  } else {
+    sum = iMaxCommonWords - iCommonWords;
+  }
 
   // QueryWords
   var iCommonQueryWords = Cotton.Algo.distanceBetweenGeneratedPages(oVisitItem1,
                                                                     oVisitItem2);
-  var B = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
-                   oVisitItem2['lQueryWords'].length));
-  B = B * B;
-  sum += coeff.queryWords *
-    (((1 + B) / B) * (1 / (1 + Math.pow(iCommonQueryWords, 2))) - (1 / B));
 
+  var iMaxCommonQueryWords = Math.min(oVisitItem1['lQueryWords'].length,
+    oVisitItem2['lQueryWords'].length);
+  sum += iMaxCommonQueryWords - iCommonQueryWords;
   return sum;
 };
 
