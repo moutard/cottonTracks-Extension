@@ -6,14 +6,7 @@ from py.precompiler import PreCompiler
 from py.compilers.prod_compiler import PRODCompiler
 from py.compilers.preprod_compiler import PREPRODCompiler
 from py.compilers.dev_compiler import DEVCompiler
-
-GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
-SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
-DESTINATION_PATH='/usr/local/rmoutard/cottontracks-beta/'
-
-#GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
-#SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
-#DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
+from py.parameters import *
 
 class ProjectCompiler(FileManager, PreCompiler):
 
