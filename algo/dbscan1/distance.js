@@ -54,11 +54,7 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
  * @param {Object}
  *          oVisitItem : need generatedPage computed.
  */
-Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
-
-  // In this version, coeff.queryWords + coeff.commonWords = 1
-  var coeff = Cotton.Config.Parameters.distanceCoeff;
-  var sum = 0;
+Cotton.Algo.Distance.commonWords = function(oVisitItem1, oVisitItem2) {
 
   // ExtractedWords
   var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
@@ -68,21 +64,23 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
     oVisitItem2['lExtractedWords'].length);
 
   // TODO(rmoutard) : is this happens often ? if not remove.
-  if(iMaxCommonWords == 0){
-    sum = 4; // penalty because we can't compare them.
-  } else {
-    sum = iMaxCommonWords - iCommonWords;
-  }
+  iMaxCommonWords = Math.max(1, iMaxCommonWords);
+  return 1 - (iCommonWords / iMaxCommonWords);
+
+};
+
+Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
   // QueryWords
 
   var iCommonQueryWords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
       oVisitItem2);
 
-  var iMaxCommonQueryWords = Math.min(oVisitItem1['lQueryWords'].length,
-    oVisitItem2['lQueryWords'].length);
-  sum += iMaxCommonQueryWords - iCommonQueryWords;
-  return sum;
+  var iMaxCommonQueryWords = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
+    oVisitItem2['lQueryWords'].length));
+
+  return 1 - (iCommonQueryWords / iMaxCommonQueryWords);
+
 };
 
 /**
