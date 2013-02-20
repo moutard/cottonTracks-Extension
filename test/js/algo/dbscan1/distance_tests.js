@@ -10,6 +10,11 @@ var oVisitItem2 = {
 };
 
 var oVisitItem3 = {
+  lExtractedWords : ['singapor', 'madrid', 'paris'],
+  lQueryWords : ['capital', 'country'],
+};
+
+var oVisitItemNull = {
   lExtractedWords : [],
   lQueryWords : [],
 };
@@ -41,12 +46,14 @@ test("Cotton.Algo.Distance - distance meaning for the same value.", function() {
 test("Cotton.Algo.Distance - distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItem2), 1 - 2/5);
   deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem2, oVisitItem1), 1 - 2/5);
+  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem2, oVisitItem3), 1);
+  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItem3), 1);
 });
 
 test("Cotton.Algo.Distance - distance meaning.", function() {
-  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItem3), 1);
-  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem2, oVisitItem3), 1);
-  deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem3), 1);
-  deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem3), 1);
+  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItemNull), 1);
+  deepEqual(Cotton.Algo.Distance.commonWords(oVisitItem2, oVisitItemNull), 1);
+  deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItemNull), 1);
+  deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItemNull), 1);
 });
 

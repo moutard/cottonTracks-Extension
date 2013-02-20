@@ -47,12 +47,10 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
 };
 
 /**
- * Compute a distance, but only use the meaning. - title - url - queryKeywords
+ * Compute a distance with extracted words. Between 0 to 1.
+ * 0 all the possible words are common.
+ * 1 if they are all different.
  *
- * @param {Object}
- *          oVisitItem : need generatedPage computed.
- * @param {Object}
- *          oVisitItem : need generatedPage computed.
  */
 Cotton.Algo.Distance.commonWords = function(oVisitItem1, oVisitItem2) {
 
@@ -83,6 +81,7 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
 };
 
+Cot
 /**
  * Compute distance that use every criteria.
  */
