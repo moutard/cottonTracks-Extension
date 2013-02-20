@@ -52,7 +52,7 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
 };
 
 /**
- * Get the number of common words in the title of two visitItems.
+ * Get the number of common extracted words in the title of two visitItems.
  *
  * @param {Object}
  *          oVisitItem1 : pre_treatment computeExtractedWords is needed
@@ -60,7 +60,7 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
  *          oVisitItem2 : pre_treatment computeExtractedWords is needed
  * @returns {int}
  */
-Cotton.Algo.Tools.commonWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Tools.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
 
     return _.intersection(oVisitItem1['lExtractedWords'],
                           oVisitItem2['lExtractedWords']).length;

@@ -47,15 +47,17 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
 };
 
 /**
- * Compute a distance with extracted words. Between 0 to 1.
- * 0 all the possible words are common.
- * 1 if they are all different.
+ * Compute a distance with extracted words. In the range [0 - 1].
+ *  - 0 all the possible words are common.
+ *  - 1 if they are all different.
  *
+ * @param : {Cotton.Model.VisitItem} : oVisitItem1
+ * @param : {Cotton.Model.VisitItem} : oVisitItem2
  */
-Cotton.Algo.Distance.commonWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
 
   // ExtractedWords
-  var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
+  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oVisitItem1, oVisitItem2);
 
   // A is the max possible common words between two visit items.
   var iMaxCommonWords = Math.min(oVisitItem1['lExtractedWords'].length,
@@ -67,6 +69,14 @@ Cotton.Algo.Distance.commonWords = function(oVisitItem1, oVisitItem2) {
 
 };
 
+/**
+ * Compute a distance with extracted query words. In the range [0 - 1].
+ *  - 0 all the possible words are common.
+ *  - 1 if they are all different.
+ *
+ * @param : {Cotton.Model.VisitItem} : oVisitItem1
+ * @param : {Cotton.Model.VisitItem} : oVisitItem2
+ */
 Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
   // QueryWords
@@ -81,11 +91,25 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
 };
 
+/**
+ * Compute a distance with :
+ *  - extracted words
+ *  - query words.
+ *
+ *  In the range [0 - 1].
+ *   - 0 is good
+ *   - 1 is bad
+ *
+ * @param : {Cotton.Model.VisitItem} : oVisitItem1
+ * @param : {Cotton.Model.VisitItem} : oVisitItem2
+ */
 Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
   var iCoeff = 0.5;
   return iCoeff * Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem2) +
-    (1 - iCoeff) * Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItem2);
+    (1 - iCoeff) * Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem2);
 };
+
+
 
 /**
  * Compute distance that use every criteria.
@@ -116,7 +140,7 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   // close if 0(1) far if 0.
-  var iCommonWords = Cotton.Algo.Tools.commonWords(oVisitItem1, oVisitItem2);
+  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oVisitItem1, oVisitItem2);
   if (iCommonWords === 0) {
     // Try to detect parallel stories.
     sum += coeff.penalty;
