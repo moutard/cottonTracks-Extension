@@ -4,6 +4,18 @@
  */
 Cotton.Algo.Tools = {};
 
+Cotton.Algo.Tools.Filter = function(lWords){
+   // Lower case to compare correctly.
+  for ( var i = 0; i < lWords.length; i++) {
+    lWords[i] = lWords[i].toLowerCase();
+  }
+  lWords = _.filter(lWords, function(sWord) {
+    return sWord.length > 2;
+  });
+  return lWords;
+
+};
+
 /**
  * Extract words in a title.
  *
@@ -11,7 +23,7 @@ Cotton.Algo.Tools = {};
  *          sTitle
  * @returns {Array.<string>}
  */
-Cotton.Algo.Tools.extractWords = function(sTitle) {
+Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   // We cannot use the \b boundary symbol in the regex because accented
   // characters would not be considered (not art of \w).
   // Include all normal characters, dash, accented characters.
@@ -19,37 +31,23 @@ Cotton.Algo.Tools.extractWords = function(sTitle) {
   var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
   var lMatches = sTitle.match(oRegexp) || [];
 
-  // Lower case to compare correctly.
-  for ( var i = 0; i < lMatches.length; i++) {
-    lMatches[i] = lMatches[i].toLowerCase();
-  }
-  lMatches = _.filter(lMatches, function(sWord) {
-    return sWord.length > 2;
-  });
-  return lMatches;
+  return Cotton.Algo.Tools.Filter(lMatches);
+
 };
 
 /**
- * Extract words in an url.
+ * Extract words in an url pathname (ie only the end of the url there is
+ * often the title of the article in it).
  *
  * @param {string}
  *          sUrl
  * @returns {Array.<string>}
  */
-Cotton.Algo.Tools.extractWordsUrl = function(sUrl) {
-  // For the moment exactly the same than extractWords. But just in case we
-  // will keep two different functions.
-  var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var lMatches = sUrl.match(oRegexp) || [];
+Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
+  var oRegexp = /[\_|\-|\/]/g
+  var lMatches = sUrlPathname.split(oRegexp) || [];
 
-  // Lower case to compare correctly.
-  for ( var i = 0; i < lMatches.length; i++) {
-    lMatches[i] = lMatches[i].toLowerCase();
-  }
-  lMatches = _.filter(lMatches, function(sWord) {
-    return sWord.length > 2;
-  });
-  return lMatches;
+  return Cotton.Algo.Tools.Filter(lMatches);
 
 };
 
