@@ -81,7 +81,12 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
 };
 
-Cot
+Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
+  var iCoeff = 0.5;
+  return iCoeff * Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem2) +
+    (1 - iCoeff) * Cotton.Algo.Distance.commonWords(oVisitItem1, oVisitItem2);
+};
+
 /**
  * Compute distance that use every criteria.
  */

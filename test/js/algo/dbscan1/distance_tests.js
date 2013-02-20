@@ -57,3 +57,9 @@ test("Cotton.Algo.Distance - distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItemNull), 1);
 });
 
+test("Cotton.Algo.Distance - distance meaning.", function() {
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem1), 0);
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 0.4666666666666667);
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItemNull), 1);
+});
+
