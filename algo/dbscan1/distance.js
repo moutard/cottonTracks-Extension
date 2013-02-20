@@ -75,8 +75,9 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
   }
 
   // QueryWords
-  var iCommonQueryWords = Cotton.Algo.distanceBetweenGeneratedPages(oVisitItem1,
-                                                                    oVisitItem2);
+
+  var iCommonQueryWords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
+      oVisitItem2);
 
   var iMaxCommonQueryWords = Math.min(oVisitItem1['lQueryWords'].length,
     oVisitItem2['lQueryWords'].length);
@@ -124,26 +125,9 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   }
 
   // Query keywords
-  var iCommonQueryKeywords = Cotton.Algo.distanceBetweenGeneratedPages(
-      oVisitItem1, oVisitItem2);
+  var iCommonQueryKeywords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
+      oVisitItem2);
   sum += (coeff.queryKeywords / ((1 + iCommonQueryKeywords) * (1 + iCommonQueryKeywords)));
 
   return sum;
-};
-
-/**
- * Compute the distance between two generated pages (search page Google)
- *
- * @param {Object}
- *          oVisitItem1
- * @param {Object}
- *          oVisitItem2 : need pretreatment.
- * @returns {int} number of common queryKeymords.
- */
-Cotton.Algo.distanceBetweenGeneratedPages = function(oVisitItem1, oVisitItem2) {
-
-  var lQueryWords1 = oVisitItem1['lQueryWords'];
-  var lQueryWords2 = oVisitItem2['lQueryWords'];
-
-  return _.intersection(lQueryWords1, lQueryWords2).length;
 };

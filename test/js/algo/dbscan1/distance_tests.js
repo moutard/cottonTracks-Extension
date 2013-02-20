@@ -9,6 +9,11 @@ var oVisitItem2 = {
   lQueryWords : ['alice', 'wonderland', 'novel'],
 };
 
+var oVisitItem3 = {
+  lExtractedWords : [],
+  lQueryWords : [],
+};
+
 
 module(
     "Cotton.Algo.Distance",
@@ -35,5 +40,10 @@ test("Cotton.Algo.Distance - distance meaning for the same value.", function() {
 test("Cotton.Algo.Distance - distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 4);
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItem1), 4);
+});
+
+test("Cotton.Algo.Distance - distance meaning.", function() {
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem3), 4);
+  deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItem3), 4);
 });
 
