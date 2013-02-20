@@ -19,6 +19,15 @@ var oVisitItemNull = {
   lQueryWords : [],
 };
 
+var oStoryItem = {
+  fLastVisitTime: 1353577650178.608,
+  fRelevance: null,
+  id: 1,
+  lTags : ['alice', 'in', 'wonderland', 'the', 'movie'],
+  lVisitItemsId : [1, 2, 3, 4],
+  sFeaturedImage : "",
+  sTitle : 'Alice in Wonderland'
+}
 
 module(
     "Cotton.Algo.Distance",
@@ -61,5 +70,10 @@ test("Cotton.Algo.Distance - distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem1), 0);
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 0.4666666666666667);
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItemNull), 1);
+});
+
+test("Cotton.Algo.Distance - distance fromStory.", function() {
+  deepEqual(Cotton.Algo.Distance.fromStory(oVisitItem1, oStoryItem), 0.4);
+  deepEqual(Cotton.Algo.Distance.fromStory(oVisitItem2, oStoryItem), 0.6);
 });
 

@@ -116,6 +116,14 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
  * @param : {Object} dictionnary or json : oStoryItem
  */
 Cotton.Algo.Distance.fromStory = function(oVisitItem, oStoryItem){
+  var lUnionWords = _.union(oVisitItem['lQueryWords'],
+      oVisitItem['lExtractedWords']);
+
+  var iCommonWords = _.intersection(lUnionWords , oStoryItem['lTags']).length;
+  var iMaxCommonWords = Math.max(1, Math.min(lUnionWords.length,
+    oStoryItem['lTags'].length));
+
+  return 1 - (iCommonWords / iMaxCommonWords);
 
 };
 
