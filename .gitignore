@@ -2,5 +2,5 @@
 # rmoutard
 .project
 .settings/
-parameters-compress.sh
 *.pyc
+py/parameters.py
