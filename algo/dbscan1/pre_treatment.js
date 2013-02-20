@@ -41,8 +41,8 @@ Cotton.Algo.PreTreatment.computeExtractedWords = function(lVisitItems) {
 
   for ( var i = 0; i < lVisitItems.length; i++) {
     lVisitItems[i]['lExtractedWords'] = [].concat(
-        Cotton.Algo.Tools.extractWords(lVisitItems[i]['sTitle']),
-        Cotton.Algo.Tools.extractWordsUrl(lVisitItems[i]['oUrl']['pathname'])
+        Cotton.Algo.Tools.extractWordsFromTitle(lVisitItems[i]['sTitle']),
+        Cotton.Algo.Tools.extractWordsFromUrlPathname(lVisitItems[i]['oUrl']['pathname'])
         );
   }
   return lVisitItems;
