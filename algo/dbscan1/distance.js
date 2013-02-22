@@ -76,10 +76,8 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2) {
   // QueryWords
   var iCommonQueryWords = Cotton.Algo.distanceBetweenGeneratedPages(oVisitItem1,
                                                                     oVisitItem2);
-  console.log(iCommonQueryWords)
   var B = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
                    oVisitItem2['lQueryWords'].length));
-  console.log(B);
   B = B * B;
   sum += coeff.queryWords *
     (((1 + B) / B) * (1 / (1 + Math.pow(iCommonQueryWords, 2))) - (1 / B));
