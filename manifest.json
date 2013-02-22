@@ -12,9 +12,6 @@
   "homepage_url": "http://www.cottontracks.com",
   "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management", "topSites", "https://kippt.com/"],
   "background": {"page" : "background.html", "persistent": false},
-  "chrome_url_overrides" : {
-    "newtab": "index.html"
-  },
   "content_scripts": [
     {
       "matches": [ "http://*/*",
