@@ -69,7 +69,7 @@ Cotton.DB.Engine = Class.extend({
 
       // FIXME !!
       // TODO(rmoutard) this part create a problem.
-      if (lExistingObjectStoreNames.lenght > 0) {
+      if (lExistingObjectStoreNames.length > 0) {
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
         _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
           var lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
