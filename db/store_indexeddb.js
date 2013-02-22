@@ -4,13 +4,7 @@ Cotton.DB.StoreIndexedDB = Cotton.DB.Store.extend({
 
   init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
     var self = this;
-    var oEngine = new Cotton.DB.Engine(
-        sDatabaseName,
-        dIndexesForObjectStoreNames,
-        function() {
-          mOnReadyCallback.call(self);
-    });
-    self._super(sDatabaseName, dTranslators, oEngine, mOnReadyCallback);
+    self._super(sDatabaseName, dTranslators, mOnReadyCallback);
 
   },
 

@@ -27,6 +27,7 @@
 <script type='text/javascript' src='db/engine.js'></script>
 <script type='text/javascript' src='db/translator.js'></script>
 <script type='text/javascript' src='db/store.js'></script>
+<script type='text/javascript' src='db/store_indexeddb.js'></script>
 
 <!-- Cotton.model -->
 <script type='text/javascript' src='model/init.js'></script>
@@ -57,7 +58,7 @@
 to chrome security policy, inline script won't be executed.
 http://code.google.com/chrome/extensions/beta/contentSecurityPolicy.html
 -->
-<script src="messaging/content_script_listener.js"></script>
-<script src="controller/first_launch.js"></script>
+<script src="controller/init.js"></script>
+<script src="controller/background.js"></script>
 </head>
 </html>
