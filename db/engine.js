@@ -166,7 +166,6 @@ Cotton.DB.Engine = Class.extend({
     
     oRequest.onsuccess = function(oEvent) {
       var oDb = self._oDb = oEvent.target.result;
-      if (oDb.version !== iCurrentDbVersion){
         var bHasMissingObjectStore = false;
         var bHasMissingIndexKey = false;
 
@@ -215,6 +214,7 @@ Cotton.DB.Engine = Class.extend({
         }
 
         if (bHasMissingObjectStore || bHasMissingIndexKey) {
+          if (oDb.version !== iCurrentDbVersion){
           console.log("A setVersion is needed");
           var iNewVersion = parseInt(oDb.version) + 1;
 
@@ -290,12 +290,12 @@ Cotton.DB.Engine = Class.extend({
 
             throw "SetVersionRequest blocked";
           };
+          }
         } else {
           // The database is already up to date, so we are ready.
           console.log("The database is already up to date");
           mOnReadyCallback.call(self);
         }
-      }
     };
 
     oRequest.onerror = function(oEvent){
