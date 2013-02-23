@@ -50,6 +50,14 @@ Cotton.Controllers.Background = Class.extend({
             // pass
           }
     });
+    
+    chrome.browserAction.onClicked.addListener(function(tab) {
+      chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
+        chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'}, function(){
+        });
+        // TODO(rkorach) : delete ct page from history
+      });
+    });
   },
 
   /**
