@@ -119,7 +119,7 @@ Cotton.Controllers.Background = Class.extend({
         }
         DEBUG && console.debug(lAllVisitDict);
         self._wDBSCAN3.postMessage(lAllVisitDict);
-        });
+      });
     });
 
   },
@@ -131,7 +131,7 @@ Cotton.Controllers.Background = Class.extend({
    * If something is needed. But nothing for the moment.
    */
   update : function(){
-    DEBUG && console.debug("udapte");
+    DEBUG && console.debug("update");
   },
 });
 
