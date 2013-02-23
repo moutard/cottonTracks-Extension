@@ -12,6 +12,13 @@
   "homepage_url": "http://www.cottontracks.com",
   "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management", "topSites", "https://kippt.com/"],
   "background": {"page" : "background.html", "persistent": false},
+  "browser_action": {
+    "default_icon": {
+      "19": "media/images/browser_action/icon19.png",
+      "38": "media/images/browser_action/icon38.png"
+    },
+    "default_title": "cottonTracks"
+  },
   "content_scripts": [
     {
       "matches": [ "http://*/*",
