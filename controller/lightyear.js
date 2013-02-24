@@ -14,7 +14,7 @@ Cotton.Controllers.Lightyear = Class.extend({
    * the database. So it Contains 'visitItems' and 'stories'.
    */
   _oStore : null,
-  
+    
   /**
    * @constructor
    */
@@ -22,13 +22,19 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     var self = this;
     LOG && console.log("Controller - init -");
-    
+      
     self._oStore = new Cotton.DB.StoreIndexedDB('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory) {
         DEBUG && console.debug(oLastStory);
+        DEBUG && console.debug(oLastStory.id());
+        self._oStore.findGroup('visitItems', 'id', oLastStory.visitItemsId(), function(lVisitItems) {
+          });
+		  DEBUG && console.debug(lVisitItems);
+		  DEBUG && console.debug(lVisitItems[0].storyId());
+		});
         return oLastStory;
       });
     });
