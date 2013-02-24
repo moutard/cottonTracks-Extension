@@ -3,16 +3,23 @@
 /**
  * Item Description Contains title and first paragraph
  */
-Cotton.UI.Story.Item.Description = Class
+Cotton.UI.Story.Item.Info = Class
     .extend({
 
       _oItemContent : null,
 
-      _$item_description : null,
+			_$itemInfo : null,
+			_$info : null,
 
       _$title : null,
-      _$first_paragraph : null,
+		  _$date : null,
       _$quote : null,
+			_iQuoteNumber : null,
+
+			_$itemLabel : null,			
+			_$website : null,
+			_$favicon : null,
+			_$url : null,
 
       init : function(oItemContent) {
         var self = this;
@@ -21,13 +28,26 @@ Cotton.UI.Story.Item.Description = Class
         this._oItemContent = oItemContent;
 
         // current item.
-        this._$item_description = $('<div class="ct-item_description"></div>');
-
+        this._$itemInfo = $('<div class="ct-item_info"></div>');
+				this._$info = $('<div class="info"></div>');
+				
         // current sub elements
         this._$title = $('<h3></h3>');
-        this._$first_paragraph = $('<p></p>');
-        this._$first_paragraph = $('<p class="ct-quote"></p>');
 
+        this._iQuoteNumber =  this._oItemContent.item().visitItem().extractedDNA().highlightedText().length;
+        
+        if(this._iQuoteNumber > 0){
+          this._$quote = $('<div class="ct-quote"><img src="media/images/quote.png"/><h4>' + self._iQuoteNUmber +' Quotes</h4></div>');
+        } else {
+          this._$quote = $('<div></div>');
+      	}
+		    this._$history_reference = $('<div class="ct-history_reference"><img src="media/images/story/item/date_clock.png"/></div>');
+		    this._$date = $('<h4 class="ct-date"></h4>');
+		    this._$itemLabel = $('<div class="ct-label-small"></div>');
+				this._$website = $('<div class="website"></div>'); 
+				this._$favicon = $('<img class="favicon">');
+				this._$url = $('<div class="url"></div>');
+				
         // set values
 
         // Title
@@ -43,26 +63,34 @@ Cotton.UI.Story.Item.Description = Class
             });
           });
         }
-        // First Paragraph
-        if (this._oItemContent._oItem._oVisitItem.extractedDNA()
-            .firstParagraph() !== "") {
-          this._$first_paragraph.text(this._oItemContent._oItem._oVisitItem
-              .extractedDNA().firstParagraph());
-        } else {
-          this._$first_paragraph = null;
-        }
 
+				// date
+		    var oDate = new Date(this._oItemContent._oItem._oVisitItem.visitTime());
+		    var lDate = oDate.toDateString().split(" ");
+		    this._$date.text(lDate[2] + " " + lDate[1]);
+		
+        // label
+
+		
         // construct item
-        this._$item_description.append(this._$title, this._$first_paragraph);
+        this._$itemInfo.append(
+				  self._$title,
+	        this._$info.append(
+					  self._$history_reference.append(self._$date),
+					  self._$quote
+					),
+          self._$itemLabel.append(
+	  			  self._$website.append(
+		  			  self._$favicon,
+			  		  self._$url
+				  	)
+				  )
+				);
 
-        // event tracking
-        this._$title.click(function() {
-          Cotton.ANALYTICS.clickItemTitle();
-        });
       },
 
       $ : function() {
-        return this._$item_description;
+        return this._$itemInfo;
       },
 
       appendTo : function(oItemContent) {

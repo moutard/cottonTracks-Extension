@@ -7,16 +7,16 @@ Cotton.UI.StoryContainer = Class.extend({
    */
   _oStore : null,
   
-  _$story_container : null,
+  _$storyContainer : null,
   
   init: function(){
 	  var self = this;
-  	this._$story_container = $('.ct-story_container');
+  	this._$storyContainer = $('.ct-story_container');
 		this.buildStory();
   },
   
   container: function() {
-    return this._$container;
+    return this._$storyContainer;
   },
 
   buildStory: function() {
@@ -25,11 +25,10 @@ Cotton.UI.StoryContainer = Class.extend({
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory) {
-        DEBUG && console.debug(oLastStory);
-        DEBUG && console.debug(oLastStory.id());
         self._oStore.findGroup('visitItems', 'id', oLastStory.visitItemsId(), function(lVisitItems) {
-		      DEBUG && console.debug(lVisitItems);
-		  		DEBUG && console.debug(lVisitItems[0].storyId());
+		      _.each(lVisitItems,function(oVisitItem){
+						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
+					});
 				});
       });
     });
