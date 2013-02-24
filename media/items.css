@@ -96,7 +96,7 @@ a:visited{
 }
 
 /*DBSCAN Element*/
-.ct-item-dbscan1{
+.ct-item-default{
 	width: 360px;
 	height: 150px;
 	position: relative;
@@ -145,7 +145,7 @@ a:visited{
 	-webkit-transition-delay: 0.2s;
 }
 
-.ct-item-dbscan1:hover .ct-label-small-menu{
+.ct-item-default:hover .ct-label-small-menu{
 	bottom: 0;
 }
 
@@ -160,7 +160,7 @@ a:visited{
 	margin-bottom: 8px;
 	cursor: pointer;
 }
-/*end dbscan1*/
+/*end default*/
 
 .ct-label-large .website span{
 /*video, images*/
@@ -199,18 +199,6 @@ a:visited{
 	padding-top: 17px;
 }
 
-/*article*/
-.ct-item-article{
-  	width: 360px;
-	height: 150px;
-	position: relative; 
-	overflow: hidden;
-}
-
-.ct-item-article:hover .ct-label-menu{
-	bottom: 0;
-}
-
 .ct-item_info{
 	position: relative;
 	padding: 10px;
@@ -220,13 +208,13 @@ a:visited{
 }
 
 .ct-featured_image{
+  /*if featured image in a default element*/
 	float: left;
 	position: relative;
 	z-index: 1;
 	width: 150px;
 	height: 150px;
 }
-/*end article*/
 
 /*search*/
 .ct-item-search{
