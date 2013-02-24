@@ -59,18 +59,6 @@ Cotton.UI.Story.Item.Toolbox = Class.extend({
     this._$edit_button.mouseup(function() {
       self._oContentItem.editable();
     });
-    // Qtip library is used to display an help bubble on hover.
-    this._$edit_button.qtip({
-      content : 'Edit this item',
-      position : {
-        my : 'top left',
-        at : 'bottom right'
-      },
-      style : {
-        tip : true,
-        classes : 'ui-tooltip-yellow'
-      }
-    });
 
     this._$lock_button
         .append('<img src="/media/images/story/item/history_favicon.png">');

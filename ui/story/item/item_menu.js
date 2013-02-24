@@ -3,16 +3,18 @@
 /**
  * Item Description Contains title and first paragraph
  */
-Cotton.UI.Story.Item.Description = Class
+Cotton.UI.Story.Item.Menu = Class
     .extend({
 
       _oItemContent : null,
 
-      _$item_description : null,
+			_$itemInfo : null,
+      _$itemMenu : null,
 
-      _$title : null,
-      _$first_paragraph : null,
-      _$quote : null,
+			_$remove : null,
+  		_$openLink : null,
+  		_$open : null,
+	  	_$expand : null,
 
       init : function(oItemContent) {
         var self = this;
@@ -20,49 +22,37 @@ Cotton.UI.Story.Item.Description = Class
         // current parent element.
         this._oItemContent = oItemContent;
 
-        // current item.
-        this._$item_description = $('<div class="ct-item_description"></div>');
+        // parent DOM element (in info).
+        this._$itemInfo = this._oItemContent.itemInfo().$();
 
+       // current item
+        this._$itemMenu = $('<div class="ct-label-small-menu"></div>');
+				
         // current sub elements
-        this._$title = $('<h3></h3>');
-        this._$first_paragraph = $('<p></p>');
-        this._$first_paragraph = $('<p class="ct-quote"></p>');
-
+		    this._$remove = $('<p>Remove</p>');
+		    this._$openLink = $('<a href=""></a>');
+		    this._$open = $('<p>Open</p>');
+		    this._$expand = $('<p>Expand</p>');
+		
         // set values
 
-        // Title
-        if (this._oItemContent._oItem._oVisitItem.title() !== "") {
-          //var $title_link = $('<a></a>');
-          //$title_link.attr("href", this._oItemContent._oItem._oVisitItem.url());
-          //$title_link.text(this._oItemContent._oItem._oVisitItem.title());
-
-          this._$title.text(this._oItemContent._oItem._oVisitItem.title()).click(function(){
-            chrome.tabs.create({
-              'url': self._oItemContent._oItem._oVisitItem.url(),
-              'selected': true
-            });
-          });
-        }
-        // First Paragraph
-        if (this._oItemContent._oItem._oVisitItem.extractedDNA()
-            .firstParagraph() !== "") {
-          this._$first_paragraph.text(this._oItemContent._oItem._oVisitItem
-              .extractedDNA().firstParagraph());
-        } else {
-          this._$first_paragraph = null;
-        }
-
+		    // Link
+				// url
+		    var sUrl = this._oItemContent.item().visitItem().url();
+		    self._$openLink.attr('href',sUrl);
+		
         // construct item
-        this._$item_description.append(this._$title, this._$first_paragraph);
-
-        // event tracking
-        this._$title.click(function() {
-          Cotton.ANALYTICS.clickItemTitle();
-        });
+        self._$itemInfo.append(
+          self._$itemMenu.append(
+	  			  self._$remove,
+		  		  self._$openLink.append(self._$open),
+			  	  self._$expand
+  				)
+        );
       },
 
       $ : function() {
-        return this._$item_description;
+        return this._$item_menu;
       },
 
       appendTo : function(oItemContent) {

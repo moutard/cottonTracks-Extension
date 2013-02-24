@@ -9,7 +9,7 @@
  */
 Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
-  var oUrl = new parseUrl(oItem._oVisitItem.url());
+  var oUrl = new UrlParser(oItem._oVisitItem.url());
   oUrl.fineDecomposition();
   oItem._oVisitItem._oUrl = oUrl;
   // Detect if it's an image.

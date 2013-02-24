@@ -10,12 +10,11 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
 
   init : function(oItem) {
     this._super(oItem);
-
     // create the item
-    this._$item_content.append(
+    oItem.$().addClass('ct-item-dbscan1');
+		this._$item_content.append(
         this._oItemFeaturedImage.$(),
-        this._oItemToolbox.$(),
-        this._oItemDescription.$(),
+        this._oItemInfo.$(),
         this._oItemDna.$()
     );
   },
