@@ -10,6 +10,12 @@
 Cotton.Controllers.Lightyear = Class.extend({
 
   /**
+   * "Model" in MVC pattern. Global Store, that allow controller to make call to
+   * the database. So it Contains 'visitItems' and 'stories'.
+   */
+  _oStore : null,
+  
+  /**
    * @constructor
    */
   init : function(){
@@ -20,11 +26,11 @@ Cotton.Controllers.Lightyear = Class.extend({
     self._oStore = new Cotton.DB.StoreIndexedDB('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
-          }, function() {
-            self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory) {
-              DEBUG && console.debug(oLastStory);
-              return oLastStory;
-    	    });
+    }, function() {
+      self._oStore.getLast('stories', 'fLastVisitTime', function(oLastStory) {
+        DEBUG && console.debug(oLastStory);
+        return oLastStory;
+      });
     });
 
   },
