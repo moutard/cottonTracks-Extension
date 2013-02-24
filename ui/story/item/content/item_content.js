@@ -18,10 +18,8 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
   _$item_content : null,
 
   _oItemFeaturedImage : null,
-  _oItemToolbox : null,
-  _oItemDescription : null,
+  _oItemInfo : null,
   _oItemDna : null,
-  _bIsEditable : false,
 
   init : function(oItem) {
     // current parent element.
@@ -31,8 +29,8 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     this._$item_content = $('<div class="ct-item_content"></div>');
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.FeaturedImage(this);
-    this._oItemToolbox = new Cotton.UI.Story.Item.Toolbox(this);
-    this._oItemDescription = new Cotton.UI.Story.Item.Description(this);
+    this._oItemInfo = new Cotton.UI.Story.Item.Info(this);
+    this._oItemMenu = new Cotton.UI.Story.Item.Menu(this);
     this._oItemDna = new Cotton.UI.Story.Item.Dna(this);
 
     // the construction of the element depends on the its type. So create the
@@ -47,39 +45,13 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     return this._oItem;
   },
 
+  itemInfo : function(){
+	  return this._oItemInfo;
+  },
+
   appendTo : function(oStoryLine) {
     this._oItem.$().append(this._$item_content);
   },
 
-  editable : function(){
-    var self = this;
-    if(self._bIsEditable === false){
-      self._bIsEditable = true;
-      self._oItemDescription.editTitle();
-      self._oItemFeaturedImage.editImage();
-      self._oItemToolbox.addDeleteButton();
-      // TODO(rmoutard) : avoid manipulating DOM
-      $('.connectedSortable').sortable('disable')
-      self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon_selected.png");
-
-      // Event tracking
-      Cotton.ANALYTICS.editItemOff();
-
-    } else {
-      self._bIsEditable = false;
-      self._oItemDescription.editTitle(true);
-      self._oItemFeaturedImage.stopEditImage();
-      self._oItemToolbox.removeDeleteButton();
-      self._oItemToolbox._bDeleteIsOpen = false;
-      // TODO(rmoutard) : avoid manipulating DOM
-      $('.connectedSortable').sortable('enable')
-      self._oItemToolbox._$edit_button.find('img').attr('src', "/media/images/story/item/settings_favicon.png");
-
-      // Event tracking
-      Cotton.ANALYTICS.editItemOn();
-
-    }
-
-  },
 });
 
