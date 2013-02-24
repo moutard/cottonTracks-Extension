@@ -5,12 +5,17 @@
  * Represents the View in a MVC pattern.
  */
 Cotton.UI.World = Class.extend({
+	/**
+   * Story container
+   */
+	_oStoryContainer: null,
 
   /**
    * @constructor
    */
   init : function() {
     var self = this;
+    this._oStoryContainer = new Cotton.UI.StoryContainer();
   },
 
 });
