@@ -21,10 +21,10 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         this._oItemContent = oItemContent;
         this._bIsCropped = this._oItemContent.item().visitItem().extractedDNA().imageCropped();
         // current item.
+        this._$featured_image = $('<div class="ct-featured_image"></div>');
         this._$img = $('<img class="resize"></img>');
 
         if(this._oItemContent.item().visitItem().extractedDNA().imageUrl()){
-	        this._$featured_image = $('<div class="ct-featured_image"></div>');
           this._sImageUrl = this._oItemContent.item().visitItem().extractedDNA().imageUrl();
           this._$img.attr('src', this._sImageUrl);
           if(this._bIsCropped){
@@ -35,6 +35,8 @@ Cotton.UI.Story.Item.FeaturedImage = Class
 
           this._$featured_image.append(this._$img);
         }
+
+       // construct item
 
       },
 
@@ -50,7 +52,7 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         this._sImageUrl = sUrl;
         this._$img.attr('src', sUrl);
         if(this._sImageUrl){
-          this._$featured_image.append(this._$img);
+          self._$featured_image.append(self._$img);
         }
       },
 
