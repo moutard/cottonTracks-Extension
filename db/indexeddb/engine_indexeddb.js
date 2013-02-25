@@ -2,25 +2,23 @@
 
 /**
  * An abstraction for the underlying IndexDB API.
+ * See more infos : IndexedDB API http://www.w3.org/TR/IndexedDB/
  *
- * Engine should not be used directly. It should be accessed through more
- * abstract layers which hide its inner workings.
+ * EngineIndexedDB should not be used directly. It should be accessed through
+ * more abstract layers like ObjectDatabase which hide its inner workings.
  *
- * sDatabaseName = the name of the database we want to use (it will be created
- * if necessary). dIndexesForObjectStoreNames = a dictionary where keys are the
- * names of object stores we need to use (they will be created if necessary) and
- * values are the dictionary of index properties for each object store.
- * mOnReadyCallback = the callback method that should be executed when the
- * database is ready.
+ * @param {String} sDatabaseName :
+ *  the name of the database we want to use (it will be created
+ *  if necessary).
+ * @param {Dictionnary} dIndexesForObjectStoreNames :
+ *  a dictionary where keys are the names of object stores we need to use (they
+ *  will be created if necessary) and values are the dictionary of index
+ *  properties for each object store.
+ * @param {Function} mOnReadyCallback :
+ *  the callback method that should be
+ *  executed when the database is ready.
  */
-
-
-/**
- * IndexedDB API http://www.w3.org/TR/IndexedDB/
- *
- */
-
-Cotton.DB.Engine = Class.extend({
+Cotton.DB.IndexedDB.Engine = Class.extend({
   init :function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
     var self = this;
     var bUpgradeNeeded = false;

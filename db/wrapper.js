@@ -1,24 +1,15 @@
 'use strict';
 
-Cotton.DB.Store = Class.extend({
+/**
+ * Abstract layer that wrap a engine for a specific database.
+ *
+ * Whatever the format of the stored record in the database, the wrapper return
+ * a javascript object with its methods corresponding to a model.
+ */
+Cotton.DB.Wrapper = Class.extend({
 
-  init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
+  init : function(sDatabaseName, dTranslators) {
     var self = this;
-    this._dTranslators = dTranslators;
-
-    var dIndexesForObjectStoreNames = {};
-    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
-      dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
-    });
-
-    var oEngine = new Cotton.DB.Engine(
-        sDatabaseName,
-        dIndexesForObjectStoreNames,
-        function() {
-          mOnReadyCallback.call(self);
-    });
-
-    this._oEngine = oEngine;
   },
 
   _translatorForDbRecord: function(sObjectStoreName, dDbRecord) {
@@ -29,9 +20,15 @@ Cotton.DB.Store = Class.extend({
     return this._lastTranslator(sObjectStoreName);
   },
 
-  // Returns the translator matching the given type and format version. Throws
-  // an exception if there is no
-  // such translator.
+  /**
+   * Returns the translator matching the given type and format version. Throws
+   * an exception if there is no such translator.
+   *
+   * @param {String} sObjectStoreName:
+   *  name of the store (table in the database).
+   * @param {String} sFormatVersion:
+   *  version of the model.
+   */
   _translator: function(sObjectStoreName, sFormatVersion) {
     var lTranslators = this._dTranslators[sObjectStoreName];
     // TODO(fwouts): Store the translators as a hash using versions as keys?
@@ -46,9 +43,13 @@ Cotton.DB.Store = Class.extend({
     return oTranslator;
   },
 
-  // Returns the last translator for the given type. Throws an exception if the
-  // type does not have any
-  // translators.
+  /**
+   * Returns the last translator for the given type. Throws an exception if the
+   * type does not have any translators.
+   *
+   * @param {String} sObjectStoreName:
+   *  name of the store (table in the database).
+   */
   _lastTranslator: function(sObjectStoreName) {
     var lTranslators = this._dTranslators[sObjectStoreName];
     if (!lTranslators) {
