@@ -188,12 +188,12 @@ Cotton.DB.Engine = Class.extend({
     };
 
     oTransaction.onabort = function(){
-      console.log("setVersion result transaction onabort");
+      console.error("setVersion result transaction onabort");
       self._oDb.close();
     };
 
     oTransaction.ontimeout = function(){
-      console.log("setVersion result transaction ontimeout");
+      console.error("setVersion result transaction ontimeout");
       self._oDb.close();
     };
 
