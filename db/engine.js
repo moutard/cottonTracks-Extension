@@ -109,64 +109,12 @@ Cotton.DB.Engine = Class.extend({
           var oDb = self._oDb = oEvent.target.result;
           var oTransaction = event.target.transaction;
 
-          oTransaction.oncomplete = function(){
-            console.log("transaction completed");
-            mOnReadyCallback.call(self);
-          };
+          self._upgradeVersion(oTransaction,
+              lMissingObjectStoreNames,
+              dIndexesForObjectStoreNames,
+              dMissingIndexKeysForObjectStoreNames,
+              mOnReadyCallback);
 
-          oTransaction.onabort = function(){
-            console.log("transaction aborted");
-            oDb.close();
-          };
-
-          oTransaction.ontimeout = function(){
-            console.log("transaction timed out");
-            oDb.close();
-          };
-
-          try {
-            for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
-              // Create the new object store.
-              console.log('Creating object store ' + sMissingObjectStoreName);
-              var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
-                'keyPath': 'id',
-                'autoIncrement': true
-              });
-              // Add all the indexes on the newly created object store.
-              var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
-              _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
-                objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
-              });
-            }
-
-            // Add all the missing indexes on the existing object stores.
-            _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
-              var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
-              var objectStore = oTransaction.objectStore(sObjectStoreName);
-              _.each(lMissingIndexKeys, function(sIndexKey) {
-                console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
-                objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
-              });
-            });
-
-          } catch (oError){
-            console.log("createObjectStore exception : " + oError.message);
-            oTransaction.abort();
-          }
-
-          oTransaction.onerror = function(oEvent){
-            console.error("transaction error" + oEvent.message);
-            oDb.close();
-
-            throw "Transaction error";
-          };
-
-          oTransaction.onblocked = function(oEvent){
-            console.error("Transaction blocked. " + oEvent.message);
-            oDb.close();
-
-            throw "Transaction blocked";
-          };
         };
 
         // For chrome version < 25 this event is called instead of onupgradeneeded
@@ -185,50 +133,11 @@ Cotton.DB.Engine = Class.extend({
               console.log("setVersion onsuccess");
               var oTransaction = event.target.result;
 
-              oTransaction.oncomplete = function(){
-                console.log("setVersion result transaction oncomplete");
-                mOnReadyCallback.call(self);
-              };
-
-              oTransaction.onabort = function(){
-                console.log("setVersion result transaction onabort");
-                oDb.close();
-              };
-
-              oTransaction.ontimeout = function(){
-                console.log("setVersion result transaction ontimeout");
-                oDb.close();
-              };
-
-              try {
-                for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
-                  // Create the new object store.
-                  console.log('Creating object store ' + sMissingObjectStoreName);
-                  var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
-                    'keyPath': 'id',
-                    'autoIncrement': true
-                  });
-                  // Add all the indexes on the newly created object store.
-                  var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
-                  _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
-                    objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
-                  });
-                }
-
-                // Add all the missing indexes on the existing object stores.
-                _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
-                  var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
-                  var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
-                  _.each(lMissingIndexKeys, function(sIndexKey) {
-                    console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
-                    objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
-                  });
-                });
-
-              } catch (oError){
-                console.log("createObjectStore exception : " + oError.message);
-                oTransaction.abort();
-              }
+              self._upgradeVersion(oTransaction,
+                  lMissingObjectStoreNames,
+                  dIndexesForObjectStoreNames,
+                  dMissingIndexKeysForObjectStoreNames,
+                  mOnReadyCallback);
 
             };
 
@@ -268,7 +177,67 @@ Cotton.DB.Engine = Class.extend({
     };
   },
 
-  _upgradeVersion : function(){
+  _upgradeVersion : function(oTransaction,
+    lMissingObjectStoreNames, dIndexesForObjectStoreNames,
+    dMissingIndexKeysForObjectStoreNames, mOnReadyCallback){
+
+    var self = this;
+    oTransaction.oncomplete = function(){
+      console.log("setVersion result transaction oncomplete");
+      mOnReadyCallback.call(self);
+    };
+
+    oTransaction.onabort = function(){
+      console.log("setVersion result transaction onabort");
+      self._oDb.close();
+    };
+
+    oTransaction.ontimeout = function(){
+      console.log("setVersion result transaction ontimeout");
+      self._oDb.close();
+    };
+
+    oTransaction.onerror = function(oEvent){
+      console.error("transaction error" + oEvent.message);
+      self._oDb.close();
+      throw "Transaction error";
+    };
+
+    oTransaction.onblocked = function(oEvent){
+      console.error("Transaction blocked. " + oEvent.message);
+      self._oDb.close();
+      throw "Transaction blocked";
+    };
+
+    try {
+      for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+        // Create the new object store.
+        console.log('Creating object store ' + sMissingObjectStoreName);
+        var objectStore = self._oDb.createObjectStore(sMissingObjectStoreName, {
+          'keyPath': 'id',
+          'autoIncrement': true
+        });
+        // Add all the indexes on the newly created object store.
+        var dIndexesInformation = dIndexesForObjectStoreNames[sMissingObjectStoreName];
+        _.each(dIndexesInformation, function(dIndexDescription, sIndexKey) {
+          objectStore.createIndex(sIndexKey, sIndexKey, dIndexDescription);
+        });
+      }
+
+      // Add all the missing indexes on the existing object stores.
+      _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
+        var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
+        var objectStore = oTransaction.objectStore(sObjectStoreName);
+        _.each(lMissingIndexKeys, function(sIndexKey) {
+          console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+          objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
+        });
+      });
+
+    } catch (oError){
+      console.log("createObjectStore exception : " + oError.message);
+      oTransaction.abort();
+    }
 
   },
   /**
