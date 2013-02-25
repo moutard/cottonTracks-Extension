@@ -53,7 +53,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
     var iPopulationLength = lHistoryItems.length;
 
     DEBUG && console.debug('PopulateDB - try to create new store');
-    new Cotton.DB.Store('ct', {
+    new Cotton.DB.IndexedDB.Wrapper('ct', {
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
       if (Cotton.UI.oCurtain) {

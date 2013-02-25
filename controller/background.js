@@ -13,7 +13,7 @@ Cotton.Controllers.Background = Class.extend({
    * "Model" in MVC pattern. Global Store, that allow controller to make call to
    * the database. So it Contains 'visitItems' and 'stories'.
    */
-  _oStore : null,
+  _oDatabase : null,
 
   /**
    * Worker to make the algo part in different thread.
@@ -35,7 +35,7 @@ Cotton.Controllers.Background = Class.extend({
      * Initialize the store.
      */
 
-    self._oStore = new Cotton.DB.StoreIndexedDB('ct', {
+    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
@@ -50,7 +50,7 @@ Cotton.Controllers.Background = Class.extend({
             // pass
           }
     });
-    
+
     chrome.browserAction.onClicked.addListener(function(tab) {
       chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
         chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'}, function(){
@@ -79,12 +79,12 @@ Cotton.Controllers.Background = Class.extend({
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
         // Data sent by the worker are serialized. Deserialize using translator.
-        var oTranslator = self._oStore._translatorForDbRecord('visitItems',
+        var oTranslator = self._oDatabase._translatorForDbRecord('visitItems',
           e.data['lVisitItems'][i]);
         var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
 
 
-        self._oStore.put('visitItems', oVisitItem, function() {
+        self._oDatabase.put('visitItems', oVisitItem, function() {
           // pass
         });
       }
@@ -93,8 +93,8 @@ Cotton.Controllers.Background = Class.extend({
                                               e.data['iNbCluster']);
 
       // Add stories
-      Cotton.DB.Stories.addStories(self._oStore, dStories['stories'],
-          function(oStore, lStories){
+      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
+          function(oDatabase, lStories){
             // pass because don't need to show stories in the world.
       });
     }, false);
@@ -113,8 +113,8 @@ Cotton.Controllers.Background = Class.extend({
 
     DEBUG && console.debug("Controller - install");
 
-    Cotton.DB.Populate.visitItems(self._oStore, function(oStore) {
-      oStore.getList('visitItems', function(lAllVisitItems) {
+    Cotton.DB.Populate.visitItems(self._oDatabase, function(oDatabase) {
+      oDatabase.getList('visitItems', function(lAllVisitItems) {
         DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
             + lAllVisitItems.length + ' items');
         DEBUG && console.debug(lAllVisitItems);
