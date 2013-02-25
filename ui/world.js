@@ -16,6 +16,7 @@ Cotton.UI.World = Class.extend({
   init : function() {
     var self = this;
     this._oStoryContainer = new Cotton.UI.StoryContainer();
+    this._oSideMenu = new Cotton.UI.Menu.MenuSumUp();
   },
 
 });
