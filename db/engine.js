@@ -24,11 +24,10 @@ Cotton.DB.Engine = Class.extend({
   init :function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
     var self = this;
     var bUpgradeNeeded = false;
-    var iNewVersionNumber = 0;
-	var lMissingObjectStoreNames = [];
+	  var lMissingObjectStoreNames = [];
     var dMissingIndexKeysForObjectStoreNames = {};
     var lMissingIndexKeys = [];
-	
+
     this._sDatabaseName = sDatabaseName;
     this._oDb = null;
 
@@ -39,12 +38,14 @@ Cotton.DB.Engine = Class.extend({
     this._lNonDeprecatedCursorDirections = ["next", "nextunique",
                                             "prev", "prevunique"];
 
+    // Open the database. Do not specify version by default.
     var oRequest = webkitIndexedDB.open(sDatabaseName);
+
     oRequest.onsuccess = function(oEvent) {
       var oDb = self._oDb = oEvent.target.result;
       var bHasMissingObjectStore = false;
       var bHasMissingIndexKey = false;
-      
+
       var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
 
       // We need to compare whether the current list of object stores in the
@@ -88,13 +89,23 @@ Cotton.DB.Engine = Class.extend({
         });
       }
 
+      // If there are stores or index missing we need to update the database.
+      // So we called open the database with a upper version, so the event
+      // onupgradeneeded is called.
       if (bHasMissingObjectStore || bHasMissingIndexKey) {
         console.log("A new database version is needed");
-        iNewVersionNumber = parseInt(oDb.version) + 1;
+        // If the version is not set, use 0 and the increment so when you
+        // open the database for the first version the version is 1, because it
+        // seems to have an error when you try to open a database when version
+        // number is 0.
+        var iNewVersionNumber = parseInt(oDb.version) || 0;
+        iNewVersionNumber += 1;
         oDb.close();
 
-        var oRequest = webkitIndexedDB.open(sDatabaseName, iNewVersionNumber);
-        oRequest.onupgradeneeded = function(oEvent) {
+        var oOpenDBWithUpperVersionRequest = webkitIndexedDB.open(sDatabaseName, iNewVersionNumber);
+
+        // For chrome version < 25. This event is never called.
+        oOpenDBWithUpperVersionRequest.onupgradeneeded = function(oEvent) {
           var oDb = self._oDb = oEvent.target.result;
           var oTransaction = event.target.transaction;
 
@@ -145,8 +156,6 @@ Cotton.DB.Engine = Class.extend({
 
           oTransaction.onerror = function(oEvent){
             console.error("transaction error" + oEvent.message);
-            console.error(oEvent);
-            console.error(this);
             oDb.close();
 
             throw "Transaction error";
@@ -154,21 +163,22 @@ Cotton.DB.Engine = Class.extend({
 
           oTransaction.onblocked = function(oEvent){
             console.error("Transaction blocked. " + oEvent.message);
-            console.error(oEvent);
-            console.error(this);
             oDb.close();
 
             throw "Transaction blocked";
           };
         };
-    
-        oRequest.onsuccess = function(oEvent) {
+
+        // For chrome version < 25 this event is called instead of onupgradeneeded
+        // For chrome version > 25 this event is called after onupgradeneeded
+        oOpenDBWithUpperVersionRequest.onsuccess = function(oEvent) {
           var oDb = self._oDb = oEvent.target.result;
           if (oDb.version !== iNewVersionNumber){
             var iNewVersion = parseInt(oDb.version) + 1;
 
             // We need to update the database.
             // We can only create Object stores in a setVersion transaction.
+            // setVersion is DEPRECATED for chrome > 25.
             var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
             oSetVersionRequest.onsuccess = function(event) {
@@ -258,6 +268,9 @@ Cotton.DB.Engine = Class.extend({
     };
   },
 
+  _upgradeVersion : function(){
+
+  },
   /**
    * Return true if the store is empty.
    *
