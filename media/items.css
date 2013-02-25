@@ -18,6 +18,7 @@ h3{
   margin: 0;
   margin-bottom: 4px;
   padding: 0;
+  white-space: nowrap;
 }
 
 h4{
@@ -49,7 +50,7 @@ a:visited{
 	float: left;
 }
 
-.info .ct-history_reference{
+.ct-item_date{
 	height: 22px;
 	display: table;
 }
@@ -72,7 +73,7 @@ a:visited{
   box-shadow: 0px 0px 5px rgba(0,0,0,0.35);
 }
 
-.ct-item-double {
+.ct-item-video, .ct-item-image, .ct-item-map{
 /*Video, map, image*/
   width: 360px;
   height: 310px;
@@ -93,10 +94,11 @@ a:visited{
   padding-top: 8px;
   height: 32px;
   width: 340px;
+  bottom: 0;
 }
 
 /*DBSCAN Element*/
-.ct-item-default{
+.ct-item-default, .ct-item-search{
 	width: 360px;
 	height: 150px;
 	position: relative;
@@ -179,11 +181,7 @@ a:visited{
 	-webkit-transition-delay: 0.2s;
 }
 
-.ct-item-map:hover .ct-label-large-menu{
-	bottom: 0;
-}
-
-.ct-item-video:hover .ct-label-large-menu{
+.ct-item-double:hover .ct-label-large-menu{
 	bottom: 0;
 }
 
@@ -197,6 +195,7 @@ a:visited{
     padding-left: 10px;
     padding-right: 10px;
 	padding-top: 17px;
+	cursor: pointer;
 }
 
 .ct-item_info{
@@ -216,28 +215,24 @@ a:visited{
 	height: 150px;
 }
 
-/*search*/
-.ct-item-search{
-  width: 340px; 
-  height: 130px;
-  padding: 10px;
-}
-/*end search*/
-
 /*image*/
-.image {
+.resize {
   display: none;
   position: absolute;
 }
 
-.ct-item-image:hover .ct-label-menu{
+.ct-story_item:hover .ct-label-large-menu{
+	bottom: 0;
+}
+
+.ct-story_item:hover .ct-label-small-menu{
 	bottom: 0;
 }
 
 /*search*/
-.search{
+.ct-searchbox{
   position: relative;
-  top: 25%;
+  top: 10%;
   width: 300px; 
   height: 33px;
   margin-left: 20px;
@@ -249,7 +244,7 @@ a:visited{
 	top: 17%;
 }
 
-.search input{
+.ct-searchbox input{
   background: none;
   border: none;
   height: 33px;
@@ -263,11 +258,10 @@ a:visited{
   outline: none;
 }
 
-.search img{
-  float: right;
+.ct-item-search img{
   position: relative;
 }
 
-.ct-item-search:hover .ct-label-menu{
+.ct-item-search:hover .ct-label-small-menu{
 	bottom: 0;
 }

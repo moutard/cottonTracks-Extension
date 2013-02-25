@@ -19,6 +19,9 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
 
   _oItemFeaturedImage : null,
   _oItemInfo : null,
+  _oItemSummaryInfo : null,
+  _oItemMenu : null,
+  _oItemLargeMenu : null,
   _oItemDna : null,
 
   init : function(oItem) {
@@ -26,12 +29,14 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     this._oItem = oItem;
 
     // current item.
-    this._$item_content = $('<div class="ct-item_content"></div>');
+    this._$item_content = this._oItem.$();
 
-    this._oItemFeaturedImage = new Cotton.UI.Story.Item.FeaturedImage(this);
-    this._oItemInfo = new Cotton.UI.Story.Item.Info(this);
-    this._oItemMenu = new Cotton.UI.Story.Item.Menu(this);
-    this._oItemDna = new Cotton.UI.Story.Item.Dna(this);
+    //     this._oItemFeaturedImage = new Cotton.UI.Story.Item.FeaturedImage(this);
+    //     this._oItemInfo = new Cotton.UI.Story.Item.Info(this);
+    //     this._oItemSummaryInfo = new Cotton.UI.Story.Item.SummaryInfo(this);
+    //     this._oItemMenu = new Cotton.UI.Story.Item.Menu(this);
+    //     this._oItemLargeMenu = new Cotton.UI.Story.Item.LargeMenu(this);
+    //     this._oItemDna = new Cotton.UI.Story.Item.Dna(this);
 
     // the construction of the element depends on the its type. So create the
     // element directly in the sub class.
