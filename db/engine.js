@@ -177,6 +177,22 @@ Cotton.DB.Engine = Class.extend({
     };
   },
 
+  /**
+   * Called during a "onupgradeneeded" event (or setVersion for chrome
+   * version < 25). In charge of creating missing elements like stores or
+   * indexes.
+   *
+   * @param {IndexedDB.Transaction} : oTransaction
+   *  current transaction of the "onupgradeneeded" event.
+   * @param {Array.<String>} : lMissingObjectStoreNames
+   *  list of names of all the missing stores.
+   * @param {Dictionnary} : dIndexesForObjectStoreNames
+   *  For each stores the list of indexes.
+   * @param {Dictionnary} : dMissingIndexKeysForObjectStoreNames
+   *  For each stores missing list of missing indexes.
+   * @param {Function} : mOnReadyCallback
+   *  callback function when the database upgrade is over.
+   */
   _upgradeVersion : function(oTransaction,
     lMissingObjectStoreNames, dIndexesForObjectStoreNames,
     dMissingIndexKeysForObjectStoreNames, mOnReadyCallback){
@@ -240,6 +256,7 @@ Cotton.DB.Engine = Class.extend({
     }
 
   },
+
   /**
    * Return true if the store is empty.
    *
