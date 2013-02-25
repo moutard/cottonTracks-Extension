@@ -20,11 +20,11 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         // current parent element.
         this._oItemContent = oItemContent;
         this._bIsCropped = this._oItemContent.item().visitItem().extractedDNA().imageCropped();
-        // current item.
-        this._$featured_image = $('<div class="ct-featured_image"></div>');
-        this._$img = $('<img class="resize"></img>');
 
         if(this._oItemContent.item().visitItem().extractedDNA().imageUrl()){
+	        // current item.
+	        this._$featured_image = $('<div class="ct-featured_image"></div>');
+	        this._$img = $('<img class="resize"></img>');
           this._sImageUrl = this._oItemContent.item().visitItem().extractedDNA().imageUrl();
           this._$img.attr('src', this._sImageUrl);
           if(this._bIsCropped){
