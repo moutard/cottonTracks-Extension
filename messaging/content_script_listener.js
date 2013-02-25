@@ -62,26 +62,26 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     // urls.
     // TODO (rmoutard) : parseUrl is called twice. avoid that.
     if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
-      var oStore = new Cotton.DB.Store('ct', {
+      var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
 
         // you want to create it for the first time.
-        oStore.put('visitItems', oVisitItem, function(iId) {
+        oDatabase.put('visitItems', oVisitItem, function(iId) {
           DEBUG && console.debug("visitItem added" + iId);
           sPutId = iId;
           var _iId = iId;
           _.each(oVisitItem.searchKeywords(), function(sKeyword){
             // PROBLEM if not find.
-            oStore.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
+            oDatabase.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
               if(!oSearchKeyword) {
                 oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
               }
 
               oSearchKeyword.addReferringVisitItemId(_iId);
 
-              oStore.put('searchKeywords', oSearchKeyword, function(iiId){
+              oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
                 // Return nothing to let the connection be cleaned up.
                 sendResponse({
                   'received' : "true",
@@ -126,12 +126,12 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     // urls.
     // TODO (rmoutard) : parseUrl is called twice. avoid that.
     if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
-      var oStore = new Cotton.DB.Store('ct', {
+      var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
         // The visit item already exists, just update it.
-        oStore.put('visitItems', oVisitItem, function(iId) {
+        oDatabase.put('visitItems', oVisitItem, function(iId) {
           DEBUG && console.debug("Messaging - visitItem updated" + iId);
         });
       });
@@ -145,19 +145,19 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
    *
    */
   case 'import_history':
-     var oStore = new Cotton.DB.Store('ct', {
+     var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
          'stories' : Cotton.Translators.STORY_TRANSLATORS,
          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
 
        }, function() {
           // Purge the database before importing new elements.
-          oStore.purge('visitItems', function(){
-            oStore.purge('stories', function(){
+          oDatabase.purge('visitItems', function(){
+            oDatabase.purge('stories', function(){
 
               // Populate the DB using history Items stored in the file.
-              Cotton.DB.Populate.visitItemsFromFile(oStore, request['params']['history']['lHistoryItems'],
-                  function(oStore) {
-                    oStore.getList('visitItems', function(lAllVisitItems) {
+              Cotton.DB.Populate.visitItemsFromFile(oDatabase, request['params']['history']['lHistoryItems'],
+                  function(oDatabase) {
+                    oDatabase.getList('visitItems', function(lAllVisitItems) {
                       DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
                           + lAllVisitItems.length + ' items');
                       console.debug(lAllVisitItems);
@@ -180,12 +180,12 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
                         // Update the visitItems with extractedWords and queryWords.
                         for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
                           // Data sent by the worker are serialized. Deserialize using translator.
-                          var oTranslator = oStore._translatorForDbRecord('visitItems',
+                          var oTranslator = oDatabase._translatorForDbRecord('visitItems',
                                                                         e.data['lVisitItems'][i]);
                           var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
 
 
-                          oStore.put('visitItems', oVisitItem, function() {
+                          oDatabase.put('visitItems', oVisitItem, function() {
                             console.log("update queryKeywords");
                           });
                         }
@@ -194,8 +194,8 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
                                                                 e.data['iNbCluster']);
                         // Add stories
                         DEBUG && console.debug(dStories);
-                        Cotton.DB.Stories.addStories(oStore, dStories['stories'],
-                            function(oStore){
+                        Cotton.DB.Stories.addStories(oDatabase, dStories['stories'],
+                            function(oDatabase){
                         });
                       }, false);
 
@@ -219,88 +219,4 @@ chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
   }
 
   return true;
-});
-
-chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
-  new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
-    'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
-  }, function(){
-      console.log('Messaging - database instanciated');
-      if(oInstallationDetails['reason'] === "install"){
-        console.log('Messaging - onInstalled');
-        var oTabProperties = {
-          'url': 'index.html'
-        };
-        chrome.tabs.create(oTabProperties);
-      } else {
-        console.log('Messaging - onUpdate');
-      }
-      var details = chrome.app.getDetails();
-      localStorage['ct-version'] = details['version'];
-  });
-
-  // Define favorites default values.
-  if(!localStorage['ct-favorites_webistes']){
-    var lFavorites = [];
-    lFavorites.push({
-      'id': 0,
-      'image' : '/media/images/home/tickets/TC.jpg',
-      'name' : 'Techcrunch',
-      'url' : 'http://techcrunch.com'
-    });
-    lFavorites.push({
-      'id': 1,
-      'image' : '/media/images/home/tickets/Fubiz.jpg',
-      'name' : 'Fubiz',
-      'url' : 'http://fubiz.net'
-    });
-    lFavorites.push({
-      'id': 2,
-      'image' : '/media/images/home/tickets/FB.jpg',
-      'name' : 'Facebook',
-      'url' : 'http://facebook.com'
-    });
-    lFavorites.push({
-      'id': 3,
-      'image' : '/media/images/home/tickets/Dribbble.jpg',
-      'name' : 'Dribbble',
-      'url' : 'http://dribbble.com'
-    });
-    //
-    lFavorites.push({
-      'id': 4,
-      'image' : '/media/images/home/tickets/MTV.jpg',
-      'name' : 'MTV',
-      'url' : 'http://www.mtv.com'
-    });
-    lFavorites.push({
-      'id': 5,
-      'image' : '/media/images/home/tickets/PandoDaily.jpg',
-      'name' : 'PandoDaily',
-      'url' : 'http://pandodaily.com'
-    });
-    lFavorites.push({
-      'id': 6,
-      'image' : '/media/images/home/tickets/Twitter.jpg',
-      'name' : 'Twitter',
-      'url' : 'http://twitter.com'
-    });
-    lFavorites.push({
-      'id': 7,
-      'image' : '/media/images/home/tickets/Pinterest.jpg',
-      'name' : 'Pinterest',
-      'url' : 'http://pinterest.com'
-    });
-
-    localStorage['ct-favorites_webistes'] = JSON.stringify(lFavorites);
-  }
-
-  // ct-grid_mode
-  // Define which grid is seen first "favorites" by default.
-  if(!localStorage['ct-grid_mode']){
-    localStorage['ct-grid_mode'] = "favorites";
-  }
-  console.log('onInstalled ends up correctly');
 });
