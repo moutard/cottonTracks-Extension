@@ -5,29 +5,37 @@
  */
 Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend({
 
-  _$featured_image : null,
   _$img : null,
+  _sImageType : null,
+  _oItemMenu : null,
 
   init : function(oItem, sType) {
+    self = this;
     this._super(oItem);
 
-    this._$featured_image = $('<div class="ct-featured_image"></div>');
-    this._$img = $('<img ></img>');
+    this._sImageType = sType;
+    oItem.$().addClass('ct-item-image');
+    this._$img = $('<img class="resize">');
+    this._oItemMenu = new Cotton.UI.Story.Item.LargeMenu(this);
 
     if (sType === "img") {
-      this._$img.attr("src", this._oItem._oVisitItem.url());
-      this._oItemFeaturedImage.setImageUrl(this._oItem._oVisitItem.url());
+      this._$img.attr("src", this._oItem.visitItem().url());
     }
     if (sType === "imgres") {
-      var sImgSrc = this.replaceHexa(this._oItem._oVisitItem._oUrl.dSearch['imgurl']);
+      var oUrl = new UrlParser(this._oItem.visitItem().url());
+      oUrl.fineDecomposition();
+      var sImgSrc = this.replaceHexa(oUrl.dSearch['imgurl']);
       this._$img.attr("src", sImgSrc);
-      this._oItemFeaturedImage.setImageUrl(sImgSrc);
     }
-    this._$featured_image.append(this._$img);
     // create the item
-    this._$item_content.append(this._oItemFeaturedImage.$(), this._oItemToolbox.$());
+		self._$item_content.append(
+		  self._$img,
+		  self._oItemMenu.$()
+		);
+
+		this.resize(self._$img);
   },
-  
+
   replaceHexa : function(sImageUrl) {
     var sImgUrl = sImageUrl;
     var reg = /\%25/;
@@ -44,4 +52,29 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
     }
     return sImgUrl;
   },
+
+  resize : function($img) {
+    $img.load(function(){
+      var self = $(this);
+
+      //image size and ratio
+      var iImWidth = self.width();
+      var iImHeight = self.height();
+      var fImRatio = iImWidth/iImHeight;
+
+      //div size and ratio
+      var iDivWidth = self.parent().width();
+      var iDivHeight = self.parent().height();
+      var fDivRatio = iDivWidth/iDivHeight;
+
+      if (fImRatio > fDivRatio) {
+        self.css('height',iDivHeight);
+      } else {
+        self.css('width',iDivWidth);
+        var iOverflow = self.height()-iDivHeight;
+        self.css('top',-iOverflow*0.25);
+      }
+      $(this).show();
+    });
+  }
 });
