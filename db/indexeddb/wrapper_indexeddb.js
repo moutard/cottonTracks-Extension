@@ -1,10 +1,30 @@
 'use strict';
 
-Cotton.DB.StoreIndexedDB = Cotton.DB.Store.extend({
+/**
+ * Absract layer for Cotton.DB.EngineIndexedDB.
+ *
+ */
+Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
 
   init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
     var self = this;
-    self._super(sDatabaseName, dTranslators, mOnReadyCallback);
+    self._dTranslators = dTranslators;
+
+    var dIndexesForObjectStoreNames = {};
+    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
+      dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
+    });
+
+    var oEngine = new Cotton.DB.IndexedDB.Engine(
+        sDatabaseName,
+        dIndexesForObjectStoreNames,
+        function() {
+          mOnReadyCallback.call(self);
+    });
+
+    this._oEngine = oEngine;
+
+    self._super(sDatabaseName, dTranslators);
 
   },
 
