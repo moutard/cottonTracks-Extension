@@ -10,15 +10,16 @@
 
 Cotton.Model.ExtractedDNA = Class.extend({
 
+  _lQueryWords : [],                  // words used to make the google search.
+  _lExtractedWords : [],              // words extracted from title and content.
+  _sClosestGeneratedPage : undefined, // closest google search page.
+
   _iPercent : 0,
   _fPageScore : 0,
-  _fTimeTabActive : -1,
+  _fTimeTabActive : -1,               // time the tab was active.
   _fTimeTabOpen : -1,
   _lHighlightedText : [],
   _sImageUrl : "",
-  _iImageCropped : 0,
-  _iImageMarginTop : 0,
-  _iScrollablePosition : undefined,
   _sFirstParagraph : "",
   _sMostReadParagraph : "",
   _lsAllParagraphs : "",
@@ -29,17 +30,24 @@ Cotton.Model.ExtractedDNA = Class.extend({
    * @constructor
    */
   init : function() {
-    this._iPercent = 0;
-    this._fPageScore = 0;
-    this._fTimeTabActive = -1;
-    this._fTimeTabOpen = -1;
-    this._lHighlightedText = [];
-    this._sImageUrl = "";
-    this._sFirstParagraph = "";
-    this._sMostReadParagraph = "";
-    this._lsAllParagraphs = "";
-    this._lParagraphs = [];
-    this._lCopyPaste = [];
+  },
+  queryWords : function() {
+    return this._lQueryWords;
+  },
+  setQueryWords : function(lQueryWords) {
+    this._lQueryWords = lQueryWords;
+  },
+  extractedWords : function() {
+    return this._lExtractedWords;
+  },
+  setExtractedWords : function(lExtractedWords) {
+    this._lExtractedWords = lExtractedWords;
+  },
+  closestGeneratedPage : function() {
+    return this._sClosestGeneratedPage;
+  },
+  setClosestGeneratedPage : function(sClosestGeneratedPage) {
+    this._sClosestGeneratedPage = sClosestGeneratedPage;
   },
 
   highlightedText : function() {
@@ -56,24 +64,6 @@ Cotton.Model.ExtractedDNA = Class.extend({
   },
   setImageUrl : function(sImageUrl) {
     this._sImageUrl = sImageUrl;
-  },
-  imageCropped : function(){
-    return this._iImageCropped;
-  },
-  setImageCropped : function(isCropped){
-    this._iImageCropped = isCropped;
-  },
-  imageMarginTop : function(){
-    return this._iImageMarginTop;
-  },
-  setImageMarginTop : function(iMarginTop){
-    this._iImageMarginTop = iMarginTop;
-  },
-  scrollablePosition : function(){
-    return this._iScrollablePosition;
-  },
-  setScrollablePosition : function(iScrollablePosition){
-    this._iScrollablePosition = iScrollablePosition;
   },
   percent : function() {
     return this._iPercent;
