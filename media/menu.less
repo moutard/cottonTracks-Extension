@@ -1,41 +1,14 @@
-@font-face {
-  font-family: 'Helvetica-Light';
-  src: url('/media/fonts/Helvetica-Light.ttf');
-}
-
-@media (min-height : 537px){
-.ct{height: 100%;}
-}
-@media (max-height : 537px){
-.ct{height: 503px;}
-}
-
-body{
-  overflow-x: hidden;
-  background-size: cover;
-  margin: 0;
-  font-family: Helvetica-Light;
-	font-weight: 100;
-	font-size: 12px;
-	-webkit-font-smoothing: antialiased;
-}
-
-.ct {
-  position: absolute;
-	width: 100%;
-	height: 100%;
-}
-
-#blur_target{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-}
-
 .ct-menu {
-//TODO (rkorach) : find a way to have the menu scroll at the same time as container on responsive design
+	
+	@media (min-height : 537px){
+	.ct-filters{position: absolute;}
+	.ct-settings{position: absolute;}
+  }
+  @media (max-height : 537px){
+	.ct-filters{position: static;}
+	.ct-settings{position: static;}
+  }
+	
   position: fixed;
   left: -250px;
   width: 245px;
@@ -43,10 +16,12 @@ body{
   background-color: #333;
   box-shadow: 4px 0px 12px rgba(0,0,0,0.5);
   z-index: 150;
+  color: #fff;
+  
   > .ct-sum_up {
     height: 300px;
     width: 100%;
-
+    
     > .ct-sticker {
       position: relative;
       width: 222px;
@@ -56,7 +31,7 @@ body{
       margin: auto;
       margin-top: 15px;
       box-shadow: 0px 0px 5px rgba(0,0,0,0.75);
-
+      
       > .ct-story_image {
 	      position: relative;
 	      width: 100%;
@@ -64,43 +39,50 @@ body{
 	      background-image: url('/media/images/menu/sum_up/default_sticker.png');
 	      overflow: hidden;
 			  -webkit-border-radius: 2px 2px 0 0;
-
-        > .resize {
+	
+	      > .resize {
 				   display: none;
 				   position: absolute;
 				  }
         }
-
-      > .ct-infos {
-        height: 48px;
-        width: 100%;
+      
+      > .ct-sticker_infos {
+	      position: absolute;
+	      bottom: 0;
+        height: 28px;
+        width: 202px;
+				padding: 10px;
         background-color: #262626;
 
-			  .menu_pages_count, .menu_images_count, .menu_videos_count{
+        > .ct-sticker_title{
+          text-transform: capitalize;
+        }
+			  
+			  > .ct-sticker_details{
 				  font-size: 11px;
 				  color: #8a8a8a;
 				}
-
+				
 			  .bull{
 				  font-size: 8px;
 				}
       }
     }
 
-    > .ct-options {
+    > .ct-actions {
       height: 20px;
       width: 222px;
       margin: auto;
       margin-top: 12px;
       margin-bottom: 12px;
-
-      > .ct-option {
+      
+      > .ct-action {
         height: 22px;
         width: 22px;
         margin-left: 10px;
         float: left;
 				cursor: pointer;
-
+        
         &.star{
           background-image: url('/media/images/menu/sum_up/star_unselected.png');
         }
@@ -113,16 +95,13 @@ body{
       }
     }
   }
-
+  
   > .ct-filters {
     width: 100%;
-    bottom: 50px;
-
-    > .ct-filter_options {
-      padding-top: 10px;
-      padding-bottom: 10px;
-		  vertical-align: middle;
-
+    bottom: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+      
       > .ct-filter {
         width: 206px;
         padding-left: 22px;
@@ -133,14 +112,13 @@ body{
         -webkit-border-radius: 5px;
         color: #fff;
 				cursor: pointer;
-
+        
         &:hover{
           background-color: #454545;
         }
       }
-    }
   }
-
+  
   .separation_line {
     height: 1px;
     width: 228px;
@@ -148,32 +126,29 @@ body{
     background-color: #1a1a1a;
     box-shadow: 0px 1px 0px #3F3F3F;
   }
-
+  
   > .ct-settings {
     bottom: 0;
-    height: 50px;
+    height: 40px;
     width: 100%;
-	background-color: #858585;
-	box-shadow: inset 0px 12px 5px -10px rgba(255,255,255,0.27);
+    font-size: 16px;
+    background-color: #858585;
+	  box-shadow: inset 0px 12px 5px -10px rgba(255,255,255,0.27);
+	  cursor: pointer;
+	
+	  &:hover {
+	   background-color: #999999;
+	  }
+	
+	  > .settings_icon {
+		  position: relative;
+		  top: 2px;
+		  width: 18px;
+		  height: 18px;
+		  background-image: url('/media/images/menu/settings/settings_gear.png');
+		  display : inline-block;
+		  margin-left: 60px;
+		  margin-top: 8px;
+		}
   }
-
-  @media (min-height : 540px){
-	.ct-filters{position: absolute;}
-	.ct-settings{position: absolute;}
-	.ct-timeline{position: fixed;}
-	.ct{height: 100%;}
-  }
-  @media (max-height : 540px){
-	.ct-filters{position: static;}
-	.ct-settings{position: static;}
-	.ct-timeline{position: absolute;}
-	.ct{height: 540px;}
-  }
-}
-
-.ct-story_container {
-	position: relative;
-  left: 245px;
-  height: 100%;
-	width:100%;
 }
