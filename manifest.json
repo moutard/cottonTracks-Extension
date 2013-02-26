@@ -10,7 +10,7 @@
   },
   "description": "cottonTracks lets you remember easily the best of what you browse",
   "homepage_url": "http://www.cottontracks.com",
-  "permissions": ["history", "tabs", "http://*/*", "https://*/*", "management", "topSites", "https://kippt.com/"],
+  "permissions": ["history", "tabs", "chrome://favicon/", "http://*/*", "https://*/*", "management", "topSites", "https://kippt.com/"],
   "background": {"page" : "background.html", "persistent": false},
   "browser_action": {
     "default_icon": {

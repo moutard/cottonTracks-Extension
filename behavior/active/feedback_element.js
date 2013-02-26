@@ -31,13 +31,6 @@ Cotton.Behavior.Active.FeedbackElement = Class.extend({
    */
   _$feedback_best_img : null,
 
-  /**
-   * A DOM element containing an <img /> supposed to represent the favicon.
-   *
-   * @type jQuery DOM
-   */
-  _$feedback_favicon : null,
-
   init : function(){
     // TODO(rmoutard) : put css in the less file.
     if (Cotton.Config.Parameters.bDevMode === true) {
@@ -59,16 +52,10 @@ Cotton.Behavior.Active.FeedbackElement = Class.extend({
         height : 50
       });
 
-      this._$feedback_favicon = $('<img class="favicon"/>').css({
-        width : 16,
-        height : 16
-      });
-
       $('body').append(
         this._$feedback.append(
           this._$feedback_percentage,
-          this._$feedback_best_img,
-          this._$feedback_favicon
+          this._$feedback_best_img
         )
       );
     }
@@ -87,19 +74,10 @@ Cotton.Behavior.Active.FeedbackElement = Class.extend({
     }
   },
 
-  setFavicon : function(sFavicon){
-    if(this._$feedback){
-      this._$feedback_favicon.attr('src', sFavicon);
-
-    }
-  },
-
   update : function(oReadingRater){
     var self = this;
     if(this._feedback){
-      this.setPercentage(oReadingRater.parser().favicon());
       this.setBestImage(oReadingRater.readingRate());
-      this.setFavicon(oReadingRater.parser().favicon());
     }
   },
 

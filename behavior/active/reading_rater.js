@@ -103,13 +103,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         sync.updateVisit();
       }
 
-      var sFavicon = self._oParser.favicon();
-      if (sFavicon) {
-        if (self._oFeedbackElement) {
-          self._oFeedbackElement.setFavicon(sFavicon);
-        }
-      }
-
     };
 
     // Launch almost immediately (but try to avoid freezing the page).
