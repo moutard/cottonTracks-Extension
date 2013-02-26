@@ -69,6 +69,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
 
       if (fImRatio > fDivRatio) {
         self.css('height',iDivHeight);
+        var iOverflow = self.width()-iDivWidth;
+        self.css('left',-iOverflow*0.5);
       } else {
         self.css('width',iDivWidth);
         var iOverflow = self.height()-iDivHeight;
