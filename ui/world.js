@@ -20,7 +20,6 @@ Cotton.UI.World = Class.extend({
     this._oSideMenu = new Cotton.UI.Menu.MenuSumUp();
 
 		chrome.extension.sendMessage({image: "background"}, function(response) {
-			console.log(response);
 			document.getElementById('blur_target').style.backgroundImage = "url("+response.src+")";
 
 		  $('body').blurjs({
