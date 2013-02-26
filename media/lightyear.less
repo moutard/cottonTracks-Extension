@@ -35,11 +35,11 @@ body{
   background-color: #333;
   box-shadow: 4px 0px 12px rgba(0,0,0,0.5);
   z-index: 150;
-  
+
   > .ct-sum_up {
     height: 300px;
     width: 100%;
-    
+
     > .ct-sticker {
       position: relative;
       width: 222px;
@@ -48,15 +48,22 @@ body{
       -webkit-border-radius: 2px;
       margin: auto;
       margin-top: 15px;
-      background-image: url('/media/images/menu/sum_up/default_sticker.png');
       box-shadow: 0px 0px 5px rgba(0,0,0,0.75);
-      
-      .ct-featured_image {
-      }
-      
-      .ct-infos {
-        position: absolute;
-        bottom: 0;
+
+      > .ct-story_image {
+	      position: relative;
+	      width: 100%;
+	      height: 174px;
+	      background-image: url('/media/images/menu/sum_up/default_sticker.png');
+	      overflow: hidden;
+
+	      > .resize {
+				   display: none;
+				   position: absolute;
+				  }
+        }
+
+      > .ct-infos {
         height: 48px;
         width: 100%;
         background-color: #262626;
@@ -66,17 +73,17 @@ body{
     > .ct-options {
       height: 20px;
       width: 222px;
-	  margin: auto;
+      margin: auto;
       margin-top: 12px;
       margin-bottom: 12px;
-      
+
       > .ct-option {
         height: 22px;
         width: 22px;
         margin-left: 10px;
         float: left;
 				cursor: pointer;
-        
+
         &.star{
           background-image: url('/media/images/menu/sum_up/star_unselected.png');
         }
@@ -89,16 +96,16 @@ body{
       }
     }
   }
-  
+
   > .ct-filters {
     width: 100%;
     bottom: 50px;
-    
+
     > .ct-filter_options {
       padding-top: 10px;
       padding-bottom: 10px;
 		  vertical-align: middle;
-      
+
       > .ct-filter {
         width: 206px;
         padding-left: 22px;
@@ -109,14 +116,14 @@ body{
         -webkit-border-radius: 5px;
         color: #fff;
 				cursor: pointer;
-        
+
         &:hover{
           background-color: #454545;
         }
       }
     }
   }
-  
+
   .separation_line {
     height: 1px;
     width: 228px;
@@ -124,7 +131,7 @@ body{
     background-color: #1a1a1a;
     box-shadow: 0px 1px 0px #3F3F3F;
   }
-  
+
   > .ct-settings {
     bottom: 0;
     height: 50px;
@@ -132,7 +139,7 @@ body{
 	background-color: #858585;
 	box-shadow: inset 0px 12px 5px -10px rgba(255,255,255,0.27);
   }
-  
+
   @media (min-height : 540px){
 	.ct-filters{position: absolute;}
 	.ct-settings{position: absolute;}
