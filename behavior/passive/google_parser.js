@@ -10,11 +10,6 @@
 
 Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   /**
-   * Used to stored the detected favicon.
-   */
-  _sFavicon : null,
-
-  /**
    * Used to stored the detected best image.
    */
   _sBestImage : null,
@@ -45,17 +40,6 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
    * is considered interesting. Then remove the some meaningful blocks.
    */
   parse : function() {
-
-    // Find the favicon
-    var sFavicon = $("link[rel$=icon]").attr("href");
-    var oRegexp = new RegExp("^http://");
-    if (!oRegexp.test(sFavicon)) {
-      sFavicon = window.location.origin + '/' + sFavicon;
-    }
-    this._sFavicon = sFavicon;
-
-    sync.current().setFavicon(this._sFavicon);
-    sync.updateVisit();
 
     // Detect rhsbox.
     this._$InfoBox = $('#rhs'); // seems it doesn't work.
