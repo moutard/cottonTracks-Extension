@@ -45,6 +45,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
 					});
 				});
+				var oSticker = new Cotton.UI.SideMenu.Menu(oLastStory);
       });
     });
   }
