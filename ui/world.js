@@ -17,16 +17,15 @@ Cotton.UI.World = Class.extend({
   init : function() {
     var self = this;
     this._oStoryContainer = new Cotton.UI.StoryContainer();
-    this._oSideMenu = new Cotton.UI.Menu.MenuSumUp();
 
 		chrome.extension.sendMessage({image: "background"}, function(response) {
-			document.getElementById('blur_target').style.backgroundImage = "url("+response.src+")";
+			$('#blur_target').css('background-image',"url("+response.src+")");
 
 		  $('body').blurjs({
 			  	source: '#blur_target',
 			  	radius: 15,
 			  	overlay: 'rgba(0,0,0,0.05)'
-			  });
+			});
 		});
 		$(document).ready(function() {
 			$("#blur_target").delay(100).fadeOut(800);
