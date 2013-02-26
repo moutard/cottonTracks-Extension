@@ -2,19 +2,15 @@
 
 /**
  * Wikipedia Parser
- * 
+ *
  * Created by : content_scripts.
- * 
+ *
  * Find relevant block in a wikipedia page. The compisition of wikipedia page is
  * really specific. So It's more relevant to create a new parser.
  */
 
 Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
     .extend({
-      /**
-       * Used to stored the detected favicon.
-       */
-      _sFavicon : null,
 
       /**
        * Used to stored the detected best image.
@@ -51,17 +47,6 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
        */
       parse : function() {
 
-        // Find the favicon
-        var sFavicon = $("link[rel$=icon]").attr("href");
-        var oRegexp = new RegExp("^http://");
-        if (!oRegexp.test(sFavicon)) {
-          sFavicon = window.location.origin + '/' + sFavicon;
-        }
-        this._sFavicon = sFavicon;
-
-        sync.current().setFavicon(this._sFavicon);
-        sync.updateVisit();
-
         // Detect inforbox.
         this._$InfoBox = $('.infobox');
         if (this._$InfoBox.length === 0) {
@@ -81,7 +66,7 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       /**
        * Finds the best image in the wikipedia page. If there is an image in the
        * infobox choose this one. Else find other image in thumbinner.
-       * 
+       *
        * @returns {String} src
        */
       findBestImage : function() {
@@ -92,6 +77,14 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
           // Get the first one, but we can do much better.
         } else {
           self._sBestImage = $('div.thumbinner:first img').attr('src');
+        }
+        if (self._sBestImage && self._sBestImage.slice(0,2) === "//"){
+          self._sBestImage = "http:" + self._sBestImage;
+        }
+        if (self._bContentGetter) {
+          sync.current().extractedDNA().setImageUrl(this._sBestImage);
+          sync.setImage(this._sBestImage);
+          sync.updateVisit();
         }
         return self._sBestImage;
       },

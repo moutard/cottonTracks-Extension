@@ -10,10 +10,6 @@
 
 Cotton.Behavior.Passive.Parser = Class
     .extend({
-      /**
-       * Used to stored the detected favicon.
-       */
-      _sFavicon : null,
 
       /**
        * Used to stored the detected best image.
@@ -33,10 +29,6 @@ Cotton.Behavior.Passive.Parser = Class
         this._iNbMeaningfulBlock = 0;
       },
 
-      favicon : function() {
-        return this._sFavicon;
-      },
-
       bestImage : function() {
         return this._sBestImage;
       },
@@ -47,17 +39,6 @@ Cotton.Behavior.Passive.Parser = Class
        * blocks.
        */
       parse : function() {
-        // Find the favicon
-        var sFavicon = $("link[rel$=icon]").attr("href");
-        var oRegexp = new RegExp("^http://");
-        if (!oRegexp.test(sFavicon)) {
-          sFavicon = window.location.origin + '/' + sFavicon;
-        }
-        this._sFavicon = sFavicon;
-
-        sync.current().setFavicon(this._sFavicon);
-        sync.updateVisit();
-
         $('[data-meaningful]').removeAttr('data-meaningful');
         this._findMeaningfulBlocks();
         this._removeLeastMeaningfulBlocks();
