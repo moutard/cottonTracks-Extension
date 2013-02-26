@@ -20,12 +20,12 @@ Cotton.UI.World = Class.extend({
 
 		chrome.extension.sendMessage({image: "background"}, function(response) {
 			$('#blur_target').css('background-image',"url("+response.src+")");
-
-		  $('body').blurjs({
-			  	source: '#blur_target',
-			  	radius: 15,
-			  	overlay: 'rgba(0,0,0,0.05)'
-			});
+						
+								  $('body').blurjs({
+						  	source: '#blur_target',
+						  	radius: 15,
+						  	overlay: 'rgba(0,0,0,0.05)'
+						});
 		});
 		$(document).ready(function() {
 			$("#blur_target").delay(100).fadeOut(800);
