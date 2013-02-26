@@ -34,7 +34,8 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
   },
 
-	buildStory: function() {
+	buildStory : function() {
+		self = this;
 		self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
           'stories' : Cotton.Translators.STORY_TRANSLATORS,
           'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
@@ -44,11 +45,16 @@ Cotton.Controllers.Lightyear = Class.extend({
 		      _.each(lVisitItems,function(oVisitItem){
 						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
 					});
+					$('.ct-story_container').first().isotope({
+					  itemSelector : '.ct-story_item',
+					  layoutMode : 'fitColumns',
+					});
 				});
 				var oSticker = new Cotton.UI.SideMenu.Menu(oLastStory);
       });
     });
   }
+  
 });
 
 Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear();
