@@ -12,18 +12,15 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'sTitle' : oVisitItem.title(),
       'iVisitTime' : oVisitItem.visitTime(),
       'sStoryId' : oVisitItem.storyId(),
-      'lQueryWords' : oVisitItem.queryWords(),
-      'lExtractedWords' : oVisitItem.extractedWords(),
       'oExtractedDNA' : {
+        'lQueryWords' : oVisitItem.extractedDNA().queryWords(),
+        'lExtractedWords' : oVisitItem.extractedDNA().extractedWords(),
         'lHighlightedText' : oVisitItem.extractedDNA().highlightedText(),
         'sImageUrl' : oVisitItem.extractedDNA().imageUrl(),
         'sFirstParagraph' : oVisitItem.extractedDNA().firstParagraph(),
         'sMostReadParagraph' : oVisitItem.extractedDNA().mostReadParagraph(),
         'iPercent' : oVisitItem.extractedDNA().percent(),
         'fPageScore' : oVisitItem.extractedDNA().pageScore(),
-        'iImageCropped' : oVisitItem.extractedDNA().imageCropped(),
-        'iImageMarginTop' : oVisitItem.extractedDNA().imageMarginTop(),
-        'iScrollablePosition' : oVisitItem.extractedDNA().scrollablePosition(),
         'lParagraphs' : _.collect(oVisitItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
         'lAllParagraphs' : oVisitItem.extractedDNA().allParagraphs(),
         'lCopyPaste' : oVisitItem.extractedDNA().copyPaste(),
@@ -39,13 +36,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       dDbRecord.id = oVisitItem.id();
     }
 
-    if (oVisitItem.chromeId() !== undefined) {
-      dDbRecord.sChromeId = oVisitItem.chromeId();
-    }
-
-    if (oVisitItem.chromeReferringVisitId() !== undefined) {
-      dDbRecord.chromeReferringVisitId = oVisitItem.chromeReferringVisitId();
-    }
 
     return dDbRecord;
   };
@@ -55,19 +45,17 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     var oVisitItem = new Cotton.Model.VisitItem();
     // Use private attributes because they are immutable.
     oVisitItem.initId(oDbRecord['id']);
-    //oVisitItem._sChromeId = oDbRecord.sChromeVisitId;
-    //oVisitItem._sChromeReferringVisitId = oDbRecord.sChromeReferringVisitId;
     oVisitItem.setStoryId(oDbRecord['sStoryId']);
 
     oVisitItem.initUrl(oDbRecord['sUrl']);
     oVisitItem.setTitle(oDbRecord['sTitle']);
     oVisitItem.setVisitTime(oDbRecord['iVisitTime']);
 
-    oVisitItem.setQueryWords(oDbRecord['lQueryWords']);
-    oVisitItem.setExtractedWords(oDbRecord['lExtractedWords']);
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
     var oExtractedDNA = new Cotton.Model.ExtractedDNA();
+    oExtractedDNA.setQueryWords(oDbRecord['lQueryWords']);
+    oExtractedDNA.setExtractedWords(oDbRecord['lExtractedWords']);
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
@@ -84,9 +72,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     oExtractedDNA.setAllParagraphs(dExtractedDNA['lAllParagraphs']);
     oExtractedDNA.setCopyPaste(dExtractedDNA['lCopyPaste']);
 
-    oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);
-    oExtractedDNA.setImageMarginTop(dExtractedDNA['iImageMarginTop']);
-    oExtractedDNA.setScrollablePosition(dExtractedDNA['iScrollablePosition']);
     oExtractedDNA.setTimeTabActive(dExtractedDNA['fTimeTabActive']);
     oExtractedDNA.setTimeTabOpen(dExtractedDNA['fTimeTabOpen']);
 
@@ -102,9 +87,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     'sUrl' : {
       'unique' : false
     },
-    // sChromeId : {
-    // unique : true
-    // },
     'iVisitTime' : {
       'unique' : false
     },
