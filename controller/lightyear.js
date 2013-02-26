@@ -45,7 +45,8 @@ Cotton.Controllers.Lightyear = Class.extend({
 		      _.each(lVisitItems,function(oVisitItem){
 						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
 					});
-					$('.ct-story_container').first().isotope({
+					//place items on the grid with isotope
+					$('.ct-story_container').isotope({
 					  itemSelector : '.ct-story_item',
 					  layoutMode : 'fitColumns',
 					});
