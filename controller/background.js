@@ -63,7 +63,6 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
 			if (request.image == "background"){
-								console.log(self._sImageSrc);
 				sendResponse({src: self._sImageSrc});
 			}
     });
@@ -146,7 +145,6 @@ Cotton.Controllers.Background = Class.extend({
 		self = this
 			chrome.tabs.captureVisibleTab(function(img) {
 			  self._sImageSrc = img;
-				console.log('screenshiot');
 			});
 	},
 
