@@ -16,7 +16,7 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oStore : null,
 
   /**
-   * "View" in MVC pattern. Global view, contains the stickybar, the homepage.
+   * "View" in MVC pattern. Global view, contains the Menu, the StoryContainer
    */
   _oWorld : null,
     
@@ -30,8 +30,24 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     $(window).ready(function(){
       Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
+			self.buildStory();
     });
   },
+
+	buildStory: function() {
+		self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+          'stories' : Cotton.Translators.STORY_TRANSLATORS,
+          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    }, function() {
+      self._oDatabase.getLast('stories', 'fLastVisitTime', function(oLastStory) {
+        self._oDatabase.findGroup('visitItems', 'id', oLastStory.visitItemsId(), function(lVisitItems) {
+		      _.each(lVisitItems,function(oVisitItem){
+						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
+					});
+				});
+      });
+    });
+  }
 });
 
 Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear();
