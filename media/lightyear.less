@@ -5,7 +5,7 @@
 
 body{
   overflow-x: hidden;
-  background-color: #aeaeae;
+  background-size: cover;
   margin: 0;
   font-family: Helvetica-Light;
 	font-weight: 100;
@@ -18,9 +18,18 @@ body{
 	height: 100%;
 }
 
+#blur_target{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
 .ct-menu {
 //TODO (rkorach) : find a way to have the menu scroll at the same time as container on responsive design
   position: fixed;
+  left: -250px;
   width: 245px;
   height: 100%;
   background-color: #333;
@@ -88,11 +97,13 @@ body{
     > .ct-filter_options {
       padding-top: 10px;
       padding-bottom: 10px;
+		  vertical-align: middle;
       
       > .ct-filter {
         width: 206px;
         padding-left: 22px;
-        height: 22px;
+	    	padding-top: 5px;
+        height: 18px;
         margin: auto;
         border-radius: 5px;
         -webkit-border-radius: 5px;

@@ -21,12 +21,14 @@ Cotton.Controllers.Background = Class.extend({
   _wDBSCAN3 : null,
   _wDBSCAN2 : null,
 
+  _iTriggerItemId : null,
+  _sImageSrc : null,
 
   /**
    * @constructor
    */
   init : function(){
-   var self = this;
+    var self = this;
 
     self.initWorkerDBSCAN3();
     //self.initWorkerDBSCAN2();
@@ -52,12 +54,20 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     chrome.browserAction.onClicked.addListener(function(tab) {
-      chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
-        chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'}, function(){
-        });
-        // TODO(rkorach) : delete ct page from history
-      });
+			self.takeScreenshot();
+			chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
+	      chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){});
+	      // TODO(rkorach) : delete ct page from history
+	    });
     });
+
+    chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
+			if (request.image == "background"){
+								console.log(self._sImageSrc);
+				sendResponse({src: self._sImageSrc});
+			}
+    });
+
   },
 
   /**
@@ -131,6 +141,14 @@ Cotton.Controllers.Background = Class.extend({
     });
 
   },
+
+	takeScreenshot: function(){
+		self = this
+			chrome.tabs.captureVisibleTab(function(img) {
+			  self._sImageSrc = img;
+				console.log('screenshiot');
+			});
+	},
 
 
   /**
