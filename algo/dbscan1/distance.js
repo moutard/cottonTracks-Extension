@@ -60,8 +60,8 @@ Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
   var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oVisitItem1, oVisitItem2);
 
   // A is the max possible common words between two visit items.
-  var iMaxCommonWords = Math.min(oVisitItem1['lExtractedWords'].length,
-    oVisitItem2['lExtractedWords'].length);
+  var iMaxCommonWords = Math.min(oVisitItem1['oExtractedDNA']['lExtractedWords'].length,
+    oVisitItem2['oExtractedDNA']['lExtractedWords'].length);
 
   // TODO(rmoutard) : is this happens often ? if not remove.
   iMaxCommonWords = Math.max(1, iMaxCommonWords);
@@ -84,8 +84,9 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
   var iCommonQueryWords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
       oVisitItem2);
 
-  var iMaxCommonQueryWords = Math.max(1, Math.min(oVisitItem1['lQueryWords'].length,
-    oVisitItem2['lQueryWords'].length));
+  var iMaxCommonQueryWords = Math.max(1, Math.min(oVisitItem1['oExtractedDNA']['lQueryWords'].length,
+    oVisitItem2['oExtractedDNA']['lQueryWords'].length));
+
 
   return 1 - (iCommonQueryWords / iMaxCommonQueryWords);
 
@@ -116,8 +117,8 @@ Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
  * @param : {Object} dictionnary or json : oStoryItem
  */
 Cotton.Algo.Distance.fromStory = function(oVisitItem, oStoryItem){
-  var lUnionWords = _.union(oVisitItem['lQueryWords'],
-      oVisitItem['lExtractedWords']);
+  var lUnionWords = _.union(oVisitItem['oExtractedDNA']['lQueryWords'],
+      oVisitItem['oExtractedDNA']['lExtractedWords']);
 
   var iCommonWords = _.intersection(lUnionWords , oStoryItem['lTags']).length;
   var iMaxCommonWords = Math.max(1, Math.min(lUnionWords.length,

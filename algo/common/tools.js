@@ -62,8 +62,8 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
  */
 Cotton.Algo.Tools.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
 
-    return _.intersection(oVisitItem1['lExtractedWords'],
-                          oVisitItem2['lExtractedWords']).length;
+    return _.intersection(oVisitItem1['oExtractedDNA']['lExtractedWords'],
+                          oVisitItem2['oExtractedDNA']['lExtractedWords']).length;
 };
 
 /**
@@ -77,7 +77,7 @@ Cotton.Algo.Tools.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
  */
 Cotton.Algo.Tools.commonQueryWords = function(oVisitItem1, oVisitItem2) {
 
-    return _.intersection(oVisitItem1['lQueryWords'],
-                          oVisitItem2['lQueryWords']).length;
+    return _.intersection(oVisitItem1['oExtractedDNA']['lQueryWords'],
+                          oVisitItem2['oExtractedDNA']['lQueryWords']).length;
 };
 

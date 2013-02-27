@@ -58,9 +58,9 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
         // first condition indicates that title is not defined
         // second condition indicates we can find a better title
         // in both case we recompute the title.
-        if (lVisitItems[j]['lQueryWords'].length !== 0) {
+        if (lVisitItems[j]['oExtractedDNA']['lQueryWords'].length !== 0) {
           lStories[lVisitItems[j]['clusterId']]
-              .setTitle(lVisitItems[j]['lQueryWords'].join(" "));
+              .setTitle(lVisitItems[j]['oExtractedDNA']['lQueryWords'].join(" "));
           lStories[lVisitItems[j]['clusterId']]['temptitle'] = false;
         } else if (lVisitItems[j]['sTitle'] !== "") {
           lStories[lVisitItems[j]['clusterId']]
