@@ -8,7 +8,6 @@ Cotton.UI.World = Class.extend({
   /**
    * Story container
    */
-  _oStoryContainer : null,
   _oSideMenu : null,
 
   /**
@@ -16,8 +15,6 @@ Cotton.UI.World = Class.extend({
    */
   init : function() {
     var self = this;
-    this._oStoryContainer = new Cotton.UI.StoryContainer();
-
     chrome.extension.sendMessage({action: "pass_background_image"}, function(response) {
       $('#blur_target').css('background-image',"url("+response.src+")");
       $('body').blurjs({
