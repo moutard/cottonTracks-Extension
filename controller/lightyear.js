@@ -47,6 +47,11 @@ Cotton.Controllers.Lightyear = Class.extend({
 					//place items on the grid with isotope
 					self.placeItems();
           self.countItems();
+          $('.ct-filter').click(function(){
+					  var selector = $(this).attr('data-filter');
+					  $('.ct-story_container').isotope({ filter: selector });
+					  return false;
+					});
 				});
 				self._oWorld.createMenu(oLastStory);
       });
