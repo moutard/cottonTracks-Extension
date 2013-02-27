@@ -43,14 +43,12 @@ Cotton.Controllers.Lightyear = Class.extend({
 	    self = self;
       self._oDatabase.getLast('stories', 'fLastVisitTime', function(oLastStory) {
         self._oDatabase.findGroup('visitItems', 'id', oLastStory.visitItemsId(), function(lVisitItems) {
-		      _.each(lVisitItems,function(oVisitItem){
-						var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
-					});
+		      self._oWorld.createStory(lVisitItems);
 					//place items on the grid with isotope
 					self.placeItems();
           self.countItems();
 				});
-				var oSticker = new Cotton.UI.SideMenu.Menu(oLastStory);
+				self._oWorld.createMenu(oLastStory);
       });
     });
   },
