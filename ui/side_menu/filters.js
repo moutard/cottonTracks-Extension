@@ -16,12 +16,12 @@ Cotton.UI.SideMenu.Filters = Class.extend({
 	  this._oMenu = oMenu;
 	
 	  this._$filters = $('<div class="ct-filters"></div>');
-	  this._$all = $('<div class="ct-filter all_filter">');
-		this._$articles = $('<div class="ct-filter articles_filter">');
-		this._$images = $('<div class="ct-filter images_filter">');
-		this._$videos = $('<div class="ct-filter videos_filter">');
-		this._$maps = $('<div class="ct-filter maps_filter">');
-		this._$sounds = $('<div class="ct-filter sounds_filter">');
+	  this._$all = $('<div class="ct-filter all_filter" data-filter="*">');
+		this._$articles = $('<div class="ct-filter articles_filter" data-filter=".ct-item-default">');
+		this._$images = $('<div class="ct-filter images_filter" data-filter=".ct-item-image">');
+		this._$videos = $('<div class="ct-filter videos_filter" data-filter=".ct-item-video">');
+		this._$maps = $('<div class="ct-filter maps_filter" data-filter=".ct-item-map">');
+		this._$sounds = $('<div class="ct-filter sounds_filter" data-filter=".ct-item-quote">');
 		this._$quotes = $('<div class="ct-filter quotes_filter">');
 		
 		//set values
