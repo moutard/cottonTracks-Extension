@@ -66,7 +66,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
       var iDivWidth = self.parent().width();
       var iDivHeight = self.parent().height();
       var fDivRatio = iDivWidth/iDivHeight;
-
+      //center image according on how it overflows
+      //if vertical, keep the upper part more visible
       if (fImRatio > fDivRatio) {
         self.css('height',iDivHeight);
         var iOverflow = self.width()-iDivWidth;
