@@ -77,3 +77,22 @@ test("Cotton.Algo.Distance - distance fromStory.", function() {
   deepEqual(Cotton.Algo.Distance.fromStory(oVisitItem2, oStoryItem), 0.6);
 });
 
+module(
+    "Cotton.Algo.Distance.Metrics",
+    {
+      setup : function() {
+
+      },
+      teardown : function() {
+        // runs after each test
+      }
+    }
+);
+
+
+test("Cotton.Algo.Distance.Metrics - Cosine.", function() {
+  var dBagOfWords1 = {'a':1, 'b':2, 'c':3, 'd':4, 'g': 5};
+  var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 64);
+});
+
