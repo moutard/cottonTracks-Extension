@@ -14,7 +14,8 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 	_oSumUp : null,
 	_oFilters : null,
 	_oSettings : null,
-	_$separationLine : null,
+	_$separationLineTop : null,
+	_$separationLineBottom : null,
 
 	init : function(oStory){
 		this._$menu = $(".ct-menu");
@@ -23,12 +24,13 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 		this._oSumUp = new Cotton.UI.SideMenu.SumUp(this);
 		this._oFilters = new Cotton.UI.SideMenu.Filters(this);
 		this._oSettings = new Cotton.UI.SideMenu.Settings(this);
-		this._$separationLine = $('<div class="separation_line"></div>');
+		this._$separationLineTop = $('<div class="separation_line"></div>');
+		this._$separationLineBottom = $('<div class="separation_line"></div>');
 
 		//construct element
 		this._$menu.append(
-		  this._oSumUp.$().append(this._$separationLine),
-		  this._oFilters.$().prepend(this._$separationLine),
+		  this._oSumUp.$().append(this._$separationLineBottom),
+		  this._oFilters.$().prepend(this._$separationLineTop),
 		  this._oSettings.$()
 	  )
 	},
