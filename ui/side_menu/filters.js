@@ -25,19 +25,19 @@ Cotton.UI.SideMenu.Filters = Class.extend({
 		this._$quotes = $('<div class="ct-filter quotes_filter">');
 		
 		//set values
-		var sAllCount = '<span class="all_count"></span> All'
+		var sAllCount = 'All (<span class="all_count"></span>)'
 		this._$all.html(sAllCount);
-		var sArticlesCount = '<span class="article_count"></span> Articles'
+		var sArticlesCount = 'Articles (<span class="articles_count"></span>)'
 		this._$articles.html(sArticlesCount);
-		var sImagesCount = '<span class="images_count"></span> Images'
+		var sImagesCount = 'Images (<span class="images_count"></span>)'
 		this._$images.html(sImagesCount);
-		var sVideosCount = '<span class="videos_count"></span> Videos'
+		var sVideosCount = 'Videos (<span class="videos_count"></span>)'
 		this._$videos.html(sVideosCount);
-		var sMapsCount = '<span class="maps_count"></span> Maps'
+		var sMapsCount = 'Maps (<span class="maps_count"></span>)'
 		this._$maps.html(sMapsCount);
-		var sSoundsCount = '<span class="sounds_count"></span> Sounds'
+		var sSoundsCount = 'Sounds (<span class="sounds_count"></span>)'
 		this._$sounds.html(sSoundsCount);
-		var sQuotesCount = '<span class="quotes_count"></span> Quotes'
+		var sQuotesCount = 'Quotes (<span class="quotes_count"></span>)'
 		this._$quotes.html(sQuotesCount);
 		
     //construct element
