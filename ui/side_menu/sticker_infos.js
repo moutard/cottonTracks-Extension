@@ -21,7 +21,7 @@ Cotton.UI.SideMenu.StickerInfos = Class.extend({
     this._$stickerTitle.text(sStickerTitle);
 
     //Count details
-    var sBull = '<span class="bull">&bull;</span>';
+    var sBull = '<span class="bull">&bull; </span>';
     var sArticlesCount = '<span class="articles_count"></span> article(s) ';
     var sImagesCount = '<span class="images_count"></span> photo(s) ';
     var sVideosCount = '<span class="videos_count"></span> video(s)';
