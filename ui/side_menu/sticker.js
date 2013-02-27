@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ *   Sticker in SumUp, contains story thumbnail,
+ *   and story info block (with title, and content detail == number of elements)
+ **/
+
 Cotton.UI.SideMenu.Sticker = Class.extend({
 
   _oMenu : null,
