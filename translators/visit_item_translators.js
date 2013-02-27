@@ -54,8 +54,8 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
     var oExtractedDNA = new Cotton.Model.ExtractedDNA();
-    oExtractedDNA.setQueryWords(oDbRecord['lQueryWords']);
-    oExtractedDNA.setExtractedWords(oDbRecord['lExtractedWords']);
+    oExtractedDNA.setQueryWords(dExtractedDNA['lQueryWords']);
+    oExtractedDNA.setExtractedWords(dExtractedDNA['lExtractedWords']);
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);

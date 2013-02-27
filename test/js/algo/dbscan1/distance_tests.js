@@ -1,22 +1,30 @@
 'use strict';
 var oVisitItem1 = {
-  lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
-  lQueryWords : ['alice', 'wonderland', 'film', 'telerama'],
+  oExtractedDNA : {
+    lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
+    lQueryWords : ['alice', 'wonderland', 'film', 'telerama'],
+  }
 };
 
 var oVisitItem2 = {
-  lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
-  lQueryWords : ['alice', 'wonderland', 'novel'],
+  oExtractedDNA : {
+    lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
+    lQueryWords : ['alice', 'wonderland', 'novel'],
+  }
 };
 
 var oVisitItem3 = {
-  lExtractedWords : ['singapor', 'madrid', 'paris'],
-  lQueryWords : ['capital', 'country'],
+  oExtractedDNA : {
+    lExtractedWords : ['singapor', 'madrid', 'paris'],
+    lQueryWords : ['capital', 'country'],
+  }
 };
 
 var oVisitItemNull = {
-  lExtractedWords : [],
-  lQueryWords : [],
+  oExtractedDNA : {
+    lExtractedWords : [],
+    lQueryWords : [],
+  }
 };
 
 var oStoryItem = {
