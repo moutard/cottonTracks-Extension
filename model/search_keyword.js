@@ -7,16 +7,24 @@ Cotton.Model.SearchKeyword = Class.extend({
 
   _iId : undefined,
   _sKeyword : undefined,
-  _lReferringVisitItemsId : [],
-  _lReferringStoriesId : [],
+  _lReferringVisitItemsId : [],   // list of visitItems that contains this word.
+  _lReferringStoriesId : [],      // list of stories that contains this word.
+
+  /**
+   * {Integer} _iFrequencyInCorpus :
+   * Number of times word appears in all pages. Allow to compute idf (inverse
+   * document frequency). More the words appears less it is important:
+   *  - because it can be a stop words (verbs like be, go, and conjugaison)
+   *  - imagine all the corpus talk about javascript, then javascript becomes
+   *  less important to classified, we want something smaller.
+   */
+  _iFrequencyInCorpus : 0,
 
   /**
    * @constructor
    */
   init : function(sKeyword) {
     this._sKeyword = sKeyword;
-    this._lReferringVisitItemsId = [];
-    this._lReferringStoriesId = [];
   },
 
   id : function() {
@@ -61,4 +69,11 @@ Cotton.Model.SearchKeyword = Class.extend({
     }
   },
 
+  frequency : function() {
+    return this._iFrequencyInCorpus;
+  },
+
+  setFrequency : function(iFrequency) {
+    this._iFrequencyInCorpus = iFrequency;
+  },
 });
