@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Upper block of the menu, contains sticker and actions
+ **/
+
 Cotton.UI.SideMenu.SumUp = Class.extend({
 
   _oMenu : null,

@@ -55,6 +55,7 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.browserAction.onClicked.addListener(function() {
       self.takeScreenshot();
+      // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
         chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
 	      // TODO(rkorach) : delete ct page from history
@@ -84,6 +85,7 @@ Cotton.Controllers.Background = Class.extend({
 	   * CottonTracks defined an "action" parameters.
 	   * - create_visit_item
 	   * - import_history
+	   * - pass background image to world
 	   */
 	  switch (request['action']) {
 
@@ -270,7 +272,9 @@ Cotton.Controllers.Background = Class.extend({
 	      });
 	    //return true;
 	    break;
-
+      /**
+       *  pass the screenshot taken before upadting the page to lightyear
+       */
 	  case 'pass_background_image':
         sendResponse({src: self._sImageSrc});
 	    break;

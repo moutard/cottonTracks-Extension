@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Actions for the story (share, comment, star)
+ **/
+
 Cotton.UI.SideMenu.Actions = Class.extend({
 
   _oMenu : null,
