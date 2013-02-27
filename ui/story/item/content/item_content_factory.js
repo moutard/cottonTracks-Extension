@@ -43,14 +43,10 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
         oUrl.dHash['video']);
   } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
     return new Cotton.UI.Story.Item.Content.Map(oItem, oUrl);
-  // } else if (oUrl.host === "www.slideshare.net"
-  //     && oUrl.pathname.match(/(\-[0-9]+)$/)) {
-  //   // Slideshare
-  //   return new Cotton.UI.Story.Item.Content.Slideshow(oItem,
-  //       sLastStringFromHyphen);
   } else if (oUrl.dSearch['q']) {
     // Search
     return new Cotton.UI.Story.Item.Content.Search(oItem);
+  //TODO(rkorach) : include slideshare
   } else {
     // Default
     return new Cotton.UI.Story.Item.Content.Default(oItem);
