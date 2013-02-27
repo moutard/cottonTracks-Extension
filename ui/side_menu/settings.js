@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Settings button
+ **/
+
 Cotton.UI.SideMenu.Settings = Class.extend({
 	
 	_oMenu : null,

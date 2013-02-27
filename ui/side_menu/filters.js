@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Filters for elements in the story.
+ **/
+
 Cotton.UI.SideMenu.Filters = Class.extend({
 
   _oMenu : null,

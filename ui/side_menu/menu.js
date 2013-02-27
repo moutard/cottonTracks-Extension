@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ *   Global menu of the interface.
+ *   Contains the SumUp of the story (with sticker image, title,
+ *   content details, and actions available)
+ *   the filters, and the settings button
+ **/
+
 Cotton.UI.SideMenu.Menu = Class.extend({
 
 	_$menu : null,

@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Sticker image
+ **/
+
 Cotton.UI.SideMenu.StickerImage = Class.extend({
 
   _oMenu : null,

@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ *   Infos on the story: title and content details
+ **/
+
 Cotton.UI.SideMenu.StickerInfos = Class.extend({
 
   _oMenu : null,
