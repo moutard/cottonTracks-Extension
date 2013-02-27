@@ -173,3 +173,26 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
 
   return sum;
 };
+
+/**
+ * Metrics are distance that respect the 4 conditions of the metrics.
+ */
+Cotton.Algo.Metrics = {};
+
+/**
+ * Return the cosine metrics of 2 bags of words seen as a vector.
+ * FIXME(rmoutard) : problem with the dimension of the vector.
+ * @param {Dictionnary} lBagOfWords1 :
+ * @param {Dictionnary} lBagOfWords2 :
+ */
+Cotton.Algo.Metrics.Cosine = function(lBagOfWords1, lBagOfWords2){
+  var lCommonDimension = _.intersection(_.keys(lBagOfWords1), _.keys(lBagOfWords2));
+  var fCosine = 0;
+  _.each(lCommonDimension, function(sDimension){
+    fCosine += lBagOfWords1[sDimension] * lBagOfWords2[sDimension];
+  });
+  return fCosine;
+};
+
+
+
