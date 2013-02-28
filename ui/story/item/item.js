@@ -30,7 +30,7 @@ Cotton.UI.Story.Item.Element = Class
 
         // create item
         this._$item.append(this._oItemContent.$());
-				this._$storyContainer.append(this._$item);
+		this._$storyContainer.isotope( 'insert', this._$item);
       },
 
       $ : function() {
