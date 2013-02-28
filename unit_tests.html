@@ -22,12 +22,13 @@
 
 	<!-- Cotton.db -->
   <script type='text/javascript' src='db/init.js'></script>
-  <script type='text/javascript' src='db/engine.js'></script>
+  <script type='text/javascript' src='db/wrapper.js'></script>
+  <script type='text/javascript' src='db/indexeddb/init.js'></script>
+  <script type='text/javascript' src='db/indexeddb/engine_indexeddb.js'></script>
+  <script type='text/javascript' src='db/indexeddb/wrapper_indexeddb.js'></script>
   <script type='text/javascript' src='db/translator.js'></script>
   <script type='text/javascript' src='db/translators_collection.js'></script>
-  <script type='text/javascript' src='db/store.js'></script>
-  <script type='text/javascript' src='db/store_indexeddb.js'></script>
-  <script type='text/javascript' src='db/cache.js'></script>
+
   <!-- Cotton.model -->
   <script type='text/javascript' src='model/init.js'></script>
   <script type='text/javascript' src='model/story.js'></script>
@@ -57,7 +58,7 @@
 
   <!-- File with tests -->
   <script type="text/javascript" src="test/js/db/translator_tests.js"></script>
-  <script type="text/javascript" src="test/js/db/cache_tests.js"></script>
+  <script type="text/javascript" src="test/js/db/indexeddb/wrapper_indexeddb_tests.js"></script>
   <script type="text/javascript" src="test/js/algo/common/tools_tests.js"></script>
   <script type="text/javascript" src="test/js/algo/dbscan1/distance_tests.js"></script>
 
