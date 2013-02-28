@@ -19,7 +19,7 @@ Cotton.Controllers.Lightyear = Class.extend({
    * "View" in MVC pattern. Global view, contains the Menu, the StoryContainer
    */
   _oWorld : null,
-    
+
   /**
    * @constructor
    */
@@ -30,30 +30,32 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     $(window).ready(function(){
       Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
-			self.buildStory();
+      self.buildStory();
     });
   },
 
-	buildStory : function() {
-		var self = this;
-		self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-          'stories' : Cotton.Translators.STORY_TRANSLATORS,
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+  buildStory : function() {
+    var self = this;
+    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+        'stories' : Cotton.Translators.STORY_TRANSLATORS,
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
     }, function() {
-	    self = self;
+	  self = self;
       self._oDatabase.getLast('stories', 'fLastVisitTime', function(oLastStory) {
-        self._oDatabase.findGroup('visitItems', 'id', oLastStory.visitItemsId(), function(lVisitItems) {
-		      self._oWorld.createStory(lVisitItems);
-					//place items on the grid with isotope
-					self.placeItems();
+        self._oDatabase.findGroup('visitItems', 'id', oLastStory.visitItemsId(),
+        function(lVisitItems) {
+          // Initialize isotope grid view
+          self.initPlaceItems();
+          self._oWorld.createStory(lVisitItems);
+
           self.countItems();
           $('.ct-filter').click(function(){
-					  var selector = $(this).attr('data-filter');
-					  $('.ct-story_container').isotope({ filter: selector });
-					  return false;
-					});
-				});
-				self._oWorld.createMenu(oLastStory);
+            var selector = $(this).attr('data-filter');
+            $('.ct-story_container').isotope({ filter: selector });
+	        return false;
+          });
+        });
+	    self._oWorld.createMenu(oLastStory);
       });
     });
   },
@@ -76,13 +78,13 @@ Cotton.Controllers.Lightyear = Class.extend({
     $('.quotes_count').text(sQuotesCount);
   },
 
-  placeItems: function(){
-	  $('.ct-story_container').isotope({
-		  itemSelector : '.ct-story_item',
-		  layoutMode : 'fitColumns',
-		});
-	}
-  
+  initPlaceItems: function(){
+    $('.ct-story_container').isotope({
+        itemSelector : '.ct-story_item',
+        layoutMode : 'fitColumns',
+    });
+  }
+
 });
 
 Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear();
