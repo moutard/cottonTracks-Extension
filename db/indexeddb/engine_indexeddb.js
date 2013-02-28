@@ -1066,8 +1066,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           // If there was no result, it will send back null.
           console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
           dItem['id'] = oResult['id'];
-          dItem['lReferringStoriesId'] = dItem['lReferringStoriesId'].concat(oResult['lReferringStoriesId']);
-          dItem['lReferringVisitItemsId'] = dItem['lReferringVisitItemsId'].concat(oResult['lReferringVisitItemsId']);
+          dItem['lReferringStoriesId'] = _.union(dItem['lReferringStoriesId'],
+              oResult['lReferringStoriesId']);
+          dItem['lReferringVisitItemsId'] = _.union(dItem['lReferringVisitItemsId'],
+              oResult['lReferringVisitItemsId']);
 
           var oSecondPutRequest = oStore.put(dItem);
 
