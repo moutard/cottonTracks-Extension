@@ -15,8 +15,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
 
     this._sImageType = sType;
     oItem.$().addClass('ct-item-image');
-    this._$img = $('<img class="resize">');
-    this._oItemMenu = new Cotton.UI.Story.Item.LargeMenu(this);
+		this._$img = $('<img class="resize">');
+		this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     if (sType === "img") {
       this._$img.attr("src", this._oItem.visitItem().url());
