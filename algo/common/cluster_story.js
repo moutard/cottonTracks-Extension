@@ -84,9 +84,24 @@ Cotton.Algo.clusterStory = function(lVisitItems, iNbCluster) {
               .setFeaturedImage(lVisitItems[j]['sUrl']);
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.pathname === "/imgres") {
-        	//Image from google image search
+          //Image from google image search
+          //TODO(rkorach) : have a function to do it
+          //(used also to build image item)
+		  var sSearchImgUrl = oUrl.dSearch['imgurl'];
+		  var reg = /\%25/;
+		  if (reg.test(sSearchImgUrl)){
+		    sSearchImgUrl = sSearchImgUrl.replace(/\%2525/g,'%')
+		        .replace(/\%2521/g,'!')
+		        .replace(/\%2522/g,'"')
+		        .replace(/\%2523/g,'#')
+		        .replace(/\%2524/g,'$')
+		        .replace(/\%2526/g,'&')
+		        .replace(/\%2527/g,"'")
+		        .replace(/\%253D/g,'=')
+		        .replace(/\%253F/g,'?');
+		  }
           lStories[lVisitItems[j]['clusterId']]
-              .setFeaturedImage(oUrl.dSearch['imgurl']);
+              .setFeaturedImage(sSearchImgUrl);
           lStories[lVisitItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
         	//Youtube video
