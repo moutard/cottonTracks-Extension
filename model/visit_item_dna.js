@@ -8,7 +8,7 @@
  * why it's called PageDNA. The extractedDNA depends on the visit.
  */
 
-Cotton.Model.ExtractedDNA = Class.extend({
+Cotton.Model.VisitItemDNA = Class.extend({
 
   _lQueryWords : [],                  // words used to make the google search.
   _lExtractedWords : [],              // words extracted from title and content.
