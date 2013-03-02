@@ -19,8 +19,8 @@ Cotton.UI.Story.Item.Element = Class
         // Cotton.Model.VisitItem contains all data.
         this._oVisitItem = oVisitItem;
 
-				// Container for all items
-				this._$storyContainer = $(".ct-story_container");
+        // Container for all items
+        this._$storyContainer = $(".ct-story_container");
 
         // current element.
         this._$item = $('<div class="ct-story_item"></div>');
@@ -30,7 +30,7 @@ Cotton.UI.Story.Item.Element = Class
 
         // create item
         this._$item.append(this._oItemContent.$());
-		this._$storyContainer.isotope( 'insert', this._$item);
+        this._$storyContainer.isotope( 'insert', this._$item);
       },
 
       $ : function() {
