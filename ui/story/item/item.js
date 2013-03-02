@@ -15,12 +15,12 @@ Cotton.UI.Story.Item.Element = Class
 
       _$storyContainer : null,
 
-      init : function(oVisitItem) {
+      init : function(oVisitItem, $storyContainer) {
         // Cotton.Model.VisitItem contains all data.
         this._oVisitItem = oVisitItem;
 
         // Container for all items
-        this._$storyContainer = $(".ct-story_container");
+        this._$storyContainer = $storyContainer;
 
         // current element.
         this._$item = $('<div class="ct-story_item"></div>');
