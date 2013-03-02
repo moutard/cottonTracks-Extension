@@ -8,13 +8,14 @@ Cotton.UI.World = Class.extend({
   /**
    * Story container
    */
-  _oSideMenu : null,
+  _$storyContainer : null,
 
   /**
    * @constructor
    */
   init : function() {
     var self = this;
+    this._$storyContainer = $(".ct-story_container");
     chrome.extension.sendMessage({action: "pass_background_image"}, function(response) {
       $('#blur_target').css('background-image',"url("+response.src+")");
       $('body').blurjs({
@@ -30,8 +31,9 @@ Cotton.UI.World = Class.extend({
   },
 
   createStory : function(lVisitItems){
+	var self = this;
     _.each(lVisitItems,function(oVisitItem){
-      var oItem = new Cotton.UI.Story.Item.Element(oVisitItem);
+      var oItem = new Cotton.UI.Story.Item.Element(oVisitItem, self._$storyContainer);
     });
   },
 
