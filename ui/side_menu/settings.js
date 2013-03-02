@@ -14,8 +14,6 @@ Cotton.UI.SideMenu.Settings = Class.extend({
     this._$settings = $('<div class="ct-settings"></div>');
 
     //set value
-    var sSettings = '<div class="settings_icon"></div> Settings';
-    this._$settings.html(sSettings);
 
 	  //trigger settings page
 	  this._$settings.click(function(){
