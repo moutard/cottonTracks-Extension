@@ -25,7 +25,7 @@ Cotton.Model.VisitItem = Class
        * @constructor
        */
       init : function() {
-        this._oExtractedDNA = new Cotton.Model.ExtractedDNA(this);
+        this._oExtractedDNA = new Cotton.Model.VisitItemDNA(this);
       },
       // can't be set
       id : function() {

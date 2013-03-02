@@ -53,7 +53,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
 
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
-    var oExtractedDNA = new Cotton.Model.ExtractedDNA();
+    var oExtractedDNA = new Cotton.Model.VisitItemDNA();
     oExtractedDNA.setQueryWords(dExtractedDNA['lQueryWords']);
     oExtractedDNA.setExtractedWords(dExtractedDNA['lExtractedWords']);
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
