@@ -37,7 +37,7 @@ Cotton.Controllers.Background = Class.extend({
     /**
      * Initialize the store.
      */
-    self._oStore = new Cotton.DB.StoreIndexedDB('ct', {
+    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
 
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
