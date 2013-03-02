@@ -118,6 +118,22 @@ UrlParser.prototype.generateKeywords = function() {
 
 };
 
+UrlParser.prototype.replaceHexa = function(sEscaped){
+    var reg = /\%25/;
+    if (reg.test(sEscaped)){
+      var sUnescaped = sEscaped.replace(/\%2525/g,'%')
+          .replace(/\%2521/g,'!')
+          .replace(/\%2522/g,'"')
+          .replace(/\%2523/g,'#')
+          .replace(/\%2524/g,'$')
+          .replace(/\%2526/g,'&')
+          .replace(/\%2527/g,"'")
+          .replace(/\%253D/g,'=')
+          .replace(/\%253F/g,'?');
+    }
+    return sUnescaped;
+};
+
 // README
 // This system is principaly designed for google search. it maybe interesting
 // to see if 'bing', 'yahoo', or 'duckduckgo' have the same conventions.
