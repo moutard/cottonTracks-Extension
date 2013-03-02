@@ -141,15 +141,13 @@ Cotton.Controllers.Background = Class.extend({
 
 	              oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
 	                // Return nothing to let the connection be cleaned up.
-	                sendResponse({
-	                  'received' : "true",
-	                  'id' : sPutId,
-	                });
 	              });
 	            });
 	          });
-
-
+              sendResponse({
+                'received' : "true",
+                'id' : sPutId,
+              });
 	        });
 
 	      });
