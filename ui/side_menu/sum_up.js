@@ -21,8 +21,7 @@ Cotton.UI.SideMenu.SumUp = Class.extend({
 
     //construct element
     this._$sumUp.append(
-	    this._oSticker.$(),
-	    this._oActions.$()
+	    this._oSticker.$()
 	  )
   },
 

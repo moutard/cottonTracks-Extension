@@ -29,7 +29,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
 		//construct element
 		this._$menu.append(
-		  this._oSumUp.$().append(this._$separationLineBottom),
+		  this._oSumUp.$(),
 		  this._oFilters.$().prepend(this._$separationLineTop),
 		  this._oSettings.$()
 	  )
