@@ -69,16 +69,6 @@ Cotton.Model.VisitItem = Class
       setExtractedDNA : function(oExtractedDNA) {
         this._oExtractedDNA = oExtractedDNA;
       },
-
-      // method
-      getInfoFromPage : function() {
-        this._sUrl = window.location.href;
-        this._sTitle = window.document.title;
-        this._iVisitTime = new Date().getTime();
-        this._sReferrerUrl = document.referrer;
-
-      },
-
       searchKeywords : function() {
         return this._sTitle.toLowerCase().split(" ");
       },

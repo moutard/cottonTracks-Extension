@@ -5,6 +5,11 @@ Cotton.Behavior.Active.REFRESH_RATE = 8; // seconds
 Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
+   * {Cotton.Behavior.BackgroundClient}
+   */
+  _oClient : null,
+
+  /**
    * true if there was an activity recently on the page (meaning that the user
    * had the tab open and for example moved the mouse).
    *
@@ -37,9 +42,11 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
   /**
    * @constructor
+   * @param {Cotton.Behavior.BackgroundClient} oClient:
+   *  client used to communicate with the database.
    */
-  init : function() {
-    var self = this;
+  init : function(oClient) {
+    this._oClient = oClient;
 
     // Detect user's activity on the page when they move their cursor.
     // If they don't move it during 10 seconds, we conclude they are
@@ -47,7 +54,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = true;
 
     // Create the parser but don't start it.
-    this._oParser = new Cotton.Behavior.Passive.ParserFactory();
+    this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient);
     this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
   },
 
@@ -72,6 +79,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   start : function() {
     var self = this;
 
+    self.getFirstInfoFromPage(self._oClient.current());
+    self._oClient.createVisit();
     var oTimeout = null;
     $(document).mousemove(function() {
       if (self._bDocumentActive === false) {
@@ -98,8 +107,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     this._initializeHighlightListener();
 
-    sync.current().extractedDNA().setTimeTabActive(0);
-    sync.current().extractedDNA().setTimeTabOpen(0);
+    self._oClient.current().extractedDNA().setTimeTabActive(0);
+    self._oClient.current().extractedDNA().setTimeTabOpen(0);
     // To increase performance the parsing is just lanched once.
     var mRefreshParsing = function() {
       self._oParser.parse();
@@ -112,8 +121,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         }
 
         // Update oCurrentVisitItem
-        sync.current().extractedDNA().setImageUrl(sBestImg);
-        sync.updateVisit();
+        self._oClient.current().extractedDNA().setImageUrl(sBestImg);
+        self._oClient.updateVisit();
       }
 
     };
@@ -142,12 +151,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           self._oFeedbackElement.setPercentage(iPercent + '%');
         }
 
-        sync.current().extractedDNA().setPageScore(fPageScore);
-        sync.current().extractedDNA().setPercent(iPercent);
-        sync.current().extractedDNA().setPercent(iPercent);
-        sync.current().extractedDNA().increaseTimeTabActive(
+        self._oClient.current().extractedDNA().setPageScore(fPageScore);
+        self._oClient.current().extractedDNA().setPercent(iPercent);
+        self._oClient.current().extractedDNA().setPercent(iPercent);
+        self._oClient.current().extractedDNA().increaseTimeTabActive(
             Cotton.Behavior.Active.REFRESH_RATE);
-        sync.updateVisit();
+        self._oClient.updateVisit();
       }
 
       // Refresh after a REFRESH_RATE seconds.
@@ -189,9 +198,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           self._oFeedbackElement.setPercentage(iPercent + '%');
         }
 
-        sync.current().extractedDNA().setPageScore(fPageScore);
-        sync.current().extractedDNA().setPercent(iPercent);
-        sync.updateVisit();
+        self._oClient.current().extractedDNA().setPageScore(fPageScore);
+        self._oClient.current().extractedDNA().setPercent(iPercent);
+        self._oClient.updateVisit();
       }
 
       // Refresh after a REFRESH_RATE seconds.
@@ -227,7 +236,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    * @returns float between 0 and 1
    */
   _computePageScore : function() {
-
+    var self = this;
     var lBlockBundles = this._computeBlockBundles();
 
     // Get the total visible and unvisible surface of all content blocks.
@@ -260,7 +269,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
       oParagraph.setId(oScore.id());
       oParagraph.setPercent(oScore.score());
-      sync.current().extractedDNA().addParagraph(oParagraph);
+      self._oClient.current().extractedDNA().addParagraph(oParagraph);
 
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
     });
@@ -317,7 +326,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
             $highlightedContentBlocks = $([]);
             return;
           }
-          sync.current().extractedDNA().addHighlightedText(
+          self._oClient.current().extractedDNA().addHighlightedText(
               oSelection.toString());
           var oStartNode = oSelection.anchorNode;
           var oEndNode = oSelection.focusNode;
@@ -348,8 +357,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // highlighted content blocks that are also copied.
     $(document).bind('copy', function() {
       $highlightedContentBlocks.each(function() {
-        sync.current().extractedDNA().addCopyPaste($(this).text());
-        sync.updateVisit();
+        self._oClient.current().extractedDNA().addCopyPaste($(this).text());
+        self._oClient.updateVisit();
         var oScore = $(this).data('score');
         if (oScore) {
           // TODO(fwouts): Tweak the incremental score.
@@ -374,15 +383,15 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 });
 
 // We don't need to wait document 'ready' signal to create instance.
-var sync = new Cotton.Behavior.Passive.DbSync();
-var readingRater = new Cotton.Behavior.Active.ReadingRater();
+var oBackgroundClient = new Cotton.Behavior.BackgroundClient();
+var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient);
 
 $(document).ready(function() {
-  // Need to wait the document is ready to get the title.
+  // Need to wait the document is ready to get the title and the parser can
+  // work.
 
   // Do not store informations in incognito mode.
   if (!chrome.extension.inIncognitoContext) {
-    sync.start();
-    readingRater.start();
+    oReadingRater.start();
   }
 });

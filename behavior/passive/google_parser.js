@@ -41,7 +41,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
    */
   parse : function() {
 
-    // Detect rhsbox.
+   // Detect rhsbox.
     this._$InfoBox = $('#rhs'); // seems it doesn't work.
 
     $('[data-meaningful]').removeAttr('data-meaningful');
