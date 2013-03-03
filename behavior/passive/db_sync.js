@@ -140,12 +140,12 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   },
 
-  setParagraph : function(lAllParagraphs) {
+  setParagraph : function(lAllParagraphs) {
     this._bParagraphSet = true;
     this._lAllParagraphs = lAllParagraphs;
   },
 
-  setImage : function(sImageUrl) {
+  setImage : function(sImageUrl) {
     this._bImageSet = true;
     this._sImageUrl = sImageUrl;
   },
