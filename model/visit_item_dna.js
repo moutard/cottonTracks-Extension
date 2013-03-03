@@ -31,19 +31,38 @@ Cotton.Model.VisitItemDNA = Class.extend({
    * @constructor
    */
   init : function() {
-    this._oBagOfWords = new Cotton.Model.BagOfWords();
+    var self = this;
+    self._oBagOfWords = new Cotton.Model.BagOfWords();
+
+    // Initialize the bag of words, with QueryWords and ExtractedWords.
+    _.each(self._lQueryWords, function(sWord){
+      self._oBagOfWords.addWord(sWord, 5);
+    });
+    _.each(self._lExtractedWords, function(sWord){
+      self._oBagOfWords.addWord(sWord, 3);
+    });
+
   },
   queryWords : function() {
     return this._lQueryWords;
   },
   setQueryWords : function(lQueryWords) {
+    var self = this;
     this._lQueryWords = lQueryWords;
+    // Initialize the bag of words, with QueryWords and ExtractedWords.
+    _.each(self._lQueryWords, function(sWord){
+      self._oBagOfWords.addWord(sWord, 5);
+    });
   },
   extractedWords : function() {
     return this._lExtractedWords;
   },
   setExtractedWords : function(lExtractedWords) {
-    this._lExtractedWords = lExtractedWords;
+    var self = this;
+    self._lExtractedWords = lExtractedWords;
+    _.each(self._lExtractedWords, function(sWord){
+      self._oBagOfWords.addWord(sWord, 3);
+    });
   },
   bagOfWords : function(){
     return this._oBagOfWords;
