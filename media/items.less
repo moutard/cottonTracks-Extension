@@ -1,33 +1,3 @@
-a{
-	text-decoration: none;
-}
-
-a:visited{
-	color: #ffffff;
-}
-
-.info{
-	display: table;
-	position: absolute;
-	top: 40%;
-}
-
-.info img{
-	float: left;
-}
-
-.ct-item_date{
-	height: 22px;
-	display: table;
-}
-
-.info{
-  .ct-quote{
-	height: 22px;
-	display: table;
-  }
-}
-
 .ct-story_item{
   /*Common to all items*/
   background-color:#262626;
@@ -46,6 +16,14 @@ a:visited{
 		> .ct-label-large-menu{
 		  bottom: 0;
 		}
+	}
+
+	a{
+		text-decoration: none;
+
+	  &:visited{
+		  color: #ffffff;
+	  }
 	}
 
 	h3{
@@ -129,6 +107,16 @@ a:visited{
 			height: 130px;
 			position: relative;
 			overflow: hidden;
+
+			> .ct-item_date{
+				height: 22px;
+				display: table;
+			}
+
+		  > .ct-quote{
+			  height: 22px;
+			  display: table;
+		  }
 		}
 
 		.ct-featured_image{
