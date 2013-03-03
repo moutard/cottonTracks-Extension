@@ -17,4 +17,8 @@ Cotton.Model.StoryDNA = Class.extend({
     self._oBagOfWords = new Cotton.Model.BagOfWords();
   },
 
+  bagOfWords: function(){
+    return this._oBagOfWords;
+  },
+
 });
