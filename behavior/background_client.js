@@ -1,15 +1,13 @@
 'use strict';
 
 /**
- * @class : DbSync
+ * @class : BackgroundClient
  *
- * handles tabs openning. Each time a new tab is opened, a visitItem is created
- * Then send to the content_script_listener. That will put it in the database.
- *
- * Because DbSync is in a content script, their options are limited.
+ * Client to communicate between the content_scripts and the background page.
+ * BackgroundClient is loaded in content_scripts so options are limited.
  */
 
-Cotton.Behavior.Passive.DbSync = Class.extend({
+Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
    * Id of the current Visit item in the database.
@@ -36,14 +34,6 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     this._bImageSet = false;
     this._lAllParagraphs = [];
     this._sImageUrl = "";
-  },
-
-  /**
-   * Start when the document is ready, to get title, and first information.
-   */
-  start : function() {
-    this._oCurrentVisitItem.getInfoFromPage();
-    this.createVisit();
   },
 
   /**
@@ -149,7 +139,6 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     this._bImageSet = true;
     this._sImageUrl = sImageUrl;
   },
-
 });
 
 // According to Chrome API, the object oCurrentHistoryItem will be serialized.

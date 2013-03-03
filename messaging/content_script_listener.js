@@ -45,5 +45,4 @@ Cotton.Controllers.ContentScriptListener = Class.extend({
   },
 
   // TODO(rmoutard) : add a system to suscribe to the dispacher.
-
 });

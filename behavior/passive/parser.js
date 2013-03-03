@@ -10,7 +10,6 @@
 
 Cotton.Behavior.Passive.Parser = Class
     .extend({
-
       /**
        * Used to stored the detected best image.
        */
@@ -211,9 +210,9 @@ Cotton.Behavior.Passive.Parser = Class
         if (Cotton.Config.Parameters.bDevMode === true) {
           $block.css('border', '1px dashed #35d');
         }
-        if (sync.current().extractedDNA().firstParagraph() === "") {
-          sync.current().extractedDNA().setFirstParagraph($block.text());
-          sync.updateVisit();
+        if (this._oClient.current().extractedDNA().firstParagraph() === "") {
+          this._oClient.current().extractedDNA().setFirstParagraph($block.text());
+          this._oClient.updateVisit();
         }
 
       },
