@@ -13,6 +13,7 @@ Cotton.Model.VisitItemDNA = Class.extend({
   _lQueryWords : [],                  // words used to make the google search.
   _lExtractedWords : [],              // words extracted from title and content.
   _sClosestGeneratedPage : undefined, // closest google search page.
+  _oBagOfWords : null,
 
   _iPercent : 0,
   _fPageScore : 0,
@@ -30,6 +31,7 @@ Cotton.Model.VisitItemDNA = Class.extend({
    * @constructor
    */
   init : function() {
+    this._oBagOfWords = new Cotton.Model.BagOfWords();
   },
   queryWords : function() {
     return this._lQueryWords;
@@ -42,6 +44,12 @@ Cotton.Model.VisitItemDNA = Class.extend({
   },
   setExtractedWords : function(lExtractedWords) {
     this._lExtractedWords = lExtractedWords;
+  },
+  bagOfWords : function(){
+    return this._oBagOfWords;
+  },
+  setBagOfWords : function(oBagOfWords){
+    this._oBagOfWords = oBagOfWords;
   },
   closestGeneratedPage : function() {
     return this._sClosestGeneratedPage;
