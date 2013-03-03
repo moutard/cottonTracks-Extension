@@ -64,7 +64,7 @@ Cotton.Algo.PreTreatment.computeClosestGeneratedPage = function(lVisitItems) {
   for ( var i = lVisitItems.length - 1; i >= 0; i--) {
     // Inverse Loop.
     // This method is working because lVisitItems is sorted by iVisitTime.
-    var oUrl = new parseUrl(lVisitItems[i]['sUrl']);
+    var oUrl = new UrlParser(lVisitItems[i]['sUrl']);
     // TODO(rmoutard) : maybe put all the oUrl.
     lVisitItems[i]['sPathname'] = oUrl.pathname;
     lVisitItems[i]['sHostname'] = oUrl.hostname;
