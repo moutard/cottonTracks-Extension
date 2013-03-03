@@ -35,7 +35,9 @@ Cotton.UI.Story.Item.FeaturedImage = Class
 
           this._$featured_image.append(this._$img);
         }
-
+        if (this._$img){
+          this.resize(this._$img);
+        }
        // construct item
 
       },
@@ -56,80 +58,33 @@ Cotton.UI.Story.Item.FeaturedImage = Class
         }
       },
 
-      editImage : function(){
-        var self = this;
-        if(!self._sImageAlreadyEditable){
-          self._sImageAlreadyEditable = true;
-          self._$button_crop_image = $('<div class="ct-button_crop_image"></div>');
+	  resize : function($img) {
+		$img.load(function(){
+	      var self = $(this);
 
-          // Crop the image
-          self._$button_crop_image.mouseup(function(){
-            if(!self._bIsCropped){
-              self._bIsCropped = true;
-              // Remember that the image is cropped.
-              self._oItemContent.item().visitItem().extractedDNA().setImageCropped(1);
-              self._oItemContent.item().visitItemHasBeenSet();
+	      //image size and ratio
+	      var iImWidth = self.width();
+	      var iImHeight = self.height();
+	      var fImRatio = iImWidth/iImHeight;
 
-              // Allow to move the image to feat perfectly.
-              self._$featured_image.addClass("crop");
-              self._$img.draggable('enable').css("cursor", "move");
-            } else {
-              self._bIsCropped = false;
-              // Remember that the image is not cropped.
-              self._oItemContent.item().visitItem().extractedDNA().setImageCropped(0);
-              self._oItemContent.item().visitItemHasBeenSet();
+	      //div size and ratio
+	      var iDivWidth = self.parent().width();
+	      var iDivHeight = self.parent().height();
+	      var fDivRatio = iDivWidth/iDivHeight;
 
-              //
-              self._$featured_image.removeClass("crop");
-              self._$img.draggable('disable').css('top', '0px').css("cursor", "auto");
-            }
-          });
-
-          // Create an input field to change the image url.
-          self._$input_image = $('<input class="ct-editable_image" type="text" name="image">');
-
-          // Set the default value, with the current image url.
-          self._$input_image.val(self._$img.attr('src') || 'http://');
-          self._$input_image.keypress(function(event) {
-            // on press 'Enter' event.
-            if (event.which == 13) {
-              if(!self._sImageUrl){
-                self._$featured_image.append(self._$img);
-              }
-              self._sImageUrl = self._$input_image.val();
-              if((self._sImageUrl === "") || (self._sImageUrl === "http://")){
-                self._$img.remove();
-                self._$img = $('<img ></img>');
-              } else {
-                self._$img.attr('src', self._sImageUrl);
-              }
-              self._$button_crop_image.remove();
-              self._$input_image.remove();
-              self._sImageAlreadyEditable = false;
-              
-              // Event tracking
-              Cotton.ANALYTICS.changeItemImage();
-
-              // Set the image url in the model.
-              self._oItemContent.item().visitItem().extractedDNA().setImageUrl(self._sImageUrl);
-              self._oItemContent.item().visitItemHasBeenSet();
-            }
-          });
-
-          // Reveal the input field for image url.
-          self._$featured_image.append(self._$input_image);
-          // Put crop only if there is an image.
-          if(self._$img.attr('src')){
-            self._$featured_image.append(self._$button_crop_image);
-          }
-        }
-      },
-
-      stopEditImage :function(){
-        var self = this;
-        self._$button_crop_image.remove();
-        self._$input_image.remove();
-        self._sImageAlreadyEditable = false;
-      },
+	      //center image according on how it overflows
+	      //if vertical, keep the upper part more visible
+	      if (fImRatio > fDivRatio) {
+	        self.css('height',iDivHeight);
+	        var iOverflow = self.width()-iDivWidth;
+	        self.css('left',-iOverflow*0.5);
+	      } else {
+	        self.css('width',iDivWidth);
+	        var iOverflow = self.height()-iDivHeight;
+	        self.css('top',-iOverflow*0.25);
+	      }
+	      $(this).show();
+	    });
+	  }
 
 });
