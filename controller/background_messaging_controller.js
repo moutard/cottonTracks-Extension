@@ -47,26 +47,65 @@ Cotton.Controllers.Messaging = Class.extend({
       // urls.
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
       if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
-          // you want to create it for the first time.
-          self._oMainController._oDatabase.put('visitItems', oVisitItem, function(iId) {
-            DEBUG && console.debug("visitItem added" + iId);
-            sPutId = iId;
-            var _iId = iId;
-            _.each(oVisitItem.searchKeywords(), function(sKeyword){
-              var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-              oSearchKeyword.addReferringVisitItemId(_iId);
-              self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
-                oSearchKeyword, function(iiId){
-                  // Return nothing to let the connection be cleaned up.
+
+        // See if the visit items can fit in a story.
+        var lPreponderantKeywords = oVisitItem.extractedDNA().bagOfWords().preponderant(3);
+        self._oMainController._oDatabase.findGroup('searchKeywords',
+          'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
+            var lStoriesId = [];
+            _.each(lSearchKeywords, function(oSearchKeyword){
+              lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
+            });
+
+            // Find the story that is the closest to the visitItem.
+            self._oMainController._oDatabase.findGroup('stories', 'id',
+              lStoriesId, function(lStories){
+                // Cosine higher -> story closer.
+                var iMaxCosine = 10;
+                var oMinStory = undefined;
+                _.each(lStories, function(oStory){
+                  var iCurrentDistance = Cotton.Algo.Distance.visitItemToStory(
+                    oVisitItem, oStory);
+                  if(iCurrentDistance > iMaxCosine){
+                    oMinStory = oStory;
+                    iMaxCosine = iCurrentDistance;
+                  }
                 });
 
+                // if we find a min story put the visitItem in it.
+                if(oMinStory){
+                  oVisitItem.setStoryId(oMinStory.id());
+                    self._oMainController._oDatabase.put('visitItems',
+                      oVisitItem, function(iVisitItemId){
+                        oMinStory.addVisitItemId(iVisitItemId);
+                        self._oMainController._oDatabase.put('stories',
+                          oMinStory, function(){});
+                      });
+
+                }
             });
-            sendResponse({
-              'received' : "true",
-              'id' : sPutId,
-            });
+        });
+
+        // you want to create it for the first time.
+        self._oMainController._oDatabase.put('visitItems', oVisitItem, function(iId) {
+          DEBUG && console.debug("visitItem added" + iId);
+          sPutId = iId;
+          var _iId = iId;
+          _.each(oVisitItem.searchKeywords(), function(sKeyword){
+            var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+            oSearchKeyword.addReferringVisitItemId(_iId);
+            self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+              oSearchKeyword, function(iiId){
+                // Return nothing to let the connection be cleaned up.
+              });
 
           });
+          sendResponse({
+            'received' : "true",
+            'id' : sPutId,
+          });
+
+        });
 
       } else {
         DEBUG && console

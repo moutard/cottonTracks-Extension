@@ -176,6 +176,14 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
 };
 
 /**
+ * @param {Cotton.Model.VisitItem} oVisitItem
+ * @param {Cotton.Model.VisitItem} oStory
+ */
+Cotton.Algo.Distance.visitItemToStory = function(oVisitItem, oStory){
+  return Cotton.Algo.Metrics.Cosine(oVisitItem.extractedDNA().bagOfWords().get(),
+      oStory.dna().bagOfWords().get())
+};
+/**
  * Metrics are distance that respect the 4 conditions of the metrics.
  */
 Cotton.Algo.Metrics = {};
@@ -194,6 +202,5 @@ Cotton.Algo.Metrics.Cosine = function(lBagOfWords1, lBagOfWords2){
   });
   return fCosine;
 };
-
 
 

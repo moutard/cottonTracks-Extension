@@ -43,4 +43,17 @@ Cotton.Model.BagOfWords = Class.extend({
   get : function() {
     return this._dBag;
   },
+
+  preponderant : function(iNumberOfPreponderant){
+    var lPreponderant = [];
+    //TODO(rmoutard) : find a faster method.
+    _.each(_.pairs(this._dBag).sort(function(lPairA, lPairB){
+      // Sort by increasing order.
+      return lPairB[1] - lPairA[1];
+    }).slice(0, iNumberOfPreponderant), function(lPair){
+      lPreponderant.push(lPair[0]);
+    });
+
+    return lPreponderant;
+  }
 });
