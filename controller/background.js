@@ -21,8 +21,17 @@ Cotton.Controllers.Background = Class.extend({
   _wDBSCAN3 : null,
   _wDBSCAN2 : null,
 
-  _iTriggerItemId : null,
   _sImageSrc : null,
+
+  /**
+   * MessagingController
+   */
+  _oMessagingController : null,
+
+ /**
+   * MessagingController
+   */
+  _oContentScriptListener : null,
 
   /**
    * @constructor
@@ -35,7 +44,7 @@ Cotton.Controllers.Background = Class.extend({
     //self.initWorkerDBSCAN2();
 
     /**
-     * Initialize the store.
+     * Initialize the Database.
      */
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
 
@@ -43,6 +52,10 @@ Cotton.Controllers.Background = Class.extend({
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
+
+        // Init the messaging controller.
+        self._oMessagingController = new Cotton.Controllers.Messaging(self);
+        self._oContentScriptListener = new Cotton.Controllers.ContentScriptListener(self._oMessagingController);
 
           DEBUG && console.debug('Global store created');
           if (Cotton.ONEVENT === 'install') {
