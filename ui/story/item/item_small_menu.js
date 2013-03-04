@@ -13,6 +13,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   _$openLink : null,
   _$open : null,
   _$expand : null,
+  _$collapse : null,
   _$getContent : null,
 
   init : function(oItemContent) {
@@ -30,8 +31,24 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     this._$open = $('<p>Open</p>');
     var bParagraph = (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
       || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
-    this._$expand = (bParagraph) ? $('<p>Expand</p>') : $('');
+    this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
     this._$getContent = (bParagraph) ? $('') : $('<p>Get Content</p>');
+    this._$collapse =  $('<p class="collapse">Collapse</p>').hide();
+
+    this._$expand.click(function(){
+      oItemContent.item().$().css('height', '630px');
+      oItemContent.item().container().isotope('reLayout');
+      $(this).toggle();
+      self._$collapse.toggle();
+    });
+
+    this._$collapse.click(function(){
+      oItemContent.item().$().css('height', '150px');
+      oItemContent.item().container().isotope('reLayout');
+      $(this).toggle();
+      self._$expand.toggle();
+    });
+
     // url
     var sUrl = this._oItemContent.item().visitItem().url();
     self._$openLink.attr('href',sUrl);
@@ -39,8 +56,9 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     // construct item
     self._$itemMenu.append(
       self._$openLink.append(self._$open),
-    self._$expand,
-    self._$getContent
+      self._$expand,
+      self._$collapse,
+      self._$getContent
     );
   },
 

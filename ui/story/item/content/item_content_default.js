@@ -12,6 +12,7 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
   _oItemQuoteIndicator : null,
   _oItemLabel : null,
   _oItemMenu : null,
+  _oItemReader : null,
 
   init : function(oItem) {
     this._super(oItem);
@@ -22,19 +23,21 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.QuoteIndicator(this);
     this._oItemLabel = new Cotton.UI.Story.Item.SmallLabel(this);
     this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
+    this._oItemReader = new Cotton.UI.Story.Item.Reader(this);
 
     // create the item
     oItem.$().addClass('ct-item-default');
-    this._$item_content.append(
-      this._oItemFeaturedImage.$(),
-      this._$itemInfo.append(
-	      this._oItemTitle.$(),
-	      this._oItemDate.$(),
-	      this._oItemQuoteIndicator.$(),
-	      this._oItemLabel.$(),
-        this._oItemMenu.$()
-	    )
-    );
-  },
+      this._$item_content.append(
+        this._oItemFeaturedImage.$(),
+        this._$itemInfo.append(
+          this._oItemTitle.$(),
+          this._oItemDate.$(),
+          this._oItemQuoteIndicator.$(),
+          this._oItemLabel.$(),
+          this._oItemMenu.$()
+        ),
+       this._oItemReader.$()
+      );
+    },
 
 });
