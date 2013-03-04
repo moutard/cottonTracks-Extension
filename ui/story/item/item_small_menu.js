@@ -3,6 +3,7 @@
 /**
  * Item Description Contains title and first paragraph
  */
+<<<<<<< HEAD
 Cotton.UI.Story.Item.SmallMenu = Class.extend({
 
   _oItemContent : null,
@@ -35,6 +36,19 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
     this._$getContent = (bParagraph) ? $('') : $('<p class="get_content">Get Content</p>');
     this._$collapse =  $('<p class="collapse">Collapse</p>');
+
+    this._$remove.click(function(){
+      //TODO(rkorach): use only one db for the whole UI
+	    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+		      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+		  }, function() {
+		    self._oDatabase.delete('visitItems', self._oItemContent.item().visitItem().id(),
+		      function() {
+			      self._oItemContent.item().container().isotope('remove',
+              self._oItemContent.item().$());
+		    });
+		  });
+		});
 
     this._$expand.click(function(){
       oItemContent.item().$().css('height', '630px');
@@ -75,6 +89,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     // construct item
     self._$itemMenu.append(
       self._$openLink.append(self._$open),
+      self._$remove,
       self._$expand,
       self._$collapse,
       self._$getContent
