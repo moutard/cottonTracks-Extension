@@ -15,7 +15,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   _$expand : null,
   _$collapse : null,
   _$getContent : null,
-	_bGettingContent : null,
+  _bGettingContent : null,
 
   init : function(oItemContent) {
     var self = this;
@@ -33,7 +33,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     var bParagraph = (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
       || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
     this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
-    this._$getContent = (bParagraph) ? $('') : $('<p>Get Content</p>');
+    this._$getContent = (bParagraph) ? $('') : $('<p class="get_content">Get Content</p>');
     this._$collapse =  $('<p class="collapse">Collapse</p>');
 
     this._$expand.click(function(){
@@ -50,18 +50,18 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       self._$expand.toggle();
     });
 
-    this._$getContent.click(function(){
-      chrome.tabs.create({
-        "url" : self._oItemContent.item().visitItem().url(),
-        "active" : false
-      });
-      self._bGettingContent = true;
-    });
+	  this._$getContent.click(function(){
+		  chrome.tabs.create({
+		  	"url" : self._oItemContent.item().visitItem().url(),
+			  "active" : false
+		  });
+		  self._bGettingContent = true;
+	  });
 
 	  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 	    if (request["action"] == "get_content"
         && sender.tab.url == self._oItemContent.item().visitItem().url()
-        && self._bGettingContent){
+        && self._bGettingContent) {
 	        self._bGettingContent = false;
 	        chrome.tabs.remove(sender.tab.id);
 	        self._oItemContent.item().reload();
