@@ -53,18 +53,13 @@ Cotton.Controllers.Messaging = Class.extend({
             sPutId = iId;
             var _iId = iId;
             _.each(oVisitItem.searchKeywords(), function(sKeyword){
-              // PROBLEM if not find.
-             self._oMainController._oDatabase.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
-                if(!oSearchKeyword) {
-                  oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-                }
-
-                oSearchKeyword.addReferringVisitItemId(_iId);
-
-                self._oMainController._oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
+              var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+              oSearchKeyword.addReferringVisitItemId(_iId);
+              self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+                oSearchKeyword, function(iiId){
                   // Return nothing to let the connection be cleaned up.
                 });
-              });
+
             });
             sendResponse({
               'received' : "true",
