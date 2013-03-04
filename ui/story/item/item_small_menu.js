@@ -3,7 +3,6 @@
 /**
  * Item Description Contains title and first paragraph
  */
-<<<<<<< HEAD
 Cotton.UI.Story.Item.SmallMenu = Class.extend({
 
   _oItemContent : null,
