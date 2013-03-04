@@ -32,16 +32,10 @@ Cotton.Model.VisitItemDNA = Class.extend({
    */
   init : function() {
     var self = this;
+    //FIXME(rmoutard) : for the moment the bag of words is only synchronized
+    // with extractedWords and QueryWords. Made something better.
+    // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
     self._oBagOfWords = new Cotton.Model.BagOfWords();
-
-    // Initialize the bag of words, with QueryWords and ExtractedWords.
-    _.each(self._lQueryWords, function(sWord){
-      self._oBagOfWords.addWord(sWord, 5);
-    });
-    _.each(self._lExtractedWords, function(sWord){
-      self._oBagOfWords.addWord(sWord, 3);
-    });
-
   },
   queryWords : function() {
     return this._lQueryWords;
