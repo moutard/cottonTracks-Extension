@@ -43,6 +43,21 @@ Cotton.UI.Story.Item.Element = Class
 
       container : function() {
         return this._$storyContainer;
-      }
+      },
 
-    });
+	  reload : function() {
+        self = this;
+	  
+        var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+        }, function() {
+          self = self;
+          oDatabase.find('visitItems', 'id', self.visitItem().id(), function(oVisitItem) {
+            console.log(oVisitItem.extractedDNA());
+            self._$item.empty();
+            self._oVisitItem = oVisitItem;
+            self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
+          });
+        });
+      }
+});

@@ -15,6 +15,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   _$expand : null,
   _$collapse : null,
   _$getContent : null,
+	_bGettingContent : null,
 
   init : function(oItemContent) {
     var self = this;
@@ -48,6 +49,24 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       $(this).toggle();
       self._$expand.toggle();
     });
+
+    this._$getContent.click(function(){
+      chrome.tabs.create({
+        "url" : self._oItemContent.item().visitItem().url(),
+        "active" : false
+      });
+      self._bGettingContent = true;
+    });
+
+	  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+	    if (request["action"] == "get_content"
+        && sender.tab.url == self._oItemContent.item().visitItem().url()
+        && self._bGettingContent){
+	        self._bGettingContent = false;
+	        chrome.tabs.remove(sender.tab.id);
+	        self._oItemContent.item().reload();
+      }
+		});
 
     // url
     var sUrl = this._oItemContent.item().visitItem().url();

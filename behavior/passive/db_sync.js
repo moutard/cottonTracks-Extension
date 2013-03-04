@@ -21,12 +21,17 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
    */
   _oCurrentVisitItem : undefined,
 
+  _bParagraphSet : null,
+  _bImageSet : null,
+
   /**
    * @constructor
    */
   init : function() {
     this._iId = "";
     this._oCurrentVisitItem = new Cotton.Model.VisitItem();
+    this._bParagraphSet = false;
+    this._bImageSet = false;
   },
 
   /**
@@ -72,7 +77,6 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 	    self._oCurrentVisitItem = oTranslator.dbRecordToObject(
 	                                                response['visitItem']
 	                                                  );
-	    self.updateVisit();
 	  } else {
 		//The visitItem url was not in base, init this one with the new id created
         DEBUG && console.debug('DBSync create visit - response :')
@@ -112,15 +116,29 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
       chrome.extension.sendMessage({
         'action' : 'update_visit_item',
         'params' : {
-          'visitItem' : dDbRecord
+          'visitItem' : dDbRecord,
+          'contentSet' : this._bParagraphSet && this._bImageSet
         }
       }, function(response) {
         // DEPRECATED - update_visit_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
+		if (response["updated"] == "true") {
+		  chrome.extension.sendMessage({
+	          'action' : 'get_content',
+	      });
+        }
       });
     }
 
+  },
+
+  setImage : function(bSet) {
+    this._bImageSet = bSet
+  },
+
+  setParagraph : function(bSet) {
+    this._bParagraphSet = bSet
   },
 
 });

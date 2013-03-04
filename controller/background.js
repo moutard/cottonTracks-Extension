@@ -210,6 +210,10 @@ Cotton.Controllers.Background = Class.extend({
 	        // The visit item already exists, just update it.
 	        oDatabase.put('visitItems', oVisitItem, function(iId) {
 	          DEBUG && console.debug("Messaging - visitItem updated" + iId);
+              if (request['params']['contentSet'] === true){
+                sendResponse({"updated":"true"})
+                DEBUG && console.debug("updated response sent");
+              }
 	        });
 	      });
 	    } else {
