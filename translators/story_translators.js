@@ -17,6 +17,9 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'sTitle' : oStory.title(),
       'sFeaturedImage' : oStory.featuredImage(),
       'lTags' : oStory.tags(),
+      'oDNA' : {
+        'oBagOfWords' : oStory.dna().bagOfWords().get(),
+      }
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -39,6 +42,13 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     oStory.setTitle(oDbRecord['sTitle']);
     oStory.setFeaturedImage(oDbRecord['sFeaturedImage']);
 
+    var oStoryDNA = new Cotton.Model.StoryDNA();
+    //FIXME(rmoutard) : for the moment the bag of words will be written by
+    // tags.
+    var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
+    oStoryDNA.setBagOfWords();
+    oStoryDNA.setBagOfWords(oBagOfWords);
+    oStory.setDNA(oStoryDNA);
     if (oDbRecord['lVisitItemsId'] !== undefined) {
       for ( var i = 0, iVisitItemId; iVisitItemId = oDbRecord['lVisitItemsId'][i]; i++) {
         oStory.addVisitItemId(iVisitItemId);
