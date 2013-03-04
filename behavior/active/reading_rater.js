@@ -52,6 +52,19 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
 
   /**
+   *
+   * FIXME(rmoutard) : put this in a parser.
+   * @param {Cotton.Model.VisitItem} oVisitItem.
+   */
+   getFirstInfoFromPage : function(oVisitItem) {
+     oVisitItem._sUrl = window.location.href;
+     oVisitItem._sTitle = window.document.title;
+     oVisitItem._iVisitTime = new Date().getTime();
+     oVisitItem._sReferrerUrl = document.referrer;
+     oVisitItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
+   },
+
+  /**
    * Start when the document is ready. Start parser and reading rater. Refresh
    * reading rater every 5 seconds. To improve performance no need to refresh
    * parser.

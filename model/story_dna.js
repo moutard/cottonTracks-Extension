@@ -12,13 +12,16 @@ Cotton.Model.StoryDNA = Class.extend({
 
   _oBagOfWords : null,
 
-  init: function(){
+  init : function(){
     var self = this;
     self._oBagOfWords = new Cotton.Model.BagOfWords();
   },
 
-  bagOfWords: function(){
+  bagOfWords : function(){
     return this._oBagOfWords;
   },
 
+  setBagOfWords : function(oBagOfWords){
+    this._oBagOfWords = oBagOfWords;
+  }
 });
