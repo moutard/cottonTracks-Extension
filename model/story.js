@@ -8,28 +8,23 @@ Cotton.Model.Story = Class.extend({
 
   _iId : null,
 
-  _sTitle : null,
-  _sFeaturedImage : null,
+  _sTitle : "",
+  _sFeaturedImage : "",
 
-  _fLastVisitTime : null,
+  _fLastVisitTime : 0,
   _fRelevance : null,
 
-  _lVisitItemsId : null,
-  _lVisitItems : null,
+  _lVisitItemsId : [],
+  _lVisitItems : [],
 
   _lTags : [],
+  _oDNA : null,
 
   /**
    * @constructor
    */
   init : function() {
-
-    this._fLastVisitTime = 0;
-
-    this._sTitle = "";
-    this._sFeaturedImage = "";
-    this._lVisitItemsId = new Array();
-    this._lVisitItems = new Array();
+    this._oDNA = new Cotton.Model.StoryDNA();
   },
 
   id : function() {
@@ -83,16 +78,26 @@ Cotton.Model.Story = Class.extend({
   setRelevance : function(fRelevance) {
     this._fRelevance = fRelevance;
   },
-  tags : function(){
+  tags : function() {
     return this._lTags;
   },
-  setTags : function(lTags){
-    this._lTags = lTags;
+  setTags : function(lTags) {
+    var self = this;
+    self._lTags = lTags;
+    _.each(self._lTags, function(sWord){
+      self._oDNA.bagOfWords().addWord(sWord, 5);
+    });
   },
-  addTags : function(sTag){
+  addTags : function(sTag) {
     this._lTags.push(sTag);
+    self._oDNA.bagOfWords().addWord(sTag, 5);
   },
-
+  dna : function()  {
+    return this._oDNA;
+  },
+  setDNA : function(oDNA) {
+    this._oDNA = oDNA;
+  },
   /**
    * Add a visitItem to the list parsing a dbRecordObject
    * - update list of visitItems id.
@@ -251,7 +256,7 @@ Cotton.Model.Story = Class.extend({
   },
 
   computeTags : function(){
-    this._lTags = this._sTitle.toLowerCase().split(" ");
+    this.setTags(this._sTitle.toLowerCase().split(" "));
   },
 
   searchKeywords : function() {
