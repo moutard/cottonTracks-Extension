@@ -124,32 +124,53 @@ Cotton.Controllers.Background = Class.extend({
 	        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
 	        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
 	      }, function() {
-
-	        // you want to create it for the first time.
-	        oDatabase.put('visitItems', oVisitItem, function(iId) {
-	          DEBUG && console.debug("visitItem added" + iId);
-	          sPutId = iId;
-	          var _iId = iId;
-	          _.each(oVisitItem.searchKeywords(), function(sKeyword){
-	            // PROBLEM if not find.
-	            oDatabase.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
-	              if(!oSearchKeyword) {
-	                oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-	              }
-
-	              oSearchKeyword.addReferringVisitItemId(_iId);
-
-	              oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
-	                // Return nothing to let the connection be cleaned up.
+		    //check if url is already in a visitItem in base
+			oDatabase.find('visitItems', 'sUrl', oVisitItem.url(), function(oExistingVisitItem){
+			  if (oExistingVisitItem){
+				//already a visitItem with this url in base
+				//send the item to content script
+				//TODO(rkorach) : check if there is already paragraphs,
+				//and if they have changed with the current page.
+				//If so, it should create a new item
+				DEBUG && console.debug("visitItem existing, with id " + oExistingVisitItem.id());
+				var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+			    var oTranslator = lTranslators[lTranslators.length - 1];
+			    var dDbRecord = oTranslator.objectToDbRecord(oExistingVisitItem);
+				sendResponse({
+                    'received' : "true",
+                    'existing' : "true",
+                    'visitItem' : dDbRecord,
+                    'id' : oExistingVisitItem.id()
+                });
+			  } else {
+				//no visitItem with this url in base
+				//create new item
+	            // you want to create it for the first time.
+	            oDatabase.put('visitItems', oVisitItem, function(iId) {
+	              DEBUG && console.debug("visitItem added" + iId);
+	              sPutId = iId;
+	              var _iId = iId;
+	              _.each(oVisitItem.searchKeywords(), function(sKeyword){
+	                // PROBLEM if not find.
+	                oDatabase.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
+	                  if(!oSearchKeyword) {
+	                    oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+	                  }
+                
+	                  oSearchKeyword.addReferringVisitItemId(_iId);
+                
+	                  oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
+	                    // Return nothing to let the connection be cleaned up.
+	                  });
+	                });
 	              });
-	            });
-	          });
-              sendResponse({
-                'received' : "true",
-                'id' : sPutId,
-              });
-	        });
-
+                  sendResponse({
+                    'received' : "true",
+                    'id' : sPutId,
+                  });
+                });
+              }
+            });
 	      });
 	    } else {
 	      DEBUG && console
