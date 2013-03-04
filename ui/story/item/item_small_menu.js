@@ -33,7 +33,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
     this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
     this._$getContent = (bParagraph) ? $('') : $('<p>Get Content</p>');
-    this._$collapse =  $('<p class="collapse">Collapse</p>').hide();
+    this._$collapse =  $('<p class="collapse">Collapse</p>');
 
     this._$expand.click(function(){
       oItemContent.item().$().css('height', '630px');
