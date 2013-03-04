@@ -21,21 +21,26 @@ Cotton.Model.BagOfWords = Class.extend({
    *  Advantages of dictionnary structure :
    *  words are sorted by alphabetical order. So easy to made a vector mode.
    */
-  _lBag : {},
+  _dBag : {},
 
-  init : function() {
+  init : function(dBag) {
     var self = this;
+    self._dBag = dBag || {};
+  },
+
+  setBag : function(dBag){
+    this._dBag = dBag;
   },
 
   addWord : function(sWord, iScore) {
-    this._lBag[sWord] = iScore;
+    this._dBag[sWord] = iScore;
   },
 
   increaseWordScore : function(sWord, iScore) {
-    this._lBag[sWord] += iScore;
+    this._dBag[sWord] += iScore;
   },
 
   get : function() {
-    return this._lBag;
+    return this._dBag;
   },
 });
