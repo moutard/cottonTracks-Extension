@@ -13,6 +13,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   _$openLink : null,
   _$open : null,
   _$expand : null,
+  _$getContent : null,
 
   init : function(oItemContent) {
     var self = this;
@@ -20,24 +21,26 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     // current parent element.
     this._oItemContent = oItemContent;
 
-   // current item
+    // current item
     this._$itemMenu = $('<div class="ct-label-small-menu"></div>');
 
     // current sub elements
     this._$remove = $('<p>Remove</p>');
-    this._$openLink = $('<a href="" target="blank"></a>');
+    this._$openLink = $('<a href="" target="_blank"></a>');
     this._$open = $('<p>Open</p>');
-    this._$expand = $('<p>Expand</p>');
-
+    var bParagraph = (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
+      || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
+    this._$expand = (bParagraph) ? $('<p>Expand</p>') : $('');
+    this._$getContent = (bParagraph) ? $('') : $('<p>Get Content</p>');
     // url
     var sUrl = this._oItemContent.item().visitItem().url();
     self._$openLink.attr('href',sUrl);
 
     // construct item
     self._$itemMenu.append(
-        self._$remove,
-        self._$openLink.append(self._$open),
-        self._$expand
+      self._$openLink.append(self._$open),
+    self._$expand,
+    self._$getContent
     );
   },
 
