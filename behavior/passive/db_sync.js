@@ -65,10 +65,21 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
         'visitItem' : dDbRecord
       }
     }, function(response) {
-      DEBUG && console.debug('DBSync create visit - response :')
-      DEBUG && console.debug(response);
+	  if (response['existing'] === "true"){
+		//The visitItem url was already in base, init this one with the one in base
+		var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+	    var oTranslator = lTranslators[lTranslators.length - 1];
+	    self._oCurrentVisitItem = oTranslator.dbRecordToObject(
+	                                                response['visitItem']
+	                                                  );
+	    self.updateVisit();
+	  } else {
+		//The visitItem url was not in base, init this one with the new id created
+        DEBUG && console.debug('DBSync create visit - response :')
+        DEBUG && console.debug(response);
+        self._oCurrentVisitItem.initId(response['id']);
+      }
       self._iId = response['id'];
-      self._oCurrentVisitItem.initId(response['id']);
     });
 
   },
