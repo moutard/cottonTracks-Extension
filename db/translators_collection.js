@@ -26,13 +26,29 @@ Cotton.DB.TranslatorsCollection = Class.extend({
   init : function(dTranslators) {
     var self = this;
     this._dTranslators = dTranslators;
+  },
 
+  /**
+   * Using infos contained in translators generate indexes for each stores.
+   * This method is very usefull to create an engine.
+   * TODO(rmoutard) : separate translators and model.
+   */
+  getIndexesForObjectStoreNames : function(){
+    var self = this;
     var dIndexesForObjectStoreNames = {};
-    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
+    _.each(self._dTranslators, function(lTranslators, sObjectStoreName) {
       dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(
         sObjectStoreName).indexDescriptions();
     });
+    return dIndexesForObjectStoreNames;
+  },
 
+  dbRecordToObject : function(sObjectStoreName, dDbRecord) {
+    return this._translatorForDbRecord(sObjectStoreName, dDbRecord).dbRecordToObject(dDbRecord);
+  },
+
+  objectToDbRecord : function(sObjectStoreName, oObject) {
+    return this._translatorForObject(sObjectStoreName, oObject).dbRecordToObject(oObject);
   },
 
   /**

@@ -56,7 +56,21 @@ Cotton.DB.DatabaseFactory = Class.extend({
     }
   },
 
-  getCt : function() {
+  getCt : function(sDatabaseName, dTranslators, mOnReadyCallback) {
+    var dIndexesForObjectStoreNames = {};
+    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
+      dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
+    });
+
+    var oEngine = new Cotton.DB.IndexedDB.Engine(
+        sDatabaseName,
+        dIndexesForObjectStoreNames,
+        function() {
+          var oDatabase = new Cotton.DB.WrapperForEngine(sDatabaseName,
+            dTranslators, oEngine, mOnReadyCallback);
+          return oDatabase;
+    });
+
 
   },
 
@@ -68,7 +82,24 @@ Cotton.DB.DatabaseFactory = Class.extend({
     // TODO(rmoutard) : extend the wrapper if needed.
     //  _.extend(oDatabase, localstorage_mixin);
     return oDatabase;
+  },
 
+  getCache : function() {
+    // Create translator collection.
+    var oTranslatorsCollection = new Cotton.DB.TranslatorsCollection({
+      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    });
 
-  }
+    // Create engine using translator collection for indexes.
+    var oCache = new Cotton.DB.Cache('pool',
+        oTranslatorsCollection.getIndexesForObjectStoreNames(),
+        function() {
+    });
+
+    // Create the database using the wrapper where you give the
+    // oTranslatorsCollection and oCache that is an engine..
+    var oDatabase = new Cotton.DB.WrapperForEngine('pool',
+        oTranslatorsCollection, oCache);
+    return oDatabase;
+  },
 });
