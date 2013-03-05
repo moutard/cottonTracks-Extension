@@ -55,4 +55,20 @@ Cotton.DB.DatabaseFactory = Class.extend({
         break;
     }
   },
+
+  getCt : function() {
+
+  },
+
+  getPool : function() {
+    var oDatabase = new Cotton.DB.LocalStorage.Wrapper('pool', {
+            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+          }, function() {
+    });
+    // TODO(rmoutard) : extend the wrapper if needed.
+    //  _.extend(oDatabase, localstorage_mixin);
+    return oDatabase;
+
+
+  }
 });
