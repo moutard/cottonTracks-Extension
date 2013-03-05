@@ -12,12 +12,11 @@ Cotton.Model.VisitItem = Class
 
       _sId : undefined,                 // id fixed by the database.
       _sStoryId : "UNCLASSIFIED",       // id of the story if it belongs to it.
+      _iPool : 0,                       // is not in the pool by default.
 
-      // Information of historyItem that are pertinent with this model.
-      _sUrl : undefined,
-      _sReferrerUrl : undefined,
-      _sTitle : "",
-      _iVisitTime : undefined,
+      _sUrl : undefined,                // url of the visited page.
+      _sTitle : "",                     // title of the page.
+      _iVisitTime : undefined,          // time of the visit.
 
       _oExtractedDNA : undefined,       // dna of the page. Used to compute distance.
 
@@ -43,13 +42,13 @@ Cotton.Model.VisitItem = Class
       title : function() {
         return this._sTitle;
       },
-      setTitle : function(sTitle){
+      setTitle : function(sTitle) {
         this._sTitle = sTitle;
       },
       visitTime : function() {
         return this._iVisitTime;
       },
-      setVisitTime : function(iVisitTime){
+      setVisitTime : function(iVisitTime) {
         this._iVisitTime = iVisitTime;
       },
       storyId : function() {
@@ -57,6 +56,12 @@ Cotton.Model.VisitItem = Class
       },
       setStoryId : function(sStoryId) {
         this._sStoryId = sStoryId;
+      },
+      pool : function() {
+        return this._iPool;
+      },
+      setPool : function(iPool) {
+        this._iPool = iPool;
       },
       extractedDNA : function() {
         return this._oExtractedDNA;
