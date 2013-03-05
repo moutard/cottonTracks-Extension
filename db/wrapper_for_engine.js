@@ -8,7 +8,7 @@
  */
 Cotton.DB.WrapperForEngine = Class.extend({
 
-  init : function(sDatabaseName, oTranslatorsCollection, oEngine) {
+  init : function(oTranslatorsCollection, oEngine) {
     var self = this;
     self._oTranslatorsCollection = oTranslatorsCollection;
 
