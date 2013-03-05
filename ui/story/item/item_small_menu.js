@@ -49,20 +49,26 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
 		  });
 		});
 
-    this._$expand.click(function(){
+
+    //expand reader
+		this._$expand.click(function(){
       oItemContent.item().$().css('height', '630px');
+      self.$().addClass("visible_action_menu");
       oItemContent.item().container().isotope('reLayout');
-      $(this).toggle();
-      self._$collapse.toggle();
+      $(this).hide();
+      self._$collapse.show();
     });
 
+    //collapse reader
     this._$collapse.click(function(){
       oItemContent.item().$().css('height', '150px');
       oItemContent.item().container().isotope('reLayout');
-      $(this).toggle();
-      self._$expand.toggle();
+      self.$().removeClass("visible_action_menu");
+      $(this).hide();
+      self._$expand.show();
     });
 
+    //get content
 	  this._$getContent.click(function(){
 		  chrome.tabs.create({
 		  	"url" : self._oItemContent.item().visitItem().url(),
