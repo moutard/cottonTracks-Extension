@@ -51,6 +51,7 @@ Cotton.Controllers.Background = Class.extend({
 
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getPool();
+    self._oCache = new Cotton.DB.DatabaseFactory().getCache();
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
