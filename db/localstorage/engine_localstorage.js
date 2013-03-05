@@ -41,6 +41,7 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
     }
   },
 
+  // TODO(rmoutard) do we need a callback function for that.
   getList : function(sObjectStoreName, mResultElementCallback) {
     var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName));
