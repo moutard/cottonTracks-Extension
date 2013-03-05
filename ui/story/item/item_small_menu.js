@@ -93,6 +93,11 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       self._$collapse,
       self._$getContent
     );
+
+    // if the item is constructed from a reload (i.e getContent), expand it.
+		if (this._oItemContent.item().isReloaded()){
+	    self._$expand.click();
+    }
   },
 
   $ : function() {

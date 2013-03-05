@@ -15,6 +15,8 @@ Cotton.UI.Story.Item.Element = Class
 
       _$storyContainer : null,
 
+      _bReload : null,
+
       init : function(oVisitItem, $storyContainer) {
         // Cotton.Model.VisitItem contains all data.
         this._oVisitItem = oVisitItem;
@@ -31,6 +33,9 @@ Cotton.UI.Story.Item.Element = Class
         // create item
         this._$item.append(this._oItemContent.$());
         this._$storyContainer.isotope( 'insert', this._$item);
+
+        //boolean to know if a reload has been performed
+        this._bReload = false;
       },
 
       $ : function() {
@@ -53,11 +58,19 @@ Cotton.UI.Story.Item.Element = Class
         }, function() {
           self = self;
           oDatabase.find('visitItems', 'id', self.visitItem().id(), function(oVisitItem) {
-            console.log(oVisitItem.extractedDNA());
             self._$item.empty();
             self._oVisitItem = oVisitItem;
+            self._bReload = true;
             self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
           });
         });
+      },
+
+      isReloaded : function() {
+	    return this._bReload;
+      },
+
+      setReloaded : function(bool) {
+	    this._bReload = bool;
       }
 });
