@@ -15,6 +15,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   _$expand : null,
   _$collapse : null,
   _$getContent : null,
+  _$loading : null,
   _bGettingContent : null,
 
   init : function(oItemContent) {
@@ -33,21 +34,29 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     var bParagraph = (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
       || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
     this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
-    this._$getContent = (bParagraph) ? $('') : $('<p class="get_content">Get Content</p>');
+    //do not append 'Get Content' if it has already been performed or
+    //if there is a paragraph
+  this._$getContent = (bParagraph
+      || this._oItemContent.item().isReloaded()) ? $('')
+    : $('<p class="get_content">Get Content</p>');
     this._$collapse =  $('<p class="collapse">Collapse</p>');
+    this._$loading =  $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">');
 
+    //set actions on buttons
+
+    //remove element
     this._$remove.click(function(){
       //TODO(rkorach): use only one db for the whole UI
-	    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-		      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
-		  }, function() {
-		    self._oDatabase.delete('visitItems', self._oItemContent.item().visitItem().id(),
-		      function() {
-			      self._oItemContent.item().container().isotope('remove',
+      self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+      }, function() {
+        self._oDatabase.delete('visitItems', self._oItemContent.item().visitItem().id(),
+          function() {
+            self._oItemContent.item().container().isotope('remove',
               self._oItemContent.item().$());
-		    });
-		  });
-		});
+          });
+      });
+    });
 
 
     //expand reader
