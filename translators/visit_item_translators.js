@@ -12,6 +12,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       'sTitle' : oVisitItem.title(),
       'iVisitTime' : oVisitItem.visitTime(),
       'sStoryId' : oVisitItem.storyId(),
+      'iPool' : oVisitItem.pool(),
       'oExtractedDNA' : {
         'lQueryWords' : oVisitItem.extractedDNA().queryWords(),
         'lExtractedWords' : oVisitItem.extractedDNA().extractedWords(),
@@ -47,6 +48,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     // Use private attributes because they are immutable.
     oVisitItem.initId(oDbRecord['id']);
     oVisitItem.setStoryId(oDbRecord['sStoryId']);
+    oVisitItem.setPool(oDbRecord['iPool']);
 
     oVisitItem.initUrl(oDbRecord['sUrl']);
     oVisitItem.setTitle(oDbRecord['sTitle']);
@@ -57,8 +59,6 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     var oExtractedDNA = new Cotton.Model.VisitItemDNA();
     oExtractedDNA.setQueryWords(dExtractedDNA['lQueryWords']);
     oExtractedDNA.setExtractedWords(dExtractedDNA['lExtractedWords']);
-    //var oBagOfWords = new Cotton.Model.BagOfWords(dExtractedDNA['dBagOfWords']);
-    //oExtractedDNA.setBagOfWords(oBagOfWords);
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
     oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
@@ -95,7 +95,11 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
     },
     'sStoryId' : {
       'unique' : false
+    },
+    'iPool' : {
+      'unique' : false
     }
+
   };
 
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
