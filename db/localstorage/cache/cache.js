@@ -63,7 +63,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
     this._oDb.setItem(self._sDatabaseName, _lFreshItems);
   },
 
-   put : function(sObjectStoreName, dItem, mOnSaveCallback) {
+  put : function(sObjectStoreName, dItem, mOnSaveCallback) {
     var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName)) || [];
     // We use string to avoid problem with too long int.

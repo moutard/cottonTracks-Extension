@@ -41,7 +41,8 @@ module("Cache",{
   setup: function() {
     // runs before each test
     // Reinitialise localStorage.
-    localStorage['ct-stories-cache'] = JSON.stringify(dataTest);
+    var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
+    oCache.purge();
   },
   teardown: function() {
     // runs after each test
@@ -49,11 +50,13 @@ module("Cache",{
 });
 
 test("Init Cache", function() {
-  var oCache   = new Cotton.DB.Cache();
+  var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
   ok(oCache);
 });
 
-test("Get", function() {
-  var oCache   = new Cotton.DB.Cache();
-  deepEqual(oCache.get(), dataTest);
+test("Put", function() {
+  var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
+  oCache.put(dataTest[0]);
+  ok(oCache.get());
 });
+
