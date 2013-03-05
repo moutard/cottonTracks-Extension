@@ -16,6 +16,12 @@ Cotton.Controllers.Background = Class.extend({
   _oDatabase : null,
 
   /**
+   * Specific cache database in localStorage that contains all the important
+   * visitItems that can be used to generate a story.
+   */
+  _oPool : null,
+
+  /**
    * Worker to make the algo part in different thread.
    */
   _wDBSCAN3 : null,
@@ -43,9 +49,10 @@ Cotton.Controllers.Background = Class.extend({
     self.initWorkerDBSCAN3();
     //self.initWorkerDBSCAN2();
 
-    /**
-     * Initialize the Database.
-     */
+    // Initialize the pool.
+    self._oPool = new Cotton.DB.DatabaseFactory().getPool();
+
+     // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
 
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
