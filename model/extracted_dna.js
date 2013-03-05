@@ -21,6 +21,7 @@ Cotton.Model.ExtractedDNA = Class.extend({
   _iScrollablePosition : undefined,
   _sFirstParagraph : "",
   _sMostReadParagraph : "",
+  _lsAllParagraphs : "",
   _lParagraphs : [],
   _lCopyPaste : [],
 
@@ -36,6 +37,7 @@ Cotton.Model.ExtractedDNA = Class.extend({
     this._sImageUrl = "";
     this._sFirstParagraph = "";
     this._sMostReadParagraph = "";
+    this._lsAllParagraphs = "";
     this._lParagraphs = [];
     this._lCopyPaste = [];
   },
@@ -136,6 +138,12 @@ Cotton.Model.ExtractedDNA = Class.extend({
   },
   setParagraphs : function(lParagraphs) {
     this._lParagraphs = lParagraphs;
+  },
+  allParagraphs : function() {
+	return this._lsAllParagraphs;
+  },
+  setAllParagraphs : function(lsParagraphs) {
+	this._lsAllParagraphs = lsParagraphs;
   },
   copyPaste : function() {
     return this._lCopyPaste;
