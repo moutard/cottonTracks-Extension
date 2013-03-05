@@ -3,7 +3,7 @@
 /**
  * An abstraction for the underlying LocalStorage API.
  *
- * EngineIndexedDB should not be used directly. It should be accessed through
+ * EngineLocalstorage should not be used directly. It should be accessed through
  * more abstract layers like a Wrapper which hide its inner workings.
  *
  * @param {String} sDatabaseName :
@@ -24,17 +24,17 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
     this._sDatabaseName = sDatabaseName;
     this._oDb = localStorage;
-    this._oDB.putItem(sDatabaseName) = 'True';
+    this._oDb.setItem(sDatabaseName, 'True');
 
     //TODO(rmoutard) : add variable that knows all the store in the database.
   },
 
   empty : function() {
-    return this._oDB.getItem(this._sDatabaseName) === null ;
+    return this._oDb.getItem(this._sDatabaseName) === null ;
   },
 
   iterList : function(sObjectStoreName, mResultElementCallback) {
-    var lResults = JSON.parse(this._oDB.getItem(this._sDatabaseName +
+    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName));
     for(var i = 0; i < lResults.length; i++){
       mResultElementCallback(lResults[i]);
@@ -42,7 +42,7 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
   },
 
   getList : function(sObjectStoreName, mResultElementCallback) {
-    var lResults = JSON.parse(this._oDB.getItem(this._sDatabaseName +
+    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName));
     mResultElementCallback(lResults);
   },
@@ -64,10 +64,10 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
   },
 
   put : function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var lResults = JSON.parse(this._oDB.getItem(this._sDatabaseName +
+    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName)) || [];
     lResults.push(dItem);
-    this._oDB.setItem(JSON.stringify(lResults));
+    this._oDb.setItem(JSON.stringify(lResults));
     mOnSaveCallback();
   },
 
@@ -76,7 +76,7 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
   },
 
   purge : function() {
-    this._oDB.removeItem(this._sDatabaseName);
+    this._oDb.removeItem(this._sDatabaseName);
     // TODO(rmoutard): remove all the stores.
 
   },
