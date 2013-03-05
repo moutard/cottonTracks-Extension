@@ -25,6 +25,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
         'iImageMarginTop' : oVisitItem.extractedDNA().imageMarginTop(),
         'iScrollablePosition' : oVisitItem.extractedDNA().scrollablePosition(),
         'lParagraphs' : _.collect(oVisitItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
+        'lAllParagraphs' : oVisitItem.extractedDNA().allParagraphs(),
         'lCopyPaste' : oVisitItem.extractedDNA().copyPaste(),
         'fTimeTabActive' : oVisitItem.extractedDNA().timeTabActive(),
         'fTimeTabOpen' : oVisitItem.extractedDNA().timeTabOpen(),
@@ -80,6 +81,7 @@ Cotton.Translators.VISIT_ITEM_TRANSLATORS = [];
       return extractedParagraph;
     })
     oExtractedDNA.setParagraphs(lParagraphs);
+    oExtractedDNA.setAllParagraphs(dExtractedDNA['lAllParagraphs']);
     oExtractedDNA.setCopyPaste(dExtractedDNA['lCopyPaste']);
 
     oExtractedDNA.setImageCropped(dExtractedDNA['iImageCropped']);
