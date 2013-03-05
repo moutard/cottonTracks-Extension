@@ -61,6 +61,7 @@ Cotton.Controllers.Messaging = Class.extend({
             self._oMainController._oDatabase.findGroup('stories', 'id',
               lStoriesId, function(lStories){
                 // Cosine higher -> story closer.
+                // FIXME(rmoutard) : find a real value for this !
                 var iMaxCosine = 10;
                 var oMinStory = undefined;
                 _.each(lStories, function(oStory){
