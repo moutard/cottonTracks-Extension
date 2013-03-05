@@ -84,7 +84,7 @@ Cotton.DB.DatabaseFactory = Class.extend({
     return oDatabase;
   },
 
-  getCache : function() {
+  getCachedPool : function() {
     // Create translator collection.
     var oTranslatorsCollection = new Cotton.DB.TranslatorsCollection({
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
@@ -98,8 +98,8 @@ Cotton.DB.DatabaseFactory = Class.extend({
 
     // Create the database using the wrapper where you give the
     // oTranslatorsCollection and oCache that is an engine..
-    var oDatabase = new Cotton.DB.WrapperForEngine('pool',
-        oTranslatorsCollection, oCache);
+    var oDatabase = new Cotton.DB.WrapperForEngine(oTranslatorsCollection,
+        oCache);
     return oDatabase;
   },
 });
