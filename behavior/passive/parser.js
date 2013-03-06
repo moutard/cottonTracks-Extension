@@ -40,6 +40,7 @@ Cotton.Behavior.Passive.Parser = Class
         this._MeaningFulBlocks = [];
         this._iNbMeaningfulBlock = 0;
         this._lAllParagraphs = [];
+        this._sBestImage = "";
         this._bContentGetter = false;
         chrome.extension.sendMessage({
 	        "action":"is_get_content"
@@ -298,6 +299,11 @@ Cotton.Behavior.Passive.Parser = Class
         } else {
           this._sBestImage = this._findBestImageInBlocks($('body'));
         }
+        if (self._bContentGetter) {
+          sync.current().extractedDNA().setImageUrl(this._sBestImage);
+          sync.setImage(this._sBestImage);
+          sync.updateVisit();
+        }
         return this._sBestImage;
       },
 
@@ -348,7 +354,7 @@ Cotton.Behavior.Passive.Parser = Class
               var bHidden = $img.is(':hidden')
                   || $img.css('visibility') == 'hidden'
                   || $img.css('opacity') == 0;
-              if (!src || !src.match(/^http:/) || bExternalLink || bHidden) {
+              if (!src || !src.match(/^http:/) || bExternalLink) {
                 // Continue the loop.
                 return true;
               }

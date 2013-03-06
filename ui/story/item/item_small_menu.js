@@ -59,48 +59,31 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       });
     });
 
-  //expand reader
-  this._$expand.click(function(){
-    oItemContent.item().$().css('height', '630px');
-    self.$().addClass("visible_action_menu");
-    oItemContent.item().container().isotope('reLayout');
-    $(this).hide();
-    self._$collapse.show();
-  });
+    //get content
+	  this._$getContent.click(function(){
+		  chrome.tabs.create({
+			  "url" : self._oItemContent.item().visitItem().url(),
+			  "active" : false
+		  });
+		  self._bGettingContent = true;
+		  $(this).parent().append(self._$loading);
+      $(this).hide();
+	  });
 
-  //collapse reader
-  this._$collapse.click(function(){
-    oItemContent.item().$().css('height', '150px');
-    oItemContent.item().container().isotope('reLayout');
-    self.$().removeClass("visible_action_menu");
-    $(this).hide();
-    self._$expand.show();
-  });
-
-  //get content
-  this._$getContent.click(function(){
-    chrome.tabs.create({
-      "url" : self._oItemContent.item().visitItem().url(),
-      "active" : false
-    });
-    self._bGettingContent = true;
-  });
-
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request["action"] == "get_content"
-      && sender.tab.url == self._oItemContent.item().visitItem().url()
-      && self._bGettingContent) {
-        self._bGettingContent = false;
-        chrome.tabs.remove(sender.tab.id);
-        self._oItemContent.item().reload();
-    }
-    if (request["action"] && (request["action"] == "is_get_content")
-      && sender.tab.url == self._oItemContent.item().visitItem().url()
-      && self._bGettingContent) {
-          sendResponse({"getting_content":true});
-          console.log()
-        }
-  });
+	  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+	    if (request["action"] == "get_content"
+        && sender.tab.url == self._oItemContent.item().visitItem().url()
+        && self._bGettingContent) {
+	        self._bGettingContent = false;
+	        chrome.tabs.remove(sender.tab.id);
+	        self._oItemContent.item().reload();
+      }
+		  if (request["action"] && (request["action"] == "is_get_content")
+        && sender.tab.url == self._oItemContent.item().visitItem().url()
+        && self._bGettingContent) {
+            sendResponse({"getting_content":true});
+      }
+		});
 
     // url
     var sUrl = this._oItemContent.item().visitItem().url();
