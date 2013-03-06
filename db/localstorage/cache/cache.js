@@ -5,6 +5,9 @@
  * a expiricy date. Each time a call is made to the cache it returns fresh data
  * and remove data that have expired.
  *
+ * Cache can also handle multiple store.
+ * TODO(rmoutard): discuss if multiple store is usefull in cache context.
+ *
  */
 Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
 
@@ -12,7 +15,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    * Time during the data is still fresh after is ceation.
    * in seconds.
    */
-  _iExpiracy : Number.MAX_VALUE, // TODO(rmoutard) : never epires
+  _iExpiracy : 0, // TODO(rmoutard) : never epires
 
   /**
    * @contructor
@@ -23,7 +26,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    */
   init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
     var self = this;
-    this._super( 'ct-cache-' + sDatabaseName, dTranslators, mOnReadyCallback);
+    this._super('ct-cache-' + sDatabaseName, dTranslators, mOnReadyCallback);
   },
 
   /**
@@ -32,10 +35,10 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    *
    * If you want to be sure to have non expiredData use getFresh.
    */
-  get : function(){
+  getStore : function(sObjectStoreName){
     var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName));
-    mResultElementCallback(lResults);
+    return lResults;
   },
 
   /**
@@ -63,14 +66,13 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
     this._oDb.setItem(self._sDatabaseName, _lFreshItems);
   },
 
-  put : function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
-        "-" + sObjectStoreName)) || [];
+  put : function(sObjectStoreName, dItem) {
+    var sStoreLocation = this._sDatabaseName + "-" + sObjectStoreName;
+    var lResults = JSON.parse(this._oDb.getItem(sStoreLocation)) || [];
     // We use string to avoid problem with too long int.
     dItem['sExpiracyDate'] = (new Date().getTime() + this._iExpiracy).toString();
     lResults.push(dItem);
-    this._oDb.setItem(JSON.stringify(lResults));
-    mOnSaveCallback();
+    this._oDb.setItem(sStoreLocation, JSON.stringify(lResults));
   },
 
 });
