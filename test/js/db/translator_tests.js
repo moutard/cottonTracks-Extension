@@ -79,3 +79,53 @@ test("_translatorForObject", function(){
 
 });
 
+test("getIndexesForObjectStoreNames.", function(){
+  var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+  });
+
+  var oStory = new Cotton.Model.Story();
+  deepEqual(oTranslatorCollection.getIndexesForObjectStoreNames(), {
+    "searchKeywords": {
+      "id": {
+        "unique": true
+      },
+      "sKeyword": {
+        "unique": true
+      }
+    },
+    "stories": {
+      "fLastVisitTime": {
+        "unique": false
+      },
+      "id": {
+        "unique": true
+      },
+      "lTags": {
+        "multiEntry": true,
+        "unique": false
+      }
+    },
+    "visitItems": {
+      "iPool": {
+        "unique": false
+      },
+      "iVisitTime": {
+        "unique": false
+      },
+      "id": {
+        "unique": true
+      },
+      "sStoryId": {
+        "unique": false
+      },
+      "sUrl": {
+        "unique": false
+      }
+    }
+  });
+
+});
+
