@@ -94,3 +94,41 @@ test("put", function() {
   deepEqual(oSingleCache.get(), [dataTest[0]]);
 });
 
+var oFixedCache;
+module("Cotton.DB.FixedSizeCache",{
+  setup: function() {
+    // runs before each test
+    // Reinitialise localStorage.
+    oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+    oFixedCache.purge();
+  },
+  teardown: function() {
+    // runs after each test
+    oFixedCache.purge();
+  }
+});
+
+test("init.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+  ok(oFixedCache);
+});
+
+test("put.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+  oFixedCache.put(dataTest[0]);
+  var dVisitItem = oFixedCache.get();
+  delete dVisitItem['sExpiracyDate'];
+  deepEqual(oFixedCache.get(), [dataTest[0]]);
+});
+
+test("put limit.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
+  oFixedCache.put(dataTest[0]);
+  oFixedCache.put(dataTest[1]);
+  oFixedCache.put(dataTest[2]);
+  deepEqual(oFixedCache.get().length, 2);
+});
+
+
+
+
