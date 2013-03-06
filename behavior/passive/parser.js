@@ -21,12 +21,33 @@ Cotton.Behavior.Passive.Parser = Class
        */
       _lMeaningfulBlocks : null,
 
+
+      /**
+       * All paragraphs, for reader
+       */
+      _lAllParagraphs : null,
+
+      /**
+       * Is it called from a getContent
+       */
+      _bContentGetter : null,
+
       /**
        * @constructor
        */
       init : function() {
+        self = this;
         this._MeaningFulBlocks = [];
         this._iNbMeaningfulBlock = 0;
+        this._lAllParagraphs = [];
+        this._bContentGetter = false;
+        chrome.extension.sendMessage({
+	        "action":"is_get_content"
+        }, function(response){
+	      if (response["getting_content"] == true){
+            self._bContentGetter = true;
+          }
+        });
       },
 
       bestImage : function() {
@@ -238,11 +259,19 @@ Cotton.Behavior.Passive.Parser = Class
                   var $ancestor = $paragraph.parent().parent().parent();
                   if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
                     $paragraph.css('border-color', '#f00');
+                    if ($paragraph.text()){
+                      self._lAllParagraphs.push($paragraph.text());
+                    }
                   } else {
                     $paragraph.removeAttr('data-meaningful').attr(
                         'data-least-meaningful', true);
                   }
                 });
+                if (this._bContentGetter) {
+				  sync.current().extractedDNA().setAllParagraphs(this._lAllParagraphs);
+				  sync.setParagraph(this._lAllParagraphs);
+				  sync.updateVisit();
+			    }
 
         if ($('[data-meaningful]').length == 0) {
           // If we did not find any really meaningful element, we might be in
