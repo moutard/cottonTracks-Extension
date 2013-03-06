@@ -50,7 +50,8 @@ module(
 );
 
 
-test("Cotton.Algo.Distance - distance key.", function() {
-  Cotton.Algo.PreTreatment.computeClosestGeneratedPage([oVisitItem1, oVisitItem2, oVisitItem3])
+test("distance key.", function() {
+  Cotton.Algo.PreTreatment.computeClosestGeneratedPage([oVisitItem1, oVisitItem2, oVisitItem3]);
+  equal(oVisitItem1['oExtractedDNA']['sClosestGeneratedPage'], "https://www.google.com/search?q=etherpad&oq=etherpad");
 });
 
