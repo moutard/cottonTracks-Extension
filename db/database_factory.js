@@ -84,6 +84,6 @@ Cotton.DB.DatabaseFactory = Class.extend({
     var oCache = new Cotton.DB.FixedSizeCache('pool', 50);
     // As dbscan2 work directly on dDbRecord and not on the element, we don't
     // need a wrapper here.
-    return oDatabase;
+    return oCache;
   },
 });
