@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Item Info Contains title, date, quote number, favicon and website url
+ * Item Date Contains date and clock icon
  */
 Cotton.UI.Story.Item.Date = Class
     .extend({
