@@ -23,6 +23,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   _bParagraphSet : null,
   _bImageSet : null,
+  _lAllParagraphs : null,
 
   /**
    * @constructor
@@ -32,6 +33,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
     this._oCurrentVisitItem = new Cotton.Model.VisitItem();
     this._bParagraphSet = false;
     this._bImageSet = false;
+    this._lAllParagraphs = [];
   },
 
   /**
@@ -77,6 +79,8 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 	    self._oCurrentVisitItem = oTranslator.dbRecordToObject(
 	                                                response['visitItem']
 	                                                  );
+	    //careful not to erase paragraphs from parser with paragraphs from db
+	    self._oCurrentVisitItem.extractedDNA().setAllParagraphs(self._lAllParagraphs);
 	  } else {
 		//The visitItem url was not in base, init this one with the new id created
         DEBUG && console.debug('DBSync create visit - response :')
@@ -117,7 +121,7 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
         'action' : 'update_visit_item',
         'params' : {
           'visitItem' : dDbRecord,
-          'contentSet' : this._bParagraphSet && this._bImageSet
+          'contentSet' : self._bParagraphSet
         }
       }, function(response) {
         // DEPRECATED - update_visit_item do not respond.
@@ -133,12 +137,9 @@ Cotton.Behavior.Passive.DbSync = Class.extend({
 
   },
 
-  setImage : function(bSet) {
-    this._bImageSet = bSet
-  },
-
-  setParagraph : function(bSet) {
-    this._bParagraphSet = bSet
+  setParagraph : function(lAllParagraphs) {
+    this._bParagraphSet = true;
+    this._lAllParagraphs = lAllParagraphs;
   },
 
 });
