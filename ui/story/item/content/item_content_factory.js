@@ -24,31 +24,39 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
     return new Cotton.UI.Story.Item.Content.Image(oItem, "img");
   } else if (oUrl.pathname === "/imgres") {
     // Image, from google search image result.
+    oItem.setItemType("image");
     return new Cotton.UI.Story.Item.Content.Image(oItem, "imgres");
   } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
     // Video - Youtube
+    oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "youtube",
         oUrl.dSearch['v']);
   } else if (oUrl.host === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
     // Video - Vimeo
+    oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "vimeo",
         sLastStringFromPathname);
   } else if (oUrl.host === "www.dailymotion.com"
       && oUrl.pathname.split('/')[1] == "video") {
     // Video - Dailymotion
+    oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "dailymotion",
         oUrl.pathname.split('/')[2]);
   } else if (oUrl.host === "www.dailymotion.com" && oUrl.dHash['video']) {
+    oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "dailymotion",
         oUrl.dHash['video']);
   } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
+    oItem.setItemType("map");
     return new Cotton.UI.Story.Item.Content.Map(oItem, oUrl);
   } else if (oUrl.dSearch['q']) {
     // Search
+    oItem.setItemType("search");
     return new Cotton.UI.Story.Item.Content.Search(oItem);
   //TODO(rkorach) : include slideshare
   } else {
     // Default
+    oItem.setItemType("default");
     return new Cotton.UI.Story.Item.Content.Default(oItem);
   }
 };

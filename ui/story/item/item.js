@@ -11,6 +11,8 @@ Cotton.UI.Story.Item.Element = Class
 
       _$item : null,
 
+      _sItemType : null,
+
       _oItemContent : null,
 
       _$storyContainer : null,
@@ -44,6 +46,14 @@ Cotton.UI.Story.Item.Element = Class
 
       visitItem : function() {
         return this._oVisitItem;
+      },
+
+      itemType : function() {
+        return this._sItemType;
+      },
+
+      setItemType : function(sType) {
+        this._sItemType = sType;
       },
 
       container : function() {
