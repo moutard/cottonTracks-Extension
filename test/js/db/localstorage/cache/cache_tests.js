@@ -36,12 +36,13 @@ var dataTest = [
                   sFormatVersion: "0.1",
                   sTitle: "bogart",
                 }
-             ];
-module("Cache",{
+];
+
+module("Cotton.DB.Cache",{
   setup: function() {
     // runs before each test
     // Reinitialise localStorage.
-    var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
+    var oCache = new Cotton.DB.Cache();
     oCache.purge();
   },
   teardown: function() {
@@ -49,14 +50,15 @@ module("Cache",{
   }
 });
 
-test("Init Cache", function() {
-  var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
+test("Init", function() {
+  var oCache = new Cotton.DB.Cache();
   ok(oCache);
 });
 
 test("Put", function() {
-  var oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
-  oCache.put(dataTest[0]);
-  ok(oCache.get());
+  var oCache = new Cotton.DB.Cache('tests', {
+  }, function(){});
+  oCache.put('visititems', dataTest[0]);
+  ok(oCache.getStore('visititems'));
 });
 
