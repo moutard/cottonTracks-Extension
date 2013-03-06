@@ -352,12 +352,23 @@ Cotton.Controllers.Background = Class.extend({
     // Add listener called when the worker send message back to the main thread.
     wDBSCAN2.addEventListener('message', function(e) {
 
-      console.log('____________________wDBSCAN2 - Worker ends: ',
+      DEBUG && console.debug('wDBSCAN2 - Worker ends: ',
         e.data['iNbCluster'], e.data['lVisitItems']);
 
       // Cluster the story found by dbscan2.
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                               e.data['iNbCluster']);
+
+      // TODO(rmoutard) : find a better solution.
+      lVisitItemToKeep = [];
+      _.each(e.data['lVisitItems'], function(dVisiItem){
+        if(dVisitItem['clusterId'] !== "UNCLASSIFIED"
+          && dVisitItem['clusterId'] !== "NOISE"){
+            delete dVisitItem['clusterId'];
+            lVisitItemToKeep.push(dVisitItem);
+        }
+      });
+      self._oPool.refresh(lVisitItemToKeep);
 
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
