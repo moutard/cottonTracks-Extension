@@ -3,7 +3,7 @@ var A = Class.extend({
   init: function(){},
 });
 
-module("Translator",{
+module("Cotton.DB.Translator",{
   setup: function() {
     // runs before each test
   },
@@ -12,7 +12,7 @@ module("Translator",{
   }
 });
 
-test("Init Translators", function() {
+test("Init", function() {
   var oTranslator = new Cotton.DB.Translator('0.1', function(oObject){
     return {};
   },
@@ -22,7 +22,31 @@ test("Init Translators", function() {
   ok(oTranslator);
 });
 
-test("Init Translators Collection", function(){
+
+module("Cotton.DB.TranslatorsCollection",{
+  setup: function() {
+    // runs before each test
+  },
+  teardown: function() {
+    // runs after each test
+  }
+});
+
+test("Init with no translator.", function(){
+  var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
+  });
+  ok(oTranslatorCollection);
+});
+
+
+test("Init with one translator.", function(){
+  var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+  });
+  ok(oTranslatorCollection);
+});
+
+test("Init with all the translators.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
@@ -31,7 +55,7 @@ test("Init Translators Collection", function(){
   ok(oTranslatorCollection);
 });
 
-test("Init Translators Collection", function(){
+test("_translatorForObject", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
@@ -39,7 +63,8 @@ test("Init Translators Collection", function(){
   });
 
   var oStory = new Cotton.Model.Story();
-  deepEqual(oTranslatorCollection._translatorForObject('stories', oStory)._dIndexDescriptions, {
+  deepEqual(oTranslatorCollection._translatorForObject('stories', oStory)
+    ._dIndexDescriptions, {
     "fLastVisitTime": {
       "unique": false
     },
