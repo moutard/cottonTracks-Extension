@@ -51,11 +51,9 @@ Cotton.Controllers.Background = Class.extend({
 
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getPool();
-    self._oCache = new Cotton.DB.DatabaseFactory().getCachedPool();
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS

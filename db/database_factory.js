@@ -75,31 +75,15 @@ Cotton.DB.DatabaseFactory = Class.extend({
   },
 
   getPool : function() {
-    var oDatabase = new Cotton.DB.LocalStorage.Wrapper('pool', {
-            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
-          }, function() {
-    });
-    // TODO(rmoutard) : extend the wrapper if needed.
-    //  _.extend(oDatabase, localstorage_mixin);
-    return oDatabase;
-  },
-
-  getCachedPool : function() {
     // Create translator collection.
     var oTranslatorsCollection = new Cotton.DB.TranslatorsCollection({
       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
     });
 
     // Create engine using translator collection for indexes.
-    var oCache = new Cotton.DB.Cache('pool',
-        oTranslatorsCollection.getIndexesForObjectStoreNames(),
-        function() {
-    });
-
-    // Create the database using the wrapper where you give the
-    // oTranslatorsCollection and oCache that is an engine..
-    var oDatabase = new Cotton.DB.WrapperForEngine(oTranslatorsCollection,
-        oCache);
+    var oCache = new Cotton.DB.FixedSizeCache('pool', 50);
+    // As dbscan2 work directly on dDbRecord and not on the element, we don't
+    // need a wrapper here.
     return oDatabase;
   },
 });
