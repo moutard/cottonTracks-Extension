@@ -19,41 +19,31 @@
  */
 Cotton.DB.LocalStorage.Engine = Class.extend({
 
-  init :function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
+  init :function(sDatabaseName, dIndexesForObjectStoreNames) {
     var self = this;
 
     this._sDatabaseName = sDatabaseName;
+
+    // Dict that contains all the stores, and for each store, the corresponding
+    // indexes.
+    this._dIndexesForObjectStoreNames = dIndexesForObjectStoreNames;
+
+    // localStorage is the object allowing to communicate with browser storage.
     this._oDb = localStorage;
+
+    // Set a flag to show that the database is up.
     this._oDb.setItem(sDatabaseName, 'True');
 
-    //TODO(rmoutard) : add variable that knows all the store in the database.
   },
 
   empty : function() {
     return this._oDb.getItem(this._sDatabaseName) === null ;
   },
 
-  iterList : function(sObjectStoreName, mResultElementCallback) {
+  getList : function(sObjectStoreName) {
     var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
         "-" + sObjectStoreName));
-    for(var i = 0; i < lResults.length; i++){
-      mResultElementCallback(lResults[i]);
-    }
-  },
-
-  // TODO(rmoutard) do we need a callback function for that.
-  getList : function(sObjectStoreName, mResultElementCallback) {
-    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
-        "-" + sObjectStoreName));
-    mResultElementCallback(lResults);
-  },
-
-  iterRange : function(sObjectStoreName, mResultElementCallback) {
-
-  },
-
-  getRange : function(sObjectStoreName, mResultElementCallback) {
-
+    return lResults;
   },
 
   find : function() {
@@ -64,12 +54,12 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
   },
 
-  put : function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
+  put : function(sObjectStoreName, dItem) {
+    var self = this;
+    var lResults = JSON.parse(self._oDb.getItem(self._sDatabaseName +
         "-" + sObjectStoreName)) || [];
     lResults.push(dItem);
-    this._oDb.setItem(JSON.stringify(lResults));
-    mOnSaveCallback();
+    self._oDb.setItem(JSON.stringify(lResults));
   },
 
   delete : function() {
@@ -77,9 +67,12 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
   },
 
   purge : function() {
-    this._oDb.removeItem(this._sDatabaseName);
-    // TODO(rmoutard): remove all the stores.
-
+    var self = this;
+    self._oDb.removeItem(self._sDatabaseName);
+    _.each(self._dIndexesForObjectStoreNames,
+        function(dStoreIndexes, sStoreName){
+          self._oDb.removeItem(self._sDatabaseName + '-' + sStoreName);
+    });
   },
 });
 
