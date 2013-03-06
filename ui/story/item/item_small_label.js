@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * Item Website Contains favicon and website url
+ * Item Small Label is for all items except maps/videos
+ * contains the website indications
  */
 Cotton.UI.Story.Item.SmallLabel = Class.extend({
 
