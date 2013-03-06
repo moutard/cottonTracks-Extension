@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Item Info Contains title, date, quote number, favicon and website url
+ * Item QuoteIndicator shows number of quote in default items
  */
 Cotton.UI.Story.Item.QuoteIndicator = Class
     .extend({
