@@ -21,7 +21,7 @@ Cotton.UI.World = Class.extend({
       $('body').blurjs({
           source: '#blur_target',
           radius: 15,
-          overlay: 'rgba(0,0,0,0.05)'
+          overlay: 'rgba(0,0,0,0.2)'
       });
     });
     $(document).ready(function() {
