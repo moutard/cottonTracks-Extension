@@ -47,7 +47,7 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.browserAction.disable();
     self.initWorkerDBSCAN3();
-    //self.initWorkerDBSCAN2();
+    self.initWorkerDBSCAN2();
 
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getPool();
@@ -340,20 +340,49 @@ Cotton.Controllers.Background = Class.extend({
   },
 
   /**
-   * Initialize the worker in charge of DBSCAN3, and link it to 'message'
-   * listener.
+   * Initialize the worker in charge of DBSCAN2,
+   * Called by the background to all the visitItems elements that are in the
+   * pool.
    */
-  initWorkerDBSCAN3 : function(){
+  initWorkerDBSCAN2 : function() {
     var self = this;
+    // Instantiate a new worker with the code in the specified file.
+    var wDBSCAN2 = new Worker('algo/dbscan2/worker_dbscan2.js');
+
+    // Add listener called when the worker send message back to the main thread.
+    wDBSCAN2.addEventListener('message', function(e) {
+
+      console.log('____________________wDBSCAN2 - Worker ends: ',
+        e.data['iNbCluster'], e.data['lVisitItems']);
+
+      // Cluster the story found by dbscan2.
+      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+                                              e.data['iNbCluster']);
+
+      // Add stories in indexedDB.
+      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
+          function(oDatabase, lStories){
+            // pass.
+      });
+    }, false);
+
+    return wDBSCAN2;
+  },
+
+  /**
+   * Initialize the worker in charge of DBSCAN3,
+   * Called at the installation on all the element of visitItems.
+   */
+  initWorkerDBSCAN3 : function() {
+    var self = this;
+    // Instantiate a new worker with the code in the specified file.
     self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
 
+    // Add listener called when the worker send message back to the main thread.
     self._wDBSCAN3.addEventListener('message', function(e) {
 
-      // Is called when a message is sent by the worker.
-      // Use local storage, to see that's it's not the first visit.
-      DEBUG && console.debug('wDBSCAN3 - Worker ends with ',
-        e.data['iNbCluster'], 'clusters.', ' For ',
-        e.data['lVisitItems'].length, ' visitItems');
+      DEBUG && console.log('wDBSCAN - Worker ends: ',
+        e.data['iNbCluster'], e.data['lVisitItems']);
 
       // Update the visitItems with extractedWords and queryWords.
       for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
@@ -362,23 +391,20 @@ Cotton.Controllers.Background = Class.extend({
           e.data['lVisitItems'][i]);
         var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
 
-
         self._oDatabase.put('visitItems', oVisitItem, function() {
-          // pass
+          // pass.
         });
       }
 
       var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
                                               e.data['iNbCluster']);
 
-      // Add stories
+      // Add stories in IndexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
           function(oDatabase, lStories){
-
-            // pass because don't need to show stories in the world.
+            // pass.
       });
     }, false);
-
   },
 
   /**

@@ -8,10 +8,12 @@
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.lib.
 importScripts('../../lib/class.js');
-importScripts('../../lib/underscore.js');
+importScripts('../../lib/underscore.min.js');
 
 importScripts('../../init.js');
-importScripts('../../lib/url_parser.js');
+
+importScripts('../../utils/init.js');
+importScripts('../../utils/url_parser.js');
 
 // Cotton.config
 importScripts('../../config/init.js');
@@ -21,17 +23,17 @@ importScripts('../../config/config.js');
 importScripts('../../algo/init.js');
 importScripts('../../algo/common/init.js');
 importScripts('../../algo/common/tools.js');
-importScripts('../../algo/dbscan2/init.js');
-importScripts('../../algo/dbscan2/pre_treatment.js');
 importScripts('../../algo/dbscan1/distance.js');
 importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan1/pre_treatment.js');
+importScripts('../../algo/dbscan2/init.js');
 
 /**
  * Loop through all the VisitItems and compute their distances to each other.
  * Keys are VisitItem ids. Values are lists of couples with distances
  * including the VisitItem.
  */
-function handleVisitItem(oVisitItem) {
+function handleVisitItem(lVisitItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood.
@@ -43,12 +45,8 @@ function handleVisitItem(oVisitItem) {
   lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
 
   var iNbCluster = Cotton.Algo.DBSCAN(lVisitItems, fEps, iMinPts,
-      Cotton.Algo.distanceComplexe);
+      Cotton.Algo.Distance.meaning);
 
-  /**
-   * This worker has no access to window or DOM. So update DOM should be done in
-   * the main thread.
-   */
   var dData = {};
   dData['iNbCluster'] = iNbCluster;
   dData['lVisitItems'] = lVisitItems;
