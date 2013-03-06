@@ -36,13 +36,17 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
   },
 
+  _getStoreLocation : function(sStoreName) {
+    return this._sDatabaseName + '-' + sStoreName;
+  },
+
   empty : function() {
     return this._oDb.getItem(this._sDatabaseName) === null ;
   },
 
   getList : function(sObjectStoreName) {
-    var lResults = JSON.parse(this._oDb.getItem(this._sDatabaseName +
-        "-" + sObjectStoreName));
+    var lResults = JSON.parse(this._oDb.getItem(
+          this._getStoreLocation(sObjectStoreName)));
     return lResults;
   },
 
@@ -56,8 +60,8 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
   put : function(sObjectStoreName, dItem) {
     var self = this;
-    var lResults = JSON.parse(self._oDb.getItem(self._sDatabaseName +
-        "-" + sObjectStoreName)) || [];
+    var lResults = JSON.parse(self._oDb.getItem(
+          self._getStoreLocation(sObjectStoreName))) || [];
     lResults.push(dItem);
     self._oDb.setItem(JSON.stringify(lResults));
   },
@@ -71,7 +75,7 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
     self._oDb.removeItem(self._sDatabaseName);
     _.each(self._dIndexesForObjectStoreNames,
         function(dStoreIndexes, sStoreName){
-          self._oDb.removeItem(self._sDatabaseName + '-' + sStoreName);
+          self._oDb.removeItem(self._getStoreLocation(sStoreName));
     });
   },
 });
