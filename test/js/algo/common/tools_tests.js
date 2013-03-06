@@ -12,26 +12,26 @@ module(
 );
 
 
-test("Cotton.Algo.Tools.extractWords - Empty title. ", function() {
+test("extract words on empty title.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(""), []);
 });
 
-test("Cotton.Algo.Tools.extractWords - Jennifer Anniston title. ", function() {
+test("extract words on Jennifer Anniston title.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("Jennifer Anniston"),
     ['jennifer', 'anniston']);
 });
 
-test("Cotton.Algo.Tools.extractWords - less than 2 letters words. ", function() {
+test("extract words on less than 2 letters words. ", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("ou est donc or ni car ?"),
     ['est', 'donc', 'car']);
 });
 
-test("Cotton.Algo.Tools.extractWords - less than 2 letters words. ", function() {
+test("extract words on less than 2 letters words with punctuation.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("ou est donc or ni car."),
     ['est', 'donc', 'car']);
 });
 
-test("Cotton.Algo.Tools.extractWordsUrl - less than 2 letters words. ", function() {
+test("extract words from url. ", function() {
   var sUrl = "http://example.com/what_are_the_words_in_this_url";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
@@ -42,7 +42,6 @@ test("Cotton.Algo.Tools.extractWordsUrl - less than 2 letters words. ", function
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['2013', 'yota', 'mass', 'produce', 'ink', 'phone', 'singapore']);
-
 
 });
 

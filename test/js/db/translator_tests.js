@@ -12,7 +12,7 @@ module("Cotton.DB.Translator",{
   }
 });
 
-test("Init", function() {
+test("init", function() {
   var oTranslator = new Cotton.DB.Translator('0.1', function(oObject){
     return {};
   },
@@ -32,21 +32,21 @@ module("Cotton.DB.TranslatorsCollection",{
   }
 });
 
-test("Init with no translator.", function(){
+test("init with no translator.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
   });
   ok(oTranslatorCollection);
 });
 
 
-test("Init with one translator.", function(){
+test("init with one translator.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
   });
   ok(oTranslatorCollection);
 });
 
-test("Init with all the translators.", function(){
+test("init with all the translators.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
     'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,

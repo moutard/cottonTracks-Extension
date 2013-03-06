@@ -23,8 +23,17 @@ module(
     }
 );
 
+asyncTest("init with no translator.", function() {
+    expect(1);
+    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+      }, function() {
+        console.log('database created.')
+        ok(true, "Created");
+        start();
+    });
+});
 
-asyncTest("Cotton.DB.IndexedDB.Wrapper - init.", function() {
+asyncTest("init with all translators.", function() {
     expect(1);
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
@@ -35,7 +44,6 @@ asyncTest("Cotton.DB.IndexedDB.Wrapper - init.", function() {
         ok(true, "Created");
         start();
     });
-
 });
 
 

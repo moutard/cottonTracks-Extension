@@ -50,37 +50,37 @@ module(
 );
 
 
-test("Cotton.Algo.Distance - distance key.", function() {
+test("distance key.", function() {
   deepEqual(Cotton.Algo.Distance.distanceKey("foo", {foo: 3}, {foo:4}), 1);
   deepEqual(Cotton.Algo.Distance.distanceKey("foo", {foo: 4}, {foo:3}), 1);
 });
 
-test("Cotton.Algo.Distance - distance meaning for the same value.", function() {
+test("distance meaning for the same value.", function() {
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem1), 0);
   deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem1), 0);
 });
 
-test("Cotton.Algo.Distance - distance meaning.", function() {
+test("distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem2), 1 - 2/5);
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem2, oVisitItem1), 1 - 2/5);
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem2, oVisitItem3), 1);
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem3), 1);
 });
 
-test("Cotton.Algo.Distance - distance meaning.", function() {
+test("distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItemNull), 1);
   deepEqual(Cotton.Algo.Distance.commonExtractedWords(oVisitItem2, oVisitItemNull), 1);
   deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItemNull), 1);
   deepEqual(Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItemNull), 1);
 });
 
-test("Cotton.Algo.Distance - distance meaning.", function() {
+test("distance meaning.", function() {
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem1), 0);
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem1, oVisitItem2), 0.4666666666666667);
   deepEqual(Cotton.Algo.Distance.meaning(oVisitItem2, oVisitItemNull), 1);
 });
 
-test("Cotton.Algo.Distance - distance fromStory.", function() {
+test("distance fromStory.", function() {
   deepEqual(Cotton.Algo.Distance.fromStory(oVisitItem1, oStoryItem), 0.4);
   deepEqual(Cotton.Algo.Distance.fromStory(oVisitItem2, oStoryItem), 0.6);
 });
@@ -98,7 +98,7 @@ module(
 );
 
 
-test("Cotton.Algo.Distance.Metrics - Cosine.", function() {
+test("cosine.", function() {
   var dBagOfWords1 = {'a':1, 'b':2, 'c':3, 'd':4, 'g': 5};
   var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
   equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 64);
