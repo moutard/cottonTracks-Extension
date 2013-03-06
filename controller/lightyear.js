@@ -69,7 +69,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     $('.images_count').text(sImagesCount);
     var sVideosCount = $('.ct-item-video').length;
     $('.videos_count').text(sVideosCount);
-    var sMapsCount = $('.ct-item-maps').length;
+    var sMapsCount = $('.ct-item-map').length;
     $('.maps_count').text(sMapsCount);
     var sSoundsCount = $('.ct-item-sound').length;
     $('.sounds_count').text(sSoundsCount);

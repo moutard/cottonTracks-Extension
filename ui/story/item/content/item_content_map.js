@@ -22,7 +22,7 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
         // TODO(rmoutard) : why use oURl ?
         this._oUrl = oUrl;
 
-        oItem.$().addClass('ct-item-video');
+        oItem.$().addClass('ct-item-map');
         this._$itemDoubleContainer = $('<div class="ct-doublecontainer"></div>');
 
         // current sub elements.
