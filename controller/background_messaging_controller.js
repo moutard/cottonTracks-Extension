@@ -32,6 +32,7 @@ Cotton.Controllers.Messaging = Class.extend({
        * compiler we need a common structure to communicate throught messaging.
        * We use dbRecord, and translators give us a simple serialisation process.
        */
+      //FIXME(rmoutard): use TranslatorCollection.
       var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
       var oTranslator = lTranslators[lTranslators.length - 1];
       var oVisitItem = oTranslator.dbRecordToObject(dVisitItem);
@@ -73,7 +74,7 @@ Cotton.Controllers.Messaging = Class.extend({
                   }
                 });
 
-                // if we find a min story put the visitItem in it.
+                // If we find a min story put the visitItem in it.
                 if(oMinStory){
                   oVisitItem.setStoryId(oMinStory.id());
                     self._oMainController._oDatabase.put('visitItems',
@@ -83,6 +84,12 @@ Cotton.Controllers.Messaging = Class.extend({
                           oMinStory, function(){});
                       });
 
+                } else {
+                  // Put the visit item in the pool.
+                  self._oMainController._oPool.put(dVisitItem);
+                  // Lauch dbscan2 on the pool.
+                  var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
+                  wDBSCAN2.postMessage(self._oMainController._oPool.get());
                 }
             });
         });
