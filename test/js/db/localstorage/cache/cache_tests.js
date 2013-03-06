@@ -50,12 +50,12 @@ module("Cotton.DB.Cache",{
   }
 });
 
-test("Init", function() {
+test("init", function() {
   var oCache = new Cotton.DB.Cache();
   ok(oCache);
 });
 
-test("Put", function() {
+test("put", function() {
   var oCache = new Cotton.DB.Cache('tests', {
   }, function(){});
   oCache.put('visititems', dataTest[0]);
