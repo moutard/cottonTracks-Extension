@@ -143,6 +143,8 @@
 			}
 
 			> .item-reader_content{
+        position: absolute;
+        display: none;
 			  padding-top: 10px;
 			  padding-bottom: 10px;
 			  padding-left: 28px;
@@ -150,10 +152,15 @@
         width: 294px;
         height: 412px;
         overflow-y: auto;
+        overflow-x: hidden;
 
         p {
           font-size: 13px;
           text-align: justify;
+
+          &.default_text{
+            color: #a5a5a5;
+	        }
         }
 
 				&::-webkit-scrollbar {

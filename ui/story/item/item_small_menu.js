@@ -31,14 +31,15 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
     this._$remove = $('<p>Remove</p>');
     this._$openLink = $('<a href="" target="_blank"></a>');
     this._$open = $('<p>Open</p>');
-    var bParagraph = (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
-      || (oItemContent.item().visitItem().extractedDNA().firstParagraph() !== "");
+    var bParagraph = ((oItemContent.item().visitItem().extractedDNA().allParagraphs().length > 0)
+      || (oItemContent.item().visitItem().extractedDNA().paragraphs().length > 0)
+      || (oItemContent.item().visitItem().extractedDNA().firstParagraph() != "") );
     this._$expand = (bParagraph) ? $('<p class="expand">Expand</p>') : $('');
     //do not append 'Get Content' if it has already been performed or
     //if there is a paragraph
-  this._$getContent = (bParagraph
-      || this._oItemContent.item().isReloaded()) ? $('')
-    : $('<p class="get_content">Get Content</p>');
+    this._$getContent = (bParagraph
+        || this._oItemContent.item().isReloaded()) ? $('')
+      : $('<p class="get_content">Get Content</p>');
     this._$collapse =  $('<p class="collapse">Collapse</p>');
     this._$loading =  $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">');
 
@@ -50,51 +51,56 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
       }, function() {
-        self._oDatabase.delete('visitItems', self._oItemContent.item().visitItem().id(),
-          function() {
-            self._oItemContent.item().container().isotope('remove',
-              self._oItemContent.item().$());
-          });
+      self._oDatabase.delete('visitItems', self._oItemContent.item().visitItem().id(),
+        function() {
+          self._oItemContent.item().container().isotope('remove',
+            self._oItemContent.item().$());
+        });
       });
     });
 
+  //expand reader
+  this._$expand.click(function(){
+    oItemContent.item().$().css('height', '630px');
+    self.$().addClass("visible_action_menu");
+    oItemContent.item().container().isotope('reLayout');
+    $(this).hide();
+    self._$collapse.show();
+  });
 
-    //expand reader
-		this._$expand.click(function(){
-      oItemContent.item().$().css('height', '630px');
-      self.$().addClass("visible_action_menu");
-      oItemContent.item().container().isotope('reLayout');
-      $(this).hide();
-      self._$collapse.show();
+  //collapse reader
+  this._$collapse.click(function(){
+    oItemContent.item().$().css('height', '150px');
+    oItemContent.item().container().isotope('reLayout');
+    self.$().removeClass("visible_action_menu");
+    $(this).hide();
+    self._$expand.show();
+  });
+
+  //get content
+  this._$getContent.click(function(){
+    chrome.tabs.create({
+      "url" : self._oItemContent.item().visitItem().url(),
+      "active" : false
     });
+    self._bGettingContent = true;
+  });
 
-    //collapse reader
-    this._$collapse.click(function(){
-      oItemContent.item().$().css('height', '150px');
-      oItemContent.item().container().isotope('reLayout');
-      self.$().removeClass("visible_action_menu");
-      $(this).hide();
-      self._$expand.show();
-    });
-
-    //get content
-	  this._$getContent.click(function(){
-		  chrome.tabs.create({
-		  	"url" : self._oItemContent.item().visitItem().url(),
-			  "active" : false
-		  });
-		  self._bGettingContent = true;
-	  });
-
-	  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-	    if (request["action"] == "get_content"
-        && sender.tab.url == self._oItemContent.item().visitItem().url()
-        && self._bGettingContent) {
-	        self._bGettingContent = false;
-	        chrome.tabs.remove(sender.tab.id);
-	        self._oItemContent.item().reload();
-      }
-		});
+  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request["action"] == "get_content"
+      && sender.tab.url == self._oItemContent.item().visitItem().url()
+      && self._bGettingContent) {
+        self._bGettingContent = false;
+        chrome.tabs.remove(sender.tab.id);
+        self._oItemContent.item().reload();
+    }
+    if (request["action"] && (request["action"] == "is_get_content")
+      && sender.tab.url == self._oItemContent.item().visitItem().url()
+      && self._bGettingContent) {
+          sendResponse({"getting_content":true});
+          console.log()
+        }
+  });
 
     // url
     var sUrl = this._oItemContent.item().visitItem().url();
