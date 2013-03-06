@@ -30,6 +30,7 @@ Cotton.Controllers.Background = Class.extend({
   init : function(){
     var self = this;
 
+    chrome.browserAction.disable();
     self.initWorkerDBSCAN3();
     //self.initWorkerDBSCAN2();
 
@@ -50,6 +51,7 @@ Cotton.Controllers.Background = Class.extend({
             self.update();
           } else {
             // pass
+            chrome.browserAction.enable();
           }
     });
 
@@ -376,6 +378,7 @@ Cotton.Controllers.Background = Class.extend({
         }
         DEBUG && console.debug(lAllVisitDict);
         self._wDBSCAN3.postMessage(lAllVisitDict);
+        chrome.browserAction.enable();
       });
     });
 
