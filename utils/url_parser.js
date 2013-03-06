@@ -130,8 +130,10 @@ UrlParser.prototype.replaceHexa = function(sEscaped){
           .replace(/\%2527/g,"'")
           .replace(/\%253D/g,'=')
           .replace(/\%253F/g,'?');
+	  return sUnescaped;
+    } else {
+	  return sEscaped;
     }
-    return sUnescaped;
 };
 
 // README
