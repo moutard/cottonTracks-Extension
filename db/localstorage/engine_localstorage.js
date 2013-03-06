@@ -40,6 +40,8 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
     return this._sDatabaseName + '-' + sStoreName;
   },
 
+  //FIXME(rmoutard): use a callback method so the wrapper can be the same for
+  //synchronous and asynchronous call.
   empty : function() {
     return this._oDb.getItem(this._sDatabaseName) === null ;
   },
