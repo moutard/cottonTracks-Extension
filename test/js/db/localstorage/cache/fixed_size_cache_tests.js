@@ -38,32 +38,39 @@ var dataTest = [
                 }
 ];
 
-var oCache;
-
-module("Cotton.DB.Cache",{
+var oFixedCache;
+module("Cotton.DB.FixedSizeCache",{
   setup: function() {
     // runs before each test
     // Reinitialise localStorage.
-    oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
-    oCache.purge();
+    oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+    oFixedCache.purge();
   },
   teardown: function() {
     // runs after each test
-    oCache.purge();
+    oFixedCache.purge();
   }
 });
 
-test("init", function() {
-  oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
-  ok(oCache);
+test("init.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+  ok(oFixedCache);
 });
 
-test("put", function() {
-  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 5000);
-  oCache.put('visitItems', dataTest[0]);
-  var dVisitItem = oCache.getStore('visitItems');
+test("put.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
+  oFixedCache.put(dataTest[0]);
+  var dVisitItem = oFixedCache.get();
   delete dVisitItem['sExpiracyDate'];
-  deepEqual(oCache.getStore('visitItems'), [dataTest[0]]);
+  deepEqual(oFixedCache.get(), [dataTest[0]]);
+});
+
+test("put limit.", function() {
+  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
+  oFixedCache.put(dataTest[0]);
+  oFixedCache.put(dataTest[1]);
+  oFixedCache.put(dataTest[2]);
+  deepEqual(oFixedCache.get().length, 2);
 });
 
 

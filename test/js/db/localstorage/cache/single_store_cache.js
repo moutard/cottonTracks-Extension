@@ -38,32 +38,31 @@ var dataTest = [
                 }
 ];
 
-var oCache;
+var oSingleCache;
 
-module("Cotton.DB.Cache",{
+module("Cotton.DB.SingleStoreCache",{
   setup: function() {
     // runs before each test
     // Reinitialise localStorage.
-    oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
-    oCache.purge();
+    oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
+    oSingleCache.purge();
   },
   teardown: function() {
     // runs after each test
-    oCache.purge();
+    oSingleCache.purge();
   }
 });
 
 test("init", function() {
-  oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
-  ok(oCache);
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
+  ok(oSingleCache);
 });
 
 test("put", function() {
-  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 5000);
-  oCache.put('visitItems', dataTest[0]);
-  var dVisitItem = oCache.getStore('visitItems');
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache', 5000);
+  oSingleCache.put(dataTest[0]);
+  var dVisitItem = oSingleCache.get();
   delete dVisitItem['sExpiracyDate'];
-  deepEqual(oCache.getStore('visitItems'), [dataTest[0]]);
+  deepEqual(oSingleCache.get(), [dataTest[0]]);
 });
-
 
