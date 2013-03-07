@@ -37,9 +37,13 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    * If you want to be sure to have non expiredData use getFresh.
    */
   getStore : function(sObjectStoreName){
-    var lResults = JSON.parse(this._oDb.getItem(
-          this._getStoreLocation(sObjectStoreName)));
-    return lResults;
+    return JSON.parse(this._oDb.getItem(
+          this._getStoreLocation(sObjectStoreName))) || [];
+  },
+
+  setStore : function(sObjectStoreName, lItems){
+    this._oDb.setItem(this._getStoreLocation(sObjectStoreName),
+        JSON.stringify(lItems));
   },
 
   /**
@@ -48,41 +52,42 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
   getFresh : function(sObjectStoreName){
     var self = this;
     var iCurrentDate = new Date().getTime();
-    var lFreshItems = _.filter(JSON.parse(localStorage.getItem(
-             this._getStoreLocation(sObjectStoreName))),
+    console.log(iCurrentDate);
+    var lFreshItems = _.filter(this.getStore(sObjectStoreName),
         function(oItem){
           return oItem['sExpiracyDate'] < iCurrentDate;
         });
     // as you computed fresh data, set the cache content.
-    this._refresh(lFreshItems);
+    this._refresh(sObjectStoreName, lFreshItems);
     return lFreshItems;
   },
 
   /**
    * Force the cache to refresh it's data.
+   * Becarefull it's a private method you can't use it, there are no security
+   * guards so the method is faster, but so you can overide expiracy date
+   * inside the cache, and bring dangerous behaviour.
    */
-  refresh : function (sObjectStoreName, lFreshItems){
+  _refresh : function (sObjectStoreName, lFreshItems){
     var sCurrentDate = new Date().getTime();
     var sStoreLocation = this._getStoreLocation(sObjectStoreName);
-    var _lFreshItems = lFreshItems || _.filter(JSON.parse(
-          localStorage.getItem(sStoreLocation)),
+    var _lFreshItems = lFreshItems || _.filter(this.getStore(sObjectStoreName),
         function(oItem){
           return oItem['sExpiracyDate'] < sCurrentDate;
         });
-    this._oDb.setItem(sStoreLocation, _lFreshItems);
+    this.setStore(sObjectStoreName, lFreshItems);
   },
 
   /**
    * Put an item in the cache.
    */
   put : function(sObjectStoreName, dItem) {
-    var sStoreLocation = this._getStoreLocation(sObjectStoreName);
-    var lResults = JSON.parse(this._oDb.getItem(sStoreLocation)) || [];
+    var lResults = this.getStore(sObjectStoreName);
     // We could use string to avoid problem with too long int but here it's
     // not a problem here because date are less that 10^53.
     dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
     lResults.push(dItem);
-    this._oDb.setItem(sStoreLocation, JSON.stringify(lResults));
+    this.setStore(sObjectStoreName, lResults);
   },
 
 });
