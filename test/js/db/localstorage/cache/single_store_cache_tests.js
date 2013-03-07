@@ -38,59 +38,31 @@ var dataTest = [
                 }
 ];
 
-var oFixedCache;
-module("Cotton.DB.FixedSizeCache",{
+var oSingleCache;
+
+module("Cotton.DB.SingleStoreCache",{
   setup: function() {
     // runs before each test
     // Reinitialise localStorage.
-    oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
-    oFixedCache.purge();
+    oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
+    oSingleCache.purge();
   },
   teardown: function() {
     // runs after each test
-    oFixedCache.purge();
+    oSingleCache.purge();
   }
 });
 
-test("init.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
-  ok(oFixedCache);
+test("init", function() {
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
+  ok(oSingleCache);
 });
 
-test("put.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
-  oFixedCache.put(dataTest[0]);
-  var dVisitItem = oFixedCache.get();
+test("put", function() {
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache', 5000);
+  oSingleCache.put(dataTest[0]);
+  var dVisitItem = oSingleCache.get();
   delete dVisitItem['sExpiracyDate'];
-  deepEqual(oFixedCache.get(), [dataTest[0]]);
+  deepEqual(oSingleCache.get(), [dataTest[0]]);
 });
-
-test("put limit.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.put(dataTest[0]);
-  oFixedCache.put(dataTest[1]);
-  oFixedCache.put(dataTest[2]);
-  deepEqual(oFixedCache.get().length, 2);
-});
-
-test("refresh.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
-  ok(oFixedCache.get().length);
-});
-
-
-test("refresh.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
-  ok(oFixedCache.get().length);
-});
-
-
-test("refresh exceed limit.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
-  ok(oFixedCache.get().length <= 2, "The cache exceed the authorized size.");
-});
-
 
