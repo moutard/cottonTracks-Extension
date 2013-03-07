@@ -53,12 +53,17 @@ module("Cotton.DB.Cache",{
   }
 });
 
-test("init", function() {
+test("init.", function() {
   oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
   ok(oCache);
 });
 
-test("put", function() {
+test("get empty cache.", function() {
+  oCache = new Cotton.DB.Cache('test-cache', {'visitItems':{}});
+  deepEqual(oCache.getStore('visitItems'), []);
+});
+
+test("put.", function() {
   oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 5000);
   oCache.put('visitItems', dataTest[0]);
   var dVisitItem = oCache.getStore('visitItems');
@@ -66,4 +71,22 @@ test("put", function() {
   deepEqual(oCache.getStore('visitItems'), [dataTest[0]]);
 });
 
+test("getFresh with expiracy 0.", function() {
+  // Make a cache where everyhting expires immediately.
+  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 0);
+  oCache.put('visitItems', dataTest[0]);
+  deepEqual(oCache.getFresh('visitItems'), []);
+});
 
+asyncTest("getFresh with expiracy 2.", function() {
+  // Make a cache where everyhting expires after 5000 milliseconds.
+  expect(4);
+  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 2000);
+  oCache.put('visitItems', dataTest[0]);
+  setTimeout(function() {
+    deepEqual(oCache.getFresh('visitItems'), []);
+    console.log('tet');
+    console.log(oCache.getFresh('visitItems'));
+    start();
+  }, 3000);
+});
