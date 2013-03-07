@@ -1,4 +1,13 @@
-import os
+import os, platform
 
 def runTest():
-  os.system("google-chrome unit_tests.html")
+  sPlatform = platform.system()
+
+  if sPlatform == 'Darwin':
+    os.system("open -a Google\ Chrome unit_tests.html")
+  if sPlatform == 'Linux':
+    os.system("google-chrome unit_tests.html")
+  if sPlatform == 'Windows':
+    pass;
+  
+  
