@@ -1003,10 +1003,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
-      console.error(oEvent);
-      console.error(this);
-      throw "Put Request Error";
+      //console.error("Can't open the database");
+      //console.error(oEvent);
+      //console.error(this);
+      //throw "Put Request Error";
     };
 
   },
