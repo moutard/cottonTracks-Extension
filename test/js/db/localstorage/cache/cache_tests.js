@@ -80,10 +80,11 @@ test("getFresh with expiracy 0.", function() {
 
 asyncTest("getFresh with expiracy 2.", function() {
   // Make a cache where everyhting expires after 5000 milliseconds.
-  expect(4);
   oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 2000);
   oCache.put('visitItems', dataTest[0]);
   setTimeout(function() {
+    console.log('setTimout start');
+    console.log(new Date().getTime());
     deepEqual(oCache.getFresh('visitItems'), []);
     console.log('tet');
     console.log(oCache.getFresh('visitItems'));
