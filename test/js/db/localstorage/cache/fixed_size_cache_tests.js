@@ -73,23 +73,15 @@ test("put limit.", function() {
   deepEqual(oFixedCache.get().length, 2);
 });
 
-test("refresh.", function() {
+test("_refresh.", function() {
   oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
+  oFixedCache._refresh(dataTest);
   ok(oFixedCache.get().length);
 });
 
-
-test("refresh.", function() {
+test("_refresh exceed limit.", function() {
   oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
-  ok(oFixedCache.get().length);
-});
-
-
-test("refresh exceed limit.", function() {
-  oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 2);
-  oFixedCache.refresh(dataTest);
+  oFixedCache._refresh(dataTest);
   ok(oFixedCache.get().length <= 2, "The cache exceed the authorized size.");
 });
 
