@@ -68,11 +68,11 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    * inside the cache, and bring dangerous behaviour.
    */
   _refresh : function (sObjectStoreName, lFreshItems){
-    var sCurrentDate = new Date().getTime();
+    var iCurrentDate = new Date().getTime();
     var sStoreLocation = this._getStoreLocation(sObjectStoreName);
     var _lFreshItems = lFreshItems || _.filter(this.getStore(sObjectStoreName),
         function(oItem){
-          return oItem['sExpiracyDate'] < sCurrentDate;
+          return  iCurrentDate < oItem['sExpiracyDate'];
         });
     this.setStore(sObjectStoreName, _lFreshItems);
   },
