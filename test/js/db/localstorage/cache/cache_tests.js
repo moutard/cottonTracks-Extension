@@ -87,6 +87,21 @@ test("getFresh updates the store with expiracy 0.", function() {
   deepEqual(oCache.getStore('visitItems'), []);
 });
 
+test("_refresh.", function() {
+  // Make a cache where everyhting expires immediately.
+  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 0);
+  oCache._refresh('visitItems', dataTest);
+  deepEqual(oCache.getStore('visitItems'), dataTest);
+});
+
+test("_refresh with getFresh", function() {
+  // Make a cache where everyhting expires immediately.
+  oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 0);
+  oCache._refresh('visitItems', dataTest);
+  // As you insert elements with no expiracy date, get fresh will remove them.
+  deepEqual(oCache.getFresh('visitItems'), []);
+});
+
 asyncTest("getFresh with expiracy 2.", function() {
   // Make a cache where everyhting expires after 5000 milliseconds.
   oCache = new Cotton.DB.Cache('test-cache',{'visitItems':{}}, 2000);
