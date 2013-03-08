@@ -1,4 +1,6 @@
-module("Cotton.Model.Story",{
+'use strict';
+
+module("Cotton.DB.Model.StoryDNA",{
   setup: function() {
     // runs before each test
   },
@@ -8,6 +10,7 @@ module("Cotton.Model.Story",{
 });
 
 test("init.", function() {
-  var oStory = new Cotton.Model.Story();
-  ok(oStory)
+  var oStoryDNA = new Cotton.Model.StoryDNA();
+  ok(oStoryDNA);
 });
+
