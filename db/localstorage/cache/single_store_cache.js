@@ -53,7 +53,7 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
    */
   getFresh : function(){
     var iCurrentDate = new Date().getTime();
-    var lItems = this.getStore();
+    var lItems = this.get();
 
     // Perf: do not use native or underscore filter that are slow.
     var iLength = lItems.length;
@@ -76,7 +76,7 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
   _refresh : function(lFreshItems) {
     var iCurrentDate = new Date().getTime();
     if(!lFreshItems){
-      var _lFreshItems = this.getStore();
+      var _lFreshItems = this.get();
       // Perf: do not use native or underscore filter that are slow.
       var iLength = _lFreshItems.length;
       lFreshItems = [];
