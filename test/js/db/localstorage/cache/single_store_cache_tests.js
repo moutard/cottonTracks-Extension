@@ -66,3 +66,37 @@ test("put", function() {
   deepEqual(oSingleCache.get(), [dataTest[0]]);
 });
 
+test("getFresh updates the store with expiracy 0.", function() {
+  // Make a cache where everyhting expires immediately.
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-cache', 0);
+  oSingleCache.put(dataTest[0]);
+  deepEqual(oSingleCache.getFresh(), []);
+  // As we just called getFresh the stores have been updated.
+  deepEqual(oSingleCache.get(), []);
+});
+
+test("_refresh.", function() {
+  // Make a cache where everyhting expires immediately.
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-cache', 0);
+  oSingleCache._refresh(dataTest);
+  deepEqual(oSingleCache.get(), dataTest);
+});
+
+test("_refresh with getFresh", function() {
+  // Make a cache where everyhting expires immediately.
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-cache', 0);
+  oSingleCache._refresh(dataTest);
+  // As you insert elements with no expiracy date, get fresh will remove them.
+  deepEqual(oSingleCache.getFresh(), []);
+});
+
+test("_refresh with no arguments", function() {
+  // Make a cache where everyhting expires immediately.
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-cache', 0);
+  oSingleCache.put(dataTest[0]);
+  oSingleCache.put(dataTest[1]);
+  oSingleCache._refresh();
+  // As you insert elements with no expiracy date, get fresh will remove them.
+  deepEqual(oSingleCache.getFresh(), []);
+});
+
