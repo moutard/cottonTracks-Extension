@@ -28,7 +28,7 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
    * Put an item in the cache.
    */
   put : function(dItem) {
-    var lResults = JSON.parse(this._oDb.getItem(this._getStoreLocation())) || [];
+    var lResults = this.get();
 
     if(lResults.length >= this._iMaxSize){
       // Pop the oldest element, it's always the first element of the list.
@@ -39,7 +39,7 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
     // There is still space.
     dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
     lResults.push(dItem);
-    this._oDb.setItem(this._getStoreLocation(), JSON.stringify(lResults));
+    this.set(lResults);
   },
 
 });
