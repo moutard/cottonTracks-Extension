@@ -52,10 +52,9 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
   getFresh : function(sObjectStoreName){
     var self = this;
     var iCurrentDate = new Date().getTime();
-    console.log(iCurrentDate);
     var lFreshItems = _.filter(this.getStore(sObjectStoreName),
         function(oItem){
-          return oItem['sExpiracyDate'] < iCurrentDate;
+          return iCurrentDate < oItem['sExpiracyDate'];
         });
     // as you computed fresh data, set the cache content.
     this._refresh(sObjectStoreName, lFreshItems);
@@ -86,6 +85,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
     // We could use string to avoid problem with too long int but here it's
     // not a problem here because date are less that 10^53.
     dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+
     lResults.push(dItem);
     this.setStore(sObjectStoreName, lResults);
   },
