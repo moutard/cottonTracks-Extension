@@ -45,35 +45,48 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
 
   // TODO(rmoutard): evaluate if it's better for speed to use a variable,
   set : function(lItems) {
-
+    this._oDb.setItem(this._getStoreLocation(), JSON.stringify(lItems));
   },
 
   /**
    * Be sure to have non expired data.
    */
   getFresh : function(){
-    var self = this;
     var iCurrentDate = new Date().getTime();
-    var lFreshItems = _.filter(this.get(),
-        function(oItem){
-          return oItem['sExpiracyDate'] < iCurrentDate;
-        });
+    var lItems = this.getStore();
+
+    // Perf: do not use native or underscore filter that are slow.
+    var iLength = lItems.length;
+    var lFreshItems = [];
+    for(var i = 0; i < iLength; i++){
+      if(iCurrentDate < lItems[i]['sExpiracyDate']){
+        lFreshItems.push(lItems[i]);
+      }
+    }
+
     // as you computed fresh data, set the cache content.
     this._refresh(lFreshItems);
     return lFreshItems;
+
   },
 
   /**
    * Force the cache to refresh it's data.
    */
   _refresh : function(lFreshItems) {
-    var self = this;
-    var sCurrentDate = new Date().getTime();
-    var _lFreshItems = lFreshItems || _.filter(this.get(),
-        function(oItem){
-          return oItem['sExpiracyDate'] < sCurrentDate;
-        });
-    self._oDb.setItem(this._getStoreLocation(), JSON.stringify(_lFreshItems));
+    var iCurrentDate = new Date().getTime();
+    if(!lFreshItems){
+      var _lFreshItems = this.getStore();
+      // Perf: do not use native or underscore filter that are slow.
+      var iLength = _lFreshItems.length;
+      lFreshItems = [];
+      for(var i = 0; i < iLength; i++){
+        if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
+          lFreshItems.push(_lFreshItems[i]);
+        }
+      }
+    }
+    this.set(lFreshItems);
   },
 
   /**
@@ -85,7 +98,7 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     // not a problem here because date are less that 10^53.
     dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
     lResults.push(dItem);
-    this._oDb.setItem(this._getStoreLocation(), JSON.stringify(lResults));
+    this.set(lResults);
   },
 
 });
