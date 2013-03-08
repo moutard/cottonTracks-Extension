@@ -57,7 +57,6 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    * Be sure to have non expired data.
    */
   getFresh : function(sObjectStoreName){
-    var self = this;
     var iCurrentDate = new Date().getTime();
     var lItems = this.getStore(sObjectStoreName);
 
@@ -83,7 +82,6 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    */
   _refresh : function (sObjectStoreName, lFreshItems){
     var iCurrentDate = new Date().getTime();
-    var sStoreLocation = this._getStoreLocation(sObjectStoreName);
     if(!lFreshItems){
       var _lFreshItems = this.getStore(sObjectStoreName);
       // Perf: do not use native or underscore filter that are slow.
