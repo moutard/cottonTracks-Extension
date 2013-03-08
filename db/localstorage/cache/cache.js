@@ -74,7 +74,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
         function(oItem){
           return oItem['sExpiracyDate'] < sCurrentDate;
         });
-    this.setStore(sObjectStoreName, lFreshItems);
+    this.setStore(sObjectStoreName, _lFreshItems);
   },
 
   /**
