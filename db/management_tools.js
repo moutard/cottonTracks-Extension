@@ -7,132 +7,34 @@ Cotton.DB.ManagementTools.dStores = {
     "visitItems" : "VISIT_ITEM_TRANSLATORS",
 };
 
-Cotton.DB.ManagementTools.clearDB = function(){
-  console.log("CLEAR DB");
-  var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
-  for(var i = 0, sStore; sStore = lStores[i]; i++){
-    Cotton.DB.ManagementTools.clearStore(sStore);
-  }
-};
-
-Cotton.DB.ManagementTools.purge = function(sStore, mCallBack){
-  var dStoreParameters = {};
-  dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
-    new Cotton.DB.Store('ct',
-        dStoreParameters,
-        function() {
-         this.purge(sStore, function() {
-           mCallBack.call();
-           console.log("purge ok");
-         });
-       });
-};
-
-Cotton.DB.ManagementTools.clearStore = function(sStore){
-  var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
-  if(_.include(lStores, sStore)){
-    console.log("CLEAR Store " + sStore );
-    var dStoreParameters = {};
-    dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
-      new Cotton.DB.Store('ct',
-          dStoreParameters,
-          function() {
-           this.iterList(sStore, function(oEntry) {
-             this.delete(sStore, oEntry.id(), function(){
-              console.log("entry deleted");
-             });
-           });
-         });
-  } else {
-    console.log("This store doesn't exist.");
-  }
-};
-
-Cotton.DB.ManagementTools.listStore = function (sStore) {
-  console.log('LIST ' + sStore);
-  var dStoreParameters = {};
-  dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
-   new Cotton.DB.Store('ct',
-       dStoreParameters,
-       function() {
-        this.iterList(sStore, function(oEntry){
-          console.log(oEntry);
-        });
-       });
-
-};
-
-Cotton.DB.ManagementTools.listDB = function () {
-  console.log('LIST');
-   new Cotton.DB.Store('ct',
-       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-       function() {
-        console.log("store ready");
-        this.iterList('stories', function(oStory){
-          console.log(oStory);
-        });
-       });
-
-};
-
-Cotton.DB.ManagementTools.printDB = function (mActionWithStory) {
+Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
   var self = this;
-  console.log('PRINT');
-   new Cotton.DB.Store('ct',
-       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-       function() {
-        this.listInverse('stories', function(oStory){
-          mActionWithStory.call(self, oStory);
-        });
-       });
+  var oStory = new Cotton.Model.Story();
+  oStory.setTitle(sTitle);
+  oStory.setFeaturedImage(sFeaturedImage);
+
+  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+  }, function() {
+    self._oDatabase.put('stories', oStory, function(iId){
+      console.log(iId);
+    });
+  });
+
 };
 
-Cotton.DB.ManagementTools.addStories = function (lStories) {
-  var oStore = new Cotton.DB.Store('ct',
-        { 'stories': Cotton.Translators.STORY_TRANSLATORS },
-        function() {
-          console.log("store ready");
-          for(var i = 0, oStory; oStory = lStories[i]; i++){
-            oStore.put('stories', oStory, function() {
-              console.log("Story added");
-            });
-          }
-        }
-      );
-};
+Cotton.DB.ManagementTools.addVisitItemToStory = function(iStoryId, iVisitItemId){
+  var self = this;
 
-Cotton.DB.ManagementTools.addHistoryItems = function (lHistoryItems) {
-   var oStore = new Cotton.DB.Store('ct',
-        { 'historyItems': Cotton.Translators.HISTORY_ITEM_TRANSLATORS },
-        function() {
-          console.log("store ready");
-          for(var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
-            oStore.put('historyItems', oHistoryItem, function() {
-              console.log("historyItem added");
-            });
-          }
-        }
-      );
-};
+  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+  }, function() {
+    self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
+      oStory.addVisitItemId(iVisitItemId);
+      self._oDatabase.put('stories', oStory, function(){
+        console.log('visitItem added.');
+      });
+    });
+  });
 
-Cotton.DB.ManagementTools.getVisitItems = function (iId) {
-  var oStore = new Cotton.DB.Store('ct',
-       { 'visitItems': Cotton.Translators.VISIT_ITEM_TRANSLATORS },
-       function() {
-         oStore.find('visitItems', 'id', iId, function(oVisitItem) {
-           return oVisitItem;
-         });
-       }
-     );
-};
-
-Cotton.DB.ManagementTools.editVisitItems = function (oVisitItem) {
-  var oStore = new Cotton.DB.Store('ct',
-       { 'visitItems': Cotton.Translators.VISIT_ITEM_TRANSLATORS },
-       function() {
-         oStore.put('visitItems', oVisitItem, function() {
-           console.log("edit visitItem ok");
-         });
-       }
-     );
 };
