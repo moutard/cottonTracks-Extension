@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * Item content In the UI V2, item without the link.
+ * Map Item content. Contains a double container with the map
+ * a large label and a large action menu
  */
 Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
     .extend({
@@ -19,11 +20,12 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
         this._oItemLabel = new Cotton.UI.Story.Item.LargeLabel(this);
         this._oItemMenu = new Cotton.UI.Story.Item.LargeMenu(this);
 
-        // TODO(rmoutard) : why use oURl ?
-        this._oUrl = oUrl;
-
+        // current element
         oItem.$().addClass('ct-item-map');
         this._$itemDoubleContainer = $('<div class="ct-doublecontainer"></div>');
+
+        // TODO(rmoutard) : why use oURl ?
+        this._oUrl = oUrl;
 
         // current sub elements.
         this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');
@@ -37,4 +39,5 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
           self._oItemMenu.$()
         );
       },
+
 });

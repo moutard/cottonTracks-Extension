@@ -1,22 +1,21 @@
 'use strict';
 
 /**
- * Item content In the UI V2, item without the link.
+ * Image Item content. Contains a double container with the image
+ * a small label and a small action menu
  */
 Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend({
 
   _$img : null,
-  _sImageType : null,
   _oItemMenu : null,
 
   init : function(oItem, sType) {
     self = this;
     this._super(oItem);
 
-    this._sImageType = sType;
     oItem.$().addClass('ct-item-image');
-		this._$img = $('<img class="resize">');
-		this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
+    this._$img = $('<img class="resize">');
+    this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     if (sType === "img") {
       this._$img.attr("src", this._oItem.visitItem().url());
@@ -80,4 +79,5 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
       $(this).show();
     });
   }
+
 });
