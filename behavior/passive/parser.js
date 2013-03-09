@@ -220,6 +220,7 @@ Cotton.Behavior.Passive.Parser = Class
       },
 
       _removeLeastMeaningfulBlocks : function() {
+        var self = this;
         // TODO(fwouts): Move constants.
         var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
 
@@ -270,9 +271,9 @@ Cotton.Behavior.Passive.Parser = Class
                   }
                 });
                 if (this._bContentGetter) {
-				  sync.current().extractedDNA().setAllParagraphs(this._lAllParagraphs);
-				  sync.setParagraph(this._lAllParagraphs);
-				  sync.updateVisit();
+				  self._oClient.current().extractedDNA().setAllParagraphs(this._lAllParagraphs);
+				  self._oClient.setParagraph(this._lAllParagraphs);
+				  self._oClient.updateVisit();
 			    }
 
         if ($('[data-meaningful]').length == 0) {
@@ -300,10 +301,10 @@ Cotton.Behavior.Passive.Parser = Class
         } else {
           this._sBestImage = this._findBestImageInBlocks($('body'));
         }
-        if (self._bContentGetter) {
-          sync.current().extractedDNA().setImageUrl(this._sBestImage);
-          sync.setImage(this._sBestImage);
-          sync.updateVisit();
+        if (this._bContentGetter) {
+          this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
+          this._oClient.setImage(this._sBestImage);
+          this._oClient.updateVisit();
         }
         return this._sBestImage;
       },
