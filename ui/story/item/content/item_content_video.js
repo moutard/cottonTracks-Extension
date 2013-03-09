@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * Item content In the UI V2, item without the link.
+ * Item_content_video contains a double container for the video
+ * a large label and a large action menu
  */
 Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
     .extend({
@@ -51,4 +52,4 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
         );
       },
 
-});
+    });

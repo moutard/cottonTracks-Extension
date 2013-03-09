@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Item content In the UI V2, item without the link.
+ * Item content with all the different elements for default item
  */
 Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.extend({
 

@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * Item content In the UI V2, item without the link.
+ * Search Item content. Contains a search input filed,
+ * a title, a small label and small action menu
  */
 Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.extend({
 
@@ -31,12 +32,9 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
 
     // Title
     if (this.item().visitItem().title() !== "") {
-      //var $title_link = $('<a></a>');
-      //$title_link.attr("href", this._oItemContent._oItem._oVisitItem.url());
-      //$title_link.text(this._oItemContent._oItem._oVisitItem.title());
       var sTitle = this.item().visitItem().title().split(" - ")[0];
       this._$title.text(sTitle);
-  		this._$searchInput.val(sTitle);
+      this._$searchInput.val(sTitle);
     } else {
       this._$title.text("Search");
     }
@@ -46,10 +44,15 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
       self._$itemInfo.append(
         self._$title,
         self._oItemDate.$(),
-        self._$searchBox.append(self._$searchInput,self._$searchButton)
-      ), self._oItemLabel.$()
+        self._$searchBox.append(
+          self._$searchInput,
+          self._$searchButton
+        )
+      ),
+      self._oItemLabel.$(),
+      self._oItemMenu.$()
     );
-    self._$item_content.append(self._oItemMenu.$());
+
   },
 
 });
