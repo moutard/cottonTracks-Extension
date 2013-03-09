@@ -31,15 +31,17 @@ Cotton.Behavior.Passive.Parser = Class
        */
       _bContentGetter : null,
 
+      _oClient : null,
+
       /**
        * @constructor
        */
-      init : function() {
-        self = this;
+      init : function(oClient) {
         this._MeaningFulBlocks = [];
         this._iNbMeaningfulBlock = 0;
         this._lAllParagraphs = [];
         this._sBestImage = "";
+        this._oClient = oClient;
         this._bContentGetter = false;
         chrome.extension.sendMessage({
 	        "action":"is_get_content"
