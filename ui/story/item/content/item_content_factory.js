@@ -21,6 +21,7 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
   if (reg.exec(oItem._oVisitItem.url())) {
     // Image
+    oItem.setItemType("image");
     return new Cotton.UI.Story.Item.Content.Image(oItem, "img");
   } else if (oUrl.pathname === "/imgres") {
     // Image, from google search image result.
@@ -37,7 +38,7 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
     return new Cotton.UI.Story.Item.Content.Video(oItem, "vimeo",
         sLastStringFromPathname);
   } else if (oUrl.host === "www.dailymotion.com"
-      && oUrl.pathname.split('/')[1] == "video") {
+               && oUrl.pathname.split('/')[1] == "video") {
     // Video - Dailymotion
     oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oItem, "dailymotion",
@@ -59,4 +60,5 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
     oItem.setItemType("default");
     return new Cotton.UI.Story.Item.Content.Default(oItem);
   }
+
 };
