@@ -1,10 +1,16 @@
 'use strict'
 
 /**
- * Expanded block in default items
+ * Item_reader is for default elements. It contains three reader modes:
+ * best(paragraphs), quotes, and whole article. And the reader selector
+ * bar to toggle between these 3 modes
  */
 
 Cotton.UI.Story.Item.Reader = Class.extend({
+
+  _oItemContent :null,
+  _oVisitItem : null,
+
   _$reader : null,
   _$readerSelector : null,
   _$readerBestSelector : null,
@@ -14,17 +20,23 @@ Cotton.UI.Story.Item.Reader = Class.extend({
   _$readerQuoteContent : null,
   _$readerWholeContent : null,
   _$readerSelectorCursor : null,
-  _oVisitItem : null,
+
+  _bWhole : null,
+  _bBest : null,
+  _bQuote : null,
 
   init : function(oItemContent){
-	self = this;
-	this._oVisitItem = oItemContent.item().visitItem();
+    self = this;
+    this._oVisitItem = oItemContent.item().visitItem();
 
-	this._bWhole = this._oVisitItem.extractedDNA().allParagraphs().length > 0;
-	this._bBest = (this._oVisitItem.extractedDNA().paragraphs().length > 0) || (this._oVisitItem.extractedDNA().firstParagraph() != "");
-	this._bQuote = this._oVisitItem.extractedDNA().highlightedText().length > 0;
-		
+    this._bWhole = this._oVisitItem.extractedDNA().allParagraphs().length > 0;
+    this._bBest = (this._oVisitItem.extractedDNA().paragraphs().length > 0) || (this._oVisitItem.extractedDNA().firstParagraph() != "");
+    this._bQuote = this._oVisitItem.extractedDNA().highlightedText().length > 0;
+
+    // current element
     this._$reader = $('<div class="item-reader"></div>');
+
+    // current sub elements
     this._$readerBestContent = $('<div class="item-reader_content item-reader_best_content"></div>');
     this._$readerQuoteContent = $('<div class="item-reader_content item-reader_quote_content"></div>');
     this._$readerWholeContent = $('<div class="item-reader_content item-reader_whole_content"></div>');
@@ -49,12 +61,12 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     var $paragraph = $('<p class="default_text">After you read an article, find all its best parts automatically sorted here</p>');
     self._$readerBestContent.append($paragraph);
     if (this._bBest){
-	  self._$readerBestContent.empty();
-	  var sFirstParagraph = this._oVisitItem.extractedDNA().firstParagraph();
-	  if (sFirstParagraph != ""){
+      self._$readerBestContent.empty();
+      var sFirstParagraph = this._oVisitItem.extractedDNA().firstParagraph();
+      if (sFirstParagraph != ""){
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$readerBestContent.append($paragraph);
-	  }
+      }
       _.each(this._oVisitItem.extractedDNA().paragraphs(), function(oParagraph){
         if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
           var $paragraph = $('<p>' + oParagraph.text() + '</p>');
@@ -66,7 +78,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     //Quotes
     var $quote = $('<p class="default_text">Highlight or copy/paste a quote in a article and find it back in this section</p>');
     self._$readerQuoteContent.append($quote);
-	if (this._bQuotes){
+    if (this._bQuotes){
       self._$readerQuoteContent.empty();
       _.each(this._oVisitItem.extractedDNA().highlightedText(), function(sQuote){
         if(sQuote !== "") {
@@ -75,9 +87,9 @@ Cotton.UI.Story.Item.Reader = Class.extend({
         }
       });
     }
-	
-	//choose content to display
-	this.chooseContent();
+
+    //choose content to display
+    this.chooseContent();
 
     //construct element
     this._$reader.append(
@@ -86,7 +98,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
         this._$readerQuoteSelector,
         this._$readerWholeSelector,
         this._$readerSelectorCursor
-	  ),
+      ),
       this._$readerBestContent,
       this._$readerQuoteContent,
       this._$readerWholeContent
@@ -100,12 +112,12 @@ Cotton.UI.Story.Item.Reader = Class.extend({
       $(this).parent().siblings(".item-reader_best_content").show();
     });
     this._$readerQuoteSelector.click(function(){
-	  $(this).siblings(".reader_selector_cursor").css('left', '142px');
+      $(this).siblings(".reader_selector_cursor").css('left', '142px');
       $(this).parent().siblings(".item-reader_content").hide();
       $(this).parent().siblings(".item-reader_quote_content").show();
     })
     this._$readerWholeSelector.click(function(){
-	  $(this).siblings(".reader_selector_cursor").css('left', '275px');
+      $(this).siblings(".reader_selector_cursor").css('left', '275px');
       $(this).parent().siblings(".item-reader_content").hide();
       $(this).parent().siblings(".item-reader_whole_content").show();
     });
@@ -118,14 +130,14 @@ Cotton.UI.Story.Item.Reader = Class.extend({
 
   chooseContent : function(){
     if (this._bWhole){
-	  this._$readerWholeContent.show();
-	  this._$readerSelectorCursor.css('left','275px');
+      this._$readerWholeContent.show();
+      this._$readerSelectorCursor.css('left','275px');
     } else if (this._bBest){
-	  this._$readerBestContent.show();
-	  this._$readerSelectorCursor.css('left','35px');
+      this._$readerBestContent.show();
+      this._$readerSelectorCursor.css('left','35px');
     }  else {
       this._$readerQuoteContent.show();
-	  this._$readerSelectorCursor.css('left','142px');
+      this._$readerSelectorCursor.css('left','142px');
     }
   },
 

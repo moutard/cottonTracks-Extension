@@ -60,9 +60,9 @@ Cotton.UI.Story.Item.Element = Class
         return this._$storyContainer;
       },
 
-	  reload : function() {
+      reload : function() {
         self = this;
-	  
+
         var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
             'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
         }, function() {
@@ -77,10 +77,11 @@ Cotton.UI.Story.Item.Element = Class
       },
 
       isReloaded : function() {
-	    return this._bReload;
+        return this._bReload;
       },
 
       setReloaded : function(bool) {
-	    this._bReload = bool;
+        this._bReload = bool;
       }
+
 });

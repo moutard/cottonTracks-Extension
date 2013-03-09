@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Item Summary Info Contains title and source for maps / videos
+ * Item_title Contains title
  */
 Cotton.UI.Story.Item.Title = Class.extend({
 
@@ -23,6 +23,7 @@ Cotton.UI.Story.Item.Title = Class.extend({
     if (this._oItemContent.item().visitItem().title() !== "") {
       this._$itemTitle.text(this._oItemContent.item().visitItem().title());
     } else {
+	    // set 'video' as a title if no title has been found for video items
       if (self._oItemContent.item().$().hasClass("ct-item-video")){
         this._$itemTitle.text("video");
       }
@@ -32,10 +33,6 @@ Cotton.UI.Story.Item.Title = Class.extend({
 
   $ : function() {
     return this._$itemTitle;
-  },
-
-  appendTo : function(oItemContent) {
-    oItemContent.$().append(this._$itemTitle);
   },
 
 });
