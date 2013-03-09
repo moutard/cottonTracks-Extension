@@ -20,7 +20,6 @@ Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
       console.log(iId);
     });
   });
-
 };
 
 Cotton.DB.ManagementTools.addVisitItemToStory = function(iStoryId, iVisitItemId){
@@ -36,5 +35,19 @@ Cotton.DB.ManagementTools.addVisitItemToStory = function(iStoryId, iVisitItemId)
       });
     });
   });
+};
 
+Cotton.DB.ManagementTools.setStoryBagOfWords = function(iStoryId, dBagOfWords){
+  var self = this;
+
+  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+    'stories' : Cotton.Translators.STORY_TRANSLATORS,
+  }, function() {
+    self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
+      oStory.dna().bagOfWords().setBag(dBagOfWords);
+      self._oDatabase.put('stories', oStory, function(){
+        console.log('bagOfWords updated.');
+      });
+    });
+  });
 };
