@@ -18,7 +18,7 @@ class Compiler(FileManager, PreCompiler):
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
-    self.compileHtml('index.html')
+    self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
     self.compileWorker('algo/dbscan1/worker.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
