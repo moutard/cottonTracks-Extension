@@ -5,18 +5,18 @@
  * to setup before each test.
  */
 var lSampleHistoryItems = initlHistoryItems();
-var lHistoryItems = [];
+var lChromeHistoryItems = [];
 var lHistoryItems = [];
 // runs before each test
-lHistoryItems = Cotton.Utils.preRemoveTools(lSampleHistoryItems);
+lChromeHistoryItems = Cotton.Utils.preRemoveTools(lSampleHistoryItems);
 
 // Simutate store in the DB
-for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
+for ( var i = 0, oChromeHistoryItem; oChromeHistoryItem = lHistoryItems[i]; i++) {
   var oHistoryItem = new Cotton.Model.HistoryItem();
 
-  oHistoryItem._sUrl = oHistoryItem.url;
-  oHistoryItem._sTitle = oHistoryItem.title || '';
-  oHistoryItem._iVisitTime = oHistoryItem.lastVisitTime;
+  oHistoryItem._sUrl = oChromeHistoryItem.url;
+  oHistoryItem._sTitle = oChromeHistoryItem.title || '';
+  oHistoryItem._iLastVisitTime = oChromeHistoryItem.lastVisitTime;
   lHistoryItems.push(oHistoryItem);
 }
 
