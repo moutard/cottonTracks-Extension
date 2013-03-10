@@ -14,8 +14,8 @@ Cotton.Model.Story = Class.extend({
   _fLastVisitTime : 0,
   _fRelevance : null,
 
-  _lVisitItemsId : [],
-  _lVisitItems : [],
+  _lHistoryItemsId : [],
+  _lHistoryItems : [],
 
   _lTags : [],
   _oDNA : null,
@@ -48,22 +48,22 @@ Cotton.Model.Story = Class.extend({
   },
 
   length : function() {
-    return this._lVisitItems.length;
+    return this._lHistoryItems.length;
   },
-  visitItems : function() {
-    return this._lVisitItems;
+  historyItems : function() {
+    return this._lHistoryItems;
   },
   iter : function() {
     // for(var i = 0; i < this._lHistoryItems.length; i++){
     // yield this._lHistoryItems[i];
     // }
-    return this._lVisitItemsId;
+    return this._lHistoryItemsId;
   },
-  visitItemsId : function() {
-    return this._lVisitItemsId;
+  historyItemsId : function() {
+    return this._lHistoryItemsId;
   },
-  setVisitItemsId : function(lVisitItemsId) {
-    this._lVisitItemsId = lVisitItemsId;
+  setHistoryItemsId : function(lHistoryItemsId) {
+    this._lHistoryItemsId = lHistoryItemsId;
   },
 
   lastVisitTime : function() {
@@ -99,92 +99,92 @@ Cotton.Model.Story = Class.extend({
     this._oDNA = oDNA;
   },
   /**
-   * Add a visitItem to the list parsing a dbRecordObject
-   * - update list of visitItems id.
+   * Add a historyItem to the list parsing a dbRecordObject
+   * - update list of historyItems id.
    * - update last visit time.
    *
-   * @param {Object} oVisitItemDbRecord
+   * @param {Object} oHistoryItemDbRecord
    */
-  addDbRecordVisitItem : function(oVisitItemDbRecord) {
+  addDbRecordHistoryItem : function(oHistoryItemDbRecord) {
     var self = this;
-    if (_.indexOf(this._lVisitItemsId, oVisitItemDbRecord['id']) === -1) {
-      this._lVisitItemsId.push(oVisitItemDbRecord['id']);
+    if (_.indexOf(this._lHistoryItemsId, oHistoryItemDbRecord['id']) === -1) {
+      this._lHistoryItemsId.push(oHistoryItemDbRecord['id']);
 
-      if (oVisitItemDbRecord['iVisitTime'] > this._fLastVisitTime) {
-        this._fLastVisitTime = oVisitItemDbRecord['iVisitTime'];
+      if (oHistoryItemDbRecord['iVisitTime'] > this._fLastVisitTime) {
+        this._fLastVisitTime = oHistoryItemDbRecord['iVisitTime'];
       }
     }
   },
 
   /**
-   * Add a visitItem to the list.
-   * - update list of visitItems id.
+   * Add a historyItem to the list.
+   * - update list of historyItems id.
    * - update last visit time.
    *
-   * @param {Cotton.UI.VisitItem} oVisitItem
+   * @param {Cotton.UI.HistoryItem} oHistoryItem
    */
-  addVisitItem : function(oVisitItem) {
-    if (_.indexOf(this._lVisitItemsId, oVisitItem.id()) === -1) {
-      this._lVisitItemsId.push(oVisitItem.id());
-      this._lVisitItems.push(oVisitItem);
-      if (oVisitItem.visitTime() > this._fLastVisitTime) {
-        this._fLastVisitTime = oVisitItem.visitTime();
+  addHistoryItem : function(oHistoryItem) {
+    if (_.indexOf(this._lHistoryItemsId, oHistoryItem.id()) === -1) {
+      this._lHistoryItemsId.push(oHistoryItem.id());
+      this._lHistoryItems.push(oHistoryItem);
+      if (oHistoryItem.visitTime() > this._fLastVisitTime) {
+        this._fLastVisitTime = oHistoryItem.visitTime();
       }
     }
   },
 
   /**
-   * Add an id to the list of visitItems id.
+   * Add an id to the list of historyItems id.
    * - check there is now duplicate id.
    *
-   * @param {int} iVisitItemId
+   * @param {int} iHistoryItemId
    */
-  addVisitItemId : function(iVisitItemId) {
-    if (_.indexOf(this._lVisitItemsId, iVisitItemId) === -1) {
-      this._lVisitItemsId.push(iVisitItemId);
+  addHistoryItemId : function(iHistoryItemId) {
+    if (_.indexOf(this._lHistoryItemsId, iHistoryItemId) === -1) {
+      this._lHistoryItemsId.push(iHistoryItemId);
     }
   },
 
   /**
-   * Replace the whole visit items list.
+   * Replace the whole history items list.
    *
-   * @param {Array.<Cotton.Model.VisitItem>} lVisitItems
+   * @param {Array.<Cotton.Model.HistoryItem>} lHistoryItems
    */
-  setVisitItems : function(lVisitItems) {
-    this._lVisitItems = lVisitItems;
+  setHistoryItems : function(lHistoryItems) {
+    this._lHistoryItems = lHistoryItems;
   },
 
-  maxVisitItemId : function() {
-    return _.max(this._lVisitItemsId);
+  maxHistoryItemId : function() {
+    return _.max(this._lHistoryItemsId);
   },
-  firstVisitItem : function() {
-    return this._lVisitItemsId[0];
+  firstHistoryItem : function() {
+    return this._lHistoryItemsId[0];
   },
-  lastVisitItem : function() {
-    return this._lVisitItemsId[lVisitItems.length - 1];
+  lastHistoryItem : function() {
+    return this._lHistoryItemsId[lHistoryItems.length - 1];
   },
-  visitItemPosition : function(sID) {
-    for ( var i = 0; i < this.lVisitItemsId; i++) {
-      if (this.lVisitItems[i] === sID) {
+  historyItemPosition : function(sID) {
+    for ( var i = 0; i < this.lHistoryItemsId; i++) {
+      if (this.lHistoryItems[i] === sID) {
         return i;
       }
     }
     return -1;
   },
-  removeVisitItem : function(sID) {
-    this._lVisitItemsId = _.reject(this._lVisitItemsId, function(iVisitItemId) {
-      return iVisitItemId === sID;
+  removeHistoryItem : function(sID) {
+    this._lHistoryItemsId = _.reject(this._lHistoryItemsId, function(iHistoryItemId) {
+      return iHistoryItemId === sID;
     });
-    if(this._lVisitItems){
-      this._lVisitItems = _.reject(this._lVisitItems, function(oVisitItem) {
-      return oVisitItem.id() === sID;
+    if(this._lHistoryItems){
+      this._lHistoryItems = _.reject(this._lHistoryItems, function(oHistoryItem) {
+      return oHistoryItem.id() === sID;
     });
 
     }
   },
 
   merge : function(oStory) {
-    this._lVisitItemsId = _.union(this._lVisitItemsId, oStory.iter());
+    this._lHistoryItemsId = _.union(this._lHistoryItemsId, oStory.iter());
     this._fLastVisitTime = Math.max(this._fLastVisitTime, oStory
         .lastVisitTime());
   },
@@ -199,15 +199,15 @@ Cotton.Model.Story = Class.extend({
    */
   computeTitle : function() {
     /** We can't recompute the title if it already exists */
-    if (this._lVisitItems.length !== 0) {
+    if (this._lHistoryItems.length !== 0) {
       var lKeywords = new Array();
-      for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
-        lKeywords = lKeywords.concat(oVisitItem.extractedWords());
-        if (oVisitItem.queryWords().length !== 0) {
-          this._sTitle = oVisitItem.queryWords().join(" ");
+      for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
+        lKeywords = lKeywords.concat(oHistoryItem.extractedWords());
+        if (oHistoryItem.queryWords().length !== 0) {
+          this._sTitle = oHistoryItem.queryWords().join(" ");
           return;
         }
-        this._sTitle = oVisitItem.extractedWords().slice(0, 5).join(" ");
+        this._sTitle = oHistoryItem.extractedWords().slice(0, 5).join(" ");
       }
 
       /**
@@ -230,7 +230,7 @@ Cotton.Model.Story = Class.extend({
       // this._sTitle = lMostFrequentKeywords.join(" ");
 
       if (this._sTitle === "" | this._sTitle === undefined) {
-        this._sTitle = this._lVisitItems[0].title();
+        this._sTitle = this._lHistoryItems[0].title();
       }
       return;
     } else {
@@ -240,15 +240,15 @@ Cotton.Model.Story = Class.extend({
 
   computeFeaturedImage : function() {
     if (this._sFeaturedImage === "") {
-      if (this._lVisitItems.length !== 0) {
+      if (this._lHistoryItems.length !== 0) {
         var reg = new RegExp(".(jpg|png|gif)$", "g");
-        for ( var i = 0, oVisitItem; oVisitItem = this._lVisitItems[i]; i++) {
-          if (reg.exec(oVisitItem.url())) {
-            this._sFeaturedImage = oVisitItem.url();
+        for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
+          if (reg.exec(oHistoryItem.url())) {
+            this._sFeaturedImage = oHistoryItem.url();
             return;
           }
-          if (oVisitItem.extractedDNA().imageUrl() !== "") {
-            this._sFeaturedImage = oVisitItem.extractedDNA().imageUrl();
+          if (oHistoryItem.extractedDNA().imageUrl() !== "") {
+            this._sFeaturedImage = oHistoryItem.extractedDNA().imageUrl();
           }
         }
       }

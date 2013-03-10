@@ -31,8 +31,8 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
     this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     // Title
-    if (this.item().visitItem().title() !== "") {
-      var sTitle = this.item().visitItem().title().split(" - ")[0];
+    if (this.item().historyItem().title() !== "") {
+      var sTitle = this.item().historyItem().title().split(" - ")[0];
       this._$title.text(sTitle);
       this._$searchInput.val(sTitle);
     } else {

@@ -1,6 +1,6 @@
 'use strict';
 
-module("Cotton.DB.Model.VisitItemDNA",{
+module("Cotton.DB.Model.HistoryItem",{
   setup: function() {
     // runs before each test
   },
@@ -10,7 +10,7 @@ module("Cotton.DB.Model.VisitItemDNA",{
 });
 
 test("init.", function() {
-  var oVisitItemDNA = new Cotton.Model.VisitItemDNA();
-  ok(oVisitItemDNA);
+  var oHistoryItem = new Cotton.Model.HistoryItem();
+  ok(oHistoryItem);
 });
 

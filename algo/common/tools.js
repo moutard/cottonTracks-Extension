@@ -52,32 +52,32 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
 };
 
 /**
- * Get the number of common extracted words in the title of two visitItems.
+ * Get the number of common extracted words in the title of two historyItems.
  *
  * @param {Object}
- *          oVisitItem1 : pre_treatment computeExtractedWords is needed
+ *          oHistoryItem1 : pre_treatment computeExtractedWords is needed
  * @param {Object}
- *          oVisitItem2 : pre_treatment computeExtractedWords is needed
+ *          oHistoryItem2 : pre_treatment computeExtractedWords is needed
  * @returns {int}
  */
-Cotton.Algo.Tools.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Tools.commonExtractedWords = function(oHistoryItem1, oHistoryItem2) {
 
-    return _.intersection(oVisitItem1['oExtractedDNA']['lExtractedWords'],
-                          oVisitItem2['oExtractedDNA']['lExtractedWords']).length;
+    return _.intersection(oHistoryItem1['oExtractedDNA']['lExtractedWords'],
+                          oHistoryItem2['oExtractedDNA']['lExtractedWords']).length;
 };
 
 /**
- * Get the number of common words in the title of two visitItems.
+ * Get the number of common words in the title of two historyItems.
  *
  * @param {Object}
- *          oVisitItem1 : pre_treatment computeExtractedWords is needed
+ *          oHistoryItem1 : pre_treatment computeExtractedWords is needed
  * @param {Object}
- *          oVisitItem2 : pre_treatment computeExtractedWords is needed
+ *          oHistoryItem2 : pre_treatment computeExtractedWords is needed
  * @returns {int}
  */
-Cotton.Algo.Tools.commonQueryWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Tools.commonQueryWords = function(oHistoryItem1, oHistoryItem2) {
 
-    return _.intersection(oVisitItem1['oExtractedDNA']['lQueryWords'],
-                          oVisitItem2['oExtractedDNA']['lQueryWords']).length;
+    return _.intersection(oHistoryItem1['oExtractedDNA']['lQueryWords'],
+                          oHistoryItem2['oExtractedDNA']['lQueryWords']).length;
 };
 

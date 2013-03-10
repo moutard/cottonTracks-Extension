@@ -1,13 +1,13 @@
 'use strict';
 
 /**
- * VisitItem
+ * HistoryItem
  *
  * Model.
- * Each visti on a page corresponds to a vistitItem. If you visit the same
- * page twice but at a different moment you create a second visitItem.
+ * Every visit on a page corresponds to a historyItem. If you visit the same
+ * page twice but at a different moment you have the same historyItem.
  */
-Cotton.Model.VisitItem = Class
+Cotton.Model.HistoryItem = Class
     .extend({
 
       _sId : undefined,                 // id fixed by the database.
@@ -24,7 +24,7 @@ Cotton.Model.VisitItem = Class
        * @constructor
        */
       init : function() {
-        this._oExtractedDNA = new Cotton.Model.VisitItemDNA(this);
+        this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this);
       },
       // can't be set
       id : function() {

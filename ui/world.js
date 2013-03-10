@@ -33,10 +33,10 @@ Cotton.UI.World = Class.extend({
     });
   },
 
-  createStory : function(lVisitItems){
+  createStory : function(lHistoryItems){
     var self = this;
-    _.each(lVisitItems,function(oVisitItem){
-      var oItem = new Cotton.UI.Story.Item.Element(oVisitItem, self._$storyContainer);
+    _.each(lHistoryItems,function(oHistoryItem){
+      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, self._$storyContainer);
     });
   },
 

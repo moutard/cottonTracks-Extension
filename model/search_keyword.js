@@ -7,7 +7,7 @@ Cotton.Model.SearchKeyword = Class.extend({
 
   _iId : undefined,
   _sKeyword : undefined,
-  _lReferringVisitItemsId : [],   // list of visitItems that contains this word.
+  _lReferringHistoryItemsId : [],   // list of historyItems that contains this word.
   _lReferringStoriesId : [],      // list of stories that contains this word.
 
   /**
@@ -41,17 +41,17 @@ Cotton.Model.SearchKeyword = Class.extend({
     return this._sKeyword;
   },
 
-  referringVisitItemsId : function() {
-    return this._lReferringVisitItemsId;
+  referringHistoryItemsId : function() {
+    return this._lReferringHistoryItemsId;
   },
 
-  setReferringVisitItemsId : function(lVisitItemsId) {
-    this._lReferringVisitItemsId = lVisitItemsId;
+  setReferringHistoryItemsId : function(lHistoryItemsId) {
+    this._lReferringHistoryItemsId = lHistoryItemsId;
   },
 
-  addReferringVisitItemId : function(iVisitItemId) {
-    if(_.indexOf(this._lReferringVisitItemsId, iVisitItemId)===-1){
-      this._lReferringVisitItemsId.push(iVisitItemId);
+  addReferringHistoryItemId : function(iHistoryItemId) {
+    if(_.indexOf(this._lReferringHistoryItemsId, iHistoryItemId)===-1){
+      this._lReferringHistoryItemsId.push(iHistoryItemId);
     }
   },
 

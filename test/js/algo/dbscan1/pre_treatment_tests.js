@@ -1,5 +1,5 @@
 'use strict';
-var oVisitItem1 = {
+var oHistoryItem1 = {
   sUrl:"http://fr.wikipedia.org/wiki/EtherPad",
   sTitle: "EtherPad - Wikipédia",
   iVisitTime:1361980612982.948,
@@ -9,7 +9,7 @@ var oVisitItem1 = {
   }
 };
 
-var oVisitItem2 = {
+var oHistoryItem2 = {
   sUrl:"http://fr.wikipedia.org/wiki/EtherPad",
   sTitle: "EtherPad - Wikipédia",
   iVisitTime:1361980612982.948,
@@ -20,7 +20,7 @@ var oVisitItem2 = {
   }
 };
 
-var oVisitItem3 = {
+var oHistoryItem3 = {
   sUrl:"https://www.google.com/search?q=etherpad&oq=etherpad",
   sTitle: "EtherPad - Google search",
   iVisitTime:1361980612982.948,
@@ -31,7 +31,7 @@ var oVisitItem3 = {
   }
 };
 
-var oVisitItemNull = {
+var oHistoryItemNull = {
   oExtractedDNA : {
     lExtractedWords : [],
     lQueryWords : [],
@@ -51,7 +51,7 @@ module(
 
 
 test("distance key.", function() {
-  Cotton.Algo.PreTreatment.computeClosestGeneratedPage([oVisitItem1, oVisitItem2, oVisitItem3]);
-  equal(oVisitItem1['oExtractedDNA']['sClosestGeneratedPage'], "https://www.google.com/search?q=etherpad&oq=etherpad");
+  Cotton.Algo.PreTreatment.computeClosestGeneratedPage([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
+  equal(oHistoryItem1['oExtractedDNA']['sClosestGeneratedPage'], "https://www.google.com/search?q=etherpad&oq=etherpad");
 });
 

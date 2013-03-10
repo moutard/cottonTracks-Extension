@@ -4,7 +4,7 @@ Cotton.DB.ManagementTools = {};
 Cotton.DB.ManagementTools.dStores = {
     "stories" : "STORY_TRANSLATORS",
     // "pool" : "HISTORY_ITEM_TRANSLATORS",
-    "visitItems" : "VISIT_ITEM_TRANSLATORS",
+    "historyItems" : "HISTORY_ITEM_TRANSLATORS",
 };
 
 Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
@@ -22,16 +22,16 @@ Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
   });
 };
 
-Cotton.DB.ManagementTools.addVisitItemToStory = function(iStoryId, iVisitItemId){
+Cotton.DB.ManagementTools.addHistoryItemToStory = function(iStoryId, iHistoryItemId){
   var self = this;
 
   self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
   }, function() {
     self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
-      oStory.addVisitItemId(iVisitItemId);
+      oStory.addHistoryItemId(iHistoryItemId);
       self._oDatabase.put('stories', oStory, function(){
-        console.log('visitItem added.');
+        console.log('historyItem added.');
       });
     });
   });

@@ -29,11 +29,11 @@ importScripts('../../algo/dbscan1/pre_treatment.js');
 importScripts('../../algo/dbscan2/init.js');
 
 /**
- * Loop through all the VisitItems and compute their distances to each other.
- * Keys are VisitItem ids. Values are lists of couples with distances
- * including the VisitItem.
+ * Loop through all the HistoryItems and compute their distances to each other.
+ * Keys are HistoryItem ids. Values are lists of couples with distances
+ * including the HistoryItem.
  */
-function handleVisitItem(lVisitItems) {
+function handleHistoryItem(lHistoryItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood.
@@ -42,14 +42,14 @@ function handleVisitItem(lVisitItems) {
   var iMinPts = Cotton.Config.Parameters.iMinPts;
 
   // TOOLS
-  lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
+  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
 
-  var iNbCluster = Cotton.Algo.DBSCAN(lVisitItems, fEps, iMinPts,
+  var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
       Cotton.Algo.Distance.meaning);
 
   var dData = {};
   dData['iNbCluster'] = iNbCluster;
-  dData['lVisitItems'] = lVisitItems;
+  dData['lHistoryItems'] = lHistoryItems;
 
   // Send data to the main thread. Data are serialized.
   self.postMessage(dData);
@@ -61,8 +61,8 @@ function handleVisitItem(lVisitItems) {
 /**
  * Connect worker with main thread. Worker starts when it receive
  * postMessage(). Data received are serialized. i.e. it's non
- * Cotton.Model.VisitItem, but object.
+ * Cotton.Model.HistoryItem, but object.
  */
 self.addEventListener('message', function(e) {
-   handleVisitItem(e.data);
+   handleHistoryItem(e.data);
 }, false);
