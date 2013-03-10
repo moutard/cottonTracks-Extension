@@ -360,7 +360,7 @@ Cotton.Controllers.Background = Class.extend({
                                               e.data['iNbCluster']);
 
       // TODO(rmoutard) : find a better solution.
-      lHistoryItemToKeep = [];
+      var lHistoryItemToKeep = [];
       _.each(e.data['lHistoryItems'], function(dVisiItem){
         if(dHistoryItem['clusterId'] !== "UNCLASSIFIED"
           && dHistoryItem['clusterId'] !== "NOISE"){
