@@ -85,12 +85,12 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
  * Populate historyItems with a given store. (faster than the previous)
  *
  * @param :
- *          oStore
+ *          oDatabase
  * @param :
  *          mCallBackFunction
  */
 
-Cotton.DB.Populate.historyItems = function(oStore, mCallBackFunction) {
+Cotton.DB.Populate.historyItems = function(oDatabase, mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var startTime1 = new Date().getTime();
@@ -117,12 +117,12 @@ Cotton.DB.Populate.historyItems = function(oStore, mCallBackFunction) {
       oIDBHistoryItem.initUrl(oChromeHistoryItem['url']);
       oIDBHistoryItem.setTitle(oChromeHistoryItem['title']);
       oIDBHistoryItem.setVisitTime(oChromeHistoryItem['lastVisitTime']);
-      oStore.put('historyItems', oIDBHistoryItem, function(iId) {
+      oDatabase.put('historyItems', oIDBHistoryItem, function(iId) {
         iCount += 1;
         if (iCount === iPopulationLength) {
           elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
           DEBUG && console.debug('PopulateDB end with time : ' + elapsedTime1 + 's');
-          mCallBackFunction(oStore);
+          mCallBackFunction(oDatabase);
         }
       });
     }
@@ -134,14 +134,14 @@ Cotton.DB.Populate.historyItems = function(oStore, mCallBackFunction) {
  * given data.
  *
  * @param :
- *          oStore
+ *          oDatabase
  * @param :
  *          lHistoryItems
  * @param :
  *          mCallBackFunction
  */
 
-Cotton.DB.Populate.historyItemsFromFile = function(oStore, lHistoryItems,
+Cotton.DB.Populate.historyItemsFromFile = function(oDatabase, lHistoryItems,
     mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItemsFromFile - Start');
@@ -160,11 +160,11 @@ Cotton.DB.Populate.historyItemsFromFile = function(oStore, lHistoryItems,
     oHistoryItem.setTitle(oHistoryItem['title']);
     oHistoryItem.setVisitTime(oHistoryItem['lastVisitTime']);
 
-    oStore.put('historyItems', oHistoryItem, function(iId) {
+    oDatabase.put('historyItems', oHistoryItem, function(iId) {
       iCount += 1;
       if (iCount === iPopulationLength) {
         DEBUG && console.debug('PopulateDB - End');
-        mCallBackFunction(oStore);
+        mCallBackFunction(oDatabase);
       }
     });
   }
