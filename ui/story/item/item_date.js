@@ -25,7 +25,7 @@ Cotton.UI.Story.Item.Date = Class.extend({
     this._$date = $('<h4></h4>');
 
     // set date
-    var oDate = new Date(this._oItemContent._oItem._oVisitItem.visitTime());
+    var oDate = new Date(this._oItemContent._oItem._oHistoryItem.lastVisitTime());
     var sDay = oDate.getDate();
     var lMonth = ["January","February","March","April","May","June",
                   "July","August","September","October","November","December"];
