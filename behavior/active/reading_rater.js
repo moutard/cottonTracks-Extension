@@ -66,7 +66,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    getFirstInfoFromPage : function(oHistoryItem) {
      oHistoryItem._sUrl = window.location.href;
      oHistoryItem._sTitle = window.document.title;
-     oHistoryItem._iVisitTime = new Date().getTime();
+     oHistoryItem._iLastVisitTime = new Date().getTime();
      oHistoryItem._sReferrerUrl = document.referrer;
      oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
    },

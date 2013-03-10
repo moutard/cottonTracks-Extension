@@ -2,7 +2,7 @@
 var oHistoryItem1 = {
   sUrl:"http://fr.wikipedia.org/wiki/EtherPad",
   sTitle: "EtherPad - Wikipédia",
-  iVisitTime:1361980612982.948,
+  iLastVisitTime:1361980612982.948,
   oExtractedDNA : {
     lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
     lQueryWords : ['alice', 'wonderland', 'film', 'telerama'],
@@ -12,7 +12,7 @@ var oHistoryItem1 = {
 var oHistoryItem2 = {
   sUrl:"http://fr.wikipedia.org/wiki/EtherPad",
   sTitle: "EtherPad - Wikipédia",
-  iVisitTime:1361980612982.948,
+  iLastVisitTime:1361980612982.948,
 
   oExtractedDNA : {
     lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
@@ -23,7 +23,7 @@ var oHistoryItem2 = {
 var oHistoryItem3 = {
   sUrl:"https://www.google.com/search?q=etherpad&oq=etherpad",
   sTitle: "EtherPad - Google search",
-  iVisitTime:1361980612982.948,
+  iLastVisitTime:1361980612982.948,
 
   oExtractedDNA : {
     lExtractedWords : ['singapor', 'madrid', 'paris'],
