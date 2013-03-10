@@ -4,7 +4,7 @@ var dataTest = [
                   fRelevance: null,
                   id: 1,
                   lTags: [],
-                  lVisitItemsId: [1141],
+                  lHistoryItemsId: [1141],
                   sFeaturedImage: "",
                   sFormatVersion: "0.1",
                   sTitle: "My Reviews | git.corp Code Review",
@@ -13,7 +13,7 @@ var dataTest = [
                   fLastVisitTime: 1360331471984.9082,
                   fRelevance: null,
                   lTags: [],
-                  lVisitItemsId: [1141],
+                  lHistoryItemsId: [1141],
                   sFeaturedImage: "",
                   sFormatVersion: "0.1",
                   sTitle: "LTU",
@@ -22,7 +22,7 @@ var dataTest = [
                   fLastVisitTime: 1360329780640.9968,
                   fRelevance: null,
                   lTags: [],
-                  lVisitItemsId: [1141],
+                  lHistoryItemsId: [1141],
                   sFeaturedImage: "",
                   sFormatVersion: "0.1",
                   sTitle: "Add New Promotion ‹ LTU — WordPress",
@@ -31,7 +31,7 @@ var dataTest = [
                   fLastVisitTime: 1359718583764.991,
                   fRelevance: null,
                   lTags: [],
-                  lVisitItemsId: [1141],
+                  lHistoryItemsId: [1141],
                   sFeaturedImage: "http://www.spclarke.com/wp-content/uploads/2011/11/platters-singing.jpg",
                   sFormatVersion: "0.1",
                   sTitle: "bogart",
@@ -61,8 +61,8 @@ test("init", function() {
 test("put", function() {
   oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache', 5000);
   oSingleCache.put(dataTest[0]);
-  var dVisitItem = oSingleCache.get();
-  delete dVisitItem['sExpiracyDate'];
+  var dHistoryItem = oSingleCache.get();
+  delete dHistoryItem['sExpiracyDate'];
   deepEqual(oSingleCache.get(), [dataTest[0]]);
 });
 

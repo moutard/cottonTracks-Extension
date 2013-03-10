@@ -10,7 +10,7 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
     var dDbRecord = {
       // id : id is auto-incremented.
       'sKeyword' : oSearchKeyword.keyword(),
-      'lReferringVisitItemsId' : oSearchKeyword.referringVisitItemsId(),
+      'lReferringHistoryItemsId' : oSearchKeyword.referringHistoryItemsId(),
       'lReferringStoriesId' : oSearchKeyword.referringStoriesId(),
     };
     var iId = oSearchKeyword.id() || null;
@@ -25,7 +25,7 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
     var oSearchKeyword = new Cotton.Model.SearchKeyword(oDbRecord['sKeyword']);
     oSearchKeyword.initId(oDbRecord['id']);
 
-    oSearchKeyword.setReferringVisitItemsId(oDbRecord['lReferringVisitItemsId']);
+    oSearchKeyword.setReferringHistoryItemsId(oDbRecord['lReferringHistoryItemsId']);
     oSearchKeyword.setReferringStoriesId(oDbRecord['lReferringStoriesId']);
 
     return oSearchKeyword;

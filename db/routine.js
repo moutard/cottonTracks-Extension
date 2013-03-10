@@ -25,19 +25,19 @@ Cotton.DB.Routine = Class.extend({
   /**
    * Routine : Update Search Keywords.
    *
-   * Accross all the visitItems. For each visitItems compute the search keywords
+   * Accross all the historyItems. For each historyItems compute the search keywords
    * then update the corresponding entry in the database 'searchkeywords'.
    */
   updateSearchKeywords : function() {
     var self = this;
     var lKeywordsAndId = [];
 
-    self._oStore.getList('visitItems', function(lVisitItems){
-      _.each(lVisitItems, function(oVisitItem){
-        _.each(oVisitItem.searchKeywords(), function(sKeyword){
+    self._oStore.getList('historyItems', function(lHistoryItems){
+      _.each(lHistoryItems, function(oHistoryItem){
+        _.each(oHistoryItem.searchKeywords(), function(sKeyword){
           var oKeywordAndId = {
               'sKeyword': sKeyword,
-              'iVisitItemId' : oVisitItem.id()
+              'iHistoryItemId' : oHistoryItem.id()
           };
           lKeywordsAndId.push(oKeywordAndId);
         })
@@ -65,7 +65,7 @@ Cotton.DB.Routine = Class.extend({
           oSearchKeyword = new Cotton.Model.SearchKeyword(oKeywordAndId['sKeyword']);
         }
 
-        oSearchKeyword.addReferringVisitItemId(oKeywordAndId['iVisitItemId']);
+        oSearchKeyword.addReferringHistoryItemId(oKeywordAndId['iHistoryItemId']);
 
         self._oStore.put('searchKeywords', oSearchKeyword, function(iId){
           // Becarefull with asynchronous.
@@ -79,7 +79,7 @@ Cotton.DB.Routine = Class.extend({
   /**
    * Routine : Update Search Keywords for stories.
    *
-   * Accross all the visitItems. For each visitItems compute the search keywords
+   * Accross all the historyItems. For each historyItems compute the search keywords
    * then update the corresponding entry in the database 'searchkeywords'.
    */
   updateSearchKeywordsForStories : function() {

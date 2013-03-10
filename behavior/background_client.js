@@ -10,14 +10,14 @@
 Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
-   * Id of the current Visit item in the database.
+   * Id of the current History item in the database.
    */
   _iId : undefined,
 
   /**
-   * Cotton.Model.VisitItem, stores results of the parser and reading_rater.
+   * Cotton.Model.HistoryItem, stores results of the parser and reading_rater.
    */
-  _oCurrentVisitItem : undefined,
+  _oCurrentHistoryItem : undefined,
 
   _bParagraphSet : null,
   _bImageSet : null,
@@ -29,7 +29,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
    */
   init : function() {
     this._iId = "";
-    this._oCurrentVisitItem = new Cotton.Model.VisitItem();
+    this._oCurrentHistoryItem = new Cotton.Model.HistoryItem();
     this._bParagraphSet = false;
     this._bImageSet = false;
     this._lAllParagraphs = [];
@@ -37,48 +37,48 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   },
 
   /**
-   * return the current visitItem
+   * return the current historyItem
    *
-   * @returns {Cotton.Model.VisitItem}
+   * @returns {Cotton.Model.HistoryItem}
    */
   current : function() {
-    return this._oCurrentVisitItem;
+    return this._oCurrentHistoryItem;
   },
 
   /**
    * Use chrome messaging API, to send a message to the background page, that
-   * will put the current visitItem is the database.
+   * will put the current historyItem is the database.
    */
   createVisit : function() {
     var self = this;
 
     // We don't want chrome make the serialization. So we use translators to
     // make it.
-    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
+    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
 
     chrome.extension.sendMessage({
-      'action' : 'create_visit_item',
+      'action' : 'create_history_item',
       'params' : {
-        'visitItem' : dDbRecord
+        'historyItem' : dDbRecord
       }
     }, function(response) {
 	  if (response['existing'] === "true"){
-		//The visitItem url was already in base, init this one with the one in base
-		var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+		//The historyItem url was already in base, init this one with the one in base
+		var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
 	    var oTranslator = lTranslators[lTranslators.length - 1];
-	    self._oCurrentVisitItem = oTranslator.dbRecordToObject(
-	                                                response['visitItem']
+	    self._oCurrentHistoryItem = oTranslator.dbRecordToObject(
+	                                                response['historyItem']
 	                                                  );
 	    //careful not to erase paragraphs from parser with paragraphs from db
-	    self._oCurrentVisitItem.extractedDNA().setAllParagraphs(self._lAllParagraphs);
-	    self._oCurrentVisitItem.extractedDNA().setImageUrl(self._sImageUrl);
+	    self._oCurrentHistoryItem.extractedDNA().setAllParagraphs(self._lAllParagraphs);
+	    self._oCurrentHistoryItem.extractedDNA().setImageUrl(self._sImageUrl);
 	  } else {
-		//The visitItem url was not in base, init this one with the new id created
+		//The historyItem url was not in base, init this one with the new id created
         DEBUG && console.debug('DBSync create visit - response :')
         DEBUG && console.debug(response);
-        self._oCurrentVisitItem.initId(response['id']);
+        self._oCurrentHistoryItem.initId(response['id']);
       }
       self._iId = response['id'];
     });
@@ -87,7 +87,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
    * Use chrome messaging API, to send a message to the background page, that
-   * will put the current visitItem is the database.
+   * will put the current historyItem is the database.
    *
    * For the moment, it's exaclty the same that create visit.
    */
@@ -95,29 +95,29 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     var self = this;
 
     // Place here the code to only store the most read paragraph.
-    var lParagraphs = self._oCurrentVisitItem.extractedDNA().paragraphs();
+    var lParagraphs = self._oCurrentHistoryItem.extractedDNA().paragraphs();
     lParagraphs = _.sortBy(lParagraphs, function(oParagraph) {
       return -1 * oParagraph.percent();
     });
     lParagraphs = lParagraphs.slice(0, 2);
-    self._oCurrentVisitItem.extractedDNA().setParagraphs(lParagraphs);
+    self._oCurrentHistoryItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
-    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentVisitItem);
+    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
 
-    if (self._oCurrentVisitItem.id() === undefined) {
+    if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
     } else {
       chrome.extension.sendMessage({
-        'action' : 'update_visit_item',
+        'action' : 'update_history_item',
         'params' : {
-          'visitItem' : dDbRecord,
+          'historyItem' : dDbRecord,
           'contentSet' : self._bParagraphSet && self._bImageSet
         }
       }, function(response) {
-        // DEPRECATED - update_visit_item do not respond.
+        // DEPRECATED - update_history_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
 		if (response["updated"] == "true") {

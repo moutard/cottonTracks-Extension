@@ -33,11 +33,11 @@ Cotton.Controllers.ContentScriptListener = Class.extend({
        * DISPACHER
        * All the message send by sendMessage arrived here.
        * CottonTracks defined an "action" parameters.
-       * - create_visit_item
+       * - create_history_item
        * - import_history
        */
       self._oMessagingController.doAction(request['action'], [sendResponse,
-        request['params']['visitItem']]);
+        request['params']['historyItem']]);
       // need to add sendResponse as an argument because it's only defined in
       // addListener functions.
       return true;

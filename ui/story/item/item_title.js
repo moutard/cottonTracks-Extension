@@ -28,7 +28,6 @@ Cotton.UI.Story.Item.Title = Class.extend({
         this._$itemTitle.text("video");
       }
     }
-
   },
 
   $ : function() {

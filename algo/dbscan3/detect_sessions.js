@@ -1,35 +1,35 @@
 'use strict';
 
 /**
- * separate roughly the visit items when the time difference between two
+ * separate roughly the historyItems when the time difference between two
  * consecutive items is more than 5 hours.
  *
  * @param {Array}
- *          lVisitItems
+ *          lHistoryItems
  */
 
-Cotton.Algo.roughlySeparateSession = function(lVisitItems, mCallBack) {
+Cotton.Algo.roughlySeparateSession = function(lHistoryItems, mCallBack) {
   // 5 hours
   var threshold = 5 * 60 * 60 * 1000;
 
   var lNewRoughSession = [];
   var iPreviousTime;
 
-  for ( var i = 0, oCurrentVisitItem; oCurrentVisitItem = lVisitItems[i]; i++) {
+  for ( var i = 0, oCurrentHistoryItem; oCurrentHistoryItem = lHistoryItems[i]; i++) {
     if (i === 0) {
-      iPreviousTime = oCurrentVisitItem['iVisitTime'];
+      iPreviousTime = oCurrentHistoryItem['iVisitTime'];
     }
     // var a = new Date(iPreviousTime).toLocaleString();
-    // var b = new Date(oCurrentVisitItem['iVisitTime']).toLocaleString();
+    // var b = new Date(oCurrentHistoryItem['iVisitTime']).toLocaleString();
 
-    if (Math.abs(oCurrentVisitItem['iVisitTime'] - iPreviousTime) <= threshold) {
-      lNewRoughSession.push(oCurrentVisitItem);
+    if (Math.abs(oCurrentHistoryItem['iVisitTime'] - iPreviousTime) <= threshold) {
+      lNewRoughSession.push(oCurrentHistoryItem);
     } else {
       mCallBack(lNewRoughSession);
       lNewRoughSession = [];
-      lNewRoughSession.push(oCurrentVisitItem);
+      lNewRoughSession.push(oCurrentHistoryItem);
     }
-    iPreviousTime = oCurrentVisitItem['iVisitTime'];
+    iPreviousTime = oCurrentHistoryItem['iVisitTime'];
 
   }
 

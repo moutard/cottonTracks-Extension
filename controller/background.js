@@ -11,13 +11,13 @@ Cotton.Controllers.Background = Class.extend({
 
   /**
    * "Model" in MVC pattern. Global Store, that allow controller to make call to
-   * the database. So it Contains 'visitItems' and 'stories'.
+   * the database. So it Contains 'historyItems' and 'stories'.
    */
   _oDatabase : null,
 
   /**
    * Specific cache database in localStorage that contains all the important
-   * visitItems that can be used to generate a story.
+   * historyItems that can be used to generate a story.
    */
   _oPool : null,
 
@@ -55,7 +55,7 @@ Cotton.Controllers.Background = Class.extend({
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
 
@@ -113,7 +113,7 @@ Cotton.Controllers.Background = Class.extend({
 	   * DISPACHER
 	   * All the message send by sendMessage arrived here.
 	   * CottonTracks defined an "action" parameters.
-	   * - create_visit_item
+	   * - create_history_item
 	   * - import_history
 	   * - pass background image to world
 	   */
@@ -124,70 +124,70 @@ Cotton.Controllers.Background = Class.extend({
 	   * parser has updated informations.
 	   *
 	   * Available params :
-	   * request['params']['visitItem']
+	   * request['params']['historyItem']
 	   */
-	  case 'create_visit_item':
+	  case 'create_history_item':
 
 	    /**
 	     * Because Model are compiled in two different way by google closure
 	     * compiler we need a common structure to communicate throught messaging.
 	     * We use dbRecord, and translators give us a simple serialisation process.
 	     */
-	    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+	    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
 	    var oTranslator = lTranslators[lTranslators.length - 1];
-	    var oVisitItem = oTranslator.dbRecordToObject(
-	                                                request['params']['visitItem']
+	    var oHistoryItem = oTranslator.dbRecordToObject(
+	                                                request['params']['historyItem']
 	                                                  );
-	    DEBUG && console.debug("Messaging - create_visit_item");
-	    DEBUG && console.debug(oVisitItem.url());
+	    DEBUG && console.debug("Messaging - create_history_item");
+	    DEBUG && console.debug(oHistoryItem.url());
 
 	    // TODO(rmoutard) : use DB system, or a singleton.
 	    var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
 	    var sPutId = ""; // put return the auto-incremented id in the database.
 
-	    // Put the visitItem only if it's not a Tool, and it's not in the exluded
+	    // Put the historyItem only if it's not a Tool, and it's not in the exluded
 	    // urls.
 	    // TODO (rmoutard) : parseUrl is called twice. avoid that.
-	    if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
+	    if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
 	      var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-	        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+	        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
 	        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
 	      }, function() {
-		    //check if url is already in a visitItem in base
-			oDatabase.find('visitItems', 'sUrl', oVisitItem.url(), function(oExistingVisitItem){
-			  if (oExistingVisitItem){
-				//already a visitItem with this url in base
+		    //check if url is already in a historyItem in base
+			oDatabase.find('historyItems', 'sUrl', oHistoryItem.url(), function(oExistingHistoryItem){
+			  if (oExistingHistoryItem){
+				//already a historyItem with this url in base
 				//send the item to content script
 				//TODO(rkorach) : check if there is already paragraphs,
 				//and if they have changed with the current page.
 				//If so, it should create a new item
-				DEBUG && console.debug("visitItem existing, with id " + oExistingVisitItem.id());
-				var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+				DEBUG && console.debug("historyItem existing, with id " + oExistingHistoryItem.id());
+				var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
 			    var oTranslator = lTranslators[lTranslators.length - 1];
-			    var dDbRecord = oTranslator.objectToDbRecord(oExistingVisitItem);
+			    var dDbRecord = oTranslator.objectToDbRecord(oExistingHistoryItem);
 				sendResponse({
                     'received' : "true",
                     'existing' : "true",
-                    'visitItem' : dDbRecord,
-                    'id' : oExistingVisitItem.id()
+                    'historyItem' : dDbRecord,
+                    'id' : oExistingHistoryItem.id()
                 });
 			  } else {
-				//no visitItem with this url in base
+				//no historyItem with this url in base
 				//create new item
 	            // you want to create it for the first time.
-	            oDatabase.put('visitItems', oVisitItem, function(iId) {
-	              DEBUG && console.debug("visitItem added" + iId);
+	            oDatabase.put('historyItems', oHistoryItem, function(iId) {
+	              DEBUG && console.debug("historyItem added" + iId);
 	              sPutId = iId;
 	              var _iId = iId;
-	              _.each(oVisitItem.searchKeywords(), function(sKeyword){
+	              _.each(oHistoryItem.searchKeywords(), function(sKeyword){
 	                // PROBLEM if not find.
 	                oDatabase.find('searchKeywords', 'sKeyword', sKeyword, function(oSearchKeyword){
 	                  if(!oSearchKeyword) {
 	                    oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
 	                  }
 
-	                  oSearchKeyword.addReferringVisitItemId(_iId);
+	                  oSearchKeyword.addReferringHistoryItemId(_iId);
 
 	                  oDatabase.put('searchKeywords', oSearchKeyword, function(iiId){
 	                    // Return nothing to let the connection be cleaned up.
@@ -204,42 +204,42 @@ Cotton.Controllers.Background = Class.extend({
 	      });
 	    } else {
 	      DEBUG && console
-	          .debug("Content Script Listener - This visit item is a tool or an exluded url.");
+	          .debug("Content Script Listener - This history item is a tool or an exluded url.");
 	    }
 
 	    // to allow sendResponse
 	    //return true;
 	    break;
 
-	  case 'update_visit_item':
+	  case 'update_history_item':
 	    /**
 	     * Because Model are compiled in two different way by google closure
 	     * compiler we need a common structure to communicate throught messaging.
 	     * We use dbRecord, and translators give us a simple serialisation process.
 	     */
-	    var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+	    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
 	    var oTranslator = lTranslators[lTranslators.length - 1];
-	    var oVisitItem = oTranslator.dbRecordToObject(
-	                                                request['params']['visitItem']
+	    var oHistoryItem = oTranslator.dbRecordToObject(
+	                                                request['params']['historyItem']
 	                                                  );
-	    DEBUG && console.debug("Messaging - update_visit_item");
-	    DEBUG && console.debug(oVisitItem.url());
+	    DEBUG && console.debug("Messaging - update_history_item");
+	    DEBUG && console.debug(oHistoryItem.url());
 	    // TODO(rmoutard) : use DB system, or a singleton.
 	    var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
 	    var sPutId = ""; // put return the auto-incremented id in the database.
 
-	    // Put the visitItem only if it's not a Tool, and it's not in the exluded
+	    // Put the historyItem only if it's not a Tool, and it's not in the exluded
 	    // urls.
 	    // TODO (rmoutard) : parseUrl is called twice. avoid that.
-	    if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
+	    if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
 	      var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-	        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+	        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
 	        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
 	      }, function() {
-	        // The visit item already exists, just update it.
-	        oDatabase.put('visitItems', oVisitItem, function(iId) {
-	          DEBUG && console.debug("Messaging - visitItem updated" + iId);
+	        // The history item already exists, just update it.
+	        oDatabase.put('historyItems', oHistoryItem, function(iId) {
+	          DEBUG && console.debug("Messaging - historyItem updated" + iId);
               if (request['params']['contentSet'] === true){
                 sendResponse({"updated":"true"})
                 DEBUG && console.debug("updated response sent");
@@ -248,7 +248,7 @@ Cotton.Controllers.Background = Class.extend({
 	      });
 	    } else {
 	      DEBUG && console
-	          .debug("Content Script Listener - This visit item is a tool or an exluded url.");
+	          .debug("Content Script Listener - This history item is a tool or an exluded url.");
 	    }
 	    break;
 
@@ -258,24 +258,24 @@ Cotton.Controllers.Background = Class.extend({
 	  case 'import_history':
 	     var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
 	         'stories' : Cotton.Translators.STORY_TRANSLATORS,
-	         'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+	         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
 
 	       }, function() {
 	          // Purge the database before importing new elements.
-	          oDatabase.purge('visitItems', function(){
+	          oDatabase.purge('historyItems', function(){
 	            oDatabase.purge('stories', function(){
 
 	              // Populate the DB using history Items stored in the file.
-	              Cotton.DB.Populate.visitItemsFromFile(oDatabase, request['params']['history']['lHistoryItems'],
+	              Cotton.DB.Populate.historyItemsFromFile(oDatabase, request['params']['history']['lHistoryItems'],
 	                  function(oDatabase) {
-	                    oDatabase.getList('visitItems', function(lAllVisitItems) {
+	                    oDatabase.getList('historyItems', function(lAllHistoryItems) {
 	                      DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
-	                          + lAllVisitItems.length + ' items');
-	                      console.debug(lAllVisitItems);
+	                          + lAllHistoryItems.length + ' items');
+	                      console.debug(lAllHistoryItems);
 	                      var lAllVisitDict = [];
-	                      for(var i = 0, oItem; oItem = lAllVisitItems[i]; i++){
+	                      for(var i = 0, oItem; oItem = lAllHistoryItems[i]; i++){
 	                        // maybe a setFormatVersion problem
-	                        var oTranslator = this._translatorForObject('visitItems', oItem);
+	                        var oTranslator = this._translatorForObject('historyItems', oItem);
 	                        var dItem = oTranslator.objectToDbRecord(oItem);
 	                        lAllVisitDict.push(dItem);
 	                      }
@@ -288,20 +288,20 @@ Cotton.Controllers.Background = Class.extend({
 	                        DEBUG && console.debug("DBSCAN 3 - MESSAGE");
 	                        DEBUG && console.debug(e);
 
-	                        // Update the visitItems with extractedWords and queryWords.
-	                        for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
+	                        // Update the historyItems with extractedWords and queryWords.
+	                        for ( var i = 0; i < e.data['lHistoryItems'].length; i++) {
 	                          // Data sent by the worker are serialized. Deserialize using translator.
-	                          var oTranslator = oDatabase._translatorForDbRecord('visitItems',
-	                                                                        e.data['lVisitItems'][i]);
-	                          var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
+	                          var oTranslator = oDatabase._translatorForDbRecord('historyItems',
+	                                                                        e.data['lHistoryItems'][i]);
+	                          var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
 
 
-	                          oDatabase.put('visitItems', oVisitItem, function() {
+	                          oDatabase.put('historyItems', oHistoryItem, function() {
 	                            DEBUG && console.debug("update queryKeywords");
 	                          });
 	                        }
 
-	                        var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+	                        var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
 	                                                                e.data['iNbCluster']);
 	                        // Add stories
 	                        DEBUG && console.debug(dStories);
@@ -341,7 +341,7 @@ Cotton.Controllers.Background = Class.extend({
 
   /**
    * Initialize the worker in charge of DBSCAN2,
-   * Called by the background to all the visitItems elements that are in the
+   * Called by the background to all the historyItems elements that are in the
    * pool.
    */
   initWorkerDBSCAN2 : function() {
@@ -353,22 +353,22 @@ Cotton.Controllers.Background = Class.extend({
     wDBSCAN2.addEventListener('message', function(e) {
 
       DEBUG && console.debug('wDBSCAN2 - Worker ends: ',
-        e.data['iNbCluster'], e.data['lVisitItems']);
+        e.data['iNbCluster'], e.data['lHistoryItems']);
 
       // Cluster the story found by dbscan2.
-      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                               e.data['iNbCluster']);
 
       // TODO(rmoutard) : find a better solution.
-      lVisitItemToKeep = [];
-      _.each(e.data['lVisitItems'], function(dVisiItem){
-        if(dVisitItem['clusterId'] !== "UNCLASSIFIED"
-          && dVisitItem['clusterId'] !== "NOISE"){
-            delete dVisitItem['clusterId'];
-            lVisitItemToKeep.push(dVisitItem);
+      lHistoryItemToKeep = [];
+      _.each(e.data['lHistoryItems'], function(dVisiItem){
+        if(dHistoryItem['clusterId'] !== "UNCLASSIFIED"
+          && dHistoryItem['clusterId'] !== "NOISE"){
+            delete dHistoryItem['clusterId'];
+            lHistoryItemToKeep.push(dHistoryItem);
         }
       });
-      self._oPool.refresh(lVisitItemToKeep);
+      self._oPool.refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
@@ -382,7 +382,7 @@ Cotton.Controllers.Background = Class.extend({
 
   /**
    * Initialize the worker in charge of DBSCAN3,
-   * Called at the installation on all the element of visitItems.
+   * Called at the installation on all the element of historyItems.
    */
   initWorkerDBSCAN3 : function() {
     var self = this;
@@ -393,21 +393,21 @@ Cotton.Controllers.Background = Class.extend({
     self._wDBSCAN3.addEventListener('message', function(e) {
 
       DEBUG && console.log('wDBSCAN - Worker ends: ',
-        e.data['iNbCluster'], e.data['lVisitItems']);
+        e.data['iNbCluster'], e.data['lHistoryItems']);
 
-      // Update the visitItems with extractedWords and queryWords.
-      for ( var i = 0; i < e.data['lVisitItems'].length; i++) {
+      // Update the historyItems with extractedWords and queryWords.
+      for ( var i = 0; i < e.data['lHistoryItems'].length; i++) {
         // Data sent by the worker are serialized. Deserialize using translator.
-        var oTranslator = self._oDatabase._translatorForDbRecord('visitItems',
-          e.data['lVisitItems'][i]);
-        var oVisitItem = oTranslator.dbRecordToObject(e.data['lVisitItems'][i]);
+        var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
+          e.data['lHistoryItems'][i]);
+        var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
 
-        self._oDatabase.put('visitItems', oVisitItem, function() {
+        self._oDatabase.put('historyItems', oHistoryItem, function() {
           // pass.
         });
       }
 
-      var dStories = Cotton.Algo.clusterStory(e.data['lVisitItems'],
+      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                               e.data['iNbCluster']);
 
       // Add stories in IndexedDB.
@@ -430,15 +430,15 @@ Cotton.Controllers.Background = Class.extend({
 
     DEBUG && console.debug("Controller - install");
 
-    Cotton.DB.Populate.visitItems(self._oDatabase, function(oDatabase) {
-      oDatabase.getList('visitItems', function(lAllVisitItems) {
+    Cotton.DB.Populate.historyItems(self._oDatabase, function(oDatabase) {
+      oDatabase.getList('historyItems', function(lAllHistoryItems) {
         DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
-            + lAllVisitItems.length + ' items');
-        DEBUG && console.debug(lAllVisitItems);
+            + lAllHistoryItems.length + ' items');
+        DEBUG && console.debug(lAllHistoryItems);
         var lAllVisitDict = [];
-        for(var i = 0, oItem; oItem = lAllVisitItems[i]; i++){
+        for(var i = 0, oItem; oItem = lAllHistoryItems[i]; i++){
           // maybe a setFormatVersion problem
-          var oTranslator = this._translatorForObject('visitItems', oItem);
+          var oTranslator = this._translatorForObject('historyItems', oItem);
           var dItem = oTranslator.objectToDbRecord(oItem);
           lAllVisitDict.push(dItem);
         }

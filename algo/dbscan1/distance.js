@@ -9,26 +9,26 @@ Cotton.Algo.Distance = {};
  * Compute the distance between the id.
  *
  * @param {Object}
- *          oVisitItem1
+ *          oHistoryItem1
  * @param {Object}
- *          oVisitItem2
+ *          oHistoryItem2
  * @returns {int}
  */
-Cotton.Algo.Distance.distanceId = function(oVisitItem1, oVisitItem2) {
-  return Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']));
+Cotton.Algo.Distance.distanceId = function(oHistoryItem1, oHistoryItem2) {
+  return Math.abs(parseInt(oHistoryItem1['id']) - parseInt(oHistoryItem2['id']));
 };
 
 /**
  * Compute the distance between the last visitTime.
  *
  * @param {Object}
- *          oVisitItem1
+ *          oHistoryItem1
  * @param {Object}
- *          oVisitItem2
+ *          oHistoryItem2
  * @returns {float}
  */
-Cotton.Algo.Distance.distanceVisitTime = function(oVisitItem1, oVisitItem2) {
-  return Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime']);
+Cotton.Algo.Distance.distanceVisitTime = function(oHistoryItem1, oHistoryItem2) {
+  return Math.abs(oHistoryItem1['iVisitTime'] - oHistoryItem2['iVisitTime']);
 };
 
 /**
@@ -51,17 +51,17 @@ Cotton.Algo.Distance.distanceKey = function(sKey, oObject1, oObject2) {
  *  - 0 all the possible words are common.
  *  - 1 if they are all different.
  *
- * @param : {Object} dictionnary or json: oVisitItem1
- * @param : {Object} dictionnayr or json : oVisitItem2
+ * @param : {Object} dictionnary or json: oHistoryItem1
+ * @param : {Object} dictionnayr or json : oHistoryItem2
  */
-Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Distance.commonExtractedWords = function(oHistoryItem1, oHistoryItem2) {
 
   // ExtractedWords
-  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oVisitItem1, oVisitItem2);
+  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oHistoryItem1, oHistoryItem2);
 
-  // A is the max possible common words between two visit items.
-  var iMaxCommonWords = Math.min(oVisitItem1['oExtractedDNA']['lExtractedWords'].length,
-    oVisitItem2['oExtractedDNA']['lExtractedWords'].length);
+  // A is the max possible common words between two historyItems.
+  var iMaxCommonWords = Math.min(oHistoryItem1['oExtractedDNA']['lExtractedWords'].length,
+    oHistoryItem2['oExtractedDNA']['lExtractedWords'].length);
 
   // TODO(rmoutard) : is this happens often ? if not remove.
   iMaxCommonWords = Math.max(1, iMaxCommonWords);
@@ -74,18 +74,18 @@ Cotton.Algo.Distance.commonExtractedWords = function(oVisitItem1, oVisitItem2) {
  *  - 0 all the possible words are common.
  *  - 1 if they are all different.
  *
- * @param : {Object} dictionnary or json : oVisitItem1
- * @param : {Object} dictionnary or json : oVisitItem2
+ * @param : {Object} dictionnary or json : oHistoryItem1
+ * @param : {Object} dictionnary or json : oHistoryItem2
  */
-Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.Distance.commonQueryWords = function(oHistoryItem1, oHistoryItem2) {
 
   // QueryWords
 
-  var iCommonQueryWords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
-      oVisitItem2);
+  var iCommonQueryWords = Cotton.Algo.Tools.commonQueryWords(oHistoryItem1,
+      oHistoryItem2);
 
-  var iMaxCommonQueryWords = Math.max(1, Math.min(oVisitItem1['oExtractedDNA']['lQueryWords'].length,
-    oVisitItem2['oExtractedDNA']['lQueryWords'].length));
+  var iMaxCommonQueryWords = Math.max(1, Math.min(oHistoryItem1['oExtractedDNA']['lQueryWords'].length,
+    oHistoryItem2['oExtractedDNA']['lQueryWords'].length));
 
 
   return 1 - (iCommonQueryWords / iMaxCommonQueryWords);
@@ -101,24 +101,24 @@ Cotton.Algo.Distance.commonQueryWords = function(oVisitItem1, oVisitItem2) {
  *   - 0 is good
  *   - 1 is bad
  *
- * @param : {Object} dictionnary or json : oVisitItem1
- * @param : {Object} dictionnary or json : oVisitItem2
+ * @param : {Object} dictionnary or json : oHistoryItem1
+ * @param : {Object} dictionnary or json : oHistoryItem2
  */
-Cotton.Algo.Distance.meaning = function(oVisitItem1, oVisitItem2){
+Cotton.Algo.Distance.meaning = function(oHistoryItem1, oHistoryItem2){
   var iCoeff = 0.5;
-  return iCoeff * Cotton.Algo.Distance.commonQueryWords(oVisitItem1, oVisitItem2) +
-    (1 - iCoeff) * Cotton.Algo.Distance.commonExtractedWords(oVisitItem1, oVisitItem2);
+  return iCoeff * Cotton.Algo.Distance.commonQueryWords(oHistoryItem1, oHistoryItem2) +
+    (1 - iCoeff) * Cotton.Algo.Distance.commonExtractedWords(oHistoryItem1, oHistoryItem2);
 };
 
 /**
- * Compute a distance between a visitItem and a storyItem
+ * Compute a distance between a historyItem and a storyItem
  *
- * @param : {Object} dictionnary or json : oVisitItem
+ * @param : {Object} dictionnary or json : oHistoryItem
  * @param : {Object} dictionnary or json : oStoryItem
  */
-Cotton.Algo.Distance.fromStory = function(oVisitItem, oStoryItem){
-  var lUnionWords = _.union(oVisitItem['oExtractedDNA']['lQueryWords'],
-      oVisitItem['oExtractedDNA']['lExtractedWords']);
+Cotton.Algo.Distance.fromStory = function(oHistoryItem, oStoryItem){
+  var lUnionWords = _.union(oHistoryItem['oExtractedDNA']['lQueryWords'],
+      oHistoryItem['oExtractedDNA']['lExtractedWords']);
 
   var iCommonWords = _.intersection(lUnionWords , oStoryItem['lTags']).length;
   var iMaxCommonWords = Math.max(1, Math.min(lUnionWords.length,
@@ -131,7 +131,7 @@ Cotton.Algo.Distance.fromStory = function(oVisitItem, oStoryItem){
 /**
  * Compute distance that use every criteria.
  */
-Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
+Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
   // for instance you need to balance common words
 
@@ -142,7 +142,7 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // id close => items close
   // ordre de grandeur = close if 0(1) , far if 0(20).
   var sum = coeff.id
-      * Math.abs(parseInt(oVisitItem1['id']) - parseInt(oVisitItem2['id']))
+      * Math.abs(parseInt(oHistoryItem1['id']) - parseInt(oHistoryItem2['id']))
       / 200;
 
   // lastTimeVisit
@@ -150,14 +150,14 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   // ordre de grandeur = O(100 000)
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
-      * Math.abs(oVisitItem1['iVisitTime'] - oVisitItem2['iVisitTime'])
+      * Math.abs(oHistoryItem1['iVisitTime'] - oHistoryItem2['iVisitTime'])
       / 1000000;
 
   // Common words
   // number of common words is high => items close
   // ordre de grandeur = O(5)
   // close if 0(1) far if 0.
-  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oVisitItem1, oVisitItem2);
+  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oHistoryItem1, oHistoryItem2);
   if (iCommonWords === 0) {
     // Try to detect parallel stories.
     sum += coeff.penalty;
@@ -168,19 +168,19 @@ Cotton.Algo.distanceComplexe = function(oVisitItem1, oVisitItem2) {
   }
 
   // Query keywords
-  var iCommonQueryKeywords = Cotton.Algo.Tools.commonQueryWords(oVisitItem1,
-      oVisitItem2);
+  var iCommonQueryKeywords = Cotton.Algo.Tools.commonQueryWords(oHistoryItem1,
+      oHistoryItem2);
   sum += (coeff.queryKeywords / ((1 + iCommonQueryKeywords) * (1 + iCommonQueryKeywords)));
 
   return sum;
 };
 
 /**
- * @param {Cotton.Model.VisitItem} oVisitItem
- * @param {Cotton.Model.VisitItem} oStory
+ * @param {Cotton.Model.HistoryItem} oHistoryItem
+ * @param {Cotton.Model.HistoryItem} oStory
  */
-Cotton.Algo.Distance.visitItemToStory = function(oVisitItem, oStory){
-  return Cotton.Algo.Metrics.Cosine(oVisitItem.extractedDNA().bagOfWords().get(),
+Cotton.Algo.Distance.historyItemToStory = function(oHistoryItem, oStory){
+  return Cotton.Algo.Metrics.Cosine(oHistoryItem.extractedDNA().bagOfWords().get(),
       oStory.dna().bagOfWords().get())
 };
 /**

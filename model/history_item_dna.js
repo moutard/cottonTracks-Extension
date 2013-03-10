@@ -5,10 +5,10 @@
  *
  * This class is used to store all the relevent elements from a page. We extract
  * the DNA of the page, like score on each block, keywords, hightlight... That's
- * why it's called PageDNA. The extractedDNA depends on the visit.
+ * why it's called PageDNA.
  */
 
-Cotton.Model.VisitItemDNA = Class.extend({
+Cotton.Model.HistoryItemDNA = Class.extend({
 
   _lQueryWords : [],                  // words used to make the google search.
   _lExtractedWords : [],              // words extracted from title and content.

@@ -61,14 +61,14 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   /**
    *
    * FIXME(rmoutard) : put this in a parser.
-   * @param {Cotton.Model.VisitItem} oVisitItem.
+   * @param {Cotton.Model.HistoryItem} oHistoryItem.
    */
-   getFirstInfoFromPage : function(oVisitItem) {
-     oVisitItem._sUrl = window.location.href;
-     oVisitItem._sTitle = window.document.title;
-     oVisitItem._iVisitTime = new Date().getTime();
-     oVisitItem._sReferrerUrl = document.referrer;
-     oVisitItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
+   getFirstInfoFromPage : function(oHistoryItem) {
+     oHistoryItem._sUrl = window.location.href;
+     oHistoryItem._sTitle = window.document.title;
+     oHistoryItem._iVisitTime = new Date().getTime();
+     oHistoryItem._sReferrerUrl = document.referrer;
+     oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
    },
 
   /**
@@ -120,7 +120,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           self._oFeedbackElement.setBestImage(sBestImg);
         }
 
-        // Update oCurrentVisitItem
+        // Update oCurrentHistoryItem
         self._oClient.current().extractedDNA().setImageUrl(sBestImg);
         self._oClient.updateVisit();
       }

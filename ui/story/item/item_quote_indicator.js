@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.QuoteIndicator = Class
 
         //current sub elements.				
         var quoteNumber =
-            oItemContent.item().visitItem().extractedDNA().highlightedText().length;
+            oItemContent.item().historyItem().extractedDNA().highlightedText().length;
         this._$quoteIcon = $('<img class="quote_indicator_icon" src="media/images/story/item/default_item/quote.png"/>');
 
         if(quoteNumber > 0){

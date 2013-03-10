@@ -18,10 +18,10 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
     this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     if (sType === "img") {
-      this._$img.attr("src", this._oItem.visitItem().url());
+      this._$img.attr("src", this._oItem.historyItem().url());
     }
     if (sType === "imgres") {
-      var oUrl = new UrlParser(this._oItem.visitItem().url());
+      var oUrl = new UrlParser(this._oItem.historyItem().url());
       oUrl.fineDecomposition();
       var sImgSrc = this.replaceHexa(oUrl.dSearch['imgurl']);
       this._$img.attr("src", sImgSrc);

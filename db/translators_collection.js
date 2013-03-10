@@ -19,7 +19,7 @@ Cotton.DB.TranslatorsCollection = Class.extend({
    *  - value: list containing all the translators for this type of object.
    *  Ex : {
    *       'stories' : Cotton.Translators.STORY_TRANSLATORS,
-   *       'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+   *       'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
    *       'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
    *       }
    */

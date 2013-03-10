@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * In function of the data stored in oItem._oVisitItem, we know how the content
+ * In function of the data stored in oItem._oHistoryItem, we know how the content
  * should be display. Using on the specific type of Item.Content
  *
  * @param oItem
@@ -9,9 +9,9 @@
  */
 Cotton.UI.Story.Item.Content.Factory = function(oItem) {
 
-  var oUrl = new UrlParser(oItem._oVisitItem.url());
+  var oUrl = new UrlParser(oItem._oHistoryItem.url());
   oUrl.fineDecomposition();
-  oItem._oVisitItem._oUrl = oUrl;
+  oItem._oHistoryItem._oUrl = oUrl;
   // Detect if it's an image.
   var reg = new RegExp(".(jpg|png|gif)$", "g");
   var sLastStringFromPathname = oUrl.pathname.split('/')[oUrl.pathname
@@ -19,7 +19,7 @@ Cotton.UI.Story.Item.Content.Factory = function(oItem) {
   var sLastStringFromHyphen = sLastStringFromPathname.split('-')[sLastStringFromPathname
       .split('-').length - 1]
 
-  if (reg.exec(oItem._oVisitItem.url())) {
+  if (reg.exec(oItem._oHistoryItem.url())) {
     // Image
     oItem.setItemType("image");
     return new Cotton.UI.Story.Item.Content.Image(oItem, "img");
