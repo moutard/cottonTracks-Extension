@@ -127,8 +127,8 @@ Cotton.Model.Story = Class.extend({
     if (_.indexOf(this._lHistoryItemsId, oHistoryItem.id()) === -1) {
       this._lHistoryItemsId.push(oHistoryItem.id());
       this._lHistoryItems.push(oHistoryItem);
-      if (oHistoryItem.visitTime() > this._fLastVisitTime) {
-        this._fLastVisitTime = oHistoryItem.visitTime();
+      if (oHistoryItem.lastVisitTime() > this._fLastVisitTime) {
+        this._fLastVisitTime = oHistoryItem.lastVisitTime();
       }
     }
   },

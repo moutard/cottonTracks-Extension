@@ -10,7 +10,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     var dDbRecord = {
       'sUrl' : oHistoryItem.url(),
       'sTitle' : oHistoryItem.title(),
-      'iVisitTime' : oHistoryItem.visitTime(),
+      'iLastVisitTime' : oHistoryItem.lastVisitTime(),
       'sStoryId' : oHistoryItem.storyId(),
       'iPool' : oHistoryItem.pool(),
       'oExtractedDNA' : {
@@ -52,7 +52,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
     oHistoryItem.initUrl(oDbRecord['sUrl']);
     oHistoryItem.setTitle(oDbRecord['sTitle']);
-    oHistoryItem.setVisitTime(oDbRecord['iVisitTime']);
+    oHistoryItem.setLastVisitTime(oDbRecord['iLastVisitTime']);
 
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
@@ -90,7 +90,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     'sUrl' : {
       'unique' : false
     },
-    'iVisitTime' : {
+    'iLastVisitTime' : {
       'unique' : false
     },
     'sStoryId' : {
