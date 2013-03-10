@@ -12,7 +12,7 @@ Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
   var oStory = new Cotton.Model.Story();
   oStory.setTitle(sTitle);
   oStory.setFeaturedImage(sFeaturedImage);
-
+  oStory.setLastVisitTime(new Date().getTime());
   self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
   }, function() {
