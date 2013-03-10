@@ -16,7 +16,7 @@ module("Cotton.DB.LocalStorage.Engine",{
         "unique": false
       }
     },
-    "visitItems": {}
+    "historyItems": {}
   });
 
   },

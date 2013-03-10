@@ -23,10 +23,10 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
       // TODO(rmoutard) : not really sustainanble.
       lStories[iCount].setId(iId);
 
-      _.each(lStories[iCount].visitItemsId(), function(iVisitItemId){
-        oStore.find('visitItems', 'id', iVisitItemId, function(oVisitItem){
-          oVisitItem.setStoryId(_iId);
-          oStore.put('visitItems', oVisitItem, function(){});
+      _.each(lStories[iCount].historyItemsId(), function(iHistoryItemId){
+        oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
+          oHistoryItem.setStoryId(_iId);
+          oStore.put('historyItems', oHistoryItem, function(){});
         });
       });
       if (iCount === iLength) {
@@ -38,11 +38,11 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
   }
 };
 
-Cotton.DB.Stories.removeVisitItemInStory = function(oStore, iStoryId, iVisitItemId, mCallBackFunction){
+Cotton.DB.Stories.removeHistoryItemInStory = function(oStore, iStoryId, iHistoryItemId, mCallBackFunction){
   oStore.find('stories', 'id', iStoryId, function(oStory){
-    oStory.removeVisitItem(iVisitItemId);
+    oStory.removeHistoryItem(iHistoryItemId);
     oStore.put('stories', oStory, function(){
-      console.log("visitItem deleted in the story");
+      console.log("historyItem deleted in the story");
       mCallBackFunction();
     });
   });
@@ -56,16 +56,16 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
         lStories) {
 
       new Cotton.DB.Store('ct', {
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
       }, function() {
         var count = 0;
         var lStoriesTemp = lStories;
         for ( var i = 0; i < lStoriesTemp.length; i++) {
           var oStory = lStoriesTemp[i];
-          this.findGroup('visitItems', 'id', oStory.visitItemsId(), function(
-              lVisitItems) {
+          this.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
+              lHistoryItems) {
 
-            lStoriesTemp[count].setVisitItems(lVisitItems);
+            lStoriesTemp[count].setHistoryItems(lHistoryItems);
 
             if (count == (lStoriesTemp.length - 1)) {
               mCallBackFunction(lStoriesTemp);
@@ -81,7 +81,7 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
 Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
   var oStore = new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
 
   }, function() {
     oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
@@ -89,10 +89,10 @@ Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
         var lStoriesTemp = lStories;
         for ( var i = 0; i < lStoriesTemp.length; i++) {
           var oStory = lStoriesTemp[i];
-          oStore.findGroup('visitItems', 'id', oStory.visitItemsId(), function(
-              lVisitItems) {
+          oStore.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
+              lHistoryItems) {
 
-            lStoriesTemp[count].setVisitItems(lVisitItems);
+            lStoriesTemp[count].setHistoryItems(lHistoryItems);
 
             if (count == (lStoriesTemp.length - 1)) {
               mCallBackFunction(lStoriesTemp);
@@ -107,7 +107,7 @@ Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
 Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
   var oStore = new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
 
   }, function() {
     oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
@@ -176,5 +176,5 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords2 = function(oStore, lStorie
 
 /**
  * ----------------------------------------------------------------------------
- * VisitItems
+ * HistoryItems
  */

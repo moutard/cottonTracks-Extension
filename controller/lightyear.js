@@ -11,7 +11,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   /**
    * "Model" in MVC pattern. Global Store, that allow controller to make call to
-   * the database. So it Contains 'visitItems' and 'stories'.
+   * the database. So it Contains 'historyItems' and 'stories'.
    */
   _oStore : null,
 
@@ -38,16 +38,15 @@ Cotton.Controllers.Lightyear = Class.extend({
     var self = this;
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
     }, function() {
 	  self = self;
       self._oDatabase.getLast('stories', 'fLastVisitTime', function(oLastStory) {
-        self._oDatabase.findGroup('visitItems', 'id', oLastStory.visitItemsId(),
-        function(lVisitItems) {
+        self._oDatabase.findGroup('historyItems', 'id', oLastStory.historyItemsId(),
+        function(lHistoryItems) {
           // Initialize isotope grid view
           self.initPlaceItems();
-          self._oWorld.createStory(lVisitItems);
-
+          self._oWorld.createStory(lHistoryItems);
           self.countItems();
           $('.ct-filter').click(function(){
             var selector = $(this).attr('data-filter');

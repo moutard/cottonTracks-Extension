@@ -7,7 +7,7 @@
 Cotton.UI.Story.Item.Element = Class
     .extend({
 
-      _oVisitItem : null,
+      _oHistoryItem : null,
 
       _$item : null,
 
@@ -19,9 +19,9 @@ Cotton.UI.Story.Item.Element = Class
 
       _bReload : null,
 
-      init : function(oVisitItem, $storyContainer) {
-        // Cotton.Model.VisitItem contains all data.
-        this._oVisitItem = oVisitItem;
+      init : function(oHistoryItem, $storyContainer) {
+        // Cotton.Model.HistoryItem contains all data.
+        this._oHistoryItem = oHistoryItem;
 
         // Container for all items
         this._$storyContainer = $storyContainer;
@@ -44,8 +44,8 @@ Cotton.UI.Story.Item.Element = Class
         return this._$item;
       },
 
-      visitItem : function() {
-        return this._oVisitItem;
+      historyItem : function() {
+        return this._oHistoryItem;
       },
 
       itemType : function() {
@@ -64,12 +64,12 @@ Cotton.UI.Story.Item.Element = Class
         self = this;
 
         var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+            'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
         }, function() {
           self = self;
-          oDatabase.find('visitItems', 'id', self.visitItem().id(), function(oVisitItem) {
+          oDatabase.find('historyItems', 'id', self.historyItem().id(), function(oHistoryItem) {
             self._$item.empty();
-            self._oVisitItem = oVisitItem;
+            self._oHistoryItem = oHistoryItem;
             self._bReload = true;
             self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
           });

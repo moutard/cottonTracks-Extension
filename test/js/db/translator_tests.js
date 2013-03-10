@@ -49,7 +49,7 @@ test("init with one translator.", function(){
 test("init with all the translators.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
     'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
   });
   ok(oTranslatorCollection);
@@ -58,7 +58,7 @@ test("init with all the translators.", function(){
 test("_translatorForObject", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
     'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
   });
 
@@ -82,7 +82,7 @@ test("_translatorForObject", function(){
 test("getIndexesForObjectStoreNames.", function(){
   var oTranslatorCollection = new Cotton.DB.TranslatorsCollection({
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
     'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
   });
 
@@ -108,7 +108,7 @@ test("getIndexesForObjectStoreNames.", function(){
         "unique": false
       }
     },
-    "visitItems": {
+    "historyItems": {
       "iPool": {
         "unique": false
       },

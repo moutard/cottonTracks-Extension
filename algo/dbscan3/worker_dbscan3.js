@@ -28,9 +28,9 @@ importScripts('../../algo/dbscan1/distance.js');
 importScripts('../../algo/dbscan1/dbscan.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
 
-function handleVisitItems3(lVisitItems) {
+function handleHistoryItems3(lHistoryItems) {
   /**
-   * This method has 3 steps : - Separate Roughly the visitItems in sessions. -
+   * This method has 3 steps : - Separate Roughly the historyItems in sessions. -
    * Then compute for each rough sessions dbscan1 with distance only on the
    * time, to refine session. - For each session, compute dbscan1 with the
    * meaning distance.
@@ -44,10 +44,10 @@ function handleVisitItems3(lVisitItems) {
   var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
 
   // Applyed all the pretreatment first.
-  lVisitItems = Cotton.Algo.PreTreatment.suite(lVisitItems);
+  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
 
   // Step 1.
-  Cotton.Algo.roughlySeparateSession(lVisitItems, function(lSession) {
+  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
 
     // Do this for each session.
 
@@ -68,7 +68,7 @@ function handleVisitItems3(lVisitItems) {
 
       var dData = {};
       dData['iNbCluster'] = iNbSubCluster;
-      dData['lVisitItems'] = lCluster;
+      dData['lHistoryItems'] = lCluster;
 
       // Send data to the main thread. Data are serialized.
       self.postMessage(dData);
@@ -85,7 +85,7 @@ self.addEventListener('message', function(e) {
   /**
    * Connect worker with main thread. Worker starts when it receive
    * postMessage(). Data received are serialized. i.e. it's non
-   * Cotton.Model.VisitItem, but object.
+   * Cotton.Model.HistoryItem, but object.
    */
-  handleVisitItems3(e.data);
+  handleHistoryItems3(e.data);
 }, false);

@@ -23,9 +23,9 @@ Cotton.Controllers.Messaging = Class.extend({
    * parser has updated informations.
    *
    * Available params :
-   * request['params']['visitItem']
+   * request['params']['historyItem']
    */
-  'create_visit_item' : function(sendResponse, dVisitItem){
+  'create_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -33,24 +33,24 @@ Cotton.Controllers.Messaging = Class.extend({
        * We use dbRecord, and translators give us a simple serialisation process.
        */
       //FIXME(rmoutard): use TranslatorCollection.
-      var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+      var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
       var oTranslator = lTranslators[lTranslators.length - 1];
-      var oVisitItem = oTranslator.dbRecordToObject(dVisitItem);
-      DEBUG && console.debug("Messaging - create_visit_item");
-      DEBUG && console.debug(oVisitItem.url());
+      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+      DEBUG && console.debug("Messaging - create_history_item");
+      DEBUG && console.debug(oHistoryItem.url());
 
       // TODO(rmoutard) : use DB system, or a singleton.
       var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the visitItem only if it's not a Tool, and it's not in the exluded
+      // Put the historyItem only if it's not a Tool, and it's not in the exluded
       // urls.
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
+      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
 
-        // See if the visit items can fit in a story.
-        var lPreponderantKeywords = oVisitItem.extractedDNA().bagOfWords().preponderant(3);
+        // See if the history items can fit in a story.
+        var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
         self._oMainController._oDatabase.findGroup('searchKeywords',
           'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
             var lStoriesId = [];
@@ -58,7 +58,7 @@ Cotton.Controllers.Messaging = Class.extend({
               lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
             });
 
-            // Find the story that is the closest to the visitItem.
+            // Find the story that is the closest to the historyItem.
             self._oMainController._oDatabase.findGroup('stories', 'id',
               lStoriesId, function(lStories){
                 // Cosine higher -> story closer.
@@ -66,27 +66,27 @@ Cotton.Controllers.Messaging = Class.extend({
                 var iMaxCosine = 10;
                 var oMinStory = undefined;
                 _.each(lStories, function(oStory){
-                  var iCurrentDistance = Cotton.Algo.Distance.visitItemToStory(
-                    oVisitItem, oStory);
+                  var iCurrentDistance = Cotton.Algo.Distance.historyItemToStory(
+                    oHistoryItem, oStory);
                   if(iCurrentDistance > iMaxCosine){
                     oMinStory = oStory;
                     iMaxCosine = iCurrentDistance;
                   }
                 });
 
-                // If we find a min story put the visitItem in it.
+                // If we find a min story put the historyItem in it.
                 if(oMinStory){
-                  oVisitItem.setStoryId(oMinStory.id());
-                    self._oMainController._oDatabase.put('visitItems',
-                      oVisitItem, function(iVisitItemId){
-                        oMinStory.addVisitItemId(iVisitItemId);
+                  oHistoryItem.setStoryId(oMinStory.id());
+                    self._oMainController._oDatabase.put('historyItems',
+                      oHistoryItem, function(iHistoryItemId){
+                        oMinStory.addHistoryItemId(iHistoryItemId);
                         self._oMainController._oDatabase.put('stories',
                           oMinStory, function(){});
                       });
 
                 } else {
-                  // Put the visit item in the pool.
-                  self._oMainController._oPool.put(dVisitItem);
+                  // Put the history item in the pool.
+                  self._oMainController._oPool.put(dHistoryItem);
                   // Lauch dbscan2 on the pool.
                   var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                   wDBSCAN2.postMessage(self._oMainController._oPool.get());
@@ -95,13 +95,13 @@ Cotton.Controllers.Messaging = Class.extend({
         });
 
         // you want to create it for the first time.
-        self._oMainController._oDatabase.put('visitItems', oVisitItem, function(iId) {
-          DEBUG && console.debug("visitItem added" + iId);
+        self._oMainController._oDatabase.put('historyItems', oHistoryItem, function(iId) {
+          DEBUG && console.debug("historyItem added" + iId);
           sPutId = iId;
           var _iId = iId;
-          _.each(oVisitItem.searchKeywords(), function(sKeyword){
+          _.each(oHistoryItem.searchKeywords(), function(sKeyword){
             var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-            oSearchKeyword.addReferringVisitItemId(_iId);
+            oSearchKeyword.addReferringHistoryItemId(_iId);
             self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
               oSearchKeyword, function(iiId){
                 // Return nothing to let the connection be cleaned up.
@@ -117,41 +117,41 @@ Cotton.Controllers.Messaging = Class.extend({
 
       } else {
         DEBUG && console
-            .debug("Content Script Listener - This visit item is a tool or an exluded url.");
+            .debug("Content Script Listener - This history item is a tool or an exluded url.");
       }
   },
 
   /**
    * When the reading rater has modified the dna.
    */
-  'update_visit_item' : function(sendResponse, dVisitItem){
+  'update_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
        * compiler we need a common structure to communicate throught messaging.
        * We use dbRecord, and translators give us a simple serialisation process.
        */
-      var lTranslators = Cotton.Translators.VISIT_ITEM_TRANSLATORS;
+      var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
       var oTranslator = lTranslators[lTranslators.length - 1];
-      var oVisitItem = oTranslator.dbRecordToObject(dVisitItem);
-      DEBUG && console.debug("Messaging - update_visit_item");
-      DEBUG && console.debug(oVisitItem.url());
+      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+      DEBUG && console.debug("Messaging - update_history_item");
+      DEBUG && console.debug(oHistoryItem.url());
       // TODO(rmoutard) : use DB system, or a singleton.
       var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the visitItem only if it's not a Tool, and it's not in the exluded
+      // Put the historyItem only if it's not a Tool, and it's not in the exluded
       // urls.
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oVisitItem.url())) {
-          // The visit item already exists, just update it.
-          self._oMainController._oDatabase.put('visitItems', oVisitItem, function(iId) {
-            DEBUG && console.debug("Messaging - visitItem updated" + iId);
+      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
+          // The history item already exists, just update it.
+          self._oMainController._oDatabase.put('historyItems', oHistoryItem, function(iId) {
+            DEBUG && console.debug("Messaging - historyItem updated" + iId);
           });
       } else {
         DEBUG && console
-            .debug("Content Script Listener - This visit item is a tool or an exluded url.");
+            .debug("Content Script Listener - This history item is a tool or an exluded url.");
       }
     },
 

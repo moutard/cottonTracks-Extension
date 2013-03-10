@@ -1,19 +1,19 @@
 'use strict';
 
 /**
- * Given an array of visitItem labeled with a "clusterId", return a list of
- * list (cluster), that contains all visitItems with the same label.
+ * Given an array of historyItems labeled with a "clusterId", return a list of
+ * list (cluster), that contains all historyItems with the same label.
  *
  * @param {Array.
- *          <Object>} lVisitItems : array of DbRecordVisitItem (because they
+ *          <Object>} lHistoryItems : array of DbRecordhistoryItem (because they
  *          have been serialized by the worker.)
  * @param {int}
  *          iNbCluster
- * @returns {Array.<Array.<visitItem>>} list of list that contains cluster.
+ * @returns {Array.<Array.<historyItem>>} list of list that contains cluster.
  *
  */
 
-Cotton.Algo.simpleCluster = function(lVisitItems, iNbCluster){
+Cotton.Algo.simpleCluster = function(lHistoryItems, iNbCluster){
   var llClusters = [];
 
   // initialized
@@ -21,10 +21,10 @@ Cotton.Algo.simpleCluster = function(lVisitItems, iNbCluster){
     llClusters[i] = [];
   }
 
-  for ( var j = 0; j < lVisitItems.length; j++) {
-      if (lVisitItems[j]['clusterId'] !== "UNCLASSIFIED"
-        && lVisitItems[j]['clusterId'] !== "NOISE") {
-        llClusters[lVisitItems[j]['clusterId'] ].push(lVisitItems[j]);
+  for ( var j = 0; j < lHistoryItems.length; j++) {
+      if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"
+        && lHistoryItems[j]['clusterId'] !== "NOISE") {
+        llClusters[lHistoryItems[j]['clusterId'] ].push(lHistoryItems[j]);
       }
   }
 

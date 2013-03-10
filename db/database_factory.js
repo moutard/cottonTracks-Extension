@@ -15,7 +15,7 @@ Cotton.DB.DatabaseFactory = Class.extend({
         if(_.isEmpty(dTranslators)){
           dTranslators = {
             'stories' : Cotton.Translators.STORY_TRANSLATORS,
-            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+            'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
             'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
           };
         }
@@ -33,7 +33,7 @@ Cotton.DB.DatabaseFactory = Class.extend({
       case 'localstorage':
         if(_.isEmpty(dTranslators)){
           dTranslators = {
-            'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+            'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
           };
         }
         //TODO(rmoutard) : put the engine creation here.
@@ -77,7 +77,7 @@ Cotton.DB.DatabaseFactory = Class.extend({
   getPool : function() {
     // Create translator collection.
     var oTranslatorsCollection = new Cotton.DB.TranslatorsCollection({
-      'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS,
+      'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
     });
 
     // Create engine using translator collection for indexes.

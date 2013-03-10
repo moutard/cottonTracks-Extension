@@ -9,7 +9,7 @@
 Cotton.UI.Story.Item.Reader = Class.extend({
 
   _oItemContent :null,
-  _oVisitItem : null,
+  _oHistoryItem : null,
 
   _$reader : null,
   _$readerSelector : null,
@@ -27,11 +27,11 @@ Cotton.UI.Story.Item.Reader = Class.extend({
 
   init : function(oItemContent){
     self = this;
-    this._oVisitItem = oItemContent.item().visitItem();
+    this._oHistoryItem = oItemContent.item().historyItem();
 
-    this._bWhole = this._oVisitItem.extractedDNA().allParagraphs().length > 0;
-    this._bBest = (this._oVisitItem.extractedDNA().paragraphs().length > 0) || (this._oVisitItem.extractedDNA().firstParagraph() != "");
-    this._bQuote = this._oVisitItem.extractedDNA().highlightedText().length > 0;
+    this._bWhole = this._oHistoryItem.extractedDNA().allParagraphs().length > 0;
+    this._bBest = (this._oHistoryItem.extractedDNA().paragraphs().length > 0) || (this._oHistoryItem.extractedDNA().firstParagraph() != "");
+    this._bQuote = this._oHistoryItem.extractedDNA().highlightedText().length > 0;
 
     // current element
     this._$reader = $('<div class="item-reader"></div>');
@@ -49,7 +49,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     //set values
     //all paragraphs
     if (this._bWhole){
-      _.each(this._oVisitItem.extractedDNA().allParagraphs(), function(sParagraph){
+      _.each(this._oHistoryItem.extractedDNA().allParagraphs(), function(sParagraph){
         if(sParagraph !== "") {
           var $paragraph = $('<p>' + sParagraph + '</p>');
           self._$readerWholeContent.append($paragraph);
@@ -62,12 +62,12 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     self._$readerBestContent.append($paragraph);
     if (this._bBest){
       self._$readerBestContent.empty();
-      var sFirstParagraph = this._oVisitItem.extractedDNA().firstParagraph();
+      var sFirstParagraph = this._oHistoryItem.extractedDNA().firstParagraph();
       if (sFirstParagraph != ""){
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$readerBestContent.append($paragraph);
       }
-      _.each(this._oVisitItem.extractedDNA().paragraphs(), function(oParagraph){
+      _.each(this._oHistoryItem.extractedDNA().paragraphs(), function(oParagraph){
         if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
           var $paragraph = $('<p>' + oParagraph.text() + '</p>');
           self._$readerBestContent.append($paragraph);
@@ -80,7 +80,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     self._$readerQuoteContent.append($quote);
     if (this._bQuotes){
       self._$readerQuoteContent.empty();
-      _.each(this._oVisitItem.extractedDNA().highlightedText(), function(sQuote){
+      _.each(this._oHistoryItem.extractedDNA().highlightedText(), function(sQuote){
         if(sQuote !== "") {
           var $quote = $('<p>' + sQuote + '</p>');
           self._$readerQuoteContent.append($quote);
