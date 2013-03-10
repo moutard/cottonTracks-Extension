@@ -13,7 +13,7 @@ Cotton.Controllers.Lightyear = Class.extend({
    * "Model" in MVC pattern. Global Store, that allow controller to make call to
    * the database. So it Contains 'historyItems' and 'stories'.
    */
-  _oStore : null,
+  _oDatabase : null,
 
   /**
    * "View" in MVC pattern. Global view, contains the Menu, the StoryContainer
