@@ -67,7 +67,7 @@ Cotton.DB.Populate.start = function(mCallBackFunction) {
         oHistoryItem._sTitle = oHistoryItem.title || '';
         oHistoryItem._iLastVisitTime = oHistoryItem.lastVisitTime;
 
-        this.put('historyItems', oHistoryItem, function(iId) {
+        this.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
           iCount += 1;
 
           if (iCount === iPopulationLength) {
@@ -117,7 +117,7 @@ Cotton.DB.Populate.historyItems = function(oDatabase, mCallBackFunction) {
       oIDBHistoryItem.initUrl(oChromeHistoryItem['url']);
       oIDBHistoryItem.setTitle(oChromeHistoryItem['title']);
       oIDBHistoryItem.setLastVisitTime(oChromeHistoryItem['lastVisitTime']);
-      oDatabase.put('historyItems', oIDBHistoryItem, function(iId) {
+      oDatabase.putUniqueHistoryItem('historyItems', oIDBHistoryItem, function(iId) {
         iCount += 1;
         if (iCount === iPopulationLength) {
           elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
@@ -160,7 +160,7 @@ Cotton.DB.Populate.historyItemsFromFile = function(oDatabase, lHistoryItems,
     oHistoryItem.setTitle(oHistoryItem['title']);
     oHistoryItem.setLastVisitTime(oHistoryItem['lastVisitTime']);
 
-    oDatabase.put('historyItems', oHistoryItem, function(iId) {
+    oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
       iCount += 1;
       if (iCount === iPopulationLength) {
         DEBUG && console.debug('PopulateDB - End');
