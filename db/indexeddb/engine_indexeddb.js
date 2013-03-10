@@ -22,7 +22,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   init :function(sDatabaseName, dIndexesForObjectStoreNames, mOnReadyCallback) {
     var self = this;
     var bUpgradeNeeded = false;
-	  var lMissingObjectStoreNames = [];
+    var lMissingObjectStoreNames = [];
     var dMissingIndexKeysForObjectStoreNames = {};
     var lMissingIndexKeys = [];
 
