@@ -31,6 +31,10 @@ asyncTest("init with no translator.", function() {
         ok(true, "Created");
         start();
     });
+    setTimeout(function () {
+      start();
+      ok(false, "Timeout exceed.");
+    }, TIMEOUT);
 });
 
 asyncTest("init with all translators.", function() {
@@ -45,6 +49,10 @@ asyncTest("init with all translators.", function() {
         ok(true, "Created");
         start();
     });
+    setTimeout(function () {
+      start();
+      ok(false, "Timeout exceed.");
+    }, TIMEOUT);
 });
 
 asyncTest("add search keys with the same keywords.", function() {
@@ -62,9 +70,11 @@ asyncTest("add search keys with the same keywords.", function() {
         ok(true, "Created");
         start();
     });
-
+    setTimeout(function () {
+      start();
+      ok(false, "Timeout exceed.");
+    }, TIMEOUT);
 });
-
 test( "throws", function() {
 
   function CustomError( message ) {
