@@ -122,7 +122,7 @@ test("getIndexesForObjectStoreNames.", function(){
         "unique": false
       },
       "sUrl": {
-        "unique": false
+        "unique": true
       }
     }
   });
