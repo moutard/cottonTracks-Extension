@@ -77,7 +77,7 @@ Cotton.Controllers.Messaging = Class.extend({
                 // If we find a min story put the historyItem in it.
                 if(oMinStory){
                   oHistoryItem.setStoryId(oMinStory.id());
-                    self._oMainController._oDatabase.put('historyItems',
+                    self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
                       oHistoryItem, function(iHistoryItemId){
                         oMinStory.addHistoryItemId(iHistoryItemId);
                         self._oMainController._oDatabase.put('stories',
@@ -95,7 +95,7 @@ Cotton.Controllers.Messaging = Class.extend({
         });
 
         // you want to create it for the first time.
-        self._oMainController._oDatabase.put('historyItems', oHistoryItem, function(iId) {
+        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
           DEBUG && console.debug("historyItem added" + iId);
           sPutId = iId;
           var _iId = iId;
@@ -146,7 +146,7 @@ Cotton.Controllers.Messaging = Class.extend({
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
       if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
           // The history item already exists, just update it.
-          self._oMainController._oDatabase.put('historyItems', oHistoryItem, function(iId) {
+          self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
             DEBUG && console.debug("Messaging - historyItem updated" + iId);
           });
       } else {
