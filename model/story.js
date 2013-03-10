@@ -110,8 +110,8 @@ Cotton.Model.Story = Class.extend({
     if (_.indexOf(this._lHistoryItemsId, oHistoryItemDbRecord['id']) === -1) {
       this._lHistoryItemsId.push(oHistoryItemDbRecord['id']);
 
-      if (oHistoryItemDbRecord['iVisitTime'] > this._fLastVisitTime) {
-        this._fLastVisitTime = oHistoryItemDbRecord['iVisitTime'];
+      if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
+        this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
       }
     }
   },

@@ -17,19 +17,19 @@ Cotton.Algo.roughlySeparateSession = function(lHistoryItems, mCallBack) {
 
   for ( var i = 0, oCurrentHistoryItem; oCurrentHistoryItem = lHistoryItems[i]; i++) {
     if (i === 0) {
-      iPreviousTime = oCurrentHistoryItem['iVisitTime'];
+      iPreviousTime = oCurrentHistoryItem['iLastVisitTime'];
     }
     // var a = new Date(iPreviousTime).toLocaleString();
-    // var b = new Date(oCurrentHistoryItem['iVisitTime']).toLocaleString();
+    // var b = new Date(oCurrentHistoryItem['iLastVisitTime']).toLocaleString();
 
-    if (Math.abs(oCurrentHistoryItem['iVisitTime'] - iPreviousTime) <= threshold) {
+    if (Math.abs(oCurrentHistoryItem['iLastVisitTime'] - iPreviousTime) <= threshold) {
       lNewRoughSession.push(oCurrentHistoryItem);
     } else {
       mCallBack(lNewRoughSession);
       lNewRoughSession = [];
       lNewRoughSession.push(oCurrentHistoryItem);
     }
-    iPreviousTime = oCurrentHistoryItem['iVisitTime'];
+    iPreviousTime = oCurrentHistoryItem['iLastVisitTime'];
 
   }
 

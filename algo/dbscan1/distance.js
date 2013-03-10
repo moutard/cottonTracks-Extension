@@ -28,7 +28,7 @@ Cotton.Algo.Distance.distanceId = function(oHistoryItem1, oHistoryItem2) {
  * @returns {float}
  */
 Cotton.Algo.Distance.distanceVisitTime = function(oHistoryItem1, oHistoryItem2) {
-  return Math.abs(oHistoryItem1['iVisitTime'] - oHistoryItem2['iVisitTime']);
+  return Math.abs(oHistoryItem1['iLastVisitTime'] - oHistoryItem2['iLastVisitTime']);
 };
 
 /**
@@ -150,7 +150,7 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
   // ordre de grandeur = O(100 000)
   // close if 0(100 000) far if 0(600 000)
   sum += coeff.lastVisitTime
-      * Math.abs(oHistoryItem1['iVisitTime'] - oHistoryItem2['iVisitTime'])
+      * Math.abs(oHistoryItem1['iLastVisitTime'] - oHistoryItem2['iLastVisitTime'])
       / 1000000;
 
   // Common words

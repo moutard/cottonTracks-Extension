@@ -58,12 +58,12 @@ Cotton.Algo.PreTreatment.computeClosestGeneratedPage = function(lHistoryItems) {
   var sNonFound = "http://www.google.fr/";
   var oCurrentSearchPage = {
     'sUrl' : "http://www.google.fr/",
-    'iVisitTime' : 0
+    'iLastVisitTime' : 0
   };
 
   for ( var i = lHistoryItems.length - 1; i >= 0; i--) {
     // Inverse Loop.
-    // This method is working because lHistoryItems is sorted by iVisitTime.
+    // This method is working because lHistoryItems is sorted by iLastVisitTime.
     var oUrl = new UrlParser(lHistoryItems[i]['sUrl']);
     // TODO(rmoutard) : maybe put all the oUrl.
     lHistoryItems[i]['sPathname'] = oUrl.pathname;
@@ -76,8 +76,8 @@ Cotton.Algo.PreTreatment.computeClosestGeneratedPage = function(lHistoryItems) {
       lHistoryItems[i]['oExtractedDNA']['lQueryWords'] = oUrl.keywords;
       oCurrentSearchPage = lHistoryItems[i];
     } else {
-      if (Math.abs(oCurrentSearchPage['iVisitTime']
-          - lHistoryItems[i]['iVisitTime']) <= iSliceTime) {
+      if (Math.abs(oCurrentSearchPage['iLastVisitTime']
+          - lHistoryItems[i]['iLastVisitTime']) <= iSliceTime) {
 
         lHistoryItems[i]['oExtractedDNA']['sClosestGeneratedPage'] = oCurrentSearchPage['sUrl'];
         lHistoryItems[i]['oExtractedDNA']['lQueryWords'] = oCurrentSearchPage['oExtractedDNA']['lQueryWords'];
@@ -116,7 +116,7 @@ Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage = function(lHistoryItems
     oCurrentPage['oExtractedDNA']['lQueryWords'] = [];
 
     while(oTempPage &&
-        Math.abs(oCurrentPage['iVisitTime'] - oTempPage['iVisitTime']) < iSliceTime
+        Math.abs(oCurrentPage['iLastVisitTime'] - oTempPage['iLastVisitTime']) < iSliceTime
         ){
         if (oTempPage['oUrl']['keywords'] &&
             _.intersection( oTempPage['oUrl']['keywords'],
