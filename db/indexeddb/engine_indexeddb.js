@@ -1126,8 +1126,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           // If there was no result, it will send back null.
           dItem['id'] = oResult['id'];
           // Merge highlighted text.
-          dItem['lHighlightedText'] = _.union(dItem['lHighlightedText'],
-              oResult['lHighlightedText']);
+          dItem['oExtractedDNA']['lHighlightedText'] = _.union(
+              dItem['oExtractedDNA']['lHighlightedText'],
+              oResult['oExtractedDNA']['lHighlightedText']);
           // Take the max value of each key.
           var dTempBag = {};
           _.pairs(dItem['oExtractedDNA']['oBagOfWords'], function(key, value){
