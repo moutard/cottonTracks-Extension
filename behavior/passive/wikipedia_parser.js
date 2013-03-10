@@ -88,23 +88,22 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
        * @returns {String} src
        */
       findBestImage : function() {
-        var self = this;
-        if (self._$InfoBox.length !== 0) {
-          self._sBestImage = self._$InfoBox.find('.image:first img')
+        if (this._$InfoBox.length !== 0) {
+          this._sBestImage = this._$InfoBox.find('.image:first img')
               .attr('src');
           // Get the first one, but we can do much better.
         } else {
-          self._sBestImage = $('div.thumbinner:first img').attr('src');
+          this._sBestImage = $('div.thumbinner:first img').attr('src');
         }
-        if (self._sBestImage && self._sBestImage.slice(0,2) === "//"){
-          self._sBestImage = "http:" + self._sBestImage;
+        if (this._sBestImage && this._sBestImage.slice(0,2) === "//"){
+          this._sBestImage = "http:" + this._sBestImage;
         }
-        if (self._bContentGetter) {
-          sync.current().extractedDNA().setImageUrl(this._sBestImage);
-          sync.setImage(this._sBestImage);
-          sync.updateVisit();
+        if (this._bContentGetter) {
+          this.current().extractedDNA().setImageUrl(this._sBestImage);
+          this.setImage(this._sBestImage);
+          this.updateVisit();
         }
-        return self._sBestImage;
+        return this._sBestImage;
       },
 
     });
