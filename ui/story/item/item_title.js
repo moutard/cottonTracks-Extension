@@ -20,8 +20,8 @@ Cotton.UI.Story.Item.Title = Class.extend({
     this._$itemTitle = $('<h3></h3>');
 
     // Title
-    if (this._oItemContent.item().visitItem().title() !== "") {
-      this._$itemTitle.text(this._oItemContent.item().visitItem().title());
+    if (this._oItemContent.item().historyItem().title() !== "") {
+      this._$itemTitle.text(this._oItemContent.item().historyItem().title());
     } else {
 	    // set 'video' as a title if no title has been found for video items
       if (self._oItemContent.item().$().hasClass("ct-item-video")){

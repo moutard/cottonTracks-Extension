@@ -30,20 +30,20 @@ Cotton.UI.Story.Item.LargeMenu = Class.extend({
 
     // set values
     // url
-    var sUrl = this._oItemContent.item().visitItem().url();
+    var sUrl = this._oItemContent.item().historyItem().url();
     self._$openingLink.attr('href',sUrl);
 
     //remove element
     this._$remove.click(function(){
       //TODO(rkorach): use only one db for the whole UI
       self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-          'visitItems' : Cotton.Translators.VISIT_ITEM_TRANSLATORS
+          'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
       }, function() {
-        self._oDatabase.delete('visitItems',
-            self._oItemContent.item().visitItem().id(),
+        self._oDatabase.delete('historyItems',
+            self._oItemContent.item().historyItem().id(),
             function() {
-        self._oItemContent.item().container()
-                  .isotope('remove',self._oItemContent.item().$());
+              self._oItemContent.item().container().isotope('remove',
+                self._oItemContent.item().$());
         });
       });
     });

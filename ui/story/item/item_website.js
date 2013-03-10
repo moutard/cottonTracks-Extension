@@ -21,7 +21,7 @@ Cotton.UI.Story.Item.Website = Class.extend({
     this._$url = $('<div class="url"></div>');
     // set values
     // url
-    var sUrl = this._oItemContent.item().visitItem().url();
+    var sUrl = this._oItemContent.item().historyItem().url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
     var oReg = new RegExp("\/\/([^/]*)\/");
     var sDomain = sUrl.match(oReg)[1];

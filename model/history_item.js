@@ -16,7 +16,7 @@ Cotton.Model.HistoryItem = Class
 
       _sUrl : undefined,                // url of the visited page.
       _sTitle : "",                     // title of the page.
-      _iVisitTime : undefined,          // time of the visit.
+      _iLastVisitTime : undefined,      // time of the visit.
 
       _oExtractedDNA : undefined,       // dna of the page. Used to compute distance.
 
@@ -45,11 +45,11 @@ Cotton.Model.HistoryItem = Class
       setTitle : function(sTitle) {
         this._sTitle = sTitle;
       },
-      visitTime : function() {
-        return this._iVisitTime;
+      lastVisitTime : function() {
+        return this._iLastVisitTime;
       },
-      setVisitTime : function(iVisitTime) {
-        this._iVisitTime = iVisitTime;
+      setLastVisitTime : function(iLastVisitTime) {
+        this._iLastVisitTime = iLastVisitTime;
       },
       storyId : function() {
         return this._sStoryId;
