@@ -1092,6 +1092,72 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
   },
 
+  putUniqueHistoryItem: function(sObjectStoreName, dItem, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    var oPutRequest = oStore.put(dItem);
+
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    oPutRequest.onerror = function(oEvent){
+      // console.error(oEvent);
+      // console.error(this);
+      if(this['errorCode'] === 4){
+        // uniquiness unsatisfied
+        // TODO(rmoutard): use
+        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
+        // to get the right key.
+        var oTransaction = self._oDb.transaction([sObjectStoreName],
+        "readwrite");
+        var oStore =  oTransaction.objectStore(sObjectStoreName);
+        var oIndex = oStore.index('sUrl');
+
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem['sUrl']);
+        console.log(dItem['sUrl'] + " already exists it will be updated");
+        oFindRequest.onsuccess = function(oEvent) {
+          var oResult = oEvent.target.result;
+          // If there was no result, it will send back null.
+          dItem['id'] = oResult['id'];
+          // Merge highlighted text.
+          dItem['lHighlightedText'] = _.union(dItem['lHighlightedText'],
+              oResult['lHighlightedText']);
+          // Take the max value of each key.
+          var dTempBag = {};
+          _.pairs(dItem['oExtractedDNA']['oBagOfWords'], function(key, value){
+            var a = dItem['oExtractedDNA']['oBagOfWords'][key] || 0;
+            var b = oResult['oExtractedDNA']['oBagOfWords'][key] || 0;
+            dTempBag[key] = Math.max(a,b);
+          });
+          dItem['oExtractedDNA']['oBagOfWords'] = dTempBag;
+          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
+          var oSecondPutRequest = oStore.put(dItem);
+
+          oSecondPutRequest.onsuccess = function(oEvent) {
+            mOnSaveCallback.call(self, oEvent.target.result);
+          };
+
+          oSecondPutRequest.onerror = function(oEvent) {
+            console.error("can't put: " + dItem);
+          };
+
+        };
+
+        oFindRequest.onerror = function(oEvent) {
+          console.error(oEvent);
+          console.error(this);
+          console.error("can't find: " + dItem['sKeyword']);
+        };
+      }
+    };
+  },
+
   AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
