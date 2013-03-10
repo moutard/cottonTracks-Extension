@@ -27,6 +27,14 @@ function create_list(iLength){
   }
   return lList;
 }
+
+function create_dict(iLength){
+  var dDict = {};
+  for(var i = 1; i < iLength; i++){
+    dDict[i] = 42;
+  }
+  return dDict;
+}
 var underscore_suite = new Benchmark.Suite;
 
 // add tests
@@ -77,5 +85,39 @@ underscore_suite.add('NativeFilter', function() {
   console.log('Fastest is ' + this.filter('fastest').pluck('name'));
 })
 // run async
+.run({ 'async': true });
+
+var variable_vs_accessing = new Benchmark.Suite;
+
+//add tests
+variable_vs_accessing.add('NewVariable', function() {
+var lList = create_list(10000);
+var dBagOfWords1 = create_dict(10000);
+var dBagOfWords2 = create_dict(10000);
+var l = lList.length;
+var fCosine = 0;
+for (var i = 0; i < l ; i++) {
+  var sDimension = lList[i];
+  fCosine += dBagOfWords1[sDimension] * dBagOfWords2[sDimension];
+}
+})
+.add('NoVariable', function() {
+  var lList = create_list(10000);
+  var dBagOfWords1 = create_dict(10000);
+  var dBagOfWords2 = create_dict(10000);
+  var l = lList.length;
+  var fCosine = 0;
+  for (var i = 0; i < l ; i++) {
+    fCosine += dBagOfWords1[lList[i]] * dBagOfWords2[lList[i]];
+  }
+})
+//add listeners
+.on('cycle', function(event) {
+console.log(String(event.target));
+})
+.on('complete', function() {
+console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+})
+//run async
 .run({ 'async': true });
 
