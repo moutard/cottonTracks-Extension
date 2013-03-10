@@ -88,7 +88,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       'unique' : true
     },
     'sUrl' : {
-      'unique' : false
+      'unique' : true
     },
     'iLastVisitTime' : {
       'unique' : false
