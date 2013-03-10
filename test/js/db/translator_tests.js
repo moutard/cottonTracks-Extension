@@ -112,7 +112,7 @@ test("getIndexesForObjectStoreNames.", function(){
       "iPool": {
         "unique": false
       },
-      "iVisitTime": {
+      "iLastVisitTime": {
         "unique": false
       },
       "id": {

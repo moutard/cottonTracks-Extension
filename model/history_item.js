@@ -11,12 +11,12 @@ Cotton.Model.HistoryItem = Class
     .extend({
 
       _sId : undefined,                 // id fixed by the database.
-      _sStoryId : "UNCLASSIFIED",       // id of the story if it belongs to it.
-      _iPool : 0,                       // is not in the pool by default.
+      _sStoryId : undefined,       // id of the story if it belongs to it.
+      _iPool : undefined,               // is not in the pool by default.
 
       _sUrl : undefined,                // url of the visited page.
-      _sTitle : "",                     // title of the page.
-      _iLastVisitTime : undefined,      // time of the visit.
+      _sTitle : undefined,                     // title of the page.
+      _iLastVisitTime : undefined,      // time of the last visit.
 
       _oExtractedDNA : undefined,       // dna of the page. Used to compute distance.
 
@@ -25,6 +25,9 @@ Cotton.Model.HistoryItem = Class
        */
       init : function() {
         this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this);
+        this._sStoryId = "UNCLASSIFIED";
+        this._iPool = 0;
+        this._sTitle = "";
       },
       // can't be set
       id : function() {
@@ -48,8 +51,8 @@ Cotton.Model.HistoryItem = Class
       lastVisitTime : function() {
         return this._iLastVisitTime;
       },
-      setLastVisitTime : function(iLastVisitTime) {
-        this._iLastVisitTime = iLastVisitTime;
+      setLastVisitTime : function(iVisitTime) {
+        this._iLastVisitTime = iVisitTime;
       },
       storyId : function() {
         return this._sStoryId;
