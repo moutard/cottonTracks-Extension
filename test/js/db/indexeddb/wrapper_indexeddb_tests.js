@@ -37,6 +37,23 @@ asyncTest("init with no translator.", function() {
     }, TIMEOUT);
 });
 
+asyncTest("init with 2 translators.", function() {
+  expect(1);
+  var self = this;
+  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+      'stories' : Cotton.Translators.STORY_TRANSLATORS,
+      'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+    }, function() {
+      console.log('database created.')
+      ok(true, "Created");
+      start();
+  });
+  setTimeout(function () {
+    start();
+    ok(false, "Timeout exceed.");
+  }, TIMEOUT);
+});
+
 asyncTest("init with all translators.", function() {
     expect(1);
     var self = this;
@@ -75,6 +92,40 @@ asyncTest("add search keys with the same keywords.", function() {
       ok(false, "Timeout exceed.");
     }, TIMEOUT);
 });
+
+asyncTest("put Unique historyItems with the same url.", function() {
+  var self = this;
+  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+      'historyItems' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+    }, function() {
+      var oHistoryItem = new Cotton.Model.HistoryItem();
+      oHistoryItem.setUrl("http://cottontracks.com");
+      self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem,
+          function(iId){
+          var oHistoryItem2 = new Cotton.Model.HistoryItem();
+          oHistoryItem2.setUrl("http://cottontracks.com");
+          oHistoryItem2.extractedDNA().addHighlightedText("wonderland");
+          self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem2,
+              function(iId2){
+              equal(iId, iId2);
+              self._oDatabase.find('historyItems', 'id', iId2,
+                  function(_oHistoryItem){
+                    equal(_oHistoryItem.extractedDNA().highlightedText(),
+                        "wonderland");
+                    start();
+              });
+          });
+      });
+
+      console.log('database created.')
+      ok(true, "Created");
+  });
+  setTimeout(function () {
+    start();
+    ok(false, "Timeout exceed.");
+  }, TIMEOUT);
+});
+
 test( "throws", function() {
 
   function CustomError( message ) {
