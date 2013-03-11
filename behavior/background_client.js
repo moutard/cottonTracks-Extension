@@ -64,22 +64,10 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         'historyItem' : dDbRecord
       }
     }, function(response) {
-	  if (response['existing'] === "true"){
-		//The historyItem url was already in base, init this one with the one in base
-		var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-	    var oTranslator = lTranslators[lTranslators.length - 1];
-	    self._oCurrentHistoryItem = oTranslator.dbRecordToObject(
-	                                                response['historyItem']
-	                                                  );
-	    //careful not to erase paragraphs from parser with paragraphs from db
-	    self._oCurrentHistoryItem.extractedDNA().setAllParagraphs(self._lAllParagraphs);
-	    self._oCurrentHistoryItem.extractedDNA().setImageUrl(self._sImageUrl);
-	  } else {
-		//The historyItem url was not in base, init this one with the new id created
-        DEBUG && console.debug('DBSync create visit - response :')
-        DEBUG && console.debug(response);
-        self._oCurrentHistoryItem.initId(response['id']);
-      }
+      //The historyItem url was not in base, init this one with the new id created
+      DEBUG && console.debug('DBSync create visit - response :')
+      DEBUG && console.debug(response);
+      self._oCurrentHistoryItem.initId(response['id']);
       self._iId = response['id'];
     });
 
@@ -120,11 +108,6 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         // DEPRECATED - update_history_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
-		if (response["updated"] == "true") {
-		  chrome.extension.sendMessage({
-	          'action' : 'get_content',
-	      });
-        }
       });
     }
 
@@ -133,11 +116,13 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   setParagraph : function(lAllParagraphs) {
     this._bParagraphSet = true;
     this._lAllParagraphs = lAllParagraphs;
+console.log(lAllParagraphs);
   },
 
   setImage : function(sImageUrl) {
     this._bImageSet = true;
     this._sImageUrl = sImageUrl;
+console.log(sImageUrl);
   },
 });
 

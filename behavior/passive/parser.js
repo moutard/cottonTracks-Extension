@@ -20,16 +20,10 @@ Cotton.Behavior.Passive.Parser = Class
        */
       _lMeaningfulBlocks : null,
 
-
       /**
        * All paragraphs, for reader
        */
       _lAllParagraphs : null,
-
-      /**
-       * Is it called from a getContent
-       */
-      _bContentGetter : null,
 
       _oClient : null,
 
@@ -42,14 +36,6 @@ Cotton.Behavior.Passive.Parser = Class
         this._lAllParagraphs = [];
         this._sBestImage = "";
         this._oClient = oClient;
-        this._bContentGetter = false;
-        chrome.extension.sendMessage({
-	        "action":"is_get_content"
-        }, function(response){
-	      if (response["getting_content"] == true){
-            self._bContentGetter = true;
-          }
-        });
       },
 
       bestImage : function() {
@@ -237,44 +223,40 @@ Cotton.Behavior.Passive.Parser = Class
           return $(oB).parents().length - $(oA).parents().length;
         });
 
-        $
-            .each(
-                lSortedByDepthBlocks,
-                function() {
-                  // We need to exclude paragraphs belonging to accessory
-                  // elements such as comments.
-                  // One method we use here is to count the number of paragraphs
-                  // within their
-                  // x-level ancestor (x = 3). For comments, this would
-                  // generally still contain only
-                  // one comment box, which means that if the comment is not an
-                  // essay (which would
-                  // arguably make it a meaningful content), then we can just
-                  // count the number of
-                  // paragraphs and conclude that it does not represent the main
-                  // article.
-                  // Other factors such as height should be considered (some
-                  // websites do not divide
-                  // their pages properly into multiple paragraphs, but instead
-                  // use <br />).
-                  // TODO(fwouts): Take height into account.
-                  var $paragraph = $(this);
-                  var $ancestor = $paragraph.parent().parent().parent();
-                  if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
-                    $paragraph.css('border-color', '#f00');
-                    if ($paragraph.text()){
-                      self._lAllParagraphs.push($paragraph.text());
-                    }
-                  } else {
-                    $paragraph.removeAttr('data-meaningful').attr(
-                        'data-least-meaningful', true);
-                  }
-                });
-                if (this._bContentGetter) {
-				  self._oClient.current().extractedDNA().setAllParagraphs(this._lAllParagraphs);
-				  self._oClient.setParagraph(this._lAllParagraphs);
-				  self._oClient.updateVisit();
-			    }
+        $.each(lSortedByDepthBlocks, function() {
+          // We need to exclude paragraphs belonging to accessory
+          // elements such as comments.
+          // One method we use here is to count the number of paragraphs
+          // within their
+          // x-level ancestor (x = 3). For comments, this would
+          // generally still contain only
+          // one comment box, which means that if the comment is not an
+          // essay (which would
+          // arguably make it a meaningful content), then we can just
+          // count the number of
+          // paragraphs and conclude that it does not represent the main
+          // article.
+          // Other factors such as height should be considered (some
+          // websites do not divide
+          // their pages properly into multiple paragraphs, but instead
+          // use <br />).
+          // TODO(fwouts): Take height into account.
+          var $paragraph = $(this);
+          var $ancestor = $paragraph.parent().parent().parent();
+          if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
+            $paragraph.css('border-color', '#f00');
+            if ($paragraph.text()){
+              self._lAllParagraphs.push($paragraph.text());
+            }
+          } else {
+            $paragraph.removeAttr('data-meaningful').attr(
+                'data-least-meaningful', true);
+          }
+        });
+        self._oClient.current().extractedDNA()
+            .setAllParagraphs(this._lAllParagraphs);
+        self._oClient.setParagraph(this._lAllParagraphs);
+        self._oClient.updateVisit();
 
         if ($('[data-meaningful]').length == 0) {
           // If we did not find any really meaningful element, we might be in
@@ -301,11 +283,9 @@ Cotton.Behavior.Passive.Parser = Class
         } else {
           this._sBestImage = this._findBestImageInBlocks($('body'));
         }
-        if (this._bContentGetter) {
-          this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
-          this._oClient.setImage(this._sBestImage);
-          this._oClient.updateVisit();
-        }
+        this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
+        this._oClient.setImage(this._sBestImage);
+        this._oClient.updateVisit();
         return this._sBestImage;
       },
 

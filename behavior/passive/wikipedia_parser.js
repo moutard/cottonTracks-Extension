@@ -34,28 +34,15 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       _lAllParagraphs : null,
 
       /**
-       * Is it called from a getContent
-       */
-      _bContentGetter : null,
-
-      /**
        * @constructor
        */
-      init : function() {
-        this._super();
+      init : function(oClient) {
+        this._super(oClient);
 
         this._MeaningFulBlocks = [];
         this._iNbMeaningfulBlock = 0;
         this._lAllParagraphs = [];
         this._sBestImage = "";
-        this._bContentGetter = false;
-        chrome.extension.sendMessage({
-	        "action":"is_get_content"
-        }, function(response){
-	      if (response["getting_content"] == true){
-            self._bContentGetter = true;
-          }
-        });
       },
 
       /**
@@ -98,11 +85,9 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
         if (this._sBestImage && this._sBestImage.slice(0,2) === "//"){
           this._sBestImage = "http:" + this._sBestImage;
         }
-        if (this._bContentGetter) {
-          this.current().extractedDNA().setImageUrl(this._sBestImage);
-          this.setImage(this._sBestImage);
-          this.updateVisit();
-        }
+        this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
+        this._oClient.setImage(this._sBestImage);
+        this._oClient.updateVisit();
         return this._sBestImage;
       },
 

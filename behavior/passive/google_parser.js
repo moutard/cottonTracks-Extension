@@ -28,8 +28,8 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   /**
    * @constructor
    */
-  init : function() {
-    this._super();
+  init : function(oClient) {
+    this._super(oClient);
 
     this._MeaningFulBlocks = [];
     this._iNbMeaningfulBlock = 0;
