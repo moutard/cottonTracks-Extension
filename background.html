@@ -2,6 +2,11 @@
 <html>
 <head>
 
+<!--The javascript code have to be nested in a file. According
+to chrome security policy, inline script won't be executed.
+http://code.google.com/chrome/extensions/beta/contentSecurityPolicy.html
+-->
+
 <!-- Library -->
 <script type='text/javascript' src='lib/class.js'></script>
 <script type='text/javascript' src='lib/underscore.min.js'></script>
@@ -67,16 +72,13 @@
 <script type='text/javascript' src='algo/common/cluster_story.js'></script>
 <script type='text/javascript' src='algo/dbscan1/distance.js'></script>
 
-
-<!--The javascript code have to be nested in a file. According
-to chrome security policy, inline script won't be executed.
-http://code.google.com/chrome/extensions/beta/contentSecurityPolicy.html
--->
+<!-- Cotton.Controllers -->
 <script type='text/javascript' src='controller/init.js'></script>
 <script type='text/javascript' src='controller/background_messaging_controller.js'></script>
-<script type='text/javascript' src='messaging/content_script_listener.js'></script>
 <script type='text/javascript' src='controller/background.js'></script>
-<script type='text/javascript' src='messaging/content_script_listener.js'></script>
+<!-- Messaging -->
+<script type='text/javascript' src='messaging/background_listener.js'></script>
+
 </head>
 <body>
 
