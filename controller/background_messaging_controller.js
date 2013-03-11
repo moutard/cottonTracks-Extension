@@ -48,7 +48,6 @@ Cotton.Controllers.Messaging = Class.extend({
       // urls.
       // TODO (rmoutard) : parseUrl is called twice. avoid that.
       if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
-
         // See if the history items can fit in a story.
         var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
         self._oMainController._oDatabase.findGroup('searchKeywords',
@@ -106,7 +105,6 @@ Cotton.Controllers.Messaging = Class.extend({
               oSearchKeyword, function(iiId){
                 // Return nothing to let the connection be cleaned up.
               });
-
           });
           sendResponse({
             'received' : "true",
