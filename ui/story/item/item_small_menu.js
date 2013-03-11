@@ -134,3 +134,4 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   },
 
 });
+
