@@ -140,7 +140,7 @@ Cotton.Controllers.Background = Class.extend({
             lHistoryItemToKeep.push(dHistoryItem);
         }
       });
-      self._oPool.refresh(lHistoryItemToKeep);
+      self._oPool._refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
