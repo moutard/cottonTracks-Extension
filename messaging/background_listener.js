@@ -16,7 +16,7 @@
  *
  * Called when a message is passed by a content script.
  */
-Cotton.Controllers.ContentScriptListener = Class.extend({
+Cotton.Controllers.BackgroundListener = Class.extend({
 
   _oMessagingController : null,
 
