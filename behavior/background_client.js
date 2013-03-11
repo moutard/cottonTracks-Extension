@@ -116,13 +116,11 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   setParagraph : function(lAllParagraphs) {
     this._bParagraphSet = true;
     this._lAllParagraphs = lAllParagraphs;
-console.log(lAllParagraphs);
   },
 
   setImage : function(sImageUrl) {
     this._bImageSet = true;
     this._sImageUrl = sImageUrl;
-console.log(sImageUrl);
   },
 });
 
