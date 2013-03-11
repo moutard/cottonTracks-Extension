@@ -36,11 +36,13 @@ Cotton.Controllers.ContentScriptListener = Class.extend({
        * - create_history_item
        * - import_history
        */
+    if (request['params'] && request['params']['historyItem']) {
       self._oMessagingController.doAction(request['action'], [sendResponse,
         request['params']['historyItem']]);
       // need to add sendResponse as an argument because it's only defined in
       // addListener functions.
       return true;
+    }
     });
   },
 
