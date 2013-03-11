@@ -122,7 +122,7 @@ Cotton.Controllers.Background = Class.extend({
 
       // TODO(rmoutard) : find a better solution.
       var lHistoryItemToKeep = [];
-      _.each(e.data['lHistoryItems'], function(dVisiItem){
+      _.each(e.data['lHistoryItems'], function(dHistoryItem){
         if(dHistoryItem['clusterId'] !== "UNCLASSIFIED"
           && dHistoryItem['clusterId'] !== "NOISE"){
             delete dHistoryItem['clusterId'];
