@@ -61,7 +61,7 @@ Cotton.Controllers.Background = Class.extend({
 
         // Init the messaging controller.
         self._oMessagingController = new Cotton.Controllers.Messaging(self);
-        self._oContentScriptListener = new Cotton.Controllers.ContentScriptListener(self._oMessagingController);
+        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController);
 
           DEBUG && console.debug('Global store created');
           if (Cotton.ONEVENT === 'install') {
