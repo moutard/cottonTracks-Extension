@@ -40,9 +40,19 @@ Cotton.Controllers.Background = Class.extend({
   _oContentScriptListener : null,
 
  /**
-  * List of tabs opened for getContent
+  * data of tabs opened for getContent
   **/
   _dGetContentTabId : {},
+
+ /**
+  * data of tabs and their HistoryItems
+  **/
+  _dTabStory : {},
+
+ /**
+  * Story to be displayed in lightyear
+  **/
+  _iTriggerStory : null,
 
   /**
    * @constructor
@@ -78,20 +88,16 @@ Cotton.Controllers.Background = Class.extend({
           }
     });
 
-	  chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-        if (tab.url.slice(0,7) !== "http://"
-            && tab.url.slice(0,19) !=="https://www.google."){
-	    //TODO(rkorach) use regex
-          chrome.browserAction.disable(tabId);
-        } else {
-          chrome.browserAction.enable(tabId);
-        }
+    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+      chrome.browserAction.disable(tabId);
+      self.removeTabStory(tabId);
     });
 
     chrome.browserAction.onClicked.addListener(function() {
       self.takeScreenshot();
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
+	self._iTriggerStory = self._dTabStory[lTabs[0].id];
         chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
 	      // TODO(rkorach) : delete ct page from history
 	    });
@@ -241,6 +247,16 @@ Cotton.Controllers.Background = Class.extend({
     delete this._dGetContentTabId[iTabId];
     chrome.tabs.remove(iTabId);
   },
+
+  setTabStory : function (iTabId, iStoryId) {
+    this._dTabStory[iTabId] = iStoryId;
+  },
+
+  removeTabStory : function (iTabId) {
+    if (this._dTabStory[iTabId]){
+      delete this._dTabStory[iTabId];
+    }
+  }
 });
 
 chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {

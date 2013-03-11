@@ -51,6 +51,13 @@ Cotton.Controllers.BackgroundListener = Class.extend({
         // addListener functions.
         return true;
       }
+
+      if (request['action'] == 'get_trigger_story' ){
+        self._oMessagingController.doAction(request['action'], [sendResponse]);
+        // need to add sendResponse as an argument because it's only defined in
+        // addListener functions.
+        return true;
+      }
     });
   },
 

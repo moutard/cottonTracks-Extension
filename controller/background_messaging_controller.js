@@ -82,7 +82,10 @@ Cotton.Controllers.Messaging = Class.extend({
                         self._oMainController._oDatabase.put('stories',
                           oMinStory, function(){});
                       });
-
+                  // There is a story for this item, so enable the browserAction
+                  // and attach a storyId to the tab
+	          chrome.browserAction.enable(sender.tab.id);
+                  self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
                 } else {
                   // Put the history item in the pool.
                   self._oMainController._oPool.put(dHistoryItem);
@@ -165,10 +168,16 @@ Cotton.Controllers.Messaging = Class.extend({
   /**
    * When a getContent is performed.
    */
-  'get_content_tab' : function(sendResponse, iTabId){
-      var self = this;
-
+  'get_content_tab' : function(iTabId){
       this._oMainController.addGetContentTab(iTabId);
   },
 
+  /**
+   * Ligthyear asks for the story to display
+   */
+  'get_trigger_story' : function(sendResponse){
+    sendResponse({
+      trigger_id: this._oMainController._iTriggerStory
+    });
+  },
 });

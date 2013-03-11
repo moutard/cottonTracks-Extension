@@ -21,6 +21,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oWorld : null,
 
   /**
+   * Triggered story
+   **/
+  _iStoryId : null,
+
+  /**
    * @constructor
    */
   init : function(){
@@ -30,19 +35,25 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     $(window).ready(function(){
       Cotton.UI.oWorld = self._oWorld = new Cotton.UI.World();
-      self.buildStory();
+      chrome.extension.sendMessage({
+        action: 'get_trigger_story'
+      }, function(response){
+        self.buildStory(response['trigger_id']);
+      });
     });
   },
 
-  buildStory : function() {
+  buildStory : function(iStoryId) {
     var self = this;
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
     }, function() {
 	  self = self;
-      self._oDatabase.getLast('stories', 'fLastVisitTime', function(oLastStory) {
-        self._oDatabase.findGroup('historyItems', 'id', oLastStory.historyItemsId(),
+      self._oDatabase.find('stories', 'id', iStoryId, function(oStory) {
+	console.log(iStoryId);
+	console.log(oStory.historyItemsId());
+        self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
         function(lHistoryItems) {
           // Initialize isotope grid view
           self.initPlaceItems();
@@ -54,7 +65,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 	        return false;
           });
         });
-	    self._oWorld.createMenu(oLastStory);
+	self._oWorld.createMenu(oStory);
       });
     });
   },
