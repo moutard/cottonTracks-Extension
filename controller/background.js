@@ -39,6 +39,11 @@ Cotton.Controllers.Background = Class.extend({
    */
   _oContentScriptListener : null,
 
+ /**
+  * List of tabs opened for getContent
+  **/
+  _dGetContentTabId : {},
+
   /**
    * @constructor
    */
@@ -225,6 +230,16 @@ Cotton.Controllers.Background = Class.extend({
    */
   update : function(){
     DEBUG && console.debug("update");
+  },
+
+  addGetContentTab : function (iTabId) {
+    this._dGetContentTabId[iTabId] = true;
+    console.log(this._dGetContentTabId);
+  },
+
+  removeGetContentTab : function (iTabId) {
+    delete this._dGetContentTabId[iTabId];
+    chrome.tabs.remove(iTabId);
   },
 });
 

@@ -25,7 +25,7 @@ Cotton.Controllers.Messaging = Class.extend({
    * Available params :
    * request['params']['historyItem']
    */
-  'create_history_item' : function(sendResponse, dHistoryItem){
+  'create_history_item' : function(sendResponse, dHistoryItem, sender){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -106,11 +106,11 @@ Cotton.Controllers.Messaging = Class.extend({
                 // Return nothing to let the connection be cleaned up.
               });
           });
+
           sendResponse({
             'received' : "true",
             'id' : sPutId,
           });
-
         });
 
       } else {
@@ -122,7 +122,7 @@ Cotton.Controllers.Messaging = Class.extend({
   /**
    * When the reading rater has modified the dna.
    */
-  'update_history_item' : function(sendResponse, dHistoryItem){
+  'update_history_item' : function(sendResponse, dHistoryItem, sender){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -147,10 +147,28 @@ Cotton.Controllers.Messaging = Class.extend({
           self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
             DEBUG && console.debug("Messaging - historyItem updated" + iId);
           });
+          if (self._oMainController._dGetContentTabId[sender.tab.id] === true){
+            self._oMainController.removeGetContentTab(sender.tab.id);
+            chrome.extension.sendMessage({
+              action: 'refresh_item',
+              params: {
+                itemId: oHistoryItem.id()
+              }
+            })
+          }
       } else {
         DEBUG && console
             .debug("Content Script Listener - This history item is a tool or an exluded url.");
       }
     },
+
+  /**
+   * When a getContent is performed.
+   */
+  'get_content_tab' : function(sendResponse, iTabId){
+      var self = this;
+
+      this._oMainController.addGetContentTab(iTabId);
+  },
 
 });
