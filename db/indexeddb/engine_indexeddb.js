@@ -1048,7 +1048,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     oPutRequest.onerror = function(oEvent){
       // console.error(oEvent);
       // console.error(this);
-      if(this['errorCode'] === 4){
+      if(this.error.name === "ConstraintError"){
         // uniquiness unsatisfied
         // TODO(rmoutard): use
         // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
@@ -1106,10 +1106,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
+
       // console.error(oEvent);
       // console.error(this);
-      if(this['errorCode'] === 4){
-        // uniquiness unsatisfied
+      if(this.error.name === "ConstraintError"){
+        // uniqueness unsatisfied
         // TODO(rmoutard): use
         // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
         // to get the right key.
