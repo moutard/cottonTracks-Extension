@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
 
   _bWhole : null,
   _bBest : null,
-  _bQuote : null,
+  _bQuotes : null,
 
   init : function(oItemContent){
     self = this;
@@ -31,7 +31,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
 
     this._bWhole = this._oHistoryItem.extractedDNA().allParagraphs().length > 0;
     this._bBest = (this._oHistoryItem.extractedDNA().paragraphs().length > 0) || (this._oHistoryItem.extractedDNA().firstParagraph() != "");
-    this._bQuote = this._oHistoryItem.extractedDNA().highlightedText().length > 0;
+    this._bQuotes = this._oHistoryItem.extractedDNA().highlightedText().length > 0;
 
     // current element
     this._$reader = $('<div class="item-reader"></div>');
