@@ -168,8 +168,8 @@ Cotton.Controllers.Messaging = Class.extend({
   /**
    * When a getContent is performed.
    */
-  'get_content_tab' : function(iTabId){
-      this._oMainController.addGetContentTab(iTabId);
+  'get_content_tab' : function(sendResponse, iTabId){
+    this._oMainController.addGetContentTab(iTabId);
   },
 
   /**
