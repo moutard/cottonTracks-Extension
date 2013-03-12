@@ -11,10 +11,11 @@ module("Cotton.Model.Class",{
 });
 
 var ClassTest = Class.extend({
-  _int : 0,
-  _array : [],
+  _int : undefined,
+  _array : null,
   init : function() {
-
+    this._int = 0;
+    this._array = [];
   },
   int : function() {
     return this._int;
@@ -27,10 +28,10 @@ var ClassTest = Class.extend({
   },
 
   setArray : function(array) {
-    this._array = array
+    this._array = array;
   },
   reject : function(i){
-    this._array = _.reject(this._array, function(a){ return a===i;})
+    this._array = _.reject(this._array, function(a){ return a===i;});
   },
 });
 

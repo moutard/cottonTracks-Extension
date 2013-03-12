@@ -2,9 +2,10 @@
 
 Cotton.DB.DatabaseFactory = Class.extend({
 
-  _lDatabaseTypesAvailable : ['indexeddb', 'localstorage'],
+  _lDatabaseTypesAvailable : null,
 
   init : function() {
+    this._lDatabaseTypesAvailable = ['indexeddb', 'localstorage'];
   },
 
   get : function(sDatabaseType, sDatabaseName, dTranslators, mCallback) {

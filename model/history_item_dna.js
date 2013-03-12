@@ -10,32 +10,44 @@
 
 Cotton.Model.HistoryItemDNA = Class.extend({
 
-  _lQueryWords : [],                  // words used to make the google search.
-  _lExtractedWords : [],              // words extracted from title and content.
-  _sClosestGeneratedPage : undefined, // closest google search page.
+  _lQueryWords : null,                  // words used to make the google search.
+  _lExtractedWords : null,              // words extracted from title and content.
+  _sClosestGeneratedPage : undefined,   // closest google search page.
   _oBagOfWords : null,
 
-  _iPercent : 0,
-  _fPageScore : 0,
-  _fTimeTabActive : -1,               // time the tab was active.
-  _fTimeTabOpen : -1,
-  _lHighlightedText : [],
-  _sImageUrl : "",
-  _sFirstParagraph : "",
-  _sMostReadParagraph : "",
-  _lsAllParagraphs : "",
-  _lParagraphs : [],
-  _lCopyPaste : [],
+  _iPercent : undefined,
+  _fPageScore : undefined,
+  _fTimeTabActive : undefined,          // time the tab was active.
+  _fTimeTabOpen : undefined,
+  _lHighlightedText : null,
+  _sImageUrl : undefined,
+  _sFirstParagraph : undefined,
+  _sMostReadParagraph : undefined,
+  _lsAllParagraphs : undefined,
+  _lParagraphs : null,
+  _lCopyPaste : null,
 
   /**
    * @constructor
    */
   init : function() {
-    var self = this;
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
     // with extractedWords and QueryWords. Made something better.
     // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
-    self._oBagOfWords = new Cotton.Model.BagOfWords();
+    this._lQueryWords = [];
+    this._lExtractedWords = [];
+
+    this._iPercent = 0;
+    this._fTimeTabActive = -1;
+    this._lHighlightedText = [];
+    this._sImageUrl = "";
+    this._sFirstParagraph = "";
+    this._sMostReadParagraph = "";
+    this._lsAllParagraphs = "";
+    this._lParagraphs = [];
+    this._lCopyPaste = [];
+
+    this._oBagOfWords = new Cotton.Model.BagOfWords();
   },
   queryWords : function() {
     return this._lQueryWords;
