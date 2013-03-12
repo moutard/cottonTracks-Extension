@@ -121,7 +121,7 @@ Cotton.Model.Story = Class.extend({
    * @param {int} iHistoryItemId
    */
   addHistoryItemId : function(iHistoryItemId) {
-    if (_.indexOf(this._lHistoryItemsId, iHistoryItemId) === -1) {
+    if (this._lHistoryItemsId.indexOf(iHistoryItemId) === -1) {
       this._lHistoryItemsId.push(iHistoryItemId);
     }
   },
