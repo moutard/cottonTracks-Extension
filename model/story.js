@@ -27,6 +27,8 @@ Cotton.Model.Story = Class.extend({
     this._fLastVisitTime = 0;
     this._sTitle = "";
     this._sFeaturedImage = "";
+    this._lHistoryItemsId = new Array();
+    this._lHistoryItems = new Array();
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
