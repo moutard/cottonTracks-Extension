@@ -27,8 +27,8 @@ Cotton.Model.Story = Class.extend({
     this._fLastVisitTime = 0;
     this._sTitle = "";
     this._sFeaturedImage = "";
-    this._lHistoryItemsId = new Array();
-    this._lHistoryItems = new Array();
+    //this._lHistoryItemsId = [];
+    //this._lHistoryItems = [];
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
@@ -116,23 +116,6 @@ Cotton.Model.Story = Class.extend({
 
       if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
         this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
-      }
-    }
-  },
-
-  /**
-   * Add a historyItem to the list.
-   * - update list of historyItems id.
-   * - update last visit time.
-   *
-   * @param {Cotton.UI.HistoryItem} oHistoryItem
-   */
-  addHistoryItem : function(oHistoryItem) {
-    if (_.indexOf(this._lHistoryItemsId, oHistoryItem.id()) === -1) {
-      this._lHistoryItemsId.push(oHistoryItem.id());
-      this._lHistoryItems.push(oHistoryItem);
-      if (oHistoryItem.lastVisitTime() > this._fLastVisitTime) {
-        this._fLastVisitTime = oHistoryItem.lastVisitTime();
       }
     }
   },
