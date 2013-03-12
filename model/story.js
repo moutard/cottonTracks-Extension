@@ -58,12 +58,6 @@ Cotton.Model.Story = Class.extend({
   historyItems : function() {
     return this._lHistoryItems;
   },
-  iter : function() {
-    // for(var i = 0; i < this._lHistoryItems.length; i++){
-    // yield this._lHistoryItems[i];
-    // }
-    return this._lHistoryItemsId;
-  },
   historyItemsId : function() {
     return this._lHistoryItemsId;
   },
