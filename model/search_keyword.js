@@ -7,8 +7,8 @@ Cotton.Model.SearchKeyword = Class.extend({
 
   _iId : undefined,
   _sKeyword : undefined,
-  _lReferringHistoryItemsId : [],   // list of historyItems that contains this word.
-  _lReferringStoriesId : [],      // list of stories that contains this word.
+  _lReferringHistoryItemsId : null,   // list of historyItems that contains this word.
+  _lReferringStoriesId : null,          // list of stories that contains this word.
 
   /**
    * {Integer} _iFrequencyInCorpus :
@@ -18,13 +18,18 @@ Cotton.Model.SearchKeyword = Class.extend({
    *  - imagine all the corpus talk about javascript, then javascript becomes
    *  less important to classified, we want something smaller.
    */
-  _iFrequencyInCorpus : 0,
+  _iFrequencyInCorpus : undefined,
 
   /**
    * @constructor
    */
   init : function(sKeyword) {
     this._sKeyword = sKeyword;
+
+    this._lReferringHistoryItemsId = [];
+    this._lReferringStoriesId = [];
+
+    this._iFrequencyInCorpus = 0;
   },
 
   id : function() {

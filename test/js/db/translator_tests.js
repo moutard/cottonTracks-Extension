@@ -1,6 +1,8 @@
 var A = Class.extend({
-  key: 3,
-  init: function(){},
+  key : undefined,
+  init : function(){
+    this.key = 3;
+  },
 });
 
 module("Cotton.DB.Translator",{

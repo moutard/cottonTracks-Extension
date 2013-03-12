@@ -12,7 +12,7 @@ Cotton.Model.Tool = Class.extend({
 
   _sId : undefined,
   _sHostname : undefined,
-  _fFrequency : 0,
+  _fFrequency : undefined,
 
   /**
   * @constructor

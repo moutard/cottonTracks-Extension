@@ -8,16 +8,16 @@ Cotton.Model.Story = Class.extend({
 
   _iId : null,
 
-  _sTitle : "",
-  _sFeaturedImage : "",
+  _sTitle : undefined,
+  _sFeaturedImage : undefined,
 
-  _fLastVisitTime : 0,
+  _fLastVisitTime : undefined,
   _fRelevance : null,
 
-  _lHistoryItemsId : [],
-  _lHistoryItems : [],
+  _lHistoryItemsId : null,
+  _lHistoryItems : null,
 
-  _lTags : [],
+  _lTags : null,
   _oDNA : null,
 
   /**
@@ -27,7 +27,9 @@ Cotton.Model.Story = Class.extend({
     this._fLastVisitTime = 0;
     this._sTitle = "";
     this._sFeaturedImage = "";
-    //this._lHistoryItemsId = [];
+    this._lHistoryItemsId = [];
+    this._lHistoryItems = [];
+    this._lTags = [];
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
