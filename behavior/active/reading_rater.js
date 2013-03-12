@@ -15,12 +15,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    *
    * @type boolean
    */
-  _bDocumentActive : false,
+  _bDocumentActive : undefined,
 
   /**
    * An int that contain the percentage of reading.
    */
-  _iReadingRate : 0,
+  _iReadingRate : undefined,
 
   /**
    * An parser used to regularly analyze the content on the page to detect
@@ -47,6 +47,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    */
   init : function(oClient) {
     this._oClient = oClient;
+
+    this._iReadingRate = 0;
 
     // Detect user's activity on the page when they move their cursor.
     // If they don't move it during 10 seconds, we conclude they are

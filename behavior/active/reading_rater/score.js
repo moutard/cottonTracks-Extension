@@ -10,7 +10,7 @@ Cotton.Behavior.Active.Score = Class
 
       _iId : undefined,
       _$block : null,
-      _fScore : 0,
+      _fScore : null,
 
       init : function($block) {
         this._$block = $block;

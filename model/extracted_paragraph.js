@@ -14,12 +14,13 @@
 Cotton.Model.ExtractedParagraph = Class.extend({
 
   _iId : undefined, // The id corresponds to the position of the paragraph
-  _fPercent : 0,
-  _sText : "",
+  _fPercent : undefined,
+  _sText : null,
 
   init : function(sText){
     var self = this;
     self._sText = sText;
+    self._fPercent = 0;
   },
 
   id : function(){

@@ -21,7 +21,7 @@ Cotton.Model.BagOfWords = Class.extend({
    *  Advantages of dictionnary structure :
    *  words are sorted by alphabetical order. So easy to made a vector mode.
    */
-  _dBag : {},
+  _dBag : null,
 
   init : function(dBag) {
     var self = this;

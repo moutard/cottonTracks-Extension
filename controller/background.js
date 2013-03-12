@@ -42,12 +42,12 @@ Cotton.Controllers.Background = Class.extend({
  /**
   * data of tabs opened for getContent
   **/
-  _dGetContentTabId : {},
+  _dGetContentTabId : null,
 
  /**
   * data of tabs and their HistoryItems
   **/
-  _dTabStory : {},
+  _dTabStory : null,
 
  /**
   * Story to be displayed in lightyear
@@ -59,6 +59,9 @@ Cotton.Controllers.Background = Class.extend({
    */
   init : function(){
     var self = this;
+
+    this._dGetContentTabId = {};
+    this._dTabStory = {};
 
     chrome.browserAction.disable();
     self.initWorkerDBSCAN3();
