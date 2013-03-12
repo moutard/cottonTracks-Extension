@@ -170,12 +170,6 @@ Cotton.Model.Story = Class.extend({
     }
   },
 
-  merge : function(oStory) {
-    this._lHistoryItemsId = _.union(this._lHistoryItemsId, oStory.iter());
-    this._fLastVisitTime = Math.max(this._fLastVisitTime, oStory
-        .lastVisitTime());
-  },
-
   /**
    * compute the title of the story. If a google search exists then return
    * associated keywords. If not most frequent keywords are not really pertinent
