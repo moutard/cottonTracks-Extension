@@ -28,7 +28,6 @@ Cotton.Model.Story = Class.extend({
     this._sTitle = "";
     this._sFeaturedImage = "";
     //this._lHistoryItemsId = [];
-    //this._lHistoryItems = [];
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
@@ -61,10 +60,6 @@ Cotton.Model.Story = Class.extend({
   historyItemsId : function() {
     return this._lHistoryItemsId;
   },
-  setHistoryItemsId : function(lHistoryItemsId) {
-    this._lHistoryItemsId = lHistoryItemsId;
-  },
-
   lastVisitTime : function() {
     return this._fLastVisitTime;
   },
@@ -133,24 +128,6 @@ Cotton.Model.Story = Class.extend({
    */
   setHistoryItems : function(lHistoryItems) {
     this._lHistoryItems = lHistoryItems;
-  },
-
-  maxHistoryItemId : function() {
-    return _.max(this._lHistoryItemsId);
-  },
-  firstHistoryItem : function() {
-    return this._lHistoryItemsId[0];
-  },
-  lastHistoryItem : function() {
-    return this._lHistoryItemsId[lHistoryItems.length - 1];
-  },
-  historyItemPosition : function(sID) {
-    for ( var i = 0; i < this.lHistoryItemsId; i++) {
-      if (this.lHistoryItems[i] === sID) {
-        return i;
-      }
-    }
-    return -1;
   },
   removeHistoryItem : function(sID) {
     this._lHistoryItemsId = _.reject(this._lHistoryItemsId, function(iHistoryItemId) {
