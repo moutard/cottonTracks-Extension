@@ -99,11 +99,11 @@ asyncTest("put Unique historyItems with the same url.", function() {
       'historyItems' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
       var oHistoryItem = new Cotton.Model.HistoryItem();
-      oHistoryItem.setUrl("http://cottontracks.com");
+      oHistoryItem.initUrl("http://cottontracks.com");
       self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem,
           function(iId){
           var oHistoryItem2 = new Cotton.Model.HistoryItem();
-          oHistoryItem2.setUrl("http://cottontracks.com");
+          oHistoryItem2.initUrl("http://cottontracks.com");
           oHistoryItem2.extractedDNA().addHighlightedText("wonderland");
           self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem2,
               function(iId2){
