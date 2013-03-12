@@ -1,3 +1,4 @@
+'use strict';
 var lHistoryItems = [
   {
     'id':1,
@@ -40,17 +41,6 @@ var lHistoryItems = [
 
   }
 ];
-module(
-    "Cotton.Algo.Common.ClusterStory",
-    {
-      setup : function() {
-
-      },
-      teardown : function() {
-        // runs after each test
-      }
-    }
-);
 
 
 module("Cotton.Model.Story",{
@@ -84,3 +74,40 @@ test("addHistoryItemId.", function() {
   deepEqual(oStory.historyItemsId(), [1,2,3,4]);
 });
 
+test("historyItems is reset.", function() {
+  var oStory = new Cotton.Model.Story();
+  deepEqual(oStory.historyItemsId(), []);
+});
+
+test("removeHistoryItem for an empty.", function() {
+  var oStory = new Cotton.Model.Story();
+  deepEqual(oStory.historyItemsId(), []);
+  oStory.removeHistoryItem(1);
+  deepEqual(oStory.historyItemsId(), []);
+});
+
+test("removeHistoryItem for an empty1.", function() {
+  var oStory = new Cotton.Model.Story();
+  oStory.removeHistoryItem(1);
+  deepEqual(oStory._lHistoryItems, []);
+});
+
+test("removeHistoryItem.", function() {
+  var oStory = new Cotton.Model.Story();
+  for(var i = 0; i < lHistoryItems.length; i++){
+    oStory.addHistoryItemId(lHistoryItems[i]['id']);
+  }
+  oStory.removeHistoryItem(1);
+  deepEqual(oStory.historyItemsId(), [2,3,4]);
+
+});
+
+test("removeHistoryItem2.", function() {
+  var oStory = new Cotton.Model.Story();
+  for(var i = 0; i < lHistoryItems.length; i++){
+    oStory.addHistoryItemId(lHistoryItems[i]['id']);
+  }
+  oStory.removeHistoryItem(1);
+  deepEqual(oStory._lHistoryItems, [2,3,4]);
+
+});
