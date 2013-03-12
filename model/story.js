@@ -24,6 +24,11 @@ Cotton.Model.Story = Class.extend({
    * @constructor
    */
   init : function() {
+    this._fLastVisitTime = 0;
+    this._sTitle = "";
+    this._sFeaturedImage = "";
+    this._lVisitItemsId = new Array();
+    this._lVisitItems = new Array();
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
