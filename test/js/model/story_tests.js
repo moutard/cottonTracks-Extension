@@ -76,3 +76,11 @@ test("addDbRecordHistoryItem.", function() {
   deepEqual(oStory.historyItemsId(), [1,2,3,4]);
 });
 
+test("addHistoryItemId.", function() {
+  var oStory = new Cotton.Model.Story();
+  for(var i = 0; i < lHistoryItems.length; i++){
+    oStory.addHistoryItemId(lHistoryItems[i]['id']);
+  }
+  deepEqual(oStory.historyItemsId(), [1,2,3,4]);
+});
+
