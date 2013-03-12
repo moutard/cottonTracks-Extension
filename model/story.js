@@ -27,8 +27,6 @@ Cotton.Model.Story = Class.extend({
     this._fLastVisitTime = 0;
     this._sTitle = "";
     this._sFeaturedImage = "";
-    this._lVisitItemsId = new Array();
-    this._lVisitItems = new Array();
     this._oDNA = new Cotton.Model.StoryDNA();
   },
 
@@ -111,8 +109,7 @@ Cotton.Model.Story = Class.extend({
    * @param {Object} oHistoryItemDbRecord
    */
   addDbRecordHistoryItem : function(oHistoryItemDbRecord) {
-    var self = this;
-    if (_.indexOf(this._lHistoryItemsId, oHistoryItemDbRecord['id']) === -1) {
+    if (this._lHistoryItemsId.indexOf(oHistoryItemDbRecord['id']) === -1) {
       this._lHistoryItemsId.push(oHistoryItemDbRecord['id']);
 
       if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
