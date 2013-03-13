@@ -224,12 +224,18 @@ Cotton.Controllers.Background = Class.extend({
 
   },
 
-	takeScreenshot: function(){
-		self = this
-			chrome.tabs.captureVisibleTab(function(img) {
-			  self._sImageSrc = img;
-			});
-	},
+
+  /**
+   * takeScreenshot
+   *
+   * Takes a screenshot of the visible tab through chrome tabs api
+   */
+  takeScreenshot: function(){
+    self = this;
+    chrome.tabs.captureVisibleTab(function(img) {
+      self._sImageSrc = img;
+    });
+  },
 
 
   /**
