@@ -18,6 +18,18 @@ Cotton.Controllers.Messaging = Class.extend({
     this[sAction].apply(this, lArguments);
   },
 
+  addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
+    var self = this;
+    _.each(oHistoryItem.searchKeywords(), function(sKeyword){
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
+      self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+        oSearchKeyword, function(iHistoryItemId){
+          // Return nothing to let the connection be cleaned up.
+      });
+    });
+  },
+
   /**
    * Send by a content_script, each time a new tab is open or
    * parser has updated informations.
@@ -76,44 +88,39 @@ Cotton.Controllers.Messaging = Class.extend({
                 // If we find a min story put the historyItem in it.
                 if(oMinStory){
                   oHistoryItem.setStoryId(oMinStory.id());
-                    self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
-                      oHistoryItem, function(iHistoryItemId){
-                        oMinStory.addHistoryItemId(iHistoryItemId);
-                        self._oMainController._oDatabase.put('stories',
-                          oMinStory, function(){});
-                      });
+                  self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                    oHistoryItem, function(iHistoryItemId){
+		      DEBUG && console.debug("historyItem added" + iHistoryItemId);
+		      sPutId = iHistoryItemId;
+	              self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                      oMinStory.addHistoryItemId(iHistoryItemId);
+                      self._oMainController._oDatabase.put('stories', oMinStory,
+                        function(){});
+                  });
                   // There is a story for this item, so enable the browserAction
                   // and attach a storyId to the tab
 	          chrome.browserAction.enable(sender.tab.id);
                   self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
+
                 } else {
+                  self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                    oHistoryItem, function(iHistoryItemId){
+		      DEBUG && console.debug("historyItem added" + iHistoryItemId);
+		      sPutId = iHistoryItemId;
+	              self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                  });
                   // Put the history item in the pool.
                   self._oMainController._oPool.put(dHistoryItem);
                   // Lauch dbscan2 on the pool.
                   var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                   wDBSCAN2.postMessage(self._oMainController._oPool.get());
                 }
+
+                sendResponse({
+                  'received' : "true",
+                  'id' : sPutId,
+                });
             });
-        });
-
-        // you want to create it for the first time.
-        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-          DEBUG && console.debug("historyItem added" + iId);
-          sPutId = iId;
-          var _iId = iId;
-          _.each(oHistoryItem.searchKeywords(), function(sKeyword){
-            var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-            oSearchKeyword.addReferringHistoryItemId(_iId);
-            self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
-              oSearchKeyword, function(iiId){
-                // Return nothing to let the connection be cleaned up.
-              });
-          });
-
-          sendResponse({
-            'received' : "true",
-            'id' : sPutId,
-          });
         });
 
       } else {
