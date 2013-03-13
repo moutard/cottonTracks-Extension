@@ -907,19 +907,22 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var p = 0;
-    for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
-      self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
-        p+=1;
-        if(oResult){
-          lAllItems.push(oResult);
-        }
+    if(lIndexValue.length > 0) {
+      for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
+        self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
+          p+=1;
+          if(oResult){
+            lAllItems.push(oResult);
+          }
 
-        if(p === lIndexValue.length){
-          mResultCallback.call(self, lAllItems);
-        }
-      });
+          if(p === lIndexValue.length){
+            mResultCallback.call(self, lAllItems);
+          }
+        });
+      }
+    } else {
+      mResultCallback.call(self, lAllItems);
     }
-
 
   },
 
