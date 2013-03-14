@@ -107,13 +107,14 @@ Cotton.Controllers.Messaging = Class.extend({
                     oHistoryItem, function(iHistoryItemId){
 		      DEBUG && console.debug("historyItem added" + iHistoryItemId);
 		      sPutId = iHistoryItemId;
+		      dHistoryItem['id'] = sPutId;
 	              self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+	              // Put the history item in the pool.
+                      self._oMainController._oPool.put(dHistoryItem);
+                      // Lauch dbscan2 on the pool.
+                      var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
+                      wDBSCAN2.postMessage(self._oMainController._oPool.get());
                   });
-                  // Put the history item in the pool.
-                  self._oMainController._oPool.put(dHistoryItem);
-                  // Lauch dbscan2 on the pool.
-                  var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
-                  wDBSCAN2.postMessage(self._oMainController._oPool.get());
                 }
 
                 sendResponse({
