@@ -16,7 +16,7 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
 
   var iLength = lStories.length - 1;
   var iCount = 0;
-  for ( var i = 0; i < lStories.length; i++) {
+  for ( var i = 0, iLength = lStories.length; i < iLength; i++) {
     var oStory = lStories[lStories.length - 1 - i];
     oStore.put('stories', oStory, function(iId) {
       var _iId = iId;
@@ -62,7 +62,7 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
       }, function() {
         var count = 0;
         var lStoriesTemp = lStories;
-        for ( var i = 0; i < lStoriesTemp.length; i++) {
+        for ( var i = 0, iLength = lStoriesTemp.length; i < iLength; i++) {
           var oStory = lStoriesTemp[i];
           this.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
               lHistoryItems) {
@@ -89,7 +89,7 @@ Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
     oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
         var count = 0;
         var lStoriesTemp = lStories;
-        for ( var i = 0; i < lStoriesTemp.length; i++) {
+        for ( var i = 0, iLength = lStoriesTemp.length; i < iLength; i++) {
           var oStory = lStoriesTemp[i];
           oStore.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
               lHistoryItems) {

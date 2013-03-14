@@ -73,7 +73,7 @@ UrlParser.prototype.fineDecomposition = function() {
   var dHash = {};
   // Extract parameters from the Hash
   var lHash = this.hash.split('&');
-  for ( var i = 0; i < lHash.length; i++) {
+  for ( var i = 0, iLength = lHash.length; i < iLength; i++) {
     var parameter = lHash[i].split('=');
     dHash[parameter[0]] = parameter[1];
   }
@@ -83,7 +83,7 @@ UrlParser.prototype.fineDecomposition = function() {
   var dSearch = {};
   // Extract parameters from the Search
   var lSearch = this.search.split('&');
-  for ( var i = 0; i < lSearch.length; i++) {
+  for ( var i = 0, iLength = lSearch.length; i < iLength; i++) {
     var parameter = lSearch[i].split('=');
     dSearch[parameter[0]] = parameter[1];
   }
@@ -112,7 +112,7 @@ UrlParser.prototype.generateKeywords = function() {
   }
 
   // lower Case
-  for ( var j = 0; j < this.keywords.length; j++) {
+  for ( var j = 0, iLength = this.keywords.length; j < iLength; j++) {
     this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
   }
 

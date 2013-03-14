@@ -6,7 +6,7 @@ Cotton.Algo.Tools = {};
 
 Cotton.Algo.Tools.Filter = function(lWords){
    // Lower case to compare correctly.
-  for ( var i = 0; i < lWords.length; i++) {
+  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
   }
   lWords = _.filter(lWords, function(sWord) {

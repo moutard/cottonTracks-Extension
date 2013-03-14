@@ -20,7 +20,7 @@ Cotton.Algo.PreTreatment = {};
 Cotton.Algo.PreTreatment.computeParseUrl = function(lHistoryItems) {
   // Instead of computing every time you compute a distance
 
-  for ( var i = 0; i < lHistoryItems.length; i++) {
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
     var oUrl = new UrlParser(lHistoryItems[i]['sUrl']);
     // assign oUrl.
     lHistoryItems[i]['oUrl'] = oUrl;
@@ -39,7 +39,7 @@ Cotton.Algo.PreTreatment.computeParseUrl = function(lHistoryItems) {
 Cotton.Algo.PreTreatment.computeExtractedWords = function(lHistoryItems) {
   // Instead of computing every time you compute a distance
 
-  for ( var i = 0; i < lHistoryItems.length; i++) {
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
     lHistoryItems[i]['oExtractedDNA']['lExtractedWords'] = [].concat(
         Cotton.Algo.Tools.extractWordsFromTitle(lHistoryItems[i]['sTitle']),
         Cotton.Algo.Tools.extractWordsFromUrlPathname(lHistoryItems[i]['oUrl']['pathname'])
@@ -106,7 +106,7 @@ Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage = function(lHistoryItems
 
   var sNonFound = "http://www.google.fr/";
 
-  for ( var i = 0; i < lHistoryItems.length; i++) {
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
     var oCurrentPage = lHistoryItems[i];
     var iSearchIndex = i;
     var oTempPage = lHistoryItems[iSearchIndex];
