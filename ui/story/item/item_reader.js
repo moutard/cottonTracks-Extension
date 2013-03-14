@@ -71,7 +71,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
       }
       for (var i = 0, lParagraphs = this._oHistoryItem.extractedDNA().paragraphs(),
         iLength = lParagraphs.length; i < iLength; i++) {
-          var oParagraph = lParagraph[i];
+          var oParagraph = lParagraphs[i];
           if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
             var $paragraph = $('<p>' + oParagraph.text() + '</p>');
             self._$readerBestContent.append($paragraph);
