@@ -73,7 +73,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       // TODO(rmoutard) this part create a problem.
       if (lExistingObjectStoreNames.length > 0) {
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
-        _.each(lExistingObjectStoreNames, function(sExistingObjectStoreName) {
+        for (var i = 0, iLength = lExistingObjectStoreNames.length; i < iLength; i++) {
+	  var sExistingObjectStoreName = lExistingObjectStoreNames[i];
           lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
           _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
             try {
@@ -84,7 +85,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
               bHasMissingIndexKey = true;
             }
           });
-        });
+        }
       }
 
       // If there are stores or index missing we need to update the database.
@@ -242,10 +243,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
         var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
         var objectStore = oTransaction.objectStore(sObjectStoreName);
-        _.each(lMissingIndexKeys, function(sIndexKey) {
+        for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
+	  var sIndexKey = lMissingIndexKeys[i];
           console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
           objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
-        });
+        }
       });
 
     } catch (oError){

@@ -23,12 +23,14 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
       // TODO(rmoutard) : not really sustainanble.
       lStories[iCount].setId(iId);
 
-      _.each(lStories[iCount].historyItemsId(), function(iHistoryItemId){
-        oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
-          oHistoryItem.setStoryId(_iId);
-          oStore.put('historyItems', oHistoryItem, function(){});
-        });
-      });
+      for (var i = 0, lIds = lStories[iCount].historyItemsId(), iIdsLength = lIds.length;
+        i < iIdsLength; i++) {
+	  var iHistoryItemId = lIds[i];
+          oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
+            oHistoryItem.setStoryId(_iId);
+            oStore.put('historyItems', oHistoryItem, function(){});
+          });
+      }
       if (iCount === iLength) {
         Cotton.DB.SearchKeywords.updateStoriesSearchKeywords(oStore, lStories);
         mCallBackFunction(oStore, lStories);
@@ -123,30 +125,35 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
 Cotton.DB.SearchKeywords = {};
 Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories){
     var lKeywordsAndId = [];
-    _.each(lStories, function(oStory){
-
-        _.each(oStory.searchKeywords(), function(sKeyword){
+    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+      var oStory = lStories[i];
+      for (var j = 0, lKeywords = oStory.searchKeywords(),
+        iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
+          var sKeyword = lKeywords[j];
           var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
           oSearchKeyword.addReferringStoryId(oStory.id());
           oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
             // Becarefull with asynchronous.
             console.log('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
           });
-        })
-      });
+      }
+    }
 };
 
 Cotton.DB.SearchKeywords.updateStoriesSearchKeywords2 = function(oStore, lStories){
     var lKeywordsAndId = [];
-    _.each(lStories, function(oStory){
-        _.each(oStory.searchKeywords(), function(sKeyword){
+    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+      var oStory = lStories[i];
+      for (var j = 0, lKeywords = oStory.searchKeywords(),
+        iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
+          var sKeywords = lKeywords[j];
           var oKeywordAndId = {
               'sKeyword': sKeyword,
               'iStoryId' : oStory.id()
           };
           lKeywordsAndId.push(oKeywordAndId);
-        })
-      });
+        }
+      }
 
       var f = function(lKeywordsAndId, i){
         var self = this;

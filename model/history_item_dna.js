@@ -56,9 +56,10 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     var self = this;
     this._lQueryWords = lQueryWords;
     // Initialize the bag of words, with QueryWords and ExtractedWords.
-    _.each(self._lQueryWords, function(sWord){
+    for (var i = 0, iLength = self._lQueryWords.length; i < iLength; i++) {
+      var sWord = self._lQueryWords[i];
       self._oBagOfWords.addWord(sWord, 5);
-    });
+    }
   },
   extractedWords : function() {
     return this._lExtractedWords;
@@ -66,9 +67,10 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setExtractedWords : function(lExtractedWords) {
     var self = this;
     self._lExtractedWords = lExtractedWords;
-    _.each(self._lExtractedWords, function(sWord){
+    for (var i = 0, iLength = self._lExtractedWords.length; i < iLength; i++) {
+      var sWord = self._lExtractedWords[i];
       self._oBagOfWords.addWord(sWord, 3);
-    });
+    }
   },
   bagOfWords : function(){
     return this._oBagOfWords;

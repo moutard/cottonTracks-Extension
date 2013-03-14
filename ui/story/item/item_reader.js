@@ -49,12 +49,14 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     //set values
     //all paragraphs
     if (this._bWhole){
-      _.each(this._oHistoryItem.extractedDNA().allParagraphs(), function(sParagraph){
-        if(sParagraph !== "") {
-          var $paragraph = $('<p>' + sParagraph + '</p>');
-          self._$readerWholeContent.append($paragraph);
-        }
-      });
+      for (var i = 0, lAllParagraphs = this._oHistoryItem.extractedDNA().allParagraphs(),
+        iLength = lAllParagraphs.length; i < iLength; i++) {
+          var sParagraph = lAllParagraphs[i];
+          if(sParagraph !== "") {
+            var $paragraph = $('<p>' + sParagraph + '</p>');
+            self._$readerWholeContent.append($paragraph);
+          }
+      }
     }
 
     //Best paragraphs
@@ -67,12 +69,14 @@ Cotton.UI.Story.Item.Reader = Class.extend({
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$readerBestContent.append($paragraph);
       }
-      _.each(this._oHistoryItem.extractedDNA().paragraphs(), function(oParagraph){
-        if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
-          var $paragraph = $('<p>' + oParagraph.text() + '</p>');
-          self._$readerBestContent.append($paragraph);
-        }
-      });
+      for (var i = 0, lParagraphs = this._oHistoryItem.extractedDNA().paragraphs(),
+        iLength = lParagraphs.length; i < iLength; i++) {
+          var oParagraph = lParagraph[i];
+          if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
+            var $paragraph = $('<p>' + oParagraph.text() + '</p>');
+            self._$readerBestContent.append($paragraph);
+          }
+      }
     }
 
     //Quotes
@@ -80,12 +84,15 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     self._$readerQuoteContent.append($quote);
     if (this._bQuotes){
       self._$readerQuoteContent.empty();
-      _.each(this._oHistoryItem.extractedDNA().highlightedText(), function(sQuote){
-        if(sQuote !== "") {
-          var $quote = $('<p>' + sQuote + '</p>');
-          self._$readerQuoteContent.append($quote);
-        }
-      });
+      for (var i = 0,
+        lHighlightedText = this._oHistoryItem.extractedDNA().highlightedText(),
+        iLength = lHighlightedText.length; i < iLength; i++) {
+          var sQuote = lHighightedText[i];
+          if(sQuote !== "") {
+            var $quote = $('<p>' + sQuote + '</p>');
+            self._$readerQuoteContent.append($quote);
+          }
+      }
     }
 
     //choose content to display

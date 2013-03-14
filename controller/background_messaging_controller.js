@@ -20,14 +20,16 @@ Cotton.Controllers.Messaging = Class.extend({
 
   addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
     var self = this;
-    _.each(oHistoryItem.searchKeywords(), function(sKeyword){
-      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-      oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
-      self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
-        oSearchKeyword, function(iHistoryItemId){
-          // Return nothing to let the connection be cleaned up.
-      });
-    });
+    for (var i = 0, lKeywords = oHistoryItem.searchKeywords(), iLength = lKeywords.length;
+      i < iLength; i++){
+        var sKeyword = lKeywords[i];
+        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+        oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
+        self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+          oSearchKeyword, function(iHistoryItemId){
+            // Return nothing to let the connection be cleaned up.
+        });
+    }
   },
 
   /**
@@ -65,9 +67,10 @@ Cotton.Controllers.Messaging = Class.extend({
         self._oMainController._oDatabase.findGroup('searchKeywords',
           'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
             var lStoriesId = [];
-            _.each(lSearchKeywords, function(oSearchKeyword){
+	    for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+              var oSearchKeyword = lSearchKeywords[i];
               lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
-            });
+            }
 
             // Find the story that is the closest to the historyItem.
             self._oMainController._oDatabase.findGroup('stories', 'id',
@@ -76,14 +79,15 @@ Cotton.Controllers.Messaging = Class.extend({
                 // FIXME(rmoutard) : find a real value for this !
                 var iMaxCosine = 10;
                 var oMinStory = undefined;
-                _.each(lStories, function(oStory){
+                for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+                  var oStory = lStories[i];
                   var iCurrentDistance = Cotton.Algo.Distance.historyItemToStory(
                     oHistoryItem, oStory);
                   if(iCurrentDistance > iMaxCosine){
                     oMinStory = oStory;
                     iMaxCosine = iCurrentDistance;
                   }
-                });
+                }
 
                 // If we find a min story put the historyItem in it.
                 if(oMinStory){
