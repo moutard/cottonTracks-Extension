@@ -16,16 +16,18 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
 
   var iLength = lStories.length - 1;
   var iCount = 0;
-  for ( var i = 0, iLength = lStories.length; i < iLength; i++) {
+  for ( var i = 0, iStoriesLength = lStories.length; i < iStoriesLength; i++) {
+
     var oStory = lStories[lStories.length - 1 - i];
     oStore.put('stories', oStory, function(iId) {
       var _iId = iId;
       // TODO(rmoutard) : not really sustainanble.
       lStories[iCount].setId(iId);
 
-      for (var i = 0, lIds = lStories[iCount].historyItemsId(), iIdsLength = lIds.length;
-        i < iIdsLength; i++) {
-	  var iHistoryItemId = lIds[i];
+      for (var j = 0, lIds = lStories[iCount].historyItemsId(), iIdsLength = lIds.length;
+        j < iIdsLength; j++) {
+
+	  var iHistoryItemId = lIds[j];
           oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
             oHistoryItem.setStoryId(_iId);
             oStore.put('historyItems', oHistoryItem, function(){});
