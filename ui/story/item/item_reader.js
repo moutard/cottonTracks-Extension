@@ -87,7 +87,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
       for (var i = 0,
         lHighlightedText = this._oHistoryItem.extractedDNA().highlightedText(),
         iLength = lHighlightedText.length; i < iLength; i++) {
-          var sQuote = lHighightedText[i];
+          var sQuote = lHighlightedText[i];
           if(sQuote !== "") {
             var $quote = $('<p>' + sQuote + '</p>');
             self._$readerQuoteContent.append($quote);
