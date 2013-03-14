@@ -157,16 +157,17 @@ Cotton.Controllers.Messaging = Class.extend({
           // The history item already exists, just update it.
           self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
             DEBUG && console.debug("Messaging - historyItem updated" + iId);
+            if (self._oMainController._dGetContentTabId[sender.tab.id] === true){
+              console.log(iId);
+              self._oMainController.removeGetContentTab(sender.tab.id);
+              chrome.extension.sendMessage({
+                action: 'refresh_item',
+                params: {
+                  itemId: iId
+                }
+              });
+            }
           });
-          if (self._oMainController._dGetContentTabId[sender.tab.id] === true){
-            self._oMainController.removeGetContentTab(sender.tab.id);
-            chrome.extension.sendMessage({
-              action: 'refresh_item',
-              params: {
-                itemId: oHistoryItem.id()
-              }
-            })
-          }
       } else {
         DEBUG && console
             .debug("Content Script Listener - This history item is a tool or an exluded url.");
