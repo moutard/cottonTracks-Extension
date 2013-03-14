@@ -21,7 +21,7 @@ Cotton.Algo.simpleCluster = function(lHistoryItems, iNbCluster){
     llClusters[i] = [];
   }
 
-  for ( var j = 0; j < lHistoryItems.length; j++) {
+  for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {
       if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lHistoryItems[j]['clusterId'] !== "NOISE") {
         llClusters[lHistoryItems[j]['clusterId'] ].push(lHistoryItems[j]);

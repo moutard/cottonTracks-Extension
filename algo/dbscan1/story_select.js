@@ -4,7 +4,7 @@ Cotton.Algo.storySELECT = function(lStories, bUseRelevance) {
   // Select among all the stories the ones who should be display.
   var iMaxNumberOfStories = Cotton.Config.Parameters.iMaxNumberOfStories;
   if (bUseRelevance) {
-    for ( var i = 1; i < lStories.length; i++) {
+    for ( var i = 1, iLength = lStories.length; i < iLength; i++) {
       lStories[i].computeRelevance();
     }
     lStories.sort(function(oStoryA, oStoryB) {
