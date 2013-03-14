@@ -2,7 +2,7 @@
 
 Cotton.Algo.initSetOfPoints = function(lSetOfPoints) {
   // Mark all the point as UNCLASSIFIED
-  for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
+  for ( var iLoop = 0, iLength = lSetOfPoints.length; iLoop < iLength; iLoop++) {
     lSetOfPoints[iLoop]['clusterId'] = 'UNCLASSIFIED';
   }
 };
@@ -13,7 +13,7 @@ Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps, mDistance) {
 
   // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
   var lEpsNeighborhood = [];
-  for ( var iCurrentLoop = 0; iCurrentLoop < lSetOfPoints.length; iCurrentLoop++) {
+  for ( var iCurrentLoop = 0, iLength = lSetOfPoints.length; iCurrentLoop < iLength; iCurrentLoop++) {
     if (mDistance(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
       lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
@@ -38,7 +38,7 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps,
     // all the points in the fEps-Neighborhood are density reachable from oPoint
 
     // Update the clusterId of all the points in the fEps-Neighborhood
-    for ( var iSeedPoint = 0; iSeedPoint < lSeeds.length; iSeedPoint++) {
+    for ( var iSeedPoint = 0, iLength = lSeeds.length; iSeedPoint < iLength; iSeedPoint++) {
       lSeeds[iSeedPoint]['clusterId'] = iClusterId;
     }
 
@@ -58,7 +58,7 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps,
 
       if (lResult.length >= iMinPts) {
 
-        for ( var iResultIndex = 0; iResultIndex < lResult.length; iResultIndex++) {
+        for ( var iResultIndex = 0, iLength = lResult.length; iResultIndex < iLength; iResultIndex++) {
 
           var oCurrentResultPoint = lResult[iResultIndex];
           if (oCurrentResultPoint['clusterId'] === 'UNCLASSIFIED'
@@ -90,7 +90,7 @@ Cotton.Algo.DBSCAN = function(lSetOfPoints, fEps, iMinPts, mDistance) {
   var iClusterId = 0; // current clusterId
   var oPoint; // current point
 
-  for ( var iLoop = 0; iLoop < lSetOfPoints.length; iLoop++) {
+  for ( var iLoop = 0, iLength = lSetOfPoints.length; iLoop < iLength; iLoop++) {
     oPoint = lSetOfPoints[iLoop];
 
     if (oPoint['clusterId'] === 'UNCLASSIFIED') {

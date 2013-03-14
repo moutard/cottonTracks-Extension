@@ -36,7 +36,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
   var bStoryUnderConstruction = true;
 
-  for ( var j = 0; j < lHistoryItems.length; j++) {
+  for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {
     if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lHistoryItems[j]['clusterId'] !== "NOISE") {
 

@@ -59,7 +59,7 @@ function handleHistoryItems3(lHistoryItems) {
     var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
 
     // For each session clustered by time, use DBSCAN1 with meaning distance.
-    for ( var i = 0; i < llClusters.length; i++) {
+    for ( var i = 0, iLength = llClusters.length; i < iLength; i++) {
       var lCluster = llClusters[i];
 
       // Step 3.

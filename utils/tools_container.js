@@ -13,7 +13,7 @@ Cotton.Utils.ToolsContainer = Class.extend({
   init : function() {
     var lCommonToolsHostname = Cotton.Config.Parameters.lTools;
     this._lTools = new Array();
-    for ( var i = 0; i < lCommonToolsHostname.length; i++) {
+    for ( var i = 0, iLength; i < iLength; i++) {
       this.insert(lCommonToolsHostname[i]);
     }
   },
@@ -24,7 +24,7 @@ Cotton.Utils.ToolsContainer = Class.extend({
 
   alreadyExist : function(sHostname) {
     // return the index of the tool if it exists
-    for ( var i = 0; i < this._lTools.length; i++) {
+    for ( var i = 0, iLength = this._lTools.length; i < iLength; i++) {
       if (this._lTools[i].sHostname === sHostname) {
         return i;
       }
@@ -35,7 +35,7 @@ Cotton.Utils.ToolsContainer = Class.extend({
 
   isTool : function(sHostname) {
     // return the index of the tool if it exists
-    for ( var i = 0; i < this._lTools.length; i++) {
+    for ( var i = 0, iLength = this._lTools.length; i < iLength; i++) {
       if (this._lTools[i].sHostname === sHostname) {
         return true;
       }
