@@ -133,7 +133,7 @@ Cotton.DB.Engine = Class.extend({
               var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
               var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
               for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
-                var sIndexKey = lMissingIndexKey[i];
+                var sIndexKey = lMissingIndexKeys[i];
                 console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
                 objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
               }
