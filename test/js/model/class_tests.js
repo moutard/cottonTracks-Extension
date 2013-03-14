@@ -53,7 +53,7 @@ test("setArray.", function() {
 test("addInArray.", function() {
   var oClass = new ClassTest();
   deepEqual(oClass.array(), []);
-  for(var i = 0; i < L.length; i++){
+  for(var i = 0, iLength = L.length; i < iLength; i++){
     oClass.addInArray(L[i]);
   };
   deepEqual(oClass.array(), [6,7,8]);

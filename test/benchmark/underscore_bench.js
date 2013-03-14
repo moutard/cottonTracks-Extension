@@ -57,9 +57,8 @@ underscore_suite.add('NativeFilter', function() {
   var lList = create_list(10000);
   var iMax = 800;
 
-  var iLength = lList.length;
   var lResult = [];
-  for(var i = 0; i < iLength; i++){
+  for(var i = 0, iLength = lList.length; i < iLength; i++){
     if(lList[i] < iMax){
       lResult.push(lList[i]);
     }
