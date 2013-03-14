@@ -136,13 +136,14 @@ Cotton.Controllers.Background = Class.extend({
 
       // TODO(rmoutard) : find a better solution.
       var lHistoryItemToKeep = [];
-      _.each(e.data['lHistoryItems'], function(dHistoryItem){
+      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++){
+        var dHistoryItem = e.data['lHistoryItems'][i];
         if(dHistoryItem['sStoryId'] === "UNCLASSIFIED"
           && dHistoryItem['clusterId'] === "NOISE"){
             delete dHistoryItem['clusterId'];
             lHistoryItemToKeep.push(dHistoryItem);
         }
-      });
+      }
       self._oPool._refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
@@ -171,7 +172,7 @@ Cotton.Controllers.Background = Class.extend({
         e.data['iNbCluster'], e.data['lHistoryItems']);
 
       // Update the historyItems with extractedWords and queryWords.
-      for ( var i = 0; i < e.data['lHistoryItems'].length; i++) {
+      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
         // Data sent by the worker are serialized. Deserialize using translator.
         var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
           e.data['lHistoryItems'][i]);

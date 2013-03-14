@@ -35,9 +35,10 @@ Cotton.UI.World = Class.extend({
 
   createStory : function(lHistoryItems){
     var self = this;
-    _.each(lHistoryItems,function(oHistoryItem){
+    for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
+      var oHistoryItem = lHistoryItems[i];
       var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, self._$storyContainer);
-    });
+    }
   },
 
   createMenu : function(oStory){
