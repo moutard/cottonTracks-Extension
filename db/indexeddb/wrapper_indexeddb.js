@@ -61,7 +61,7 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var self = this;
 
     this._oEngine.getList(sObjectStoreName, function(oResult) {
-            var lList = new Array();
+      var lList = new Array();
       for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){
         var oTranslator = self._translatorForDbRecord(sObjectStoreName,
                                                       oDbRecord);
