@@ -961,7 +961,7 @@ Cotton.DB.Engine = Class.extend({
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    for(var i = 0; i < lItems.length; i++){
+    for(var i = 0, iLength = lItems.length; i < iLength; i++){
       var dItem = lItems[i];
       var oPutRequest = oStore.put(dItem);
 

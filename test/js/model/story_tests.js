@@ -59,7 +59,7 @@ test("init.", function() {
 
 test("addDbRecordHistoryItem.", function() {
   var oStory = new Cotton.Model.Story();
-  for(var i = 0; i < lHistoryItems.length; i++){
+  for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addDbRecordHistoryItem(lHistoryItems[i]);
   }
   equal(oStory.lastVisitTime(), 1362754370120.657);
@@ -68,7 +68,7 @@ test("addDbRecordHistoryItem.", function() {
 
 test("addHistoryItemId.", function() {
   var oStory = new Cotton.Model.Story();
-  for(var i = 0; i < lHistoryItems.length; i++){
+  for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
   deepEqual(oStory.historyItemsId(), [1,2,3,4]);
@@ -94,7 +94,7 @@ test("removeHistoryItem for an empty1.", function() {
 
 test("removeHistoryItem.", function() {
   var oStory = new Cotton.Model.Story();
-  for(var i = 0; i < lHistoryItems.length; i++){
+  for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
   oStory.removeHistoryItem(1);
@@ -104,7 +104,7 @@ test("removeHistoryItem.", function() {
 
 test("removeHistoryItem2.", function() {
   var oStory = new Cotton.Model.Story();
-  for(var i = 0; i < lHistoryItems.length; i++){
+  for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
   oStory.removeHistoryItem(1);
