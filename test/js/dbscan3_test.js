@@ -121,7 +121,7 @@ test("Cotton.Algo.DBSCAN3 : improvement", function() {
 
     var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
 
-    for(var i = 0; i < llClusters.length; i++){
+    for(var i = 0, iLength = llClusters.length; i < iLength; i++){
       var lCluster = llClusters[i];
       console.log("New sub-session : " + lCluster.length);
       console.log(lCluster);

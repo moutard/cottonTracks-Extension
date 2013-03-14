@@ -56,9 +56,8 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     var lItems = this.get();
 
     // Perf: do not use native or underscore filter that are slow.
-    var iLength = lItems.length;
     var lFreshItems = [];
-    for(var i = 0; i < iLength; i++){
+    for(var i = 0, iLength = lItems.length; i < iLength; i++){
       if(iCurrentDate < lItems[i]['sExpiracyDate']){
         lFreshItems.push(lItems[i]);
       }
@@ -78,9 +77,8 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     if(!lFreshItems){
       var _lFreshItems = this.get();
       // Perf: do not use native or underscore filter that are slow.
-      var iLength = _lFreshItems.length;
       lFreshItems = [];
-      for(var i = 0; i < iLength; i++){
+      for(var i = 0, iLength = _lFreshItems.length; i < iLength; i++){
         if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
           lFreshItems.push(_lFreshItems[i]);
         }
