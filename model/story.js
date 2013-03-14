@@ -80,9 +80,10 @@ Cotton.Model.Story = Class.extend({
   setTags : function(lTags) {
     var self = this;
     self._lTags = lTags;
-    _.each(self._lTags, function(sWord){
+    for (var i = 0, iLength = self._lTags.length; i < iLength; i++) {
+      var sWord = self._lTags[i];
       self._oDNA.bagOfWords().addWord(sWord, 5);
-    });
+    }
   },
   addTags : function(sTag) {
     this._lTags.push(sTag);

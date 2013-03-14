@@ -197,9 +197,10 @@ Cotton.Algo.Metrics = {};
 Cotton.Algo.Metrics.Cosine = function(lBagOfWords1, lBagOfWords2){
   var lCommonDimension = _.intersection(_.keys(lBagOfWords1), _.keys(lBagOfWords2));
   var fCosine = 0;
-  _.each(lCommonDimension, function(sDimension){
+  for (var i = 0, iLength = lCommonDimension.length; i < iLength; i++) {
+    var sDimension = lCommonDimension[i];
     fCosine += lBagOfWords1[sDimension] * lBagOfWords2[sDimension];
-  });
+  }
   return fCosine;
 };
 
