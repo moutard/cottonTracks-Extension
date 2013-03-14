@@ -100,6 +100,16 @@ for (var i = 0; i < l ; i++) {
   var sDimension = lList[i];
   fCosine += dBagOfWords1[sDimension] * dBagOfWords2[sDimension];
 }
+}).add('OneVariable', function() {
+var lList = create_list(10000);
+var dBagOfWords1 = create_dict(10000);
+var dBagOfWords2 = create_dict(10000);
+var l = lList.length;
+var fCosine = 0;
+for (var i = 0, sDimension; i < l ; i++) {
+  sDimension = lList[i];
+  fCosine += dBagOfWords1[sDimension] * dBagOfWords2[sDimension];
+}
 })
 .add('NoVariable', function() {
   var lList = create_list(10000);
