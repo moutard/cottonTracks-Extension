@@ -26,62 +26,6 @@ Cotton.DB.Populate.preRemoveTools = function(lHistoryItems) {
 };
 
 /**
- * Populate the database using the chrome history database
- *
- * @param :
- *          mCallBackFunction
- */
-Cotton.DB.Populate.start = function(mCallBackFunction) {
-
-  DEBUG && console.debug('PopulateDB - Start');
-  var startTime1 = new Date().getTime();
-  var elapsedTime1 = 0;
-
-  chrome.history.search({
-    text : '',
-    startTime : 0,
-    "maxResults" : Cotton.Config.Parameters.iMaxResult,
-  }, function(lHistoryItems) {
-    DEBUG && console.debug('PopulateDB - chrome history search has returned '
-        + lHistoryItems.length + ' items');
-    lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
-    if (Cotton.UI.oCurtain) {
-      Cotton.UI.oCurtain.increasePercentage(10);
-    }
-
-    var iCount = 0;
-    var iPopulationLength = lHistoryItems.length;
-
-    DEBUG && console.debug('PopulateDB - try to create new store');
-    new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-    }, function() {
-      if (Cotton.UI.oCurtain) {
-        Cotton.UI.oCurtain.increasePercentage(5);
-      }
-      DEBUG && console.debug("PopulateDB - historyItems store ready");
-      for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
-        var oHistoryItem = new Cotton.Model.HistoryItem();
-
-        oHistoryItem._sUrl = oHistoryItem.url;
-        oHistoryItem._sTitle = oHistoryItem.title || '';
-        oHistoryItem._iLastVisitTime = oHistoryItem.lastVisitTime;
-
-        this.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-          iCount += 1;
-
-          if (iCount === iPopulationLength) {
-            elapsedTime1 = (new Date().getTime() - startTime1) / 1000;
-            DEBUG && console.log('PopulateDB end with time : ' + elapsedTime1 + 's');
-            mCallBackFunction.call();
-          }
-        });
-      }
-    });
-  });
-};
-
-/**
  * Populate historyItems with a given store. (faster than the previous)
  *
  * @param :
