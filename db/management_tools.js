@@ -3,8 +3,8 @@
 Cotton.DB.ManagementTools = {};
 Cotton.DB.ManagementTools.dStores = {
     "stories" : "STORY_TRANSLATORS",
-    // "pool" : "HISTORY_ITEM_TRANSLATORS",
     "historyItems" : "HISTORY_ITEM_TRANSLATORS",
+    "searchKeywords" : "SEARCH_KEYWORDS_TRANSLATORS",
 };
 
 Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
@@ -59,4 +59,77 @@ Cotton.DB.ManagementTools.setStoryBagOfWords = function(iStoryId, dBagOfWords){
       });
     });
   });
+};
+
+/**
+ * Purge the whole database, eliminate all the stores listed in
+ * Cotton.DB.ManagementTools.dStores
+ */
+Cotton.DB.ManagementTools.purgeDB = function(){
+  console.log("PURGE DB");
+  var lStores = _.keys(Cotton.DB.ManagementTools.dStores);
+  for(var i = 0, sStore; sStore = lStores[i]; i++){
+    Cotton.DB.ManagementTools.purgeStore(sStore);
+  }
+};
+
+/**
+ * Purge a given store.
+ * @param {String} sStore : name of the store.
+ *  Should be in Cotton.DB.ManagementTools.dStores
+ */
+Cotton.DB.ManagementTools.purgeStore = function(sStore, mCallBack){
+  var dStoreParameters = {};
+  dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
+    new Cotton.DB.IndexedDB.Wrapper('ct',
+        dStoreParameters,
+        function() {
+         this.purge(sStore, function() {
+           mCallBack.call();
+           console.log("purge ok");
+         });
+       });
+};
+
+/**
+ * List a given store.
+ * @param {String} sStore : store name.
+ */
+Cotton.DB.ManagementTools.listStore = function(sStore) {
+  console.log('LIST ' + sStore);
+  var dStoreParameters = {};
+  dStoreParameters[sStore] = Cotton.Translators[Cotton.DB.ManagementTools.dStores[sStore]];
+   new Cotton.DB.IndexedDB.Wrapper('ct',
+       dStoreParameters,
+       function() {
+        this.iterList(sStore, function(oEntry){
+          console.log(oEntry);
+        });
+       });
+
+};
+
+Cotton.DB.ManagementTools.listDB = function () {
+  console.log('LIST');
+   new Cotton.DB.IndexedDB.Wrapper('ct',
+       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+       function() {
+        console.log("store ready");
+        this.iterList('stories', function(oStory){
+          console.log(oStory);
+        });
+       });
+
+};
+
+Cotton.DB.ManagementTools.printDB = function (mActionWithStory) {
+  var self = this;
+  console.log('PRINT');
+   new Cotton.DB.IndexedDB.Wrapper('ct',
+       { 'stories': Cotton.Translators.STORY_TRANSLATORS },
+       function() {
+        this.listInverse('stories', function(oStory){
+          mActionWithStory.call(self, oStory);
+        });
+       });
 };
