@@ -1,11 +1,12 @@
-#GOOGLE_CLOSURE_COMPILER = "/Users/raphaelkorach/Code/workspace/google_closure_compiler/compiler.jar"
-#SOURCE_PATH='/Users/raphaelkorach/Code/workspace/cottonTracks/SubZoom-Proto1/'
-#DESTINATION_PATH='/Users/raphaelkorach/Code/workspace/cottonTracks/compiled/'
+# Feel this file with your own parameters.
+# THEN ! launch this command so git ignore the modification you made.
+# git update-index --assume-unchanged py/parameters.py
 
-#GOOGLE_CLOSURE_COMPILER = "/usr/local/rmoutard/compiler.jar"
-#SOURCE_PATH='/usr/local/rmoutard/sz/SubZoom-Proto1/'
-#DESTINATION_PATH='/usr/local/rmoutard/cottontracks-beta/'
+# Put the adress where you download the google closure compiler.
+GOOGLE_CLOSURE_COMPILER =
 
-GOOGLE_CLOSURE_COMPILER = "/Users/rmoutard/src/google_closure_compiler/compiler.jar"
-SOURCE_PATH='/Users/rmoutard/src/SubZoom-Proto1'
-DESTINATION_PATH='/Users/rmoutard/src/ct-compiled'
+# Adress of the source code on your computer.
+SOURCE_PATH =
+
+# Adress where you want to put the code compiled.
+DESTINATION_PATH =
