@@ -108,6 +108,6 @@ test("removeHistoryItem2.", function() {
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
   oStory.removeHistoryItem(1);
-  deepEqual(oStory._lHistoryItems, [2,3,4]);
+  deepEqual(oStory._lHistoryItemsId, [2,3,4]);
 
 });
