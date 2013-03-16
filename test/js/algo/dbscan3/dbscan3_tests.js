@@ -4,35 +4,9 @@
  * Setup all variables once before all the tests. For the moment we don't need
  * to setup before each test.
  */
-var lSampleHistoryItems = initlHistoryItems();
-var lChromeHistoryItems = [];
-var lHistoryItems = [];
-// runs before each test
-lChromeHistoryItems = Cotton.Utils.preRemoveTools(lSampleHistoryItems);
-
-// Simutate store in the DB
-for ( var i = 0, oChromeHistoryItem; oChromeHistoryItem = lHistoryItems[i]; i++) {
-  var oHistoryItem = new Cotton.Model.HistoryItem();
-
-  oHistoryItem._sUrl = oChromeHistoryItem.url;
-  oHistoryItem._sTitle = oChromeHistoryItem.title || '';
-  oHistoryItem._iLastVisitTime = oChromeHistoryItem.lastVisitTime;
-  lHistoryItems.push(oHistoryItem);
-}
-
-// Simulate get oHistoryItem from the DB but,
-// send to the worker a list of serialized historyItem
-var lAllVisitDict = [];
-for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
-  // maybe a setFormatVersion problem
-  var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[Cotton.Translators.HISTORY_ITEM_TRANSLATORS.length - 1];
-  var dItem = oTranslator.objectToDbRecord(oItem);
-  lAllVisitDict.push(dItem);
-}
-lHistoryItems = Cotton.Algo.PreTreatment.suite(lAllVisitDict);
 
 module(
-    "DBSCAN3",
+    "Cotton.Algo.DBSCAN3",
     {
       setup : function() {
 
@@ -43,35 +17,9 @@ module(
     }
 );
 
-
-test("Cotton.Algo.Distance.meaning - Test maximum distance", function() {
-  var fExpectedDistance = 1;
-
-  var fDistance = Cotton.Algo.Distance.meaning(lHistoryItems[0], lHistoryItems[1]);
-
-  var sMessage = "Cotton.Algo.Distance.meaning has changed \n";
-  sMessage  += "Expected Value is " + fExpectedDistance
-            + " but there are " + fDistance;
-  equal(fDistance, fExpectedDistance, sMessage);
-
-});
-
-test("Cotton.Algo.Distance.meaning - Test minimal distance", function() {
-  var fExpectedDistance = 0.3;
-
-  var fDistance = Cotton.Algo.Distance.meaning(lHistoryItems[1], lHistoryItems[1]);
-
-  var sMessage = "Cotton.Algo.Distance.meaning has changed \n";
-  sMessage  += "Expected Value is " + fExpectedDistance
-            + " but there are " + fDistance;
-  equal(fDistance, fExpectedDistance, sMessage);
-
-});
-
-
-test("Cotton.Algo.DBSCAN3", function() {
-
-  var sMessage = "The value of the distance has changed \n";
+test("algo of dbscan3 worker.", function() {
+  var lSampleHistoryItems = japan;
+  var lHistoryItems = Cotton.Algo.PreTreatment.suite(lSampleHistoryItems);
 
   // PARAMETERS
   // Max Distance between neighborhood
@@ -94,49 +42,8 @@ test("Cotton.Algo.DBSCAN3", function() {
     dData['iNbCluster'] = iNbCluster;
     dData['lHistoryItems'] = lSession;
 
-    var dStories = Cotton.Algo.clusterStory(dData['lHistoryItems'],
-                                            dData['iNbCluster']);
+    equal(iNbCluster, 0);
   });
 
 });
-
-test("Cotton.Algo.DBSCAN3 : improvement", function() {
-
-  var sMessage = "The value of the distance has changed \n";
-
-  // Max Distance between neighborhood.
-  var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
-  var fEpsTime =  Cotton.Config.Parameters.distanceVisitTime.fEps;
-  // Min Points in a cluster.
-  var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
-  var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
-
-  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
-    // For each rough session, launch dbscan1.
-    console.log("New session : " + lSession.length);
-    console.log(lSession);
-    // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
-    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
-        Cotton.Algo.Distance.distanceVisitTime);
-
-    var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
-
-    for(var i = 0, iLength = llClusters.length; i < iLength; i++){
-      var lCluster = llClusters[i];
-      console.log("New sub-session : " + lCluster.length);
-      console.log(lCluster);
-      var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
-        Cotton.Algo.Distance.meaning);
-
-      var dData = {};
-      dData['iNbCluster'] = iNbSubCluster
-      dData['lHistoryItems'] = lCluster;
-
-      var dStories = Cotton.Algo.clusterStory(  dData['lHistoryItems'],
-                                                dData['iNbCluster']);
-    }
-  });
-
-});
-
 
