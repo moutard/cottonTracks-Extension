@@ -38,7 +38,8 @@ class Compiler(FileManager, PreCompiler):
 
     # Compile all the files.
     self.compileJs(llJs, lsJsOutput)
-    self.compileLess(llLess, lsCssOutput)
+    if len(llLess) > 0:
+      self.compileLess(llLess, lsCssOutput)
 
     # Remove files not compiled.
     self._removeJs(psFile, llJs)
@@ -48,10 +49,12 @@ class Compiler(FileManager, PreCompiler):
 
     # Add new compiled file.
     self.insertCompiledJs(psFile, lsJsOutput)
-    self.insertCompiledCss(psFile, lsCssOutput)
+    if len(llLess) > 0:
+      self.insertCompiledCss(psFile, lsCssOutput)
+      self._PRESERVED_FILES.append(lsCssOutput)
 
     # PRESERVED FILES.
-    self._PRESERVED_FILES.extend([psFile, lsJsOutput, lsCssOutput])
+    self._PRESERVED_FILES.extend([psFile, lsJsOutput])
     self._PRESERVED_FILES.extend(llJsLib)
     print 'Total compilation of %s - SUCCESS' %  psFile
 
