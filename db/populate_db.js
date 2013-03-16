@@ -26,6 +26,22 @@ Cotton.DB.Populate.preRemoveTools = function(lHistoryItems) {
 };
 
 /**
+ * Translate historyItem from chrome, to cotton history items.
+ */
+Cotton.DB.Populate.translateChromeHistoryItem = function(dChromeHistoryItem){
+  // distinction between oIDBHistoryItem and oChromeHistoryItem
+  var oIDBHistoryItem = new Cotton.Model.HistoryItem();
+
+  oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
+  oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
+  oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
+  oIDBHistoryItem.extractedDNA().setExtractedWords(
+    Cotton.Algo.Tools.extractWordsFromTitle(dChromeHistoryItem['title']));
+
+  return oIDBHistoryItem;
+};
+
+/**
  * Populate historyItems with a given store. (faster than the previous)
  *
  * @param :
@@ -56,11 +72,8 @@ Cotton.DB.Populate.historyItems = function(oDatabase, mCallBackFunction) {
 
     for ( var i = 0, oChromeHistoryItem; oChromeHistoryItem = lHistoryItems[i]; i++) {
       // distinction between oIDBHistoryItem and oChromeHistoryItem
-      var oIDBHistoryItem = new Cotton.Model.HistoryItem();
 
-      oIDBHistoryItem.initUrl(oChromeHistoryItem['url']);
-      oIDBHistoryItem.setTitle(oChromeHistoryItem['title']);
-      oIDBHistoryItem.setLastVisitTime(oChromeHistoryItem['lastVisitTime']);
+      var oIDBHistoryItem = Cotton.DB.Populate.translateChromeHistoryItem(oChromeHistoryItem);
       oDatabase.putUniqueHistoryItem('historyItems', oIDBHistoryItem, function(iId) {
         iCount += 1;
         if (iCount === iPopulationLength) {
