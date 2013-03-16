@@ -96,8 +96,24 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     }
   };
 
+  var mChromeHistorytemToObject = function(dChromeHistoryItem){
+    // distinction between oIDBHistoryItem and oChromeHistoryItem
+    var oIDBHistoryItem = new Cotton.Model.HistoryItem();
+
+    oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
+    oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
+    oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
+    oIDBHistoryItem.extractedDNA().setExtractedWords(
+      Cotton.Algo.Tools.extractWordsFromTitle(dChromeHistoryItem['title']));
+
+    return oIDBHistoryItem;
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
       mDbRecordToObjectConverter, dIndexes);
+
+  // Add a specific method for this translator.
+  oTranslator.chromeHistoryItemToObject = mChromeHistorytemToObject;
   Cotton.Translators.HISTORY_ITEM_TRANSLATORS.push(oTranslator);
 
 })();
