@@ -12,7 +12,7 @@ Cotton.Model.HistoryItemDNA = Class.extend({
 
   _lQueryWords : null,                  // words used to make the google search.
   _lExtractedWords : null,              // words extracted from title and content.
-  _sClosestGeneratedPage : undefined,   // closest google search page.
+  _sClosestGoogleSearchPage : undefined,   // closest google search page.
   _oBagOfWords : null,
 
   _iPercent : undefined,
@@ -78,11 +78,11 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setBagOfWords : function(oBagOfWords){
     this._oBagOfWords = oBagOfWords;
   },
-  closestGeneratedPage : function() {
-    return this._sClosestGeneratedPage;
+  closestGoogleSearchPage : function() {
+    return this._sClosestGoogleSearchPage;
   },
-  setClosestGeneratedPage : function(sClosestGeneratedPage) {
-    this._sClosestGeneratedPage = sClosestGeneratedPage;
+  setClosestGoogleSearchPage : function(sClosestGoogleSearchPage) {
+    this._sClosestGoogleSearchPage = sClosestGoogleSearchPage;
   },
 
   highlightedText : function() {
