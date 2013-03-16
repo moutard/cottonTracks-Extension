@@ -23,7 +23,6 @@ class PREPRODCompiler(Compiler):
 
   def compile(self):
     Compiler.compile(self)
-    self.compileHtml('unit_tests.html')
     self.removeUnpreservedFiles()
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):
