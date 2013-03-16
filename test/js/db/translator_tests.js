@@ -111,9 +111,6 @@ test("getIndexesForObjectStoreNames.", function(){
       }
     },
     "historyItems": {
-      "iPool": {
-        "unique": false
-      },
       "iLastVisitTime": {
         "unique": false
       },
