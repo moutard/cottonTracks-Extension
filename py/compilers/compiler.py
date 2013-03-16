@@ -20,6 +20,8 @@ class Compiler(FileManager, PreCompiler):
     os.chdir(self._DESTINATION_PATH)
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
+    self.compileHtml('unit_tests.html')
+    self.compileHtml('algo_test.html')
     self.compileWorker('algo/dbscan1/worker.js')
     self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
