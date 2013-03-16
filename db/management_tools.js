@@ -134,7 +134,9 @@ Cotton.DB.ManagementTools.printDB = function (mActionWithStory) {
        });
 };
 
-Cotton.DB.ManagementTools.dumpHistoryItems = function () {
+// Get all historyItems in a list of dictionnaries, and do what you want
+// with it through a callback
+Cotton.DB.ManagementTools.dumpHistoryItems = function (mActionWithItems) {
   var self = this;
   var lDbRecord = [];
   new Cotton.DB.IndexedDB.Wrapper('ct',
@@ -147,7 +149,16 @@ Cotton.DB.ManagementTools.dumpHistoryItems = function () {
           var dDbRecord = oTranslator.objectToDbRecord(oHistoryItem);
           lDbRecord.push(dDbRecord);
         }
-        return(lDbRecord);
+        mActionWithItems(lDbRecord);
       });
+  });
+};
+
+// Dumps all historyItems in a file that downloads
+Cotton.DB.ManagementTools.dumpHistoryItemsInFile = function () {
+  Cotton.DB.ManagementTools.dumpHistoryItems(function(lDbRecord){
+    var sRecord = JSON.stringify(lDbRecord);
+    var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+    window.open(sUriContent, 'historyItemsFile');
   });
 };
