@@ -133,3 +133,21 @@ Cotton.DB.ManagementTools.printDB = function (mActionWithStory) {
         });
        });
 };
+
+Cotton.DB.ManagementTools.dumpHistoryItems = function () {
+  var self = this;
+  var lDbRecord = [];
+  new Cotton.DB.IndexedDB.Wrapper('ct',
+    { 'historyItems': Cotton.Translators.HISTORY_ITEM_TRANSLATORS },
+    function(){
+      this.getList('historyItems', function(lHistoryItems){
+        for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+          var oTranslator = this._lastTranslator('historyItems');
+          var oHistoryItem = lHistoryItems[i];
+          var dDbRecord = oTranslator.objectToDbRecord(oHistoryItem);
+          lDbRecord.push(dDbRecord);
+        }
+        return(lDbRecord);
+      });
+  });
+};
