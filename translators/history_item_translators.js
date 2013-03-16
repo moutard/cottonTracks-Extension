@@ -12,7 +12,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       'sTitle' : oHistoryItem.title(),
       'iLastVisitTime' : oHistoryItem.lastVisitTime(),
       'sStoryId' : oHistoryItem.storyId(),
-      'iPool' : oHistoryItem.pool(),
       'oExtractedDNA' : {
         'lQueryWords' : oHistoryItem.extractedDNA().queryWords(),
         'lExtractedWords' : oHistoryItem.extractedDNA().extractedWords(),
@@ -48,7 +47,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     // Use private attributes because they are immutable.
     oHistoryItem.initId(oDbRecord['id']);
     oHistoryItem.setStoryId(oDbRecord['sStoryId']);
-    oHistoryItem.setPool(oDbRecord['iPool']);
 
     oHistoryItem.initUrl(oDbRecord['sUrl']);
     oHistoryItem.setTitle(oDbRecord['sTitle']);
@@ -95,11 +93,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     },
     'sStoryId' : {
       'unique' : false
-    },
-    'iPool' : {
-      'unique' : false
     }
-
   };
 
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
