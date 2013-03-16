@@ -15,13 +15,13 @@ Cotton.DB.Populate = {};
  * @param: list of serialized historyItems. (see chrome api for more informations)
  *         remove historyItems that are https, or that are tools.
  */
-Cotton.DB.Populate.preRemoveTools = function(lHistoryItems) {
+Cotton.DB.Populate.preRemoveTools = function(lChromeHistoryItems) {
   DEBUG && console.debug('New PreRemoveTools - Start');
 
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
-  return _.reject(lHistoryItems, function(dHistoryItem) {
-    return (oExcludeContainer.isExcluded(dHistoryItem['url']));
+  return _.reject(lChromeHistoryItems, function(dChromeHistoryItem) {
+    return (oExcludeContainer.isExcluded(dChromeHistoryItem['url']));
   });
 };
 
