@@ -24,20 +24,22 @@ Cotton.Model.BagOfWords = Class.extend({
   _dBag : null,
 
   init : function(dBag) {
-    var self = this;
-    self._dBag = dBag || {};
+    this._dBag = {};
+    if(dBag) this.setBag(dBag);
   },
 
   setBag : function(dBag){
-    this._dBag = dBag;
+    for(var sKey in dBag){
+      this._dBag[sKey.toLowerCase()] = dBag[sKey];
+    }
   },
 
   addWord : function(sWord, iScore) {
-    this._dBag[sWord] = iScore;
+    this._dBag[sWord.toLowerCase()] = iScore;
   },
 
   increaseWordScore : function(sWord, iScore) {
-    this._dBag[sWord] += iScore;
+    this._dBag[sWord.toLowerCase()] += iScore;
   },
 
   get : function() {
