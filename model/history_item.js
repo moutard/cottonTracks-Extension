@@ -12,7 +12,6 @@ Cotton.Model.HistoryItem = Class
 
       _sId : undefined,                 // id fixed by the database.
       _sStoryId : undefined,       // id of the story if it belongs to it.
-      _iPool : undefined,               // is not in the pool by default.
 
       _sUrl : undefined,                // url of the visited page.
       _sTitle : undefined,                     // title of the page.
@@ -26,7 +25,6 @@ Cotton.Model.HistoryItem = Class
       init : function() {
         this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this);
         this._sStoryId = "UNCLASSIFIED";
-        this._iPool = 0;
         this._sTitle = "";
       },
       // can't be set
@@ -59,12 +57,6 @@ Cotton.Model.HistoryItem = Class
       },
       setStoryId : function(sStoryId) {
         this._sStoryId = sStoryId;
-      },
-      pool : function() {
-        return this._iPool;
-      },
-      setPool : function(iPool) {
-        this._iPool = iPool;
       },
       extractedDNA : function() {
         return this._oExtractedDNA;
