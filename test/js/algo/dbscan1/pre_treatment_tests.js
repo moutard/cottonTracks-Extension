@@ -49,9 +49,9 @@ module(
     }
 );
 
-
-test("distance key.", function() {
-  Cotton.Algo.PreTreatment.computeClosestGeneratedPage([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
-  equal(oHistoryItem1['oExtractedDNA']['sClosestGeneratedPage'], "https://www.google.com/search?q=etherpad&oq=etherpad");
+test("compute closest generated page.", function() {
+  Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
+  equal(oHistoryItem1['oExtractedDNA']['sClosestGoogleSearchPage'], "https://www.google.com/search?q=etherpad&oq=etherpad");
 });
+
 
