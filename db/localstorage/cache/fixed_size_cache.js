@@ -42,5 +42,25 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
     this.set(lResults);
   },
 
+  /**
+   * Force the cache to refresh it's data.
+   */
+  _refresh : function(lFreshItems) {
+    var iCurrentDate = new Date().getTime();
+    if(!lFreshItems){
+      var _lFreshItems = this.get();
+      // Perf: do not use native or underscore filter that are slow.
+      lFreshItems = [];
+      for(var i = 0, iLength = _lFreshItems.length; i < iLength; i++){
+        if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
+          lFreshItems.push(_lFreshItems[i]);
+        }
+      }
+    } else if(lFreshItems.length > this._iMaxSize){
+      lFreshItems = lFreshItems.slice(0, this._iMaxSize - 1);
+    }
+    this.set(lFreshItems);
+  },
+
 });
 
