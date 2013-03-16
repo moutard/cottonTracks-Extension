@@ -21,6 +21,7 @@ class Compiler(FileManager, PreCompiler):
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
     self.compileWorker('algo/dbscan1/worker.js')
+    self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
 
@@ -85,8 +86,14 @@ class Compiler(FileManager, PreCompiler):
     # Remove files not compiled.
     self._removeJs(psFile, llJs)
 
+    # append the right path to the file importScripts
+    llFilesWithPath = [os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs]
+
+    # add the worker content
+    llFilesWithPath.append(psFile)
+
     # Compile all the files.
-    self.compileJs([os.path.join(os.path.dirname(psFile), lsJs) for lsJs in llJs], lsJsOutput)
+    self.compileJs(llFilesWithPath, lsJsOutput)
     os.system("mv %s %s" % (lsJsOutput, psFile))
 
     # PRESERVED FILES
