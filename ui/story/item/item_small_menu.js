@@ -60,7 +60,9 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
           self._oItemContent.item().historyItem().id(),
           function() {
             self._oItemContent.item().container().isotope('remove',
-              self._oItemContent.item().$());
+              self._oItemContent.item().$(), function() {
+                Cotton.UI.WORLD.countItems();
+            });
         });
       });
     });
