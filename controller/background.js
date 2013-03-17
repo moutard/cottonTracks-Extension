@@ -27,7 +27,7 @@ Cotton.Controllers.Background = Class.extend({
   _wDBSCAN3 : null,
   _wDBSCAN2 : null,
 
-  _sImageSrc : null,
+  _sScreenshotSrc : null,
 
   /**
    * MessagingController
@@ -107,8 +107,8 @@ Cotton.Controllers.Background = Class.extend({
 	  });
     });
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
-			if (request.image == "background"){
-				sendResponse({src: self._sImageSrc});
+			if (request['action'] == "pass_background_screenshot"){
+				sendResponse({src: self._sScreenshotSrc});
 			}
     });
 
@@ -234,7 +234,7 @@ Cotton.Controllers.Background = Class.extend({
   takeScreenshot: function(){
     self = this;
     chrome.tabs.captureVisibleTab(function(img) {
-      self._sImageSrc = img;
+      self._sScreenshotSrc = img;
     });
   },
 
