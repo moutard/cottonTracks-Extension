@@ -33,8 +33,10 @@ Cotton.UI.Story.Item.Element = Class
         this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
 
         // create item
-        this._$item.append(this._oItemContent.$());
-        this._$storyContainer.isotope( 'insert', this._$item);
+        if (this.itemType() !== 'search'){
+          this._$item.append(this._oItemContent.$());
+          this._$storyContainer.isotope( 'insert', this._$item);
+        }
 
         //boolean to know if a reload has been performed
         this._bReload = false;
