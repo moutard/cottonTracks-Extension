@@ -28,7 +28,7 @@ Cotton.UI.Story.Item.Website = Class.extend({
     this._$url.text(sDomain);
 
     // favicon using chrome API.
-    this._$favicon = $('<img class="favicon" src="chrome://favicon/http://'+sDomain+'/">');
+    this._$favicon = $('<img class="favicon" src="chrome://favicon/'+sUrl+'">');
     // construct item
     self._$itemWebsite.append(
       self._$favicon,
