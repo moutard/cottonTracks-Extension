@@ -36,7 +36,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     $(window).ready(function(){
       Cotton.UI.WORLD = self._oWorld = new Cotton.UI.World();
       chrome.extension.sendMessage({
-        action: 'get_trigger_story'
+        'action': 'get_trigger_story'
       }, function(response){
         self._oWorld.buildStory(response['trigger_id']);
       });

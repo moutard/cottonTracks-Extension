@@ -108,7 +108,7 @@ Cotton.Controllers.Background = Class.extend({
     });
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
 			if (request['action'] == "pass_background_screenshot"){
-				sendResponse({src: self._sScreenshotSrc});
+				sendResponse({'src': self._sScreenshotSrc});
 			}
     });
 
