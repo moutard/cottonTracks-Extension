@@ -88,24 +88,22 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
       chrome.tabs.create({
           "url" : oItemContent.item().historyItem().url(),
           "active" : false
+      }, function(tab){
+        chrome.extension.sendMessage({
+          'action': "get_content_tab",
+          'params': {
+            'tab_id': tab.id
+          }
+        });
       });
-      self._bGettingContent = true;
       $(this).parent().append(self._$loading);
       $(this).hide();
     });
 
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-      if (request["action"] == "get_content"
-        && sender.tab.url == self._oItemContent.item().historyItem().url()
-        && self._bGettingContent) {
-          self._bGettingContent = false;
-          chrome.tabs.remove(sender.tab.id);
+    chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
+      if (request['action'] === 'refresh_item' &&
+        request['params']['itemId'] === self._oItemContent.item().historyItem().id()){
           self._oItemContent.item().reload();
-      }
-      if (request["action"] && (request["action"] == "is_get_content")
-        && sender.tab.url == self._oItemContent.item().historyItem().url()
-        && self._bGettingContent) {
-          sendResponse({"getting_content":true});
       }
     });
 
@@ -134,4 +132,3 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
   },
 
 });
-
