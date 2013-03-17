@@ -6,7 +6,7 @@ from py.precompiler import PreCompiler
 from py.compilers.prod_compiler import PRODCompiler
 from py.compilers.preprod_compiler import PREPRODCompiler
 from py.compilers.dev_compiler import DEVCompiler
-from py.parameters import *
+from py.own_parameters import *
 
 class ProjectCompiler(FileManager, PreCompiler):
 
