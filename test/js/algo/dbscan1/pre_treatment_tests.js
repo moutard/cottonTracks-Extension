@@ -1,65 +1,78 @@
 'use strict';
-var oHistoryItem1 = {
-  sUrl:"http://www.imdb.com/title/tt1014759/",
-  sTitle: "Alice in wonderland (2010)",
-  iLastVisitTime:1361980612982.948,
-  oExtractedDNA : {
-    lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
-    lQueryWords : ['alice', 'wonderland', 'film', 'telerama'],
-  }
-};
+Cotton.Test.Data.Pretreatment = {};
 
-var oHistoryItem2 = {
-  sUrl:"http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
-  sTitle: "Alice in wonderland - Wikipédia",
-  iLastVisitTime:1361980612982.948,
-
-  oExtractedDNA : {
-    lExtractedWords : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
-    lQueryWords : ['alice', 'wonderland', 'novel'],
-  }
-};
-
-var oHistoryItem3 = {
-  sUrl:"https://www.google.com/search?q=alice+in+wonderland&oq=etherpad",
-  sTitle: "EtherPad - Google search",
-  iLastVisitTime:1361980612982.948,
-
-  oExtractedDNA : {
-    lExtractedWords : ['singapor', 'madrid', 'paris'],
-    lQueryWords : ['capital', 'country'],
-  }
-};
-
-var oHistoryItemNull = {
-  oExtractedDNA : {
-    lExtractedWords : [],
-    lQueryWords : [],
-  }
-};
 module(
     "Cotton.Algo.Pretreatment",
     {
-      setup : function() {
+      'setup' : function() {
+Cotton.Test.Data.Pretreatment.oHistoryItem1 = {
+  'sUrl':"http://www.imdb.com/title/tt1014759/",
+  'sTitle': "Alice in wonderland (2010)",
+  'iLastVisitTime':1361980612982.948,
+  'oExtractedDNA' : {
+    'lExtractedWords' : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
+    'lQueryWords' : ['alice', 'wonderland', 'film', 'telerama'],
+  }
+};
+
+Cotton.Test.Data.Pretreatment.oHistoryItem2 = {
+  'sUrl':"http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
+  'sTitle': "Alice in wonderland - Wikipédia",
+  'iLastVisitTime':1361980612982.948,
+
+  'oExtractedDNA' : {
+    'lExtractedWords' : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
+    'lQueryWords' : ['alice', 'wonderland', 'novel'],
+  }
+};
+
+Cotton.Test.Data.Pretreatment.oHistoryItem3 = {
+  'sUrl':"https://www.google.com/search?q=alice+in+wonderland&oq=etherpad",
+  'sTitle': "EtherPad - Google search",
+  'iLastVisitTime':1361980612982.948,
+
+  'oExtractedDNA' : {
+    'lExtractedWords' : ['singapor', 'madrid', 'paris'],
+    'lQueryWords' : ['capital', 'country'],
+  }
+};
+
+Cotton.Test.Data.Pretreatment.oHistoryItemNull = {
+  'oExtractedDNA' : {
+    'lExtractedWords' : [],
+    'lQueryWords' : [],
+  }
+};
 
       },
-      teardown : function() {
+      'teardown' : function() {
         // runs after each test
       }
     }
 );
 
 test("computeParseUrl.", function() {
-  Cotton.Algo.PreTreatment.computeParseUrl([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
-  equal(oHistoryItem1['sHostname'], "www.imdb.com");
+  Cotton.Algo.PreTreatment.computeParseUrl([
+    Cotton.Test.Data.Pretreatment.oHistoryItem1,
+    Cotton.Test.Data.Pretreatment.oHistoryItem2,
+    Cotton.Test.Data.Pretreatment.oHistoryItem3]);
+
+  equal(Cotton.Test.Data.Pretreatment.oHistoryItem1['sHostname'], "www.imdb.com");
 });
 
 
 test("compute closest generated page.", function() {
 
-  Cotton.Algo.PreTreatment.computeParseUrl([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
-  Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage([oHistoryItem1, oHistoryItem2, oHistoryItem3]);
-  equal(oHistoryItem1['oExtractedDNA']['sClosestGoogleSearchPage'],
+  Cotton.Algo.PreTreatment.computeParseUrl([
+    Cotton.Test.Data.Pretreatment.oHistoryItem1,
+    Cotton.Test.Data.Pretreatment.oHistoryItem2,
+   Cotton.Test.Data.Pretreatment. oHistoryItem3]);
+  Cotton.Algo.PreTreatment.computeClosestGoogleSearchPage([
+    Cotton.Test.Data.Pretreatment.oHistoryItem1,
+    Cotton.Test.Data.Pretreatment.oHistoryItem2,
+    Cotton.Test.Data.Pretreatment.oHistoryItem3]);
+  equal(
+    Cotton.Test.Data.Pretreatment.oHistoryItem1['oExtractedDNA']['sClosestGoogleSearchPage'],
     "https://www.google.com/search?q=alice+in+wonderland&oq=etherpad");
 });
 
