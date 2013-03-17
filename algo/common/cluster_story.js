@@ -90,12 +90,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(sSearchImgUrl);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.host === "www.youtube.com" && oUrl.dSearch['v']) {
+        } else if (oUrl.hostname === "www.youtube.com" && oUrl.dSearch['v']) {
         	//Youtube video
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage("http://img.youtube.com/vi/" + oUrl.dSearch['v'] + "/mqdefault.jpg");
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.host === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
+        } else if (oUrl.hostname === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
         	//Vimeo video
           var thumbnail_src;
           $.ajax({
@@ -108,17 +108,17 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           });
           lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.host === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
+        } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
         	//Dailymotion video (from video page)
           lStories[lHistoryItems[j]['clusterId']]
-              .setFeaturedImage("http://" + oUrl.host + "/thumbnail" + oUrl.pathname);
+              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail" + oUrl.pathname);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.host === "www.dailymotion.com" && oUrl.dHash['video']) {
+        } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.dHash['video']) {
         	//Dailymotionvideo (from channel page)
           lStories[lHistoryItems[j]['clusterId']]
-              .setFeaturedImage("http://" + oUrl.host + "/thumbnail/video/" + dHash['video']);
+              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail/video/" + dHash['video']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.host.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
+        } else if (oUrl.hostname.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
         	//Google maps
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
