@@ -51,8 +51,6 @@ Cotton.Controllers.Lightyear = Class.extend({
     }, function() {
 	  self = self;
       self._oDatabase.find('stories', 'id', iStoryId, function(oStory) {
-	console.log(iStoryId);
-	console.log(oStory.historyItemsId());
         self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
         function(lHistoryItems) {
           // Initialize isotope grid view
