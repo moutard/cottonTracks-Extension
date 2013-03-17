@@ -53,11 +53,16 @@ Cotton.DB.ManagementTools.createStoryFromList = function(sTitle, sFeaturedImage,
             oStory.setFeaturedImage(sFeaturedImage);
             oStory.setLastVisitTime(new Date().getTime());
             oStory._lHistoryItemsId = lHistoryItemsId;
+            var dBagOfWords = {};
+            var lList = sTitle.split(' ');
+            for(var i=0, sKeyword; sKeyword = lList[i]; i++){
+              dBagOfWords[sKeyword] = 10;
+            }
+            oStory.dna().bagOfWords().setBag(dBagOfWords);
             self._oDatabase.put('stories', oStory, function(iStoryId){
               console.log(iStoryId);
               console.log('story created');
 
-              var lList = sTitle.split(' ');
               for(var i=0, sKeyword; sKeyword = lList[i]; i++){
                 var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
                 oSearchKeyword.addReferringStoryId(iStoryId);
