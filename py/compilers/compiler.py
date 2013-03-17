@@ -199,8 +199,8 @@ class Compiler(FileManager, PreCompiler):
     # one line.
     for lsLine in loFile :
       # FIXME(rmoutard) : allow double quote.
-      loJsResult = re.search('src\=\'(.+\.js)', lsLine)
-      loLessResult = re.search('href\=\"(.+\.less)', lsLine)
+      loJsResult = re.search('src\=[\'|\"](.+\.js)', lsLine)
+      loLessResult = re.search('href\=[\'|\"](.+\.less)', lsLine)
       if loJsResult:
         if(self.isLib(loJsResult.group(1))):
           llJsLibIncludes.append(loJsResult.group(1))
