@@ -22,9 +22,9 @@ Cotton.UI.World = Class.extend({
       //set background image and blur it
       $('#blur_target').css('background-image',"url("+response.src+")");
       $('body').blurjs({
-          source: '#blur_target',
-          radius: 15,
-          overlay: 'rgba(0,0,0,0.2)'
+          'source': '#blur_target',
+          'radius': 15,
+          'overlay': 'rgba(0,0,0,0.2)'
       });
     });
 
@@ -51,7 +51,7 @@ Cotton.UI.World = Class.extend({
           self.countItems();
           $('.ct-filter').click(function(){
             var selector = $(this).attr('data-filter');
-            $('.ct-story_container').isotope({ filter: selector });
+            $('.ct-story_container').isotope({ 'filter': selector });
 	        return false;
           });
         });
@@ -92,8 +92,8 @@ Cotton.UI.World = Class.extend({
 
   initPlaceItems: function(){
     $('.ct-story_container').isotope({
-        itemSelector : '.ct-story_item',
-        layoutMode : 'fitColumns',
+        'itemSelector' : '.ct-story_item',
+        'layoutMode' : 'fitColumns',
     });
   }
 });
