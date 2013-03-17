@@ -165,9 +165,9 @@ Cotton.Controllers.Messaging = Class.extend({
               console.log(iId);
               self._oMainController.removeGetContentTab(sender.tab.id);
               chrome.extension.sendMessage({
-                action: 'refresh_item',
-                params: {
-                  itemId: iId
+                'action': 'refresh_item',
+                'params': {
+                  'itemId': iId
                 }
               });
             }
@@ -190,7 +190,7 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'get_trigger_story' : function(sendResponse){
     sendResponse({
-      trigger_id: this._oMainController._iTriggerStory
+      'trigger_id': this._oMainController._iTriggerStory
     });
   },
 });
