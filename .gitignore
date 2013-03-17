@@ -3,4 +3,4 @@
 .project
 .settings/
 *.pyc
-py/parameters.py
+py/own_parameters.py
