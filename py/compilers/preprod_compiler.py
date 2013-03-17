@@ -19,7 +19,7 @@ class PREPRODCompiler(Compiler):
       Args:
         -psFilePath:
     """
-    return True if re.search("lib/", psFilePath) or re.search("test/", psFilePath) else False
+    return True if re.search("lib/", psFilePath) or re.search("http://", psFilePath)  else False
 
   def compile(self):
     Compiler.compile(self)
