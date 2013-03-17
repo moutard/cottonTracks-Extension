@@ -33,6 +33,10 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
     // Set a flag to show that the database is up.
     this._oDb.setItem(sDatabaseName, 'True');
+    for( var sStoreName in dIndexesForObjectStoreNames){
+      // Init each store.
+      this._oDb.setItem(this._getStoreLocation(sStoreName), JSON.stringify([]));
+    }
 
   },
 
@@ -49,6 +53,7 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
   getList : function(sObjectStoreName) {
     var lResults = JSON.parse(this._oDb.getItem(
           this._getStoreLocation(sObjectStoreName)));
+    if( lResults === null) throw "LocalStorage.Engine the store doesn't exit."
     return lResults;
   },
 
@@ -62,10 +67,9 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
 
   put : function(sObjectStoreName, dItem) {
     var self = this;
-    var lResults = JSON.parse(self._oDb.getItem(
-          self._getStoreLocation(sObjectStoreName))) || [];
+    var lResults = self.getList(sObjectStoreName);
     lResults.push(dItem);
-    self._oDb.setItem(JSON.stringify(lResults));
+    self._oDb.setItem(self._getStoreLocation(sObjectStoreName), JSON.stringify(lResults));
   },
 
   delete : function() {
