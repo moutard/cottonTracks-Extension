@@ -23,8 +23,8 @@ Cotton.UI.Story.Item.Website = Class.extend({
     // url
     var sUrl = this._oItemContent.item().historyItem().url();
     // Extracts www.google.fr from http://www.google.fr/abc/def?q=deiubfds.
-    var oReg = new RegExp("\/\/([^/]*)\/");
-    var sDomain = sUrl.match(oReg)[1];
+    var oUrl = new UrlParser(sUrl);
+    var sDomain = oUrl.hostname;
     this._$url.text(sDomain);
 
     // favicon using chrome API.
