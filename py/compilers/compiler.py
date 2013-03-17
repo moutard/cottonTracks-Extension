@@ -128,7 +128,7 @@ class Compiler(FileManager, PreCompiler):
       Args:
         -psFilePath:
     """
-    return True if re.search("lib/", psFilePath) else False
+    return True if re.search("lib/", psFilePath) or re.search("http://",psFilePath)  else False
 
   def _removeJs(self, psFile, plJsFiles):
     """Remove all the lines of psFiles that matched one of the files in plJsFiles.
