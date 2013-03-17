@@ -22,6 +22,9 @@ class PREPRODCompiler(Compiler):
     return True if re.search("lib/", psFilePath) or re.search("http://", psFilePath)  else False
 
   def compile(self):
+    self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
+    os.chdir(self._DESTINATION_PATH)
+    self.setPreprodConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
     self.removeUnpreservedFiles()
 

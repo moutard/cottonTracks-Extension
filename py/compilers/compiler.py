@@ -16,8 +16,6 @@ class Compiler(FileManager, PreCompiler):
     self._dirToRemove = []
 
   def compile(self):
-    self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
-    os.chdir(self._DESTINATION_PATH)
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
     self.compileHtml('unit_tests.html')

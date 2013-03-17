@@ -14,6 +14,9 @@ class PRODCompiler(Compiler):
     self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
 
   def compile(self):
+    self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
+    os.chdir(self._DESTINATION_PATH)
+    self.setProdConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
     self.removeUnpreservedFiles()
     self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
