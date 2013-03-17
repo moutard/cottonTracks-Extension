@@ -4,7 +4,7 @@ Cotton.DB.ManagementTools = {};
 Cotton.DB.ManagementTools.dStores = {
     "stories" : "STORY_TRANSLATORS",
     "historyItems" : "HISTORY_ITEM_TRANSLATORS",
-    "searchKeywords" : "SEARCH_KEYWORDS_TRANSLATORS",
+    "searchKeywords" : "SEARCH_KEYWORD_TRANSLATORS",
 };
 
 Cotton.DB.ManagementTools.createStory = function(sTitle, sFeaturedImage){
