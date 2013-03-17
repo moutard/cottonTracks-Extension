@@ -40,10 +40,12 @@ Cotton.UI.Story.Item.LargeMenu = Class.extend({
           'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
       }, function() {
         self._oDatabase.delete('historyItems',
-            self._oItemContent.item().historyItem().id(),
-            function() {
-              self._oItemContent.item().container().isotope('remove',
-                self._oItemContent.item().$());
+          self._oItemContent.item().historyItem().id(),
+          function() {
+            self._oItemContent.item().container().isotope('remove',
+              self._oItemContent.item().$(), function() {
+                Cotton.UI.WORLD.countItems();
+            });
         });
       });
     });
