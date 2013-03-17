@@ -56,8 +56,8 @@ Cotton.UI.Story.Item.LargeMenu = Class.extend({
 
   },
 
-  appendTo : function(oItemContent) {
-    oItemContent.$().append(this._$itemLargeMenu);
+  $ : function() {
+    return this._$itemLargeMenu;
   }
 
 });
