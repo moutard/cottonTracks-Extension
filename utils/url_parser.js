@@ -97,17 +97,17 @@ UrlParser.prototype.generateKeywords = function() {
   if (this.dSearch === undefined) {
     this.fineDecomposition();
   }
-  this.keywords = new Array();
+  this.keywords = [];
 
   // keywords can be separate by '+' or ' '
   // in a url caracters are escape so '+' of '%20'
   var oSplitKeywordsRegExp = new RegExp('%20|\\+', 'g');
-  if (this.dHash.q !== undefined) {
-    this.keywords = this.keywords.concat(this.dHash.q
+  if (this.dHash['q'] !== undefined) {
+    this.keywords = this.keywords.concat(this.dHash['q']
         .split(oSplitKeywordsRegExp));
   }
-  if (this.dSearch.q !== undefined) {
-    this.keywords = this.keywords.concat(this.dSearch.q
+  if (this.dSearch['q'] !== undefined) {
+    this.keywords = this.keywords.concat(this.dSearch['q']
         .split(oSplitKeywordsRegExp));
   }
 
