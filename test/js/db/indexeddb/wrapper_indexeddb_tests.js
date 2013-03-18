@@ -1,5 +1,5 @@
 'use strict';
-var TIMEOUT = 1000; // milliseconds.
+var TIMEOUT = 4000; // milliseconds.
 var oHistoryItem1 = {
   lExtractedWords : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
   lQueryWords : ['alice', 'wonderland', 'film'],
@@ -25,7 +25,7 @@ module(
 
 asyncTest("init with no translator.", function() {
     expect(1);
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+    var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
       }, function() {
         console.log('database created.')
         ok(true, "Created");
@@ -40,7 +40,7 @@ asyncTest("init with no translator.", function() {
 asyncTest("init with 2 translators.", function() {
   expect(1);
   var self = this;
-  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+  var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
       'stories' : Cotton.Translators.STORY_TRANSLATORS,
       'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
@@ -57,7 +57,7 @@ asyncTest("init with 2 translators.", function() {
 asyncTest("init with all translators.", function() {
     expect(1);
     var self = this;
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+    var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
@@ -74,7 +74,7 @@ asyncTest("init with all translators.", function() {
 
 asyncTest("add search keys with the same keywords.", function() {
     var self = this;
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+    var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
         var oSearchKeyword = new Cotton.Model.SearchKeyword('wonderland');
@@ -95,7 +95,7 @@ asyncTest("add search keys with the same keywords.", function() {
 
 asyncTest("put Unique historyItems with the same url.", function() {
   var self = this;
-  self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test', {
+  var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
       'historyItems' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
       var oHistoryItem = new Cotton.Model.HistoryItem();

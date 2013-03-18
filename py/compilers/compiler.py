@@ -257,4 +257,9 @@ class Compiler(FileManager, PreCompiler):
         pass
 
   def createIntegrationTests(self):
+    self._INTEGRATION_TESTS = self._DESTINATION_PATH + '_integration'
+    self.pretreatment(self._SOURCE_PATH, self._INTEGRATION_TESTS)
+    os.chdir(self._INTEGRATION_TESTS)
+    shutil.move(os.path.join(self._INTEGRATION_TESTS, "test", "manifest.json"),
+      os.path.join(self._INTEGRATION_TESTS, "manifest.json"))
     pass
