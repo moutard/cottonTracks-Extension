@@ -21,6 +21,7 @@ Cotton.UI.SideMenu.StickerImage = Class.extend({
     //set values
     var sStickerImage = this._sStickerImage
                       = this._oSticker.sumUp().menu().story().featuredImage();
+    this.refresh();
 
     //construct element
 	  this._$stickerImageContainer.append(
