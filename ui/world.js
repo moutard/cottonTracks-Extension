@@ -6,6 +6,11 @@
  */
 Cotton.UI.World = Class.extend({
   /**
+   * Lightyear Application
+   */
+  _oLightyear : null,
+
+  /**
    * Story container
    */
   _$storyContainer : null,
@@ -13,9 +18,11 @@ Cotton.UI.World = Class.extend({
   /**
    * @constructor
    */
-  init : function() {
+  init : function(oApplication) {
     var self = this;
+    this._oLightyear = oApplication;
     this._$storyContainer = $(".ct-story_container");
+
     chrome.extension.sendMessage({
       'action': 'pass_background_screenshot'
     }, function(response) {
@@ -35,40 +42,24 @@ Cotton.UI.World = Class.extend({
     });
   },
 
-  buildStory : function(iStoryId) {
+  buildStory : function(lHistoryItems) {
     var self = this;
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-        'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-    }, function() {
-	  self = self;
-      self._oDatabase.find('stories', 'id', iStoryId, function(oStory) {
-        self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
-        function(lHistoryItems) {
-          // Initialize isotope grid view
-          self.initPlaceItems();
-          self.createStory(lHistoryItems);
-          self.countItems();
-          $('.ct-filter').click(function(){
-            var selector = $(this).attr('data-filter');
-            $('.ct-story_container').isotope({ 'filter': selector });
-	        return false;
-          });
-        });
-        self.createMenu(oStory);
-      });
-    });
-  },
-
-  createStory : function(lHistoryItems){
-    var self = this;
+    // Initialize isotope grid view
+    self.initPlaceItems();
     for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
       var oHistoryItem = lHistoryItems[i];
       var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, self._$storyContainer);
     }
+    // count items through dom classes to set filters counts
+    self.countItems();
+    $('.ct-filter').click(function(){
+      var selector = $(this).attr('data-filter');
+      $('.ct-story_container').isotope({ 'filter': selector });
+    return false;
+    });
   },
 
-  createMenu : function(oStory){
+  buildMenu : function(oStory){
     var oMenu = new Cotton.UI.SideMenu.Menu(oStory);
   },
 
