@@ -193,4 +193,9 @@ Cotton.Controllers.Messaging = Class.extend({
       'trigger_id': this._oMainController._iTriggerStory
     });
   },
+
+  'pass_background_screenshot': function(sendResponse){
+    sendResponse({'src': this._oMainController.screenshot()});
+  }
+
 });

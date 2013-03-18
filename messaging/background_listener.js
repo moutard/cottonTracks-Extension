@@ -24,7 +24,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     var self = this;
     self._oMessagingController = oMessagingController;
 
-    // Listen for the content script to send a message to the background page.
+    // Listen all the messages sent to the background page.
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
 
       DEBUG && console.debug(request);
@@ -32,32 +32,39 @@ Cotton.Controllers.BackgroundListener = Class.extend({
       /**
        * DISPACHER
        * All the message send by sendMessage arrived here.
-       * CottonTracks defined an "action" parameters.
-       * - create_history_item
-       * - import_history
+       * CottonTracks defined an "action" parameters it's mandatory.
        */
-      if (request['params'] && request['params']['historyItem']) {
-        self._oMessagingController.doAction(request['action'], [sendResponse,
-          request['params']['historyItem'], sender]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
-        return true;
-      }
-      
-      if (request['action'] == 'get_content_tab' ){
-        self._oMessagingController.doAction(request['action'], [sendResponse,
-          request['params']['tab_id']]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
-        return true;
+      switch(request['action']) {
+
+        case 'create_history_item':
+          self._oMessagingController.doAction(request['action'],
+            [sendResponse, request['params']['historyItem'], sender]);
+          break;
+
+        case 'update_history_item':
+            self._oMessagingController.doAction(request['action'],
+            [sendResponse, request['params']['historyItem'], sender]);
+          break;
+
+        case 'get_content_tab':
+          self._oMessagingController.doAction(request['action'],
+            [sendResponse, request['params']['tab_id']]);
+          break;
+
+        case 'get_trigger_story':
+          self._oMessagingController.doAction(request['action'], [sendResponse]);
+          break;
+
+        case 'pass_background_screenshot':
+          self._oMessagingController.doAction(request['action'], [sendResponse]);
+          break;
+
+        default:
+          throw "BackgroundMessager received a message with an undefined or unknown 'action' parameter."
+          break;
       }
 
-      if (request['action'] == 'get_trigger_story' ){
-        self._oMessagingController.doAction(request['action'], [sendResponse]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
-        return true;
-      }
+      return true;
     });
   },
 
