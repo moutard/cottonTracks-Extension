@@ -1,25 +1,23 @@
 'use strict';
 
 /**
- * In charge of displaying an item (dot + link + content). Handle his position
- * in the storyline.
+ * In charge of displaying an item frame + content.
  */
 Cotton.UI.Story.Item.Element = Class
     .extend({
+      _oWorld : null,
 
       _oHistoryItem : null,
-
       _$item : null,
-
       _sItemType : null,
-
       _oItemContent : null,
-
       _$storyContainer : null,
-
       _bReload : null,
 
-      init : function(oHistoryItem, $storyContainer) {
+      init : function(oHistoryItem, $storyContainer, oWorld) {
+        // World
+        this._oWorld = oWorld;
+
         // Cotton.Model.HistoryItem contains all data.
         this._oHistoryItem = oHistoryItem;
 
@@ -44,6 +42,10 @@ Cotton.UI.Story.Item.Element = Class
 
       $ : function() {
         return this._$item;
+      },
+
+      world : function(){
+        return this._oWorld;
       },
 
       historyItem : function() {

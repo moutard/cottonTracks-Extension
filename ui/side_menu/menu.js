@@ -8,6 +8,7 @@
  **/
 
 Cotton.UI.SideMenu.Menu = Class.extend({
+  _oWorld : null,
 
 	_$menu : null,
 	_oStory : null,
@@ -17,9 +18,9 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 	_$separationLineTop : null,
 	_$separationLineBottom : null,
 
-	init : function(oStory){
+	init : function(oStory, oWorld){
 		this._$menu = $(".ct-menu");
-
+    this._oWorld = oWorld;
 		this._oStory = oStory;
 		this._oSumUp = new Cotton.UI.SideMenu.SumUp(this);
 		this._oFilters = new Cotton.UI.SideMenu.Filters(this);
@@ -37,6 +38,10 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   $ : function(){
 	  return this._$menu;
+  },
+
+  world : function(){
+    return this._oWorld;
   },
 
   story : function(){

@@ -48,7 +48,8 @@ Cotton.UI.World = Class.extend({
     self.initPlaceItems();
     for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
       var oHistoryItem = lHistoryItems[i];
-      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, self._$storyContainer);
+      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem,
+        self._$storyContainer, self);
     }
     // count items through dom classes to set filters counts
     self.countItems();
@@ -60,7 +61,7 @@ Cotton.UI.World = Class.extend({
   },
 
   buildMenu : function(oStory){
-    var oMenu = new Cotton.UI.SideMenu.Menu(oStory);
+    var oMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
   },
 
   countItems: function(){
@@ -86,5 +87,9 @@ Cotton.UI.World = Class.extend({
         'itemSelector' : '.ct-story_item',
         'layoutMode' : 'fitColumns',
     });
+  },
+
+  lightyear : function(){
+    return this._oLightyear;
   }
 });
