@@ -36,10 +36,8 @@ Cotton.UI.World = Class.extend({
     });
 
     // progressive blur effect
-    $(document).ready(function() {
-      $("#blur_target").delay(100).fadeOut(800);
-      $('.ct-menu').delay(200).animate({left: '+=250',}, 300, function(){});
-    });
+    $("#blur_target").delay(100).fadeOut(800);
+    $('.ct-menu').delay(200).animate({left: '+=250',}, 300, function(){});
   },
 
   buildStory : function(lHistoryItems) {
