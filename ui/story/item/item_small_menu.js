@@ -69,7 +69,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
 
     //expand reader
     this._$expand.click(function(){
-      oItemContent.item().$().css('height', '630px');
+      oItemContent.item().$().addClass('expanded');
       self.$().addClass("visible_action_menu");
       oItemContent.item().container().isotope('reLayout');
       $(this).hide();
@@ -78,7 +78,7 @@ Cotton.UI.Story.Item.SmallMenu = Class.extend({
 
     //collapse reader
     this._$collapse.click(function(){
-      oItemContent.item().$().css('height', '150px');
+      oItemContent.item().$().removeClass('expanded');
       oItemContent.item().container().isotope('reLayout');
       self.$().removeClass("visible_action_menu");
       $(this).hide();

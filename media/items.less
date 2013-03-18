@@ -135,10 +135,21 @@
 				> .reader_selector_cursor {
           position: absolute;
           top: 31px;
-          left: 35px;
           border-left: 7px solid transparent;
           border-right: 7px solid transparent;
           border-bottom: 7px solid #fff;
+
+          &.on_best{
+            left: 35px;
+          }
+
+          &.on_quote{
+            left: 142px;
+          }
+
+          &.on_whole{
+            left: 275px;
+          }
 				}
 			}
 
@@ -180,6 +191,10 @@
 				    background-color: #5bab7d;
 				}
 			}
+		}
+
+		&.expanded{
+		  height: 630px;
 		}
 	}
 
