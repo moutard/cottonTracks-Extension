@@ -61,7 +61,11 @@ Cotton.UI.World = Class.extend({
   },
 
   buildMenu : function(oStory){
-    var oMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
+    this._oMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
+  },
+
+  menu : function(){
+    return this._oMenu;
   },
 
   countItems: function(){
