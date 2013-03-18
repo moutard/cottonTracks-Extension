@@ -36,7 +36,7 @@ Cotton.UI.World = Class.extend({
     });
 
     // progressive blur effect
-    $("#blur_target").delay(100).fadeOut(800);
+    setTimeout(function(){$("#blur_target").addClass('hiddenBackground');}, 200);
   },
 
   buildStory : function(lHistoryItems) {
