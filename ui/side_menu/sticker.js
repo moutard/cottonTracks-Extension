@@ -7,17 +7,17 @@
 
 Cotton.UI.SideMenu.Sticker = Class.extend({
 
-  _oMenu : null,
+  _oSumUp : null,
   _$sticker : null,
   _oStickerImage : null,
   _oStickerInfos : null,
 
-  init: function(oMenu){
-	  this._oMenu = oMenu;
+  init: function(oSumUp){
+	  this._oSumUp = oSumUp;
 
 	  this._$sticker = $('<div class="ct-sticker"></div>');
-	  this._oStickerImage = new Cotton.UI.SideMenu.StickerImage(this._oMenu);
-	  this._oStickerInfos = new Cotton.UI.SideMenu.StickerInfos(this._oMenu);
+	  this._oStickerImage = new Cotton.UI.SideMenu.StickerImage(this);
+	  this._oStickerInfos = new Cotton.UI.SideMenu.StickerInfos(this);
 
     //construct element
 	  this._$sticker.append(
@@ -30,5 +30,13 @@ Cotton.UI.SideMenu.Sticker = Class.extend({
   $ : function(){
 	  return this._$sticker;
   },
+
+  sumUp : function(){
+    return this._oSumUp;
+  },
+
+  stickerImage : function(){
+    return this._oStickerImage;
+  }
 
 });
