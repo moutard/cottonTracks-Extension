@@ -18,7 +18,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
     this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     if (sType === "img") {
-      this._$img.attr("src", this._oItem.historyItem().url());
+      var sImgSrc = this._oItem.historyItem().url();
+      this._$img.attr("src", sImgSrc);
     }
     if (sType === "imgres") {
       var oUrl = new UrlParser(this._oItem.historyItem().url());
@@ -26,6 +27,10 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
       var sImgSrc = this.replaceHexa(oUrl.dSearch['imgurl']);
       this._$img.attr("src", sImgSrc);
     }
+
+    oItem.historyItem().extractedDNA().setImageUrl(sImgSrc);
+    oItem.world().lightyear().setStoryImage();
+
     // create the item
 		self._$item_content.append(
 		  self._$img,
