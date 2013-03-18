@@ -111,20 +111,23 @@ Cotton.UI.Story.Item.Reader = Class.extend({
       this._$readerWholeContent
     );
 
-    //bug! .css(prop,value) doesn't want to work on 
+    //bug! .css(prop,value) doesn't want to work on
     //self._$readerSelectorCursor. Hence the $(".reader_selector_cursor")
     this._$readerBestSelector.click(function(){
-      $(this).siblings(".reader_selector_cursor").css('left', '35px');
+      $(this).siblings(".reader_selector_cursor").addClass('on_best');
+      $(this).siblings(".reader_selector_cursor").removeClass('on_quote on_whole');
       $(this).parent().siblings(".item-reader_content").hide();
       $(this).parent().siblings(".item-reader_best_content").show();
     });
     this._$readerQuoteSelector.click(function(){
-      $(this).siblings(".reader_selector_cursor").css('left', '142px');
+      $(this).siblings(".reader_selector_cursor").addClass('on_quote');
+      $(this).siblings(".reader_selector_cursor").removeClass('on_whole on_best');
       $(this).parent().siblings(".item-reader_content").hide();
       $(this).parent().siblings(".item-reader_quote_content").show();
     })
     this._$readerWholeSelector.click(function(){
-      $(this).siblings(".reader_selector_cursor").css('left', '275px');
+      $(this).siblings(".reader_selector_cursor").addClass('on_whole');
+      $(this).siblings(".reader_selector_cursor").removeClass('on_quote on_best');
       $(this).parent().siblings(".item-reader_content").hide();
       $(this).parent().siblings(".item-reader_whole_content").show();
     });
@@ -138,13 +141,13 @@ Cotton.UI.Story.Item.Reader = Class.extend({
   chooseContent : function(){
     if (this._bWhole){
       this._$readerWholeContent.show();
-      this._$readerSelectorCursor.css('left','275px');
+      this._$readerSelectorCursor.addClass('on_whole');
     } else if (this._bBest){
       this._$readerBestContent.show();
-      this._$readerSelectorCursor.css('left','35px');
+      this._$readerSelectorCursor.addClass('on_best');
     }  else {
       this._$readerQuoteContent.show();
-      this._$readerSelectorCursor.css('left','142px');
+      this._$readerSelectorCursor.addClass('on_quote');
     }
   },
 
