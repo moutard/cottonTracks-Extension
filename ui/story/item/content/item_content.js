@@ -11,25 +11,40 @@
 Cotton.UI.Story.Item.Content.Element = Class.extend({
 
   /**
-   * {Cotton.UI.Story.Item.Element} : parent.
+   * {Cotton.UI.Story.Item.Element}  parent
    */
   _oItem : null,
 
-  _$item_content : null,
+  /**
+   * DOM element
+   */
+  _$content : null,
 
-  init : function(oItem) {
+  /**
+   * {Cotton.Model.HistoryItem} oHistoryItem
+   */
+  _oHistoryItem : null,
+
+  /**
+   * @param {Cotton.Model.HistoryItem} oHistoryItem
+   * @param {Cotton.UI.Story.Item} oItem
+   */
+  init : function(oHistoryItem, oItem) {
     // current parent element.
     this._oItem = oItem;
 
+    // oHistoryItem that contains all the content data.
+    this._oHistoryItem = oHistoryItem;
+
     // current item.
-    this._$item_content = this._oItem.$();
+    this._$content = this._oItem.$();
 
     // the construction of the element depends on the its type. So create the
     // element directly in the sub class.
   },
 
   $ : function(){
-    return this._$item_content;
+    return this._$content;
   },
 
   item : function(){
