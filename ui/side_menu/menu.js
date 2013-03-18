@@ -46,5 +46,13 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   story : function(){
 	  return this._oStory;
+  },
+
+  sumUp : function(){
+    return this._oSumUp;
+  },
+
+  slideIn : function(){
+    this._$menu.animate({left: '+=250',}, 300, function(){});
   }
 });
