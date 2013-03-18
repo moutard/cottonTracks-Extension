@@ -37,7 +37,6 @@ Cotton.UI.World = Class.extend({
 
     // progressive blur effect
     $("#blur_target").delay(100).fadeOut(800);
-    $('.ct-menu').delay(200).animate({left: '+=250',}, 300, function(){});
   },
 
   buildStory : function(lHistoryItems) {
@@ -60,6 +59,7 @@ Cotton.UI.World = Class.extend({
 
   buildMenu : function(oStory){
     this._oMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
+    this._oMenu.slideIn();
   },
 
   menu : function(){
