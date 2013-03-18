@@ -84,6 +84,10 @@ Cotton.Controllers.Lightyear = Class.extend({
     }
   },
 
+  database : function(){
+    return this._oDatabase;
+  }
+
 });
 
 Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear();

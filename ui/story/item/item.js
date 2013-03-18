@@ -67,16 +67,13 @@ Cotton.UI.Story.Item.Element = Class
       reload : function() {
         self = this;
 
-        var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-            'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-        }, function() {
-          self = self;
-          oDatabase.find('historyItems', 'id', self.historyItem().id(), function(oHistoryItem) {
+        var oDatabase = this._oWorld.lightyear().database();
+        oDatabase.find('historyItems', 'id', self.historyItem().id(),
+          function(oHistoryItem) {
             self._$item.empty();
             self._oHistoryItem = oHistoryItem;
             self._bReload = true;
             self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
-          });
         });
       },
 
