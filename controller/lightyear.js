@@ -37,6 +37,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oStory : null,
 
   /**
+   * list of HistoryItems in the triggered story
+   **/
+  _lHistoryItems : null,
+
+  /**
    * @constructor
    */
   init : function(){
@@ -56,10 +61,11 @@ Cotton.Controllers.Lightyear = Class.extend({
           self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
           function(lHistoryItems) {
             self._lHistoryItems = lHistoryItems;
+            self.buildMenuFromWorld();
+            self.setStoryImage();
             self.buildStoryFromWorld();
           });
           self._oStory = oStory;
-          self.buildMenuFromWorld();
         });
       });
     });
@@ -67,25 +73,33 @@ Cotton.Controllers.Lightyear = Class.extend({
     $(window).ready(function(){
       self._oWorld = new Cotton.UI.World(self);
       self._bWorldReady = true;
-      self.buildStoryFromWorld();
-      self.buildMenuFromWorld();
     });
   },
 
   buildStoryFromWorld : function(){
-    if (this._lHistoryItems && this._bWorldReady ) {
+    if (this._lHistoryItems && this._bWorldReady) {
       this._oWorld.buildStory(this._lHistoryItems)
     }
   },
 
   buildMenuFromWorld : function(){
-    if (this._oStory && this._bWorldReady ) {
+    if (this._oStory && this._bWorldReady) {
       this._oWorld.buildMenu(this._oStory)
+    }
+  },
+
+  setStoryImage : function(){
+    if (this._oStory && this._lHistoryItems && this._bWorldReady){
+      this._oWorld.menu().sumUp().sticker().stickerImage().refresh();
     }
   },
 
   database : function(){
     return this._oDatabase;
+  },
+
+  historyItems : function(){
+    return this._lHistoryItems;
   }
 
 });

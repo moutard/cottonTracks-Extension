@@ -14,10 +14,10 @@ Cotton.UI.SideMenu.SumUp = Class.extend({
 
   init: function(oMenu){
 	  this._oMenu = oMenu;
-	
+
     this._$sumUp = $('<div class="ct-sum_up"></div>');
-    this._oSticker = new Cotton.UI.SideMenu.Sticker(this._oMenu);
-    this._oActions = new Cotton.UI.SideMenu.Actions(this._oMenu);
+    this._oSticker = new Cotton.UI.SideMenu.Sticker(this);
+    this._oActions = new Cotton.UI.SideMenu.Actions(this);
 
     //construct element
     this._$sumUp.append(
@@ -27,6 +27,14 @@ Cotton.UI.SideMenu.SumUp = Class.extend({
 
   $ : function(){
 	  return this._$sumUp;
+  },
+
+  menu : function(){
+    return this._oMenu;
+  },
+
+  sticker : function(){
+    return this._oSticker;
   }
 
 });
