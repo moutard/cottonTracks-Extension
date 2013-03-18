@@ -256,3 +256,5 @@ class Compiler(FileManager, PreCompiler):
       except OSError:
         pass
 
+  def createIntegrationTests(self):
+    pass
