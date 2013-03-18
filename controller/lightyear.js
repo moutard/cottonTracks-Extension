@@ -58,14 +58,13 @@ Cotton.Controllers.Lightyear = Class.extend({
       }, function(response){
         self._iStoryId = response['trigger_id'];
         self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
+          self._oStory = oStory;
           self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
           function(lHistoryItems) {
             self._lHistoryItems = lHistoryItems;
             self.buildMenuFromWorld();
-            self.setStoryImage();
             self.buildStoryFromWorld();
           });
-          self._oStory = oStory;
         });
       });
     });
@@ -85,12 +84,6 @@ Cotton.Controllers.Lightyear = Class.extend({
   buildMenuFromWorld : function(){
     if (this._oStory && this._bWorldReady) {
       this._oWorld.buildMenu(this._oStory)
-    }
-  },
-
-  setStoryImage : function(){
-    if (this._oStory && this._lHistoryItems && this._bWorldReady){
-      this._oWorld.menu().sumUp().sticker().stickerImage().refresh();
     }
   },
 
