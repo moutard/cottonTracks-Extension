@@ -1,6 +1,6 @@
 'use strict';
 
-module("Cotton.UI.Story.Item.Content.Dna.Reader",{
+module("Cotton.UI.Story.Item.Content.Brick.Dna.Reader",{
   setup: function() {
     // runs before each test
   },
@@ -13,7 +13,7 @@ test("init.", function() {
   var oHistoryItemDna = new Cotton.Model.HistoryItemDNA({
     'lQueryWords': [],
   });
-  var oReader = new Cotton.UI.Story.Item.Content.Dna.Reader(oHistoryItemDna);
+  var oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(oHistoryItemDna);
   ok(oReader);
 });
 

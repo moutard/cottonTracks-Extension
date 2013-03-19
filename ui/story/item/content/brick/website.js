@@ -3,7 +3,7 @@
 /**
  * Item Website Contains favicon and website url.
  */
-Cotton.UI.Story.Item.Content.Website = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
 
   _oItemContent : null,
 

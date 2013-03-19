@@ -3,7 +3,7 @@
 /**
  * Contains title
  */
-Cotton.UI.Story.Item.Content.Title = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
 
   /**
    * {Cotton.UI.Story.Item.Content.Element} parent object if one.
