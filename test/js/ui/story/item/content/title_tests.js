@@ -9,7 +9,7 @@ module("Cotton.UI.Story.Item.Content.Title",{
   }
 });
 
-test("init.", function() {
+test("init.", function(){
   var oTitle = new Cotton.UI.Story.Item.Content.Title('Alice in wonderland');
   ok(oTitle);
 });
