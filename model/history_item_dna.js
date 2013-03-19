@@ -30,24 +30,27 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   /**
    * @constructor
    */
-  init : function() {
+  init : function(dDBRecord) {
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
     // with extractedWords and QueryWords. Made something better.
     // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
-    this._lQueryWords = [];
-    this._lExtractedWords = [];
+
+    dDBRecord = dDBRecord || {};
+
+    this._lQueryWords = dDBRecord['lQueryWords'] || [];
+    this._lExtractedWords = dDBRecord['lQueryWords'] || [];
 
     this._iPercent = 0;
     this._fTimeTabActive = -1;
-    this._lHighlightedText = [];
-    this._sImageUrl = "";
-    this._sFirstParagraph = "";
+    this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
+    this._sImageUrl = dDBRecord['sImageUrl'] || "";
+    this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
     this._sMostReadParagraph = "";
     this._lsAllParagraphs = "";
     this._lParagraphs = [];
-    this._lCopyPaste = [];
+    this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
-    this._oBagOfWords = new Cotton.Model.BagOfWords();
+    this._oBagOfWords = new Cotton.Model.BagOfWords(dDBRecord['oBagOfWords']);
   },
   queryWords : function() {
     return this._lQueryWords;
