@@ -7,37 +7,35 @@
 Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend({
 
   _$img : null,
-  _oItemMenu : null,
 
-  init : function(oItem, sType) {
-    self = this;
-    this._super(oItem);
+  init : function(oHistoryItem, sType, oItem) {
 
-    oItem.$().addClass('ct-item-image');
+    this._super(oHistoryItem, oItem);
+
+    this._$content.addClass('ct-item-image');
     this._$img = $('<img class="resize">');
-    this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
 
     if (sType === "img") {
-      var sImgSrc = this._oItem.historyItem().url();
+      var sImgSrc = oHistoryItem.url();
       this._$img.attr("src", sImgSrc);
     }
     if (sType === "imgres") {
-      var oUrl = new UrlParser(this._oItem.historyItem().url());
+      var oUrl = new UrlParser(oHistoryItem.url());
       oUrl.fineDecomposition();
       var sImgSrc = this.replaceHexa(oUrl.dSearch['imgurl']);
       this._$img.attr("src", sImgSrc);
     }
 
-    oItem.historyItem().extractedDNA().setImageUrl(sImgSrc);
-    oItem.world().lightyear().setStoryImage();
+    // FIXME(rmoutard): why this line.
+    // oItem.historyItem().extractedDNA().setImageUrl(sImgSrc);
+    // oItem.world().lightyear().setStoryImage();
 
     // create the item
-		self._$item_content.append(
-		  self._$img,
-		  self._oItemMenu.$()
+		this._$content.append(
+		  this._$img
 		);
 
-		this.resize(self._$img);
+		this.resize(this._$img);
   },
 
   replaceHexa : function(sImageUrl) {
