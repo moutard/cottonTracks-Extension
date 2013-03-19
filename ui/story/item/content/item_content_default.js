@@ -31,20 +31,18 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Dna.QuoteIndicator(this);
     this._oItemReader = new Cotton.UI.Story.Item.Content.Dna.Reader(this);
 
-    this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
     // create the item
-    oItem.$().addClass('ct-item-default');
-      this._$item_content.append(
-        this._oItemFeaturedImage.$(),
-        this._$content.append(
-          this._oItemTitle.$(),
-          this._oItemDate.$(),
-          this._oItemQuoteIndicator.$(),
-          this._oItemLabel.$(),
-          this._oItemMenu.$()
-        ),
-       this._oItemReader.$()
-      );
-    },
+    this._$content.addClass('ct-content_default');
+    this._$content.append(
+      this._oItemFeaturedImage.$(),
+      this._$content.append(
+        this._oItemTitle.$(),
+        this._oItemDate.$(),
+        this._oItemQuoteIndicator.$(),
+        this._oItemLabel.$()
+      ),
+     this._oItemReader.$()
+    );
+  }
 
 });
