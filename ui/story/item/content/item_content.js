@@ -1,22 +1,17 @@
 'use strict';
 
 /**
- * Item content
- * Parent Class of
- * - item_content_default
- * - item_content_image
- * - item_content_map
- * ...
+ * Content
  */
 Cotton.UI.Story.Item.Content.Element = Class.extend({
 
   /**
-   * {Cotton.UI.Story.Item.Element}  parent
+   * {Cotton.UI.Story.Item.Element} parent element
    */
   _oItem : null,
 
   /**
-   * DOM element
+   * {DOM} current element
    */
   _$content : null,
 
