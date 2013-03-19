@@ -37,7 +37,7 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     this._oHistoryItem = oHistoryItem;
 
     // current item.
-    this._$content = this._oItem.$();
+    this._$content = $('<div class="ct-story_item_content"></div>');;
 
     // the construction of the element depends on the its type. So create the
     // element directly in the sub class.
