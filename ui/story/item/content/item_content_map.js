@@ -7,36 +7,34 @@
 Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
     .extend({
 
-      _$map : null,
       _oUrl : null,
-      _oItemLabel : null,
-      _oItemMenu : null,
 
+      // sub elements.
+      _$map : null,
       _$itemDoubleContainer : null,
+      _oItemLabel : null,
 
-      init : function(oItem, oUrl) {
-        self = this;
-        this._super(oItem);
-        this._oItemLabel = new Cotton.UI.Story.Item.LargeLabel(this);
-        this._oItemMenu = new Cotton.UI.Story.Item.LargeMenu(this);
+
+      init : function(oHistoryItem, oUrl, oItem) {
+        this._super(oHistoryItem);
+        this._oUrl = oUrl;
 
         // current element
-        oItem.$().addClass('ct-item-map');
-        this._$itemDoubleContainer = $('<div class="ct-doublecontainer"></div>');
-
-        // TODO(rmoutard) : why use oURl ?
-        this._oUrl = oUrl;
+        this._$content.addClass('ct-item-map');
 
         // current sub elements.
         this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');
+        this._$itemDoubleContainer = $('<div class="ct-double_container"></div>');
+        this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.LargeLabel(
+          oHistoryItem.title(), oHistoryItem.url());
+
         var sEmbedUrl = this._oUrl.href + "&output=embed&iwloc=near";
         this._$map.attr('src', sEmbedUrl);
 
         // create the item
-        this._$item_content.append(
-          self._$itemDoubleContainer.append(self._$map),
-          self._oItemLabel.$(),
-          self._oItemMenu.$()
+        this._$content.append(
+          this._$itemDoubleContainer.append(this._$map),
+          this._oItemLabel.$()
         );
       },
 
