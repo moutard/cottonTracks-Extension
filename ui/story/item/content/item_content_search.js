@@ -6,33 +6,35 @@
  */
 Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.extend({
 
+  // sub elements.
   _$itemInfo : null,
   _$title : null,
-  _oItemDate : null,
   _$searchBox : null,
   _$searchInput : null,
   _$searchButton : null,
+  _oItemDate : null,
   _oItemLabel : null,
-  _oItemWebsite : null,
-  _oItemMenu : null,
 
-  init : function(oItem) {
-    self = this;
+  init : function(oHistoryItem, oItem) {
     this._super(oItem);
-    oItem.$().addClass('ct-item-search');
 
-    this._$itemInfo = $('<div class="ct-item_info"></div>'),
+    // current element.
+    this._$content.addClass('ct-item-search');
+
+    // sub elements.
+    this._$itemInfo = $('<div class="ct-item_info"></div>');
     this._$title = $('<h3></h3>');
     this._$searchBox = $('<div class="ct-searchbox"></div>');
     this._$searchInput = $('<input type="text" name="ct-google-search">');
-    this._$searchButton = $('<img class="ct-search-button" src="media/images/story/item/search_item/search.png"/>');
-    this._oItemDate = new Cotton.UI.Story.Item.Date(this);
-    this._oItemLabel = new Cotton.UI.Story.Item.SmallLabel(this);
-    this._oItemMenu = new Cotton.UI.Story.Item.SmallMenu(this);
+    this._$searchButton = $('<img class="ct-search_button" src="media/images/story/item/search_item/search.png"/>');
+    this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
+      oHistoryItem.lastVisitTime(), this);
+    this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
+      oHistoryItem.url(), this);
 
     // Title
-    if (this.item().historyItem().title() !== "") {
-      var sTitle = this.item().historyItem().title().split(" - ")[0];
+    if (oHistoryItem.title() !== "") {
+      var sTitle = oHistoryItem.title().split(" - ")[0];
       this._$title.text(sTitle);
       this._$searchInput.val(sTitle);
     } else {
@@ -40,19 +42,18 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
     }
 
     // create the item
-    self._$item_content.append(
-      self._$itemInfo.append(
-        self._$title,
-        self._oItemDate.$(),
-        self._$searchBox.append(
-          self._$searchInput,
-          self._$searchButton
+    this._$content.append(
+      this._$itemInfo.append(
+        this._$title,
+        this._oItemDate.$(),
+        this._$searchBox.append(
+          this._$searchInput,
+          this._$searchButton
         )
       ),
-      self._oItemLabel.$(),
-      self._oItemMenu.$()
+      this._oItemLabel.$()
     );
 
-  },
+  }
 
 });
