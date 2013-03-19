@@ -7,23 +7,26 @@
 Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
     .extend({
 
-      _$video : null,
       _sVideoType : null,
-      _oItemLabel : null,
-      _oItemMenu : null,
 
+      // sub elements.
+      _$video : null,
       _$itemDoubleContainer : null,
+      _oItemLabel : null,
 
-      init : function(oItem, sVideoType, sEmbedCode) {
-        self = this;
-        this._super(oItem);
+      init : function(oHistoryItem, sVideoType, sEmbedCode, oItem) {
+        this._super(oHistoryItem, oItem);
         this._sVideoType = sVideoType;
-        oItem.$().addClass('ct-item-video');
 
-        this._oItemLabel = new Cotton.UI.Story.Item.LargeLabel(this);
-        this._oItemMenu = new Cotton.UI.Story.Item.LargeMenu(this);
+        // current element.
+        this._$content.addClass('ct-content_video');
 
-        this._$itemDoubleContainer = $('<div class="ct-doublecontainer"></div>');
+        // sub elements.
+        this._$itemDoubleContainer = $('<div class="ct-double_container"></div>');
+
+        this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.LargeLabel(
+          oHistoryItem.title(), oHistoryItem.url(), this);
+
 
         // video
         // Uses the right embed code depending on the video provider
@@ -45,11 +48,10 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
         }
 
         // create the item
-        this._$item_content.append(
-          self._$itemDoubleContainer.append(self._$video),
-          self._oItemLabel.$(),
-          self._oItemMenu.$()
+        this._$content.append(
+          this._$itemDoubleContainer.append(this._$video),
+          this._oItemLabel.$()
         );
-      },
+      }
 
     });
