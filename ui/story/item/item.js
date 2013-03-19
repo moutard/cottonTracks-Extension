@@ -3,86 +3,93 @@
 /**
  * In charge of displaying an item frame + content.
  */
-Cotton.UI.Story.Item.Element = Class
-    .extend({
-      _oWorld : null,
+Cotton.UI.Story.Item.Element = Class.extend({
 
-      _oHistoryItem : null,
-      _$item : null,
-      _sItemType : null,
-      _oItemContent : null,
-      _$storyContainer : null,
-      _bReload : null,
+  // parent element.
+  _oWorld : null,
 
-      init : function(oHistoryItem, $storyContainer, oWorld) {
-        // World
-        this._oWorld = oWorld;
+  _oHistoryItem : null,
 
-        // Cotton.Model.HistoryItem contains all data.
-        this._oHistoryItem = oHistoryItem;
+  // current element.
+  _$item : null,
 
-        // Container for all items
-        this._$storyContainer = $storyContainer;
+  _sItemType : null,
+  _oItemContent : null,
+  _bReload : null,
 
-        // current element.
-        this._$item = $('<div class="ct-story_item"></div>');
+  // sub elements.
+  _$storyContainer : null,
 
-        // current sub elements.
-        this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
+  init : function(oHistoryItem, $storyContainer, oWorld) {
+    // World
+    this._oWorld = oWorld;
 
-        // create item
-        if (this.itemType() !== 'search'){
-          this._$item.append(this._oItemContent.$());
-          this._$storyContainer.isotope( 'insert', this._$item);
-        }
+    // Cotton.Model.HistoryItem contains all data.
+    this._oHistoryItem = oHistoryItem;
 
-        //boolean to know if a reload has been performed
-        this._bReload = false;
-      },
+    // Container for all items
+    this._$storyContainer = $storyContainer;
 
-      $ : function() {
-        return this._$item;
-      },
+    // current element.
+    this._$item = $('<div class="ct-story_item"></div>');
 
-      world : function(){
-        return this._oWorld;
-      },
+    // current sub elements.
+    this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
 
-      historyItem : function() {
-        return this._oHistoryItem;
-      },
+    // create item
+    if (this.itemType() !== 'search'){
+      this._$item.append(this._oItemContent.$());
+      this._$storyContainer.isotope( 'insert', this._$item);
+    }
 
-      itemType : function() {
-        return this._sItemType;
-      },
+    //boolean to know if a reload has been performed
+    this._bReload = false;
+  },
 
-      setItemType : function(sType) {
-        this._sItemType = sType;
-      },
+  $ : function() {
+    return this._$item;
+  },
 
-      container : function() {
-        return this._$storyContainer;
-      },
+  world : function(){
+    return this._oWorld;
+  },
 
-      reload : function() {
-        self = this;
+  historyItem : function() {
+    return this._oHistoryItem;
+  },
 
-        var oDatabase = this._oWorld.lightyear().database();
-        oDatabase.find('historyItems', 'id', self.historyItem().id(),
-          function(oHistoryItem) {
-            self._$item.empty();
-            self._oHistoryItem = oHistoryItem;
-            self._bReload = true;
-            self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
-        });
-      },
+  itemType : function() {
+    return this._sItemType;
+  },
 
-      isReloaded : function() {
-        return this._bReload;
-      },
+  setItemType : function(sType) {
+    this._sItemType = sType;
+  },
 
-      setReloaded : function(bool) {
-        this._bReload = bool;
-      }
+  container : function() {
+    return this._$storyContainer;
+  },
+
+  reload : function() {
+    self = this;
+
+    // FIXME(rmoutard): do not use the database in item.
+    var oDatabase = this._oWorld.lightyear().database();
+    oDatabase.find('historyItems', 'id', self.historyItem().id(),
+      function(oHistoryItem) {
+        self._$item.empty();
+        self._oHistoryItem = oHistoryItem;
+        self._bReload = true;
+        self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
+    });
+  },
+
+  isReloaded : function() {
+    return this._bReload;
+  },
+
+  setReloaded : function(bReload) {
+    this._bReload = bReload;
+  }
 
 });
