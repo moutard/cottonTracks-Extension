@@ -2,41 +2,39 @@
 
 /**
  * Item Small Label is at the bottom of all items except maps/videos
- * contains the website indications
+ * contains the website indications.
  */
-Cotton.UI.Story.Item.SmallLabel = Class.extend({
+Cotton.UI.Story.Item.Content.SmallLabel = Class.extend({
 
+  // parent element.
   _oItemContent : null,
 
-  _$itemSmallLabel : null,
-  _oItemWebsite : null,
+  // current element.
+  _$small_label : null,
 
+  /**
+   * {Cotton.UI.Story.Item.Content.Website}
+   */
+  _oWebsite : null,
 
-  init : function(oItemContent) {
-    var self = this;
+  init : function(sUrl, oItemContent) {
 
-    // current parent element.
+    // parent element.
     this._oItemContent = oItemContent;
 
-    // current element
-    this._$itemSmallLabel = $('<div class="ct-label-small"></div>');
+    // current element.
+    this._$small_label = $('<div class="ct-small_label"></div>');
 
-    // current sub elements
-    this._oItemWebsite = new Cotton.UI.Story.Item.Website(this._oItemContent);
+    // sub elements.
+    this._oWebsite = new Cotton.UI.Story.Item.Content.Website(sUrl, this._oItemContent);
 
-    // construct item
-    this._$itemSmallLabel.append(this._oItemWebsite.$());
-
-    this._$itemSmallLabel = $('<div class="ct-label-small"></div>');
-    this._oItemWebsite = new Cotton.UI.Story.Item.Website(this._oItemContent);
-
-    // construct item
-    this._$itemSmallLabel.append(this._oItemWebsite.$());
+    // construct item.
+    this._$small_label.append(this._oWebsite.$());
 
   },
 
   $ : function() {
-    return this._$itemSmallLabel;
-  },
+    return this._$small_label;
+  }
 
 });
