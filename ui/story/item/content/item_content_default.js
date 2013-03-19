@@ -23,13 +23,20 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
   init : function(oHistoryItem, oItem) {
     this._super(oHistoryItem, oItem);
 
-    this._oItemTitle = new Cotton.UI.Story.Item.Content.Title(oHistoryItem.title(), this);
-    this._oItemDate = new Cotton.UI.Story.Item.Content.Date(oHistoryItem.lastVisitTime(), this);
-    this._oItemLabel = new Cotton.UI.Story.Item.Content.SmallLabel(oHistoryItem.url(), this);
 
-    this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Dna.FeaturedImage(this);
-    this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Dna.QuoteIndicator(this);
-    this._oItemReader = new Cotton.UI.Story.Item.Content.Dna.Reader(this);
+    this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
+      oHistoryItem.title(), this);
+    this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
+      oHistoryItem.lastVisitTime(), this);
+    this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
+      oHistoryItem.url(), this);
+
+    this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
+        oHistoryItem.extractedDNA().imageUrl(), this);
+    this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(
+        oHistoryItem.extractedDNA().highlightedText().length, this);
+    this._oItemReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
+        oHistoryItem.extractedDNA(), this);
 
     // create the item
     this._$content.addClass('ct-content_default');

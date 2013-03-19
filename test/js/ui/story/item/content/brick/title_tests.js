@@ -1,6 +1,6 @@
 'use strict';
 
-module("Cotton.UI.Story.Item.Content.Title",{
+module("Cotton.UI.Story.Item.Content.Brick.Title",{
   setup: function() {
     // runs before each test
   },
@@ -10,7 +10,7 @@ module("Cotton.UI.Story.Item.Content.Title",{
 });
 
 test("init.", function(){
-  var oTitle = new Cotton.UI.Story.Item.Content.Title('Alice in wonderland');
+  var oTitle = new Cotton.UI.Story.Item.Content.Brick.Title('Alice in wonderland');
   ok(oTitle);
 });
 

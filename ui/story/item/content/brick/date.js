@@ -3,7 +3,7 @@
 /**
  * Item Date Contains clock icon and date
  */
-Cotton.UI.Story.Item.Content.Date = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Date = Class.extend({
 
   _oItemContent : null,
 

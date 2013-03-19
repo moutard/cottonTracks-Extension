@@ -6,7 +6,7 @@
  * bar to toggle between these 3 modes
  */
 
-Cotton.UI.Story.Item.Content.Dna.Reader = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
   // parent element.
   _oItemContent :null,
