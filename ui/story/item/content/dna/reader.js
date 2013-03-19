@@ -1,17 +1,22 @@
 'use strict'
 
 /**
- * Item_reader is for default elements. It contains three reader modes:
+ * Reader is for default elements. It contains three reader modes:
  * best(paragraphs), quotes, and whole article. And the reader selector
  * bar to toggle between these 3 modes
  */
 
-Cotton.UI.Story.Item.Reader = Class.extend({
+Cotton.UI.Story.Item.Content.Dna.Reader = Class.extend({
 
+  // parent element.
   _oItemContent :null,
-  _oHistoryItem : null,
 
+  _oHistoryItemDNA : null,
+
+  // current element.
   _$reader : null,
+
+  // sub elements.
   _$readerSelector : null,
   _$readerBestSelector : null,
   _$readerQuoteSelector : null,
@@ -25,16 +30,18 @@ Cotton.UI.Story.Item.Reader = Class.extend({
   _bBest : null,
   _bQuotes : null,
 
-  init : function(oItemContent){
+  init : function(oHistoryItemDNA, oItemContent){
     self = this;
-    this._oHistoryItem = oItemContent.item().historyItem();
 
-    this._bWhole = this._oHistoryItem.extractedDNA().allParagraphs().length > 0;
-    this._bBest = (this._oHistoryItem.extractedDNA().paragraphs().length > 0) || (this._oHistoryItem.extractedDNA().firstParagraph() != "");
-    this._bQuotes = this._oHistoryItem.extractedDNA().highlightedText().length > 0;
+    this._oHistoryItemDNA = oHistoryItemDNA;
+
+    this._bWhole = this._oHistoryItemDNA.allParagraphs().length > 0;
+    this._bBest = (this._oHistoryItemDNA.paragraphs().length > 0)
+      || (this._oHistoryItemDNA.firstParagraph() != "");
+    this._bQuotes = this._oHistoryItemDNA.highlightedText().length > 0;
 
     // current element
-    this._$reader = $('<div class="item-reader"></div>');
+    this._$reader = $('<div class="ct-content_reader"></div>');
 
     // current sub elements
     this._$readerBestContent = $('<div class="item-reader_content item-reader_best_content"></div>');
@@ -49,7 +56,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     //set values
     //all paragraphs
     if (this._bWhole){
-      for (var i = 0, lAllParagraphs = this._oHistoryItem.extractedDNA().allParagraphs(),
+      for (var i = 0, lAllParagraphs = this._oHistoryItemDNA.allParagraphs(),
         iLength = lAllParagraphs.length; i < iLength; i++) {
           var sParagraph = lAllParagraphs[i];
           if(sParagraph !== "") {
@@ -64,12 +71,12 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     self._$readerBestContent.append($paragraph);
     if (this._bBest){
       self._$readerBestContent.empty();
-      var sFirstParagraph = this._oHistoryItem.extractedDNA().firstParagraph();
+      var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();
       if (sFirstParagraph != ""){
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$readerBestContent.append($paragraph);
       }
-      for (var i = 0, lParagraphs = this._oHistoryItem.extractedDNA().paragraphs(),
+      for (var i = 0, lParagraphs = this._oHistoryItemDNA.paragraphs(),
         iLength = lParagraphs.length; i < iLength; i++) {
           var oParagraph = lParagraphs[i];
           if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
@@ -85,7 +92,7 @@ Cotton.UI.Story.Item.Reader = Class.extend({
     if (this._bQuotes){
       self._$readerQuoteContent.empty();
       for (var i = 0,
-        lHighlightedText = this._oHistoryItem.extractedDNA().highlightedText(),
+        lHighlightedText = this._oHistoryItemDNA.highlightedText(),
         iLength = lHighlightedText.length; i < iLength; i++) {
           var sQuote = lHighlightedText[i];
           if(sQuote !== "") {
@@ -149,6 +156,6 @@ Cotton.UI.Story.Item.Reader = Class.extend({
       this._$readerQuoteContent.show();
       this._$readerSelectorCursor.addClass('on_quote');
     }
-  },
+  }
 
 });
