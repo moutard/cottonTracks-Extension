@@ -3,7 +3,7 @@
 /**
  * Image Contains the featured image for an article.
  */
-Cotton.UI.Story.Item.Content.Dna.Image = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
 
   _oItemContent : null,
 

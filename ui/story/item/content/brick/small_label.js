@@ -4,7 +4,7 @@
  * Item Small Label is at the bottom of all items except maps/videos
  * contains the website indications.
  */
-Cotton.UI.Story.Item.Content.SmallLabel = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.SmallLabel = Class.extend({
 
   // parent element.
   _oItemContent : null,
@@ -26,7 +26,7 @@ Cotton.UI.Story.Item.Content.SmallLabel = Class.extend({
     this._$small_label = $('<div class="ct-small_label"></div>');
 
     // sub elements.
-    this._oWebsite = new Cotton.UI.Story.Item.Content.Website(sUrl, this._oItemContent);
+    this._oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(sUrl, this._oItemContent);
 
     // construct item.
     this._$small_label.append(this._oWebsite.$());

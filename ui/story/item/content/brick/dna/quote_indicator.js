@@ -3,7 +3,7 @@
 /**
  * Item QuoteIndicator shows number of quote in default items
  */
-Cotton.UI.Story.Item.Content.Dna.QuoteIndicator = Class.extend({
+Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator = Class.extend({
 
   // parent element.
   _oItemContent : null,
