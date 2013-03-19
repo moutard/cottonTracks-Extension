@@ -24,8 +24,8 @@ Cotton.Model.HistoryItem = Class.extend({
    *  database.
    */
   init : function(dDBRecord) {
-    dDBRecord = dDBRecord || {};
-    this._sId = dDBRecord['sId'] || undefined;
+    dDBRecord = dDBRecord || {};
+    this._sId = dDBRecord['sId'] || undefined;
 
     this._sUrl = dDBRecord['sUrl'] || undefined;
     this._sTitle = dDBRecord['sTitle'] || "";
