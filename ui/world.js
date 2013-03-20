@@ -11,62 +11,59 @@ Cotton.UI.World = Class.extend({
   _oLightyear : null,
 
   /**
-   * Story container
+   * {Cotton.UI.Story.Element} oStoryElement
    */
-  _$storyContainer : null,
+  _oStoryElement : null,
 
   /**
-   * @constructor
+   * {Cotton.UI.SideBar} oSideBar
    */
-  init : function(oApplication) {
-    var self = this;
-    this._oLightyear = oApplication;
-    this._$storyContainer = $(".ct-story_container");
+  _oSideMenu : null,
 
-    chrome.extension.sendMessage({
+  /**
+   * @param {Cotton.Application.Lightyear} oApplication
+   * @param {Cotton.Core.Chrome.Sender} oSender
+   */
+  init : function(oApplication, oSender) {
+
+    this._oLightyear = oApplication;
+
+    var oStory = oApplication.getStory();
+    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this);
+    this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
+
+    this._oSideMenu.slideIn();
+    oSender.sendMessage({
       'action': 'pass_background_screenshot'
     }, function(response) {
       //set background image and blur it
-      $('#blur_target').css('background-image',"url("+response.src+")");
-      $('body').blurjs({
+      $('#blur_target').css('background-image',"url(" + response.src + ")");
+      /*$('body').blurjs({
           'source': '#blur_target',
           'radius': 15,
           'overlay': 'rgba(0,0,0,0.2)'
-      });
+      });*/
     });
 
     // progressive blur effect
-    setTimeout(function(){$("#blur_target").addClass('hiddenBackground');}, 200);
+    setTimeout(function(){
+      $("#blur_target").addClass('hiddenBackground');
+    }, 200);
   },
 
-  buildStory : function(lHistoryItems) {
-    var self = this;
-    // Initialize isotope grid view
-    self.initPlaceItems();
-    for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
-      var oHistoryItem = lHistoryItems[i];
-      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem,
-        self._$storyContainer, self);
-    }
-    // count items through dom classes to set filters counts
-    self.countItems();
-    $('.ct-filter').click(function(){
-      var selector = $(this).attr('data-filter');
-      $('.ct-story_container').isotope({ 'filter': selector });
-    return false;
-    });
+  storyElement : function() {
+    return this._oStoryElement;
   },
 
-  buildMenu : function(oStory){
-    this._oMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
-    this._oMenu.slideIn();
+  sideMenu : function() {
+    return this._oSidebar;
   },
 
-  menu : function(){
-    return this._oMenu;
+  lightyear : function() {
+    return this._oLightyear;
   },
 
-  countItems: function(){
+  countItems: function() {
     var sAllCount = $('.ct-story_item').length;
     $('.all_count').text(sAllCount);
     var sArticlesCount = $('.ct-item-default').length;
@@ -82,16 +79,6 @@ Cotton.UI.World = Class.extend({
     // ToDo (rkorach) : spécific case for quotes
     var sQuotesCount = $('.ct-item-quote').length;
     $('.quotes_count').text(sQuotesCount);
-  },
-
-  initPlaceItems: function(){
-    $('.ct-story_container').isotope({
-        'itemSelector' : '.ct-story_item',
-        'layoutMode' : 'fitColumns',
-    });
-  },
-
-  lightyear : function(){
-    return this._oLightyear;
   }
+
 });
