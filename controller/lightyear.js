@@ -93,7 +93,11 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   historyItems : function(){
     return this._lHistoryItems;
-  }
+  },
+
+  getStory : function() {
+    return this._oStory;
+  },
 
 });
 
