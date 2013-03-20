@@ -16,6 +16,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oDatabase : null,
 
   /**
+   * Sender
+   */
+  _oSender : null,
+
+  /**
    * Global view, contains the Menu, the StoryContainer.
    * UI elements act as their own controllers.
    */
@@ -44,16 +49,17 @@ Cotton.Controllers.Lightyear = Class.extend({
   /**
    * @constructor
    */
-  init : function(){
+  init : function(oSender){
 
     var self = this;
-    LOG && console.log("Controller - init -");
+    LOG && console.log("Controller Lightyear - init -");
+    this._oSender = oSender;
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
     }, function() {
-      chrome.extension.sendMessage({
+      self._oSender.sendMessage({
         'action': 'get_trigger_story'
       }, function(response){
         self._iStoryId = response['trigger_id'];
@@ -70,7 +76,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     $(window).ready(function(){
-      self._oWorld = new Cotton.UI.World(self);
+      self._oWorld = new Cotton.UI.World(self, oSender);
       self._bWorldReady = true;
     });
   },
@@ -101,4 +107,5 @@ Cotton.Controllers.Lightyear = Class.extend({
 
 });
 
-Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear();
+var oSender = new Cotton.Core.Chrome.Sender();
+Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear(oSender);
