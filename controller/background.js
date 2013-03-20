@@ -99,8 +99,11 @@ Cotton.Controllers.Background = Class.extend({
     chrome.browserAction.onClicked.addListener(function() {
       self.takeScreenshot();
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
-      chrome.tabs.query({'active':true, 'currentWindow': true}, function(lTabs){
-	self._iTriggerStory = self._dTabStory[lTabs[0].id];
+      chrome.tabs.query({
+        'active':true,
+        'currentWindow': true
+      }, function(lTabs){
+        self._iTriggerStory = self._dTabStory[lTabs[0].id];
         chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
 	      // TODO(rkorach) : delete ct page from history
 	      });
