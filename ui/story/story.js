@@ -31,9 +31,6 @@ Cotton.UI.Story.Element = Class.extend({
     this._$story = $('<div class="ct-story"></div>');
     this._$itemsContainer = $('<div class="ct-items_container"></div>');
 
-    // FIXME(rmoutard) : init after all the element has been added to the DOM.
-    this.initPlaceItems();
-
     // Fill the story with the historyItems.
     var lDOMItems = [];
     var lHistoryItems = oStory.historyItems();
@@ -51,6 +48,7 @@ Cotton.UI.Story.Element = Class.extend({
     this._$story.append(
       this._$itemsContainer.append(lDOMItems)
     );
+
   },
 
   $ : function() {
