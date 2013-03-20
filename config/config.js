@@ -6,9 +6,6 @@ Cotton.Config.Parameters = {
       'continuousintegration.corp.ltutech.com', 'docs.google.com',
       'grooveshark.com', 'github.com', 'www.facebook.com', 'www.deezer.com',
       'www.wordreference.com', 'twitter.com' ],
-  lExcludeUrls : [
-      'http://www.google.fr/webhp?sourceid=chrome-instant&ie=UTF-8',
-      'http://www.google.com/webhp?sourceid=chrome-instant&ie=UTF-8' ],
   lExcludePatterns : [
       '^(https?://www.google.com/url)', '^(https?://www.google.fr/url)',
       '^(https?://www.google.com/webhp)', '^(https?://www.google.fr/webhp)',
