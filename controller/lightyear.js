@@ -65,11 +65,18 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._iStoryId = response['trigger_id'];
         self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
           self._oStory = oStory;
+          // In this case the world is ready before the story has loaded.
+          if (self._bWorldReady) {
+            self._oWorld.updateMenu(oStory);
+          }
           self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
           function(lHistoryItems) {
-            self._lHistoryItems = lHistoryItems;
-            self.buildMenuFromWorld();
-            self.buildStoryFromWorld();
+            self._oStory.setHistoryItems(lHistoryItems);
+            if (self._bWorldReady) {
+              self._oWorld.updateMenu(oStory);
+              self._oWorld.updateStory(oStory);
+              self._bStoryReady = true;
+            }
           });
         });
       });
@@ -78,30 +85,19 @@ Cotton.Controllers.Lightyear = Class.extend({
     $(window).ready(function(){
       self._oWorld = new Cotton.UI.World(self, oSender);
       self._bWorldReady = true;
+      // In this case the story is ready before the world.
+      if (self._bStoryReady) {
+        self._oWorld.updateMenu(self._oStory);
+        self._oWorld.updateStory(self._oStory);
+      }
     });
-  },
-
-  buildStoryFromWorld : function(){
-    if (this._lHistoryItems && this._bWorldReady) {
-      this._oWorld.buildStory(this._lHistoryItems)
-    }
-  },
-
-  buildMenuFromWorld : function(){
-    if (this._oStory && this._bWorldReady) {
-      this._oWorld.buildMenu(this._oStory)
-    }
   },
 
   database : function(){
     return this._oDatabase;
   },
 
-  historyItems : function(){
-    return this._lHistoryItems;
-  },
-
-  getStory : function() {
+  story : function() {
     return this._oStory;
   },
 
