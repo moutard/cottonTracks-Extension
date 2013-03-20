@@ -6,41 +6,28 @@
 Cotton.UI.Story.Item.Element = Class.extend({
 
   // parent element.
-  _oWorld : null,
+  _oStory : null,
 
   _oHistoryItem : null,
+  _sItemType : null,
+  _oContent : null,
+  _bReload : null,
 
   // current element.
   _$item : null,
 
-  _sItemType : null,
-  _oItemContent : null,
-  _bReload : null,
-
-  // sub elements.
-  _$storyContainer : null,
-
-  init : function(oHistoryItem, $storyContainer, oWorld) {
-    // World
-    this._oWorld = oWorld;
+  init : function(oHistoryItem, oStory) {
 
     // Cotton.Model.HistoryItem contains all data.
     this._oHistoryItem = oHistoryItem;
-
-    // Container for all items
-    this._$storyContainer = $storyContainer;
 
     // current element.
     this._$item = $('<div class="ct-story_item"></div>');
 
     // current sub elements.
-    this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
+    this._oContent = new Cotton.UI.Story.Item.Content.Factory(oHistoryItem, this);
 
-    // create item
-    if (this.itemType() !== 'search'){
-      this._$item.append(this._oItemContent.$());
-      this._$storyContainer.isotope( 'insert', this._$item);
-    }
+    this._$item.append(this._oContent.$());
 
     //boolean to know if a reload has been performed
     this._bReload = false;
@@ -50,8 +37,8 @@ Cotton.UI.Story.Item.Element = Class.extend({
     return this._$item;
   },
 
-  world : function(){
-    return this._oWorld;
+  story : function() {
+    return this._oStory;
   },
 
   historyItem : function() {
@@ -64,10 +51,6 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
   setItemType : function(sType) {
     this._sItemType = sType;
-  },
-
-  container : function() {
-    return this._$storyContainer;
   },
 
   reload : function() {
