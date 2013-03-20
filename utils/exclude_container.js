@@ -9,15 +9,13 @@
 Cotton.Utils.ExcludeContainer = Class.extend({
 
   _lExludePatterns : null,
-  _lExludeUrls : null,
   _lToolsHostname : null,
   /**
-   * 
+   *
    */
   init : function() {
     var self = this;
     self._lExludePatterns = Cotton.Config.Parameters.lExcludePatterns;
-    self._lExludeUrls = Cotton.Config.Parameters.lExcludeUrls;
     self._lToolsHostname = Cotton.Config.Parameters.lTools;
   },
 
@@ -38,17 +36,6 @@ Cotton.Utils.ExcludeContainer = Class.extend({
 
   isLocalhost : function(sHostname) {
     return sHostname === "localhost";
-  },
-
-  /**
-   * Return if the url is part of the excluded url.
-   *
-   * @param sHostname
-   * @return {boolean}
-   */
-  isExcludedUrl : function(sUrl){
-    var self = this;
-    return _.indexOf(self._lExludeUrls, sUrl) !== -1;
   },
 
   /**
@@ -85,7 +72,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     var oUrl = new UrlParser(sUrl);
 
     return self.isHttps(oUrl) || self.isExcludedPattern(sUrl)
-      || self.isExcludedUrl(sUrl) || self.isTool(oUrl.hostname)
+      || self.isTool(oUrl.hostname)
       || self.isFileProtocol(oUrl.protocol)
       || self.isLocalhost(oUrl.hostname);
   },
