@@ -1,43 +1,54 @@
 'use strict';
 
 /**
- *   Global menu of the interface.
- *   Contains the SumUp of the story (with sticker image, title,
- *   content details, and actions available)
- *   the filters, and the settings button
- **/
-
+ * Global menu of the interface.
+ * Contains the SumUp of the story (with sticker image, title, content details,
+ * and actions available) the filters, and the settings button
+ */
 Cotton.UI.SideMenu.Menu = Class.extend({
+
+  /**
+   * {Cotton.UI.World} parent element.
+   */
   _oWorld : null,
 
-	_$menu : null,
-	_oStory : null,
-	_oSumUp : null,
-	_oFilters : null,
-	_oSettings : null,
-	_$separationLineTop : null,
-	_$separationLineBottom : null,
+  /**
+   * {DOM} current element.
+   */
+  _$menu : null,
 
-	init : function(oStory, oWorld){
-		this._$menu = $(".ct-menu");
+  _oStory : null,
+
+  _$separationLineTop : null,
+  _oPreview : null,
+  _oFilters : null,
+  _oSettings : null,
+
+  init : function(oStory, oWorld){
+
     this._oWorld = oWorld;
-		this._oStory = oStory;
-		this._oSumUp = new Cotton.UI.SideMenu.SumUp(this);
-		this._oFilters = new Cotton.UI.SideMenu.Filters(this);
-		this._oSettings = new Cotton.UI.SideMenu.Settings(this);
-		this._$separationLineTop = $('<div class="separation_line"></div>');
-		this._$separationLineBottom = $('<div class="separation_line"></div>');
 
-		//construct element
-		this._$menu.append(
-		  this._oSumUp.$(),
-		  this._oFilters.$().prepend(this._$separationLineTop),
-		  this._oSettings.$()
-	  )
-	},
+    // Current element.
+    this._$menu = $('<div class="ct-menu"></div>');
+    this._oStory = oStory;
+
+    // Sub elements.
+    this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
+        oStory.title(), oStory.featuredImage(), this);
+    this._oFilters = new Cotton.UI.SideMenu.Filters(this);
+    this._oSettings = new Cotton.UI.SideMenu.Settings(this);
+    this._$separationLineTop = $('<div class="separation_line"></div>');
+
+    //construct element
+    this._$menu.append(
+      this._oPreview.$(),
+      this._oFilters.$().prepend(this._$separationLineTop),
+      this._oSettings.$()
+    )
+  },
 
   $ : function(){
-	  return this._$menu;
+    return this._$menu;
   },
 
   world : function(){
@@ -45,14 +56,15 @@ Cotton.UI.SideMenu.Menu = Class.extend({
   },
 
   story : function(){
-	  return this._oStory;
+    return this._oStory;
   },
 
-  sumUp : function(){
-    return this._oSumUp;
+  preview : function(){
+    return this._oPreview;
   },
 
   slideIn : function(){
+    // FIXME(rmoutard) : use a open class css.
     this._$menu.animate({left: '+=250',}, 300, function(){});
   }
 });
