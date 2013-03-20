@@ -43,12 +43,12 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._iPercent = 0;
     this._fTimeTabActive = -1;
     this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
-    this._sImageUrl = dDBRecord['sImageUrl'] || "";
-    this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
+    this._sImageUrl = dDBRecord['sImageUrl'] || "";
+    this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
     this._sMostReadParagraph = "";
     this._lsAllParagraphs = "";
     this._lParagraphs = [];
-    this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
+    this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
     this._oBagOfWords = new Cotton.Model.BagOfWords(dDBRecord['oBagOfWords']);
   },
