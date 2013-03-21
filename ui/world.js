@@ -29,28 +29,35 @@ Cotton.UI.World = Class.extend({
    * @param {Cotton.Application.Lightyear} oApplication
    * @param {Cotton.Core.Chrome.Sender} oSender
    */
-  init : function(oApplication, oSender) {
+  init : function(oApplication, oSender, $dom_world) {
     var self = this;
     this._oLightyear = oApplication;
 
-    // FIXME(rmoutard) : difference between body ct blur target
-    this._$world = $('.ct');
+    this._$world = $dom_world || $('.ct');
+    this._$temporary_background = $('#blur_target');
 
     oSender.sendMessage({
       'action': 'pass_background_screenshot'
     }, function(response) {
       //set background image and blur it
-      $('#blur_target').css('background-image',"url(" + response.src + ")");
-      $('body').blurjs({
-          'source': '#blur_target',
-          'radius': 15,
-          'overlay': 'rgba(0,0,0,0.2)'
+      // Use a temporary div that will be filled with the bacground.
+      self._$temporary_background.css(
+        'background-image',
+        "url(" + response['src'] + ")"
+      );
+      self._$world.blurjs({
+        'source': '#blur_target',
+        'radius': 15,
+        'overlay': 'rgba(0,0,0,0.2)'
       });
+      setTimeout(function(){
+        self._$temporary_background.remove();
+      }, 1000);
     });
 
     // progressive blur effect
     setTimeout(function(){
-      $("#blur_target").addClass('hiddenBackground');
+      self._$temporary_background.addClass('hidden_background');
     }, 200);
   },
 
