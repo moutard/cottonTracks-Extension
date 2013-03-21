@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
   init : function(oHistoryItem, oItem) {
     this._super(oHistoryItem, oItem);
 
-
+    this._sType = "default";
     this._$infos = $('<div class="ct-infos"></div>');
     this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
       oHistoryItem.title(), this);

@@ -12,7 +12,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
 
     this._super(oHistoryItem, oItem);
 
-    this._$content.addClass('ct-item-image');
+    this._sTtype = "image";
+    this._$content.addClass('ct-item-image image');
     this._$img = $('<img class="resize">');
 
     if (sType === "img") {
