@@ -17,10 +17,11 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
 
       init : function(oHistoryItem, oUrl, oItem) {
         this._super(oHistoryItem);
+        this._sType = "map";
         this._oUrl = oUrl;
 
         // current element
-        this._$content.addClass('ct-item-map');
+        this._$content.addClass('ct-item-map map');
 
         // current sub elements.
         this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');

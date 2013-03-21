@@ -21,6 +21,11 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
   _oHistoryItem : null,
 
   /**
+   * {String} Type :
+   */
+  _sType : "default",
+
+  /**
    * @param {Cotton.Model.HistoryItem} oHistoryItem
    * @param {Cotton.UI.Story.Item} oItem
    */
@@ -44,6 +49,10 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
 
   item : function(){
     return this._oItem;
+  },
+
+  type : function() {
+    return this._sType;
   }
 
 });
