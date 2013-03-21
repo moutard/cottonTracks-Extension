@@ -10,12 +10,15 @@ module("Cotton.Utils.UrlParser",{
 });
 
 test("is tool.", function() {
-  var oTool = new UrlParser('http://mail.google.com');
-  var sTool = oTool.hostname;
+  var oTool1 = new UrlParser('http://mail.google.com');
+  var sTool1 = oTool1.hostname;
+  var oTool2 = new UrlParser('https://accounts.google.com');
+  var sTool2 = oTool2.hostname;
   var oNotTool = new UrlParser('http://www.lemonde.fr/ref?referrer=https://mail.google.com/mail/u/0/#inbox/13d8886c2c498338');
   var sNotTool = oNotTool.hostname;
 
-  deepEqual(oExcludeContainer.isTool(sTool), true, 'mail is a tool');
+  deepEqual(oExcludeContainer.isTool(sTool1), true, 'mail is a tool');
+  deepEqual(oExcludeContainer.isTool(sTool2), true, 'https account.google.com is a tool');
   deepEqual(oExcludeContainer.isTool(sNotTool), false, 'lemonde.fr is not a tool');
 });
 
