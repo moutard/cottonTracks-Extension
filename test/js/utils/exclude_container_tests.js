@@ -1,6 +1,6 @@
 var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
-module("Cotton.Utils.UrlParser",{
+module("Cotton.Utils.ExcludeContainer",{
   setup: function() {
     // runs before each test
   },
@@ -31,4 +31,20 @@ test("is excluded pattern.", function() {
     'searchGeneratedPage is introduced between google and actual search result clicked');
   deepEqual(oExcludeContainer.isExcluded(sNotSearchGeneratedPage), false,
     'a real page indicating that it comes from a searchGeneratedPage');
+});
+
+test("is https.", function() {
+  var sSecurePage1 = 'https://www.vimeo.com';
+  var oSecurePage1 = new UrlParser(sSecurePage1);
+  var sSecurePage2 = 'https://twitter.com';
+  var oSecurePage2 = new UrlParser(sSecurePage2);
+  var sUnsecurePage = 'http://www.cottontracks.com';
+  var oUnsecurePage = new UrlParser(sUnsecurePage);
+  var sLocalHost = 'http://localhost:8888';
+  var oLocalHost = new UrlParser(sLocalHost);
+
+  deepEqual(oExcludeContainer.isHttps(oSecurePage1), true, 'it is an https');
+  deepEqual(oExcludeContainer.isHttps(oSecurePage2), true, 'it is an https');
+  deepEqual(oExcludeContainer.isHttps(oUnsecurePage), false, 'it is not an https');
+  deepEqual(oExcludeContainer.isHttps(oLocalHost), false,'it is a localhost');
 });
