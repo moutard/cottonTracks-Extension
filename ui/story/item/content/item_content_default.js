@@ -24,6 +24,7 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
     this._super(oHistoryItem, oItem);
 
 
+    this._$infos = $('<div class="ct-infos"></div>');
     this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
       oHistoryItem.title(), this);
     this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
@@ -42,7 +43,7 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
     this._$content.addClass('ct-content_default');
     this._$content.append(
       this._oItemFeaturedImage.$(),
-      this._$content.append(
+      this._$infos.append(
         this._oItemTitle.$(),
         this._oItemDate.$(),
         this._oItemQuoteIndicator.$(),

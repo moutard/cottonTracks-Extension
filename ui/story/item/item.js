@@ -26,8 +26,12 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
     // current sub elements.
     this._oContent = new Cotton.UI.Story.Item.Content.Factory(oHistoryItem, this);
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(this);
 
-    this._$item.append(this._oContent.$());
+    this._$item.append(
+      this._oContent.$(),
+      this._oToolbox.$()
+    );
 
     //boolean to know if a reload has been performed
     this._bReload = false;

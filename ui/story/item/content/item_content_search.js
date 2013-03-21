@@ -19,10 +19,10 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
     this._super(oItem);
 
     // current element.
-    this._$content.addClass('ct-item-search');
+    this._$content.addClass('ct-content_search');
 
     // sub elements.
-    this._$itemInfo = $('<div class="ct-item_info"></div>');
+    this._$itemInfo = $('<div class="ct-infos"></div>');
     this._$title = $('<h3></h3>');
     this._$searchBox = $('<div class="ct-searchbox"></div>');
     this._$searchInput = $('<input type="text" name="ct-google-search">');
@@ -49,9 +49,9 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
         this._$searchBox.append(
           this._$searchInput,
           this._$searchButton
-        )
-      ),
-      this._oItemLabel.$()
+        ),
+        this._oItemLabel.$()
+      )
     );
 
   }
