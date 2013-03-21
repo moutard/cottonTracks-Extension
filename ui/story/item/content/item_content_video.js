@@ -16,10 +16,11 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
 
       init : function(oHistoryItem, sVideoType, sEmbedCode, oItem) {
         this._super(oHistoryItem, oItem);
+        this._sType = "video";
         this._sVideoType = sVideoType;
 
         // current element.
-        this._$content.addClass('ct-content_video');
+        this._$content.addClass('ct-content_video video');
 
         // sub elements.
         this._$itemDoubleContainer = $('<div class="ct-double_container"></div>');
