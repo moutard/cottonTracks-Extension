@@ -69,7 +69,6 @@ Cotton.UI.Story.Element = Class.extend({
         }
       }
     });
-
     // Create element.
     this._$story.append(
       this._$itemsContainer.append(lDOMItems)
