@@ -60,6 +60,12 @@ Cotton.UI.Story.Element = Class.extend({
       self._$itemsContainer.isotope('reLayout');
     });
 
+    this._oDispacher.suscribe('story:filter', this, function(dArguments){
+      // Show only the elements that have this data-filter.
+       this._$itemsContainer.isotope({
+         'filter': dArguments['filter']
+       });
+    });
     // Create element.
     this._$story.append(
       this._$itemsContainer.append(lDOMItems)
