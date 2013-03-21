@@ -29,9 +29,10 @@ Cotton.UI.World = Class.extend({
    * @param {Cotton.Application.Lightyear} oApplication
    * @param {Cotton.Core.Chrome.Sender} oSender
    */
-  init : function(oApplication, oSender, $dom_world) {
+  init : function(oApplication, oSender, oDispacher, $dom_world) {
     var self = this;
     this._oLightyear = oApplication;
+    this._oDispacher = oDispacher;
 
     this._$world = $dom_world || $('.ct');
     this._$temporary_background = $('#blur_target');
@@ -77,30 +78,12 @@ Cotton.UI.World = Class.extend({
     return this._oLightyear;
   },
 
-  countItems: function() {
-    var sAllCount = $('.ct-story_item').length;
-    $('.all_count').text(sAllCount);
-    var sArticlesCount = $('.ct-item-default').length;
-    $('.articles_count').text(sArticlesCount);
-    var sImagesCount = $('.ct-item-image').length;
-    $('.images_count').text(sImagesCount);
-    var sVideosCount = $('.ct-item-video').length;
-    $('.videos_count').text(sVideosCount);
-    var sMapsCount = $('.ct-item-map').length;
-    $('.maps_count').text(sMapsCount);
-    var sSoundsCount = $('.ct-item-sound').length;
-    $('.sounds_count').text(sSoundsCount);
-    // ToDo (rkorach) : spécific case for quotes
-    var sQuotesCount = $('.ct-item-quote').length;
-    $('.quotes_count').text(sQuotesCount);
-  },
-
   /**
    * @param {Cotton.Model.Story} oStory :
    *  the story have to be filled with all the historyItems so it can be display.
    */
   updateStory : function(oStory) {
-    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this);
+    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispacher);
     this._$world.append(this._oStoryElement.$());
     this._oStoryElement.initPlaceItems();
   },
@@ -110,9 +93,11 @@ Cotton.UI.World = Class.extend({
    *  the story can be just with the title and the image.
    */
   updateMenu : function(oStory) {
-    this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this);
-    this._$world.append(this._oSideMenu.$());
-    this._oSideMenu.slideIn();
+    if (!this._oSideMenu) {
+      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispacher);
+      this._$world.append(this._oSideMenu.$());
+      this._oSideMenu.slideIn();
+    }
   }
 
 });

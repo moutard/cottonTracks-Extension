@@ -16,11 +16,11 @@ Cotton.UI.Story.Item.Element = Class.extend({
   // current element.
   _$item : null,
 
-  init : function(oHistoryItem, oStory) {
+  init : function(oHistoryItem, oDispacher, oStory) {
 
     // Cotton.Model.HistoryItem contains all data.
     this._oHistoryItem = oHistoryItem;
-
+    this._oDispacher = oDispacher;
     // current element.
     this._$item = $('<div class="ct-story_item"></div>');
 
@@ -31,7 +31,7 @@ Cotton.UI.Story.Item.Element = Class.extend({
     this._$item.append(
       this._oContent.$(),
       this._oToolbox.$()
-    );
+    ).addClass(this.type());
 
     //boolean to know if a reload has been performed
     this._bReload = false;
@@ -49,12 +49,8 @@ Cotton.UI.Story.Item.Element = Class.extend({
     return this._oHistoryItem;
   },
 
-  itemType : function() {
-    return this._sItemType;
-  },
-
-  setItemType : function(sType) {
-    this._sItemType = sType;
+  type : function() {
+    return this._oContent.type();
   },
 
   reload : function() {
