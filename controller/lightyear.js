@@ -16,9 +16,15 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oDatabase : null,
 
   /**
-   * Sender
+   * Sender for handle core message. (Chrome message)
    */
   _oSender : null,
+
+  /**
+   * Dispacher that allows two diffents part of the product to communicate
+   * together.
+   */
+  _oDispacher : null,
 
   /**
    * Global view, contains the Menu, the StoryContainer.
@@ -54,6 +60,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     var self = this;
     LOG && console.log("Controller Lightyear - init -");
     this._oSender = oSender;
+    this._oDispacher = new Cotton.Messaging.Dispacher();
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
@@ -69,6 +76,7 @@ Cotton.Controllers.Lightyear = Class.extend({
           if (self._bWorldReady) {
             self._oWorld.updateMenu(oStory);
           }
+          // FIXME(rmoutard) : only load 10 elements at each time.
           self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
           function(lHistoryItems) {
             self._oStory.setHistoryItems(lHistoryItems);
@@ -83,7 +91,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     $(window).ready(function(){
-      self._oWorld = new Cotton.UI.World(self, oSender);
+      self._oWorld = new Cotton.UI.World(self, oSender, self._oDispacher);
       self._bWorldReady = true;
       // In this case the story is ready before the world.
       if (self._bStoryReady) {
@@ -91,6 +99,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._oWorld.updateStory(self._oStory);
       }
     });
+
   },
 
   database : function(){
