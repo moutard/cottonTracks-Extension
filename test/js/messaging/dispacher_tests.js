@@ -33,3 +33,17 @@ test('test send message to suscriber.', function(){
   deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
   oDispacher.send('wake_up', {'say': 'it is late'});
 });
+
+test('test send message to suscriber check this value.', function(){
+  var oDispacher = new Cotton.Messaging.Dispacher();
+  var oAlice = {'name': "Alice", "direction": "Wonderland"};
+  var dTestArguments = {};
+  oDispacher.suscribe("wake_up", oAlice, function(dArguments){
+    console.log(dArguments);
+    deepEqual(dArguments, {'say': 'it is late'});
+    equal(this['name'], "Alice");
+  });
+  ok(oDispacher);
+  deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
+  oDispacher.send('wake_up', {'say': 'it is late'});
+});
