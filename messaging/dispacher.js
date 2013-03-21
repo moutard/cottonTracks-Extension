@@ -22,10 +22,11 @@ Cotton.Messaging.Dispacher = Class.extend({
    */
   suscribe : function(sMessage, oObject, mFunction) {
     var lMessageListeners = this._dMessages[sMessage] || [];
-    this._dMessages[sMessage] = lMessageListeners.push({
+    lMessageListeners.push({
       'context' : oObject,
       'function': mFunction
     });
+    this._dMessages[sMessage] = lMessageListeners;
   },
 
   send : function(sMessage, dArguments) {
