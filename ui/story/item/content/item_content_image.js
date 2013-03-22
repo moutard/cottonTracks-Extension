@@ -33,7 +33,8 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
 
     // create the item
 		this._$content.append(
-		  this._$img
+		  this._$img,
+      this._oToolbox.$()
 		);
 
 		this.resize(this._$img);
