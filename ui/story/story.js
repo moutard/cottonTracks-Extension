@@ -37,7 +37,8 @@ Cotton.UI.Story.Element = Class.extend({
     var lHistoryItems = oStory.historyItems();
     for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
       var oHistoryItem = lHistoryItems[i];
-      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, this);
+      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem,
+        this._oDispacher, this);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       this._lItems.push(oItem);
       // create a temp array that will be passed as jQuery.
@@ -45,7 +46,7 @@ Cotton.UI.Story.Element = Class.extend({
       // operation faster to avoid the reflow.
       lDOMItems.push(oItem.$());
     }
-    this._oDispacher.send('update_filters', dFilters);
+    this._oDispacher.publish('update_filters', dFilters);
 
     this._oDispacher.suscribe('story:filter', this, function(dArguments){
       // Show only the elements that have this data-filter.

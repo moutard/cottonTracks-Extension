@@ -53,7 +53,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
             } else {
               sFilter = '.' + sFilter;
             }
-            self._oDispacher.send('story:filter', {
+            self._oDispacher.publish('story:filter', {
               'filter': sFilter
             });
           });
