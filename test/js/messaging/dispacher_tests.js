@@ -21,7 +21,7 @@ test('test suscribe.', function(){
   deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
 });
 
-test('test send message to suscriber.', function(){
+test('test publish message to suscriber.', function(){
   var oDispacher = new Cotton.Messaging.Dispacher();
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   var dTestArguments = {};
@@ -31,10 +31,10 @@ test('test send message to suscriber.', function(){
   });
   ok(oDispacher);
   deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
-  oDispacher.send('wake_up', {'say': 'it is late'});
+  oDispacher.publish('wake_up', {'say': 'it is late'});
 });
 
-test('test send message to suscriber check this value.', function(){
+test('test publish message to suscriber check this value.', function(){
   var oDispacher = new Cotton.Messaging.Dispacher();
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   var dTestArguments = {};
@@ -45,10 +45,10 @@ test('test send message to suscriber check this value.', function(){
   });
   ok(oDispacher);
   deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
-  oDispacher.send('wake_up', {'say': 'it is late'});
+  oDispacher.publish('wake_up', {'say': 'it is late'});
 });
 
-test('test send message to suscriber check this value.', function(){
+test('test pubish message to suscriber check this value.', function(){
   var oDispacher = new Cotton.Messaging.Dispacher();
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   var oWhiteRabbit = {'name': "White Rabbit", "direction": "Wonderland"};
@@ -66,5 +66,5 @@ test('test send message to suscriber check this value.', function(){
 
   ok(oDispacher);
   deepEqual(_.keys(oDispacher._dMessages), ["wake_up"]);
-  oDispacher.send('wake_up', {'say': 'it is late'});
+  oDispacher.publish('wake_up', {'say': 'it is late'});
 });

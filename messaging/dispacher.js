@@ -29,7 +29,7 @@ Cotton.Messaging.Dispacher = Class.extend({
     this._dMessages[sMessage] = lMessageListeners;
   },
 
-  send : function(sMessage, dArguments) {
+  publish : function(sMessage, dArguments) {
     var lListeners = this._dMessages[sMessage] || [];
     for (var i=0, oListener; oListener = lListeners[i]; i++) {
       oListener['function'].call(oListener['context'], dArguments);
