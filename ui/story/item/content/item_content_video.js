@@ -51,7 +51,8 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
         // create the item
         this._$content.append(
           this._$itemDoubleContainer.append(this._$video),
-          this._oItemLabel.$()
+          this._oItemLabel.$(),
+          this._oToolbox.$()
         );
       }
 
