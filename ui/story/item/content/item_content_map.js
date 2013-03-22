@@ -16,7 +16,7 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
 
 
       init : function(oHistoryItem, oUrl, oItem) {
-        this._super(oHistoryItem);
+        this._super(oHistoryItem, oItem);
         this._sType = "map";
         this._oUrl = oUrl;
 
@@ -35,7 +35,8 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
         // create the item
         this._$content.append(
           this._$itemDoubleContainer.append(this._$map),
-          this._oItemLabel.$()
+          this._oItemLabel.$(),
+          this._oToolbox.$()
         );
       },
 

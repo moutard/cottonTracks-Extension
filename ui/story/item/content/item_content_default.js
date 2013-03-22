@@ -36,8 +36,6 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
         oHistoryItem.extractedDNA().imageUrl(), this);
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(
         oHistoryItem.extractedDNA().highlightedText().length, this);
-    this._oItemReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
-        oHistoryItem.extractedDNA(), this);
 
     // create the item
     this._$content.addClass('ct-content_default');
@@ -49,7 +47,7 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
         this._oItemQuoteIndicator.$(),
         this._oItemLabel.$()
       ),
-     this._oItemReader.$()
+     this._oToolbox.$()
     );
   }
 

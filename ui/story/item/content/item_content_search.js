@@ -16,7 +16,7 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
   _oItemLabel : null,
 
   init : function(oHistoryItem, oItem) {
-    this._super(oItem);
+    this._super(oHistoryItem, oItem);
 
     this._sType = "search";
     // current element.
@@ -52,7 +52,8 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
           this._$searchButton
         ),
         this._oItemLabel.$()
-      )
+      ),
+      this._oToolbox.$()
     );
 
   }

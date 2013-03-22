@@ -39,6 +39,9 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
     // current item.
     this._$content = $('<div class="ct-item_content"></div>');;
 
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(true, false,
+      oHistoryItem.url(), this._oDispacher, this);
+
     // the construction of the element depends on the its type. So create the
     // element directly in the sub class.
   },
