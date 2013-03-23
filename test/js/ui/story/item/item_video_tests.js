@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Content.Video', {
+module('Cotton.UI.Item.Video', {
 
 });
 
@@ -12,8 +12,10 @@ test('init.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = new Cotton.UI.Story.Item.Content.Video(oHistoryItem);
-  ok(oContent);
+  var oDispacher = new MockDispacher();
+  var oItem = new Cotton.UI.Story.Item.Video("g0lbfEb8MMk","youtube",
+    oHistoryItem, oDispacher);
+  ok(oItem);
 });
 
 test('check sVideo parameters', function() {
@@ -24,8 +26,9 @@ test('check sVideo parameters', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = new Cotton.UI.Story.Item.Content.Video(
-    oHistoryItem, "youtube", "g0lbfEb8MMk");
-  equal(oContent._sVideoType, "youtube");
+  var oDispacher = new MockDispacher();
+  var oItem = new Cotton.UI.Story.Item.Video("g0lbfEb8MMk","youtube",
+    oHistoryItem, oDispacher);
+  equal(oItem._oVideo._sVideoType, "youtube");
 });
 

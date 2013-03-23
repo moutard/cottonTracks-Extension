@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Content.Default', {
+module('Cotton.UI.Item.Image', {
 
 });
 
@@ -11,6 +11,6 @@ test('init.', function() {
     'iLastVisitTime' : 1363648480386,
     'oExtractedDNA' : {}
   });
-  var oContent = new Cotton.UI.Story.Item.Content.Default(oHistoryItem);
+  var oContent = new Cotton.UI.Story.Item.Image(oHistoryItem);
   ok(oContent);
 });

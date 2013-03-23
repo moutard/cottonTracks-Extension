@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Content.Search', {
+module('Cotton.UI.Item.Search', {
 
 });
 
@@ -12,8 +12,8 @@ test('init.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = new Cotton.UI.Story.Item.Content.Search(oHistoryItem);
-  ok(oContent);
+  var oItem = new Cotton.UI.Story.Item.Search(oHistoryItem);
+  ok(oItem);
 });
 
 test('title is well setted.', function() {
@@ -24,9 +24,9 @@ test('title is well setted.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = new Cotton.UI.Story.Item.Content.Search(oHistoryItem);
-  equal(oContent._$title.text(), "alice in wonderland");
-  equal(oContent._$searchInput.val(), "alice in wonderland");
+  var oItem = new Cotton.UI.Story.Item.Search(oHistoryItem);
+  equal(oItem._$title.text(), "alice in wonderland");
+  equal(oItem._$searchInput.val(), "alice in wonderland");
 });
 
 test('title is well setted for empty.', function() {
@@ -37,6 +37,6 @@ test('title is well setted for empty.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = new Cotton.UI.Story.Item.Content.Search(oHistoryItem);
-  equal(oContent._$title.text(), "Search");
+  var oItem = new Cotton.UI.Story.Item.Search(oHistoryItem);
+  equal(oItem._$title.text(), "Search");
 });

@@ -12,11 +12,11 @@ test('init.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
 });
 
-test('create a content default.', function() {
+test('create a item article.', function() {
   var oHistoryItem = new Cotton.Model.HistoryItem({
     'sUrl': "http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
     'sTitle' : "Alice's Adventures in Wonderland",
@@ -24,12 +24,12 @@ test('create a content default.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
-  ok(oContent._$content.hasClass('ct-content_default'));
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
+  ok(oItem._sType, "article");
 });
 
-test('create a content image.', function() {
+test('create a item image.', function() {
   var oHistoryItem = new Cotton.Model.HistoryItem({
     'sUrl': "http://upload.wikimedia.org/wikipedia/commons/6/6d/Alice_in_wonderland_1951.jpg",
     'sTitle' : "Alice_in_wonderland_1951.jpg",
@@ -37,12 +37,12 @@ test('create a content image.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
-  ok(oContent._$img);
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
+  ok(oItem._sType, "image");
 });
 
-test('create a content map.', function() {
+test('create a item map.', function() {
   var oHistoryItem = new Cotton.Model.HistoryItem({
     'sUrl': "https://maps.google.fr/maps?q=Escuela+Militar,+Las+Condes,+Chile&ie=UTF-8&hq=&hnear=0x9662cf187c27c041:0x7c34b04d3eb6805f,Escuela+Militar&gl=fr&ei=RsFIUc3MOOu00AGJ0YDQBA&ved=0CI0BELYD",
     'sTitle' : "Alice In Wonderland - All In The Golden Afternoon - Youtube",
@@ -50,12 +50,12 @@ test('create a content map.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
-  ok(oContent._$map);
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
+  ok(oItem._sType, "map");
 });
 
-test('create a content search.', function() {
+test('create a item search.', function() {
   var oHistoryItem = new Cotton.Model.HistoryItem({
     'sUrl': "https://www.google.fr/search?q=alice+in+wonderland&aq=f&oq=alice+in+wonderland&aqs=chrome.0.59j60j0l3j62.3401&sourceid=chrome&ie=UTF-8",
     'sTitle' : "alice in wonderland - Recherche Google",
@@ -63,12 +63,12 @@ test('create a content search.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
-  ok(oContent._$title);
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
+  ok(oItem._sType, "search");
 });
 
-test('create a content video', function() {
+test('create a item video', function() {
   var oHistoryItem = new Cotton.Model.HistoryItem({
     'sUrl': "http://www.youtube.com/watch?v=g0lbfEb8MMk",
     'sTitle' : "Alice In Wonderland - All In The Golden Afternoon - Youtube",
@@ -76,8 +76,8 @@ test('create a content video', function() {
     'oExtractedDNA' : {}
   });
 
-  var oContent = Cotton.UI.Story.Item.Content.Factory(oHistoryItem);
-  ok(oContent);
-  ok(oContent._sVideoType);
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  ok(oItem);
+  ok(oItem._sType, "video");
 });
 
