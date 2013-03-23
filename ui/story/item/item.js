@@ -40,6 +40,11 @@ Cotton.UI.Story.Item.Element = Class.extend({
     return this._oStoryElement;
   },
 
+  setType : function(sType){
+    this._sType = sType;
+    this._$content.addClass(sType);
+  },
+
   type : function() {
     return this._sType;
   }

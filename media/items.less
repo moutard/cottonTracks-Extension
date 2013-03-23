@@ -4,7 +4,6 @@
  *  > .ct-toolbox
  */
 
-@item_height: 150px;
 @item_width: 360px;
 @tool_bow_height: 33px;
 
@@ -15,7 +14,6 @@
   position: relative;
   overflow: hidden;
   width: @item_width;
-  height: @item_height;
   margin-left: 10px;
   margin-top: 10px;
   border-radius: 2px;
@@ -23,7 +21,10 @@
   box-shadow: 0px 0px 5px rgba(0,0,0,0.35);
 
   &.expanded {
-	  height: 630px;
+	  > .ct-content_reader{
+      height: 470px;
+      border: solid 5px #262626;
+    }
   }
 
   &:hover {
@@ -82,6 +83,7 @@
    * CT-ITEM_CONTENT
    */
   .ct-item_content {
+    position: relative;
 
     > .ct-featured_image{
 		  /*if featured image in a default element*/
@@ -173,8 +175,9 @@
   }
 
   > .ct-content_reader {
+    position: relative;
     width: 350px;
-    margin: 5px;
+    height: 0px;
     background-color: white;
 
     > .ct-select_article_part_radio_button {

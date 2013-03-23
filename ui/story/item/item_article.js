@@ -20,10 +20,11 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
   _oItemMenu : null,
   _oItemReader : null,
 
-  init : function(oHistoryItem, oDispacher, oItem) {
-    this._super(oHistoryItem, oDispacher, oItem);
+  init : function(oHistoryItem, oDispacher, oStory) {
+    this._super(oDispacher, oStory);
 
-    this._sType = "article";
+    this.setType("article");
+
     this._$infos = $('<div class="ct-infos"></div>');
     this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
       oHistoryItem.title(), this);
