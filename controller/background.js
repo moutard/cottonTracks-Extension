@@ -92,8 +92,10 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-      chrome.browserAction.disable(tabId);
-      self.removeTabStory(tabId);
+      if (changeInfo['status'] === 'loading'){
+        chrome.browserAction.disable(tabId);
+        self.removeTabStory(tabId);
+      }
     });
 
     chrome.browserAction.onClicked.addListener(function() {
