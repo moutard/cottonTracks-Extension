@@ -1,12 +1,12 @@
 'use strict';
 /**
- * A dispacher can be used to communicate betwween different part of the code.
- * You just need to pass the dispacher to the object, and suscribe the
+ * A dispatcher can be used to communicate betwween different part of the code.
+ * You just need to pass the dispatcher to the object, and subscribe the
  * object to you message.
  */
-Cotton.Messaging.Dispacher = Class.extend({
+Cotton.Messaging.Dispatcher = Class.extend({
   /**
-   * list all the object that listen messages from the dispacher.
+   * list all the object that listen messages from the dispatcher.
    * {Dictionary} :
    *  key: sMessage name of the message.
    *  value : list of listeners for this message.
@@ -18,9 +18,9 @@ Cotton.Messaging.Dispacher = Class.extend({
   },
 
   /**
-   * object that what to suscribe to the dispacher.
+   * object that what to subscribe to the dispatcher.
    */
-  suscribe : function(sMessage, oObject, mFunction) {
+  subscribe : function(sMessage, oObject, mFunction) {
     var lMessageListeners = this._dMessages[sMessage] || [];
     lMessageListeners.push({
       'context' : oObject,

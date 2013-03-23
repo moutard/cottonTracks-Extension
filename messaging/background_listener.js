@@ -30,7 +30,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
       DEBUG && console.debug(request);
 
       /**
-       * DISPACHER
+       * DISPATCHER
        * All the message send by sendMessage arrived here.
        * CottonTracks defined an "action" parameters it's mandatory.
        */
@@ -68,5 +68,5 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     });
   },
 
-  // TODO(rmoutard) : add a system to suscribe to the dispacher.
+  // TODO(rmoutard) : add a system to subscribe to the dispatcher.
 });

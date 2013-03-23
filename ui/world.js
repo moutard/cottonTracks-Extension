@@ -29,10 +29,10 @@ Cotton.UI.World = Class.extend({
    * @param {Cotton.Application.Lightyear} oApplication
    * @param {Cotton.Core.Chrome.Sender} oSender
    */
-  init : function(oApplication, oSender, oDispacher, $dom_world) {
+  init : function(oApplication, oSender, oDispatcher, $dom_world) {
     var self = this;
     this._oLightyear = oApplication;
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
 
     this._$world = $dom_world || $('.ct');
     this._$temporary_background = $('#blur_target');
@@ -83,7 +83,7 @@ Cotton.UI.World = Class.extend({
    *  the story have to be filled with all the historyItems so it can be display.
    */
   updateStory : function(oStory) {
-    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispacher);
+    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispatcher);
     this._$world.append(this._oStoryElement.$());
     this._oStoryElement.initPlaceItems();
   },
@@ -94,7 +94,7 @@ Cotton.UI.World = Class.extend({
    */
   updateMenu : function(oStory) {
     if (!this._oSideMenu) {
-      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispacher);
+      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher);
       this._$world.append(this._oSideMenu.$());
       this._oSideMenu.slideIn();
     }

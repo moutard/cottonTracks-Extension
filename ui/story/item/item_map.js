@@ -14,13 +14,10 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
   _oItemLabel : null,
 
 
-  init : function(oHistoryItem, oDispacher, oItem) {
-    this._super(oDispacher, oItem);
+  init : function(oHistoryItem, oDispatcher, oItem) {
+    this._super(oDispatcher, oItem);
 
-    this._sType = "map";
-
-    // current element
-    this._$content.addClass('map');
+    this.setType("map");
 
     // current sub elements.
     this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');
