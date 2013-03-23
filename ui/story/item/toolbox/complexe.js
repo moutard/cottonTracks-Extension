@@ -16,7 +16,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$getContent : null,
     _bHasJustGottenContent : false,
 
-    init : function(bHasExpand, sUrl, oDispacher, oContent) {
+    init : function(bHasExpand, bHasGetContent, sUrl, oDispacher, oContent) {
       var self = this;
 
       this._super(sUrl, oDispacher, oContent);
@@ -31,7 +31,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
 
       // If there is no paragraph you can expand display the getContent button.
       this._bHasJustGottenContent = false;
-      var bHasGetContent = !bHadExpand && !this._bHasJustGottenContent;
+      var bHasGetContent = !bHasExpand && !this._bHasJustGottenContent;
       if (bHasGetContent) {
         this._$getContent.show();
       } else if (bHasExpand) {

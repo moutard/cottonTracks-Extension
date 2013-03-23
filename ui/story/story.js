@@ -38,7 +38,7 @@ Cotton.UI.Story.Element = Class.extend({
     var lHistoryItems = oStory.historyItems();
     for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
       var oHistoryItem = lHistoryItems[i];
-      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem,
+      var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
         this._oDispacher, this);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       this._lItems.push(oItem);
