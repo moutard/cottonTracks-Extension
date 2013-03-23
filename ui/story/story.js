@@ -22,10 +22,10 @@ Cotton.UI.Story.Element = Class.extend({
   _$story : null,
   _$itemsContainer : null,
 
-  init : function(oStory, oDispacher, oWorld) {
+  init : function(oStory, oDispatcher, oWorld) {
     var self = this;
     this._oWorld = oWorld;
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
     this._oStory = oStory;
     this._lItems = [];
 
@@ -39,7 +39,7 @@ Cotton.UI.Story.Element = Class.extend({
     for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
       var oHistoryItem = lHistoryItems[i];
       var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
-        this._oDispacher, this);
+        this._oDispatcher, this);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       this._lItems.push(oItem);
       // create a temp array that will be passed as jQuery.
@@ -47,15 +47,15 @@ Cotton.UI.Story.Element = Class.extend({
       // operation faster to avoid the reflow.
       lDOMItems.push(oItem.$());
     }
-    this._oDispacher.publish('update_filters', dFilters);
+    this._oDispatcher.publish('update_filters', dFilters);
 
-    this._oDispacher.suscribe('story:filter', this, function(dArguments){
+    this._oDispatcher.subscribe('story:filter', this, function(dArguments){
       // Show only the elements that have this data-filter.
        this._$itemsContainer.isotope({
          'filter': dArguments['filter']
        });
     });
-    this._oDispacher.suscribe('item:expand', this, function(dArguments){
+    this._oDispatcher.subscribe('item:expand', this, function(dArguments){
       // Need to recompute the grid.
       self._$itemsContainer.isotope('reLayout');
     });

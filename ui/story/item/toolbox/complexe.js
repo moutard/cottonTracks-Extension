@@ -19,7 +19,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     init : function(bHasExpand, sUrl, oDispacher, oContent) {
       var self = this;
 
-      this._super(sUrl, oDispacher, oItem);
+      this._super(sUrl, oDispatcher, oItem);
 
       // current item
       this._$toolbox.addClass('small');
@@ -43,12 +43,12 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
 
       //expand reader
       this._$expand.click(function(){
-        // FIXME(rmoutard) : we can avoid that with local dispacher or id.
+        // FIXME(rmoutard) : we can avoid that with local dispatcher or id.
         self._oItem.$().addClass('expanded');
         self._$toolbox.addClass("visible");
         $(this).hide();
         self._$collapse.show();
-        self._oDispacher.publish('item:expand');
+        self._oDispatcher.publish('item:expand');
       });
 
       //collapse reader
@@ -57,7 +57,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         self._$toolbox.removeClass("visible");
         $(this).hide();
         self._$expand.show();
-        self._oDispacher.publish('item:expand');
+        self._oDispatcher.publish('item:expand');
       });
 
       //get content

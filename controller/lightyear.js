@@ -21,10 +21,10 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oSender : null,
 
   /**
-   * Dispacher that allows two diffents part of the product to communicate
+   * Dispatcher that allows two diffents part of the product to communicate
    * together.
    */
-  _oDispacher : null,
+  _oDispatcher : null,
 
   /**
    * Global view, contains the Menu, the StoryContainer.
@@ -60,7 +60,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     var self = this;
     LOG && console.log("Controller Lightyear - init -");
     this._oSender = oSender;
-    this._oDispacher = new Cotton.Messaging.Dispacher();
+    this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
@@ -91,7 +91,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     $(window).ready(function(){
-      self._oWorld = new Cotton.UI.World(self, oSender, self._oDispacher);
+      self._oWorld = new Cotton.UI.World(self, oSender, self._oDispatcher);
       self._bWorldReady = true;
       // In this case the story is ready before the world.
       if (self._bStoryReady) {

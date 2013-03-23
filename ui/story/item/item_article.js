@@ -20,8 +20,8 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
   _oItemMenu : null,
   _oItemReader : null,
 
-  init : function(oHistoryItem, oDispacher, oStory) {
-    this._super(oDispacher, oStory);
+  init : function(oHistoryItem, oDispatcher, oStory) {
+    this._super(oDispatcher, oStory);
 
     this.setType("article");
 
@@ -44,7 +44,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
       || (oDNA.firstParagraph() != ""));
 
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(bHasExpand, false,
-        oHistoryItem.url(), this._oDispacher, this);
+        oHistoryItem.url(), this._oDispatcher, this);
 
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
         oDNA, this);
