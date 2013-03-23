@@ -27,7 +27,7 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
       this._$img = $('<img class="resize"></img>');
 
       // set value
-      this._$img.attr('src', this._sImageUrl);
+      this._$img.attr('src', this._sImage);
 
       // construct item
       this._$featured_image.append(this._$img);
