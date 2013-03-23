@@ -32,11 +32,10 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
     this._$map.attr('src', sEmbedUrl);
 
     // create the item
-    this._$item(
+    this._$item.append(
       this._$content.append(
         this._$itemDoubleContainer.append(this._$map),
-        this._oItemLabel.$(),
-        this._oToolbox.$()
+        this._oItemLabel.$()
       )
     );
   },
