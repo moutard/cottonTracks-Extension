@@ -8,7 +8,7 @@
  * @returns {Cotton.UI.Story.Item.Content}
  */
 // FIXME(rmoutard) : create a real factory.
-Cotton.UI.Story.Item.Content.Factory = function(oHistoryItem, oItem) {
+Cotton.UI.Story.Item.Content.Factory = function(oHistoryItem, oDispacher, oItem) {
 
   var oUrl = new UrlParser(oHistoryItem.url());
   oUrl.fineDecomposition();
@@ -25,45 +25,45 @@ Cotton.UI.Story.Item.Content.Factory = function(oHistoryItem, oItem) {
   if (reg.exec(oHistoryItem.url())) {
     // Image
     //oItem.setItemType("image");
-    return new Cotton.UI.Story.Item.Content.Image(oHistoryItem, "img", oItem);
+    return new Cotton.UI.Story.Item.Content.Image(oHistoryItem, "img", oDispacher, oItem);
   } else if (oUrl.pathname === "/imgres") {
     // Image, from google search image result.
     //oItem.setItemType("image");
-    return new Cotton.UI.Story.Item.Content.Image(oHistoryItem, "imgres", oItem);
+    return new Cotton.UI.Story.Item.Content.Image(oHistoryItem, "imgres", oDispacher, oItem);
   } else if (oUrl.hostname === "www.youtube.com" && oUrl.dSearch['v']) {
     // Video - Youtube
     //oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oHistoryItem, "youtube",
-      oUrl.dSearch['v']);
+      oUrl.dSearch['v'], oDispacher, oItem);
   } else if (oUrl.hostname === "vimeo.com"
       && oUrl.pathname.match(/(\/[0-9]+)$/)) {
     // Video - Vimeo
     //oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oHistoryItem, "vimeo",
-      sLastStringFromPathname, oItem);
+      sLastStringFromPathname, oDispacher, oItem);
   } else if (oUrl.hostname === "www.dailymotion.com"
       && oUrl.pathname.split('/')[1] == "video") {
     // Video - Dailymotion
     //oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oHistoryItem, "dailymotion",
-      oUrl.pathname.split('/')[2], oItem);
+      oUrl.pathname.split('/')[2], oDispacher, oItem);
   } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.dHash['video']) {
     //oItem.setItemType("video");
     return new Cotton.UI.Story.Item.Content.Video(oHistoryItem, "dailymotion",
-      oUrl.dHash['video'], oItem);
+      oUrl.dHash['video'], oDispacher, oItem);
   } else if (oUrl.hostname.match(/^(maps\.google\.)/)
       && oUrl.pathname == "/maps") {
     //oItem.setItemType("map");
-    return new Cotton.UI.Story.Item.Content.Map(oHistoryItem, oUrl, oItem);
+    return new Cotton.UI.Story.Item.Content.Map(oHistoryItem, oUrl, oDispacher, oItem);
   } else if (oUrl.dSearch['q']) {
     // Search
     //oItem.setItemType("search");
-    return new Cotton.UI.Story.Item.Content.Search(oHistoryItem, oItem);
+    return new Cotton.UI.Story.Item.Content.Search(oHistoryItem, oDispacher, oItem);
     //TODO(rkorach) : include slideshare
   } else {
     // Default
     //oItem.setItemType("default");
-    return new Cotton.UI.Story.Item.Content.Default(oHistoryItem, oItem);
+    return new Cotton.UI.Story.Item.Content.Default(oHistoryItem, oDispacher, oItem);
   }
 
 };

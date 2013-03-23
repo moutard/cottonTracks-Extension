@@ -15,8 +15,8 @@ Cotton.UI.Story.Item.Content.Map = Cotton.UI.Story.Item.Content.Element
       _oItemLabel : null,
 
 
-      init : function(oHistoryItem, oUrl, oItem) {
-        this._super(oHistoryItem, oItem);
+      init : function(oHistoryItem, oUrl, oDispacher, oItem) {
+        this._super(oHistoryItem, oDispacher, oItem);
         this._sType = "map";
         this._oUrl = oUrl;
 

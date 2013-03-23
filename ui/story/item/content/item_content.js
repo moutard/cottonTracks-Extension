@@ -29,18 +29,23 @@ Cotton.UI.Story.Item.Content.Element = Class.extend({
    * @param {Cotton.Model.HistoryItem} oHistoryItem
    * @param {Cotton.UI.Story.Item} oItem
    */
-  init : function(oHistoryItem, oItem) {
+  init : function(oHistoryItem, oDispacher, oItem) {
     // current parent element.
     this._oItem = oItem;
 
     // oHistoryItem that contains all the content data.
     this._oHistoryItem = oHistoryItem;
+    this._oDispacher = oDispacher;
 
     // current item.
-    this._$content = $('<div class="ct-item_content"></div>');;
+    this._$content = $('<div class="ct-item_content"></div>');
+    var oDNA = oHistoryItem.extractedDNA();
+    var bHasExpand = ((oDNA.allParagraphs().length > 0)
+      || (oDNA.paragraphs().length > 0)
+      || (oDNA.firstParagraph() != ""));
 
-    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(true, false,
-      oHistoryItem.url(), this._oDispacher, this);
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(bHasExpand,
+        oHistoryItem.url(), this._oDispacher, this);
 
     // the construction of the element depends on the its type. So create the
     // element directly in the sub class.

@@ -20,8 +20,8 @@ Cotton.UI.Story.Item.Content.Default = Cotton.UI.Story.Item.Content.Element.exte
   _oItemMenu : null,
   _oItemReader : null,
 
-  init : function(oHistoryItem, oItem) {
-    this._super(oHistoryItem, oItem);
+  init : function(oHistoryItem, oDispacher, oItem) {
+    this._super(oHistoryItem, oDispacher, oItem);
 
     this._sType = "article";
     this._$infos = $('<div class="ct-infos"></div>');

@@ -14,10 +14,12 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
   _$openLink : null,
   _$open : null,
 
-  init : function(sUrl, oItem) {
+  init : function(sUrl, oDispacher, oContent) {
 
     // current parent element.
-    this._oItem = oItem;
+    this._oContent = oContent;
+
+    this._oDispacher = oDispacher;
 
     // current item
     this._$toolbox = $('<div class="ct-toolbox"></div>');

@@ -27,9 +27,10 @@ Cotton.UI.Story.Item.Element = Class.extend({
     this._$item = $('<div class="ct-story_item"></div>');
 
     // current sub elements.
-    this._oContent = new Cotton.UI.Story.Item.Content.Factory(oHistoryItem, this);
+    this._oContent = new Cotton.UI.Story.Item.Content.Factory(oHistoryItem,
+      oDispacher, this);
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
-        oHistoryItem.extractedDNA(), this);
+      oHistoryItem.extractedDNA(), this);
 
     this._$item.append(
       this._oContent.$(),

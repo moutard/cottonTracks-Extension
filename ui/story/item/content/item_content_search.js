@@ -15,8 +15,8 @@ Cotton.UI.Story.Item.Content.Search = Cotton.UI.Story.Item.Content.Element.exten
   _oItemDate : null,
   _oItemLabel : null,
 
-  init : function(oHistoryItem, oItem) {
-    this._super(oHistoryItem, oItem);
+  init : function(oHistoryItem, oDispacher, oItem) {
+    this._super(oHistoryItem, oDispacher, oItem);
 
     this._sType = "search";
     // current element.
