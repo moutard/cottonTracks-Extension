@@ -23,6 +23,7 @@ Cotton.UI.Story.Element = Class.extend({
   _$itemsContainer : null,
 
   init : function(oStory, oDispacher, oWorld) {
+    var self = this;
     this._oWorld = oWorld;
     this._oDispacher = oDispacher;
     this._oStory = oStory;
@@ -54,6 +55,11 @@ Cotton.UI.Story.Element = Class.extend({
          'filter': dArguments['filter']
        });
     });
+    this._oDispacher.suscribe('item:expand', this, function(dArguments){
+      // Need to recompute the grid.
+      self._$itemsContainer.isotope('reLayout');
+    });
+
     // Create element.
     this._$story.append(
       this._$itemsContainer.append(lDOMItems)
