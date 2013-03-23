@@ -14,8 +14,8 @@ Cotton.UI.Story.Item.Content.Video = Cotton.UI.Story.Item.Content.Element
       _$itemDoubleContainer : null,
       _oItemLabel : null,
 
-      init : function(oHistoryItem, sVideoType, sEmbedCode, oItem) {
-        this._super(oHistoryItem, oItem);
+      init : function(oHistoryItem, sVideoType, sEmbedCode, oDispacher, oItem) {
+        this._super(oHistoryItem, oDispacher, oItem);
         this._sType = "video";
         this._sVideoType = sVideoType;
 
