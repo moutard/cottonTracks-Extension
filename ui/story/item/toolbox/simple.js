@@ -20,7 +20,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
     // current parent element.
     this._oItem = oItem;
 
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
 
     this._oDispatcher = oDispatcher;
 
