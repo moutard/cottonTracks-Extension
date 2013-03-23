@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Content.Map', {
+module('Cotton.UI.Item.Map', {
 
 });
 
@@ -13,6 +13,6 @@ test('init.', function() {
   });
 
   var oUrl = new UrlParser("https://maps.google.fr/maps?q=Escuela+Militar,+Las+Condes,+Chile&ie=UTF-8&hq=&hnear=0x9662cf187c27c041:0x7c34b04d3eb6805f,Escuela+Militar&gl=fr&ei=RsFIUc3MOOu00AGJ0YDQBA&ved=0CI0BELYD");
-  var oContent = new Cotton.UI.Story.Item.Content.Map(oHistoryItem, oUrl);
-  ok(oContent);
+  var oItem = new Cotton.UI.Story.Item.Map(oHistoryItem, oUrl);
+  ok(oItem);
 });
