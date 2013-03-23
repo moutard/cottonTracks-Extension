@@ -23,7 +23,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
    */
   _dFilters : {},
 
-  init: function(oDispacher, oMenu) {
+  init: function(oDispatcher, oMenu) {
     var self = this;
     this._oMenu = oMenu;
     this._dFilters = {};
@@ -31,9 +31,9 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     this._lFilters = ['all', 'article', 'image', 'video', 'map',
       'sound', 'quote'];
 
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
 
-    this._oDispacher.suscribe('update_filters', this, function(dFiltersCount){
+    this._oDispatcher.subscribe('update_filters', this, function(dFiltersCount){
       for (var sFilter in dFiltersCount) {
         self.setFilterCount(sFilter, dFiltersCount[sFilter]);
       }
@@ -53,7 +53,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
             } else {
               sFilter = '.' + sFilter;
             }
-            self._oDispacher.publish('story:filter', {
+            self._oDispatcher.publish('story:filter', {
               'filter': sFilter
             });
           });

@@ -15,15 +15,15 @@ Cotton.UI.Story.Item.Video = Cotton.UI.Story.Item.Element.extend({
   _oItemFeaturedImage : null,
   _oToolBox : null,
 
-  init : function(sEmbedCode, sVideoType, oHistoryItem, oDispacher, oItem) {
-    this._super(oDispacher, oItem);
+  init : function(sEmbedCode, sVideoType, oHistoryItem, oDispatcher, oItem) {
+    this._super(oDispatcher, oItem);
 
     this._sType = "video";
 
     this._oVideo = new Cotton.UI.Story.Item.Content.Brick.Dna.Video(
       sEmbedCode, sVideoType, this);
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
-      this._oDispacher, this);
+      this._oDispatcher, this);
 
     this._$item.append(
       this._$content.append(
