@@ -10,7 +10,6 @@
 .ct-story_item {
 
   // Common to all items
-  background-color: #262626;
   position: relative;
   overflow: hidden;
   width: @item_width;
@@ -21,7 +20,7 @@
   box-shadow: 0px 0px 5px rgba(0,0,0,0.35);
 
   &.expanded {
-	  > .ct-content_reader{
+    > .ct-content_reader{
       height: 470px;
       border: solid 5px #262626;
     }
@@ -35,65 +34,88 @@
 
 
   .ct-toolbox {
-		background: #5bab7d;
-		position: absolute;
-		display: table;
+    background: #5bab7d;
+    position: absolute;
+    display: table;
 
     height: 33px;
-		bottom: -33px;
+    bottom: -33px;
 
     left: 0px;
-		width: 360px;
-		-webkit-transition: bottom  0.2s;
-		-webkit-transition-delay: 0.2s;
+    width: 360px;
+    -webkit-transition: bottom  0.2s;
+    -webkit-transition-delay: 0.2s;
 
-	  p {
-			font-size: 13px;
-			color: #ffffff;
-			float: right;
-			height: 100%;
-			margin: 0;
-			vertical-align: middle;
+    p {
+      font-size: 13px;
+      color: #ffffff;
+      float: right;
+      height: 100%;
+      margin: 0;
+      vertical-align: middle;
       padding-left: 11px;
-		  padding-right: 11px;
-		  padding-top: 8px;
-		  padding-bottom: 10px;
-			cursor: pointer;
-		}
+      padding-right: 11px;
+      padding-top: 8px;
+      padding-bottom: 10px;
+      cursor: pointer;
+    }
 
     &.large {
       height: 50px;
-		  bottom: -50px;
+      bottom: -50px;
 
       > p {
         padding-left: 10px;
-		    padding-right: 10px;
-			  padding-top: 17px;
+        padding-right: 10px;
+        padding-top: 17px;
       }
     }
 
     &.visible {
       top: 117px;
     }
-
-	}
+  }
 
 
   /**
    * CT-ITEM_CONTENT
    */
-  .ct-item_content {
+  > .ct-item_content {
     position: relative;
+    background-color: #262626;
 
-    > .ct-featured_image{
-		  /*if featured image in a default element*/
-			float: left;
-			position: relative;
-			z-index: 1;
-			width: 150px;
-			height: 150px;
-			background-color: white;
-		}
+    &.image {
+      background-color: rgba(255,255,255,0.3);
+    }
+
+    > .ct-image {
+      position: relative;
+      overflow: hidden;
+
+      &.full {
+        /*if full image in an image element*/
+        width: 360px;
+        height: 310px;
+      }
+
+      &.featured {
+        /*if featured image in a default element*/
+        float: left;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        background-color: #262626;
+      }
+
+      > .resize {
+        position: absolute;
+        display: none;
+
+        &.show {
+          display: block;
+        }
+      }
+    }
 
     > .ct-infos {
 
@@ -273,29 +295,29 @@
   }
 
   /*search*/
-	> .ct-content_search {
-	  .ct-searchbox {
-	    position: relative;
-	    top: 10%;
-	    width: 300px;
-	    height: 33px;
-	    margin-left: 20px;
-	    background-color: #212121;
-	    -webkit-box-shadow: inset 0 2px 7px rgba(0,0,0,0.3);
+  > .ct-content_search {
+    .ct-searchbox {
+      position: relative;
+      top: 10%;
+      width: 300px;
+      height: 33px;
+      margin-left: 20px;
+      background-color: #212121;
+      -webkit-box-shadow: inset 0 2px 7px rgba(0,0,0,0.3);
 
-	    > input {
-	      background: none;
-	      border: none;
-	      height: 33px;
-	      width: 247px;
-	      padding-left: 10px;
-	      padding-right: 10px;
-	      font-style: italic;
-	      color: #ffffff;
-	      font-size: 12px;
-	      float: left;
-	      outline: none;
-	    }
-	  }
-	}
+      > input {
+        background: none;
+        border: none;
+        height: 33px;
+        width: 247px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-style: italic;
+        color: #ffffff;
+        font-size: 12px;
+        float: left;
+        outline: none;
+      }
+    }
+  }
 }
