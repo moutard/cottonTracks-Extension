@@ -18,10 +18,10 @@ Cotton.UI.Story.Item.Image = Cotton.UI.Story.Item.Element.extend({
   init : function(oImageUrl, oDispatcher, oItem) {
     this._super(oDispatcher, oItem);
 
-    this._sType = "image";
+    this.setType("image");
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
-      oImageUrl, this);
+      oImageUrl, this, 'full');
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oImageUrl,
       this._oDispatcher, this);
 
