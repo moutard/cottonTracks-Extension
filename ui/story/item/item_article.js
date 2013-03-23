@@ -34,7 +34,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
       oHistoryItem.url(), this);
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
-        oHistoryItem.extractedDNA().imageUrl(), this);
+        oHistoryItem.extractedDNA().imageUrl(), this, 'featured');
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(
         oHistoryItem.extractedDNA().highlightedText().length, this);
 
