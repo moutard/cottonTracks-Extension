@@ -16,7 +16,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$getContent : null,
     _bHasJustGottenContent : false,
 
-    init : function(bHasExpand, bHasGetContent, sUrl, oDispacher, oContent) {
+    init : function(bHasExpand, sUrl, oDispacher, oContent) {
       var self = this;
 
       this._super(sUrl, oDispacher, oContent);
