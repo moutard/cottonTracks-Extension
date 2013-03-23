@@ -14,25 +14,28 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$collapse : null,
     _$loading : null,
     _$getContent : null,
+    _bHasJustGottenContent : false,
 
-    init : function(bHasExpand, bIsReloaded, sUrl, oItem) {
+    init : function(bHasExpand, sUrl, oDispacher, oContent) {
       var self = this;
 
-      this._super(sUrl, oItem);
+      this._super(sUrl, oDispacher, oContent);
 
       // current item
       this._$toolbox.addClass('small');
 
-      // If there is paragraph you can expand.
-      this._$expand = (bHasExpand) ? $('<p class="expand">Expand</p>') : $('');
-      this._$collapse = $('<p class="collapse">Collapse</p>');
-      this._$loading = $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">');
+      this._$expand = $('<p class="expand">Expand</p>').hide();
+      this._$collapse = $('<p class="collapse">Collapse</p>').hide();
+      this._$getContent = $('<p class="get_content">Get Content</p>').hide();
+      this._$loading = $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">').hide();
 
-      // Do not append 'Get Content' if it has already been performed or
-      // if there is a paragraph
-      this._$getContent = $('');
-      if (!bHasExpand && !bIsReloaded) {
-        this._$getContent = $('<p class="get_content">Get Content</p>');
+      // If there is no paragraph you can expand display the getContent button.
+      this._bHasJustGottenContent = false;
+      var bHasGetContent = !bHadExpand && !this._bHasJustGottenContent;
+      if (bHasGetContent) {
+        this._$getContent.show();
+      } else if (bHasExpand) {
+        this._$expand.show();
       }
 
       //set actions on buttons
@@ -40,20 +43,21 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
 
       //expand reader
       this._$expand.click(function(){
-        //oItem.addClass('expanded');
-        self.$().addClass("visible_action_menu");
-        //oItem.container().isotope('reLayout');
+        // FIXME(rmoutard) : we can avoid that with local dispacher or id.
+        self._oContent.item().$().addClass('expanded');
+        self._$toolbox.addClass("visible");
         $(this).hide();
         self._$collapse.show();
+        self._oDispacher.publish('item:expand');
       });
 
       //collapse reader
       this._$collapse.click(function(){
-        //oItem.$().removeClass('expanded');
-        //oItem.container().isotope('reLayout');
-        self.$().removeClass("visible_action_menu");
+        self._oContent.item().$().removeClass('expanded');
+        self._$toolbox.removeClass("visible");
         $(this).hide();
         self._$expand.show();
+        self._oDispacher.publish('item:expand');
       });
 
       //get content
@@ -64,11 +68,6 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         this._$collapse,
         this._$getContent
       );
-
-      // if the item is constructed from a reload (i.e getContent), expand it.
-      if (bIsReloaded) {
-        this._$expand.click();
-      }
 
     },
 

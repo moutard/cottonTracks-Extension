@@ -8,9 +8,9 @@ Cotton.UI.Story.Item.Content.Image = Cotton.UI.Story.Item.Content.Element.extend
 
   _$img : null,
 
-  init : function(oHistoryItem, sType, oItem) {
+  init : function(oHistoryItem, sType, oDispacher, oItem) {
 
-    this._super(oHistoryItem, oItem);
+    this._super(oHistoryItem, oDispacher, oItem);
 
     this._sTtype = "image";
     this._$content.addClass('ct-item-image image');
