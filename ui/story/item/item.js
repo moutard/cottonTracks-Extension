@@ -47,6 +47,7 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
   setType : function(sType){
     this._sType = sType;
+    this._$item.addClass(sType);
     this._$content.addClass(sType);
   },
 
