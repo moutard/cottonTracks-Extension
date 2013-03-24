@@ -33,8 +33,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     this._oMenu = oMenu;
     this._dFilters = {};
 
-    this._lFilters = ['all', 'article', 'image', 'video', 'map',
-      'sound'];
+    this._lFilters = ['all', 'article', 'image', 'video', 'map'];
 
     this._oDispatcher = oDispatcher;
 
