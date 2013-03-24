@@ -66,6 +66,16 @@ Cotton.UI.Story.Element = Class.extend({
          'filter': dArguments['filter']
        });
     });
+    // Delete element
+    this._oDispatcher.subscribe("item:delete", this, function(dArguments){
+      for (var i = 0, iLength = lDOMItems.length; i < iLength; i++){
+        var $item = lDOMItems[i];
+        if ($item.attr('id') == dArguments['id']){
+          self.removeDOMItem(i, $item);
+        }
+      }
+    });
+
     // Create element.
     this._$story.append(
       this._$itemsContainer.append(lDOMItems)
@@ -82,8 +92,12 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   addHistoryItem : function(oHistoryItem) {
-    var oItemElement = new Cotton.UI.Story.Item.Element(oHistoryItem);
+    var oItemElement = new Cotton.UI.Story.Item.Element(oDispatcher, oHistoryItem);
     this._$itemsContainer.append(oItemElement);
+  },
+
+  removeDOMItem : function(iIndex, $item) {
+    this._$itemsContainer.isotope('remove', $item, function(){});
   },
 
   initPlaceItems: function() {

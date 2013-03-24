@@ -21,7 +21,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
   _oItemReader : null,
 
   init : function(oHistoryItem, oDispatcher, oStory) {
-    this._super(oDispatcher, oStory);
+    this._super(oHistoryItem, oDispatcher, oStory);
 
     this.setType("article");
 
