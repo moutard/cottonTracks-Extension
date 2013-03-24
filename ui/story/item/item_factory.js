@@ -24,11 +24,11 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, oDispatcher, oStory) {
   if (reg.exec(oHistoryItem.url())) {
     // Image
     var sImageUrl = oHistoryItem.url();
-    return new Cotton.UI.Story.Item.Image(sImageUrl, oDispatcher, oStory);
+    return new Cotton.UI.Story.Item.Image(sImageUrl, oHistoryItem, oDispatcher, oStory);
   } else if (oUrl.pathname === "/imgres") {
     // Image, from google search image result.
     var sImageUrl = oUrl.replaceHexa(oUrl.dSearch['imgurl']);
-    return new Cotton.UI.Story.Item.Image(sImageUrl, oDispatcher, oStory);
+    return new Cotton.UI.Story.Item.Image(sImageUrl, oHistoryItem, oDispatcher, oStory);
   } else if (oUrl.hostname === "www.youtube.com" && oUrl.dSearch['v']) {
     // Video - Youtube
     return new Cotton.UI.Story.Item.Video(oUrl.dSearch['v'], "youtube",

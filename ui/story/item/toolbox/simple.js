@@ -30,6 +30,10 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
     this._$openingLink = $('<a href="' + sUrl + '" target="blank"></a>');
     this._$open = $('<p>Open</p>');
 
+    this._$remove.click(function(){
+      oDispatcher.publish('item:delete', {'id': oItem.historyItem().id()})
+    });
+
     // construct item
     this._$toolbox.append(
       this._$openingLink.append(this._$open),

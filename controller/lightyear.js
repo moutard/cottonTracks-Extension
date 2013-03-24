@@ -62,6 +62,10 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oSender = oSender;
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
+    this._oDispatcher.subscribe("item:delete", this, function(dArguments){
+      self.deleteItem(dArguments['id']);
+    });
+
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
@@ -109,6 +113,10 @@ Cotton.Controllers.Lightyear = Class.extend({
   story : function() {
     return this._oStory;
   },
+
+  deleteItem : function(sHistoryItemId){
+    this._oDatabase.delete('historyItems', sHistoryItemId);
+  }
 
 });
 
