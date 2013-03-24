@@ -18,9 +18,8 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
   init : function(oHistoryItem, oDispacher, oItem) {
     this._super(oHistoryItem, oDispacher, oItem);
 
-    this._sType = "search";
     // current element.
-    this._$item.addClass('search');
+    this.setType("search");
 
     // sub elements.
     this._$itemInfo = $('<div class="ct-infos"></div>');
