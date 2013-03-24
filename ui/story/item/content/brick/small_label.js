@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Content.Brick.SmallLabel = Class.extend({
     this._oItemContent = oItemContent;
 
     // current element.
-    this._$small_label = $('<div class="ct-small_label"></div>');
+    this._$small_label = $('<div class="ct-label small_label"></div>');
 
     // sub elements.
     this._oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(sUrl, this._oItemContent);

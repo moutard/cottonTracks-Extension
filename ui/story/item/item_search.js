@@ -33,7 +33,7 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
       oHistoryItem.url(), this);
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
-      this._oDispatcher, this);
+      this._oDispatcher, this, 'small');
 
     // Title
     if (oHistoryItem.title() !== "") {

@@ -15,7 +15,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
   _$openLink : null,
   _$open : null,
 
-  init : function(sUrl, oDispatcher, oItem) {
+  init : function(sUrl, oDispatcher, oItem, sSize) {
 
     // current parent element.
     this._oItem = oItem;
@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
     this._oDispatcher = oDispatcher;
 
     // current item
-    this._$toolbox = $('<div class="ct-toolbox"></div>');
+    this._$toolbox = $('<div class="ct-toolbox ' + sSize + '"></div>');
 
     // current sub elements
     this._$remove = $('<p>Remove</p>');
