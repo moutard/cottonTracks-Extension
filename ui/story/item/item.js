@@ -7,6 +7,7 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
   // parent element.
   _oStory : null,
+  _oHistoryItem : null,
 
   _sType : null,
 
@@ -16,16 +17,16 @@ Cotton.UI.Story.Item.Element = Class.extend({
   // sub elements.
   _$content : null,
 
-  init : function(oDispatcher, oStoryElement) {
+  init : function(oHistoryItem, oDispatcher, oStoryElement) {
     var self = this;
     this._oDispatcher = oDispatcher;
     this._oStoryElement = oStoryElement;
+    this._oHistoryItem = oHistoryItem;
     // current element.
-    this._$item = $('<div class="ct-story_item"></div>');
+    this._$item = $('<div class="ct-story_item" id="' + this._oHistoryItem.id() + '"></div>');
 
     // current sub elements.
     this._$content = $('<div class="ct-item_content"></div>');
-
   },
 
   $ : function() {
@@ -38,6 +39,10 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
   story : function() {
     return this._oStoryElement;
+  },
+
+  historyItem : function() {
+    return this._oHistoryItem;
   },
 
   setType : function(sType){
