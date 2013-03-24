@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Video = Cotton.UI.Story.Item.Element.extend({
     this._oVideo = new Cotton.UI.Story.Item.Content.Brick.Dna.Video(
       sEmbedCode, sVideoType, this);
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
-      this._oDispatcher, this);
+      this._oDispatcher, this, 'large');
 
     this._$item.append(
       this._$content.append(
