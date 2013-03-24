@@ -169,6 +169,7 @@
         vertical-align: middle;
       }
 
+
       > .favicon {
         float: left;
         width: 18px;
@@ -191,6 +192,33 @@
       > .ct-quote_indicator {
         height: 22px;
         display: table;
+      }
+    }
+
+    /*toolbox*/
+    > .ct-toolbox {
+      background: #5bab7d;
+      position: absolute;
+      display: table;
+      left: 0px;
+      width: 360px;
+      -webkit-transition: bottom  0.2s;
+      -webkit-transition-delay: 0.2s;
+
+      &.small {
+        height: 33px;
+      bottom: -33px;
+        }
+
+      &.large {
+        height: 50px;
+        bottom: -50px;
+
+        p {
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-top: 17px;
+        }
       }
 
       h4 {
