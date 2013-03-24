@@ -115,7 +115,9 @@ Cotton.Controllers.Lightyear = Class.extend({
   },
 
   deleteItem : function(sHistoryItemId){
-    this._oDatabase.delete('historyItems', sHistoryItemId);
+    var self = this;
+    Cotton.DB.Stories.removeHistoryItemInStory(
+      self._oDatabase, self._oStory.id(), sHistoryItemId);
   }
 
 });
