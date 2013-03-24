@@ -29,7 +29,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     this._dFilters = {};
 
     this._lFilters = ['all', 'article', 'image', 'video', 'map',
-      'sound', 'quote'];
+      'sound'];
 
     this._oDispatcher = oDispatcher;
 
@@ -44,17 +44,17 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       sFilterCount = sFilterCount || 0;
       self._dFilters[sFilter] = $('<span class="all_count"></span>').text(sFilterCount);
       return  $('<div class="ct-filter "></div>').append(
-          $('<span></span>').text(sFilter + 's  ('),
+          $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  (' : ' (')),
           self._dFilters[sFilter],
           $('<span></span>').text(')')).click(function(){
             // Update the story on click.
             if(sFilter === "all") {
-              sFilter = '*';
+              var sFilterCode = '*';
             } else {
-              sFilter = '.' + sFilter;
+              var sFilterCode = '.' + sFilter;
             }
             self._oDispatcher.publish('story:filter', {
-              'filter': sFilter
+              'filter': sFilterCode
             });
           });
     };
