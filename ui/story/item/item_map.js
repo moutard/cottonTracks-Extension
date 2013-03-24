@@ -10,20 +10,21 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
 
   // sub elements.
   _$map : null,
-  _$itemDoubleContainer : null,
   _oItemLabel : null,
+  _oToolbox : null,
 
-
-  init : function(oHistoryItem, oDispatcher, oItem) {
+  init : function(sMapUrl, oHistoryItem, oDispatcher, oItem) {
     this._super(oDispatcher, oItem);
 
     this.setType("map");
 
     // current sub elements.
-    this._$map = $('<iframe width="400" height="380" src="" frameborder="0"></iframe>');
-    this._$itemDoubleContainer = $('<div class="ct-double_container"></div>');
+    this._$map = $('<iframe width="360" height="300" src="" frameborder="0"></iframe>');
+
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.LargeLabel(
       oHistoryItem.title(), oHistoryItem.url());
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(
+      sMapUrl, oDispatcher, oItem, 'large');
 
     var sEmbedUrl = oHistoryItem.url() + "&output=embed&iwloc=near";
     this._$map.attr('src', sEmbedUrl);
@@ -31,8 +32,9 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
     // create the item
     this._$item.append(
       this._$content.append(
-        this._$itemDoubleContainer.append(this._$map),
-        this._oItemLabel.$()
+        this._$map,
+        this._oItemLabel.$(),
+        this._oToolbox.$()
       )
     );
   },

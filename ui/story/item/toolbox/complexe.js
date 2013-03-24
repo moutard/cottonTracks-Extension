@@ -19,7 +19,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     init : function(bHasExpand, sUrl, oDispacher, oContent) {
       var self = this;
 
-      this._super(sUrl, oDispatcher, oItem);
+      this._super(sUrl, oDispatcher, oItem, sSize);
 
       // current item
       this._$toolbox.addClass('small');

@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Image = Cotton.UI.Story.Item.Element.extend({
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
       oImageUrl, this, 'full');
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oImageUrl,
-      this._oDispatcher, this);
+      this._oDispatcher, this, 'small');
 
     this._$item.append(
       this._$content.append(

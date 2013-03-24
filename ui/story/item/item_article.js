@@ -44,7 +44,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
       || (oDNA.firstParagraph() != ""));
 
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(bHasExpand, false,
-        oHistoryItem.url(), this._oDispatcher, this);
+        oHistoryItem.url(), this._oDispatcher, this, 'small');
 
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
         oDNA, this);

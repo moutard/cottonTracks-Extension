@@ -23,7 +23,7 @@ Cotton.UI.Story.Item.Content.Brick.LargeLabel = Class.extend({
     this._oItemContent = oItemContent;
 
     // current item.
-    this._$large_label = $('<div class="ct-large_label"></div>');
+    this._$large_label = $('<div class="ct-label large_label"></div>');
 
     // current sub elements
     this._oTitle = new Cotton.UI.Story.Item.Content.Brick.Title(sTitle, this._oItemContent);
