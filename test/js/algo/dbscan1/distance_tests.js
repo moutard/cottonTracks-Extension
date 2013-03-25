@@ -26,6 +26,20 @@ module(
           }
         };
 
+        Cotton.Test.Data.Distance.oHistoryNinjutsu = {
+          'oExtractedDNA' : {
+            'lExtractedWords' : ['science', 'ninjutsu', 'video', 'dailymotion'],
+            'lQueryWords' : [],
+          }
+        };
+
+        Cotton.Test.Data.Distance.oNinjutsu = {
+          'oExtractedDNA' : {
+            'lExtractedWords' : ['ninjutsu'],
+            'lQueryWords' : [],
+          }
+        };
+
         Cotton.Test.Data.Distance.oHistoryItemNull = {
           'oExtractedDNA' : {
             'lExtractedWords' : [],
