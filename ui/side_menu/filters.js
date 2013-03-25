@@ -38,14 +38,20 @@ Cotton.UI.SideMenu.Filters = Class.extend({
         self.setFilterCount(sFilter, dFiltersCount[sFilter]);
       }
     });
+    this._oDispatcher.subscribe('item:delete', this, function(dArguments){
+      var sRemovedItemType = dArguments['type'];
+      self.decrementFilter(sRemovedItemType);
+    });
     this._$filters = $('<div class="ct-filters"></div>');
 
     function createFilterDOM(sFilter, sFilterCount) {
       sFilterCount = sFilterCount || 0;
-      self._dFilters[sFilter] = $('<span class="all_count"></span>').text(sFilterCount);
+      self._dFilters[sFilter] = {};
+      self._dFilters[sFilter]['dom'] = $('<span class="all_count"></span>').text(
+        sFilterCount);
       return  $('<div class="ct-filter "></div>').append(
           $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  (' : ' (')),
-          self._dFilters[sFilter],
+          self._dFilters[sFilter]['dom'],
           $('<span></span>').text(')')).click(function(){
             // Update the story on click.
             if(sFilter === "all") {
@@ -74,8 +80,15 @@ Cotton.UI.SideMenu.Filters = Class.extend({
 
   setFilterCount : function(sFilter, iCount) {
     if (this._dFilters[sFilter]) {
-      this._dFilters[sFilter].text(iCount);
+      this._dFilters[sFilter]['count'] = iCount;
+      this._dFilters[sFilter]['dom'].text(iCount);
     }
   },
 
+  decrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] - 1);
+      this.setFilterCount('all', this._dFilters['all']['count'] - 1);
+    }
+  }
 });
