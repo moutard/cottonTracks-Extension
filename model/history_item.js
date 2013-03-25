@@ -74,6 +74,12 @@ Cotton.Model.HistoryItem = Class.extend({
   },
   searchKeywords : function() {
     return this._sTitle.toLowerCase().split(" ");
+  },
+  oUrl : function() {
+    if(!this._oUrl) {
+      this._oUrl = new UrlParser(this._sUrl);
+    }
+    return this._oUrl;
   }
 
 });
