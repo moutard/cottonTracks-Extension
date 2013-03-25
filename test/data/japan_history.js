@@ -1,74 +1,10 @@
 var japan = [
     {
-      "sId": "18151",
-      "iLastVisitTime": 1345067658646.558,
-      "sTitle": "(2) Facebook",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/photo.php?fbid=10152068452965657&set=a.10152068448065657.900421.845025656&type=1&theater",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "18150",
-      "iLastVisitTime": 1345067657749.572,
-      "sTitle": "(2) Facebook",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/photo.php?fbid=10152068452540657&set=a.10152068448065657.900421.845025656&type=1&theater",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "18148",
-      "iLastVisitTime": 1345067625020.5059,
-      "sTitle": "(1) Japanese-French-German Roadtrip in France",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/photo.php?fbid=10152068458770657&set=a.10152068448065657.900421.845025656&type=1",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "18145",
-      "iLastVisitTime": 1345067609247.763,
-      "sTitle": "(3) Photos of you",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/media/set/?set=vxywtia.1345067317.1345067318.10152068448065657&type=1",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "18144",
-      "iLastVisitTime": 1345067602510.854,
-      "sTitle": "(1) Photos of you",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/photo.php?fbid=10152068451485657&set=vxywtia.1345067317.1345067318.10152068448065657&type=1",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "14316",
-      "iLastVisitTime": 1345067313373.046,
-      "sTitle": "(2) Ayako Oshiro - Messages",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/messages/?action=read&tid=id.262946680485206",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "18141",
-      "iLastVisitTime": 1345067101826.915,
-      "sTitle": "(1) Anja Heinrich's Photos",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/photo.php?fbid=10152068458770657&set=p.10152068458770657&type=1",
-      "oExtractedDNA": {}
-    },
-    {
       "sId": "18138",
       "iLastVisitTime": 1345065576880.3699,
       "sTitle": "time in tokyo - Recherche Google",
       "typedCount": 0,
       "sUrl": "https://www.google.com/search?q=time+in+tokyo&sugexp=chrome,mod=17&sourceid=chrome&ie=UTF-8",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "13479",
-      "iLastVisitTime": 1345065539022.361,
-      "sTitle": "Ayako Oshiro - Messages",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/messages/740224672",
       "oExtractedDNA": {}
     },
     {
@@ -133,14 +69,6 @@ var japan = [
       "sTitle": "The New York Times - Breaking News, World News & Multimedia",
       "typedCount": 0,
       "sUrl": "http://www.nytimes.com/",
-      "oExtractedDNA": {}
-    },
-        {
-      "sId": "17993",
-      "iLastVisitTime": 1344941455851.882,
-      "sTitle": "Sign in to Twitter",
-      "typedCount": 0,
-      "sUrl": "https://twitter.com/intent/session?original_referer=http%3A%2F%2Ftechcrunch.com%2F2012%2F08%2F13%2Fputting-an-end-to-the-biggest-lie-on-the-internet%2F&return_to=%2Fintent%2Ftweet%3Foriginal_referer%3Dhttp%253A%252F%252Ftechcrunch.com%252F2012%252F08%252F13%252Fputting-an-end-to-the-biggest-lie-on-the-internet%252F%26source%3Dtweetbutton%26text%3DPutting%2520An%2520End%2520To%2520The%2520Biggest%2520Lie%2520On%2520The%2520Internet%26url%3Dhttp%253A%252F%252Ftechcrunch.com%252F2012%252F08%252F13%252Fputting-an-end-to-the-biggest-lie-on-the-internet%252F%26via%3Dtechcrunch&source=tweetbutton&text=Putting+An+End+To+The+Biggest+Lie+On+The+Internet&url=http%3A%2F%2Ftechcrunch.com%2F2012%2F08%2F13%2Fputting-an-end-to-the-biggest-lie-on-the-internet%2F&via=techcrunch",
       "oExtractedDNA": {}
     },
     {
@@ -253,30 +181,6 @@ var japan = [
       "sTitle": "",
       "typedCount": 0,
       "sUrl": "http://www.jeuxvideo.com/billboard_hp.htm",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "17979",
-      "iLastVisitTime": 1344939545693.9458,
-      "sTitle": "cottonTracks Settings",
-      "typedCount": 0,
-      "sUrl": "chrome-extension://bffhpelggejfbhmanblcndnaikhamehe/settings/settings.html?grid=Favorites&favorites_sTitle=Techcrunch2&favorites_url=http%3A%2F%2Ftechcrunch.com&favorites_sTitle=Fubiz&favorites_url=http%3A%2F%2Ffubiz.net&favorites_sTitle=Facebook&favorites_url=http%3A%2F%2Ffacebook.com&favorites_sTitle=Dribble&favorites_url=http%3A%2F%2Fdribbble.com&favorites_sTitle=PandoDaily&favorites_url=http%3A%2F%2Fpandodaily.com&favorites_sTitle=MTV&favorites_url=http%3A%2F%2Fwww.mtv.com&favorites_sTitle=Twitter&favorites_url=http%3A%2F%2Ftwitter.com&favorites_sTitle=Pinterest&favorites_url=http%3A%2F%2Fpinterest.com",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "17978",
-      "iLastVisitTime": 1344939442953.381,
-      "sTitle": "(23) Camille Blzx",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/audrey.sogny",
-      "oExtractedDNA": {}
-    },
-    {
-      "sId": "17977",
-      "iLastVisitTime": 1344939373630.414,
-      "sTitle": "(23) Facebook",
-      "typedCount": 0,
-      "sUrl": "https://www.facebook.com/Camille.Blzx",
       "oExtractedDNA": {}
     },
     {
