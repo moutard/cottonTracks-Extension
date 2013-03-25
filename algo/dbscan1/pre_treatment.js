@@ -34,6 +34,7 @@ Cotton.Algo.PreTreatment.computeParseUrl = function(lHistoryItems) {
  * For each oHistoryItem in lHistoryItems, extract words of the title.
  *
  * @param lHistoryItems
+ * allow in worker.
  * @returns
  */
 Cotton.Algo.PreTreatment.computeExtractedWords = function(lHistoryItems) {
@@ -44,6 +45,36 @@ Cotton.Algo.PreTreatment.computeExtractedWords = function(lHistoryItems) {
         Cotton.Algo.Tools.extractWordsFromTitle(lHistoryItems[i]['sTitle']),
         Cotton.Algo.Tools.extractWordsFromUrlPathname(lHistoryItems[i]['oUrl']['pathname'])
         );
+  }
+  return lHistoryItems;
+};
+
+/**
+ * For each oHistoryItem in lHistoryItems, compute the bag of words.
+ *
+ * @param lHistoryItems
+ * Allow in worker.
+ * @returns
+ */
+Cotton.Algo.PreTreatment.computeBagOfWords = function(lHistoryItems) {
+  // Instead of computing every time you compute a distance
+  // we know that words are lower case by using functions computeExtractedWords
+  // that used the filters function.
+  var iLength = lHistoryItems.length;
+  for ( var i = 0; i < iLength; i++) {
+    var dBagOfWords = {};
+    var lExtractedWords = lHistoryItems[i]['oExtractedDNA']['lExtractedWords'];
+    var lQueryWords = lHistoryItems[i]['oExtractedDNA']['lQueryWords'];
+    for(var j = 0, sWord; sWord = lExtractedWords[j]; j++) {
+      dBagOfWords[sWord] = dBagOfWords[sWord] || 0;
+      dBagOfWords[sWord] += Cotton.Config.Parameters.scoreForExtractedWords;
+    }
+    for(var k = 0, sWord; sWord = lQueryWords[k]; k++) {
+      dBagOfWords[sWord] = dBagOfWords[sWord] || 0;
+      dBagOfWords[sWord] += Cotton.Config.Parameters.scoreForQueryWords;
+    }
+
+    lHistoryItems[i]['oExtractedDNA']['dBagOfWords'] = dBagOfWords;
   }
   return lHistoryItems;
 };
@@ -107,6 +138,8 @@ Cotton.Algo.PreTreatment.suite = function(lHistoryItems) {
   lHistoryItems = Cotton.Algo.PreTreatment.computeExtractedWords(lHistoryItems);
   lHistoryItems = Cotton.Algo.PreTreatment
       .computeClosestGoogleSearchPage(lHistoryItems);
+  lHistoryItems = Cotton.Algo.PreTreatment
+      .computeBagOfWords(lHistoryItems);
 
   return lHistoryItems;
 };
