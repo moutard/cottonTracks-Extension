@@ -14,9 +14,8 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$collapse : null,
     _$loading : null,
     _$getContent : null,
-    _bHasJustGottenContent : false,
 
-    init : function(bHasExpand, sUrl, oDispacher, oContent) {
+    init : function(bHasExpand, sUrl, oDispatcher, oItem, sSize) {
       var self = this;
 
       this._super(sUrl, oDispatcher, oItem, sSize);
@@ -30,16 +29,13 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
       this._$loading = $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">').hide();
 
       // If there is no paragraph you can expand display the getContent button.
-      this._bHasJustGottenContent = false;
-      var bHasGetContent = !bHasExpand && !this._bHasJustGottenContent;
-      if (bHasGetContent) {
-        this._$getContent.show();
-      } else if (bHasExpand) {
+      if (bHasExpand) {
         this._$expand.show();
+      } else {
+        this._$getContent.show();
       }
 
       //set actions on buttons
-      //remove element
 
       //expand reader
       this._$expand.click(function(){
@@ -61,18 +57,38 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
       });
 
       //get content
+      this._$getContent.click(function(){
+        self._oDispatcher.publish('item:get_content', {
+          'id': oItem.historyItem().id(),
+          'url': oItem.historyItem().url()
+        });
+        self._$loading.show();
+        $(this).hide();
+        self.$().addClass('visible');
+      });
 
       // construct item
       this._$toolbox.append(
         this._$expand,
         this._$collapse,
-        this._$getContent
+        this._$getContent,
+        this._$loading
       );
 
     },
 
     $ : function() {
       return this._$toolbox;
+    },
+
+    recycle : function(bHasExpand) {
+      this._$loading.hide();
+      if (bHasExpand){
+        this._$expand.show().click();
+      } else {
+        this.$().removeClass('visible');
+      }
+
     }
 
 });
