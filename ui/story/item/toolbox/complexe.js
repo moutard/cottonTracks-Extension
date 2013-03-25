@@ -14,7 +14,6 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$collapse : null,
     _$loading : null,
     _$getContent : null,
-    _bHasJustGottenContent : false,
 
     init : function(bHasExpand, sUrl, oDispatcher, oItem, sSize) {
       var self = this;
