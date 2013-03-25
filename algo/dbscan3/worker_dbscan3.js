@@ -44,7 +44,7 @@ function handleHistoryItems3(lHistoryItems) {
   var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
 
   // Applyed all the pretreatment first.
-  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  //lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
 
   // Step 1.
   Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
