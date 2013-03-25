@@ -42,7 +42,7 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
     } else {
       this._$title.text("Search");
     }
-    this._$title = $('<a href="' + oHistoryItem.url() + '" target="blank"></a>').append(this._$title);
+    this._$title = $('<a href="' + oHistoryItem.url() + '" target="_blank"></a>').append(this._$title);
 
     // create the item
     this._$item.append(

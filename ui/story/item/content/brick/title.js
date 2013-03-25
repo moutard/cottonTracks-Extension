@@ -29,7 +29,7 @@ Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
     // current item
     this._$title = $('<h3></h3>').text(sTitle);
     if (sUrl){
-      this._$title = $('<a href="' + sUrl + '" target="blank"></a>').append(this._$title);
+      this._$title = $('<a href="' + sUrl + '" target="_blank"></a>').append(this._$title);
     }
 
   },
