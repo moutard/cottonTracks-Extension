@@ -39,7 +39,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
 
     this._lQueryWords = dDBRecord['lQueryWords'] || [];
     this._lExtractedWords = dDBRecord['lQueryWords'] || [];
-
     this._iPercent = 0;
     this._fTimeTabActive = -1;
     this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
@@ -61,7 +60,8 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     // Initialize the bag of words, with QueryWords and ExtractedWords.
     for (var i = 0, iLength = self._lQueryWords.length; i < iLength; i++) {
       var sWord = self._lQueryWords[i];
-      self._oBagOfWords.addWord(sWord, 5);
+      self._oBagOfWords.addWord(sWord,
+        Cotton.Config.Parameters.scoreForQueryWords);
     }
   },
   extractedWords : function() {
@@ -72,7 +72,8 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     self._lExtractedWords = lExtractedWords;
     for (var i = 0, iLength = self._lExtractedWords.length; i < iLength; i++) {
       var sWord = self._lExtractedWords[i];
-      self._oBagOfWords.addWord(sWord, 3);
+      self._oBagOfWords.addWord(sWord,
+        Cotton.Config.Parameters.scoreForExtractedWords);
     }
   },
   bagOfWords : function(){
