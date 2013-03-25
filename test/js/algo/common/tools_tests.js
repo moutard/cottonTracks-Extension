@@ -31,6 +31,11 @@ test("extract words on less than 2 letters words with punctuation.", function() 
     ['est', 'donc', 'car']);
 });
 
+test("extract words with duplicate.", function() {
+  deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("Javascript - the best of javascript tuto."),
+    ['javascript', 'the', 'best', 'javascript', 'tuto']);
+});
+
 test("extract words from url. ", function() {
   var sUrl = "http://example.com/what_are_the_words_in_this_url";
   var oUrl = new UrlParser(sUrl);
