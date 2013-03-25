@@ -27,7 +27,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
 
     // current sub elements
     this._$remove = $('<p>Remove</p>');
-    this._$openingLink = $('<a href="' + sUrl + '" target="blank"></a>');
+    this._$openingLink = $('<a href="' + sUrl + '" target="_blank"></a>');
     this._$open = $('<p>Open</p>');
 
     this._$remove.click(function(){
