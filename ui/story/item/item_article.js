@@ -39,11 +39,9 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
         oHistoryItem.extractedDNA().highlightedText().length, this);
 
     var oDNA = oHistoryItem.extractedDNA();
-    var bHasExpand = ((oDNA.allParagraphs().length > 0)
-      || (oDNA.paragraphs().length > 0)
-      || (oDNA.firstParagraph() != ""));
+    var bHasExpand = this.hasExpand(oDNA);
 
-    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(bHasExpand, false,
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(bHasExpand,
         oHistoryItem.url(), this._oDispatcher, this, 'small');
 
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
@@ -63,6 +61,22 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
       ),
       this._oReader.$()
     );
-  }
+  },
 
+  hasExpand : function(oDNA){
+    return ((oDNA.allParagraphs().length > 0)
+      || (oDNA.paragraphs().length > 0)
+      || (oDNA.firstParagraph() != ""));
+  },
+
+  recycle : function(oHistoryItem) {
+    var self = this;
+    this._oHistoryItem = oHistoryItem;
+    this._oItemFeaturedImage.recycle(oHistoryItem.extractedDNA().imageUrl());
+    this._oItemQuoteIndicator.recycle(
+      oHistoryItem.extractedDNA().highlightedText().length);
+    this._oToolbox.recycle(self.hasExpand(oHistoryItem.extractedDNA()));
+    this._oReader.recycle(oHistoryItem.extractedDNA(), self.hasExpand(
+      oHistoryItem.extractedDNA()));
+  }
 });

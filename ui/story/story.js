@@ -96,6 +96,15 @@ Cotton.UI.Story.Element = Class.extend({
     this._$itemsContainer.append(oItemElement);
   },
 
+  recycleItem : function(oHistoryItem) {
+    for (var i = 0, iLength = this._lItems.length; i < iLength; i++) {
+      var oItem = this._lItems[i];
+      if (oItem.historyItem().id() === oHistoryItem.id() && oItem.type() == 'article'){
+        oItem.recycle(oHistoryItem);
+      }
+    }
+  },
+
   removeDOMItem : function(iIndex, $item) {
     this._$itemsContainer.isotope('remove', $item, function(){});
   },

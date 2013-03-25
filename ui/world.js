@@ -78,6 +78,10 @@ Cotton.UI.World = Class.extend({
     return this._oLightyear;
   },
 
+  recycleItem : function(oHistoryItem) {
+    this._oStoryElement.recycleItem(oHistoryItem);
+  },
+
   /**
    * @param {Cotton.Model.Story} oStory :
    *  the story have to be filled with all the historyItems so it can be display.

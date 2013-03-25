@@ -20,23 +20,34 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
 
     // parent element.
     this._oItemContent = oItemContent;
+    this._$image = $('<div class="ct-image"></div>')
 
     if(sImage){
-      // current item.
-      this._$image = $('<div class="ct-image"></div>').addClass(sImageType);
-      this._$img = $('<img class="resize"></img>');
-
-      // set value
-      this._$img.attr('src', this._sImage);
-
-      // construct item
-      this._$image.append(this._$img);
-      this.resize(this._$img);
+      this.appendImage(sImage, sImageType);
     }
   },
 
   $ : function() {
     return this._$image;
+  },
+
+  recycle : function(sImageUrl){
+    if (sImageUrl && sImageUrl !== ""){
+      this.appendImage(sImageUrl, "featured");
+    }
+  },
+
+  appendImage : function(sImage, sImageType) {
+    // current item.
+    this._$image.addClass(sImageType);
+    this._$img = $('<img class="resize"></img>');
+
+    // set value
+    this._$img.attr('src', sImage);
+
+    // construct item
+    this._$image.append(this._$img);
+    this.resize(this._$img);
   },
 
   /**

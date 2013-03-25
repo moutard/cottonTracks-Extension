@@ -62,8 +62,27 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oSender = oSender;
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
+    // On item removal
     this._oDispatcher.subscribe("item:delete", this, function(dArguments){
       self.deleteItem(dArguments['id']);
+    });
+
+    // On getContent
+    this._oDispatcher.subscribe("item:get_content", this, function(dArguments){
+      chrome.tabs.create({
+        "url" : dArguments['url'],
+        "active" : false
+      }, function(tab){
+        chrome.extension.sendMessage({
+          'action': "get_content_tab",
+          'params': {
+            'tab_id': tab.id
+          }
+        });
+      });
+    });
+    this._oDispatcher.subscribe("refresh_item", this, function(dArguments){
+      self.recycleItem(dArguments['id']);
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -118,6 +137,13 @@ Cotton.Controllers.Lightyear = Class.extend({
     var self = this;
     Cotton.DB.Stories.removeHistoryItemInStory(
       self._oDatabase, self._oStory.id(), sHistoryItemId);
+  },
+
+  recycleItem : function(sHistoryItemId){
+    var self = this;
+    this._oDatabase.find('historyItems', 'id', sHistoryItemId, function(oHistoryItem){
+      self._oWorld.recycleItem(oHistoryItem);
+    });
   }
 
 });
