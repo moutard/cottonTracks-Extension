@@ -63,53 +63,24 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
     this._$readerSelectorCursor = $('<div class="reader_selector_cursor"></div>');
 
-//set values
+    //set values
     // Put the whole article.
     if (this._bWhole){
-      for (var i = 0, lAllParagraphs = this._oHistoryItemDNA.allParagraphs(),
-        iLength = lAllParagraphs.length; i < iLength; i++) {
-          var sParagraph = lAllParagraphs[i];
-          if(sParagraph !== "") {
-            var $paragraph = $('<p>' + sParagraph + '</p>');
-            self._$article_whole.append($paragraph);
-          }
-      }
+      this.setWhole()
     }
 
     // Put the best part of the article.
     var $paragraph = $('<p class="default_text">After you read an article, find all its best parts automatically sorted here</p>');
     self._$article_best.append($paragraph);
     if (this._bBest){
-      self._$article_best.empty();
-      var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();
-      if (sFirstParagraph != ""){
-        var $paragraph = $('<p>' + sFirstParagraph + '</p>');
-        self._$article_best.append($paragraph);
-      }
-      for (var i = 0, lParagraphs = this._oHistoryItemDNA.paragraphs(),
-        iLength = lParagraphs.length; i < iLength; i++) {
-          var oParagraph = lParagraphs[i];
-          if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
-            var $paragraph = $('<p>' + oParagraph.text() + '</p>');
-            self._$article_best.append($paragraph);
-          }
-      }
+      this.setBestParagraphs();
     }
 
     // Put the quotes of the article.
     var $quote = $('<p class="default_text">Highlight or copy/paste a quote in a article and find it back in this section</p>');
     self._$article_quote.append($quote);
     if (this._bQuotes){
-      self._$article_quote.empty();
-      for (var i = 0,
-        lHighlightedText = this._oHistoryItemDNA.highlightedText(),
-        iLength = lHighlightedText.length; i < iLength; i++) {
-          var sQuote = lHighlightedText[i];
-          if(sQuote !== "") {
-            var $quote = $('<p>' + sQuote + '</p>');
-            self._$article_quote.append($quote);
-          }
-      }
+      this.setQuotes();
     }
 
     //construct element
@@ -130,6 +101,73 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
   $ : function(){
     return this._$reader;
+  },
+
+  recycle : function(oDNA, bHasExpand){
+    if (bHasExpand){
+      this._oHistoryItemDNA = oDNA;
+      this._bWhole = oDNA.allParagraphs().length > 0;
+      if (this._bWhole){
+        this.setWhole();
+      }
+      this._bBest = (oDNA.paragraphs().length > 0)
+        || (oDNA.firstParagraph() != "");
+      if (this._bQuotes){
+        this.setBestParagraphs();
+      }
+      this._bQuotes = oDNA.highlightedText().length > 0;
+      if (this._bQuotes){
+        this.setQuotes();
+      }
+    }
+  },
+
+  setBestParagraphs : function(){
+    var self = this;
+    self._$article_best.empty();
+    var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();
+    if (sFirstParagraph != ""){
+      var $paragraph = $('<p>' + sFirstParagraph + '</p>');
+      self._$article_best.append($paragraph);
+    }
+    for (var i = 0, lParagraphs = this._oHistoryItemDNA.paragraphs(),
+      iLength = lParagraphs.length; i < iLength; i++) {
+        var oParagraph = lParagraphs[i];
+        if(oParagraph.text() !== "" && oParagraph.text() !== sFirstParagraph) {
+          var $paragraph = $('<p>' + oParagraph.text() + '</p>');
+          self._$article_best.append($paragraph);
+        }
+    }
+    this.changeTab(this._$select_best_button, this._$article_best, 'on_best');
+  },
+
+  setQuotes : function(){
+    var self = this;
+    self._$article_quote.empty();
+    for (var i = 0,
+      lHighlightedText = this._oHistoryItemDNA.highlightedText(),
+      iLength = lHighlightedText.length; i < iLength; i++) {
+        var sQuote = lHighlightedText[i];
+        if(sQuote !== "") {
+          var $quote = $('<p>' + sQuote + '</p>');
+          self._$article_quote.append($quote);
+        }
+    }
+  },
+
+  setWhole : function(){
+    var self = this;
+    for (var i = 0, lAllParagraphs = this._oHistoryItemDNA.allParagraphs(),
+      iLength = lAllParagraphs.length; i < iLength; i++) {
+        var sParagraph = lAllParagraphs[i];
+        if(sParagraph !== "") {
+          var $paragraph = $('<p>' + sParagraph + '</p>');
+          self._$article_whole.append($paragraph);
+        }
+    }
+    if (!this._bBest){
+      this.changeTab(this._$select_whole_button, this._$article_whole, 'on_whole');
+    }
   },
 
   /**
