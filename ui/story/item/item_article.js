@@ -27,7 +27,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
 
     this._$infos = $('<div class="ct-infos"></div>');
     this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
-      oHistoryItem.title(), this);
+      oHistoryItem.title(), this, oHistoryItem.url());
     this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
       oHistoryItem.lastVisitTime(), this);
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
