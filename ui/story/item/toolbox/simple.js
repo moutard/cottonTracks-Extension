@@ -31,7 +31,10 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
     this._$open = $('<p>Open</p>');
 
     this._$remove.click(function(){
-      oDispatcher.publish('item:delete', {'id': oItem.historyItem().id()})
+      oDispatcher.publish('item:delete', {
+        'id': oItem.historyItem().id(),
+        'type': oItem.type()
+        });
     });
 
     // construct item
