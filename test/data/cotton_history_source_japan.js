@@ -1,4 +1,4 @@
-var japan = [
+var cotton_history_source_japan = [
     {
       "sId": "18138",
       "iLastVisitTime": 1345065576880.3699,
