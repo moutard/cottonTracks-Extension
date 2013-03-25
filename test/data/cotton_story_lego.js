@@ -1,4 +1,4 @@
-var lego_story = [
+var cotton_story_lego = [
     {
       "iLastVisitTime": 1363458758177,
       "sTitle": "Machine Made of Lego Builds Anything You Want — Out of Lego",
