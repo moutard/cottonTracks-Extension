@@ -49,6 +49,10 @@ Cotton.Config.Parameters = {
     iMinPts : 5,
   },
 
+  // BAG OF WORDS
+  scoreForExtractedWords : 3,
+  scoreForQueryWords : 5,
+
   // UI
   sGrid : "MostVisited", // choose among "MostVisited" or "Favorites"
   iNbMostVisited : 10,
