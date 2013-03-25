@@ -1,4 +1,4 @@
-[
+var hadrien_expected = [
 ///////STORY AMSTERDAM
 
 { storyTitle: "Amsterdam", itemsList: [
@@ -555,11 +555,11 @@
 	    "title": "A House Facing a Canal in the Dutch Capital - Slide Show - NYTimes.com",
 	    "url": "http://www.nytimes.com/slideshow/2012/06/27/greathomesanddestinations/20120627-GH-IHH.html?ref=greathomesanddestinations#"
 	  },
-	]}
+	]},
 
 ///// ARMSTRONG CYCLISME DOPAGE STORY
 
-{ storyTitle: "story1title", itemsList: [  
+{ storyTitle: "story1title", itemsList: [
 
  {
     "title": "Cyclisme - Armstrong - Prudhomme pas satisfait",
@@ -633,11 +633,12 @@
   {
     "title": "Cyclisme - Cavendish s'entraîne «à la Belge»",
     "url": "http://www.lequipe.fr/Cyclisme-sur-route/Actualites/Cavendish-s-entraine-a-la-belge/340386"
-  }, ]}
+  },
+]},
 
 //BERLIN STORY
 
-{ storyTitle: "Berlin", itemsList: [  
+{ storyTitle: "Berlin", itemsList: [
 
 {
   "title": "DB BAHN - Correspondances - Votre horaire",
@@ -805,7 +806,7 @@
     "url": "https://maps.google.com/maps?q=berlin&ie=UTF-8&hq=&hnear=0x47a84e373f035901:0x42120465b5e3b70,Berlin,+Allemagne&ei=CPXyUNOGOMLNtAauxoGwDw&ved=0CL8BELYD"
   },
 
-]}
+]},
 
 ///// BUSINESS SCHOOL
 
@@ -841,7 +842,7 @@
   "url": "https://www.google.com/search?q=IDRAC&oq=IDRAC&aqs=chrome.0.57&sugexp=chrome,mod=16&sourceid=chrome&ie=UTF-8"
 },
 
-]}
+]},
 
 ///// CHILI
 
@@ -877,7 +878,7 @@
     "title": "Chili - Wikivoyage",
     "url": "http://fr.wikivoyage.org/wiki/Chili"
   },
-]}
+]},
 
 ////// COTTONTRACKS
 { storyTitle: "cottonTracks", itemsList: [
@@ -925,7 +926,7 @@
   "title": "cottonTracks + StartUp Chile",
   "url": "http://cottontracks.com/what-SUP/"
 },
-]}
+]},
 
 /////////EMPLOYMENT
 
@@ -969,7 +970,8 @@
   {
     "title": "home - Adams Multilingual Recruitment",
     "url": "http://www.adamsrecruitment.com/"
-  }]}
+  }
+]},
 
 /////////EPICERIE BRETONNE
 
@@ -993,7 +995,8 @@
 {
   "title": "",
   "url": "https://www.google.com/search?q=epicerie+bretonne+paris&oq=epicerie+bretonne+paris&aqs=chrome.0.57l2j0l2&sugexp=chrome,mod=16&sourceid=chrome&ie=UTF-8"
-},]}
+},
+]},
 
 /////////JAPAN
 
@@ -1048,7 +1051,7 @@ oid-living-in-Japan-due-to-racism"
     "url": "https://www.google.com/search?q=discrimination+groupe+sanguin&aq=f&oq=discrimination+groupe+sanguin&aqs=chrome.0.57&sugexp=chrome,mod=16&sourceid=chrome&ie=UTF-8"
   },
 
-]}
+]},
 
 /////////Foot
 
@@ -1402,7 +1405,8 @@ oid-living-in-Japan-due-to-racism"
 {
   "title": "Au balcon du Vélodrome | le blog d'Hélène FOXONET sur l'equipe.fr",
   "url": "http://aubalconduvelodrome.blogs.lequipe.fr/"
-},]}
+},
+]},
 
 /////////LINKEDIN
 
@@ -1481,7 +1485,7 @@ oid-living-in-Japan-due-to-racism"
   "url": "http://pandodaily.com/2013/01/19/linkedin-the-patron-saint-of-the-web-2-0-also-ran/"
 },
 
-]}
+]},
 
 /////////MANIA
 
@@ -1549,7 +1553,8 @@ oid-living-in-Japan-due-to-racism"
 {
   "title": "TV Wasteland: And Now... Playoffs! - Mania.com",
   "url": "http://www.mania.com/tv-wasteland-now-playoffs_article_136169.html"
-},]}
+},
+]},
 
 /////////NASHVILLE
 
@@ -1593,7 +1598,8 @@ oid-living-in-Japan-due-to-racism"
   {
     "title": "",
     "url": "https://www.google.com/search?q=Nashville&oq=Nashville&aqs=chrome.0.57l2j60l4&sugexp=chrome,mod=16&sourceid=chrome&ie=UTF-8"
-  },]}
+  },
+]},
 
 /////////NBA
 
@@ -1633,7 +1639,8 @@ oid-living-in-Japan-due-to-racism"
 {
   "title": "Basket - NBA - Première pour les Lakers",
   "url": "http://www.lequipe.fr/Basket/Actualites/Premiere-pour-les-lakers/342266"
-},]}
+},
+]},
 
 /////////NODE
 
@@ -1920,7 +1927,8 @@ oid-living-in-Japan-due-to-racism"
   {
     "title": "Structured JavaScript",
     "url": "http://georgebrock.github.com/talks/barcamplondon8/"
-  }]}
+  }
+]},
 
 /////////PSG
 
@@ -2036,7 +2044,7 @@ oid-living-in-Japan-due-to-racism"
     "url": "http://www.lequipe.fr/Football/Actualites/Nene-part-avec-un-million/342530"
   },
 
-]}
+]},
 
 /////////PSYCHOTHERAPEUTE
 
@@ -2088,7 +2096,8 @@ oid-living-in-Japan-due-to-racism"
   {
     "title": "",
     "url": "https://www.google.com/search?q=enfanter+un+monstre&oq=enfanter+un+monstre&aqs=chrome.0.57&sugexp=chrome,mod=16&sourceid=chrome&ie=UTF-8"
-  },]}
+  },
+]},
 
 /////////RALLY
 
@@ -2143,7 +2152,8 @@ oid-living-in-Japan-due-to-racism"
 {
   "title": "Rallye Paris - Dakar 2013 : parcours résultats et classement - Auto Moto",
   "url": "http://www.lequipe.fr/Auto-moto/Rallye-raid/Dakar/"
-},]}
+},
+]},
 
 /////////STARTUPS
 
@@ -2286,7 +2296,8 @@ oid-living-in-Japan-due-to-racism"
 {
   "title": "TechCrunch",
   "url": "http://techcrunch.com/"
-},]}
+},
+]},
 
 /////////TECHSTARS
 
@@ -2343,9 +2354,7 @@ oid-living-in-Japan-due-to-racism"
   {
     "title": "Feld / Calacanis Interview on This Week In Startups",
     "url": "http://www.feld.com/wp/archives/2013/01/feld-calacanis-interview-on-this-week-in-startups.html?utm_content=awesmwordpressplugin-wordpressbuttonsa&utm_campaign=&utm_medium=fndry.gr-twitter&awesm=fndry.gr_o0qn&utm_source=t.co"
-  }]}
+  }
+]},
 
-]
-
-
-
+];
