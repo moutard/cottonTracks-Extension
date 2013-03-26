@@ -1,4 +1,4 @@
-var japanChrome = [
+var chrome_history_source_japan = [
     {
       "id": "18151",
       "lastVisitTime": 1345067658646.558,
