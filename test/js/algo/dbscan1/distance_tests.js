@@ -153,6 +153,19 @@ module(
 test("cosine.", function() {
   var dBagOfWords1 = {'a':1, 'b':2, 'c':3, 'd':4, 'g': 5};
   var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
-  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 64);
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 66);
+});
+
+test("cosine equal vector.", function() {
+  var dBagOfWords1 = {'a':1, 'b':2, 'c':3, 'd':4, 'g': 5};
+  var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords1), 0);
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords2, dBagOfWords2), 0);
+});
+
+test("cosine non common dimension vector", function() {
+  var dBagOfWords1 = {'a':1, 'c':3, 'g':7};
+  var dBagOfWords2 = {'b':2, 'd':4, 'e':5, 'f':6};
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 140);
 });
 

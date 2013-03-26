@@ -191,15 +191,38 @@ Cotton.Algo.Metrics = {};
 /**
  * Return the cosine metrics of 2 bags of words seen as a vector.
  * FIXME(rmoutard) : problem with the dimension of the vector.
- * @param {Dictionnary} lBagOfWords1 :
- * @param {Dictionnary} lBagOfWords2 :
+ * @param {Dictionnary} dBagOfWords1 :
+ * @param {Dictionnary} dBagOfWords2 :
  */
-Cotton.Algo.Metrics.Cosine = function(lBagOfWords1, lBagOfWords2){
-  var lCommonDimension = _.intersection(_.keys(lBagOfWords1), _.keys(lBagOfWords2));
-  var fCosine = 0;
+Cotton.Algo.Metrics.DotProduct = function(dBagOfWords1, dBagOfWords2){
+  var lCommonDimension = _.intersection(_.keys(dBagOfWords1), _.keys(dBagOfWords2));
+  var fDotProduct = 0;
   for (var i = 0, iLength = lCommonDimension.length; i < iLength; i++) {
     var sDimension = lCommonDimension[i];
-    fCosine += lBagOfWords1[sDimension] * lBagOfWords2[sDimension];
+    fCosine += dBagOfWords1[sDimension] * dBagOfWords2[sDimension];
+  }
+  return fDotProduct;
+};
+
+/**
+ * Return the cosine metrics of 2 bags of words seen as a vector.
+ * cosine(u,v) = norm(u - v) = sqrt(dotProduct(u-v, u-v))
+ * FIXME(rmoutard) : problem with the dimension of the vector.
+ * @param {Dictionnary} dBagOfWords1 :
+ * @param {Dictionnary} dBagOfWords2 :
+ */
+Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
+  var dSubstraction = {};
+  for(var sKey1 in dBagOfWords1) {
+    dSubstraction[sKey1] = dBagOfWords1[sKey1] - (dBagOfWords2[sKey1] || 0);
+  }
+  for(var sKey2 in dBagOfWords2) {
+    dSubstraction[sKey2] = dBagOfWords2[sKey2] - (dBagOfWords1[sKey2] || 0);
+  }
+
+  var fCosine = 0;
+  for (var sKey in dSubstraction) {
+    fCosine += dSubstraction[sKey] * dSubstraction[sKey];
   }
   return fCosine;
 };
