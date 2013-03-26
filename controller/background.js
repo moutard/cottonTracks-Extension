@@ -202,8 +202,9 @@ Cotton.Controllers.Background = Class.extend({
     var self = this;
 
     DEBUG && console.debug("Controller - install");
-
-    Cotton.DB.Populate.historyItems(self._oDatabase, function(oDatabase) {
+    var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
+    Cotton.DB.Populate.historyItems(oChromeHistoryClient,
+      self._oDatabase, function(oDatabase) {
       oDatabase.getList('historyItems', function(lAllHistoryItems) {
         DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
             + lAllHistoryItems.length + ' items');

@@ -114,17 +114,19 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
  *          mCallBackFunction
  */
 
-Cotton.DB.Populate.historyItems = function(oDatabase, mCallBackFunction) {
+Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
 
-  chrome.history.search({
+  oHistoryClient.get({
     text : '',
     startTime : 0,
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lChromeHistoryItems) {
+
+    // Getting elements od chrome history items.
     DEBUG && console.debug('PopulateHistoryItems - chrome history search has returned '
         + lChromeHistoryItems.length + ' items');
     lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
