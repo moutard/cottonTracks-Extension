@@ -105,6 +105,12 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
   return lHistoryItems;
 };
 
+Cotton.DB.Populate.Suite = function(lChromeHistoryItems) {
+    lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+    var lHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
+    lHistoryItems = Cotton.DB.Populate.computeClosestGoogleSearchPage(lHistoryItems);
+    return lHistoryItems;
+};
 /**
  * Populate historyItems with a given store. (faster than the previous)
  *
@@ -129,12 +135,12 @@ Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackF
     // Getting elements od chrome history items.
     DEBUG && console.debug('PopulateHistoryItems - chrome history search has returned '
         + lChromeHistoryItems.length + ' items');
-    lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
-    var lHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
-    lHistoryItems = Cotton.DB.Populate.computeClosestGoogleSearchPage(lHistoryItems);
-
+    // Call all the pretreatment, to transforme them in historyItem.
+    var lHistoryItems = Cotton.DB.Populate.Suite(lChromeHistoryItems);
     DEBUG && console.debug('PopulateHistoryItems - after preRemoveTools left : '
         + lHistoryItems.length + ' items');
+
+    // Populate the database.
     var iCount = 0;
     var iPopulationLength = lHistoryItems.length;
 
@@ -150,45 +156,4 @@ Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackF
       });
     }
   });
-};
-
-/**
- * Populate historyItems with a given store, without using chrome history, but
- * given data.
- *
- * @param :
- *          oDatabase
- * @param :
- *          lHistoryItems
- * @param :
- *          mCallBackFunction
- */
-
-Cotton.DB.Populate.historyItemsFromFile = function(oDatabase, lHistoryItems,
-    mCallBackFunction) {
-  // Get all the history items from Chrome DB.
-  DEBUG && console.debug('PopulateHistoryItemsFromFile - Start');
-
-  DEBUG && console.debug('PopulateHistoryItems - import history file has returned '
-      + lHistoryItems.length + ' items');
-  lHistoryItems = Cotton.DB.Populate.preRemoveTools(lHistoryItems);
-
-  var iCount = 0;
-  var iPopulationLength = lHistoryItems.length;
-
-  for ( var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
-    var oHistoryItem = new Cotton.Model.HistoryItem();
-
-    oHistoryItem.initUrl(oHistoryItem['url']);
-    oHistoryItem.setTitle(oHistoryItem['title']);
-    oHistoryItem.setLastVisitTime(oHistoryItem['lastVisitTime']);
-
-    oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-      iCount += 1;
-      if (iCount === iPopulationLength) {
-        DEBUG && console.debug('PopulateDB - End');
-        mCallBackFunction(oDatabase);
-      }
-    });
-  }
 };
