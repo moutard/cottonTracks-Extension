@@ -18,7 +18,7 @@ module(
 );
 
 test("algo of dbscan3 worker.", function() {
-  var lSampleHistoryItems = japan;
+  var lSampleHistoryItems = cotton_history_source_japan;
   var lHistoryItems = Cotton.Algo.PreTreatment.suite(lSampleHistoryItems);
 
   // PARAMETERS
@@ -46,10 +46,77 @@ test("algo of dbscan3 worker.", function() {
   });
 
 });
+
+test("algo of dbscan3 worker for hadrien.", function() {
+  console.log('HADRIEN');
+  var lSampleHistoryItems = cotton_history_source_hadrien;
+  // FIXME(rmoutard): ask hadrien to do it's file again so we don't need
+  // this line again.
+  var lHistoryItems = Cotton.Algo.PreTreatment.suite(lSampleHistoryItems);
+
+  // PARAMETERS
+  // Max Distance between neighborhood
+  var fEps = Cotton.Config.Parameters.fEps;
+  // Min Points in a cluster
+  var iMinPts = Cotton.Config.Parameters.iMinPts;
+
+  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
+    // For each rough session, launch dbscan1.
+    console.log("New session : " + lSession.length);
+    console.log(lSession);
+    // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
+        Cotton.Algo.Distance.meaning);
+    //
+    // This worker has no access to window or DOM. So update DOM should be done
+    // in the main thread.
+
+    var dData = {};
+    dData['iNbCluster'] = iNbCluster;
+    dData['lHistoryItems'] = lSession;
+
+    equal(iNbCluster, 0);
+  });
+
+});
+
+test("algo of dbscan3 worker for hadrien without roughly separate session.", function() {
+  console.log('HADRIEN');
+  var lSampleHistoryItems = cotton_history_source_hadrien;
+  // FIXME(rmoutard): ask hadrien to do it's file again so we don't need
+  // this line again.
+  var lHistoryItems = Cotton.Algo.PreTreatment.suite(lSampleHistoryItems);
+
+  // PARAMETERS
+  // Max Distance between neighborhood
+  var fEps = Cotton.Config.Parameters.fEps;
+  // Min Points in a cluster
+  var iMinPts = Cotton.Config.Parameters.iMinPts;
+
+  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
+    // For each rough session, launch dbscan1.
+    console.log("New session : " + lSession.length);
+    console.log(lSession);
+    // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
+        Cotton.Algo.Distance.meaning);
+    //
+    // This worker has no access to window or DOM. So update DOM should be done
+    // in the main thread.
+
+    var dData = {};
+    dData['iNbCluster'] = iNbCluster;
+    dData['lHistoryItems'] = lSession;
+
+    equal(iNbCluster, 0);
+  });
+
+});
+
 /*
 test("algo of dbscan3 worker for hadrien.", function() {
-  var lSampleHistoryItems = hadrien_source;
-  var lHistoryItems = Cotton.Algo.PreTreatment.suite(lSampleHistoryItems);
+  var lSampleHistoryItems = chrome_history_source_hadrien;
+  var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
 
   // PARAMETERS
   // Max Distance between neighborhood

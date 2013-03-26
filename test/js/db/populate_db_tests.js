@@ -9,8 +9,8 @@ module("Cotton.DB.Populate",{
 
 
 test("preRemoveTools.", function() {
-  var lChromeHistoryItem = japanChrome;
+  var lChromeHistoryItem = chrome_history_source_japan;
   var lResult = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItem);
-  equal(lResult.length, 32);
+  equal(lResult.length, 30);
 });
 
