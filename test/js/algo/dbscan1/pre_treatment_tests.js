@@ -77,7 +77,7 @@ test("compute closest generated page.", function() {
 });
 
 test("computeExtractedWords.", function() {
-  var lHistoryItem = japan;
+  var lHistoryItem = cotton_history_source_japan;
   // Needed to compute ExtractedWords.
   // FIXME(rmoutard): avoid dependances.
   lHistoryItem = Cotton.Algo.PreTreatment.computeParseUrl(lHistoryItem);

@@ -11,7 +11,7 @@ module(
 );
 
 test('detect session.', function() {
-  var lSampleHistoryItems = japan;
+  var lSampleHistoryItems = cotton_history_source_japan;
   var lExepctedResult = [1, 8, 18, 7];
   var iSessionId = 0;
   Cotton.Algo.roughlySeparateSession(lSampleHistoryItems,
