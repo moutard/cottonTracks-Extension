@@ -16,6 +16,24 @@ Cotton.Algo.Tools.Filter = function(lWords){
 
 };
 
+Cotton.Algo.Tools.FilterForUrl = function(lWords){
+   // Lower case to compare correctly.
+  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+    lWords[i] = lWords[i].toLowerCase();
+  }
+
+  // Authorize only letters in words. (no special characters and numbers.)
+  // and words need length > 2.
+  var allow_onlyletters = new RegExp("^[a-zA-Z]{3,}$");
+  lWords = _.filter(lWords, function(sWord) {
+    return allow_onlyletters.test(sWord)
+      && (!Cotton.Algo.Common.Words.isInBlackList(sWord));
+  });
+  return lWords;
+
+};
+
+
 /**
  * Extract words in a title.
  *
@@ -44,10 +62,31 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
  * @returns {Array.<string>}
  */
 Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
-  var oRegexp = /[\_|\-|\/]/g
+  var oRegexp = /\_|\-|\/|\%20|\;|\./
+  //var oRegexp = new RegExp("\_|\-|\/|\%20|\;|\.");
   var lMatches = sUrlPathname.split(oRegexp) || [];
 
-  return Cotton.Algo.Tools.Filter(lMatches);
+  return Cotton.Algo.Tools.FilterForUrl(lMatches);
+
+};
+
+/**
+ * Extract words in an url pathname (ie only the end of the url there is
+ * often the title of the article in it).
+ *
+ * @param {string}
+ *          sUrl
+ * @returns {Array.<string>}
+ */
+Cotton.Algo.Tools.extractWordsFromUrl = function(sUrl) {
+  var oUrl = new UrlParser(sUrl);
+  oUrl.fineDecomposition();
+  var oRegexp = /[\_|\-|\/|\%20]/g
+  var lMatches = oUrl.pathname.split(oRegexp) || [];
+
+  var lWords = Cotton.Algo.Tools.FilterForUrl(lMatches);
+
+  return lWords;
 
 };
 
