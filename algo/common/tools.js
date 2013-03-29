@@ -10,7 +10,7 @@ Cotton.Algo.Tools.Filter = function(lWords){
     lWords[i] = lWords[i].toLowerCase();
   }
   lWords = _.filter(lWords, function(sWord) {
-    return sWord.length > 2;
+    return sWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sWord));
   });
   return lWords;
 
