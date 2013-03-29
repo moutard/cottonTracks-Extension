@@ -227,4 +227,20 @@ Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
   return fCosine;
 };
 
+/**
+ * Compute a distance with extracted query words. In the range [0 - 1].
+ *  - 0 all the possible words are common.
+ *  - 1 if they are all different.
+ *
+ * @param : {Object} dictionnary or json : oHistoryItem1
+ * @param : {Object} dictionnary or json : oHistoryItem2
+ */
+Cotton.Algo.Distance.CosineHistoryItem = function(oHistoryItem1, oHistoryItem2) {
+
+  return Cotton.Algo.Metrics.Cosine(
+    oHistoryItem1['oExtractedDNA']['dBagOfWords'],
+    oHistoryItem2['oExtractedDNA']['dBagOfWords']
+    );
+
+};
 
