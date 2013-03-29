@@ -156,6 +156,21 @@ test("cosine.", function() {
   equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 66);
 });
 
+test("cosine equal with empty bag of words.", function() {
+  var dBagOfWords1 = {};
+  var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords1), 0);
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords2, dBagOfWords2), 0);
+});
+
+test("cosine equal with empty bag of words.", function() {
+  var dBagOfWords1 = {};
+  var dBagOfWords2 = {};
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords1), 0);
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords2, dBagOfWords2), 0);
+});
+
+
 test("cosine equal vector.", function() {
   var dBagOfWords1 = {'a':1, 'b':2, 'c':3, 'd':4, 'g': 5};
   var dBagOfWords2 = {'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7};
@@ -167,5 +182,23 @@ test("cosine non common dimension vector", function() {
   var dBagOfWords1 = {'a':1, 'c':3, 'g':7};
   var dBagOfWords2 = {'b':2, 'd':4, 'e':5, 'f':6};
   equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 140);
+});
+
+test("cosine small dimension with config parameters", function() {
+  var dBagOfWords1 = {
+    'alice':Cotton.Config.Parameters.scoreForExtractedWords,
+    'in':Cotton.Config.Parameters.scoreForExtractedWords,
+    'wonderland':Cotton.Config.Parameters.scoreForExtractedWords
+  };
+  var dBagOfWords2 = {
+    'alice':Cotton.Config.Parameters.scoreForExtractedWords,
+    'in':Cotton.Config.Parameters.scoreForExtractedWords,
+    'wonderland':Cotton.Config.Parameters.scoreForExtractedWords,
+    'movie' :Cotton.Config.Parameters.scoreForExtractedWords,
+    'tim' :Cotton.Config.Parameters.scoreForExtractedWords,
+    'burton' :Cotton.Config.Parameters.scoreForExtractedWords,
+  };
+
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 18);
 });
 
