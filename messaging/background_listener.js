@@ -43,7 +43,8 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
         case 'update_history_item':
             self._oMessagingController.doAction(request['action'],
-            [sendResponse, request['params']['historyItem'], sender]);
+            [sendResponse, request['params']['historyItem'],
+            request['params']['contentSet'], sender]);
           break;
 
         case 'get_content_tab':
@@ -60,7 +61,6 @@ Cotton.Controllers.BackgroundListener = Class.extend({
           break;
 
         default:
-          throw "BackgroundMessager received a message with an undefined or unknown 'action' parameter."
           break;
       }
 

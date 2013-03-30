@@ -23,6 +23,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   _bImageSet : null,
   _lAllParagraphs : null,
   _sImageUrl : null,
+  _bStoryImageUpdated : null,
 
   /**
    * 
@@ -34,6 +35,8 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     this._bImageSet = false;
     this._lAllParagraphs = [];
     this._sImageUrl = "";
+    this._bStoryImageUpdated = false;
+
   },
 
   /**
@@ -69,6 +72,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       DEBUG && console.debug(response);
       self._oCurrentHistoryItem.initId(response['id']);
       self._iId = response['id'];
+      self._oCurrentHistoryItem.setStoryId(response['storyId']);
     });
 
   },
@@ -102,12 +106,13 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         'action' : 'update_history_item',
         'params' : {
           'historyItem' : dDbRecord,
-          'contentSet' : self._bParagraphSet && self._bImageSet
+          'contentSet' : self._bParagraphSet && self._bImageSet && !self._bStoryImageUpdated,
         }
       }, function(response) {
         // DEPRECATED - update_history_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
+        self._bStoryImageUpdated = true;
       });
     }
 
