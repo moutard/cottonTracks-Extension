@@ -63,7 +63,11 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   updateStory : function(oStory) {
     this._oStory = oStory;
+  },
 
+  recycle : function(oStory) {
+    this.updateStory(oStory);
+    this._oPreview.recycle(oStory);
   },
 
   preview : function() {
