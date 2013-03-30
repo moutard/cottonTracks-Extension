@@ -50,6 +50,10 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
     return this._oPreview;
   },
 
+  recycle : function(oStory) {
+    this._oStickerImage.recycle(oStory.featuredImage());
+  },
+
   stickerImage : function() {
     return this._oStickerImage;
   },
@@ -57,6 +61,5 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   stickerInfos : function() {
     return this._oStickerInfos;
   }
-
 
 });

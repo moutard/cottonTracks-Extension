@@ -83,6 +83,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
     this._oDispatcher.subscribe("refresh_item", this, function(dArguments){
       self.recycleItem(dArguments['id']);
+      self.recycleMenu();
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -144,6 +145,18 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDatabase.find('historyItems', 'id', sHistoryItemId, function(oHistoryItem){
       self._oWorld.recycleItem(oHistoryItem);
     });
+  },
+
+  recycleMenu : function(){
+    var self = this;
+    if (!this._oStory.featuredImage() || this._oStory.featuredImage() === ""){
+      this._oDatabase.find('stories', 'id', this._oStory.id(), function(oStory){
+        if (oStory.featuredImage() && oStory.featuredImage() !== ""){
+          self._oStory = oStory;
+          self._oWorld.recycleMenu(oStory);
+        }
+      });
+    }
   }
 
 });

@@ -82,6 +82,10 @@ Cotton.UI.World = Class.extend({
     this._oStoryElement.recycleItem(oHistoryItem);
   },
 
+  recycleMenu : function(oStory) {
+    this._oSideMenu.recycle(oStory);
+  },
+
   /**
    * @param {Cotton.Model.Story} oStory :
    *  the story have to be filled with all the historyItems so it can be display.

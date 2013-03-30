@@ -42,6 +42,10 @@ Cotton.UI.SideMenu.Preview.Element = Class.extend({
 
   sticker : function(){
     return this._oSticker;
+  },
+
+  recycle : function(oStory) {
+    this._oSticker.recycle(oStory);
   }
 
 });
