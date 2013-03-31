@@ -11,13 +11,19 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
    */
   _oSticker : null,
 
+  /**
+   * {Cotton.Messaging.Dispatcher} dispatcher for UI
+   */
+  _oDispatcher : null,
+
   _$stickerInfos : null,
   _$stickerTitle : null,
   _$stickerDetails : null,
 
-  init: function(sStoryTitle, oSticker){
+  init: function(sStoryTitle, oDispatcher, oSticker){
 
 	  this._oSticker = oSticker;
+	  this._oDispatcher = oDispatcher;
 
     // Current element.
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
@@ -30,18 +36,34 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     //Count details
     // FIXME(rmoutard): put text in a div to.
     // FIXME(rmoutard) do not use space, use css.
-    var $bull = $('<span class="bull">&bull;</span>');
-    var $articles_count = $('<span class="articles_count"></span> article(s) ');
-    var $images_count = $('<span class="images_count"></span> photo(s) ');
-    var $videos_count = $('<span class="videos_count"></span> video(s)');
+    var $bull = $('<span class="bull"> &bull; </span>');
+    var $bull2 = $('<span class="bull"> &bull; </span>');
+    var $articles_count = $('<span class="articles_count">0 article(s)</span>');
+    var $images_count = $('<span><span class="images_count">0  photo(s)</span>');
+    var $videos_count = $('<span><span class="videos_count">0 videos</span>');
+
+    this._oDispatcher.subscribe('filter:update', this, function(dArguments){
+      switch (dArguments['type']){
+        case 'article':
+        $articles_count.text(dArguments['count'] + ' article(s)');
+        break;
+        case 'video':
+        $videos_count.text(dArguments['count'] + ' video(s)');
+        break;
+        case 'image':
+        $images_count.text(dArguments['count'] + ' image(s)');
+        break;
+      }
+    });
 
     //construct element
 	  this._$stickerInfos.append(
 	    this._$stickerTitle,
       this._$stickerDetails.append(
-          $bull,
           $articles_count,
+          $bull,
           $images_count,
+          $bull2,
           $videos_count
         )
 	  );
