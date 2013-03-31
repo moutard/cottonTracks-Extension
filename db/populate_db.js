@@ -157,3 +157,63 @@ Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackF
     }
   });
 };
+
+/**
+ * Populate historyItems with a given store. (faster than the previous)
+ *
+ * @param :
+ *          oDatabase
+ * @param :
+ *          mCallBackFunction
+ */
+Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
+  // Get all the history items from Chrome DB.
+  DEBUG && console.debug('PopulateHistoryItems - Start');
+  var startTime1 = new Date().getTime();
+  var elapsedTime1 = 0;
+
+  chrome.history.search({
+    text : '',
+    startTime : 0,
+    "maxResults" : Cotton.Config.Parameters.iMaxResult,
+  }, function(lChromeHistoryItems) {
+    console.log(lChromeHistoryItems.length)
+    var processVisits = function(dChromeHistoryItem, lChromeVisitItems){
+      for(var j = 0, dChromeVisitItem; dChromeVisitItem = lChromeVisitItems[j]; j++){
+        dChromeVisitItem['url'] = dChromeHistoryItem['url'];
+        dChromeVisitItem['title'] = dChromeHistoryItem['title'];
+        // Detect session need iLastVisitTime.
+        dChromeVisitItem['iLastVisitTime'] = dChromeVisitItem['visitTime'];
+        lVisitItems.push(dChromeVisitItem);
+      }
+      iCount += 1;
+      if(iCount === iLength){
+      lVisitItems.sort(function(a, b){
+        return b['iLastVisitTime'] - a['iLastVisitTime'];
+      });
+      mCallBackFunction(lVisitItems);
+      }
+    };
+
+    var processVisitsWithUrl = function(dChromeHistoryItem) {
+      // We need the url of the visited item to process the visit.
+      // Use a closure to bind the  url into the callback's args.
+      return function(visitItems) {
+        processVisits(dChromeHistoryItem, visitItems);
+      };
+    };
+
+    var iCount = 0;
+    var lVisitItems = [];
+    lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+    var iLength = lChromeHistoryItems.length;
+    console.log(lChromeHistoryItems.length);
+    for(var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
+      chrome.history.getVisits({
+        'url':dChromeHistoryItem['url']
+      }, processVisitsWithUrl(dChromeHistoryItem));
+    }
+  });
+};
+
+
