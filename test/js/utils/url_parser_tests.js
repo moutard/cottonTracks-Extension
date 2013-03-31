@@ -34,3 +34,23 @@ test("google webhp url.", function() {
             undefined,
             'unexpected keywords');
 });
+
+test("service google.", function() {
+  var urlComplexe = 'https://www.google.fr/search?q=vin+de+garde&aq=f&oq=vin+de&aqs=chrome.0.59j57j0j60j0j62.1357j0&sourceid=chrome&ie=UTF-8';
+  var b = new UrlParser(urlComplexe);
+
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.service,
+            'google',
+            'wrong service');
+});
+
+test("service wikipedia.", function() {
+  var urlComplexe = 'http://en.wikipedia.org/wiki/Domain_Name_System';
+  var b = new UrlParser(urlComplexe);
+
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.service,
+            'wikipedia',
+            'wrong service');
+});
