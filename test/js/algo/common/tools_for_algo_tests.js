@@ -31,9 +31,6 @@ test("tricky extract words from url - shorten url. ", function() {
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl.pathname),
     []);
-
-  deepEqual(Cotton.Algo.Tools.extractWordsFromUrl(sUrl),
-    []);
 });
 
 test("tricky extract words from url - localhost. ", function() {
@@ -43,21 +40,21 @@ test("tricky extract words from url - localhost. ", function() {
     []);
 });
 
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - mbostock. ", function() {
   var sUrl = "http://mbostock.github.com/d3/talk/20111116/airports.html";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['talk', 'airports']);
 });
 
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - branch. ", function() {
   var sUrl = "http://branch.com/b/workless-a-classy-html5-css3-framework";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['workless', 'classy', 'html5', 'css3', 'framework']);
 });
 
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - nodejs. ", function() {
   var sUrl = "http://mrdanadams.com/2012/node-js-paas-hosting-services/#.UOYcQInjnqI";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
@@ -67,36 +64,57 @@ test("tricky extract words from url - localhost. ", function() {
 /**
  * Seems to be an add too.
  */
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - outbrain. ", function() {
   var sUrl = "http://traffic.outbrain.com/network/redir?key=6b6327587e7b0d55c1a6994739f31d2a&rdid=439834122&type=DYLD_d/RF_ny&in-site=true&idx=2&req_id=1310cd4eb93af0edfd07a58c5a878aec&agent=blog_JS_rec&recMode=11&reqType=1&wid=100&imgType=2&refPub=2030&prs=true&scp=false";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['network', 'redir']);
 });
 
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - ebooks. ", function() {
   var sUrl = "http://ebooks.narotama.ac.id/files/Google%20and%20the%20Law;%20Empirical%20Approaches%20to%20Legal%20Aspects%20of%20Knowledge-Economy%20Business%20Models/Chapter%209%20Google%20Chrome%20and%20Android;%20Legal%20Aspects%20of%20Open%20Source%20Software.pdf";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['files', 'google', 'law', 'empirical', 'approaches', 'legal',
       'aspects', 'knowledge', 'economy', 'business', 'models', 'chapter',
-      'google', 'chrome', 'android', 'legal', 'aspects', 'open', 'source'
+      'google', 'chrome', 'android', 'legal', 'aspects', 'open', 'source',
+      'software'
     ]);
 });
 
-test("tricky extract words from url - localhost. ", function() {
+test("tricky extract words from url - emlab. ", function() {
   var sUrl = "http://emlab.berkeley.edu/wp/mcfadden0204/browser120104.pdf";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['mcfadden', 'browser']);
 });
 
-test("tricky extract words from url - ", function() {
+test("tricky extract words from url - jeux video", function() {
   var sUrl = "http://www.jeuxvideo.com/forums/1-19348-965996-1-0-1-0-apprendre-le-forgeage.htm";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['forums', 'apprendre', 'forgeage']);
 });
+
+test("extract words from history item - equipe.", function() {
+  var oHistoryItem = new Cotton.Model.HistoryItem({
+    'sTitle': "Sport : toute l'actualité sportive sur l'EQUIPE (Match en direct, Football, Rugby, Tennis, Nba, F1)",
+    'sUrl': "http://www.lequipe.fr/"
+  });
+  deepEqual(Cotton.Algo.Tools.extractWordsFromHistoryItem(oHistoryItem),
+    ['sport', 'toute', 'actualite', 'match', 'direct', 'football', 'rugby',
+    'tennis', 'nba']);
+});
+
+test("extract words from history item - equipe tennis.", function() {
+  var oHistoryItem = new Cotton.Model.HistoryItem({
+    'sTitle': "Tennis - WTA - Miami - Williams reine de Miami",
+    'sUrl': "http://www.lequipe.fr/Tennis/Actualites/Williams-reine-de-miami/360527"
+  });
+  deepEqual(Cotton.Algo.Tools.extractWordsFromHistoryItem(oHistoryItem),
+    ['tennis', 'wta', 'miami', 'williams', 'reine', 'miami']);
+});
+
 
 
 

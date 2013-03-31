@@ -60,8 +60,7 @@ test("words repartition for big.", function() {
 });
 
 test("words repartition for year.", function() {
-  expect(0);
-  console.log('year');
+
   var dWordsRepartition = {};
   var total = year_00.length + year_01.length + year_02.length;
   console.log("number of elements in history:" + total);
@@ -74,23 +73,30 @@ test("words repartition for year.", function() {
       dWordsRepartition[sWord] = (dWordsRepartition[sWord] + 1) || 1;
     }
   }
-
-  console.log(_.sortBy(_.pairs(dWordsRepartition), function(L){
+  var l = _.sortBy(_.pairs(dWordsRepartition), function(L){
     return -1*L[1];
-  }));
+  });
+  var sMessage = "";
+  var temp = l.slice(0,20);
+  for(var i=0; i < temp.length; i++){
+    sMessage += " / " + temp[i][0] + ": " + temp[i][1];
+  }
+  console.log(l);
+
+  ok(l.slice(0,20).length > 19, sMessage);
+
 });
 
-test("page with no title.", function() {
-  expect(0);
-  console.log("page with no title.");
+test("no history items with no bag of words.", function() {
+  var iNbWithoutBagOfWords = 0;
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_history_source_hadrien.slice();
   var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     if(_.isEmpty(oHistoryItem.extractedDNA().bagOfWords().get())){
-      console.log(oHistoryItem);
+      iNbWithoutBagOfWords+=1;
     }
   }
+  equal(iNbWithoutBagOfWords, 0);
 });
-
 
