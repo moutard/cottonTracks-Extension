@@ -84,7 +84,7 @@ Cotton.Algo.Tools.extractWordsFromUrl = function(sUrl) {
   var oRegexp = /[\_|\-|\/|\%20]/g
   var lMatches = oUrl.pathname.split(oRegexp) || [];
 
-  var lWords = Cotton.Algo.Tools.FilterForUrl(lMatches);
+  var lWords = Cotton.Algo.Tools.StrongFilter(lMatches);
 
   return lWords;
 
