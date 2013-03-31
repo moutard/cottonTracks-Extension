@@ -61,10 +61,9 @@ Cotton.Management.dumpChromeHistoryWithPretreatmentSuite = function () {
  */
 Cotton.Management.dumpChromeVisitHistoryRaw = function(mActionWithItems) {
   Cotton.DB.Populate.visitItems(undefined, function(lChromeHistoryItems){
-    console.log(lChromeHistoryItems);
     var sRecord = JSON.stringify(lChromeHistoryItems);
-    var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
-    window.open(sUriContent, 'chrome_history_source_yourname');
+    var blob = new Blob([sRecord], {type: "text/plain;charset=utf-8"});
+    saveAs(blob, "chrome_visit_source_yourname.js");
   });
  };
 
