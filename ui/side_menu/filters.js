@@ -12,6 +12,11 @@ Cotton.UI.SideMenu.Filters = Class.extend({
   _oMenu : null,
 
   /**
+   * {Cotton.Messaging.Dispatcher} dispatcher for UI
+   */
+  _oDispatcher : null,
+
+  /**
    * {DOM} current element.
    */
   _$filters : null,
@@ -47,7 +52,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     function createFilterDOM(sFilter, sFilterCount) {
       sFilterCount = sFilterCount || 0;
       self._dFilters[sFilter] = {};
-      self._dFilters[sFilter]['dom'] = $('<span class="all_count"></span>').text(
+      self._dFilters[sFilter]['dom'] = $('<span class="' + sFilter + '_count"></span>').text(
         sFilterCount);
       return  $('<div class="ct-filter "></div>').append(
           $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  (' : ' (')),
@@ -82,6 +87,10 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     if (this._dFilters[sFilter]) {
       this._dFilters[sFilter]['count'] = iCount;
       this._dFilters[sFilter]['dom'].text(iCount);
+      this._oDispatcher.publish('filter:update', {
+        'type': sFilter,
+        'count': iCount
+      });
     }
   },
 
@@ -90,5 +99,6 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] - 1);
       this.setFilterCount('all', this._dFilters['all']['count'] - 1);
     }
-  }
+  },
+
 });

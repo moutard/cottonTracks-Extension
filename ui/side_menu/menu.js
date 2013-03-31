@@ -35,7 +35,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
     // Sub elements.
     this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
-        oStory.title(), oStory.featuredImage(), this);
+        oStory.title(), oStory.featuredImage(), this._oDispatcher, this);
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
     this._oSettings = new Cotton.UI.SideMenu.Settings(this);
     this._$separationLineTop = $('<div class="separation_line"></div>');
