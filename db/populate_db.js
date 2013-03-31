@@ -210,12 +210,13 @@ Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
 
+  // Get chrome historyItems.
   chrome.history.search({
-    text : '',
-    startTime : 0,
+    text : '', // get all
+    startTime : 0, // no start time.
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lChromeHistoryItems) {
-    console.log(lChromeHistoryItems.length)
+    console.log('Number of Chrome HistoryItems: ' + lChromeHistoryItems.length)
     var processVisits = function(dChromeHistoryItem, lChromeVisitItems){
       for(var j = 0, dChromeVisitItem; dChromeVisitItem = lChromeVisitItems[j]; j++){
         dChromeVisitItem['url'] = dChromeHistoryItem['url'];
@@ -226,10 +227,11 @@ Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
       }
       iCount += 1;
       if(iCount === iLength){
-      lVisitItems.sort(function(a, b){
-        return b['iLastVisitTime'] - a['iLastVisitTime'];
-      });
-      mCallBackFunction(lVisitItems);
+        lVisitItems.sort(function(a, b){
+          return b['iLastVisitTime'] - a['iLastVisitTime'];
+        });
+        console.log('Number of Chrome VisitItems: ' + lVisitItems.length);
+        mCallBackFunction(lVisitItems);
       }
     };
 
@@ -243,9 +245,13 @@ Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
 
     var iCount = 0;
     var lVisitItems = [];
+
+    // Remove the tools before looking for visitItems.
     lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
     var iLength = lChromeHistoryItems.length;
-    console.log(lChromeHistoryItems.length);
+    console.log('Number of Chrome HistoryItems after remove tools: ' + iLength);
+
+    // For each chromeHistory remaining find all the corresponding visitItems.
     for(var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
       chrome.history.getVisits({
         'url':dChromeHistoryItem['url']
