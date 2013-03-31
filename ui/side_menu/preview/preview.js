@@ -19,11 +19,12 @@ Cotton.UI.SideMenu.Preview.Element = Class.extend({
   _oSticker : null,
   _oActions : null,
 
-  init: function(sTitle, sImage, oMenu){
+  init: function(sTitle, sImage, oDispatcher, oMenu){
     this._oMenu = oMenu;
 
     this._$preview = $('<div class="ct-sum_up"></div>');
-    this._oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(sTitle, sImage, this);
+    this._oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(sTitle, sImage,
+      oDispatcher, this);
     this._oActions = new Cotton.UI.SideMenu.Preview.Actions(this);
 
     //construct element
