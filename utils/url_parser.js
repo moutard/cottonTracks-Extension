@@ -28,6 +28,7 @@ function UrlParser(sUrl) {
   var iIndexOfLastDot = this.hostname.lastIndexOf('.');
   this.country = this.hostname.substr(iIndexOfLastDot);
   this.hostname_without_country = this.hostname.substr(0, iIndexOfLastDot);
+  this.service = this.hostname_without_country.split('.')[1];
 
   if(country_with_sub_domains.indexOf(this.country)){
     // For the moment do nothing.
@@ -35,7 +36,8 @@ function UrlParser(sUrl) {
 
   // splice and join the remainder to get the pathname
   parts.splice(0, 2);
-  this.pathname = '/' + parts.join('/');
+  // remove if there is a .html
+  this.pathname = '/' + parts.join('/').split('.')[0];
 
   // HASH
   // extract any hash - delimited by '#' -
