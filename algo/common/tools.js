@@ -16,7 +16,7 @@ Cotton.Algo.Tools.Filter = function(lWords){
 
 };
 
-Cotton.Algo.Tools.FilterForUrl = function(lWords){
+Cotton.Algo.Tools.StrongFilter = function(lWords){
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
@@ -46,10 +46,11 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   // characters would not be considered (not art of \w).
   // Include all normal characters, dash, accented characters.
   // TODO(fwouts): Consider other characters such as digits?
-  var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var lMatches = sTitle.match(oRegexp) || [];
+  //var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
+  var oRegexp = /\ |\-|\_|\"|\'|\«|\»|\.|\,|\;|\?|\!|\(|\)|\\|\//;
+  var lMatches = sTitle.split(oRegexp) || [];
 
-  return Cotton.Algo.Tools.Filter(lMatches);
+  return Cotton.Algo.Tools.StrongFilter(lMatches);
 
 };
 
@@ -66,7 +67,7 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
   //var oRegexp = new RegExp("\_|\-|\/|\%20|\;|\.");
   var lMatches = sUrlPathname.split(oRegexp) || [];
 
-  return Cotton.Algo.Tools.FilterForUrl(lMatches);
+  return Cotton.Algo.Tools.StrongFilter(lMatches);
 
 };
 
