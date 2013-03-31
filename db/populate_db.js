@@ -36,11 +36,7 @@ Cotton.DB.Populate.translateChromeHistoryItem = function(dChromeHistoryItem) {
   oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
   oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
   var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(
-      dChromeHistoryItem['title']).concat(
-        Cotton.Algo.Tools.extractWordsFromUrlPathname(
-          oIDBHistoryItem.oUrl().pathname
-        )
-      );
+    dChromeHistoryItem['title']);
   // Compute the bag of words using title and url pathname.
   oIDBHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
 
@@ -105,12 +101,55 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
   return lHistoryItems;
 };
 
-Cotton.DB.Populate.Suite = function(lChromeHistoryItems) {
-    lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
-    var lHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
-    lHistoryItems = Cotton.DB.Populate.computeClosestGoogleSearchPage(lHistoryItems);
-    return lHistoryItems;
+Cotton.DB.Populate.computeBagOfWordsForGoogleSearch = function(lHistoryItems){
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+    var oPage =  lHistoryItems[i];
+    if(oPage.oUrl().keywords){
+      oPage.extractedDNA().setQueryWords(oPage.oUrl().keywords);
+    }
+  }
+  return lHistoryItems;
 };
+
+/**
+ * Compute bag of words for url only if there is no word for title.
+ * That limits the numbers of error because url parser is prone for error.
+ */
+Cotton.DB.Populate.computeBagOfWordsForUrl = function(lHistoryItems){
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+    var oPage =  lHistoryItems[i];
+    if (_.isEmpty(oPage.extractedDNA().bagOfWords().get())) {
+      oPage.extractedDNA().setQueryWords(Cotton.Algo.Tools.extractWordsFromUrl(
+            oPage.oUrl().pathname));
+    }
+  }
+  return lHistoryItems;
+};
+
+/**
+ * Remove history items without bag of words.
+ */
+Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords = function(lHistoryItems){
+  var lHistoryItemsWithoutBagOfWords = [];
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+    var oPage =  lHistoryItems[i];
+    if (!_.isEmpty(oPage.extractedDNA().bagOfWords().get())) {
+      lHistoryItemsWithoutBagOfWords.push(oPage);
+    }
+  }
+  return lHistoryItemsWithoutBagOfWords;
+};
+
+
+Cotton.DB.Populate.Suite = function(lChromeHistoryItems) {
+  lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+  var lHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
+  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForGoogleSearch(lHistoryItems);
+  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForUrl(lHistoryItems);
+  lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
+  return lHistoryItems;
+};
+
 /**
  * Populate historyItems with a given store. (faster than the previous)
  *
@@ -119,7 +158,6 @@ Cotton.DB.Populate.Suite = function(lChromeHistoryItems) {
  * @param :
  *          mCallBackFunction
  */
-
 Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItems - Start');
