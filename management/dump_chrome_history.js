@@ -53,3 +53,18 @@ Cotton.Management.dumpChromeHistoryWithPretreatmentSuite = function () {
         window.open(sUriContent, 'cotton_history_source_yourname');
   });
 };
+
+/**
+ * Return the elements of the chrome history items for a given date.
+ * This date corresponds to a period where we were browsing normally.
+ * @param function
+ */
+Cotton.Management.dumpChromeVisitHistoryRaw = function(mActionWithItems) {
+  Cotton.DB.Populate.visitItems(undefined, function(lChromeHistoryItems){
+    console.log(lChromeHistoryItems);
+    var sRecord = JSON.stringify(lChromeHistoryItems);
+    var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+    window.open(sUriContent, 'chrome_history_source_yourname');
+  });
+ };
+
