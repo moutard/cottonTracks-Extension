@@ -33,20 +33,20 @@ test("extract words on less than 2 letters words with punctuation.", function() 
 
 test("extract words with duplicate.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("Javascript - the best of javascript tuto."),
-    ['javascript', 'the', 'best', 'javascript', 'tuto']);
+    ['javascript', 'best', 'javascript', 'tuto']);
 });
 
 test("extract words from url. ", function() {
   var sUrl = "http://example.com/what_are_the_words_in_this_url";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
-    ['what', 'are', 'the', 'words', 'this', 'url']);
+    ['what', 'words', 'this', 'url']);
 
 
   var sUrl = "http://techcrunch.com/2013/02/19/yota-to-mass-produce-e-ink-phone-in-singapore/";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
-    ['2013', 'yota', 'mass', 'produce', 'ink', 'phone', 'singapore']);
+    ['yota', 'mass', 'produce', 'ink', 'phone', 'singapore']);
 
 });
 
