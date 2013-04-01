@@ -48,7 +48,6 @@ Cotton.DB.Stories.removeHistoryItemInStory = function(oStore, iStoryId, iHistory
   oStore.find('stories', 'id', iStoryId, function(oStory){
     oStory.removeHistoryItem(iHistoryItemId);
     oStore.put('stories', oStory, function(){
-      DEBUG && console.debug("historyItem deleted in the story");
       if (mCallBackFunction){
         mCallBackFunction();
       }
