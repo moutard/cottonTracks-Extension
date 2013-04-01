@@ -29,14 +29,14 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
     this._oItemTitle = new Cotton.UI.Story.Item.Content.Brick.Title(
       oHistoryItem.title(), this, oHistoryItem.url());
     this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
-      oHistoryItem.lastVisitTime(), this);
+      oHistoryItem.lastVisitTime());
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
-      oHistoryItem.url(), this);
+      oHistoryItem.url());
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
-        oHistoryItem.extractedDNA().imageUrl(), this, 'featured');
+        oHistoryItem.extractedDNA().imageUrl(), 'featured');
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(
-        oHistoryItem.extractedDNA().highlightedText().length, this);
+        oHistoryItem.extractedDNA().highlightedText().length);
 
     var oDNA = oHistoryItem.extractedDNA();
     var bHasExpand = this.hasExpand(oDNA);
@@ -45,7 +45,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
         oHistoryItem.url(), this._oDispatcher, this, 'small');
 
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
-        oDNA, this);
+        oDNA);
 
 
     this._$item.append(

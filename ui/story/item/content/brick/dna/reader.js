@@ -8,9 +8,6 @@
 
 Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
-  // parent element.
-  _oItemContent :null,
-
   _oHistoryItemDNA : null,
 
   // current element.
@@ -30,7 +27,7 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
   _bBest : null,
   _bQuotes : null,
 
-  init : function(oHistoryItemDNA, oItemContent){
+  init : function(oHistoryItemDNA){
     var self = this;
 
     this._oHistoryItemDNA = oHistoryItemDNA;

@@ -26,9 +26,9 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
     this._$searchInput = $('<input type="text" name="ct-google-search">');
     this._$searchButton = $('<img class="ct-search_button" src="media/images/story/item/search_item/search.png"/>');
     this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
-      oHistoryItem.lastVisitTime(), this);
+      oHistoryItem.lastVisitTime());
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
-      oHistoryItem.url(), this);
+      oHistoryItem.url());
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
       this._oDispatcher, this, 'small');
 
