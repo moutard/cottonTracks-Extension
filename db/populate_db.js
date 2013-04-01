@@ -19,10 +19,15 @@ Cotton.DB.Populate.preRemoveTools = function(lChromeHistoryItems) {
   DEBUG && console.debug('New PreRemoveTools - Start');
 
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+  var lResult = [];
 
-  return _.reject(lChromeHistoryItems, function(dChromeHistoryItem) {
-    return (oExcludeContainer.isExcluded(dChromeHistoryItem['url']));
-  });
+  for(var i=0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
+    if(!oExcludeContainer.isExcluded(dChromeHistoryItem['url'])){
+      lResult.push(dChromeHistoryItem);
+    }
+  }
+
+  return lResult;
 };
 
 /**
