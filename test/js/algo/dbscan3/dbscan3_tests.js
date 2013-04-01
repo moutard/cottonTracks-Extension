@@ -31,7 +31,7 @@ test('detect session for visititems.', function() {
         console.log(lNewRoughSession);
         iSessionId += 1;
       }
-      ok((iSessionId < 30), iSessionId);
+      ok((iSessionId < 30), iSessionId + ' ' + lNewRoughSession.length);
   });
 });
 
