@@ -36,7 +36,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
       oDispatcher.publish('item:delete', {
         'id': oItem.historyItem().id(),
         'type': oItem.type()
-        });
+      });
     });
 
     // construct item

@@ -5,9 +5,6 @@
  */
 Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator = Class.extend({
 
-  // parent element.
-  _oItemContent : null,
-
   _iQuoteNumber : null,
 
   // current element.
@@ -17,12 +14,9 @@ Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator = Class.extend({
   _$quoteNumber : null,
   _$quoteIcon : null,
 
-  init : function(iQuoteNumber, oItemContent) {
+  init : function(iQuoteNumber) {
 
     this._iQuoteNumber = iQuoteNumber;
-
-    // parent element.
-    this._oItemContent = oItemContent;
 
     if (iQuoteNumber > 0){
       this.setQuoteIndicator();

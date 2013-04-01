@@ -8,7 +8,7 @@ Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
   /**
    * {Cotton.UI.Story.Item.Content.Element} parent object if one.
    */
-  _oItemContent : null,
+  _oItem : null,
 
   /**
    * {String} sTitle
@@ -21,17 +21,16 @@ Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
   _$title : null,
 
 
-  init : function(sTitle, oItemContent, sUrl) {
+  init : function(sTitle, oItem, sUrl) {
 
     // current parent element.
-    this._oItemContent = oItemContent;
+    this._oItem = oItem;
 
     // current item
     this._$title = $('<h3></h3>').text(sTitle);
     if (sUrl){
       this._$title = $('<a href="' + sUrl + '" target="_blank"></a>').append(this._$title);
     }
-
   },
 
   $ : function() {

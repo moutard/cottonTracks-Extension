@@ -5,8 +5,6 @@
  */
 Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
 
-  _oItemContent : null,
-
   _sUrl : null,
 
   // current element.
@@ -16,12 +14,9 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
   _$favicon : null,
   _$url : null,
 
-  init : function(sUrl, oItemContent) {
+  init : function(sUrl) {
 
     this._sUrl = sUrl;
-
-    // current parent element.
-    this._oItemContent = oItemContent;
 
     // current element.
     this._$website = $('<div class="ct-item_content_website"></div>');

@@ -5,8 +5,6 @@
  */
 Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
 
-  _oItemContent : null,
-
   _sImage : null,
 
   _$featured_image : null,
@@ -14,12 +12,10 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
   _$img : null,
   _sImageUrl : null,
 
-  init : function(sImage, oItemContent, sImageType) {
+  init : function(sImage, sImageType) {
 
     this._sImage = sImage;
 
-    // parent element.
-    this._oItemContent = oItemContent;
     this._$image = $('<div class="ct-image"></div>')
 
     if(sImage){
