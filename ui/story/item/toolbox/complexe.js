@@ -45,6 +45,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         $(this).hide();
         self._$collapse.show();
         self._oDispatcher.publish('item:expand');
+        Cotton.ANALYTICS.expand();
       });
 
       //collapse reader
@@ -54,6 +55,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         $(this).hide();
         self._$expand.show();
         self._oDispatcher.publish('item:expand');
+        Cotton.ANALYTICS.collapse();
       });
 
       //get content
@@ -65,6 +67,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         self._$loading.show();
         $(this).hide();
         self.$().addClass('visible');
+        Cotton.ANALYTICS.getContent();
       });
 
       // construct item

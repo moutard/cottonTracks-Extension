@@ -66,6 +66,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
             self._oDispatcher.publish('story:filter', {
               'filter': sFilterCode
             });
+            Cotton.ANALYTICS.filter(sFilterCode);
           });
     };
 

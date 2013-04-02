@@ -23,9 +23,13 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
   _$article_whole : null,
   _$readerSelectorCursor : null,
 
-  _bWhole : null,
   _bBest : null,
   _bQuotes : null,
+  _bWhole : null,
+
+  _bScrolledBest : null,
+  _bScrolledQuotes : null,
+  _bScrolledWhole : null,
 
   init : function(oHistoryItemDNA){
     var self = this;
@@ -42,20 +46,41 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
     // current sub elements
     // FIXME(rmoutard) only use one article and you change the text.
-    this._$article_best  = $('<div class="ct-reader_article show_best"></div>');
-    this._$article_quote = $('<div class="ct-reader_article show_quote"></div>');
-    this._$article_whole = $('<div class="ct-reader_article show_whole"></div>');
+    this._$article_best  = $('<div class="ct-reader_article show_best"></div>').scroll(
+      function(){
+        if (!self._bScrolledBest){
+          Cotton.ANALYTICS.scrollBestParagraphs();
+          self._bScrolledBest = true;
+        }
+    });
+    this._$article_quote = $('<div class="ct-reader_article show_quote"></div>').scroll(
+      function(){
+        if (!self._bScrolledQuotes){
+          Cotton.ANALYTICS.scrollQuotes();
+          self._bScrolledQuotes = true;
+        }
+    });
+    this._$article_whole = $('<div class="ct-reader_article show_whole"></div>').scroll(
+      function(){
+        if (!self._bScrolledWhole){
+          Cotton.ANALYTICS.scrollWholeArticle();
+          self._bScrolledWhole = true;
+        }
+    });
 
 
     this._$select_article_part_radio_button = $('<div class="ct-select_article_part_radio_button"></div>');
     this._$select_best_button = $('<div class="ct-select_button show_best">Best</div>').click(function(){
       self.changeTab($(this), self._$article_best, 'on_best');
+      Cotton.ANALYTICS.bestParagraphs();
     });
     this._$select_quote_button = $('<div class="ct-select_button show_quote">Quotes</div>').click(function(){
       self.changeTab($(this), self._$article_quote, 'on_quote');
+      Cotton.ANALYTICS.quotes();
     });
     this._$select_whole_button = $('<div class="ct-select_button show_whole">Whole Article</div>').click(function(){
       self.changeTab($(this), self._$article_whole, 'on_whole');
+      Cotton.ANALYTICS.wholeArticle();
     });
 
     this._$readerSelectorCursor = $('<div class="reader_selector_cursor"></div>');

@@ -41,6 +41,7 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'create_history_item' : function(sendResponse, dHistoryItem, sender){
       var self = this;
+      Cotton.ANALYTICS.visitHistoryItem();
       /**
        * Because Model are compiled in two different way by google closure
        * compiler we need a common structure to communicate throught messaging.
@@ -117,6 +118,7 @@ Cotton.Controllers.Messaging = Class.extend({
                       // There is a story for this item, so enable the browserAction
                       // and attach a storyId to the tab
                       self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
+                      Cotton.ANALYTICS.storyAvailable();
                       chrome.browserAction.enable(sender.tab.id);
 
                     } else {
