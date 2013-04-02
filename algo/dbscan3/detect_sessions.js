@@ -35,3 +35,33 @@ Cotton.Algo.roughlySeparateSession = function(lHistoryItems, mCallBack) {
 
   mCallBack(lNewRoughSession);
 };
+
+Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChromeVisitItems,
+    mCallBack) {
+  // 5 hours
+  var threshold = 5 * 60 * 60 * 1000;
+
+  var lNewRoughHistoryItemSession = [];
+  var iPreviousTime;
+
+  for ( var i = 0, oCurrentVisitItem; oCurrentVisitItem = lChromeVisitItems[i]; i++) {
+    if (i === 0) {
+      iPreviousTime = oCurrentVisitItem['visitTime'];
+    }
+
+    if (Math.abs(oCurrentVisitItem['visitTime'] - iPreviousTime) <= threshold) {
+      var iIndex = oCurrentVisitItem['cottonHistoryItemId'];
+      if(lNewRoughHistoryItemSession.indexOf(lHistoryItems[iIndex]) === -1){
+        lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
+      }
+    } else {
+      // Close the session and launch callback, then init a new session.
+      mCallBack(lNewRoughHistoryItemSession);
+      lNewRoughHistoryItemSession = [];
+      lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
+    }
+    iPreviousTime = oCurrentVisitItem['visitTime'];
+  }
+
+  mCallBack(lNewRoughHistoryItemSession);
+};
