@@ -37,6 +37,11 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
         'id': oItem.historyItem().id(),
         'type': oItem.type()
       });
+      Cotton.ANALYTICS.deleteItem(oItem.type());
+    });
+
+    this._$open.click(function(){
+      Cotton.ANALYTICS.openItemWithToolbox(oItem.type(), 'toolbox');
     });
 
     // construct item

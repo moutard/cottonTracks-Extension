@@ -22,14 +22,23 @@ Cotton.UI.Story.Element = Class.extend({
   _$story : null,
   _$itemsContainer : null,
 
+  //
+  _bScrolledStory : null,
+
   init : function(oStory, oDispatcher, oWorld) {
     var self = this;
     this._oWorld = oWorld;
     this._oDispatcher = oDispatcher;
     this._oStory = oStory;
     this._lItems = [];
+    this._bScrolled = false;
 
-    this._$story = $('<div class="ct-story"></div>');
+    this._$story = $('<div class="ct-story"></div>').scroll(function(){
+      if (!self._bScrolledStory){
+        Cotton.ANALYTICS.scrollStory();
+        self._bScrolledStory = true;
+      }
+    });
     this._$itemsContainer = $('<div class="ct-items_container"></div>');
 
     // Fill the story with the historyItems.
