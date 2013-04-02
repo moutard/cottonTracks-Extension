@@ -32,52 +32,54 @@ Cotton.DB.Populate.preRemoveTools = function(lChromeHistoryItems) {
 
 /**
  * Translate historyItem from chrome, to cotton history items.
+ * @param {Dictionnary} a chrome history item directly from the API.
+ * @return {Cotton.Model.HistoryItem}
  */
 Cotton.DB.Populate.translateChromeHistoryItem = function(dChromeHistoryItem) {
-  // distinction between oIDBHistoryItem and oChromeHistoryItem
-  var oIDBHistoryItem = new Cotton.Model.HistoryItem();
+  var oHistoryItem = new Cotton.Model.HistoryItem();
 
-  oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
-  oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
-  oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
-  var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(
-    dChromeHistoryItem['title']);
-  // Compute the bag of words using title and url pathname.
-  oIDBHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
+  oHistoryItem.initId(dChromeHistoryItem['cottonHistoryItemId']);
+  oHistoryItem.initUrl(dChromeHistoryItem['url']);
+  oHistoryItem.setTitle(dChromeHistoryItem['title']);
+  oHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
 
-  // TODO(rmoutard): complete the bag of words with google closest search to find querywords.
-  return oIDBHistoryItem;
+  return oHistoryItem;
 };
 
 /**
  * Translate an array of history items into an array of cotton history items.
+ * @param {Array.<Dict>} list of chrome historyItem from the chrome API.
+ * @return {Array.<Cotton.Model.HistoryItem>}
  */
 Cotton.DB.Populate.translateListOfChromeHistoryItems = function(lChromeHistoryItems) {
   var iLength = lChromeHistoryItems.length;
+  // Use the array of lChromeHistoryItems to because we don't need those
+  // elements anymore and then we save space.
   for (var i=0, oChromeHistoryItem; oChromeHistoryItem = lChromeHistoryItems[i]; i++) {
     lChromeHistoryItems[i] = Cotton.DB.Populate.translateChromeHistoryItem(oChromeHistoryItem);
   }
   return lChromeHistoryItems;
 };
+
 /**
  * Tag each historyItem is lHistoryItems with the closest google search. Only if
  * there are some common words, between query keywords and title or url.
  *
  * @param {Array.<Cotton.Model.HistoryItems>} lHistoryItems
+ * @param {Array.<Dict>} lChromeVisitItems
  * @returns
  */
-
-Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
+Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChromeVisitItems) {
 
   var iSliceTime = Cotton.Config.Parameters.iSliceTime;
   // After this time a page is considered as non-linked with a query search page
 
   var sNonFound = "http://www.google.fr/";
 
-  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
-    var oCurrentPage = lHistoryItems[i];
+  for ( var i = 0, iLength = lChromeVisitItems.length; i < iLength; i++) {
+    var oCurrentPage = lHistoryItems[lChromeVisitItems[i]['cottonHistoryItemId']];
     var iSearchIndex = i;
-    var oTempPage = lHistoryItems[iSearchIndex];
+    var oTempPage = lHistoryItems[lChromeVisitItems[iSearchIndex]['cottonHistoryItemId']];
 
     // value by default
     oCurrentPage.extractedDNA().setClosestGoogleSearchPage(sNonFound);
@@ -98,7 +100,7 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
           // the temp page is not a good google search page.
           // try the newt one.
           iSearchIndex += 1;
-          oTempPage = lHistoryItems[iSearchIndex];
+          oTempPage = lHistoryItems[lChromeVisitItems[iSearchIndex]['cottonHistoryItemId']];
         }
     }
   }
@@ -108,52 +110,83 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems) {
 
 Cotton.DB.Populate.computeBagOfWordsForGoogleSearch = function(lHistoryItems){
   for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
-    var oPage =  lHistoryItems[i];
+    var oPage = lHistoryItems[i];
     if(oPage.oUrl().keywords){
-      oPage.extractedDNA().setQueryWords(oPage.oUrl().keywords);
+      // Problem if an history item comes many times.
+      oPage.extractedDNA().setExtractedWords(oPage.oUrl().keywords);
     }
   }
   return lHistoryItems;
 };
 
 /**
+ * Compute bag of words for title only if there is no word for title.
+ * That limits the numbers of error because url parser is prone for error.
+ * @param {Array.<Cotton.Model.HistoryItem>}
+ */
+Cotton.DB.Populate.computeBagOfWordsForTitle = function(lHistoryItems){
+  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+    var oPage = lHistoryItems[i];
+    oPage.extractedDNA().setExtractedWords(
+      Cotton.Algo.Tools.extractWordsFromTitle(oPage.title()));
+  }
+  return lHistoryItems;
+};
+
+
+/**
  * Compute bag of words for url only if there is no word for title.
  * That limits the numbers of error because url parser is prone for error.
+ * @param {Array.<Cotton.Model.HistoryItem>}
  */
 Cotton.DB.Populate.computeBagOfWordsForUrl = function(lHistoryItems){
   for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
     var oPage =  lHistoryItems[i];
     if (_.isEmpty(oPage.extractedDNA().bagOfWords().get())) {
-      oPage.extractedDNA().setQueryWords(Cotton.Algo.Tools.extractWordsFromUrl(
-            oPage.oUrl().pathname));
+      oPage.extractedDNA().setExtractedWords(
+        Cotton.Algo.Tools.extractWordsFromUrl(oPage.oUrl().pathname));
     }
   }
+  return lHistoryItems;
+};
+
+/**
+ * remove words that appear too often in title of the same hostname.
+ * for instance "Alice - Wikipedia, the free encyclopedia"
+ * remove "Wikipedia" "free" and "encyclopedia"
+ */
+Cotton.DB.Populate.removeFrequentExtractedWords = function(lHistoryItems){
   return lHistoryItems;
 };
 
 /**
  * Remove history items without bag of words.
  */
-Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords = function(lHistoryItems){
+Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords = function(lHistoryItems, lChromeVisitItems){
   var lHistoryItemsWithoutBagOfWords = [];
-  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
-    var oPage =  lHistoryItems[i];
+  var lVisitItemsWithoutBagOfWords = [];
+  for ( var i = 0, iLength = lChromeVisitItems.length; i < iLength; i++) {
+    var oPage = lHistoryItems[lChromeVisitItems[i]['cottonHistoryItemId']];
     if (!_.isEmpty(oPage.extractedDNA().bagOfWords().get())) {
       lHistoryItemsWithoutBagOfWords.push(oPage);
+      lVisitItemsWithoutBagOfWords.push(lChromeVisitItems[i]);
     }
   }
-  return lHistoryItemsWithoutBagOfWords;
+  return [lHistoryItemsWithoutBagOfWords, lVisitItemsWithoutBagOfWords];
 };
 
-
-Cotton.DB.Populate.Suite = function(lChromeHistoryItems) {
-  lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
-  var lHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForGoogleSearch(lHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForUrl(lHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
-  return lHistoryItems;
+Cotton.DB.Populate.SuiteForCotton = function(lChromeHistoryItems, lChromeVisitItems) {
+  var lCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lChromeHistoryItems);
+  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForTitle(lCottonHistoryItems);
+  lCottonHistoryItems = Cotton.DB.Populate.removeFrequentExtractedWords(lCottonHistoryItems);
+  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForGoogleSearch(
+    lCottonHistoryItems, lChromeVisitItems);
+  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForUrl(lCottonHistoryItems);
+  var L = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(
+    lCottonHistoryItems, lChromeVisitItems);
+  return [lCottonHistoryItems, lChromeVisitItems];
 };
+
 
 /**
  * Populate historyItems with a given store. (faster than the previous)
@@ -209,11 +242,16 @@ Cotton.DB.Populate.historyItems = function(oHistoryClient, oDatabase, mCallBackF
  * @param :
  *          mCallBackFunction
  */
-Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
+Cotton.DB.Populate.visitItems = function(mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;
+
+  var iCount = 0;
+  var iLength = 0;
+  var glChromeHistoryItems = [];
+  var glChromeVisitItems = [];
 
   // Get chrome historyItems.
   chrome.history.search({
@@ -221,46 +259,43 @@ Cotton.DB.Populate.visitItems = function(oDatabase, mCallBackFunction) {
     startTime : 0, // no start time.
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
   }, function(lChromeHistoryItems) {
-    console.log('Number of Chrome HistoryItems: ' + lChromeHistoryItems.length)
-    var processVisits = function(dChromeHistoryItem, lChromeVisitItems){
-      for(var j = 0, dChromeVisitItem; dChromeVisitItem = lChromeVisitItems[j]; j++){
-        dChromeVisitItem['url'] = dChromeHistoryItem['url'];
-        dChromeVisitItem['title'] = dChromeHistoryItem['title'];
-        // Detect session need iLastVisitTime.
-        dChromeVisitItem['iLastVisitTime'] = dChromeVisitItem['visitTime'];
-        lVisitItems.push(dChromeVisitItem);
-      }
-      iCount += 1;
-      if(iCount === iLength){
-        lVisitItems.sort(function(a, b){
-          return b['iLastVisitTime'] - a['iLastVisitTime'];
-        });
-        console.log('Number of Chrome VisitItems: ' + lVisitItems.length);
-        mCallBackFunction(lVisitItems);
-      }
-    };
-
-    var processVisitsWithUrl = function(dChromeHistoryItem) {
-      // We need the url of the visited item to process the visit.
-      // Use a closure to bind the  url into the callback's args.
-      return function(visitItems) {
-        processVisits(dChromeHistoryItem, visitItems);
-      };
-    };
-
-    var iCount = 0;
-    var lVisitItems = [];
+    var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
+    DEBUG && console.log('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
     // Remove the tools before looking for visitItems.
-    lChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
-    var iLength = lChromeHistoryItems.length;
-    console.log('Number of Chrome HistoryItems after remove tools: ' + iLength);
+    glChromeHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+    iLength = glChromeHistoryItems.length;
+    DEBUG && console.log('Number of Chrome HistoryItems after remove tools: ' + iLength);
 
     // For each chromeHistory remaining find all the corresponding visitItems.
-    for(var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
+    for(var i = 0; i < iLength; i++){
+      // Attribute an fixed id directly instead of putting in the database
+      // and let the database attribute the id.
+      // Seems there is a problem with the id 0.
+      var dChromeHistoryItem = lChromeHistoryItems[i];
+      dChromeHistoryItem['sId'] = i;
       chrome.history.getVisits({
-        'url':dChromeHistoryItem['url']
-      }, processVisitsWithUrl(dChromeHistoryItem));
+          'url':dChromeHistoryItem['url']
+        }, function(lVisitItems){
+          // assign a temp cottonhistoryid that correspesponds to its position
+          // int the glChromeVisitItems
+          for( var i = 0; i < lVisitItems.length; i++){
+            lVisitItems[i]['cottonHistoryItemId'] = iCount;
+          }
+          glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
+          iCount +=1;
+          if(iCount === iLength){
+            glChromeVisitItems.sort(function(a, b){
+              return b['visitTime'] - a['visitTime'];
+            });
+            DEBUG && console.log('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
+            elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
+            DEBUG && console.log('Elapsed time:' + elapsedTime1 + 'seconds');
+            mCallBackFunction(glChromeHistoryItems, glChromeVisitItems,
+              iInitialNumberOfChromeHistoryItems);
+          }
+        }
+      );
     }
   });
 };
