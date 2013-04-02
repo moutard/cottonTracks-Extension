@@ -1,151 +1,98 @@
 'use strict';
-// (function() {
 
 var _gaq = _gaq || [];
 
 Cotton.Analytics = Class.extend({
-  _sAccount : null,
-  _oGoogleAnalytics : null,
-  _gaq : null,
 
   init : function() {
-    var self = this;
-    // self._sAccount = Cotton.Config.Parameters._sAccount;
-
-    self._gaq = _gaq || [];
+    this._gaq = _gaq || [];
 
     if (Cotton.Config.Parameters.bAnalytics === true) {
-      _gaq.push([ '_setAccount', 'UA-30134257-1' ]);
-      _gaq.push([ '_trackPageview' ]);
-
-      self._oGoogleAnalytics = document.createElement('script');
-      self._oGoogleAnalytics.type = 'text/javascript';
-      self._oGoogleAnalytics.async = true;
-      self._oGoogleAnalytics.src = 'https://ssl.google-analytics.com/ga.js';
-      var oScript = document.getElementsByTagName('script')[0];
-      oScript.parentNode.insertBefore(self._oGoogleAnalytics, oScript);
+      _gaq.push(['_setAccount', 'UA-30134257-1']);
+    } else {
+      _gaq.push(['_setAccount', 'UA-30134257-3']);
     }
+    _gaq.push(['_trackPageview']);
+
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var script = document.getElementsByTagName('script')[0];
+    script.parentNode.insertBefore(ga, script);
   },
 
-  enterStory : function() {
-    _gaq.push([ '_trackEvent', 'Story trafic', 'Enter story',
-        'Click on sticker' ]);
+  // Track an event with _gaq.push(['_trackEvent', 'category', 'action', 'opt_label',
+  // 'opt_int_value', 'opt_bool_noninteraction']);
+
+  // items tracking
+  visitHistoryItem : function() {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_visit']);
   },
 
-  deleteStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'delete' ]);
+  // Story tracking
+  storyAvailable : function() {
+    _gaq.push(['_trackEvent', 'story', 'enabled', 'browserAction']);
   },
 
-  editStickerOn : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
+  showLightyear : function() {
+    _gaq.push(['_trackEvent', 'story', 'open', 'browserAction']);
   },
 
-  editStickerOff : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
-  },
-
-  changeStoryTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Title changed' ]);
-  },
-  
-  changeStoryThumbnail : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Thumbnail changed' ]);
-  },
-
-  dragStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Story dragged' ]);
-  },
-
-  mergeStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Story merged' ]);
-  },
-
-  scrollWithLeftArrow : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Left arrow in story selector' ]);
-  },
-
-  scrollWithRightArrow : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Right arrow in story selector' ]);
-  },
-
-  scrollStorySelector : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Scroll in story selector' ]);
-  },
-
-  clickItemTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
-        'Item' ]);
-  },
-
-  clickDefaultItemFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
-        'Default Item' ]);
-  },
-
-  clickSearchItemTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
-        'Search Item' ]);
-  },
-
-  clickSearchItemFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
-        'Search Item' ]);
-  },
-
-  viewImageItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Item' ]);
-  },
-
-  viewSlideshowItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed',
-        'Slideshow Item' ]);
-  },
-
-  viewVideoItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Video viewed', 'Video Item' ]);
+  filter : function(sFilterType) {
+    _gaq.push(['_trackEvent', 'story', 'filter', sFilterType]);
   },
 
   scrollStory : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Scroll Story', 'Story' ]);
-  },
-  
-  changeStory : function() {
-    _gaq.push([ '_trackEvent', 'Item modification', 'Changed of story' ]);
-  },
-  
-  moveItem : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Position changed' ]);
+    _gaq.push(['_trackEvent', 'story', 'scroll']);
+   },
+
+  // Item tracking
+  openItem : function(sItemType, sTrigger) {
+    _gaq.push(['_trackEvent', sItemType, 'open', sTrigger]);
   },
 
-  editItemOn : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit on' ]);
+  deleteItem : function(sItemType) {
+    _gaq.push(['_trackEvent', sItemType, 'delete', 'toolbox']);
   },
 
-  editItemOff : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit off' ]);
+  getContent : function() {
+    _gaq.push(['_trackEvent', 'article', 'getContent', 'toolbox']);
   },
 
-  deleteItem : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item deleted' ]);
+  // Reader Tracking
+  expand : function() {
+    _gaq.push(['_trackEvent', 'article', 'expand', 'toolbox']);
   },
-  
-  changeItemImage : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+
+  collapse : function() {
+    _gaq.push(['_trackEvent', 'article', 'collapse', 'toolbox']);
   },
-    
-  changeItemTitle : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Title changed'  ]);
+
+  bestParagraphs : function() {
+    _gaq.push(['_trackEvent', 'article', 'switch', 'best']);
   },
-    
-  updateVersion : function(currVersion) {
-    _gaq.push([ '_trackEvent', 'Extension update', currVersion ]);
+
+  quotes : function() {
+    _gaq.push(['_trackEvent', 'article', 'switch', 'quotes']);
   },
+
+  wholeArticle : function() {
+    _gaq.push(['_trackEvent', 'article', 'switch', 'whole']);
+  },
+
+  scrollBestParagraphs : function() {
+    _gaq.push(['_trackEvent', 'article', 'scroll', 'best']);
+  },
+
+  scrollQuotes : function() {
+    _gaq.push(['_trackEvent', 'article', 'scroll', 'quotes']);
+  },
+
+  scrollWholeArticle : function() {
+    _gaq.push(['_trackEvent', 'article', 'scroll', 'whole']);
+  },
+
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();
-
-_.extend(Cotton.ANALYTICS, Backbone.Events);
-// })();
