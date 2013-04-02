@@ -130,3 +130,28 @@ console.log('Fastest is ' + this.filter('fastest').pluck('name'));
 //run async
 .run({ 'async': true });
 
+var array_vs_dict = new Benchmark.Suite;
+
+//add tests
+array_vs_dict.add('Array', function() {
+var lList = create_list(10000);
+var l = lList.length;
+for (var i = 0; i < l ; i++) {
+  lList[i] += 1;
+}
+}).add('Dict', function() {
+var dDict = create_dict(10000);
+for (var sKey in dDict) {
+  dDict[sKey] +=1;
+}
+})
+//add listeners
+.on('cycle', function(event) {
+console.log(String(event.target));
+})
+.on('complete', function() {
+console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+})
+//run async
+.run({ 'async': true });
+
