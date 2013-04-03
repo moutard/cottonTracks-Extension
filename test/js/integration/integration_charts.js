@@ -54,19 +54,7 @@ function drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems) {
 
   });
 
-  function sessionToDOM(lSession, owner){
-    var $small_session = $('<div class="small_session color' +owner+'"></div>');
-    for(var i=0; i < lSession.length; i++){
-     $small_session.append(historyItemToDOM(lSession[i]));
-    }
-    return $small_session;
-  };
-  function historyItemToDOM(oHistoryItem) {
-    var $history_item = $('<div class="history_item"></div>');
-    $history_item.text(JSON.stringify([oHistoryItem.title(), oHistoryItem.url()]));
-    return  $history_item;
-  };
-  var data = google.visualization.arrayToDataTable(llData);
+   var data = google.visualization.arrayToDataTable(llData);
 
   var options = {
     title: 'Rough session size',
@@ -78,6 +66,9 @@ function drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems) {
   chart.draw(data, options);
 };
 
+function drawStoriesRepartition(iStories){
+  $('#stories_repartition_chart').text(iStories);
+};
 
 function launchTests(){
   Cotton.DB.Populate.visitItems(function(lCottonHistoryItems, lChromeVisitItems,
@@ -92,11 +83,61 @@ function launchTests(){
 
     drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems);
 
+    var iStories = 0;
+    var fEps = 17;
+    var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
     Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
       function(lSession){
-        console.log('session');
-        console.log(lSession);
+        var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
+        var ldSession = [];
+        for(var i = 0; i < lSession.length; i++){
+          ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
+        }
+        var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
+          Cotton.Algo.Distance.CosineHistoryItem);
+        iStories += iNbSubCluster;
+        var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
+        drawStories(dStories['stories']);
+
       });
+    drawStoriesRepartition(iStories);
   });
 };
 
+
+function sessionToDOM(lSession, owner){
+  var $small_session = $('<div class="small_session color' +owner+'"></div>');
+  for(var i=0; i < lSession.length; i++){
+   $small_session.append(historyItemToDOM(lSession[i]));
+  }
+  return $small_session;
+};
+function historyItemToDOM(oHistoryItem) {
+  var $history_item = $('<div class="history_item"></div>');
+  $history_item.text(JSON.stringify([oHistoryItem.title(), oHistoryItem.url()]));
+  return  $history_item;
+};
+function historyItemRecordToDOM(dHistoryItem) {
+  var $history_item = $('<div class="history_item"></div>');
+  $history_item.text(dHistoryItem['sTitle'] + " :::: " + dHistoryItem['sUrl']);
+  return  $history_item;
+};
+
+function storyToDOM(oStory){
+  var $story = $('<div class="story"></div>');
+  var $title = $('<div class="title"></div>').text(oStory.title());
+  var $historyItemsId = $('<div class="historyItemsId"></div>');
+  var $historyItems = $('<div class="historyItems"></div>');
+  for(var i = 0; i < oStory.historyItemsId().length; i++){
+    $historyItemsId.append($('<span>'+oStory.historyItemsId()[i]+'</span>'));
+    $historyItems.append(historyItemRecordToDOM(oStory._lHistoryItemsRecord[i]));
+  }
+  $story.append($title, $historyItemsId, $historyItems);
+  return $story;
+};
+function drawStories(lStories){
+  var $stories = $('#stories');
+  _.each(lStories, function(oStory){
+    $stories.append(storyToDOM(oStory));
+  });
+};
