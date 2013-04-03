@@ -29,6 +29,7 @@ Cotton.Model.Story = Class.extend({
     this._sFeaturedImage = "";
     this._lHistoryItemsId = [];
     this._lHistoryItems = [];
+    this._lHistoryItemsRecord = [];
     this._lTags = [];
     this._oDNA = new Cotton.Model.StoryDNA();
   },
@@ -105,6 +106,7 @@ Cotton.Model.Story = Class.extend({
   addDbRecordHistoryItem : function(oHistoryItemDbRecord) {
     if (this._lHistoryItemsId.indexOf(oHistoryItemDbRecord['id']) === -1) {
       this._lHistoryItemsId.push(oHistoryItemDbRecord['id']);
+      this._lHistoryItemsRecord.push(oHistoryItemDbRecord);
 
       if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
         this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
