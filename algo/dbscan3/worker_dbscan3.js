@@ -44,7 +44,8 @@ function handleHistoryItems3(lHistoryItems, lVisitItems) {
   // Pretreatment suite has already been applied
 
   // Step 1.
-  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
+  Cotton.Algo.roughlySeparateSessionForVisitItems(lHistoryItems, lVisitItems,
+    function(lSession) {
 
     // Do this for each session.
 
