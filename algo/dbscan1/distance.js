@@ -227,6 +227,22 @@ Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
   return fCosine;
 };
 
+/*
+ * Score more the score is important more the bag of words are close.
+ * @param {Dictionnary} dBagOfWords1 :
+ * @param {Dictionnary} dBagOfWords2 :
+ */
+Cotton.Algo.Metrics.Score = function(dBagOfWords1, dBagOfWords2){
+  var fScore = 0;
+  for(var sKey1 in dBagOfWords1) {
+    fScore = dBagOfWords1[sKey1] * (dBagOfWords2[sKey1] || 0);
+  }
+
+  return fScore;
+};
+
+
+
 /**
  * Compute a distance with extracted query words. In the range [0 - 1].
  *  - 0 all the possible words are common.
@@ -238,6 +254,21 @@ Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
 Cotton.Algo.Distance.CosineHistoryItem = function(oHistoryItem1, oHistoryItem2) {
 
   return Cotton.Algo.Metrics.Cosine(
+    oHistoryItem1['oExtractedDNA']['dBagOfWords'],
+    oHistoryItem2['oExtractedDNA']['dBagOfWords']
+    );
+
+};
+
+/**
+ * Compute a score with history item.
+ *
+ * @param : {Object} dictionnary or json : oHistoryItem1
+ * @param : {Object} dictionnary or json : oHistoryItem2
+ */
+Cotton.Algo.Distance.ScoreHistoryItem = function(oHistoryItem1, oHistoryItem2) {
+
+  return Cotton.Algo.Metrics.Score(
     oHistoryItem1['oExtractedDNA']['dBagOfWords'],
     oHistoryItem2['oExtractedDNA']['dBagOfWords']
     );
