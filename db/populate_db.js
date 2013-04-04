@@ -169,7 +169,7 @@ Cotton.DB.Populate.SuiteForCotton = function(lCottonHistoryItems, lChromeVisitIt
  * @param :
  *          mCallBackFunction
  */
-Cotton.DB.Populate.visitItems = function(mCallBackFunction) {
+Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
   // Get all the history items from Chrome DB.
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var startTime1 = new Date().getTime();
@@ -181,7 +181,7 @@ Cotton.DB.Populate.visitItems = function(mCallBackFunction) {
   var glChromeVisitItems = [];
 
   // Get chrome historyItems.
-  chrome.history.search({
+  oClient.get({
     text : '', // get all
     startTime : 0, // no start time.
     "maxResults" : Cotton.Config.Parameters.iMaxResult,
@@ -207,7 +207,7 @@ Cotton.DB.Populate.visitItems = function(mCallBackFunction) {
       // Seems there is a problem with the id 0.
       var oHistoryItem = glCottonHistoryItems[i];
       oHistoryItem.initId(i);
-      chrome.history.getVisits({
+      oClient.getVisits({
           'url': oHistoryItem.url()
         }, function(lVisitItems){
           // assign a temp cottonhistoryid that correspesponds to its position
