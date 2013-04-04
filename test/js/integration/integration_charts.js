@@ -94,7 +94,7 @@ function launchTests(){
           ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
         }
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
-          Cotton.Algo.Distance.CosineHistoryItem);
+          Cotton.Algo.Distance.ScoreHistoryItem);
         iStories += iNbSubCluster;
         var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
         drawStories(dStories['stories']);

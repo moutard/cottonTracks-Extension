@@ -14,7 +14,7 @@ Cotton.Algo.regionQuery = function(lSetOfPoints, oPoint, fEps, mDistance) {
   // TODO(rmoutard): implement R*-Tree to a (n*log(n))complexity
   var lEpsNeighborhood = [];
   for ( var iCurrentLoop = 0, iLength = lSetOfPoints.length; iCurrentLoop < iLength; iCurrentLoop++) {
-    if (mDistance(lSetOfPoints[iCurrentLoop], oPoint) <= fEps) {
+    if (mDistance(lSetOfPoints[iCurrentLoop], oPoint) >= fEps) {
       lEpsNeighborhood.push(lSetOfPoints[iCurrentLoop]);
     }
   }
