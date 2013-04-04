@@ -203,22 +203,25 @@ Cotton.Controllers.Background = Class.extend({
 
     DEBUG && console.debug("Controller - install");
     var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
-    Cotton.DB.Populate.historyItems(oChromeHistoryClient,
-      self._oDatabase, function(oDatabase) {
-      oDatabase.getList('historyItems', function(lAllHistoryItems) {
+    Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
+      lHistoryItems, lVisitItems) {
         DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
-            + lAllHistoryItems.length + ' items');
-        DEBUG && console.debug(lAllHistoryItems);
-        var lAllVisitDict = [];
-        for(var i = 0, oItem; oItem = lAllHistoryItems[i]; i++){
+          + lHistoryItems.length + ' historyItems and '
+          + lVisitItems.length + ' visitItems:');
+        DEBUG && console.debug(lHistoryItems, lVisitItems);
+        // visitItems are already dictionnaries, whereas historyItems are objects
+        var lHistoryItemsDict = [];
+        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
           // maybe a setFormatVersion problem
-          var oTranslator = this._translatorForObject('historyItems', oItem);
+          var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
           var dItem = oTranslator.objectToDbRecord(oItem);
-          lAllVisitDict.push(dItem);
+          lHistoryItemsDict.push(dItem);
         }
-        DEBUG && console.debug(lAllVisitDict);
-        self._wDBSCAN3.postMessage(lAllVisitDict);
-      });
+        DEBUG && console.debug(lHistoryItemsDict);
+        self._wDBSCAN3.postMessage({
+          'historyItems' : lHistoryItemsDict,
+          'visitItems' : lVisitItems
+        });
     });
 
   },
