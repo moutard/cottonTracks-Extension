@@ -29,7 +29,7 @@ Cotton.Algo.expandCluster = function(lSetOfPoints, oPoint, iClusterId, fEps,
   // get fEps-Neighborhood of oPoint
   var lSeeds = Cotton.Algo.regionQuery(lSetOfPoints, oPoint, fEps, mDistance);
 
-  if (lSeeds.length <= iMinPts) {
+  if (lSeeds.length < iMinPts) {
     // the fEps-Neighborhood is not wide enough to create a cluster
 
     oPoint['clusterId'] = 'NOISE';
