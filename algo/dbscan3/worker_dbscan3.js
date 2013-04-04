@@ -87,5 +87,5 @@ self.addEventListener('message', function(e) {
    * postMessage(). Data received are serialized. i.e. it's non
    * Cotton.Model.HistoryItem, but object.
    */
-  handleHistoryItems3(e.data);
+  handleHistoryItems3(e.data['historyItems']);
 }, false);
