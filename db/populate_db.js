@@ -157,8 +157,8 @@ Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords = function(lHistoryItems)
 };
 
 Cotton.DB.Populate.SuiteForCotton = function(lCottonHistoryItems, lChromeVisitItems) {
-  Cotton.DB.Populate.computeClosestGoogleSearchPage(lCottonHistoryItems, lChromeVisitItems)
-  return [lCottonHistoryItems, lChromeVisitItems];
+  Cotton.DB.Populate.computeClosestGoogleSearchPage(lCottonHistoryItems, lChromeVisitItems);
+  return lCottonHistoryItems;
 };
 
 /**
@@ -226,6 +226,8 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
             DEBUG && console.log('Elapsed time:' + elapsedTime1 + 'seconds');
             // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
             // integration tests, find a way to remove it from here
+            glCottonHistoryItems = Cotton.DB.Populate.SuiteForCotton(
+              glCottonHistoryItems, glChromeVisitItems);
             mCallBackFunction(
               glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
           }
