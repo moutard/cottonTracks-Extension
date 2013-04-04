@@ -1,8 +1,7 @@
 'use strict'
 
-var country_with_sub_domains = ['.uk'];
-
 function UrlParser(sUrl) {
+  var country_with_sub_domains = ['.uk'];
   // CLASS
   // save the unmodified url to href property
 
