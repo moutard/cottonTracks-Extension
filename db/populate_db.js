@@ -184,7 +184,7 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
   oClient.get({
     text : '', // get all
     startTime : 0, // no start time.
-    "maxResults" : Cotton.Config.Parameters.iMaxResult,
+    "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
   }, function(lChromeHistoryItems) {
     var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
     DEBUG && console.log('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);

@@ -37,9 +37,9 @@ function handleHistoryItems3(lHistoryItems, lVisitItems) {
    */
 
   // Max Distance between neighborhood.
-  var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
+  var fEps = Cotton.Config.Parameters.dbscan3.fEps;
   // Min Points in a cluster.
-  var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
+  var iMinPts = Cotton.Config.Parameters.dbscan3.iMinPts;
 
   // Pretreatment suite has already been applied
 
