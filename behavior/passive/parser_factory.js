@@ -15,9 +15,6 @@ Cotton.Behavior.Passive.ParserFactory = function(oClient) {
   if (reg.exec(oUrl.hostname)) {
     // Wikipedia
     return new Cotton.Behavior.Passive.WikipediaParser(oClient);
-  } else if (0) {
-    // Image, from google search image result.
-    return new Cotton.Behavior.Passive.GoogleParser(oClient);
   } else {
     // Default
     return new Cotton.Behavior.Passive.Parser(oClient);
