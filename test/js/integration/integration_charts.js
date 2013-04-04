@@ -82,8 +82,8 @@ function launchTests(){
     drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems);
 
     var iStories = 0;
-    var fEps = 17;
-    var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
+    var fEps = Cotton.Config.Parameters.dbscan3.fEps;
+    var iMinPts = Cotton.Config.Parameters.dbscan3.iMinPts;
     Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
       function(lSession){
         var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];

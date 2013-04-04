@@ -5,7 +5,7 @@ Cotton.Utils.exportHistory = function(mCallBack) {
   chrome.history.search({
     text : '',
     startTime : 0,
-    "maxResults" : Cotton.Config.Parameters.iMaxResult,
+    "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
   }, function(lHistoryItems) {
     console.debug('Export History - chrome history search has returned '
         + lHistoryItems.length + ' items');

@@ -35,7 +35,7 @@ function handleHistoryItems(lHistoryItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood
-  var fEps = Cotton.Config.Parameters.fEps;
+  var fEps = Cotton.Config.Parameters.dbscan3.fEps;
   // Min Points in a cluster
   var iMinPts = Cotton.Config.Parameters.iMinPts;
 
