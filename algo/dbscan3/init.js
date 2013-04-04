@@ -1,2 +1,2 @@
 'use strict';
-Cotton.Algo.DBSACN3 = {};
+Cotton.Algo.DBSCAN3 = {};
