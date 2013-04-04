@@ -224,8 +224,10 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
             DEBUG && console.log('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
             elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
             DEBUG && console.log('Elapsed time:' + elapsedTime1 + 'seconds');
-            mCallBackFunction(glCottonHistoryItems, glChromeVisitItems,
-              iInitialNumberOfChromeHistoryItems);
+            // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
+            // integration tests, find a way to remove it from here
+            mCallBackFunction(
+              glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
           }
         }
       );
