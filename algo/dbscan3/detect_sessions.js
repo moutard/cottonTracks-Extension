@@ -55,7 +55,7 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
         lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
       }
     } else {
-      // Close the session and launch callback, then init a new session.
+      // Close the Session and launch callback on it, then init a new session
       mCallBack(lNewRoughHistoryItemSession);
       lNewRoughHistoryItemSession = [];
       lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
