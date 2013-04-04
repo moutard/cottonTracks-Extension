@@ -71,36 +71,37 @@ function drawStoriesRepartition(iStories){
 };
 
 function launchTests(){
-  Cotton.DB.Populate.visitItems(function(lCottonHistoryItems, lChromeVisitItems,
-      iHistoryItem) {
-    drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)
-    var start = new Date().getTime();
-    var L = Cotton.DB.Populate.SuiteForCotton(lCottonHistoryItems, lChromeVisitItems);
-    var lCottonHistoryItems = L[0];
-    var lChromeVisitItems = L[1];
-    var stop = (new Date().getTime() - start)/1000;
-    console.log('Suite elapsed time:' + stop + 'seconds');
+  var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
+  Cotton.DB.Populate.visitItems(oChromeHistoryClient,
+    function(lChromeHistoryItems, lChromeVisitItems, iHistoryItem) {
+      drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)
+      var start = new Date().getTime();
+      var L = Cotton.DB.Populate.SuiteForCotton(lCottonHistoryItems, lChromeVisitItems);
+      var lCottonHistoryItems = L[0];
+      var lChromeVisitItems = L[1];
+      var stop = (new Date().getTime() - start)/1000;
+      console.log('Suite elapsed time:' + stop + 'seconds');
 
-    drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems);
+      drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems);
 
-    var iStories = 0;
-    var fEps = 17;
-    var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
-    Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
-      function(lSession){
-        var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
-        var ldSession = [];
-        for(var i = 0; i < lSession.length; i++){
-          ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
-        }
-        var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
-          Cotton.Algo.Distance.ScoreHistoryItem);
-        iStories += iNbSubCluster;
-        var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
-        drawStories(dStories['stories']);
+      var iStories = 0;
+      var fEps = 17;
+      var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
+      Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
+        function(lSession){
+          var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
+          var ldSession = [];
+          for(var i = 0; i < lSession.length; i++){
+            ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
+          }
+          var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
+            Cotton.Algo.Distance.ScoreHistoryItem);
+          iStories += iNbSubCluster;
+          var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
+          drawStories(dStories['stories']);
 
-      });
-    drawStoriesRepartition(iStories);
+        });
+      drawStoriesRepartition(iStories);
   });
 };
 
