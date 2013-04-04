@@ -67,34 +67,37 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
   var sNonFound = "http://www.google.fr/";
 
   for ( var i = 0, iLength = lChromeVisitItems.length; i < iLength; i++) {
-    var oCurrentPage = lHistoryItems[lChromeVisitItems[i]['cottonHistoryItemId']];
+    // The historyItem where we want to find the closest google search page.
+    var oCurrentVisitItem = lChromeVisitItems[i];
+    var oCurrentHistoryItem = lHistoryItems[oCurrentVisitItem['cottonHistoryItemId']];
+
+    // We begin to search from it's position in the chrome history item.
     var iSearchIndex = i;
-    var oTempPage = lHistoryItems[lChromeVisitItems[iSearchIndex]['cottonHistoryItemId']];
+    var oTempVisitItem = lChromeVisitItems[iSearchIndex];
+    var oTempHistoryItem = lHistoryItems[oTempVisitItem['cottonHistoryItemId']];
 
     // value by default
-    oCurrentPage.extractedDNA().setClosestGoogleSearchPage(sNonFound);
-    oCurrentPage.extractedDNA().setQueryWords([]);
+    oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(sNonFound);
+    //oCurrentHistoryItem.extractedDNA().setQueryWords([]);
 
-    while(oTempPage &&
-      Math.abs(oCurrentPage.lastVisitTime() - oTempPage.lastVisitTime()) < iSliceTime
+    while(oTempVisitItem &&
+      Math.abs(oTempVisitItem['visitTime'] - oCurrentVisitItem['visitTime']) < iSliceTime
         ){
-        if (oTempPage.oUrl().keywords &&
-            _.intersection( oTempPage.oUrl().keywords,
-                            oCurrentPage.extractedDNA().extractedWords()).length > 0 ){
+
+        oTempHistoryItem = lHistoryItems[oTempVisitItem['cottonHistoryItemId']];
+        if (oTempHistoryItem.oUrl().keywords &&
+            _.intersection( oTempHistoryItem.oUrl().keywords,
+                            oCurrentHistoryItem.extractedDNA().extractedWords()).length > 0 ){
           // we found a page that should be the google closest query page.
-          oCurrentPage.extractedDNA().setClosestGoogleSearchPage(oTempPage.url());
+          oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
           // This will change the bag of words.
-          oCurrentPage.extractedDNA().setQueryWords(oTempPage.oUrl().keywords);
+          oCurrentHistoryItem.extractedDNA().setQueryWords(oTempHistoryItem.oUrl().keywords);
           break;
         } else {
           // the temp page is not a good google search page.
           // try the newt one.
           iSearchIndex += 1;
-          if(lChromeVisitItems[iSearchIndex] === undefined){
-            oTempPage = undefined;
-          } else {
-            oTempPage = lHistoryItems[lChromeVisitItems[iSearchIndex]['cottonHistoryItemId']];
-          }
+          oTempVisitItem = lChromeVisitItems[iSearchIndex];
         }
     }
   }
@@ -154,10 +157,9 @@ Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords = function(lHistoryItems)
 };
 
 Cotton.DB.Populate.SuiteForCotton = function(lCottonHistoryItems, lChromeVisitItems) {
-  Cotton.DB.Populate.computeClosestGoogleSearchPage(lCottonHistoryItems, lChromeVisitItems);
+  Cotton.DB.Populate.computeClosestGoogleSearchPage(lCottonHistoryItems, lChromeVisitItems)
   return [lCottonHistoryItems, lChromeVisitItems];
 };
-
 
 /**
  * Populate historyItems with a given store. (faster than the previous)
