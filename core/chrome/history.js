@@ -9,4 +9,8 @@ Cotton.Core.Chrome.History.Client = Class.extend({
   get : function(dArguments, mCallback) {
     chrome.history.search(dArguments, mCallback);
   },
+
+  getVisits : function(dArguments, mCallback) {
+    chrome.history.getVisits(dArguments, mCallback);
+  }
 });
