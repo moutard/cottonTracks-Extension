@@ -28,7 +28,7 @@ importScripts('../../algo/dbscan1/distance.js');
 importScripts('../../algo/dbscan1/dbscan.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
 
-function handleHistoryItems3(lHistoryItems) {
+function handleHistoryItems3(lHistoryItems, lVisitItems) {
   /**
    * This method has 3 steps : - Separate Roughly the historyItems in sessions. -
    * Then compute for each rough sessions dbscan1 with distance only on the
@@ -38,13 +38,10 @@ function handleHistoryItems3(lHistoryItems) {
 
   // Max Distance between neighborhood.
   var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
-  var fEpsTime = Cotton.Config.Parameters.distanceVisitTime.fEps;
   // Min Points in a cluster.
   var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
-  var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
 
-  // Applyed all the pretreatment first.
-  //lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  // Pretreatment suite has already been applied
 
   // Step 1.
   Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
@@ -52,28 +49,15 @@ function handleHistoryItems3(lHistoryItems) {
     // Do this for each session.
 
     // Step 2.
-    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
-        Cotton.Algo.Distance.distanceVisitTime);
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
+        Cotton.Algo.Distance.CosineHistoryItem);
 
-    // Cluster each session after a dbscan algorithm.
-    var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
+    var dData = {};
+    dData['iNbCluster'] = iNbCluster;
+    dData['lHistoryItems'] = lSession;
 
-    // For each session clustered by time, use DBSCAN1 with meaning distance.
-    for ( var i = 0, iLength = llClusters.length; i < iLength; i++) {
-      var lCluster = llClusters[i];
-
-      // Step 3.
-      var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
-          Cotton.Algo.Distance.meaning);
-
-      var dData = {};
-      dData['iNbCluster'] = iNbSubCluster;
-      dData['lHistoryItems'] = lCluster;
-
-      // Send data to the main thread. Data are serialized.
-      self.postMessage(dData);
-
-    }
+    // Send data to the main thread. Data are serialized.
+    self.postMessage(dData);
 
     // Terminates the worker.
     self.close();
@@ -87,5 +71,5 @@ self.addEventListener('message', function(e) {
    * postMessage(). Data received are serialized. i.e. it's non
    * Cotton.Model.HistoryItem, but object.
    */
-  handleHistoryItems3(e.data['historyItems']);
+  handleHistoryItems3(e.data['historyItems'], e.data['visitItems']);
 }, false);
