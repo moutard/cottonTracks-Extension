@@ -51,7 +51,7 @@ function handleHistoryItems3(lHistoryItems, lVisitItems) {
 
     // Step 2.
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
-        Cotton.Algo.Distance.CosineHistoryItem);
+        Cotton.Algo.Distance.ScoreHistoryItem);
 
     var dData = {};
     dData['iNbCluster'] = iNbCluster;
