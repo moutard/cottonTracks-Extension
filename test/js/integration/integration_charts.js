@@ -120,7 +120,9 @@ function historyItemToDOM(oHistoryItem) {
 };
 function historyItemRecordToDOM(dHistoryItem) {
   var $history_item = $('<div class="history_item"></div>');
-  $history_item.text(dHistoryItem['sTitle'] + " :::: " + dHistoryItem['sUrl']);
+  $history_item.html(dHistoryItem['sTitle'] + " :::: "
+  + JSON.stringify(dHistoryItem['oExtractedDNA']['dBagOfWords'])
+  + '<br>' + dHistoryItem['sUrl']);
   return  $history_item;
 };
 
