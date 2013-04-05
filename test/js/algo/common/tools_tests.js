@@ -11,6 +11,15 @@ module(
     }
 );
 
+test("StrongFilter.", function() {
+  var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
+  deepEqual(Cotton.Algo.Tools.StrongFilter(lWords), ["wikipedia", "wikipédia"]);
+});
+
+test("extractWordsFromTitle.", function() {
+  deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(""), []);
+});
+
 
 test("extract words on empty title.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(""), []);
@@ -49,4 +58,5 @@ test("extract words from url. ", function() {
     ['yota', 'mass', 'produce', 'ink', 'phone', 'singapore']);
 
 });
+
 
