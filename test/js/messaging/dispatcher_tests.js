@@ -7,7 +7,7 @@ test('init.', function(){
 
 test('test send message with no subscriber.', function(){
   var oDispatcher = new Cotton.Messaging.Dispatcher();
-  oDispatcher.send('test', {'status': 0})
+  oDispatcher.publish('test', {'status': 0})
   ok(oDispatcher);
 });
 
