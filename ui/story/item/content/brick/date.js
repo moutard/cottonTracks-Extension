@@ -46,6 +46,7 @@ Cotton.UI.Story.Item.Content.Brick.Date = Class.extend({
       var sAmPm = "pm";
     }
     var sMinutes = oDate.getMinutes();
+    if(sMinutes  < 10){ sMinutes = '0'+sMinutes;}
     this._$date.text(sDay + " " + sMonth + " - " + sHours + ":" + sMinutes + " " + sAmPm);
 
     // construct item
