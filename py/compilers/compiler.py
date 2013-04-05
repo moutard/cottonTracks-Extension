@@ -20,7 +20,6 @@ class Compiler(FileManager, PreCompiler):
     self.compileHtml('background.html')
     self.compileHtml('unit_tests.html')
     self.compileHtml('algo_test.html')
-    self.compileWorker('algo/dbscan1/worker.js')
     self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
