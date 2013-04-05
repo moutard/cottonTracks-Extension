@@ -41,7 +41,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _oTimeoutSession : null,
 
   /**
-   * 
+   *
    * @param {Cotton.Behavior.BackgroundClient} oClient:
    *  client used to communicate with the database.
    */
@@ -70,7 +70,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
      oHistoryItem._sTitle = window.document.title;
      oHistoryItem._iLastVisitTime = new Date().getTime();
      oHistoryItem._sReferrerUrl = document.referrer;
-     oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
+     //oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
+     Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
    },
 
   /**
