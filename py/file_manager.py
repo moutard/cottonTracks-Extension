@@ -61,5 +61,5 @@ class FileManager(object):
     # Go on pretreatment.
     os.chdir(psDestinationPath)
     shutil.rmtree(".git")
-    shutil.rmtree(".gitignore")
-    shutil.rmtree(".pydevproject")
+    os.remove(".gitignore")
+    os.remove(".pydevproject")
