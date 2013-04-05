@@ -181,7 +181,7 @@ Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
  */
 Cotton.Algo.Distance.historyItemToStory = function(oHistoryItem, oStory){
   return Cotton.Algo.Metrics.Cosine(oHistoryItem.extractedDNA().bagOfWords().get(),
-      oStory.dna().bagOfWords().get())
+      oStory.dna().bagOfWords().get());
 };
 /**
  * Metrics are distance that respect the 4 conditions of the metrics.
@@ -235,10 +235,20 @@ Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
 Cotton.Algo.Metrics.Score = function(dBagOfWords1, dBagOfWords2){
   var fScore = 0;
   for(var sKey1 in dBagOfWords1) {
-    fScore = dBagOfWords1[sKey1] * (dBagOfWords2[sKey1] || 0);
+    fScore += dBagOfWords1[sKey1] * (dBagOfWords2[sKey1] || 0);
   }
 
   return fScore;
+};
+
+/**
+ * @param {Cotton.Model.HistoryItem} oHistoryItem
+ * @param {Cotton.Model.HistoryItem} oStory
+ */
+Cotton.Algo.Metrics.historyItemToStory = function(oHistoryItem, oStory){
+  return Cotton.Algo.Metrics.Score(
+      oHistoryItem.extractedDNA().bagOfWords().get(),
+      oStory.dna().bagOfWords().get());
 };
 
 
