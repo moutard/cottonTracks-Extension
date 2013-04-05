@@ -12,21 +12,14 @@ importScripts('../../lib/underscore.min.js');
 
 importScripts('../../init.js');
 
-importScripts('../../utils/init.js');
-importScripts('../../utils/url_parser.js');
-
 // Cotton.config
 importScripts('../../config/init.js');
 importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/common/init.js');
-importScripts('../../algo/common/tools.js');
 importScripts('../../algo/dbscan1/distance.js');
 importScripts('../../algo/dbscan1/dbscan.js');
-importScripts('../../algo/dbscan1/pre_treatment.js');
-importScripts('../../algo/dbscan2/init.js');
 
 /**
  * Loop through all the HistoryItems and compute their distances to each other.
@@ -39,13 +32,10 @@ function handleHistoryItem(lHistoryItems) {
   // Max Distance between neighborhood.
   var fEps = Cotton.Config.Parameters.dbscan2.fEps;
   // Min Points in a cluster
-  var iMinPts = Cotton.Config.Parameters.iMinPts;
-
-  // TOOLS
-  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  var iMinPts = Cotton.Config.Parameters.dbscan2.iMinPts;
 
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
-      Cotton.Algo.Distance.meaning);
+      Cotton.Algo.Distance.ScoreHistoryItem);
 
   var dData = {};
   dData['iNbCluster'] = iNbCluster;
