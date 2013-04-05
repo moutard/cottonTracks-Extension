@@ -43,7 +43,10 @@ function UrlParser(sUrl) {
   this.pathname = this.pathname.split('#');
   if(parts[0]){
     this.hash = parts[0].split('#')[1] || "";
+  } else {
+    this.hash = '';
   }
+
 
   this.pathname = this.pathname[0];
 
