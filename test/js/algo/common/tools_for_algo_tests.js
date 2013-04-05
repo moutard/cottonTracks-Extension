@@ -1,3 +1,4 @@
+'use strict';
 module("Cotton.Algo.Tools.extractWordsFromUrlPathname", {});
 
 test("tricky extract words from url - codeacademy. ", function() {
@@ -6,8 +7,6 @@ test("tricky extract words from url - codeacademy. ", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl.pathname),
     ['courses', 'javascript', 'beginner']);
 
-  deepEqual(Cotton.Algo.Tools.extractWordsFromUrl(sUrl),
-    ['courses', 'javascript', 'beginner']);
 });
 
 /**
@@ -17,9 +16,6 @@ test("tricky extract words from url - codeacademy. ", function() {
   var sUrl = "http://trc.taboola.com/venturebeat/log/3/click?pi=%2F2007%2F01%2F18%2Fused-textbook-site-chegg-hits-nerve&ri=c8c3c67ecd3b82766274bf8bbe45e635&sd=v1_bc00624db17ab069265579c0afa05a3b_a5913c64-5f01-4265-a054-411a84401ede_1356964190_1356964190&ui=a5913c64-5f01-4265-a054-411a84401ede&it=video&ii=3698492815768696719&pt=text&li=rbox-t2v&redir=%20http%3A%2F%2Fwww.businessweek.com%2Farticles%2F2012-12-04%2Fmba-q-and-a-the-new-czar-of-b-school-accreditation%23r%3Drss%0A%20%20%20%20%20%20%3Fcampaign_id%3Dbw.bs.taboola&p=businessweek-sc&r=68";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl.pathname),
-    ['venturebeat', 'log', 'click']);
-
-  deepEqual(Cotton.Algo.Tools.extractWordsFromUrl(sUrl),
     ['venturebeat', 'log', 'click']);
 });
 
@@ -95,29 +91,6 @@ test("tricky extract words from url - jeux video", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
     ['forums', 'apprendre', 'forgeage']);
 });
-
-test("extract words from history item - equipe.", function() {
-  var oHistoryItem = new Cotton.Model.HistoryItem({
-    'sTitle': "Sport : toute l'actualité sportive sur l'EQUIPE (Match en direct, Football, Rugby, Tennis, Nba, F1)",
-    'sUrl': "http://www.lequipe.fr/"
-  });
-  deepEqual(Cotton.Algo.Tools.extractWordsFromHistoryItem(oHistoryItem),
-    ['sport', 'toute', 'actualite', 'match', 'direct', 'football', 'rugby',
-    'tennis', 'nba']);
-});
-
-test("extract words from history item - equipe tennis.", function() {
-  var oHistoryItem = new Cotton.Model.HistoryItem({
-    'sTitle': "Tennis - WTA - Miami - Williams reine de Miami",
-    'sUrl': "http://www.lequipe.fr/Tennis/Actualites/Williams-reine-de-miami/360527"
-  });
-  deepEqual(Cotton.Algo.Tools.extractWordsFromHistoryItem(oHistoryItem),
-    ['tennis', 'wta', 'miami', 'williams', 'reine', 'miami']);
-});
-
-
-
-
 
 
 
