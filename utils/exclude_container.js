@@ -12,7 +12,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
   _lExludeUrls : null,
   _lToolsHostname : null,
   /**
-   * @constructor
+   * 
    */
   init : function() {
     var self = this;

@@ -12,7 +12,6 @@
 Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
 
   /**
-   * @contructor
    * @param {String} sDatabaseName
    * @param {Dictionnary} dTranslators :
    *  key storename value : corresponding translators.

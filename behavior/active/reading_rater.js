@@ -41,7 +41,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _oTimeoutSession : null,
 
   /**
-   * @constructor
+   * 
    * @param {Cotton.Behavior.BackgroundClient} oClient:
    *  client used to communicate with the database.
    */

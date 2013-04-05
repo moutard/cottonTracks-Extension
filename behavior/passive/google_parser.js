@@ -26,7 +26,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   _$rhsBox : undefined,
 
   /**
-   * @constructor
+   * 
    */
   init : function(oClient) {
     this._super(oClient);

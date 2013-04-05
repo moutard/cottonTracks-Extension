@@ -53,7 +53,7 @@ Cotton.Controllers.Lightyear = Class.extend({
   _lHistoryItems : null,
 
   /**
-   * @constructor
+   * 
    */
   init : function(oSender){
 
