@@ -111,27 +111,15 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
  * That limits the numbers of error because url parser is prone for error.
  * @param {Array.<Cotton.Model.HistoryItem>}
  */
-Cotton.DB.Populate.computeBagOfWordsForHistoryItem = function(lHistoryItems){
+Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList = function(lHistoryItems){
   for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
     var oHistoryItem = lHistoryItems[i];
     // It's a search page use keywords to set query words.
-    if(oHistoryItem.oUrl().keywords){
-      oHistoryItem.extractedDNA().setQueryWords(oHistoryItem.oUrl().keywords);
-    } else {
-      // Use title words.
-      var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
-      // If there is no title url, use the url pathname.
-      if(lExtractedWords.length === 0){
-        lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
-      }
-      oHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
-    }
+    Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
   }
   return lHistoryItems;
 };
 
-
-;
 
 /**
  * remove words that appear too often in title of the same hostname.
@@ -194,7 +182,7 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
 
     // After this we are dealing with cotton model history item.
     glCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(glCottonHistoryItems);
-    glCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItem(glCottonHistoryItems);
+    glCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(glCottonHistoryItems);
     glCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(glCottonHistoryItems);
 
     iLength = glCottonHistoryItems.length;

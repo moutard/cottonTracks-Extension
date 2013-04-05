@@ -72,3 +72,26 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
   return Cotton.Algo.Tools.StrongFilter(lMatches);
 
 };
+
+/**
+ * Compute bag of words for title. If it's a search page, then set queryWords
+ * and only if there is no title and no query words use the url.
+ * That limits the numbers of error because url parser is prone for error.
+ * @param {Array.<Cotton.Model.HistoryItem>}
+ */
+Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
+    // It's a search page use keywords to set query words.
+    if(oHistoryItem.oUrl().keywords){
+      oHistoryItem.extractedDNA().setQueryWords(oHistoryItem.oUrl().keywords);
+    } else {
+      // Use title words.
+      var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
+      // If there is no title url, use the url pathname.
+      if(lExtractedWords.length === 0){
+        lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
+      }
+      oHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
+    }
+    return oHistoryItem;
+};
+
