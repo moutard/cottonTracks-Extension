@@ -41,7 +41,9 @@ function UrlParser(sUrl) {
   // HASH
   // extract any hash - delimited by '#' -
   this.pathname = this.pathname.split('#');
-  this.hash = this.pathname.length > 1 ? this.pathname[1] : '';
+  if(parts[0]){
+    this.hash = parts[0].split('#')[1] || "";
+  }
 
   this.pathname = this.pathname[0];
 
@@ -106,8 +108,7 @@ UrlParser.prototype.generateKeywords = function() {
   if (this.dHash['q'] !== undefined) {
     this.keywords = this.keywords.concat(this.dHash['q']
         .split(oSplitKeywordsRegExp));
-  }
-  if (this.dSearch['q'] !== undefined) {
+  } else if (this.dSearch['q'] !== undefined) {
     this.keywords = this.keywords.concat(this.dSearch['q']
         .split(oSplitKeywordsRegExp));
   }
