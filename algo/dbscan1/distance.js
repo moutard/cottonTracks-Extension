@@ -129,14 +129,6 @@ Cotton.Algo.Distance.fromStory = function(oHistoryItem, oStoryItem){
 };
 
 /**
- * @param {Cotton.Model.HistoryItem} oHistoryItem
- * @param {Cotton.Model.HistoryItem} oStory
- */
-Cotton.Algo.Distance.historyItemToStory = function(oHistoryItem, oStory){
-  return Cotton.Algo.Metrics.Cosine(oHistoryItem.extractedDNA().bagOfWords().get(),
-      oStory.dna().bagOfWords().get());
-};
-/**
  * Metrics are distance that respect the 4 conditions of the metrics.
  */
 Cotton.Algo.Metrics = {};
