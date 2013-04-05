@@ -11,7 +11,7 @@ class PRODCompiler(Compiler):
     self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "prod")
     Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
 
-    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
+    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils', 'management']
 
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
