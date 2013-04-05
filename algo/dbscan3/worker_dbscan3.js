@@ -20,7 +20,8 @@ importScripts('../../config/config.js');
 importScripts('../../algo/init.js');
 importScripts('../../algo/common/init.js');
 importScripts('../../algo/dbscan1/init.js');
-importScripts('../../algo/dbscan1/distance.js');
+importScripts('../../algo/dbscan1/score/init.js');
+importScripts('../../algo/dbscan1/score/dbrecord_score.js');
 importScripts('../../algo/dbscan1/dbscan.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
 
@@ -47,7 +48,7 @@ function handleHistoryItems3(lHistoryItems, lVisitItems) {
 
     // Step 2.
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
-        Cotton.Algo.Distance.ScoreHistoryItem);
+        Cotton.Algo.Score.DBRecord.HistoryItem);
 
     var dData = {};
     dData['iNbCluster'] = iNbCluster;

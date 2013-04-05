@@ -54,7 +54,7 @@ function drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems) {
 
   });
 
-   var data = google.visualization.arrayToDataTable(llData);
+  var data = google.visualization.arrayToDataTable(llData);
 
   var options = {
     title: 'Rough session size',
@@ -92,7 +92,7 @@ function launchTests(){
           ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
         }
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
-          Cotton.Algo.Distance.ScoreHistoryItem);
+          Cotton.Algo.Score.DBRecord.HistoryItem);
         iStories += iNbSubCluster;
         var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
         drawStories(dStories['stories']);
