@@ -187,18 +187,16 @@ test("cosine non common dimension vector", function() {
 test("cosine small dimension with config parameters", function() {
   var dBagOfWords1 = {
     'alice':Cotton.Config.Parameters.scoreForExtractedWords,
-    'in':Cotton.Config.Parameters.scoreForExtractedWords,
     'wonderland':Cotton.Config.Parameters.scoreForExtractedWords
   };
   var dBagOfWords2 = {
     'alice':Cotton.Config.Parameters.scoreForExtractedWords,
-    'in':Cotton.Config.Parameters.scoreForExtractedWords,
     'wonderland':Cotton.Config.Parameters.scoreForExtractedWords,
     'movie' :Cotton.Config.Parameters.scoreForExtractedWords,
     'tim' :Cotton.Config.Parameters.scoreForExtractedWords,
     'burton' :Cotton.Config.Parameters.scoreForExtractedWords,
   };
 
-  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 18);
+  equal(Cotton.Algo.Metrics.Cosine(dBagOfWords1, dBagOfWords2), 27);
 });
 
