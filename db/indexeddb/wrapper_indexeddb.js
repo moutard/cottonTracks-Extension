@@ -345,8 +345,9 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
     this._oEngine.put(sObjectStoreName, dDbRecord, function(iId) {
+
       if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
+        mOnSaveCallback.call(self, iId, oObject);
       }
     });
   },
