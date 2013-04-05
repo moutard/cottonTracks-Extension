@@ -16,6 +16,7 @@ Cotton.Config.Parameters = {
   dbscan2 : {
     fEps : 17,
     iMinPts : 6,
+    iMaxScore : 17
   },
 
   // DBSCAN3
