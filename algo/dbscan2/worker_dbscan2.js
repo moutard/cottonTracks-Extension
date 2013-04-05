@@ -20,6 +20,7 @@ importScripts('../../config/config.js');
 importScripts('../../algo/init.js');
 importScripts('../../algo/dbscan1/score/init.js');
 importScripts('../../algo/dbscan1/score/dbrecord_score.js');
+importScripts('../../algo/dbscan1/dbscan.js');
 
 /**
  * Loop through all the HistoryItems and compute their distances to each other.
