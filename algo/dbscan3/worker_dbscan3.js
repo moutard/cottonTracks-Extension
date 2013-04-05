@@ -8,7 +8,6 @@
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.lib.
 importScripts('../../lib/class.js');
-importScripts('../../lib/underscore.min.js');
 
 importScripts('../../init.js');
 
@@ -18,8 +17,6 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/common/init.js');
-importScripts('../../algo/dbscan1/init.js');
 importScripts('../../algo/dbscan1/score/init.js');
 importScripts('../../algo/dbscan1/score/dbrecord_score.js');
 importScripts('../../algo/dbscan1/dbscan.js');
