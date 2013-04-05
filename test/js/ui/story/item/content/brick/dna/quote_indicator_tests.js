@@ -25,6 +25,6 @@ test("display if more than 1 quote.", function(){
 });
 
 test("display if more than 2 quote.", function(){
-  var oQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(1);
+  var oQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(2);
   equal(oQuoteIndicator._$quote_indicator_number.text(), '2 Quotes');
 });
