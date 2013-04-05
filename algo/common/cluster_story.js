@@ -97,6 +97,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
         	//Vimeo video
+        	var sLastStringFromPathname = oUrl.pathname.split('/')[
+        	  oUrl.pathname.split('/').length - 1];
           var thumbnail_src;
           $.ajax({
               url: 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json',
