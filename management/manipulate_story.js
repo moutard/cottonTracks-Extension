@@ -19,6 +19,22 @@ var Manager = Class.extend({
     });
   },
 
+    createStoryWithId : function(iId, sTitle, sFeaturedImage){
+    var self = this;
+    var oStory = new Cotton.Model.Story();
+    oStory.setId(iId);
+    oStory.setTitle(sTitle);
+    oStory.setFeaturedImage(sFeaturedImage);
+    oStory.setLastVisitTime(new Date().getTime());
+    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
+      'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    }, function() {
+      self._oDatabase.put('stories', oStory, function(iId){
+        console.log(iId);
+      });
+    });
+  },
+
   createStoryFromList : function(sTitle, sFeaturedImage,
     lHistoryItems){
     var self = this;
