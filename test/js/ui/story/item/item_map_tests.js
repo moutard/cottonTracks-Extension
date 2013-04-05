@@ -13,6 +13,6 @@ test('init.', function() {
   });
 
   var oUrl = new UrlParser("https://maps.google.fr/maps?q=Escuela+Militar,+Las+Condes,+Chile&ie=UTF-8&hq=&hnear=0x9662cf187c27c041:0x7c34b04d3eb6805f,Escuela+Militar&gl=fr&ei=RsFIUc3MOOu00AGJ0YDQBA&ved=0CI0BELYD");
-  var oItem = new Cotton.UI.Story.Item.Map(oHistoryItem, oUrl);
+  var oItem = new Cotton.UI.Story.Item.Map(oUrl.href, oHistoryItem);
   ok(oItem);
 });
