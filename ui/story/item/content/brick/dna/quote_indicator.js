@@ -41,8 +41,10 @@ Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator = Class.extend({
     // sub elements.
     this._$quote_indicator_icon = $('<img class="ct-quote_indicator_icon" src="media/images/story/item/default_item/quote.png"/>');
 
+    var sQuoteMessage = "Quotes";
+    if(this._iQuoteNumber < 2) {sQuoteMessage = "Quote";}
     this._$quote_indicator_number = $('<h4 class="ct-quote_indicator_number">'
-        + this._iQuoteNumber +' Quotes</h4>');
+        + this._iQuoteNumber +' '+ sQuoteMessage +'</h4>');
 
     // construct item
     this._$quote_indicator.append(
