@@ -129,53 +129,6 @@ Cotton.Algo.Distance.fromStory = function(oHistoryItem, oStoryItem){
 };
 
 /**
- * Compute distance that use every criteria.
- */
-Cotton.Algo.distanceComplexe = function(oHistoryItem1, oHistoryItem2) {
-  // TODO(rmoutard) : Write a better distance, maybe to keep it between [0,1]
-  // for instance you need to balance common words
-
-  // TODO: (rmoutard) write a class for coefficients
-  var coeff = Cotton.Config.Parameters.distanceCoeff;
-
-  // id
-  // id close => items close
-  // ordre de grandeur = close if 0(1) , far if 0(20).
-  var sum = coeff.id
-      * Math.abs(parseInt(oHistoryItem1['id']) - parseInt(oHistoryItem2['id']))
-      / 200;
-
-  // lastTimeVisit
-  // lastTimeVisit close => items close
-  // ordre de grandeur = O(100 000)
-  // close if 0(100 000) far if 0(600 000)
-  sum += coeff.lastVisitTime
-      * Math.abs(oHistoryItem1['iLastVisitTime'] - oHistoryItem2['iLastVisitTime'])
-      / 1000000;
-
-  // Common words
-  // number of common words is high => items close
-  // ordre de grandeur = O(5)
-  // close if 0(1) far if 0.
-  var iCommonWords = Cotton.Algo.Tools.commonExtractedWords(oHistoryItem1, oHistoryItem2);
-  if (iCommonWords === 0) {
-    // Try to detect parallel stories.
-    sum += coeff.penalty;
-  } else if (iCommonWords === -1) {
-    sum += coeff.penalty;
-  } else {
-    sum -= (coeff.commonWords * (1 + iCommonWords)) / 10;
-  }
-
-  // Query keywords
-  var iCommonQueryKeywords = Cotton.Algo.Tools.commonQueryWords(oHistoryItem1,
-      oHistoryItem2);
-  sum += (coeff.queryKeywords / ((1 + iCommonQueryKeywords) * (1 + iCommonQueryKeywords)));
-
-  return sum;
-};
-
-/**
  * @param {Cotton.Model.HistoryItem} oHistoryItem
  * @param {Cotton.Model.HistoryItem} oStory
  */
