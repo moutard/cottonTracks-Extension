@@ -16,26 +16,28 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
 
   var iLength = lStories.length - 1;
   var iCount = 0;
+  var _lStories = [];
   for ( var i = 0, iStoriesLength = lStories.length; i < iStoriesLength; i++) {
 
     var oStory = lStories[lStories.length - 1 - i];
-    oStore.put('stories', oStory, function(iId) {
+    oStore.put('stories', oStory, function(iId, _oStory) {
       var _iId = iId;
-      // TODO(rmoutard) : not really sustainanble.
-      lStories[iCount].setId(iId);
+      _lStories.push(_oStory);
+      _oStory.setId(iId);
 
-      for (var j = 0, lIds = lStories[iCount].historyItemsId(), iIdsLength = lIds.length;
+      Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory(oStore, _oStory);
+      for (var j = 0, lIds = _oStory.historyItemsId(), iIdsLength = lIds.length;
         j < iIdsLength; j++) {
 
-	  var iHistoryItemId = lIds[j];
+	        var iHistoryItemId = lIds[j];
           oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
             oHistoryItem.setStoryId(_iId);
             oStore.put('historyItems', oHistoryItem, function(){});
           });
       }
       if (iCount === iLength) {
-        Cotton.DB.SearchKeywords.updateStoriesSearchKeywords(oStore, lStories);
-        mCallBackFunction(oStore, lStories);
+        //Cotton.DB.SearchKeywords.updateStoriesSearchKeywords(oStore, lStories);
+        mCallBackFunction(oStore, _lStories);
       }
       iCount += 1;
     });
@@ -127,6 +129,21 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
  * SearchKeywords
  */
 Cotton.DB.SearchKeywords = {};
+
+Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory= function(oStore, oStory){
+  var lKeywordsAndId = [];
+  for (var j = 0, lKeywords = oStory.searchKeywords(),
+    iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
+      var sKeyword = lKeywords[j];
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringStoryId(oStory.id());
+      oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
+        // Becarefull with asynchronous.
+        console.log('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
+      });
+  }
+};
+
 Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories){
     var lKeywordsAndId = [];
     for (var i = 0, iLength = lStories.length; i < iLength; i++) {
