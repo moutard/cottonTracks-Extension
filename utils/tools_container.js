@@ -8,7 +8,7 @@ Cotton.Utils.ToolsContainer = Class.extend({
   _lTools : undefined,
 
   /**
-   * @constructor
+   * 
    */
   init : function() {
     var lCommonToolsHostname = Cotton.Config.Parameters.lTools;

@@ -25,7 +25,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   _sImageUrl : null,
 
   /**
-   * @constructor
+   * 
    */
   init : function() {
     this._iId = "";

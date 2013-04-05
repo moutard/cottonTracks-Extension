@@ -21,7 +21,7 @@ Cotton.Model.Story = Class.extend({
   _oDNA : null,
 
   /**
-   * @constructor
+   * 
    */
   init : function() {
     this._fLastVisitTime = 0;

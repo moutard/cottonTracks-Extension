@@ -18,7 +18,6 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
   _iExpiracy : null, // TODO(rmoutard) : never epires
 
   /**
-   * @contructor
    * @param {String} sDatabaseName
    * @param {Dictionnary} dTranslators :
    *  key storename value : corresponding translators.

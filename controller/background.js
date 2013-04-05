@@ -55,7 +55,7 @@ Cotton.Controllers.Background = Class.extend({
   _iTriggerStory : null,
 
   /**
-   * @constructor
+   * 
    */
   init : function(){
     var self = this;
