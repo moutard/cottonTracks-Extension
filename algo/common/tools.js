@@ -69,59 +69,11 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
  */
 Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
   var oRegexp = /\_|\-|\/|\%20|\;|\./
-  //var oRegexp = new RegExp("\_|\-|\/|\%20|\;|\.");
   var lMatches = sUrlPathname.split(oRegexp) || [];
 
   return Cotton.Algo.Tools.StrongFilter(lMatches);
 
 };
-
-/**
- * Extract words in an url pathname (ie only the end of the url there is
- * often the title of the article in it).
- *
- * @param {string}
- *          sUrl
- * @returns {Array.<string>}
- */
-Cotton.Algo.Tools.extractWordsFromUrl = function(sUrl) {
-  var oUrl = new UrlParser(sUrl);
-  oUrl.fineDecomposition();
-  var oRegexp = /[\_|\-|\/|\%20]/g
-  var lMatches = oUrl.pathname.split(oRegexp) || [];
-
-  var lWords = Cotton.Algo.Tools.StrongFilter(lMatches);
-
-  return lWords;
-
-};
-
-/**
- * Extract words in an historyItem
- * Compute words for title, remove repeated words and if there is no words
- * at the end use the url.
- *
- * @param {Cotton.Model.HistoryItem} oHistoryItem
- */
-Cotton.Algo.Tools.extractWordsFromHistoryItem = function(oHistoryItem) {
-  var lWordsFromTitle = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
-  var lWords = [];
-
-  // If there is the name of the service in the title remove it.
-  // example : wikipedia for www.wikipedia.fr
-  var sService = oHistoryItem.oUrl().service;
-  for(var i=0, iLength=lWordsFromTitle.length; i < iLength; i++ ) {
-    if(lWordsFromTitle[i]!==sService) {
-      lWords.push(lWordsFromTitle[i]);
-    }
-  }
-  if(lWords.length === 0){
-    lWords = Cotton.Algo.Tools.extractWordsFromUrl(oHistoryItem.url());
-  }
-  return lWords;
-
-};
-
 
 /**
  * Get the number of common extracted words in the title of two historyItems.
