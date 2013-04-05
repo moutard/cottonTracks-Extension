@@ -53,7 +53,7 @@ Cotton.Controllers.Lightyear = Class.extend({
   _lHistoryItems : null,
 
   /**
-   * 
+   *
    */
   init : function(oSender){
 
@@ -121,6 +121,14 @@ Cotton.Controllers.Lightyear = Class.extend({
       if (self._bStoryReady) {
         self._oWorld.updateMenu(self._oStory);
         self._oWorld.updateStory(self._oStory);
+      }
+    });
+
+
+    // Message listening from background page for getContent
+    chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
+      if (request['action'] === 'refresh_item'){
+        self._oDispacher.publish('refresh_item', {'id': request['params']['itemId']});
       }
     });
 

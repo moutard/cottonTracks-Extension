@@ -16,13 +16,6 @@ Cotton.Messaging.Dispatcher = Class.extend({
   init : function() {
     var self = this;
     this._dMessages = {};
-
-    // Message listening from background page for getContent
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
-      if (request['action'] === 'refresh_item'){
-        self.publish('refresh_item', {'id': request['params']['itemId']});
-      }
-    });
   },
 
   /**
