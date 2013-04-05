@@ -76,7 +76,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         chrome.extension.sendMessage({
           'action': "get_content_tab",
           'params': {
-            'tab_id': tab.id
+            'tab_id': tab['id']
           }
         });
       });
@@ -128,7 +128,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     // Message listening from background page for getContent
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
       if (request['action'] === 'refresh_item'){
-        self._oDispacher.publish('refresh_item', {'id': request['params']['itemId']});
+        self._oDispatcher.publish('refresh_item', {'id': request['params']['itemId']});
       }
     });
 
