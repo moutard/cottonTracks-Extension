@@ -18,7 +18,6 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/dbscan1/distance.js');
 importScripts('../../algo/dbscan1/score/init.js');
 importScripts('../../algo/dbscan1/score/dbrecord_score.js');
 
