@@ -122,7 +122,7 @@ Cotton.DB.Populate.computeBagOfWordsForHistoryItem = function(lHistoryItems){
       var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
       // If there is no title url, use the url pathname.
       if(lExtractedWords.length === 0){
-        lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrl(oHistoryItem.oUrl().pathname);
+        lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
       }
       oHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
     }
