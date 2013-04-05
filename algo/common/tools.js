@@ -25,11 +25,16 @@ Cotton.Algo.Tools.StrongFilter = function(lWords){
   // Authorize only letters in words. (no special characters and numbers.)
   // and words need length > 2.
   var allow_onlyletters = new RegExp("^[a-zA-Z]{3,}$");
-  lWords = _.filter(lWords, function(sWord) {
-    return allow_onlyletters.test(sWord)
-      && (!Cotton.Algo.Common.Words.isInBlackList(sWord));
-  });
-  return lWords;
+  var lWordsFiltered = [];
+  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+    var sWord = lWords[i];
+    if(allow_onlyletters.test(sWord)
+      && (! Cotton.Algo.Common.Words.isInBlackList(sWord))){
+      lWordsFiltered.push(sWord);
+      }
+  }
+
+  return lWordsFiltered;
 
 };
 
@@ -47,7 +52,7 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   // Include all normal characters, dash, accented characters.
   // TODO(fwouts): Consider other characters such as digits?
   //var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var oRegexp = /\ |\-|\_|\"|\'|\«|\»|\.|\,|\;|\?|\!|\(|\)|\\|\//;
+  var oRegexp = /\ |\-|\_|\"|\'|\xAB|\xBB|\.|\,|\;|\?|\!|\(|\)|\\|\//;
   var lMatches = sTitle.split(oRegexp) || [];
 
   return Cotton.Algo.Tools.StrongFilter(lMatches);
