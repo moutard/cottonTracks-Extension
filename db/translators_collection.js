@@ -13,7 +13,7 @@
 Cotton.DB.TranslatorsCollection = Class.extend({
 
   /**
-   * @constructor
+   * 
    * @param {Object} dTranslators:
    *  - key: name of the store (table) for this type of object.
    *  - value: list containing all the translators for this type of object.

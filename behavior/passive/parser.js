@@ -28,7 +28,7 @@ Cotton.Behavior.Passive.Parser = Class
       _oClient : null,
 
       /**
-       * @constructor
+       * 
        */
       init : function(oClient) {
         this._MeaningFulBlocks = [];

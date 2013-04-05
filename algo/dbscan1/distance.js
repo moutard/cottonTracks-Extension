@@ -227,7 +227,7 @@ Cotton.Algo.Metrics.Cosine = function(dBagOfWords1, dBagOfWords2){
   return fCosine;
 };
 
-/*
+/**
  * Score more the score is important more the bag of words are close.
  * @param {Dictionnary} dBagOfWords1 :
  * @param {Dictionnary} dBagOfWords2 :

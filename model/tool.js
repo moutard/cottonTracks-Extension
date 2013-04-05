@@ -15,7 +15,7 @@ Cotton.Model.Tool = Class.extend({
   _fFrequency : undefined,
 
   /**
-  * @constructor
+  * 
   */
   init : function(sHostname, fFrequency) {
 

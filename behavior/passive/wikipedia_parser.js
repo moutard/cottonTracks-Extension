@@ -34,7 +34,7 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       _lAllParagraphs : null,
 
       /**
-       * @constructor
+       * 
        */
       init : function(oClient) {
         this._super(oClient);

@@ -28,7 +28,7 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _lCopyPaste : null,
 
   /**
-   * @constructor
+   * 
    */
   init : function(dDBRecord) {
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
