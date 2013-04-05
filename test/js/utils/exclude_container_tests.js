@@ -26,11 +26,14 @@ test("is excluded pattern.", function() {
   var sSearchGeneratedPage =
     'https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
   var sNotSearchGeneratedPage = 'http://www.blogposts.com/ref?referrer=https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
+  var sLocalHost = "http://localhost:8888";
 
   deepEqual(oExcludeContainer.isExcluded(sSearchGeneratedPage), true,
     'searchGeneratedPage is introduced between google and actual search result clicked');
   deepEqual(oExcludeContainer.isExcluded(sNotSearchGeneratedPage), false,
     'a real page indicating that it comes from a searchGeneratedPage');
+  deepEqual(oExcludeContainer.isExcluded(sLocalHost), true,
+    'localhost');
 });
 
 test("is https.", function() {
@@ -47,4 +50,27 @@ test("is https.", function() {
   deepEqual(oExcludeContainer.isHttps(oSecurePage2), true, 'it is an https');
   deepEqual(oExcludeContainer.isHttps(oUnsecurePage), false, 'it is not an https');
   deepEqual(oExcludeContainer.isHttps(oLocalHost), false,'it is a localhost');
+});
+
+test("is excluded.", function() {
+  var sTool1 = 'http://mail.google.com';
+  var sTool2 = 'https://accounts.google.com';
+  var sNotTool = 'http://www.lemonde.fr/ref?referrer=https://mail.google.com/mail/u/0/#inbox/13d8886c2c498338';
+  var sSecurePage1 = 'https://www.vimeo.com';
+  var sSecurePage2 = 'https://twitter.com';
+  var sUnsecurePage = 'http://www.cottontracks.com';
+  var sLocalHost = 'http://localhost:8888';
+  var sSearchGeneratedPage =
+     'https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
+  var sNotSearchGeneratedPage = 'http://www.blogposts.com/ref?referrer=https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
+
+  deepEqual(oExcludeContainer.isExcluded(sSecurePage1), true, 'excluded (https)');
+  deepEqual(oExcludeContainer.isExcluded(sSecurePage2), true, 'excluded (https)');
+  deepEqual(oExcludeContainer.isExcluded(sUnsecurePage), false, 'valid url');
+  deepEqual(oExcludeContainer.isExcluded(sLocalHost), true,'localhost');
+  deepEqual(oExcludeContainer.isExcluded(sTool1), true, 'tool');
+  deepEqual(oExcludeContainer.isExcluded(sTool2), true, 'tool');
+  deepEqual(oExcludeContainer.isExcluded(sNotTool), false, 'valid url');
+  deepEqual(oExcludeContainer.isExcluded(sSearchGeneratedPage), true,'search generated page');
+  deepEqual(oExcludeContainer.isExcluded(sNotSearchGeneratedPage), false,'valid url');
 });
