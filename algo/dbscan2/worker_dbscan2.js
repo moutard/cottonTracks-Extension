@@ -19,7 +19,8 @@ importScripts('../../config/config.js');
 // Cotton.algo.
 importScripts('../../algo/init.js');
 importScripts('../../algo/dbscan1/distance.js');
-importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan1/score/init.js');
+importScripts('../../algo/dbscan1/score/dbrecord_score.js');
 
 /**
  * Loop through all the HistoryItems and compute their distances to each other.
@@ -35,7 +36,7 @@ function handleHistoryItem(lHistoryItems) {
   var iMinPts = Cotton.Config.Parameters.dbscan2.iMinPts;
 
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
-      Cotton.Algo.Distance.ScoreHistoryItem);
+      Cotton.Algo.Score.DBRecord.HistoryItem);
 
   var dData = {};
   dData['iNbCluster'] = iNbCluster;

@@ -81,7 +81,7 @@ Cotton.Controllers.Messaging = Class.extend({
                 var oMinStory = undefined;
                 for (var i = 0, iLength = lStories.length; i < iLength; i++) {
                   var oStory = lStories[i];
-                  var iCurrentScore = Cotton.Algo.Metrics.historyItemToStory(
+                  var iCurrentScore = Cotton.Algo.Score.Object.historyItemToStory(
                     oHistoryItem, oStory);
                   if(iCurrentScore > iMaxScore){
                     oMinStory = oStory;
