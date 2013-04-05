@@ -52,7 +52,6 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, oDispatcher, oStory) {
   } else if (oUrl.hostname.match(/^(maps\.google\.)/)
       && oUrl.pathname == "/maps") {
     //oItem.setItemType("map");
-    return new Cotton.UI.Story.Item.Map(oHistoryItem, oDispacher, oStory);
     var sMapUrl = oUrl.href;
     return new Cotton.UI.Story.Item.Map(sMapUrl, oHistoryItem, oDispatcher, oStory);
   } else if (oUrl.dSearch['q']) {

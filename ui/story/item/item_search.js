@@ -15,10 +15,8 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
   _oItemDate : null,
   _oItemLabel : null,
 
-  init : function(oHistoryItem, oDispacher, oItem) {
-    this._super(oHistoryItem, oDispacher, oItem);
-
-    // current element.
+  init : function(oHistoryItem, oDispatcher, oItem) {
+    this._super(oHistoryItem, oDispatcher, oItem);
     this.setType("search");
 
     // sub elements.
