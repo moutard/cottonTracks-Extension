@@ -6,7 +6,7 @@ module('Cotton.UI.SideMenu.Filters', {
 var MockDispacher = Class.extend({
   init : function() {},
   publish : function() {},
-  suscribe : function() {}
+  subscribe : function() {}
 });
 test('init.', function() {
   var oDispacher = new MockDispacher();
