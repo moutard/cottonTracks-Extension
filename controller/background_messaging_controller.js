@@ -77,15 +77,15 @@ Cotton.Controllers.Messaging = Class.extend({
               lStoriesId, function(lStories){
                 // Cosine is a distance -> cosine smaller -> story closer.
                 // FIXME(rmoutard) : find a real value for this !
-                var iMinCosine = 10;
+                var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
                 var oMinStory = undefined;
                 for (var i = 0, iLength = lStories.length; i < iLength; i++) {
                   var oStory = lStories[i];
-                  var iCurrentDistance = Cotton.Algo.Distance.historyItemToStory(
+                  var iCurrentScore = Cotton.Algo.Metrics.historyItemToStory(
                     oHistoryItem, oStory);
-                  if(iCurrentDistance < iMinCosine){
+                  if(iCurrentScore > iMaxScore){
                     oMinStory = oStory;
-                    iMinCosine = iCurrentDistance;
+                    iMaxScore = iCurrentScore;
                   }
                 }
 
