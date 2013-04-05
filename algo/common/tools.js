@@ -24,7 +24,7 @@ Cotton.Algo.Tools.StrongFilter = function(lWords){
 
   // Authorize only letters in words. (no special characters and numbers.)
   // and words need length > 2.
-  var allow_onlyletters = new RegExp("^[a-zA-Z]{3,}$");
+  var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
   var lWordsFiltered = [];
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     var sWord = lWords[i];
