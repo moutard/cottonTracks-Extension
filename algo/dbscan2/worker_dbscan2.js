@@ -9,6 +9,7 @@
 // Cotton.lib.
 importScripts('../../lib/class.js');
 importScripts('../../lib/underscore.min.js');
+importScripts('../../utils/url_parser.js');
 
 importScripts('../../init.js');
 
@@ -21,6 +22,7 @@ importScripts('../../algo/init.js');
 importScripts('../../algo/dbscan1/score/init.js');
 importScripts('../../algo/dbscan1/score/dbrecord_score.js');
 importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan2/find_closest_google_search_page.js');
 
 /**
  * Loop through all the HistoryItems and compute their distances to each other.
@@ -35,6 +37,7 @@ function handleHistoryItem(lHistoryItems) {
   // Min Points in a cluster
   var iMinPts = Cotton.Config.Parameters.dbscan2.iMinPts;
 
+  lHistoryItems = Cotton.Algo.findClosestGoogleSearchPage(lHistoryItems);
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
       Cotton.Algo.Score.DBRecord.HistoryItem);
 
