@@ -35,8 +35,7 @@ function UrlParser(sUrl) {
 
   // splice and join the remainder to get the pathname
   parts.splice(0, 2);
-  // remove if there is a .html
-  this.pathname = '/' + parts.join('/').split('.')[0];
+  this.pathname = '/' + parts.join('/');
 
   // HASH
   // extract any hash - delimited by '#' -
