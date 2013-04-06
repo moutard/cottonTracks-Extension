@@ -28,7 +28,7 @@ Cotton.Behavior.Passive.Parser = Class
       _oClient : null,
 
       /**
-       * 
+       *
        */
       init : function(oClient) {
         this._MeaningFulBlocks = [];
@@ -365,7 +365,7 @@ Cotton.Behavior.Passive.Parser = Class
        * @returns url of the image
        */
       _findSearchImageResult : function() {
-        var sUrl = $("#imagebox_bigimages a.uh_rl:first").attr("href");
+        var sUrl = $("#imagebox_bigimages a.uh_rl").attr("href");
         if (sUrl) {
           if (sUrl[0] === "/") {
             sUrl = "http://google.fr" + sUrl;
