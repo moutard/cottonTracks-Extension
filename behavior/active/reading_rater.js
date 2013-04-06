@@ -157,6 +157,20 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       mRefreshReadingRate();
     }, 10);
 
+    /**
+     * If the active element is an iframe, then return the iframe
+     */
+    var iframeDetector = function() {
+      var oActiveElement = document.activeElement;
+      return oActiveElement.nodeName === 'IFRAME' && oActiveElement;
+    };
+
+    var saveClickedIframes = function() {
+      var iframe = iframeDetector();
+      iframe && self._saveVideoIframe(iframe);
+    };
+
+    window.addEventListener('blur', saveClickedIframes);
   },
 
   restart : function() {
@@ -367,7 +381,63 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var lIntersectingAncestors = _.intersect(_.toArray($meaningfulAncestors1),
         _.toArray($meaningfulAncestors2));
     return $(lIntersectingAncestors);
-  }
+  },
+
+  /**
+   * Save video iframes.
+   */
+  _saveVideoIframe : function(oIframe) {
+    var self = this;
+    var oIframes = document.getElementsByTagName('iframe');
+    var sTitle = oIframe.title || 'Embedded video';
+    var oHistoryItem = self._oClient.current();
+    var oItem = new Cotton.Model.HistoryItem();
+    var sVideoUrl = self._getVideoUrlFromEmbeddingUrl(oIframe.src);
+    if (sVideoUrl) {
+      oItem.initUrl(sVideoUrl);
+      oItem.setTitle([sTitle, oHistoryItem.title()].join(' - '));
+      oItem.setLastVisitTime(Date.now());
+      oItem.extractedDNA().setExtractedWords(oHistoryItem.extractedDNA()
+        .extractedWords());
+      self._oClient.createHistoryItem(oItem);
+    }
+  },
+
+  /**
+   * Get Id of embedded video from common providers
+   *
+   */
+  _getVideoUrlFromEmbeddingUrl : function(sEmbeddingUrl) {
+    var oUrlParser = new UrlParser(sEmbeddingUrl);
+    var sVideoUrl;
+    var rRegex;
+    var match;
+    var sProvider = oUrlParser.service;
+    switch (sProvider){
+      case 'youtube':
+        rRegex = /(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=))([\w\-]{10,12})\b/;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://www.youtube.com/watch?v=';
+        }
+        break;
+      case 'vimeo':
+        rRegex = /player\.vimeo\.com\/video\/([0-9]*)/;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://vimeo.com/';
+        }
+        break;
+      case 'dailymotion':
+        rRegex = /dailymotion\.com\/.*video\/([a-z0-9]+)/i;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://www.dailymotion.com/video/';
+        }
+        break;
+    }
+    return sVideoUrl ? sVideoUrl + match[1] : null;
+  },
 });
 
 var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
