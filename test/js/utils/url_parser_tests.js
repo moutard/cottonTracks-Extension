@@ -73,3 +73,21 @@ test("hash query words.", function() {
             'in',
             'wonderland']);
 });
+
+test("imgres.", function() {
+  var urlComplexe = "http://www.google.fr/imgres?imgurl=http://www.onlinesupermario.com/images/realmario.JPG&imgrefurl=http://www.onlinesupermario.com/&h=1024&w=1024&sz=101&tbnid=ikAWyn3UwDAgbM:&tbnh=90&tbnw=90&zoom=1&usg=__tVg2-irLdbHutqPuLoSuLOjRkYs=&docid=MLN8e-FAkD48tM&sa=X&ei=36hgUahkp4bbBc7YgfgD&ved=0CEwQ9QEwAg";
+  var b = new UrlParser(urlComplexe);
+
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.search,
+            "imgurl=http://www.onlinesupermario.com/images/realmario.JPG&imgrefurl=http://www.onlinesupermario.com/&h=1024&w=1024&sz=101&tbnid=ikAWyn3UwDAgbM:&tbnh=90&tbnw=90&zoom=1&usg=__tVg2-irLdbHutqPuLoSuLOjRkYs=&docid=MLN8e-FAkD48tM&sa=X&ei=36hgUahkp4bbBc7YgfgD&ved=0CEwQ9QEwAg");
+});
+
+test("imgres.", function() {
+  var urlComplexe = "http://www.google.fr/imgres?imgurl=http://www.onlinesupermario.com/images/realmario.JPG&imgrefurl=http://www.onlinesupermario.com/&h=1024&w=1024&sz=101&tbnid=ikAWyn3UwDAgbM:&tbnh=90&tbnw=90&zoom=1&usg=__tVg2-irLdbHutqPuLoSuLOjRkYs=&docid=MLN8e-FAkD48tM&sa=X&ei=36hgUahkp4bbBc7YgfgD&ved=0CEwQ9QEwAg";
+  var b = new UrlParser(urlComplexe);
+  b.fineDecomposition();
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.dSearch['imgurl'],
+            "http://www.onlinesupermario.com/images/realmario.JPG");
+});
