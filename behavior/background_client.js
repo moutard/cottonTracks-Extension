@@ -50,33 +50,40 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
    * Use chrome messaging API, to send a message to the background page, that
-   * will put the current historyItem is the database.
+   * will put the passed historyItem into the database.
    */
-  createVisit : function() {
+  createHistoryItem : function(oItem, mCallback) {
     var self = this;
 
-    // We don't want chrome make the serialization. So we use translators to
-    // make it.
     var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
+    var dDbRecord = oTranslator.objectToDbRecord(oItem);
 
-    chrome.extension.sendMessage({
+   chrome.extension.sendMessage({
       'action' : 'create_history_item',
       'params' : {
         'historyItem' : dDbRecord
       }
     }, function(response) {
-      //The historyItem url was not in base, init this one with the new id created
-      DEBUG && console.debug('DBSync create visit - response :')
-      DEBUG && console.debug(response);
-      self._oCurrentHistoryItem.setStoryId(response['storyId']);
+      oItem.initId(response['id']);
+      oItem.setStoryId(response['storyId']);
+      DEBUG && console.debug('DBSync create history item', {
+        'item': oItem, 'response': response
+      });
+      typeof mCallback === 'function' && mCallback(response);
+    });
+  },
+
+  /**
+   * Create a visit item
+   */
+  createVisit : function() {
+    var self = this;
+    self.createHistoryItem(self.current(), function(response) {
       self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
       self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
-      self._oCurrentHistoryItem.initId(response['id']);
       self._iId = response['id'];
     });
-
   },
 
   /**
