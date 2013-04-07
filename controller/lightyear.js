@@ -100,9 +100,7 @@ Cotton.Controllers.Lightyear = Class.extend({
           if (self._bWorldReady) {
             self._oWorld.updateMenu(oStory);
           }
-          // Load only load 15 elements at each time.
-          var lHistoryItems = oStory.historyItemsId().slice(0,15);
-          self._oDatabase.findGroup('historyItems', 'id', lHistoryItems,
+          self._oDatabase.findGroup('historyItems', 'id',  oStory.historyItemsId(),
           function(lHistoryItems) {
             self._oStory.setHistoryItems(lHistoryItems);
             if (self._bWorldReady) {
