@@ -33,8 +33,8 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
       this._oDispatcher, this, 'small');
 
     // Title
-    if (oHistoryItem.title() !== "") {
-      var sTitle = oHistoryItem.title().split(" - ")[0];
+    if (oHistoryItem.oUrl().keywords.length > 0) {
+      var sTitle = oHistoryItem.oUrl().keywords.join(' ');
       this._$title.text(sTitle);
       this._$searchInput.val(sTitle);
     } else {

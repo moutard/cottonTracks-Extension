@@ -91,3 +91,11 @@ test("imgres.", function() {
   deepEqual(b.dSearch['imgurl'],
             "http://www.onlinesupermario.com/images/realmario.JPG");
 });
+
+test("dribble search.", function() {
+  var urlComplexe = "http://dribbble.com/search?q=karri+bonjour";
+  var b = new UrlParser(urlComplexe);
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.keywords,
+            ["karri", "bonjour"]);
+});
