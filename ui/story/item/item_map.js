@@ -24,7 +24,7 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.LargeLabel(
       oHistoryItem.title(), oHistoryItem.url());
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(
-      sMapUrl, oDispatcher, oItem, 'large');
+      sMapUrl, oDispatcher, this, 'large');
 
     var sEmbedUrl = oHistoryItem.url() + "&output=embed&iwloc=near";
     this._$map.attr('src', sEmbedUrl);
