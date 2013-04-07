@@ -366,8 +366,8 @@ Cotton.Behavior.Passive.Parser = Class
        */
       _findSearchImageResult : function() {
         var sUrl = $("#imagebox_bigimages a.uh_rl").attr("href");
-        var oUrl;
-        if (sUrl && oUrl = new UrlParser(sUrl) && oUrl.isGoogle) {
+        var oUrl = new UrlParser(sUrl);
+        if (sUrl && oUrl.isGoogle) {
           oUrl.fineDecomposition();
           return oUrl.dSearch['imgurl'];
         }
