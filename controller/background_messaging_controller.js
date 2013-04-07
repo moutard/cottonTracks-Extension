@@ -68,8 +68,8 @@ Cotton.Controllers.Messaging = Class.extend({
             if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
               // There is a story for this item, so enable the browserAction
               // and attach a storyId to the tab
-              chrome.browserAction.enable(sender.tab.id);
               self._oMainController.setTabStory(sender.tab.id, _oHistoryItem.storyId());
+              chrome.browserAction.enable(sender.tab.id);
 
             } else {
               // See if the history items can fit in a story.
@@ -118,8 +118,8 @@ Cotton.Controllers.Messaging = Class.extend({
                         });
                         // There is a story for this item, so enable the browserAction
                         // and attach a storyId to the tab
-                        chrome.browserAction.enable(sender.tab.id);
                         self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
+                        chrome.browserAction.enable(sender.tab.id);
 
                       } else {
                         self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',

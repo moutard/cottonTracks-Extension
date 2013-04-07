@@ -105,10 +105,22 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        self._iTriggerStory = self._dTabStory[lTabs[0].id];
-        chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-	      // TODO(rkorach) : delete ct page from history
-	      });
+        if(_.isEmpty(self._dTabStory)){
+          self._oDatabase.find('historyItems',
+          'sUrl', lTabs[0]['url'], function(_oHistoryItem){
+            if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+              self._iTriggerStory = _oHistoryItem.storyId();
+              chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
+	              // TODO(rkorach) : delete ct page from history
+	            });
+            }
+          });
+        } else {
+          self._iTriggerStory = self._dTabStory[lTabs[0].id];
+          chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
+	        // TODO(rkorach) : delete ct page from history
+	        });
+        }
 	    });
     });
   },
