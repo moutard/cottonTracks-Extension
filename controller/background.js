@@ -55,7 +55,7 @@ Cotton.Controllers.Background = Class.extend({
   _iTriggerStory : null,
 
   /**
-   * 
+   *
    */
   init : function(){
     var self = this;
@@ -102,7 +102,7 @@ Cotton.Controllers.Background = Class.extend({
       self.takeScreenshot();
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
-        'active':true,
+        'highlighted':true,
         'currentWindow': true
       }, function(lTabs){
         self._iTriggerStory = self._dTabStory[lTabs[0].id];
