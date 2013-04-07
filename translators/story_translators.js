@@ -45,17 +45,16 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     var oStoryDNA = new Cotton.Model.StoryDNA();
     //FIXME(rmoutard) : for the moment the bag of words will be written by
     // tags.
+    if(oDbRecord['lTags']){
+      oStory.setTags(oDbRecord['lTags']);
+    }
     var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
-    oStoryDNA.setBagOfWords();
     oStoryDNA.setBagOfWords(oBagOfWords);
     oStory.setDNA(oStoryDNA);
     if (oDbRecord['lHistoryItemsId'] !== undefined) {
       for ( var i = 0, iHistoryItemId; iHistoryItemId = oDbRecord['lHistoryItemsId'][i]; i++) {
         oStory.addHistoryItemId(iHistoryItemId);
       }
-    }
-    if(oDbRecord['lTags']){
-      oStory.setTags(oDbRecord['lTags']);
     }
     return oStory;
   };
