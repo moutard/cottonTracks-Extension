@@ -144,7 +144,6 @@ Cotton.Controllers.Messaging = Class.extend({
             });
           }
       });
-
   },
 
   /**
