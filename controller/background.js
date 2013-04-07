@@ -103,7 +103,7 @@ Cotton.Controllers.Background = Class.extend({
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
         'highlighted':true,
-        'currentWindow': true
+        'lastFocusedWindow': true
       }, function(lTabs){
         self._iTriggerStory = self._dTabStory[lTabs[0].id];
         chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
