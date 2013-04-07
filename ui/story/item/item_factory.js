@@ -14,7 +14,7 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, oDispatcher, oStory) {
   oUrl.fineDecomposition();
 
    // Detect if it's an image.
-  var reg = new RegExp(".(jpg|jpeg|png|gif)$", "g");
+  var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
   var sLastStringFromPathname = oUrl.pathname.split('/')[
     oUrl.pathname.split('/').length - 1];
   var sLastStringFromHyphen = sLastStringFromPathname.split('-')[
