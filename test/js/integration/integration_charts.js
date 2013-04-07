@@ -95,6 +95,15 @@ function launchTests(){
           Cotton.Algo.Score.DBRecord.HistoryItem);
         iStories += iNbSubCluster;
         var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
+        _.each(dStories['stories'], function(oStory){
+          if(oStory.historyItemsId().length < 5){
+            console.log('session');
+            console.log(JSON.stringify(lSession));
+            console.log('dsession');
+            console.log(JSON.stringify(ldSession));
+
+          }
+        });
         drawStories(dStories['stories']);
 
       });
