@@ -21,7 +21,7 @@ Cotton.Model.Story = Class.extend({
   _oDNA : null,
 
   /**
-   * 
+   *
    */
   init : function() {
     this._fLastVisitTime = 0;
@@ -198,7 +198,7 @@ Cotton.Model.Story = Class.extend({
   computeFeaturedImage : function() {
     if (this._sFeaturedImage === "") {
       if (this._lHistoryItems.length !== 0) {
-        var reg = new RegExp(".(jpg|png|gif)$", "g");
+        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
         for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
           if (reg.exec(oHistoryItem.url())) {
             this._sFeaturedImage = oHistoryItem.url();
