@@ -1065,7 +1065,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dItem['sKeyword']);
-        console.log(dItem['sKeyword'] + " already exists it will be updated");
+        DEBUG && console.debug(dItem['sKeyword'] + " already exists it will be updated");
         oFindRequest.onsuccess = function(oEvent) {
           var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
