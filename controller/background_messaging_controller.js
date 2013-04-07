@@ -20,7 +20,7 @@ Cotton.Controllers.Messaging = Class.extend({
 
   addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
     var self = this;
-    for (var i = 0, lKeywords = oHistoryItem.searchKeywords(), iLength = lKeywords.length;
+    for (var i = 0, lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()), iLength = lKeywords.length;
       i < iLength; i++){
         var sKeyword = lKeywords[i];
         var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
