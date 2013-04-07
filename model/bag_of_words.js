@@ -25,7 +25,7 @@ Cotton.Model.BagOfWords = Class.extend({
 
   init : function(dBag) {
     this._dBag = {};
-    if(dBag) this.setBag(dBag);
+    if (dBag) this.setBag(dBag);
   },
 
   setBag : function(dBag){
