@@ -100,16 +100,21 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         	var sLastStringFromPathname = oUrl.pathname.split('/')[
         	  oUrl.pathname.split('/').length - 1];
           var thumbnail_src;
-          $.ajax({
-              url: 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json',
-              dataType: 'json',
-              async: false,
-              success: function(data) {
-              thumbnail_src = data[0].thumbnail_large;
+          // Ajax call for Vimeo thumbnail
+          var xmlHttp = new XMLHttpRequest;
+          xmlHttp.open('get', 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json', false);
+          xmlHttp.send(null);
+          if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
+              thumbnail_src = JSON.parse(xmlHttp.responseText)[0].thumbnail_large;
+              lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
+              lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+            } else {
+              DEBUG && console.debug('Error: ' + xmlHttp.responseText);
             }
-          });
-          lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
-          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+          } else {
+            //still loading
+          }
         } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
         	//Dailymotion video (from video page)
           lStories[lHistoryItems[j]['clusterId']]
