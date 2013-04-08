@@ -77,7 +77,7 @@ function launchTests(){
     drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)
     var start = new Date().getTime();
     var stop = (new Date().getTime() - start)/1000;
-    console.log('Suite elapsed time:' + stop + 'seconds');
+    DEBUG && console.debug('Suite elapsed time:' + stop + 'seconds');
 
     drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems);
 
@@ -97,10 +97,10 @@ function launchTests(){
         var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
         _.each(dStories['stories'], function(oStory){
           if(oStory.historyItemsId().length < 5){
-            console.log('session');
-            console.log(JSON.stringify(lSession));
-            console.log('dsession');
-            console.log(JSON.stringify(ldSession));
+            DEBUG && console.debug('session');
+            DEBUG && console.debug(JSON.stringify(lSession));
+            DEBUG && console.debug('dsession');
+            DEBUG && console.debug(JSON.stringify(ldSession));
 
           }
         });

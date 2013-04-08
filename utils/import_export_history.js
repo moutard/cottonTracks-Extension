@@ -26,8 +26,8 @@ Cotton.Utils.importHistory = function(sHistoryBlob) {
         'history': oHistory
       }
     }, function(response) {
-      console.log(response);
-      console.log("import history has been done");
+      DEBUG && console.debug(response);
+      DEBUG && console.debug("import history has been done");
     });
 
 };

@@ -48,7 +48,7 @@ Cotton.DB.Stories.removeHistoryItemInStory = function(oStore, iStoryId, iHistory
   oStore.find('stories', 'id', iStoryId, function(oStory){
     oStory.removeHistoryItem(iHistoryItemId);
     oStore.put('stories', oStory, function(){
-      console.log("historyItem deleted in the story");
+      DEBUG && console.debug("historyItem deleted in the story");
       if (mCallBackFunction){
         mCallBackFunction();
       }
@@ -155,7 +155,7 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories
           oSearchKeyword.addReferringStoryId(oStory.id());
           oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
             // Becarefull with asynchronous.
-            console.log('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
+            DEBUG && console.debug('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
           });
       }
     }

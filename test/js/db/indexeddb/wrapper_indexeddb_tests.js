@@ -27,7 +27,7 @@ asyncTest("init with no translator.", function() {
     expect(1);
     var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
       }, function() {
-        console.log('database created.')
+        DEBUG && console.debug('database created.')
         ok(true, "Created");
         start();
     });
@@ -44,7 +44,7 @@ asyncTest("init with 2 translators.", function() {
       'stories' : Cotton.Translators.STORY_TRANSLATORS,
       'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
-      console.log('database created.')
+      DEBUG && console.debug('database created.')
       ok(true, "Created");
       start();
   });
@@ -62,7 +62,7 @@ asyncTest("init with all translators.", function() {
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
-        console.log('database created.')
+        DEBUG && console.debug('database created.')
         ok(true, "Created");
         start();
     });
@@ -83,7 +83,7 @@ asyncTest("add search keys with the same keywords.", function() {
 
         throws(self._oDatabase.put('searchKeywords', oSearchKeyword, function(){}), 'must throw error to pass.');
 
-        console.log('database created.')
+        DEBUG && console.debug('database created.')
         ok(true, "Created");
         start();
     });
@@ -117,7 +117,7 @@ asyncTest("put Unique historyItems with the same url.", function() {
           });
       });
 
-      console.log('database created.')
+      DEBUG && console.debug('database created.')
       ok(true, "Created");
   });
   setTimeout(function () {
