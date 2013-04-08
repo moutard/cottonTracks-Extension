@@ -12,10 +12,10 @@ suite.add('RegExp#test', function() {
 })
 // add listeners
 .on('cycle', function(event) {
-  console.log(String(event.target));
+  DEBUG && console.debug(String(event.target));
 })
 .on('complete', function() {
-  console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+  DEBUG && console.debug('Fastest is ' + this.filter('fastest').pluck('name'));
 })
 // run async
 .run({ 'async': true });
@@ -78,10 +78,10 @@ underscore_suite.add('NativeFilter', function() {
 })
 // add listeners
 .on('cycle', function(event) {
-  console.log(String(event.target));
+  DEBUG && console.debug(String(event.target));
 })
 .on('complete', function() {
-  console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+  DEBUG && console.debug('Fastest is ' + this.filter('fastest').pluck('name'));
 })
 // run async
 .run({ 'async': true });
@@ -122,10 +122,10 @@ for (var i = 0, sDimension; i < l ; i++) {
 })
 //add listeners
 .on('cycle', function(event) {
-console.log(String(event.target));
+DEBUG && console.debug(String(event.target));
 })
 .on('complete', function() {
-console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+DEBUG && console.debug('Fastest is ' + this.filter('fastest').pluck('name'));
 })
 //run async
 .run({ 'async': true });
@@ -147,10 +147,10 @@ for (var sKey in dDict) {
 })
 //add listeners
 .on('cycle', function(event) {
-console.log(String(event.target));
+DEBUG && console.debug(String(event.target));
 })
 .on('complete', function() {
-console.log('Fastest is ' + this.filter('fastest').pluck('name'));
+DEBUG && console.debug('Fastest is ' + this.filter('fastest').pluck('name'));
 })
 //run async
 .run({ 'async': true });

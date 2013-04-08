@@ -133,5 +133,5 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
 // CHROME TABS API
 //
-// chrome.tabs.getCurrent(function(oTab){console.log(oTab);})
+// chrome.tabs.getCurrent(function(oTab){DEBUG && console.debug(oTab);})
 // can't be used outside the extension context. But could b very usefull.

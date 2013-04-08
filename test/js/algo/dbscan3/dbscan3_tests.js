@@ -55,13 +55,13 @@ test('detect session for visititems.', function() {
   lSampleHistoryItems.sort(function(a,b){
     return b['lastVisitTime'] - a['lastVisitTime'];
   });
-  console.log(lSampleHistoryItems);
+  DEBUG && console.debug(lSampleHistoryItems);
   var iSessionId = 0;
   Cotton.Algo.roughlySeparateSession(lSampleHistoryItems,
     function(lNewRoughSession){
       if(lNewRoughSession.length < 10) {
-        console.log("A session with length < 10:");
-        console.log(lNewRoughSession);
+        DEBUG && console.debug("A session with length < 10:");
+        DEBUG && console.debug(lNewRoughSession);
         iSessionId += 1;
       }
       ok((iSessionId < 30), iSessionId + ' ' + lNewRoughSession.length);
@@ -80,8 +80,8 @@ test("algo of dbscan3 worker.", function() {
 
   Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
     // For each rough session, launch dbscan1.
-    console.log("New session : " + lSession.length);
-    console.log(lSession);
+    DEBUG && console.debug("New session : " + lSession.length);
+    DEBUG && console.debug(lSession);
     // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
     var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
         Cotton.Algo.Distance.meaning);
@@ -99,18 +99,18 @@ test("algo of dbscan3 worker.", function() {
 });
 
 test("algo of dbscan3 worker for hadrien WITH COSINE with very high fEps (200)", function() {
-  console.log('HADRIEN');
+  DEBUG && console.debug('HADRIEN');
 
   // Take the chrome history raw.
   var lSampleHistoryItems = chrome_history_source_foot;
 
-  console.log("Start with chrome raw history that contains elements :");
-  console.log(lSampleHistoryItems.length);
+  DEBUG && console.debug("Start with chrome raw history that contains elements :");
+  DEBUG && console.debug(lSampleHistoryItems.length);
   // Make pretreatment and translate into cotton history item.
   var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
 
-  console.log("After pre treatment history that contains elements :");
-  console.log(lHistoryItems.length);
+  DEBUG && console.debug("After pre treatment history that contains elements :");
+  DEBUG && console.debug(lHistoryItems.length);
 
   // Do not really populate db.
 
@@ -138,24 +138,24 @@ test("algo of dbscan3 worker for hadrien WITH COSINE with very high fEps (200)",
   // because we don't have visittime for this example use simple cluster.
   var dStories = Cotton.Algo.simpleCluster(dData['lHistoryItems'],
                                           dData['iNbCluster']);
-  console.log(dStories);
+  DEBUG && console.debug(dStories);
   equal(iNbCluster, 1);
   equal(dStories[0].length, 79);
 
 });
 test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)", function() {
-  console.log('HADRIEN');
+  DEBUG && console.debug('HADRIEN');
 
   // Take the chrome history raw.
   var lSampleHistoryItems = chrome_history_source_foot;
 
-  console.log("Start with chrome raw history that contains elements :");
-  console.log(lSampleHistoryItems.length);
+  DEBUG && console.debug("Start with chrome raw history that contains elements :");
+  DEBUG && console.debug(lSampleHistoryItems.length);
   // Make pretreatment and translate into cotton history item.
   var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
 
-  console.log("After pre treatment history that contains elements :");
-  console.log(lHistoryItems.length);
+  DEBUG && console.debug("After pre treatment history that contains elements :");
+  DEBUG && console.debug(lHistoryItems.length);
 
   // Do not really populate db.
 
@@ -183,23 +183,23 @@ test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)",
   // because we don't have visittime for this example use simple cluster.
   var dStories = Cotton.Algo.simpleCluster(dData['lHistoryItems'],
                                           dData['iNbCluster']);
-  console.log(dStories);
+  DEBUG && console.debug(dStories);
   equal(iNbCluster, 0);
 
 });
 test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)", function() {
-  console.log('HADRIEN');
+  DEBUG && console.debug('HADRIEN');
 
   // Take the chrome history raw.
   var lSampleHistoryItems = chrome_history_source_foot;
 
-  console.log("Start with chrome raw history that contains elements :");
-  console.log(lSampleHistoryItems.length);
+  DEBUG && console.debug("Start with chrome raw history that contains elements :");
+  DEBUG && console.debug(lSampleHistoryItems.length);
   // Make pretreatment and translate into cotton history item.
   var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
 
-  console.log("After pre treatment history that contains elements :");
-  console.log(lHistoryItems.length);
+  DEBUG && console.debug("After pre treatment history that contains elements :");
+  DEBUG && console.debug(lHistoryItems.length);
 
   // Do not really populate db.
 
@@ -227,7 +227,7 @@ test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)",
   // because we don't have visittime for this example use simple cluster.
   var dStories = Cotton.Algo.simpleCluster(dData['lHistoryItems'],
                                           dData['iNbCluster']);
-  console.log(dStories);
+  DEBUG && console.debug(dStories);
   equal(iNbCluster, 1);
   equal(dStories[0].length, 30);
 
@@ -235,7 +235,7 @@ test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)",
 
 
 test("algo of dbscan3 worker for small cluster", function() {
-  console.log('small cluster');
+  DEBUG && console.debug('small cluster');
 
   // Take the chrome history raw.
   var lSampleHistoryItems = chrome_history_source_hadrien.slice();
@@ -270,7 +270,7 @@ test("algo of dbscan3 worker for small cluster", function() {
     dData['lHistoryItems'] = lSession;
     var dStories = Cotton.Algo.clusterStory(dData['lHistoryItems'],
                                             dData['iNbCluster']);
-    console.log(dStories);
+    DEBUG && console.debug(dStories);
     equal(iNbCluster, 0);
 
   });

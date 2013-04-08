@@ -15,7 +15,7 @@ test('test subscribe.', function(){
   var oDispatcher = new Cotton.Messaging.Dispatcher();
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   oDispatcher.subscribe("wake_up", oAlice, function(dArguments){
-    console.log(dArguments);
+    DEBUG && console.debug(dArguments);
   });
   ok(oDispatcher);
   deepEqual(_.keys(oDispatcher._dMessages), ["wake_up"]);
@@ -26,7 +26,7 @@ test('test publish message to subscriber.', function(){
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   var dTestArguments = {};
   oDispatcher.subscribe("wake_up", oAlice, function(dArguments){
-    console.log(dArguments);
+    DEBUG && console.debug(dArguments);
     deepEqual(dArguments, {'say': 'it is late'});
   });
   ok(oDispatcher);
@@ -39,7 +39,7 @@ test('test publish message to subscriber check this value.', function(){
   var oAlice = {'name': "Alice", "direction": "Wonderland"};
   var dTestArguments = {};
   oDispatcher.subscribe("wake_up", oAlice, function(dArguments){
-    console.log(dArguments);
+    DEBUG && console.debug(dArguments);
     deepEqual(dArguments, {'say': 'it is late'});
     equal(this['name'], "Alice");
   });
@@ -54,12 +54,12 @@ test('test pubish message to subscriber check this value.', function(){
   var oWhiteRabbit = {'name': "White Rabbit", "direction": "Wonderland"};
   var dTestArguments = {};
   oDispatcher.subscribe("wake_up", oAlice, function(dArguments){
-    console.log(dArguments);
+    DEBUG && console.debug(dArguments);
     deepEqual(dArguments, {'say': 'it is late'});
     equal(this['name'], "Alice");
   });
    oDispatcher.subscribe("wake_up", oWhiteRabbit, function(dArguments){
-    console.log(dArguments);
+    DEBUG && console.debug(dArguments);
     deepEqual(dArguments, {'say': 'it is late'});
     equal(this['name'], "White Rabbit");
   });

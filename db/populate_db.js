@@ -175,7 +175,7 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
     "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
   }, function(lChromeHistoryItems) {
     var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
-    DEBUG && console.log('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
+    DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
     // Remove the tools before looking for visitItems.
     glCottonHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
@@ -186,7 +186,7 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
     glCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(glCottonHistoryItems);
 
     iLength = glCottonHistoryItems.length;
-    DEBUG && console.log('Number of Chrome HistoryItems after remove tools: ' + iLength);
+    DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
 
     // For each chromeHistory remaining find all the corresponding visitItems.
     for(var i = 0; i < iLength; i++){
@@ -209,9 +209,9 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
             glChromeVisitItems.sort(function(a, b){
               return b['visitTime'] - a['visitTime'];
             });
-            DEBUG && console.log('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
+            DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
             elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
-            DEBUG && console.log('Elapsed time:' + elapsedTime1 + 'seconds');
+            DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
             // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
             // integration tests, find a way to remove it from here
             glCottonHistoryItems = Cotton.DB.Populate.SuiteForCotton(

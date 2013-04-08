@@ -14,7 +14,7 @@ var Manager = Class.extend({
       'stories' : Cotton.Translators.STORY_TRANSLATORS,
     }, function() {
       self._oDatabase.put('stories', oStory, function(iId){
-        console.log(iId);
+        DEBUG && console.debug(iId);
       });
     });
   },
@@ -30,7 +30,7 @@ var Manager = Class.extend({
       'stories' : Cotton.Translators.STORY_TRANSLATORS,
     }, function() {
       self._oDatabase.put('stories', oStory, function(iId){
-        console.log(iId);
+        DEBUG && console.debug(iId);
       });
     });
   },
@@ -57,9 +57,9 @@ var Manager = Class.extend({
         oHistoryItem.initUrl(dHistoryItem['sUrl']);
         self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId){
           var _iId = iId;
-          console.log(_iId);
+          DEBUG && console.debug(_iId);
           lHistoryItemsId.push(_iId);
-          console.log(lHistoryItemsId.length + '' + lHistoryItems.length);
+          DEBUG && console.debug(lHistoryItemsId.length + '' + lHistoryItems.length);
           if(lHistoryItemsId.length === lHistoryItems.length){
               var oStory = new Cotton.Model.Story();
               oStory.setTitle(sTitle);
@@ -73,8 +73,8 @@ var Manager = Class.extend({
               }
               oStory.dna().bagOfWords().setBag(dBagOfWords);
               self._oDatabase.put('stories', oStory, function(iStoryId){
-                console.log(iStoryId);
-                console.log('story created');
+                DEBUG && console.debug(iStoryId);
+                DEBUG && console.debug('story created');
 
                 for(var i=0, sKeyword; sKeyword = lList[i]; i++){
                   var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
@@ -99,7 +99,7 @@ var Manager = Class.extend({
       self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         oStory.addHistoryItemId(iHistoryItemId);
         self._oDatabase.put('stories', oStory, function(){
-          console.log('historyItem added.');
+          DEBUG && console.debug('historyItem added.');
         });
       });
     });
@@ -115,13 +115,13 @@ var Manager = Class.extend({
       self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         oStory.dna().bagOfWords().setBag(dBagOfWords);
         self._oDatabase.put('stories', oStory, function(){
-          console.log('bagOfWords updated.');
+          DEBUG && console.debug('bagOfWords updated.');
           for(var sKey in dBagOfWords){
             var oSearchKeyword = new Cotton.Model.SearchKeyword(sKey);
             oSearchKeyword.addReferringStoryId(iStoryId);
             self._oDatabase.putUniqueKeyword('searchKeywords', oSearchKeyword,
               function(){
-                console.log('searchKeywords updated.');
+                DEBUG && console.debug('searchKeywords updated.');
               });
           }
         });

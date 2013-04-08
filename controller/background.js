@@ -179,7 +179,7 @@ Cotton.Controllers.Background = Class.extend({
     // Add listener called when the worker send message back to the main thread.
     self._wDBSCAN3.addEventListener('message', function(e) {
 
-      DEBUG && console.log('wDBSCAN - Worker ends: ',
+      DEBUG && console.debug('wDBSCAN - Worker ends: ',
         e.data['iNbCluster'], e.data['lHistoryItems']);
 
       // Update the historyItems with extractedWords and queryWords.
@@ -269,7 +269,7 @@ Cotton.Controllers.Background = Class.extend({
 
   addGetContentTab : function (iTabId) {
     this._dGetContentTabId[iTabId] = true;
-    console.log(this._dGetContentTabId);
+    DEBUG && console.debug(this._dGetContentTabId);
   },
 
   removeGetContentTab : function (iTabId) {
