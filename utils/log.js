@@ -6,7 +6,7 @@
 
 Cotton.Utils.log = function(msg){
    if (Cotton.Config.Parameters.bLoggingEnabled) {
-      console.log(msg);
+      DEBUG && console.debug(msg);
     }
 };
 

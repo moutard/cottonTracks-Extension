@@ -58,7 +58,7 @@ Cotton.Controllers.Lightyear = Class.extend({
   init : function(oSender){
 
     var self = this;
-    LOG && console.log("Controller Lightyear - init -");
+    LOG && DEBUG && console.debug("Controller Lightyear - init -");
     this._oSender = oSender;
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 

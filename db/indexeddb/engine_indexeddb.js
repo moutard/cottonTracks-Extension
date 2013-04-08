@@ -92,7 +92,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       // So we called open the database with a upper version, so the event
       // onupgradeneeded is called.
       if (bHasMissingObjectStore || bHasMissingIndexKey) {
-        console.log("A new database version is needed");
+        DEBUG && console.debug("A new database version is needed");
         // If the version is not set, use 0 and the increment so when you
         // open the database for the first version the version is 1, because it
         // seems to have an error when you try to open a database when version
@@ -129,7 +129,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
             var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
             oSetVersionRequest.onsuccess = function(event) {
-              console.log("setVersion onsuccess");
+              DEBUG && console.debug("setVersion onsuccess");
               var oTransaction = event.target.result;
 
               self._upgradeVersion(oTransaction,
@@ -170,7 +170,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
       } else {
         // The database is already up to date, so we are ready.
-        console.log("The database is already up to date");
+        DEBUG && console.debug("The database is already up to date");
         mOnReadyCallback.call(self);
       }
     };
@@ -198,7 +198,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var self = this;
     oTransaction.oncomplete = function(){
-      console.log("setVersion result transaction oncomplete");
+      DEBUG && console.debug("setVersion result transaction oncomplete");
       mOnReadyCallback();
     };
 
@@ -227,7 +227,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     try {
       for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
         // Create the new object store.
-        console.log('Creating object store ' + sMissingObjectStoreName);
+        DEBUG && console.debug('Creating object store ' + sMissingObjectStoreName);
         var objectStore = self._oDb.createObjectStore(sMissingObjectStoreName, {
           'keyPath': 'id',
           'autoIncrement': true
@@ -245,13 +245,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         var objectStore = oTransaction.objectStore(sObjectStoreName);
         for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
 	  var sIndexKey = lMissingIndexKeys[i];
-          console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+          DEBUG && console.debug('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
           objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
         }
       });
 
     } catch (oError){
-      console.log("createObjectStore exception : " + oError.message);
+      DEBUG && console.debug("createObjectStore exception : " + oError.message);
       oTransaction.abort();
     }
 
@@ -1029,8 +1029,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         lAllId.push(iId);
 
         if(p === lItems.length){
-          console.log("dede");
-          console.log(lAllId);
+          DEBUG && console.debug("dede");
+          DEBUG && console.debug(lAllId);
           mOnSaveCallback.call(self, lAllId);
         }
       });
@@ -1075,7 +1075,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           dItem['lReferringHistoryItemsId'] = _.union(dItem['lReferringHistoryItemsId'],
               oResult['lReferringHistoryItemsId']);
 
-          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
+          DEBUG && console.debug(dItem['sKeyword'] + " had an id:" + dItem['id'] );
           var oSecondPutRequest = oStore.put(dItem);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
@@ -1126,7 +1126,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dItem['sUrl']);
-        console.log(dItem['sUrl'] + " already exists it will be updated");
+        DEBUG && console.debug(dItem['sUrl'] + " already exists it will be updated");
         oFindRequest.onsuccess = function(oEvent) {
           var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
@@ -1143,7 +1143,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
             dTempBag[key] = Math.max(a,b);
           });
           dItem['oExtractedDNA']['oBagOfWords'] = dTempBag;
-          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
+          DEBUG && console.debug(dItem['sKeyword'] + " had an id:" + dItem['id'] );
           var oSecondPutRequest = oStore.put(dItem);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
@@ -1175,7 +1175,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       var oPutRequest = oStore.put(dItem);
 
       oPutRequest.onsuccess = function(oEvent) {
-        console.log('pp');
+        DEBUG && console.debug('pp');
         // mOnSaveCallback.call(self, oEvent.target.result);
       };
 
@@ -1220,8 +1220,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           return;
         };
         oUpdateRequest.onerror = function(oEvent){
-          console.log("can not update your entry");
-          console.log(oEvent);
+          DEBUG && console.debug("can not update your entry");
+          DEBUG && console.debug(oEvent);
           throw "Update Request Error";
         };
       }
@@ -1281,7 +1281,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
 
       self.delete(sObjectStoreName, oResult.value.id, function(){
-        console.log("entry deleted");
+        DEBUG && console.debug("entry deleted");
       });
       oResult.continue();
     };

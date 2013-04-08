@@ -87,7 +87,7 @@ Cotton.DB.Engine = Class.extend({
       }
 
       if (bHasMissingObjectStore || bHasMissingIndexKey) {
-        console.log("A setVersion is needed");
+        DEBUG && console.debug("A setVersion is needed");
         var iNewVersion = parseInt(oDb.version) + 1;
 
         // We need to update the database.
@@ -95,28 +95,28 @@ Cotton.DB.Engine = Class.extend({
         var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
         oSetVersionRequest.onsuccess = function(event) {
-          console.log("setVersion onsuccess");
+          DEBUG && console.debug("setVersion onsuccess");
           var oTransaction = event.target.result;
 
           oTransaction.oncomplete = function(){
-            console.log("setVersion result transaction oncomplete");
+            DEBUG && console.debug("setVersion result transaction oncomplete");
             mOnReadyCallback.call(self);
           };
 
           oTransaction.onabort = function(){
-            console.log("setVersion result transaction onabort");
+            DEBUG && console.debug("setVersion result transaction onabort");
             oDb.close();
           };
 
           oTransaction.ontimeout = function(){
-            console.log("setVersion result transaction ontimeout");
+            DEBUG && console.debug("setVersion result transaction ontimeout");
             oDb.close();
           };
 
           try {
             for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
               // Create the new object store.
-              console.log('Creating object store ' + sMissingObjectStoreName);
+              DEBUG && console.debug('Creating object store ' + sMissingObjectStoreName);
               var objectStore = oDb.createObjectStore(sMissingObjectStoreName, {
                 'keyPath': 'id',
                 'autoIncrement': true
@@ -134,13 +134,13 @@ Cotton.DB.Engine = Class.extend({
               var objectStore = oSetVersionRequest.transaction.objectStore(sObjectStoreName);
               for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
                 var sIndexKey = lMissingIndexKeys[i];
-                console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+                DEBUG && console.debug('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
                 objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
               }
             });
 
           } catch (oError){
-            console.log("createObjectStore exception : " + oError.message);
+            DEBUG && console.debug("createObjectStore exception : " + oError.message);
             oTransaction.abort();
           }
 
@@ -165,7 +165,7 @@ Cotton.DB.Engine = Class.extend({
         };
       } else {
         // The database is already up to date, so we are ready.
-        console.log("The database is already up to date");
+        DEBUG && console.debug("The database is already up to date");
         mOnReadyCallback.call(self);
       }
     };
@@ -948,8 +948,8 @@ Cotton.DB.Engine = Class.extend({
         lAllId.push(iId);
 
         if(p === lItems.length){
-          console.log("dede");
-          console.log(lAllId);
+          DEBUG && console.debug("dede");
+          DEBUG && console.debug(lAllId);
           mOnSaveCallback.call(self, lAllId);
         }
       });
@@ -966,7 +966,7 @@ Cotton.DB.Engine = Class.extend({
       var oPutRequest = oStore.put(dItem);
 
       oPutRequest.onsuccess = function(oEvent) {
-        console.log('pp');
+        DEBUG && console.debug('pp');
         // mOnSaveCallback.call(self, oEvent.target.result);
       };
 
@@ -1010,8 +1010,8 @@ Cotton.DB.Engine = Class.extend({
           return;
         };
         oUpdateRequest.onerror = function(oEvent){
-          console.log("can not update your entry");
-          console.log(oEvent);
+          DEBUG && console.debug("can not update your entry");
+          DEBUG && console.debug(oEvent);
           throw "Update Request Error";
         };
       }
@@ -1071,7 +1071,7 @@ Cotton.DB.Engine = Class.extend({
       }
 
       self.delete(sObjectStoreName, oResult.value.id, function(){
-        console.log("entry deleted");
+        DEBUG && console.debug("entry deleted");
       });
       oResult.continue();
     };
