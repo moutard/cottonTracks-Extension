@@ -102,7 +102,10 @@ Cotton.Controllers.Lightyear = Class.extend({
           }
           self._oDatabase.findGroup('historyItems', 'id',  oStory.historyItemsId(),
           function(lHistoryItems) {
-            lHistoryItems = _.sortBy(lHistoryItems, "_iLastVisitTime").reverse();
+            // sort items with most recent first
+            lHistoryItems.sort(function(a,b){
+              return b["_iLastVisitTime"]- a["_iLastVisitTime"];
+            });
             self._oStory.setHistoryItems(lHistoryItems);
             if (self._bWorldReady) {
               self._oWorld.updateMenu(oStory);
