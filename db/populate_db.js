@@ -194,7 +194,7 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
       // and let the database attribute the id.
       // Seems there is a problem with the id 0.
       var oHistoryItem = glCottonHistoryItems[i];
-      oHistoryItem.initId(i);
+      oHistoryItem.initId(i+1);
       oClient.getVisits({
           'url': oHistoryItem.url()
         }, function(lVisitItems){
