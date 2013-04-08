@@ -38,5 +38,6 @@ test('title is well setted for empty.', function() {
   });
 
   var oItem = new Cotton.UI.Story.Item.Search(oHistoryItem);
-  equal(oItem._$title.text(), "Search");
+  equal(oItem._$title.text(), "alice in wonderland");
+  equal(oItem._$searchInput.val(), "alice in wonderland");
 });
