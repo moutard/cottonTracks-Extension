@@ -27,6 +27,7 @@ test("is excluded pattern.", function() {
     'https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
   var sNotSearchGeneratedPage = 'http://www.blogposts.com/ref?referrer=https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
   var sLocalHost = "http://localhost:8888";
+  var sChromeExtension = "chrome-extension://dlemjomhbbkijjhnbndcgglakfcdobjl/lightyear.html";
 
   deepEqual(oExcludeContainer.isExcluded(sSearchGeneratedPage), true,
     'searchGeneratedPage is introduced between google and actual search result clicked');
@@ -34,6 +35,8 @@ test("is excluded pattern.", function() {
     'a real page indicating that it comes from a searchGeneratedPage');
   deepEqual(oExcludeContainer.isExcluded(sLocalHost), true,
     'localhost');
+  deepEqual(oExcludeContainer.isExcluded(sChromeExtension), true,
+    'chrome-extension');
 });
 
 test("is https.", function() {
