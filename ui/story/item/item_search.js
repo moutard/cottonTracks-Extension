@@ -32,6 +32,7 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
       this._oDispatcher, this, 'small');
 
+    oHistoryItem.oUrl().generateKeywords();
     // Title
     if (oHistoryItem.oUrl().keywords.length > 0) {
       var sTitle = oHistoryItem.oUrl().keywords.join(' ');
