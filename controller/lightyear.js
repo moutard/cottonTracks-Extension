@@ -104,7 +104,7 @@ Cotton.Controllers.Lightyear = Class.extend({
           function(lHistoryItems) {
             // sort items with most recent first
             lHistoryItems.sort(function(a,b){
-              return b["_iLastVisitTime"]- a["_iLastVisitTime"];
+              return b.lastVisitTime()- a.lastVisitTime();
             });
             self._oStory.setHistoryItems(lHistoryItems);
             if (self._bWorldReady) {
