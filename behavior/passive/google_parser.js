@@ -29,11 +29,8 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
    *
    */
   init : function(oClient, oUrl) {
-    this._super(oClient);
     this._oUrl = oUrl;
-
-    this._MeaningFulBlocks = [];
-    this._iNbMeaningfulBlock = 0;
+    this._super(oClient);
   },
 
   /**
@@ -42,7 +39,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
    * @param {Cotton.Model.HistoryItem} oHistoryItem.
    */
    getFirstInfoFromPage : function(oHistoryItem) {
-     oHistoryItem._sUrl = this._oUrl.protocol.genericSearch;
+     oHistoryItem._sUrl = this._oUrl.genericSearch;
      oHistoryItem._sTitle = window.document.title;
      oHistoryItem._iLastVisitTime = new Date().getTime();
      oHistoryItem._sReferrerUrl = document.referrer;
