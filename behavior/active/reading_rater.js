@@ -61,20 +61,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
 
   /**
-   *
-   * FIXME(rmoutard) : put this in a parser.
-   * @param {Cotton.Model.HistoryItem} oHistoryItem.
-   */
-   getFirstInfoFromPage : function(oHistoryItem) {
-     oHistoryItem._sUrl = window.location.href;
-     oHistoryItem._sTitle = window.document.title;
-     oHistoryItem._iLastVisitTime = new Date().getTime();
-     oHistoryItem._sReferrerUrl = document.referrer;
-     //oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
-     Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
-   },
-
-  /**
    * Start when the document is ready. Start parser and reading rater. Refresh
    * reading rater every 5 seconds. To improve performance no need to refresh
    * parser.
@@ -82,7 +68,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   start : function() {
     var self = this;
 
-    self.getFirstInfoFromPage(self._oClient.current());
     self._oClient.createVisit();
     var oTimeout = null;
     $(document).mousemove(function() {
@@ -385,13 +370,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   }
 });
 
-// We don't need to wait document 'ready' signal to create instance.
-var oBackgroundClient = new Cotton.Behavior.BackgroundClient();
-var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient);
+var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+if (!oExcludeContainer.isExcluded(window.location.href)){
+  var oBackgroundClient = new Cotton.Behavior.BackgroundClient();
+  var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient);
 
-$(document).ready(function() {
-  // Need to wait the document is ready to get the title and the parser can
-  // work.
 
-  oReadingRater.start();
-});
+  $(document).ready(function() {
+    // Need to wait the document is ready to get the title and the parser can
+    // work.
+
+    oReadingRater.start();
+  });
+}
