@@ -99,3 +99,10 @@ test("dribble search.", function() {
   deepEqual(b.keywords,
             ["karri", "bonjour"]);
 });
+
+test("replacehexa.", function() {
+  var urlComplexe = "http://d1jqu7g1y74ds1.cloudfront.net%252Fwp-content%252Fuploads%252F2010%252F11%252Fmilkyway.jpg";
+  var b = new UrlParser(urlComplexe);
+  deepEqual(b.replaceHexa(urlComplexe),
+            "http://d1jqu7g1y74ds1.cloudfront.net/wp-content/uploads/2010/11/milkyway.jpg");
+});
