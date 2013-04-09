@@ -92,6 +92,15 @@ test("imgres.", function() {
             "http://www.onlinesupermario.com/images/realmario.JPG");
 });
 
+test("google image search preview.", function() {
+  var urlComplexe = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM%3A%3BYg7c9zL6WwfWBM%3Bhttp%253A%252F%252F3.bp.blogspot.com%252F-R66X-DI0C5A%252FT_wSaIK7ogI%252FAAAAAAAAZqU%252FMFoC5Xv34b4%252Fs400%252F22-Alambic%252BDieudonn%25C3%25A9%252BCorydon%252BTalon.png%3Bhttp%253A%252F%252Fwww.oldschoolpanini.com%252F2012%252F07%252Fle-top-ten-des-sosies-de-la-bd-en.html%3B302%3B211";
+  var b = new UrlParser(urlComplexe);
+  b.fineDecomposition();
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.searchImage,
+            "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonn%C3%A9+Corydon+Talon.png");
+});
+
 test("dribble search.", function() {
   var urlComplexe = "http://dribbble.com/search?q=karri+bonjour";
   var b = new UrlParser(urlComplexe);
