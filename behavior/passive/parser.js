@@ -36,7 +36,22 @@ Cotton.Behavior.Passive.Parser = Class
         this._lAllParagraphs = [];
         this._sBestImage = "";
         this._oClient = oClient;
+        this.getFirstInfoFromPage(oClient.current());
       },
+
+      /**
+       *
+       * FIXME(rmoutard) : put this in a parser.
+       * @param {Cotton.Model.HistoryItem} oHistoryItem.
+       */
+       getFirstInfoFromPage : function(oHistoryItem) {
+         oHistoryItem._sUrl = window.location.href;
+         oHistoryItem._sTitle = window.document.title;
+         oHistoryItem._iLastVisitTime = new Date().getTime();
+         oHistoryItem._sReferrerUrl = document.referrer;
+         //oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
+         Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
+       },
 
       bestImage : function() {
         return this._sBestImage;

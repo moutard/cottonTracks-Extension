@@ -26,14 +26,28 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   _$rhsBox : undefined,
 
   /**
-   * 
+   *
    */
-  init : function(oClient) {
+  init : function(oClient, oUrl) {
     this._super(oClient);
+    this._oUrl = oUrl;
 
     this._MeaningFulBlocks = [];
     this._iNbMeaningfulBlock = 0;
   },
+
+  /**
+   *
+   * FIXME(rmoutard) : put this in a parser.
+   * @param {Cotton.Model.HistoryItem} oHistoryItem.
+   */
+   getFirstInfoFromPage : function(oHistoryItem) {
+     oHistoryItem._sUrl = this._oUrl.protocol.genericSearch;
+     oHistoryItem._sTitle = window.document.title;
+     oHistoryItem._iLastVisitTime = new Date().getTime();
+     oHistoryItem._sReferrerUrl = document.referrer;
+     Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
+   },
 
   /**
    * Parse all the blocks and add the attribute 'data-meaningful', if the block
