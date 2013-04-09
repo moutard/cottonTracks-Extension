@@ -393,8 +393,5 @@ $(document).ready(function() {
   // Need to wait the document is ready to get the title and the parser can
   // work.
 
-  // Do not store informations in incognito mode.
-  if (!chrome.extension.inIncognitoContext) {
-    oReadingRater.start();
-  }
+  oReadingRater.start();
 });
