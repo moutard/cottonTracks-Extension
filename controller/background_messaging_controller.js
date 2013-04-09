@@ -53,110 +53,96 @@ Cotton.Controllers.Messaging = Class.extend({
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
 
-      // TODO(rmoutard) : use DB system, or a singleton.
-      var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
-
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the historyItem only if it's not a Tool, and it's not in the exluded
-      // urls.
-      // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
-
-        self._oMainController._oDatabase.find('historyItems',
-          'sUrl', oHistoryItem.url(), function(_oHistoryItem){
-            if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-              // There is a story for this item, so enable the browserAction
-              // and attach a storyId to the tab
-              self._oMainController.setTabStory(sender.tab.id, _oHistoryItem.storyId());
-              chrome.browserAction.enable(sender.tab.id);
-              sendResponse({
-                'received' : "true",
-                'id' : sPutId,
-                'storyId' : _oHistoryItem.storyId()
-              });
+      self._oMainController._oDatabase.find('historyItems',
+        'sUrl', oHistoryItem.url(), function(_oHistoryItem){
+          if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+            // There is a story for this item, so enable the browserAction
+            // and attach a storyId to the tab
+            self._oMainController.setTabStory(sender.tab.id, _oHistoryItem.storyId());
+            chrome.browserAction.enable(sender.tab.id);
+            sendResponse({
+              'received' : "true",
+              'id' : sPutId,
+              'storyId' : _oHistoryItem.storyId()
+            });
 
 
-            } else {
-              // See if the history items can fit in a story.
-              var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
-              self._oMainController._oDatabase.findGroup('searchKeywords',
-                'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
-                  var lStoriesId = [];
-            for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
-                    var oSearchKeyword = lSearchKeywords[i];
-                    lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
-                  }
+          } else {
+            // See if the history items can fit in a story.
+            var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
+            self._oMainController._oDatabase.findGroup('searchKeywords',
+              'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
+                var lStoriesId = [];
+                for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+                  var oSearchKeyword = lSearchKeywords[i];
+                  lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
+                }
 
-                  // Find the story that is the closest to the historyItem.
-                  self._oMainController._oDatabase.findGroup('stories', 'id',
-                    lStoriesId, function(lStories){
-                      // Cosine is a distance -> cosine smaller -> story closer.
-                      // FIXME(rmoutard) : find a real value for this !
-                      var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
-                      var oMinStory = undefined;
-                      for (var i = 0, iLength = lStories.length; i < iLength; i++) {
-                        var oStory = lStories[i];
-                        var iCurrentScore = Cotton.Algo.Score.Object.historyItemToStory(
-                          oHistoryItem, oStory);
-                        if(iCurrentScore > iMaxScore){
-                          oMinStory = oStory;
-                          iMaxScore = iCurrentScore;
-                        }
+                // Find the story that is the closest to the historyItem.
+                self._oMainController._oDatabase.findGroup('stories', 'id',
+                  lStoriesId, function(lStories){
+                    // Cosine is a distance -> cosine smaller -> story closer.
+                    // FIXME(rmoutard) : find a real value for this !
+                    var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
+                    var oMinStory = undefined;
+                    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+                      var oStory = lStories[i];
+                      var iCurrentScore = Cotton.Algo.Score.Object.historyItemToStory(
+                        oHistoryItem, oStory);
+                      if(iCurrentScore > iMaxScore){
+                        oMinStory = oStory;
+                        iMaxScore = iCurrentScore;
                       }
+                    }
 
-                      // If we find a min story put the historyItem in it.
-                      if(oMinStory){
-                        oHistoryItem.setStoryId(oMinStory.id());
-                        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
-                          oHistoryItem, function(iHistoryItemId){
-                            DEBUG && console.debug("historyItem added" + iHistoryItemId);
-                            sPutId = iHistoryItemId;
-                            self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
-                            oMinStory.addHistoryItemId(iHistoryItemId);
-                            self._oMainController._oDatabase.put('stories', oMinStory,
-                              function(){});
-                            sendResponse({
-                              'received' : "true",
-                              'id' : sPutId,
-                              'storyId' : oHistoryItem.storyId()
-                            });
-                        });
-                        // There is a story for this item, so enable the browserAction
-                        // and attach a storyId to the tab
-                        self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
-                        chrome.browserAction.enable(sender.tab.id);
+                    // If we find a min story put the historyItem in it.
+                    if(oMinStory){
+                      oHistoryItem.setStoryId(oMinStory.id());
+                      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                        oHistoryItem, function(iHistoryItemId){
+                          DEBUG && console.debug("historyItem added" + iHistoryItemId);
+                          sPutId = iHistoryItemId;
+                          self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                          oMinStory.addHistoryItemId(iHistoryItemId);
+                          self._oMainController._oDatabase.put('stories', oMinStory,
+                            function(){});
+                          sendResponse({
+                            'received' : "true",
+                            'id' : sPutId,
+                            'storyId' : oHistoryItem.storyId()
+                          });
+                      });
+                      // There is a story for this item, so enable the browserAction
+                      // and attach a storyId to the tab
+                      self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
+                      chrome.browserAction.enable(sender.tab.id);
 
-                      } else {
-                        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
-                          oHistoryItem, function(iHistoryItemId){
-                            DEBUG && console.debug("historyItem added" + iHistoryItemId);
-                            sPutId = iHistoryItemId;
-                            dHistoryItem['id'] = sPutId;
-                            self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
-                            // Put the history item in the pool.
-                            self._oMainController._oPool.put(dHistoryItem);
-                            // Lauch dbscan2 on the pool.
-                            var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
-                            wDBSCAN2.postMessage(self._oMainController._oPool.get());
-                            sendResponse({
-                              'received' : "true",
-                              'id' : sPutId,
-                              'storyId' : oHistoryItem.storyId()
-                            });
-                        });
-                      }
-                  });
-              });
+                    } else {
+                      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                        oHistoryItem, function(iHistoryItemId){
+                          DEBUG && console.debug("historyItem added" + iHistoryItemId);
+                          sPutId = iHistoryItemId;
+                          dHistoryItem['id'] = sPutId;
+                          self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                          // Put the history item in the pool.
+                          self._oMainController._oPool.put(dHistoryItem);
+                          // Lauch dbscan2 on the pool.
+                          var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
+                          wDBSCAN2.postMessage(self._oMainController._oPool.get());
+                          sendResponse({
+                            'received' : "true",
+                            'id' : sPutId,
+                            'storyId' : oHistoryItem.storyId()
+                          });
+                      });
+                    }
+                });
+            });
+          }
+      });
 
-            }
-          });
-
-
-      } else {
-        DEBUG && console
-            .debug("Content Script Listener - This history item is a tool or an exluded url.");
-      }
   },
 
   /**
