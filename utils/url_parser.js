@@ -66,6 +66,7 @@ function UrlParser(sUrl) {
 
   if(this.pathname === "/search"){
     this.generateKeywords();
+    this.genericSearch();
   }
 }
 
@@ -120,6 +121,14 @@ UrlParser.prototype.generateKeywords = function() {
     this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
   }
 
+};
+
+UrlParser.prototype.genericSearch = function() {
+  // Two identical searches are different if they have been made in a different way
+  // omnibox, suggestion, google site, language, timestamp, ...
+  // keep only the common part. Start with keywords
+  this.genericSearch = this.protocol + "//" + this.hostname + "/search?q="
+    + this.keywords.join("+");
 };
 
 UrlParser.prototype.replaceHexa = function(sEscaped){
