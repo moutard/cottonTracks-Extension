@@ -28,7 +28,7 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _lCopyPaste : null,
 
   /**
-   * 
+   *
    */
   init : function(dDBRecord) {
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
@@ -45,7 +45,7 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
     this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
     this._sMostReadParagraph = "";
-    this._lsAllParagraphs = "";
+    this._lsAllParagraphs = [];
     this._lParagraphs = [];
     this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
