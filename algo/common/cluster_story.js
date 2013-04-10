@@ -102,20 +102,18 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           var thumbnail_src;
           // Ajax call for Vimeo thumbnail
           var xmlHttp = new XMLHttpRequest;
-          xmlHttp.open('get', 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json', true);
+          xmlHttp.open('get', 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json', false);
           xmlHttp.send(null);
-          xmlhttp.onreadystatechange = function(){
-            if (xmlHttp.readyState === 4) {
-              if (xmlHttp.status === 200) {
-                thumbnail_src = JSON.parse(xmlHttp.responseText)[0].thumbnail_large;
-                lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
-                lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-              } else {
-                DEBUG && console.debug('Error: ' + xmlHttp.responseText);
-              }
+          if (xmlHttp.readyState === 4) {
+            if (xmlHttp.status === 200) {
+              thumbnail_src = JSON.parse(xmlHttp.responseText)[0].thumbnail_large;
+              lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
+              lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
             } else {
-              //still loading
+              DEBUG && console.debug('Error: ' + xmlHttp.responseText);
             }
+          } else {
+            //still loading
           }
         } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
         	//Dailymotion video (from video page)
