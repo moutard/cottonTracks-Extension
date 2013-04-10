@@ -12,11 +12,11 @@ module(
 
 test('detect session.', function() {
   var lSampleHistoryItems = cotton_history_source_japan;
-  var lExepctedResult = [1, 8, 18, 7];
+  var lExpectedResult = [1, 8, 18, 7];
   var iSessionId = 0;
   Cotton.Algo.roughlySeparateSession(lSampleHistoryItems,
     function(lNewRoughSession){
-      equal(lNewRoughSession.length, lExepctedResult[iSessionId]);
+      equal(lNewRoughSession.length, lExpectedResult[iSessionId]);
       iSessionId += 1;
   });
 });
