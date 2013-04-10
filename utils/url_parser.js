@@ -67,6 +67,7 @@ function UrlParser(sUrl) {
   if(this.pathname === "/search"){
     this.generateKeywords();
     this.genericSearch();
+    this.imageSearchPreviewSource();
   }
 }
 
@@ -131,19 +132,32 @@ UrlParser.prototype.genericSearch = function() {
     + this.keywords.join("+");
 };
 
+UrlParser.prototype.imageSearchPreviewSource = function() {
+  if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_"){
+    var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
+    this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
+  }
+};
+
 UrlParser.prototype.replaceHexa = function(sEscaped){
     var reg = /\%25/;
     if (reg.test(sEscaped)){
-      var sUnescaped = sEscaped.replace(/\%2525/g,'%')
-          .replace(/\%2521/g,'!')
-          .replace(/\%2522/g,'"')
-          .replace(/\%2523/g,'#')
-          .replace(/\%2524/g,'$')
-          .replace(/\%2526/g,'&')
-          .replace(/\%2527/g,"'")
-          .replace(/\%253D/g,'=')
-          .replace(/\%253F/g,'?');
-	  return sUnescaped;
+      // need to replace twice the % in case it was already escaped
+      var sUnescaped = sEscaped.replace(/\%25/g,'%')
+          .replace(/\%25/g,'%')
+          .replace(/\%21/g,'!')
+          .replace(/\%22/g,'"')
+          .replace(/\%23/g,'#')
+          .replace(/\%24/g,'$')
+          .replace(/\%26/g,'&')
+          .replace(/\%27/g,"'")
+          .replace(/\%2B/g,'+')
+          .replace(/\%2F/g,'/')
+          .replace(/\%3F/g,'?')
+          .replace(/\%3A/g,":")
+          .replace(/\%3B/g,"\;")
+          .replace(/\%3D/g,'=');
+    return sUnescaped;
     } else {
 	  return sEscaped;
     }
