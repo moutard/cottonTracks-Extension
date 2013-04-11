@@ -96,12 +96,11 @@ function launchTests(){
         iStories += iNbSubCluster;
         var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
         _.each(dStories['stories'], function(oStory){
-          if(oStory.historyItemsId().length < 5){
+          if(oStory.historyItemsId().length < Cotton.Config.Parameters.dbscan3.iMinPts){
             DEBUG && console.debug('session');
             DEBUG && console.debug(JSON.stringify(lSession));
             DEBUG && console.debug('dsession');
             DEBUG && console.debug(JSON.stringify(ldSession));
-
           }
         });
         drawStories(dStories['stories']);
