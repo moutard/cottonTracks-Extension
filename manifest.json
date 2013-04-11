@@ -24,7 +24,8 @@
       "matches": [ "http://*/*",
                    "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*", "https://www.google.co.uk/*",
                    "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*",
-                   "https://www.youtube.com/*", "https://www.youtube.fr/*", "https://www.youtube.es/*", "https://www.youtube.co.uk/*"
+                   "https://www.youtube.com/*", "https://www.youtube.fr/*", "https://www.youtube.es/*", "https://www.youtube.co.uk/*",
+                   "https://en.wikipedia.org/*", "https://fr.wikipedia.org/*", "https://www.wikipedia.org/*"
                  ],
       "exclude_matches" : ["https://www.google.com/url", "https://www.google.fr/url", "http://www.google.com/url", "http://www.google.fr/url"],
       "css": [],

@@ -58,8 +58,11 @@ function UrlParser(sUrl) {
 
   this.isGoogle = (this.hostname_without_country === "www.google"
                     || this.hostname_without_country  === "www.google.co")
-  this.isGoogleMap = (this.hostname_without_country === "maps.google"
-                    || this.hostname_without_country === "maps.google.co")
+  this.isGoogleMaps = (this.hostname_without_country === "maps.google"
+                      || this.hostname_without_country === "maps.google.co")
+  this.isWikipedia = (this.hostname === "en.wikipedia.org"
+                     || this.hostname === "fr.wikipedia.org");
+  this.isYoutube = (this.hostname === "www.youtube.com");
   this.isVimeo = (this.hostname_without_country === "vimeo");
 
   this.isHttps = (this.protocol === "https:");
