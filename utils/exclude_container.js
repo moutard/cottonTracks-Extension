@@ -62,7 +62,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
   isHttps : function(oUrl){
     // exlude Https except if it's google.
     return oUrl.protocol === "https:" && !oUrl.isGoogle
-      && !oUrl.isGoogleMap && !oUrl.isVimeo;
+      && !oUrl.isGoogleMaps && !oUrl.isWikipedia && !oUrl.isYoutube && !oUrl.isVimeo;
   },
 
   /**
