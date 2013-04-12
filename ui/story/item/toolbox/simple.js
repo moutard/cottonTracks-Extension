@@ -41,7 +41,7 @@ Cotton.UI.Story.Item.Toolbox.Simple = Class.extend({
     });
 
     this._$open.click(function(){
-      Cotton.ANALYTICS.openItemWithToolbox(oItem.type(), 'toolbox');
+      Cotton.ANALYTICS.openItem(oItem.type(), 'toolbox');
     });
 
     // construct item
