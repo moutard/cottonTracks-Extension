@@ -166,43 +166,35 @@ Cotton.Controllers.Messaging = Class.extend({
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the historyItem only if it's not a Tool, and it's not in the exluded
-      // urls.
-      // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
-          // The history item already exists, just update it.
-          self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-            DEBUG && console.debug("Messaging - historyItem updated" + iId);
-            if (bContentSet){
-              if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
-                self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
-                  // Set story featured image
-                  var sMinStoryImage = oStory.featuredImage();
-                  var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
-                  if (!sMinStoryImage || sMinStoryImage === ""
-                    && sHistoryItemImage !== ""){
-                      oStory.setFeaturedImage(sHistoryItemImage);
-                  }
-                  // update story in db
-                  self._oMainController._oDatabase.put('stories', oStory,
-                    function(){});
-                });
+      // The history item already exists, just update it.
+      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
+        DEBUG && console.debug("Messaging - historyItem updated" + iId);
+        if (bContentSet){
+          if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
+            self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
+              // Set story featured image
+              var sMinStoryImage = oStory.featuredImage();
+              var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
+              if (!sMinStoryImage || sMinStoryImage === ""
+                && sHistoryItemImage !== ""){
+                  oStory.setFeaturedImage(sHistoryItemImage);
               }
-              if (self._oMainController._dGetContentTabId[sender.tab.id]){
-                self._oMainController.removeGetContentTab(sender.tab.id);
-                chrome.extension.sendMessage({
-                  'action': 'refresh_item',
-                  'params': {
-                    'itemId': iId
-                  }
-                });
+              // update story in db
+              self._oMainController._oDatabase.put('stories', oStory,
+                function(){});
+            });
+          }
+          if (self._oMainController._dGetContentTabId[sender.tab.id]){
+            self._oMainController.removeGetContentTab(sender.tab.id);
+            chrome.extension.sendMessage({
+              'action': 'refresh_item',
+              'params': {
+                'itemId': iId
               }
-            }
-          });
-      } else {
-        DEBUG && console
-            .debug("Content Script Listener - This history item is a tool or an exluded url.");
-      }
+            });
+          }
+        }
+      });
     },
 
   /**
