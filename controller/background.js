@@ -80,7 +80,7 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
       Cotton.ONEVENT = oInstallationDetails['reason'];
-      console.log(Cotton.ONEVENT);
+      DEBUG && console.debug("chrome runtime" + Cotton.ONEVENT);
       if (self._bReadyForStart && !self._bInstalled && Cotton.ONEVENT === 'install'){
         self._bInstalled = true;
         self.install();
@@ -252,7 +252,6 @@ Cotton.Controllers.Background = Class.extend({
    */
   install : function(){
     var self = this;
-      console.log("install");
     DEBUG && console.debug("Controller - install");
     var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
     Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
