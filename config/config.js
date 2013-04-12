@@ -15,15 +15,15 @@ Cotton.Config.Parameters = {
    // DBSCAN2
   dbscan2 : {
     fEps : 17,
-    iMinPts : 6,
+    iMinPts : 3,
     iMaxScore : 17
   },
 
   // DBSCAN3
   dbscan3 : {
     iMaxResult : 10000, // The maximum number of results to retrieve in the
-    fEps : 17,
-    iMinPts : 6,
+    fEps : 26,
+    iMinPts : 3,
   },
 
   // BAG OF WORDS
