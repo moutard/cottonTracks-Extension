@@ -55,10 +55,42 @@ Cotton.Controllers.Background = Class.extend({
   _iTriggerStory : null,
 
   /**
+   * boolean that indicates if everything is set for installation or update
+   **/
+  _bReadyForStart : null,
+
+  /**
+   * boolean that indicates if installation has been launched already
+   **/
+  _bInstalled : null,
+
+  /**
+   * boolean that indicates if update has been launched already
+   **/
+  _bUpdated : null,
+
+  /**
    *
    */
   init : function(){
     var self = this;
+    self._bReadyForStart = false;
+    self._bInstalled = false;
+    self._bUpdated = false;
+
+    chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
+      Cotton.ONEVENT = oInstallationDetails['reason'];
+      console.log(Cotton.ONEVENT);
+      if (self._bReadyForStart && !self._bInstalled && Cotton.ONEVENT === 'install'){
+        self._bInstalled = true;
+        self.install();
+      } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
+        self._bInstalled = true;
+        self.update();
+      } else {
+        // pass
+      }
+    });
 
     this._dGetContentTabId = {};
     this._dTabStory = {};
@@ -76,18 +108,21 @@ Cotton.Controllers.Background = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
+        self._bReadyForStart = true;
 
         // Init the messaging controller.
         self._oMessagingController = new Cotton.Controllers.Messaging(self);
         self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController);
 
           DEBUG && console.debug('Global store created');
-          if (Cotton.ONEVENT === 'install') {
+          if (!self._bInstalled && Cotton.ONEVENT === 'install') {
+            self._bInstalled = true;
             var date = new Date();
             var month = date.getMonth() + 1;
             localStorage['cohort'] = "" + month + "/" + date.getFullYear();
             self.install();
-          } else if(Cotton.ONEVENT === 'update'){
+          } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
+            self._bUpdated = true;
             self.update();
           } else {
             // pass
@@ -217,7 +252,7 @@ Cotton.Controllers.Background = Class.extend({
    */
   install : function(){
     var self = this;
-
+      console.log("install");
     DEBUG && console.debug("Controller - install");
     var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
     Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
@@ -289,10 +324,6 @@ Cotton.Controllers.Background = Class.extend({
       delete this._dTabStory[iTabId];
     }
   }
-});
-
-chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
-  Cotton.ONEVENT = oInstallationDetails['reason'];
 });
 
 Cotton.BACKGROUND = new Cotton.Controllers.Background();
