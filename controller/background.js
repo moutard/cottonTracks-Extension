@@ -83,6 +83,9 @@ Cotton.Controllers.Background = Class.extend({
 
           DEBUG && console.debug('Global store created');
           if (Cotton.ONEVENT === 'install') {
+            var date = new Date();
+            var month = date.getMonth() + 1;
+            localStorage['cohort'] = "" + month + "/" + date.getFullYear();
             self.install();
           } else if(Cotton.ONEVENT === 'update'){
             self.update();
