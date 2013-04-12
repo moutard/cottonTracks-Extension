@@ -152,8 +152,6 @@ test("algo of dbscan3 worker for hadrien with very low fEps (0)", function() {
   equal(iNbCluster, 1);
   equal(dStories[0].length, lHistoryItems.length);
 });
-test("algo of dbscan3 worker for hadrien WITH COSINE with very small fEps (10)", function() {
-  DEBUG && console.debug('HADRIEN');
 
 test("algo of dbscan3 worker for hadrien with high fEps (200)", function() {
 
