@@ -13,6 +13,9 @@ Cotton.Analytics = Class.extend({
       _gaq.push(['_setAccount', 'UA-30134257-3']);
     }
     _gaq.push(['_trackPageview']);
+    if (localStorage['cohort']) {
+      _gaq.push(['_trackEvent', 'cohort', localStorage['cohort']]);
+    }
 
     var ga = document.createElement('script');
     ga.type = 'text/javascript';
