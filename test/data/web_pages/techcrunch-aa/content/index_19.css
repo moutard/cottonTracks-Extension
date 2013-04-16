@@ -1,0 +1,31 @@
+/* ::::: http://i.api.grvcdn.com/personalization/base.a034481826efb2548f1436b1290609dd.css ::::: */
+
+body { margin: 0px; padding: 0px; }
+.grv_clear { clear: both; }
+.grv_publisher > * { display: none; }
+.grv_publisher_site { display: none; }
+.grv_publisher_site_url { display: none; }
+.grv_publisher_author { display: none; }
+.grv_post_type { display: none; }
+.grv_img_link { display: none; }
+.grv_number { display: none; }
+.grv_stats { display: none; }
+.grv_article { list-style: none outside none; }
+a.grv_article_title { width: auto; }
+a.grv_img_link img.grv_article_img { border-style: none; }
+.grv_article_img { position: relative; }
+.grv_article_img.grv_width { width: 100%; }
+.grv_spinner { display: block; margin: 0px auto; padding: 32px 0px; }
+/* ::::: http://i.api.grvcdn.com/personalization/sites/fca4fa8af1286d8a77f26033fdeed202/screen.8920a6df1bd054eb4c160cd5fa9e3f70.css ::::: */
+
+#grv_widget { font-family: helvetica,arial,clean,sans-serif; background: none repeat scroll 0% 0% rgb(255, 255, 255); width: 300px; }
+#grv_widget h3.grv_stories_header { background: url('tc_header_sprite.683b58fc97163035caea81c7bfa13821.png') no-repeat scroll 100% -30px transparent; color: white; display: inline-block; font-family: Interstate,Helvetica,Arial,sans-serif; font-size: 25px; font-weight: bold; line-height: 30px; margin: 0px 0px 11px; padding: 0px 30px 0px 10px; text-transform: uppercase; }
+.grv_untabbed .grv_panel { border-top: 1px solid rgb(102, 102, 102); margin: 0px 0px 0px 10px; padding: 10px 0px 0px 10px; }
+.grv_articles { padding: 0px; margin: 0px; }
+.grv_article { position: relative; min-height: 70px; margin: 0px 0px 6px; padding: 0px 0px 6px 105px; background: url('tc_img_bg.51d2fc5b06656112ccb171d52a2c9535.png') no-repeat scroll 1px 1px transparent; }
+.grv_img_link { background-color: white; border: 2px solid rgb(255, 255, 255); display: block; height: 64px; padding: 0px; width: 89px; overflow: hidden; position: absolute; top: 2px; left: 2px; }
+.grv_img_link:hover { border: 2px solid rgb(10, 150, 0); }
+.grv_article_img { position: relative; }
+a.grv_article_title { position: relative; color: black; font-size: 16px; line-height: 18px; text-decoration: none; font-weight: bold; max-height: 54px; display: block; }
+a.grv_article_title:hover { color: rgb(10, 150, 0); text-decoration: none; }
+.grv_spinner { padding-bottom: 740px; }

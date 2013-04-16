@@ -1,0 +1,25 @@
+html, body { margin: 0px; padding: 0px; min-height: 100%; background: none repeat scroll 0% 0% transparent; }
+/* ::::: http://assets.tumblr.com/assets/styles/iframe.css?33 ::::: */
+
+html, body { margin: 0px; padding: 0px; min-height: 100%; }
+body { position: fixed; font: 600 12px/20px "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif; background: none repeat scroll 0% 0% transparent; visibility: visible; top: 0px; right: 0px; left: 0px; transition-property: opacity, top; transition-duration: 0.35s, 0.25s; transition-delay: 0.25s; transition-timing-function: linear, ease-out; }
+a { float: left; display: block; color: rgb(28, 28, 28); cursor: pointer; text-decoration: none; }
+.btn { position: relative; white-space: nowrap; outline: 0px none; text-decoration: none; cursor: pointer; overflow: hidden; text-overflow: ellipsis; font: 600 12px/18px "Helvetica Neue","HelveticaNeue",Helvetica,Arial,sans-serif; height: 20px; padding: 0px 5px; -moz-user-select: none; -moz-box-sizing: border-box; transition-property: padding; transition-duration: 0.1s; transition-timing-function: ease; }
+.btn_label { display: none; }
+.btn_label.show { display: block; }
+.btn:after { position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; content: ""; border-radius: inherit; }
+.btn:hover:after, .btn:focus:after { background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.09); }
+.btn:active:after { background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.18); }
+.btn.join { float: right; color: rgb(255, 255, 255); background-color: rgb(92, 162, 207); }
+.iframe_controls { position: absolute; top: 0px; right: 0px; margin: 3px 0px 0px; }
+.iframe_controls .btn { margin: 0px 3px 0px 0px; }
+.controls { display: none; }
+.version_old .controls_old, .version_pill .controls_pill, .version_flag .controls_flag { display: block; }
+.version_pill .btn { margin-bottom: 5px; color: rgb(255, 255, 255); border: 1px solid rgba(0, 0, 0, 0.18); background: none repeat scroll 0% 0% rgba(0, 0, 0, 0.38); text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.08); border-radius: 2px 2px 2px 2px; }
+.btn.icon { padding-left: 20px; }
+.btn.icon:before { display: block; content: ""; position: absolute; top: 0px; left: 0px; bottom: 0px; width: 20px; border-radius: inherit; background: url('iframe_sprite.png') no-repeat scroll 0px 0px transparent; }
+.btn.follow:before { background-position: -40px 0px; }
+.btn.join:before { background-position: 0px 0px; }
+@media not all, only screen and (min--moz-device-pixel-ratio: 2), not all, not all, only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+	.btn.icon:before { background-image: url('iframe_sprite2x.png'); background-size: 400px 60px; }
+}

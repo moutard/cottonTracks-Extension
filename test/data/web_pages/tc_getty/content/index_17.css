@@ -1,0 +1,161 @@
+/* ::::: https://fbstatic-a.akamaihd.net/rsrc.php/v2/yr/r/jdQ4jB7OH4o.css ::::: */
+
+form { margin: 0px; padding: 0px; }
+label { cursor: pointer; color: rgb(102, 102, 102); font-weight: bold; vertical-align: middle; }
+label input { font-weight: normal; }
+textarea, .inputtext, .inputpassword { border: 1px solid rgb(189, 199, 216); margin: 0px; padding: 3px; }
+textarea { max-width: 100%; }
+select { border: 1px solid rgb(189, 199, 216); padding: 2px; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+a { color: rgb(59, 89, 152); cursor: pointer; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { border: 0px none; }
+ul { list-style-type: none; margin: 0px; padding: 0px; }
+abbr { border-bottom: medium none; }
+.clearfix:after { clear: both; content: "."; display: block; font-size: 0px; height: 0px; line-height: 0; visibility: hidden; }
+.clearfix {  }
+.word_break { display: inline-block; }
+#facebook .hidden_elem { display: none ! important; }
+.uiCloseButton { cursor: pointer; display: inline-block; margin: 0px; padding: 0px; }
+label.uiCloseButton { overflow: hidden; }
+.uiCloseButton input { cursor: pointer; opacity: 0; outline: medium none; padding: 18px; }
+.uiCloseButton { background-image: url('4wsewcwbov8.png'); background-repeat: no-repeat; height: 15px; width: 15px; }
+.uiCloseButton:hover, .uiCloseButton:focus { background-position: left -32px; }
+.uiCloseButton:active { background-position: left -48px; }
+.fbConnectWidgetFooter { bottom: 0px; cursor: default; position: absolute; width: 100%; }
+.fbConnectWidgetFooter .fbFooterBorder { border-top: 1px solid rgb(204, 204, 204); margin: 0px 6px; padding: 4px 3px; }
+body.transparent_widget { background-color: transparent; overflow: hidden; }
+.DOMControl_placeholder { color: rgb(119, 119, 119); }
+.fbFeedbackContent .composer { background-color: rgba(190, 190, 190, 0.2); border-style: solid; border-color: rgb(233, 233, 233); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 0px; padding: 7px 10px 7px 69px; position: relative; }
+.fbFeedbackContent .fbFeedbackPosts .composer { margin-left: -10px; }
+.fbFeedbackContent .composer .viewerProfilePic { background-color: rgb(221, 221, 221); margin: 2px 0px 0px; padding: 0px ! important; position: absolute; left: 10px; }
+.fbCommentContext .textwrapper, .fbFeedbackContent .textwrapper { padding: 0px 8px 0px 0px; }
+.fbFeedbackContent .postToProfile { float: left; position: relative; min-width: 135px; }
+.fbFeedbackContent .postToProfile input { position: relative; top: 2px; }
+.fbFeedbackContent div.commentas { color: gray; float: right; margin: 4px 6px; }
+.fbFeedbackContent .indicator { float: left; margin: 10px 0px 0px -45px; position: absolute; }
+.fbCommentContext .composer textarea, .fbFeedbackContent .composer textarea { border: 1px solid rgb(137, 155, 197); padding: 3px; width: 100%; }
+.fbFeedbackContent .replywrapper { padding: 0px 8px 0px 0px; }
+.fbFeedbackContent .composerReply { border-top: 1px solid rgb(233, 233, 233); }
+.fbFeedbackContent .composerReply { padding-top: 8px; }
+.fbFeedbackContent .composerReply textarea { width: 100%; }
+.fbFeedbackContent .postContent .action_links { margin-bottom: 8px; }
+.fbFeedbackContent .postBlingBox { border: medium none; bottom: 1px; cursor: text; padding: 0px; position: relative; }
+.fbFeedbackContent .postBlingBox:hover { background-color: transparent; border: medium none; }
+.fbFeedbackContent .fbUpDownVoteAfterLogin { display: inline; }
+.fbFeedbackContent .fbFeedbackPager { margin-left: 0px; }
+.fbFeedbackContent .fbFeedbackPager .fbFeedbackPagerLink { padding: 8px; }
+.fbFeedbackContent .fbFeedbackReplyPager .fbFeedbackPagerLink { padding: 5px 8px; }
+.fbFeedbackContent .fbFeedbackPager .fbFeedbackPagerLink:hover { text-decoration: none; }
+.fbFeedbackContent { min-height: 160px; }
+.fbFeedbackContent .fbFeedbackPosts { padding: 0px 0px 0px 10px; }
+.fbFeedbackContent .star { height: 11px; width: 11px; }
+.fbFeedbackContent .post { margin-top: 4px; }
+.fbFeedbackContent .post input { margin-left: 0px; }
+.fbCommentContext .post .uiSelector, .fbCommentContext .cancel .uiSelector, .fbFeedbackContent .post .uiSelector, .fbCommentContext .post .uiButton, .fbCommentContext .cancel .uiButton, .fbFeedbackContent .post .uiButton { float: right; }
+.fbCommentContext .post .uiSelector .uiButton, .fbCommentContext .cancel .uiSelector .uiButton, .fbFeedbackContent .post .uiSelector .uiButton { float: none; }
+.fbFeedbackContent .post label.desc { font-weight: normal; position: absolute; top: 4px; }
+.fbFeedbackContent .profileName { font-size: 11px; }
+.fbFeedbackContent .fbFeedbackPost { border-style: solid; border-color: rgb(226, 226, 226); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 0px 0px; clear: both; padding-bottom: 0px ! important; padding-top: 10px; }
+.fbFeedbackContent li.fbTopLevelComment:first-of-type { border-width: 0px; }
+.fbFeedbackContent li.fbTopLevelComment:last-of-type { margin-bottom: -5px; }
+.fbFeedbackReplies .fbFeedbackPost { border-width: 0px 0px 1px; border-color: rgb(233, 233, 233); }
+.fbFeedbackReply form, .fbFeedbackContent .postReply, .postReplies { margin-top: 8px; }
+.postReplies .uiMorePagerLight .uiMorePagerPrimary:hover { background-color: rgba(225, 228, 237, 0.6); }
+.fbFeedbackContent .postContainer:hover .closeButton, .fbFeedbackContent .postContainer:hover .closeButtonAfterLogin { visibility: visible; }
+.fbFeedbackContent .postContainer .closeButton, .fbFeedbackContent .postContainer .closeButtonAfterLogin { float: right; visibility: hidden; }
+.fbFeedbackPost { position: relative; }
+.fbFeedbackPost .postContent { margin-top: 5px; }
+.fbFeedbackPost .postText { color: rgb(26, 26, 26); line-height: 14px; margin: 0px 28px 5px 0px; }
+.fbFeedbackPost .postActor { background-color: rgb(237, 237, 237); margin-bottom: 8px; margin-right: 11px; }
+.fbFeedbackReplyPager { height: 16px; margin-bottom: 8px; }
+.fbFeedbackContent .fbConnectWidgetFooter { position: static; }
+.fbFeedbackContent .fbConnectWidgetFooter .fbFooterBorder { margin: 5px 0px 0px; }
+.fbTopLevelComment .fbFeedbackReplies .fbCommentReply { border-width: 1px 0px 0px; }
+.fbCommentsEditSettings .uiInfoTable tr:nth-last-child(2) th, .fbCommentsEditSettings .uiInfoTable tr:nth-last-child(2) td { padding-bottom: 0px; }
+.lfloat { float: left; }
+.uiLinkButton input { background: none repeat scroll 0% 0% transparent; border: medium none; color: rgb(59, 89, 152); cursor: pointer; font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; margin: 0px; padding: 0px; vertical-align: top; }
+.uiLinkButton input::-moz-focus-inner { border: 0px none; padding: 0px; }
+.uiLinkButton:hover, .uiLinkButton input:hover, .uiLinkButton input:focus, .uiLinkButton input:active { color: rgb(59, 89, 152); text-decoration: underline; }
+.ff4 .uiLinkButton:hover { text-decoration: none; }
+.pam { padding: 10px; }
+.phm { padding-left: 10px; padding-right: 10px; }
+.mts { margin-top: 5px; }
+.mls { margin-left: 5px; }
+.sp_comments { background-image: url('u9awdhggiju.png'); background-repeat: no-repeat; display: inline-block; height: 16px; width: 16px; }
+.sx_comments_favicon { background-position: 0px -153px; }
+.sx_comments_cfavicon { width: 14px; height: 14px; background-position: 0px -187px; }
+.sx_comments_yahoo { background-position: -17px -153px; }
+.sx_comments_aol { background-position: -34px -153px; }
+.sx_comments_msft { background-position: 0px -170px; }
+.sx_comments_pyahoo { width: 50px; height: 50px; background-position: 0px 0px; }
+.sx_comments_star { width: 11px; height: 10px; background-position: 0px -202px; }
+.sx_comments_arrowl { width: 5px; height: 3px; background-position: -28px -198px; }
+.sx_comments_like { width: 15px; height: 13px; background-position: -33px -170px; }
+.text_exposed_root { display: inline; }
+.text_exposed_show, .text_exposed .text_exposed_hide { display: none; }
+.text_exposed_link { font-size: 9px; padding: 0px 12px 0px 0px; white-space: nowrap; }
+.uiBlingBox { border-bottom: 1px solid rgb(255, 255, 255); display: inline-block; padding: 3px 4px 3px 2px; }
+.uiBlingBox:hover { text-decoration: none; background-color: rgb(236, 239, 245); border-bottom: 1px solid rgb(229, 234, 241); }
+.uiBlingBox .text { line-height: 11px; vertical-align: text-bottom; }
+.uiBlingBox .img { margin-right: 2px; vertical-align: text-top; }
+.uiBoxWhite { background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); }
+.topborder { border-bottom: medium none; border-left: medium none; border-right: medium none; }
+.uiButton { cursor: pointer; display: inline-block; font-size: 11px; font-weight: bold; line-height: 13px; padding: 2px 6px; text-align: center; text-decoration: none; vertical-align: top; white-space: nowrap; }
+.uiButton, .uiButtonSuppressed:active, .uiButtonSuppressed:focus, .uiButtonSuppressed:hover { background-image: url('wcweqt3esxp.png'); background-repeat: no-repeat; background-size: auto auto; background-position: -352px -446px; background-color: rgb(238, 238, 238); border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153) rgb(153, 153, 153) rgb(136, 136, 136); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1); }
+.uiButton:hover { text-decoration: none; }
+.uiButton:active, .uiButtonDepressed { background: none repeat scroll 0% 0% rgb(221, 221, 221); border-bottom-color: rgb(153, 153, 153); box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2) inset; }
+.uiButtonText, .uiButton input { background: none repeat scroll 0% 0% transparent; border: 0px none; color: rgb(51, 51, 51); cursor: pointer; display: inline-block; font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; font-weight: bold; line-height: 13px; margin: 0px; padding: 1px 0px 2px; white-space: nowrap; }
+.uiButton input::-moz-focus-inner { border: 0px none; padding: 0px; }
+.uiButtonConfirm { background-image: url('wcweqt3esxp.png'); background-repeat: no-repeat; background-size: auto auto; background-position: -352px -495px; background-color: rgb(91, 116, 168); border-color: rgb(41, 68, 126) rgb(41, 68, 126) rgb(26, 53, 110); }
+.uiButtonConfirm:active { background: none repeat scroll 0% 0% rgb(79, 106, 163); border-bottom-color: rgb(41, 68, 126); }
+form.async_saving .uiButton.uiButtonSpecial .uiButtonText, form.async_saving .uiButton.uiButtonSpecial input, form.async_saving .uiButton.uiButtonConfirm .uiButtonText, form.async_saving .uiButton.uiButtonConfirm input, .uiButtonSpecial .uiButtonText, .uiButtonSpecial input, .uiButtonSpecial.uiButtonDisabled .uiButtonText, .uiButtonSpecial.uiButtonDisabled input, .uiButtonConfirm .uiButtonText, .uiButtonConfirm input, .uiButtonConfirm.uiButtonDisabled .uiButtonText, .uiButtonConfirm.uiButtonDisabled input { color: rgb(255, 255, 255); }
+.ff4.mac .uiButton, .ff4.mac .uiButtonText, .ff4.mac .uiButton input { line-height: 14px; }
+.ff4.mac .uiButtonText, .ff4.mac .uiButton input { margin-bottom: -1px; }
+.uiIconText { display: inline-block; padding-left: 21px; position: relative; }
+.uiIconText .img { left: 0px; position: absolute; top: -1px; vertical-align: middle; }
+i.img {  }
+._8m { overflow: hidden; }
+._8u { margin-top: 1px; }
+._8o, ._8o .img { display: block; }
+._8r { margin-right: 5px; margin-top: -1px; }
+._29k { display: table-cell; vertical-align: top; width: 10000px; }
+._29h { float: left; margin-right: 5px; }
+._29h .img, img._29h, i._29h { display: block; }
+a.uiLinkSubtle { color: gray; }
+._4kg > li { border-width: 1px 0px 0px; }
+.uiList > li:first-child { border-width: 0px; }
+.uiMenu { background-color: rgb(255, 255, 255); padding: 3px 0px 4px; overflow-y: auto; }
+.uiMenuItem .itemAnchor { border-style: solid; border-color: rgb(255, 255, 255); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 0px; color: rgb(17, 17, 17); display: block; font-weight: normal; line-height: 16px; padding: 1px 16px 1px 22px; text-decoration: none; }
+.uiMenuItem a:hover { text-decoration: none; }
+.uiMenuItem a:active, .uiMenuItem a:focus { background-color: rgb(109, 132, 180); border-color: rgb(59, 89, 152); color: rgb(255, 255, 255); outline: medium none; }
+.uiMenuItem { white-space: nowrap; }
+.uiMenuItem .itemLabel { display: block; max-width: 300px; text-overflow: ellipsis; white-space: nowrap; }
+.uiMorePager .uiMorePagerPrimary { display: block; padding: 10px 15px; }
+.uiMorePager .uiMorePagerPrimary:hover { background-color: rgb(216, 223, 234); }
+.uiMorePager .arrow { display: inline-block; vertical-align: top; }
+.uiMorePager .uiMorePagerLoader { display: none; padding: 11px 15px 9px; text-align: center; }
+._s0:only-child { display: block; }
+._rw { width: 50px; height: 50px; }
+.uiToggleFlyout, .toggleTargetClosed, .openToggler .uiToggleFlyout .uiToggleFlyout { display: none; }
+.uiSelector { max-width: 200px; vertical-align: top; }
+.uiSelector .wrap { position: relative; }
+.uiSelector select, .uiSelector .submitButton, .no_js form .uiSelectorButton { display: none; }
+.uiSelector .uiButton, .uiSelector .uiButton:active, .uiSelector .uiButton:focus, .uiSelector .uiButton:hover { background-image: none; }
+.uiSelector .uiSelectorButton { vertical-align: top; }
+.uiSelector .uiSelectorButton:active { background-color: rgb(221, 221, 221); }
+.uiSelectorNormal .uiSelectorButton, .uiSelectorNormal .uiSelectorButton:active, .uiSelectorNormal .uiSelectorButton:focus, .uiSelectorNormal .uiSelectorButton:hover, .uiSelectorNormal .uiButtonSuppressed:active, .uiSelectorNormal .uiButtonSuppressed:focus, .uiSelectorNormal .uiButtonSuppressed:hover { background-image: url('wcweqt3esxp.png'); background-repeat: no-repeat; background-size: auto auto; background-position: right -544px; max-width: 169px; padding-right: 23px; }
+.uiSelectorNormal .uiButtonOverlay, .uiSelectorNormal .uiButtonOverlay:active, .uiSelectorNormal .uiButtonOverlay:focus, .uiSelectorNormal .uiButtonOverlay:hover, .uiSelectorNormal .uiSelectorButton:active, .uiSelectorNormal .uiButtonSuppressed { background-image: url('wcweqt3esxp.png'); background-repeat: no-repeat; background-size: auto auto; background-position: right -202px; }
+.uiSelectorNormal .uiSelectorButton .uiButtonText { max-width: 169px; overflow: hidden; text-overflow: ellipsis; vertical-align: top; }
+.uiSelectorMenuWrapper { bottom: auto; left: 0px; margin: -1px 0px 30px; max-width: 340px; min-width: 100%; position: absolute; right: auto; top: 100%; z-index: -1; }
+.uiSelector .uiMenu { border-width: 1px 1px 2px; border-style: solid; border-color: rgb(119, 119, 119) rgb(119, 119, 119) rgb(41, 62, 106); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+.uiTextareaNoResize { resize: none; }
+.uiTextareaAutogrow { overflow: hidden; }
+.fss { font-size: 9px; }
+.fsm { font-size: 11px; }
+.fsl { font-size: 13px; }
+.fwn { font-weight: normal; }
+.fwb { font-weight: bold; }
+.fcb { color: rgb(51, 51, 51); }
+.fcg { color: gray; }

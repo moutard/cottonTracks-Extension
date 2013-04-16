@@ -1,0 +1,22 @@
+{
+  "id": "arstechnica_html5",
+  "url": "http://arstechnica.com/business/2012/03/html5-roundup-mozilla-and-google-aim-to-level-up-gaming-on-the-web/",
+  "path": "test/data/web_pages/arstechnica_html5/content/index.html",
+  "best_image": "",
+
+  "expected": [
+    "Standards-based open Web technologies are increasingly capable of delivering interactive multimedia experiences; the kind that used to only be available through plugins or native applications. This trend is creating new opportunities for gaming on the Web.",
+    "New standards are making it possible for Web applications to implement 3D graphics, handle input from gamepad peripherals, capture and process audio and video in real-time, display graphical elements in a fullscreen window, and use threading for parallelization. Support for mobile gaming has also gotten a boost from features like device orientation APIs and improved support for handling touchscreen interaction.",
+    "A great deal of work is being done under the hood in browsers to boost the performance of Web scripting and rendering. This will help to make the Web a more suitable platform for handling the complexity of games. Browser vendors are trying to boost the speed of JavaScript execution, take advantage of hardware acceleration wherever possible, and minimize the latency.",
+    "Mozilla recently held an HTML5 games work week at its Toronto offices in order to flesh out its roadmap for improving Web gaming. The open discussions attracted some industry heavyweights, including video game publisher Electronic Arts. Mozilla technical evangelist Rob Hawkes wrote a high-level summary of the week's activities on the Mozilla Hacks blog. The current roadmap can be found at the AreWeFunYet.com domain, which points to the relevant page in the Mozilla wiki.",
+    "Google has also been active in the effort to advance gaming on the Web. Google's Christian Stefansen recently wrote an entry about the topic at the official Chromium blog. Like Mozilla, Google is collaborating with standards bodies to advance new Web APIs. The company even created a special page on its official Google Developers website that describes how various Google services and technologies can be used to accelerate and monetize the development of Web-based games.",
+    "The video game industry got a lot of press this week due to the flood of news from the GDC event, so we thought it would be a great opportunity to highlight some of the ways modern standards are advancing gaming on the Web. There are a few other noteworthy developments from the HTML5 scene we also want to share:",
+    "The jQuery Foundation launched this week. The organization, which is a non-profit trade association, will provide a home for the popular open source JavaScript library. The jQuery project was formerly administered by an independent board through the Software Freedom Conservancy.",
+    "Some documentation on the MSDN website shows how developers can use \"promises\" for asynchronous JavaScript programming in Metro style apps. Their implementation is based on the CommonJS Promises specification.",
+    "Chromium recently got supported for scoped stylesheets, a feature that allows Web developers to plant a style element block anywhere in a page's element hierarchy and restrict it to operating on the enclosing tag and its descendants.",
+    "A JavaScript port of SQLite has been published on GitHub. It was compiled to JavaScript from C with Emscripten, an LLVM-based transpiler.",
+    "WebKit has gained support for JavaScript speech APIs, which implement a draft-status speech recognition standard authored by Google.",
+    "Google has added mobile support to its Page Speed testing tool. It can now analyze mobile pages when used in conjunction with the powerful remote debugging capabilities that are built into Chrome for Android.",
+    "If you missed our open Web reporting this week, you might want to check out our coverage of the Sencha Touch 2 launch, Mozilla's effort to port Firefox to the Windows 8 metro environment, and the challenges that Android fragmentation pose for Web developers."
+  ]
+}

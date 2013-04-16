@@ -1,0 +1,12 @@
+{
+  "id": "chrome_blog_washington",
+  "url": "http://chrome.blogspot.com/2012/03/chrome-dons-suit-and-heads-to.html",
+  "path": "test/data/web_pages/chrome_blog_washington/content/index.html",
+
+  "best_image": "",
+
+  "expected": [
+    "For the same reasons you might choose Chrome for your home or work computer -- speed, simplicity, security -- businesses and organizations are choosing to give Chrome to their employees. Just over a year ago we announced that Chrome would get a special set of tools for IT admins at organizations, giving them controls to easily set up, push out and manage the browser in a professional environment. Now guess what? The US Department of State made Chrome available to all employees, and just two weeks later, more than 58,000 of their employees have Chrome installed.",
+    "Read more from our guest blogger Chris Bronk from the US Department of State on the Google Enterprise blog, and check out the Chrome for Business website."
+  ]
+}
