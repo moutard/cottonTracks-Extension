@@ -9,7 +9,7 @@ var blackList = ['htm', 'the', 'pdf',
 "finally", "instead", "otherwise", "thus", "hence", "accordingly", "anyhow",
 "nevertheless", "nonetheless", "however", "meanwhile", "subsequently", "afterward",
 "are", "com", "fr", "with", "you", "in", "what", "to", "do", "an", "a", "wikipedia",
-"free", "encyclopedia", "wikipédia"
+"free", "encyclopedia", "wikipédia", "jpg", "gif", "jpeg", "png"
 ];
 
   return blackList.indexOf(sWord) !== -1;
