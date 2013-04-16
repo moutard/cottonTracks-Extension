@@ -31,7 +31,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
   },
 
   isFileProtocol : function(sProtocol) {
-    return sProtocol === "file:";
+    return (sProtocol === "file:") && (! DEBUG);
   },
 
   isChromeExtension : function(sProtocol) {
