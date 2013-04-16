@@ -57,16 +57,46 @@ Cotton.Behavior.Passive.Parser = Class
       },
 
       /**
+       * Sends a Chrome Extension Message with the meaningful elements inside a
+       * tree.
+       *
+       * @param {Element} node The tree.
+       */
+      _publishResults : function() {
+        var self = this;
+        chrome.extension.sendMessage({
+          'parsing': 'end',
+          'results': {
+            'meaningful': self._lAllParagraphs,
+            'bestImage': self.bestImage()
+          }
+        });
+      },
+
+      /**
+       * Sends a Chrome Extension Message notifying that the parser started.
+       *
+       * @param {Element} node The tree.
+       */
+      _publishStart : function() {
+        chrome.extension.sendMessage({
+          'parsing': 'start'
+        });
+      },
+
+      /**
        * Parse all the blocks and add the attribute 'data-meaningful', if the
        * block is considered interesting. Then remove the some meaningful
        * blocks.
        */
       parse : function() {
+        this._publishStart();
         $('[data-meaningful]').removeAttr('data-meaningful');
         this._findMeaningfulBlocks();
         this._removeLeastMeaningfulBlocks();
 
         this.findBestImage();
+        this._publishResults();
       },
 
       /**
