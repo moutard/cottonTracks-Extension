@@ -1,0 +1,14 @@
+/* ::::: http://s.ytimg.com/yts/cssbin/www-embed-vfl6-qVF8.css ::::: */
+
+.yt-uix-button::-moz-focus-inner { border: 0px none; padding: 0px; }
+@media not all {
+}
+.html5-chromeless .html5-video-container, .html5-native-controls .html5-video-container, .autohide-on:not(.ended-mode) .html5-video-container, .autohide-auto:not(.ended-mode) .html5-video-container, body[data-player-size="fullscreen"] .autohide-fade:not(.ended-mode) .html5-video-container, .autohide-embeds.autohide-aspect:not(.ended-mode) .html5-video-container { bottom: 0px; }
+.autohide-on:not(.ended-mode) .ad-overlay, .autohide-auto:not(.ended-mode) .ad-overlay, body[data-player-size="fullscreen"] .autohide-fade:not(.ended-mode) .ad-overlay, .autohide-embeds.autohide-aspect:not(.ended-mode) .ad-overlay { padding-bottom: 30px; }
+.autohide-on:not(.cued-mode) .html5-watermark, .autohide-auto:not(.cued-mode) .html5-watermark, body[data-player-size="fullscreen"] .autohide-fade:not(.cued-mode) .html5-watermark, .autohide-embeds.autohide-aspect:not(.cued-mode) .html5-watermark { bottom: 34px; }
+body { line-height: 1; text-align: start; }
+body { margin: 0px; padding: 0px; border: 0px none; font-size: 100%; }
+a, abbr, acronym, address, applet, b, big, blockquote, button, canvas, caption, center, cite, code, dd, del, dfn, div, dl, dt, em, embed, fieldset, font, form, h1, h2, h3, h4, h5, h6, hr, html, i, iframe, img, ins, kbd, label, legend, li, menu, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, u, ul, var { margin: 0px; padding: 0px; border: 0px none; font-size: 100%; background: none repeat scroll 0% 0% transparent; }
+html { overflow: hidden; }
+body { font: 12px Arial,sans-serif; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); height: 100%; width: 100%; overflow: hidden; position: absolute; }
+.full-frame { width: 100%; height: 100%; }

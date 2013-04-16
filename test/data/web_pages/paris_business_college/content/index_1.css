@@ -1,0 +1,62 @@
+body.plugin { background: none repeat scroll 0% 0% transparent; overflow: hidden; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+a { color: rgb(59, 89, 152); cursor: pointer; text-decoration: none; }
+button { margin: 0px; }
+a:hover { text-decoration: underline; }
+img { border: 0px none; }
+td, td.label { text-align: left; }
+ul { list-style-type: none; margin: 0px; padding: 0px; }
+.clearfix:after { clear: both; content: "."; display: block; font-size: 0px; height: 0px; line-height: 0; visibility: hidden; }
+.clearfix {  }
+#facebook .hidden_elem { display: none ! important; }
+._4s7c { border-width: 1px; border-style: solid; border-right: 1px solid rgb(170, 170, 170); border-color: rgb(49, 92, 153) rgb(170, 170, 170) rgb(170, 170, 170); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+._8m { overflow: hidden; }
+._8u { margin-top: 1px; }
+._8o, ._8o .img { display: block; }
+._8r { margin-right: 5px; margin-top: -1px; }
+._42ef { overflow: hidden; }
+.lfloat { float: left; }
+.pam { padding: 10px; }
+.pts { padding-top: 5px; }
+.pls { padding-left: 5px; }
+.plm { padding-left: 10px; }
+.phm { padding-left: 10px; padding-right: 10px; }
+.pvs { padding-top: 5px; padding-bottom: 5px; }
+.mhs { margin-left: 5px; margin-right: 5px; }
+.uiGrid { border: 0px none; border-collapse: collapse; border-spacing: 0px; }
+.fss { font-size: 9px; }
+.fsl { font-size: 13px; }
+.fwn { font-weight: normal; }
+.fwb { font-weight: bold; }
+.fcg { color: gray; }
+form { margin: 0px; padding: 0px; }
+.pluginButton { background: none repeat scroll 0% 0% rgb(236, 238, 245); border-radius: 3px 3px 3px 3px; border: 1px solid rgb(202, 212, 231); cursor: pointer; padding: 2px 6px 4px; white-space: nowrap; color: rgb(59, 89, 152); }
+.pluginButtonX { cursor: default; }
+.pluginButton button { background: none repeat scroll 0% 0% transparent; border: 0px none; margin: -1px; padding: 0px; font: inherit; color: inherit; cursor: pointer; }
+.pluginButton button::-moz-focus-inner { border: 0px none; padding: 0px; }
+.pluginButtonIcon { position: relative; top: 3px; margin-right: 3px; }
+.pluginButton:hover { border-color: rgb(157, 172, 206); }
+.pluginButtonPressed, .pluginButtonPressed:hover { background-color: rgb(238, 238, 238); border-color: rgb(221, 221, 221); color: rgb(170, 170, 170); }
+.pluginButtonX .pluginButtonXOff, .pluginButtonX button:hover .pluginButtonXOn { display: inline-block; }
+.pluginButtonX .pluginButtonXOn, .pluginButtonX button:hover .pluginButtonXOff { display: none; }
+.pluginBoxDivider { border-top: 1px solid rgb(216, 223, 234); }
+.pluginBoxDividerGray { border-top-color: rgb(204, 204, 204); }
+._43qf ._4cg3 { margin-top: -3px; }
+._43qf ._43q7 { margin: 3px 3px 0px 0px; }
+._43qm li:last-child { margin-right: 0px; }
+._43q7 a { display: block; position: relative; }
+._43q7 .img { vertical-align: bottom; }
+._4ki > li { border-width: 0px 0px 0px 1px; display: inline-block; }
+._509- > li { vertical-align: top; }
+.uiList > li:first-child { border-width: 0px; }
+._4ki > li:first-child { padding-left: 0px; }
+._4ki > li:last-child { padding-right: 0px; }
+._s0:only-child { display: block; }
+._rw { width: 50px; height: 50px; }
+a.uiLinkSubtle { color: gray; }
+.sp_like { background-image: url('1dqf_atk831.png'); background-repeat: no-repeat; display: inline-block; height: 14px; width: 14px; }
+.sx_like_ch { background-position: 0px -15px; }
+.sx_like_x { background-position: 0px -30px; }
+.sx_like_thumb { background-position: 0px -45px; }
+i.img {  }

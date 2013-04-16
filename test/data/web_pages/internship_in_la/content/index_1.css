@@ -1,0 +1,7 @@
+body { padding: 0px; margin: 0px; }
+#rx-options { padding: 0.1em; margin: 0px; font-family: 'Trebuchet MS',Trebuchet,Arial,Verdana,Sans-serif; font-size: 78%; color: rgb(51, 51, 51); line-height: 170%; }
+#rx-options .rx-option { float: left; display: inline; background-position: 0% 50%; background-repeat: no-repeat; text-decoration: none; color: rgb(51, 51, 51); padding-left: 23px; padding-right: 5px; margin-left: 0.7em; cursor: pointer; background-image: url('checks_sprite.png'); }
+#rx-options a.rx-unchecked { background-position: 0px -39px; opacity: 0.7; }
+#rx-options a.rx-unchecked:hover { background-position: 0px -139px; }
+#rx-options a.rx-option:link { color: rgb(51, 51, 51); text-decoration: none; }
+#rx-options a.rx-option:visited { color: rgb(51, 51, 51); text-decoration: none; }

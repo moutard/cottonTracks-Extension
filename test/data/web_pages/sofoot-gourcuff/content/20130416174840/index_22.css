@@ -1,0 +1,15 @@
+a:link { color: rgb(0, 0, 0); }
+a:visited { color: rgb(0, 0, 0); }
+a:hover { color: rgb(0, 0, 0); }
+a:active { color: rgb(0, 0, 0); }
+div, ul, li { margin: 0px; padding: 0px; }
+#att { position: absolute; z-index: 9020; }
+#att ul { height: 18px; list-style: none outside none; width: 125px; }
+#att ul li { float: left; }
+#abgf { background-color: rgb(102, 102, 102); height: 18px; width: 107px; }
+#abgt { height: 18px; position: relative; width: 18px; }
+#abgc { opacity: 0.8; height: 18px; left: 274px; overflow: hidden; position: absolute; top: 0px; width: 125px; z-index: 9010; }
+#abgi { left: 12px; overflow: hidden; position: absolute; width: 113px; z-index: 9030; }
+#abgb { float: left; margin: 2px 1px; }
+#abgb img { display: block; }
+#abgs { margin: 1px; overflow: hidden; }

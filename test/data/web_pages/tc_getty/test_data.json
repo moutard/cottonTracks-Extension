@@ -1,0 +1,12 @@
+{
+  "id": "tc_getty",
+  "url": "http://techcrunch.com/2012/03/16/getty-images-ceo-how-to-build-a-company-that-lasts-tctv/",
+  "path": "test/data/web_pages/tc_getty/content/index.html",
+  "best_image": "",
+
+  "expected": [
+    "Some people are surprised when they find out that Getty Images is just 17 years old — its brand name has become such an institution in the image licensing and stock photography space that many people assume it's been around for decades longer. But starting in 1995 just at the dawn of the Internet age does make it a veteran in many ways in the web photo space. So we were pleased to have the chance to interview Getty Images' co-founder and CEO Jonathan Klein while he was at the South By Southwest Interactive conference in Austin, Texas this week to get his insights on how his company has grown up until this point and where it is headed in the months and years to come.",
+    "Watch the video above to get Klein's thoughts on revenue models (\"We may be old fashioned around here, but we actually think that people have to pay for content. We think that content creators also need to make a living\"), enforcing intellectual property ownership (\"[The music labels] did something that is unspeakable: They sued their fans and their customers\") and going with the flow (\"The customer is not always right, but the customer is almost always ahead of you.\") There are plenty more bon mots where those came from, so please do watch the interview in full.",
+    "Feature image of Jonathan Klein courtesy of Flickr user Joi Ito"
+  ]
+}

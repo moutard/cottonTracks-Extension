@@ -1,0 +1,619 @@
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/avatarModal.css ::::: */
+
+.avatarUploadModal .nytModalHeading { text-transform: none; }
+.avatarUploadModal .inset .module .subColumn-2 .avatarColumn { width: 90px ! important; }
+.avatarUploadModal .inset .module .subColumn-2 .lastColumn { width: 360px ! important; position: relative; }
+.avatarUploadModal .editProfileMessage { height: 150px; }
+.avatarUploadModal .applyCrop { margin: 7px 0px 0px 5px; }
+.avatarUploadModal .agreementMessage { width: 335px; }
+.avatarUploadModal .uploadSpinner { position: absolute; width: 100%; top: 0px; background: none repeat scroll 0% 0% white; height: 100%; opacity: 0.7; }
+.avatarUploadModal .uploadSpinner img { margin: 80px 0px 0px 150px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/loginModal.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/forms.css ::::: */
+
+.control { margin-bottom: 10px; }
+.lastControl { margin-bottom: 0px ! important; }
+.horizontalControl .control { margin-right: 10px; }
+.horizontalControl .control, .horizontalControl .legendContainer, .horizontalControl .labelContainer, .horizontalFormControl .legendContainer, .horizontalFormControl .labelContainer { float: left; display: inline; }
+.control:after, .horizontalControl:after, .horizontalFormControl:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.control, .horizontalControl, .horizontalFormControl { display: block; }
+.control, .horizontalControl, .horizontalFormControl {  }
+.checkboxControl .labelContainer, .radioControl .labelContainer, .switchControl .labelContainer { float: none; display: block; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer, .switchControl .fieldContainer { float: left; display: inline; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer { width: 19px; padding-left: 0px ! important; }
+.checkboxControl .labelContainer, .radioControl .labelContainer { padding-left: 19px; }
+.checkboxControl .checkbox, .radioControl .radio { margin: 2px 0px 0px; padding: 0px; }
+.control label { display: inline; }
+.labelContainer .insetV { margin: 4px 0px 0px; }
+.radio, .checkbox {  }
+.legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription { font-weight: normal; color: rgb(128, 128, 128); }
+.legendDescription, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .checkboxLabelSm { font-size: 10px; }
+.formHint, .legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .button, .applicationButton, .applicationButtonLt, .textButton, .appButton, .appButtonSmall { font-family: arial,helvetica,sans-serif; }
+.button, .applicationButton, .applicationButtonLt, .textButton { vertical-align: middle; text-align: center; overflow: visible; cursor: pointer; }
+.button, .applicationButton, .applicationButtonLt { border-radius: 2px 2px 2px 2px; }
+.applicationButton, .applicationButtonLt, .textButton { margin: 0px; padding: 5px 10px; font-size: 11px; line-height: 13px; }
+.applicationButton, .textButton { border: medium none; }
+.textButton { font-weight: normal; background-color: transparent; color: rgb(0, 66, 118); }
+.applicationButton { background-color: rgb(0, 66, 118); color: rgb(255, 255, 255); font-weight: bold; }
+@media not all {
+	.applicationButton, .textButton { padding: 6px 12px; }
+}
+.appButton::-moz-focus-inner, .appButtonSmall::-moz-focus-inner { padding: 0px; border: 0px none; }
+.loginModalForm .labelContainer { text-align: right; width: 120px; }
+.loginModalForm .insetV { margin: 4px 0px 0px; }
+.loginModalForm label { color: rgb(0, 0, 0); font-size: 11px; line-height: 13px; }
+.loginModalForm .fieldContainer, .loginModalForm .insetContainer { padding-left: 130px; }
+.loginModalForm .passwordControl .labelDescription { position: absolute; top: 18px; right: 0px; line-height: 12px; }
+.loginModalForm .loginSubmitControl .control { margin-bottom: 0px; }
+.loginModalForm .loginSubmitControl .labelContainer { text-align: left; width: auto; }
+.loginModalForm .loginSubmitControl .checkboxControl { margin-top: 5px; }
+.loginModalForm .checkboxLabel { display: inline-block; margin-top: 3px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/regiModal.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/forms.css ::::: */
+
+.control { margin-bottom: 10px; }
+.lastControl { margin-bottom: 0px ! important; }
+.horizontalControl .control { margin-right: 10px; }
+.horizontalControl .control, .horizontalControl .legendContainer, .horizontalControl .labelContainer, .horizontalFormControl .legendContainer, .horizontalFormControl .labelContainer { float: left; display: inline; }
+.control:after, .horizontalControl:after, .horizontalFormControl:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.control, .horizontalControl, .horizontalFormControl { display: block; }
+.control, .horizontalControl, .horizontalFormControl {  }
+.checkboxControl .labelContainer, .radioControl .labelContainer, .switchControl .labelContainer { float: none; display: block; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer, .switchControl .fieldContainer { float: left; display: inline; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer { width: 19px; padding-left: 0px ! important; }
+.checkboxControl .labelContainer, .radioControl .labelContainer { padding-left: 19px; }
+.checkboxControl .checkbox, .radioControl .radio { margin: 2px 0px 0px; padding: 0px; }
+.control label { display: inline; }
+.labelContainer .insetV { margin: 4px 0px 0px; }
+.radio, .checkbox {  }
+.legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription { font-weight: normal; color: rgb(128, 128, 128); }
+.legendDescription, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .checkboxLabelSm { font-size: 10px; }
+.formHint, .legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .button, .applicationButton, .applicationButtonLt, .textButton, .appButton, .appButtonSmall { font-family: arial,helvetica,sans-serif; }
+.button, .applicationButton, .applicationButtonLt, .textButton { vertical-align: middle; text-align: center; overflow: visible; cursor: pointer; }
+.button, .applicationButton, .applicationButtonLt { border-radius: 2px 2px 2px 2px; }
+.applicationButton, .applicationButtonLt, .textButton { margin: 0px; padding: 5px 10px; font-size: 11px; line-height: 13px; }
+.applicationButton, .textButton { border: medium none; }
+.textButton { font-weight: normal; background-color: transparent; color: rgb(0, 66, 118); }
+.applicationButton { background-color: rgb(0, 66, 118); color: rgb(255, 255, 255); font-weight: bold; }
+@media not all {
+	.applicationButton, .textButton { padding: 6px 12px; }
+}
+.appButton::-moz-focus-inner, .appButtonSmall::-moz-focus-inner { padding: 0px; border: 0px none; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/modalForms.css ::::: */
+
+.modalForm label, .modalForm .error, .nytModalContent .notificationContainer { font-family: arial,helvetica,sans-serif; }
+.modalForm input, .modalForm label, .modalForm textarea, .modalForm select { font-size: 11px; line-height: 13px; color: rgb(0, 0, 0); }
+.modalForm input { vertical-align: middle; }
+.modalForm .containingBlock { position: relative; }
+.modalForm .hidden { display: none ! important; }
+.modalForm .errorContainer, .nytModalContent .notificationContainer { position: relative; }
+.modalForm .error, .nytModalContent .notification { margin: 0px 0px 1em; font-size: 12px; line-height: 15px; }
+.modalForm .submitLoader { display: inline; }
+.modalForm .submitLoader img { vertical-align: middle; }
+.horizontalModalFormControl .labelContainer { width: 120px; text-align: right; }
+.horizontalModalFormControl .fieldContainer { padding-left: 130px; }
+.horizontalModalFormControl .checkboxControl .fieldContainer { width: 143px; text-align: right; }
+.horizontalModalFormControl .checkboxControl .labelContainer { width: auto; text-align: left; padding-left: 149px; }
+.horizontalModalFormControl .checkboxLabel { display: inline-block; margin-top: 3px; }
+.horizontalModalFormControl .buttonControl .fieldContainer { padding-left: 100px; }
+.horizontalModalFormControl .applicationButton { margin-left: 31px; }
+.horizontalModalFormControl .submitLoader { position: absolute; left: 102px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/build/article/2.0/styles.css?v=20120223 ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/global.css ::::: */
+
+body { margin: 0px; padding: 13px 0px; font-family: georgia,"times new roman",times,serif; font-size: 62.5%; line-height: 1.5em; color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); }
+h1, h2, h3, h4, h5, h6 { margin: 0px; color: rgb(0, 0, 0); }
+p, ul, ol, dl, dd { margin: 0px 0px 1em; }
+h1 { font-size: 2.4em; line-height: 1.083em; }
+h2 { font-size: 2em; line-height: 1.1em; }
+h3 { font-size: 1.5em; line-height: 1.133em; }
+h4 { font-size: 1.4em; line-height: 1.1429em; }
+h5, h6 { font-size: 1.2em; line-height: 1.25em; }
+h6 { font-weight: normal; }
+p, li, dt, dd { font-size: 1.2em; line-height: 1.25em; }
+ul li *, li li { font-size: 1em; }
+blockquote { margin: 0px 24px; }
+ul { list-style: none outside none; padding-left: 0px; }
+ol { padding-left: 0px; margin-left: 18px; }
+ul li { background: url('bullet4x4.gif') no-repeat scroll left 0.45em transparent; padding: 0px 0px 0px 8px; }
+ul.multiline li { margin-bottom: 1em; }
+a { color: rgb(0, 66, 118); text-decoration: none; }
+a:visited { color: rgb(102, 102, 153); }
+a:hover { text-decoration: underline; }
+a img { border: medium none; }
+.image a { display: block; }
+form, label, fieldset { margin: 0px; padding: 0px; }
+label { display: block; }
+input, label, textarea, select { font-size: 1.1em; color: rgb(0, 0, 0); }
+input { vertical-align: middle; }
+.inlineSearchControl .text { margin-right: 2px; }
+.story, .storyFollowsLede { margin-bottom: 8px; }
+.story { clear: both; }
+.columnGroup:last-child, .story:last-child, .story > :last-child, .ledePhoto > :last-child, ul:last-child, ul li:last-child, ol:last-child, ol li:last-child, dl:last-child, dl dd:last-child, p:last-child { margin-bottom: 0px; }
+.kicker, .kickerBd, .moduleHeader, .moduleHeaderBd, .moduleHeaderLg, .sectionHeader, .subHeader, .byline, .timestamp, .caption, .smallCaption, .credit, .refer, .inTextRefer, .commentText, .commentCountText, .media, .more, .meta, .metaFootnote, .disclaimer, .date, .dateline, label, input, textarea, select { font-family: arial,helvetica,sans-serif; }
+.kicker, .kickerBd, .moduleHeader, .moduleHeaderBd { font-size: 1em; font-weight: normal; line-height: 1.4em; text-transform: uppercase; color: black; }
+.sectionHeader { font-size: 1.4em; line-height: 1.2857em; margin-bottom: 8px; font-weight: bold; }
+.kicker a, .moduleHeader a, .moduleHeaderBd a, .moduleHeaderLg a, .sectionHeader a, .sectionHeaderHome a { color: rgb(0, 0, 0); }
+.byline, .dateline { font-size: 1em; line-height: 1.2em; color: rgb(128, 128, 128); }
+.byline { margin-top: 2px; margin-bottom: 2px; }
+.caption, .smallCaption { color: rgb(102, 102, 102); margin-bottom: 0px; }
+.caption { font-size: 1.1em; line-height: 1.2727em; }
+.credit { font-size: 0.9em; line-height: 1.223em; text-align: right; color: rgb(144, 144, 144); margin-bottom: 3px; }
+.timestamp, .alert, .important, .error { color: rgb(168, 24, 23); }
+.summary { font-size: 1.2em; line-height: 1.25em; margin-bottom: 5px; }
+.refer { margin-top: 2px; }
+.refer li, p.refer, div.refer { font-size: 1.1em; line-height: 1.182em; }
+p.refer, div.refer { margin-bottom: 0px; }
+.flush li { background: none repeat scroll 0% 0% transparent; padding: 0px; }
+.flushBottom { margin-bottom: 0px ! important; }
+.icon { padding-left: 16px; background-position: left center; background-repeat: no-repeat; }
+.video { background-image: url('video_icon.gif'); }
+.commentIcon { padding-left: 13px; background-image: url('comment_icon.gif'); }
+.inTextReferEmail { background: url('email_icon.png') no-repeat scroll left center transparent; padding: 3px 4px 4px 16px; }
+.inTextImage { vertical-align: middle; }
+.hidden { display: none ! important; }
+body > img { display: none; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/shell.css ::::: */
+
+#shell { width: 972px; margin: 0px auto; text-align: left; }
+#page { border: 1px solid rgb(153, 153, 153); padding: 0px; width: 970px; }
+#mainTabs li { border-color: rgb(153, 153, 153); }
+#memberTools { float: right; width: auto; margin: 0px; padding: 2px 0px 0px; white-space: nowrap; text-align: right; font-family: arial,helvetica,sans-serif; position: relative; z-index: 100000000; }
+#memberTools li { font-size: 1.2em; margin: 0px; background-image: none; display: inline; white-space: nowrap; border-style: solid; border-color: rgb(204, 204, 204); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 0px 0px 0px 1px; padding: 0px 4px; }
+#memberTools li.first, #memberTools li:first-child { border-left-width: 0px; }
+div#main { border-top: 1px solid rgb(255, 255, 255); clear: both; margin-top: 15px; padding: 0px 0px 7px; }
+div#main:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+#footer { text-align: center; clear: both; border-top: 2px solid black; padding: 13px 0px; }
+#footer a { color: rgb(102, 102, 102); text-decoration: underline; }
+#footer ul { list-style: none outside none; margin: 0px; }
+#footer ul.first { margin-bottom: 10px; }
+#footer ul li { display: inline; padding: 0px 5px 0px 9px; font-family: arial,helvetica,sans-serif; font-size: 1.1em; border-left: 1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% transparent; }
+#footer ul li.first { border-left: medium none; padding-left: 7px; }
+#footer a.rssButton, #footer a.rssButton:visited { padding: 1px 0px 5px 20px; background: url('feed_icon_16x16.gif') no-repeat scroll left top transparent; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/masthead.css ::::: */
+
+#masthead { margin: 0px; padding: 7px 7px 0px; min-height: 48px; border-bottom: 2px solid rgb(0, 0, 0); clear: both; }
+#branding { float: left; display: inline; width: 152px; margin-top: 4px; }
+#branding a, #branding a img { border: 0px none; margin: 0px; padding: 0px; }
+#branding a img { display: block; }
+#masthead h2 { width: 465px; position: relative; top: 12px; margin: 0px 0px 5px 160px; text-align: center; font-family: arial,helvetica,sans-serif; font-size: 2.9em; line-height: 1.1032em; }
+#masthead h2 a { color: rgb(0, 0, 0); text-decoration: none; }
+#searchWidget { float: right; margin: 0px 7px 0px 0px; padding: 0px; }
+.inlineSearchControl .text { width: 193px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/navigation.css ::::: */
+
+.navigation { bottom: 0px ! important; clear: both; text-align: center; }
+.navigation a:link, .navigation a:visited, .navigation a:hover, .navigation a:active { color: rgb(51, 51, 51); }
+.navigation ul li { height: 18px; padding: 7px 0px 0px; font-family: georgia,"times new roman",times,serif; font-size: 1.1em; border-width: 0px 0px 1px 1px; border-color: rgb(211, 211, 211); background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+.navigation ul li.first { border-left: medium none; }
+.navigation ul li.selected { padding: 7px 0pt 28px; background: none repeat scroll 0% 0% rgb(244, 244, 244); border-bottom: 1px solid rgb(244, 244, 244); }
+.navigation .subNavigation li { font-size: 1em; }
+.navigation .subNavigation { width: 940px; height: 19px; margin: 0px; padding: 8px 15px 0px; border-top: medium none; background: none repeat scroll 0% 0% rgb(244, 244, 244); list-style: none outside none; font-weight: normal; clear: both; position: absolute; top: 26px; left: 0px; text-transform: uppercase; white-space: normal; border-bottom: 1px solid rgb(211, 211, 211); }
+.navigation .subNavigation li, .navigation ul.tabs li.selected ul li { float: none; display: inline; margin: 0px; padding: 0px 6px; border: medium none; font-family: arial,helvetica,sans-serif; font-weight: normal; background: none repeat scroll 0% 0% rgb(244, 244, 244); }
+#navWorld { width: 58px; }
+#navUs { width: 36px; }
+#navNyregion { width: 89px; }
+#navBusiness { width: 71px; }
+#navTechnology { width: 96px; }
+#navScience { width: 65px; }
+#navHealth { width: 63px; }
+#navSports { width: 60px; }
+#navOpinion { width: 67px; }
+#navArts { width: 46px; }
+#navStyle { width: 52px; }
+#navTravel { width: 63px; }
+#navJobs { width: 48px; }
+#navRealestate { width: 85px; }
+#navAutomobiles { width: 57px; }
+#navJobs, #navRealestate, #navAutomobiles { font-family: arial,helvetica,sans-serif; font-weight: bold; background: none repeat scroll 0% 0% rgb(230, 239, 248); }
+.navigation .subNavigation ul#subnavWorld, .navigation .subNavigation ul#subnavUS, .navigation .subNavigation ul#subnavNYRegion, .navigation .subNavigation ul#subnavBusiness, .navigation .subNavigation ul#subnavTechnology, #navWorld.selected ul, #navUs.selected ul, #navNyregion.selected ul, #navBusiness.selected ul, #navTechnology.selected ul { text-align: left; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules.css ::::: */
+
+.tabsContainer { position: relative; bottom: -1px; }
+.mainTabsContainer { float: left; }
+.tabs { display: block; margin: 0px; padding: 0px; white-space: nowrap; text-transform: uppercase; font-family: arial,helvetica,sans-serif; overflow: hidden; }
+#mainTabs { float: left; }
+.tabs li { float: left; display: block; margin: 0px; padding: 4px 7px 3px; background-color: rgb(240, 244, 245); background-image: none; border-style: solid; border-color: rgb(204, 204, 204); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 1px 1px 0px; font-size: 1em; white-space: nowrap; }
+.tabs li.first, .tabs li.firstItem { border-left: 1px solid rgb(204, 204, 204); }
+.tabs li.selected { background: none repeat scroll 0% 0% rgb(255, 255, 255); border-bottom: medium none; padding: 4px 7px; }
+.tabs li a, .tabs li a:link, .tabs li a:visited, .tabs li a:hover, .tabs li a:active { color: rgb(51, 51, 51); }
+#mainTabs li a, #mainTabs li a:link, #mainTabs li a:visited, #mainTabs li a:hover, #mainTabs li a:active { color: rgb(0, 66, 118); }
+.tabContent { clear: both; border: 1px solid rgb(204, 204, 204); padding: 7px; display: none; }
+.tabContent.active { display: block; }
+.tabContent ol { margin-top: 0px; margin-bottom: 5px; }
+@media not all {
+}
+.dropDownModal { position: relative; }
+.dropDownModalLinkContainer { position: absolute; background: none repeat scroll 0% 0% rgb(255, 255, 255); z-index: 100000001; }
+.dropDownModalLink { display: inline-block; background: url('toggle_down_icon_9x5.gif') no-repeat scroll right center transparent; padding-right: 14px; }
+.dropDownModalBox { position: absolute; background: none repeat scroll 0% 0% rgb(255, 255, 255); z-index: 100000000; }
+.editionDropDownModal { font-family: arial,helvetica,sans-serif; float: left; }
+.editionDropDownModal .dropDownModalLinkContainer { height: 20px; left: 2px; font-size: 1.2em; padding-right: 8px; border-color: rgb(255, 255, 255) rgb(255, 255, 255) -moz-use-text-color; border-bottom: medium none; }
+.editionDropDownModal .dropDownModalLink { margin: 4px 0px 0px 7px; text-decoration: none; }
+.editionDropDownModal .dropDownModalBox { left: 2px; top: 19px; width: 120px; box-shadow: 1px 0px 2px rgb(153, 153, 153); }
+.editionDropDownModal .inset { margin: 6px 6px 5px; }
+.editionDropDownModal .dropDownModalMenu li { line-height: 2; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/mostpopular.css ::::: */
+
+#tabsContainer { position: relative; bottom: -1px; }
+#mostPopWidget h4 { font-family: arial,helvetica,sans-serif; font-size: 1.1em; line-height: 1.2727em; margin-bottom: 8px; }
+#mostPopWidget ul.tabs li:first-child { border-left-width: 1px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/layout.css ::::: */
+
+#main { border-top: 1px solid rgb(255, 255, 255); clear: both; margin-top: 15px; padding: 0px 0px 7px; }
+.spanAB { background: url('vertical_rule.gif') repeat-y scroll 617px center transparent; }
+.subColumns { background: url('vertical_rule.gif') repeat-y scroll 50% center transparent; }
+.column, .aColumn, .bColumn, .cColumn, .abColumn, .bcColumn, .abColumn, .abcColumn, .subColumnA, .subColumnB { float: left; display: inline; overflow: visible; }
+.column, .aColumn, .abColumn, .subColumnA { margin-right: 1px; }
+.lastColumn { margin-right: 0px ! important; }
+.wideA div.last, .wideB div.last, .spanAB div.last, .spanBC div.last, .subColumn-2 div.last, .subColumn-3 div.last { margin-right: 0px; }
+.cColumn { width: 352px; }
+.abColumn { width: 617px; }
+.spanAB .subColumn-2 .column { width: 308px; }
+.cColumn .subColumn-2 .column { width: 175px; }
+.cColumn .subColumn-2 div.last, .cColumn .subColumn-2 .lastColumn { width: 176px; }
+.inset { margin: 10px 8px; }
+.insetV { margin-top: 10px; margin-bottom: 10px; }
+.insetH { margin-left: 10px; margin-right: 10px; }
+.columnGroup .columnGroup { margin-left: 0px ! important; margin-right: 0px ! important; }
+.abColumn div.insetH, .abColumn div.columnGroup, .abColumn div.fullWidth .columnGroup { margin-right: 7px; margin-left: 10px; }
+.cColumn div.insetH, .cColumn div.columnGroup, .cColumn div.fullWidth .columnGroup { margin-right: 9px; margin-left: 7px; }
+.columnGroup { width: auto ! important; }
+div.closing { padding-bottom: 10px; }
+.columnGroup, .singleRule, .doubleRule, .module { margin-bottom: 12px; }
+.columnGroup, .fullWidth, .singleRule, .singleRuleDivider, .doubleRule, .doubleRuleDivider, .module, .inset, .insetH, .insetV, .box, hr { clear: both; }
+.singleRule { border-top: 1px solid rgb(204, 204, 204); background-image: none ! important; padding-top: 8px; }
+.doubleRule { padding-top: 12px; }
+hr, .singleRuleDivider { height: 1px; padding: 0px; background: none repeat scroll 0% 0% rgb(204, 204, 204); border: medium none; line-height: 0; overflow: hidden; }
+.doubleRule, .doubleRuleDivider { border-width: 0px ! important; background: url('doublerule.gif') repeat-x scroll left top transparent; }
+hr, .singleRuleDivider, .doubleRuleDivider { margin-top: 12px; margin-bottom: 8px; }
+.box { border: 1px solid rgb(204, 204, 204); margin-bottom: 10px; }
+.wideA:after, .wideB:after, .spanAB:after, .spanBC:after, .splitAB:after, .subColumns:after, .subColumn-2:after, .subColumn-3:after, .story:after, .clearfix:after, .wrap:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.clearfix, .wrap { display: block; }
+.containingBlock { position: relative; }
+.w190, .wideThumb, .inlineImage { width: 190px; }
+.w600, .articleSpanImage, .slideshowHorizontal { width: 600px; }
+.thumbnail, .runaroundRight { float: right; clear: right; display: inline; }
+.runaroundRight { margin: 2px 0px 6px 6px; }
+.runaroundLeft { float: left; clear: left; display: inline; margin: 2px 6px 6px 0px; }
+.horizontalMenu li { display: inline; padding: 0px 8px; background-image: none; }
+.horizontalMenu li:first-child { padding-left: 0px; }
+.opposingFloatControl .element1 { float: left; }
+.opposingFloatControl .element2 { float: right; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/insideNYTimes.css ::::: */
+
+#insideNYTimes { clear: both; margin-bottom: 0px; padding-top: 4px; }
+#insideNYTimesHeader { position: relative; padding: 7px 10px 2px; border-bottom: 1px solid rgb(211, 211, 211); background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+#insideNYTimesHeader:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+#insideNYTimesHeader h4 { font-size: 1.2em; text-transform: uppercase; margin-bottom: 6px; color: rgb(51, 51, 51); }
+#insideNYTimesScrollWrapper { width: 970px; overflow: hidden; }
+#insideNYTimes .navigation { position: absolute; top: 4px; right: 9px; }
+#insideNYTimes .navigation #leftArrow, #insideNYTimes .navigation #rightArrow { cursor: pointer; }
+#insideNYTimes #insideNYTimesBrowser { table-layout: fixed; width: auto; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+#insideNYTimes #insideNYTimesBrowser { width: 970px; border-collapse: collapse; }
+#insideNYTimes #insideNYTimesScrollWrapper #insideNYTimesBrowser { width: auto; border-collapse: separate; }
+#insideNYTimes #insideNYTimesBrowser td { border-left: 1px solid rgb(211, 211, 211); text-align: left; vertical-align: top; width: 160px; margin: 0px; padding: 0px 0px 11px; }
+#insideNYTimesScrollWrapper #insideNYTimesBrowser td { width: 161px; }
+#insideNYTimes #insideNYTimesBrowser td.first { border-left-width: 0px; }
+#insideNYTimes #insideNYTimesBrowser .story { width: 151px; margin: 0px; padding: 0px 5px; }
+#insideNYTimesBrowser .kicker { margin-top: 13px; margin-bottom: 8px; }
+#insideNYTimesBrowser .mothImage { margin-bottom: 3px; }
+#insideNYTimesBrowser h3 { font-weight: normal; font-size: 2.2em; line-height: 1.091em; }
+#insideNYTimesBrowser .summary { margin: 0px; font-size: 1.4em; line-height: 1.214em; }
+.hidden { display: none; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/ads.css ::::: */
+
+#TopAd, #SFPushDown { margin-top: 1px; clear: both; padding: 5px 0pt; text-align: center; border-bottom: 1px solid rgb(211, 211, 211); }
+#adxSponLink { clear: both; }
+#adxSponLinkA { margin-top: 8px; }
+.adHeader, #sponsoredLinks #header { background: none repeat scroll 0% 0% rgb(244, 244, 244); padding: 6px 8px; display: block; margin-bottom: 2px; }
+.adHeader h4, #sponsoredLinks #header h4 { font-family: arial,sans-serif; font-size: 1.1em; line-height: 1.2727em; font-weight: normal; color: rgb(102, 102, 102); text-transform: uppercase; }
+.bColumn .singleAd, .cColumn .bigAd { text-align: center; }
+.cColumn .bigAd, .cColumn .singleAd, .cColumn .twoColumnAd, .cColumn .featuredPropertiesAd { clear: both; border-top: 1px solid rgb(204, 204, 204); padding-top: 12px; margin-bottom: 12px; }
+.cColumn-TextAdsBox { clear: both; overflow: auto; padding: 10px 9px 10px 10px; }
+.cColumn-TextAdsLeft { text-align: left; width: 180px; float: left; }
+.cColumn-TextAdsLeft .cColumn-TextAd { margin: 0px 0px 1em; padding: 0px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/macros.css ::::: */
+
+#mostPopWidget div#tabsContainer { left: 0px; }
+#mostPopWidget { border-bottom: 0px none ! important; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/article.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/globalEdition/common.css ::::: */
+
+#nytIhtMastheadLogo { display: block; }
+#nytIhtMastheadLogo, #globalEditionMastheadLogo { line-height: 0; }
+#branding { float: left; display: inline; width: 152px; margin-top: 4px; }
+#branding a, #branding a img { border: 0px none; margin: 0px; padding: 0px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/thirdparty/logos/bylinelogos.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/forms.css ::::: */
+
+.control { margin-bottom: 10px; }
+.lastControl { margin-bottom: 0px ! important; }
+.horizontalControl .control { margin-right: 10px; }
+.horizontalControl .control, .horizontalControl .legendContainer, .horizontalControl .labelContainer, .horizontalFormControl .legendContainer, .horizontalFormControl .labelContainer { float: left; display: inline; }
+.control:after, .horizontalControl:after, .horizontalFormControl:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.control, .horizontalControl, .horizontalFormControl { display: block; }
+.control, .horizontalControl, .horizontalFormControl {  }
+.checkboxControl .labelContainer, .radioControl .labelContainer, .switchControl .labelContainer { float: none; display: block; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer, .switchControl .fieldContainer { float: left; display: inline; }
+.checkboxControl .fieldContainer, .radioControl .fieldContainer { width: 19px; padding-left: 0px ! important; }
+.checkboxControl .labelContainer, .radioControl .labelContainer { padding-left: 19px; }
+.checkboxControl .checkbox, .radioControl .radio { margin: 2px 0px 0px; padding: 0px; }
+.control label { display: inline; }
+.labelContainer .insetV { margin: 4px 0px 0px; }
+.radio, .checkbox {  }
+.legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription { font-weight: normal; color: rgb(128, 128, 128); }
+.legendDescription, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .checkboxLabelSm { font-size: 10px; }
+.formHint, .legendDescription, .legendDescriptionLg, .labelDescription, .inputDescription, .selectDescription, .textareaDescription, .button, .applicationButton, .applicationButtonLt, .textButton, .appButton, .appButtonSmall { font-family: arial,helvetica,sans-serif; }
+.button, .applicationButton, .applicationButtonLt, .textButton { vertical-align: middle; text-align: center; overflow: visible; cursor: pointer; }
+.button, .applicationButton, .applicationButtonLt { border-radius: 2px 2px 2px 2px; }
+.applicationButton, .applicationButtonLt, .textButton { margin: 0px; padding: 5px 10px; font-size: 11px; line-height: 13px; }
+.applicationButton, .textButton { border: medium none; }
+.textButton { font-weight: normal; background-color: transparent; color: rgb(0, 66, 118); }
+.applicationButton { background-color: rgb(0, 66, 118); color: rgb(255, 255, 255); font-weight: bold; }
+@media not all {
+	.applicationButton, .textButton { padding: 6px 12px; }
+}
+.appButton::-moz-focus-inner, .appButtonSmall::-moz-focus-inner { padding: 0px; border: 0px none; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules/dialogbox.css ::::: */
+
+.dialogBoxContainer, .dialogBox, .dialogBoxPointer, .dialogBoxPointerLeft, .dialogBoxPointerRight, .dialogBoxPointerUp, .dialogBoxCloseContainer { position: absolute; }
+.dialogBox { border: 1px solid rgb(204, 204, 204); background-color: rgb(255, 255, 255); box-shadow: 0px 1px 3px rgb(170, 170, 170); text-align: left; }
+.dialogBox .inset { margin: 10px; }
+.dialogBox .module { border: medium none; margin-bottom: 20px; background: none repeat scroll 0% 0% transparent; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/community/comments/2.0/commentsModule.css ::::: */
+
+.commentsModule, .commentReadMore { font-family: arial,helvetica,sans-serif; }
+.commentsLoader img { margin: 18px auto; display: block; }
+.commentsHeader { margin-bottom: 12px; }
+.commentsHeader .element1 { width: 66%; }
+.commentsIntro { margin-bottom: 0px; }
+.commentsModule { padding-top: 5px; }
+.commentsModuleHeader { margin-bottom: 1px; background-color: rgb(244, 244, 244); }
+.commentsModuleHeader .tabsContainer { margin-top: -7px; margin-left: 10px; height: 30px; }
+.commentsModuleHeader .tabs { overflow: visible; }
+.commentsModuleHeader .tabs li { border: medium none; background: none repeat scroll 0% 0% transparent; padding: 15px 0px 10px; line-height: 1.2em; }
+.commentsModuleHeader .tabs li a { padding: 3px 10px; border-right: 1px solid rgb(204, 204, 204); }
+.commentsModuleHeader .tabsContainer .precedesSelected a, .commentsModuleHeader .tabsContainer .selected a, .commentsModuleHeader .tabsContainer .lastItem a { border-right: 0px none; }
+.commentsModuleHeader .tabs li a, .commentSort a, .commentWrite a, .commentReply a, .commenterIdentity a, .commentFlag a, .commentActionsList a, .commentsModule .boxClose { outline: 0px none; }
+.commentsModuleHeader .commentActions {  }
+.commentSort { height: 21px; padding: 10px 10px 0px 0px; border-right: 1px solid rgb(204, 204, 204); }
+.commentSort .controlLabel, .commentSort a { font-size: 1.1em; line-height: 1; color: rgb(51, 51, 51); }
+.commentSort .toggleControl { padding-right: 10px; background: url('toggle_down_icon_7x6_black.png') no-repeat scroll right 3px transparent; }
+.commentSort .toggleControl:hover { background: url('toggle_up_icon_7x6_black.png') no-repeat scroll right 3px transparent; }
+.commentSort .toggleControl, .commentSort .toggleControl:hover {  }
+.commentWrite { width: 99px; height: 21px; padding: 10px 0px 0px 6px; border-left: 1px solid rgb(255, 255, 255); }
+.commentWrite p, .commentWrite a { font-size: 1.1em; line-height: 1; }
+.commentWrite p { color: rgb(144, 144, 144); }
+.commentsModule .tabContent { border-width: 1px 0px 0px; padding: 11px 0px 15px; }
+.commentsList { margin-left: 0px; }
+.commentsModule ul li { padding: 0px 0px 0px 9px; background-image: url('bullet_2x2.png'); background-position: left 0.6em; }
+.commentsList, .commentsListNested { margin: 0px ! important; }
+.commentsFooter { position: relative; padding-top: 12px; }
+.commentsModule .dialogBox { width: 265px; z-index: 10; }
+.commentsModule .dialogBox p, .commentsModule .dialogBox label { font-size: 11px; line-height: 13px; }
+.commentsModule .dialogBox .checkboxLabel { font-size: 10px; }
+.commentsModule .dialogBox .error { color: rgb(168, 24, 23); }
+.commentsModule .dialogBox .checkboxList li { font-size: 11px; line-height: 13px; background-image: none; margin-bottom: 5px; padding: 0px; }
+.commentsModule .dialogBox .checkboxLabel { display: inline-block; margin-top: 3px; }
+.commentsModule .dialogBox .subColumn-2 .column { width: 122px ! important; }
+.commentsModule .dialogBox .subColumn-2 .insetH { margin-left: 0px; }
+.commentsModule .dialogBox .subColumn-2 .lastColumn .insetH { margin-right: 0px; }
+@media not all {
+	.commentSort, .commentWrite { padding-top: 8px; }
+}
+#main { padding: 0px ! important; }
+.articleHeadline { font-size: 2.4em; line-height: 1.083em; font-weight: normal; margin-bottom: 8px; }
+.articleSpanImage { margin-bottom: 8px; }
+.articleBody { margin-top: 1.5em; margin-bottom: 1.7em; }
+.articleBody p { font-size: 1.5em; line-height: 1.467em; color: rgb(0, 0, 0); }
+.image { margin-bottom: 2px; }
+.image .enlargeThis { display: block; text-align: right; margin-bottom: 2px; }
+.image .enlargeThis a { font-family: arial,helvetica,sans-serif; font-size: 1.1em; padding-left: 15px; background-image: url('enlarge_icon.gif'); background-repeat: no-repeat; background-position: left center; text-decoration: none; display: inline; }
+.articleBody a { text-decoration: underline; }
+.dateline .commentCount { margin-left: 4px; padding-left: 7px; border-left: 1px solid rgb(204, 204, 204); }
+.articleSpanVideoModule { position: relative; }
+.articleSpanVideoModule .byline { text-align: right; }
+.articleSpanVideoModule .credit, .articleSpanVideoModule .byline { margin-top: 2px ! important; margin-bottom: 1px ! important; }
+.articleSpanVideoModule .image { position: absolute; top: 0px; left: 0px; z-index: 3; }
+.articleSpanVideoModule .noPhotoCredit { margin-top: 5px; }
+.articleSpanVideoModule .videoIcon { background-position: 1px 1px ! important; padding: 0px 0px 0px 18px; }
+.articleSpanVideoModule .articleSpanVideo { position: relative; width: 600px; height: 337px; top: 0px; left: 0px; z-index: 2; }
+.articleSpanVideoModule .playOverlay { position: absolute; background: url('playbutton_closed.png') no-repeat scroll left bottom transparent; width: 55px; height: 50px; z-index: 4; left: 20px; bottom: 20px; }
+.articleSpanVideoModule .playOverlay:hover { position: absolute; background: url('playbutton_expanded.png') no-repeat scroll left bottom transparent; width: 139px; height: 50px; z-index: 4; left: 20px; bottom: 20px; }
+.expandAssetContainer .video, .videoIcon { background-repeat: no-repeat; background-position: 4px 4px; padding: 4px 4px 3px 21px; }
+.articleInline { margin: 6px 15px 10px 0px ! important; width: 190px; }
+.authorIdentification, .articleCorrection, .articleIllustrationCaption { margin-bottom: 2.8em; }
+.articleFooter { margin-bottom: 16px; }
+.articleMeta .metaFootnote { font-size: 1.1em; line-height: 1.273em; color: rgb(170, 170, 170); }
+.sectionHeaderSm, #relatedArticles h3 { font-family: arial,helvetica,sans-serif; font-size: 1.2em; line-height: 1.25em; font-weight: bold; margin-bottom: 5px; }
+.emailAlertModule .sectionHeaderSm { margin: 0px 0px 10px; }
+.emailAlertModule a.inTextReferEmail { background-position: 0px 4px; display: inline-block; font-size: 1.2em; line-height: 1.25em; padding: 3px 0px 2px 26px; }
+.articleBottomExtra .emailAlertModule .column, .articleBottomExtra .emailAlertModule .lastColumn { margin: 0px 14px 0px 0px; padding: 6px 0px 6px 8px; width: 288px; }
+.articleBottomExtra .column { margin: 10px 14px 0px 0px; width: 600px; }
+#adxSponLink { margin-left: 10px; margin-right: 7px; margin-bottom: 12px; width: 468px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/googleads.css ::::: */
+
+.nytd_google_ads { border: 1px solid rgb(157, 163, 173); background-color: rgb(248, 248, 249); width: 100%; font-family: Arial,Helvetica,sans-serif; font-size: 12px; color: rgb(51, 51, 51); font-weight: normal; padding-bottom: 8px; text-align: left; }
+.nytd_google_single_ad { padding-bottom: 0px; }
+.nytd_google_ads .header td { background-color: rgb(157, 163, 173); height: 20px; padding-top: 2px; padding-left: 11px; padding-bottom: 2px; color: rgb(255, 255, 255); }
+.nytd_google_ads .header td.left { width: 70%; }
+.nytd_google_ads .header td.right { width: 30%; text-align: right; }
+.nytd_google_ads .listing { padding: 4px; height: 55px; }
+.nytd_google_ads .listing td { width: 100%; height: 55px; line-height: 14px; padding: 4px 4px 5px 11px; }
+.nytd_google_single_ad .listing td { height: 110px; line-height: 22px; padding: 4px 4px 4px 16px; }
+.nytd_google_ads .listing a { font-size: 11px; color: rgb(51, 51, 51); font-weight: normal; text-decoration: none; }
+.nytd_google_ads .listing a.first { font-size: 12px; font-weight: bold; text-decoration: underline; }
+.nytd_google_ads .listing a.last { font-size: 10px; }
+.nytd_google_ads .listing a.first, .nytd_google_ads .listing a.last { color: rgb(0, 0, 102); }
+.nytd_google_single_ad .listing a, .nytd_google_single_ad .listing a.last { font-size: 14px; }
+.nytd_google_single_ad .listing a.first { font-size: 18px; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules/articletools.css ::::: */
+
+.articleTools { float: right; margin: 5px 0px 5px 5px; width: 132px; }
+.articleTools .box { border: 1px solid rgb(234, 232, 233); margin: 0px; position: relative; }
+.articleTools .inset { margin: 0px; }
+.toolsList { margin: 9px 12px 7px 14px; }
+.toolsList li { margin-bottom: 1px; border-bottom: 1px solid rgb(234, 232, 233); padding: 5px 0px 2px; font-family: arial,helvetica,sans-serif; font-size: 1em; line-height: 1.4em; text-transform: uppercase; background-image: none; }
+.toolsList li a, .toolsList li a:visited, .toolsList li a:hover { color: rgb(51, 51, 51); font-size: 10px; line-height: 13px; display: block; }
+.toolsList .comments a, .toolsList .email a, .toolsList .print a, .toolsList .singlePage a, .toolsList .reprints a, .toolsList .savepage a, .toolsList .feedback a, .toolsList .timespeople_btn_recommend a { background-repeat: no-repeat; background-position: 0px 0px; padding: 0px 0px 3px 20px; }
+.toolsList .comments a { background: url('comment_black.gif') no-repeat scroll 0px -2px transparent; }
+.toolsList .email a { background: url('tools_email.gif') no-repeat scroll 0px 2px transparent; }
+.toolsList .print a { background-image: url('tools_print.gif'); }
+.toolsList .reprints a { background-image: url('tools_reprints.gif'); }
+.articleToolsSponsor { padding: 5px; }
+.toolsList .reprints, .toolsList .email { overflow: hidden; }
+#shareMenu.closed { height: 16px ! important; width: 104px ! important; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules/sharetools.css ::::: */
+
+#shareMenu a, #shareMenu a:visited { color: rgb(51, 51, 51); outline: medium none; }
+#shareMenu .shareButton { background: url('toolsicon_anim.gif') no-repeat scroll 0px 0px transparent; padding: 0px 0px 3px 20px; }
+#shareMenu.closed a.shareButton:hover { background: url('expand.gif') no-repeat scroll 0px 0px transparent; }
+#shareMenu #shareList { border-top: 1px solid rgb(234, 232, 233); clear: both; display: inline-block; margin-left: 0px; padding: 8px 0px 0px; text-align: left; }
+#shareMenu #shareList.hidden { display: none; }
+#shareMenu #shareList li { background: none repeat scroll 0% 0% transparent; border-bottom: 0px none; border-right: 0px none; float: left; display: inline; margin-bottom: 0px; margin-left: 5px; padding: 5px 0px; width: 105px; }
+#shareMenu #shareList li#shareMenuAd { border-top: 1px solid rgb(234, 232, 233); margin-left: 0px; margin-top: 5px; padding-top: 7px; width: auto; }
+#shareMenu #shareList li a, #shareMenu #shareList li a:visited { background-repeat: no-repeat; padding: 2px 0px 3px 20px; display: inline; }
+#facebook_button, #linkedin_button, #twitter_button { cursor: pointer; background-repeat: no-repeat; padding: 0px 0px 3px 20px; background-position: -1px -1px; }
+#facebook_button { background-image: url('facebook.gif'); }
+#linkedin_button { background-image: url('linkedin.gif'); }
+#twitter_button { background-image: url('twitter.gif'); }
+#shareList .digg a { background-image: url('digg.gif'); }
+#shareList .permalink a { background-image: url('permalink.gif'); }
+#shareList .reddit a { background-image: url('reddit.gif'); }
+#shareList .tumblr a { background-image: url('tumblr.gif'); }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules/sharetools/common.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/saveModal.css ::::: */
+
+.shareToolsInset { margin: 10px; }
+.shareToolsHeader { margin-bottom: 10px; }
+.shareToolsColumn, .shareToolsOpposingFloatControl .element1 { float: left; }
+.shareToolsOpposingFloatControl .element2 { float: right; }
+.shareToolsWrap { overflow: hidden; }
+.shareToolsSingleRule { border-top: 1px solid rgb(204, 204, 204); padding-top: 8px; }
+.shareToolsHeader h5, .shareToolsDialogBoxClose, .shareToolsThemeClassic li { font-family: arial,helvetica,sans-serif; }
+.shareToolsOverlay { background: none repeat scroll 0% 0% rgb(255, 255, 255); position: fixed; width: 100%; bottom: 0px; left: 0px; opacity: 0.5; z-index: 100000002; height: 100%; }
+.shareToolsDialogBox { background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); width: 396px; min-height: 220px; left: 50%; margin: -160px 0px 0px -215px; position: fixed; top: 50%; z-index: 100000003; box-shadow: 2px 2px 3px rgb(170, 170, 170); }
+.shareToolsDialogBox .shareToolsInset { margin: 16px 30px 22px; }
+.shareToolsColumn .shareToolsInset { margin: 0px 10px 25px 0px; }
+.shareToolsLastColumn .shareToolsInset { margin: 0px 0px 25px 10px; }
+.shareToolsDialogBox .shareToolsColumn { width: 168px; }
+.shareToolsHeader h5 { font-size: 10px; text-transform: uppercase; line-height: 15px; }
+.shareToolsDialogBoxClose { font-size: 10px; text-transform: uppercase; background: url('close_window.gif') no-repeat scroll right center transparent; padding: 0px 19px 0px 0px; line-height: 15px; color: rgb(0, 0, 0) ! important; }
+.shareToolsFooter { text-align: center; }
+.shareToolsThemeClassic li { font-size: 10px; line-height: 14px; text-transform: uppercase; text-align: left; background-image: none; padding: 5px; border-bottom: 1px solid rgb(234, 232, 233); }
+.shareToolsThemeClassic li a, .shareToolsThemeClassic li a:visited, .shareToolsThemeClassic li a:hover, .shareToolsThemeClassic li span, .shareToolsThemeClassic li span:visited, .shareToolsThemeClassic li span:hover { color: rgb(51, 51, 51); }
+.shareToolsThemeClassic li a, .shareToolsThemeClassic li span { font-size: 10px; line-height: 13px; display: block; cursor: pointer; background-repeat: no-repeat; background-position: 0px 0px; padding: 2px 0px 2px 22px; }
+.shareToolsThemeClassic li span:hover { text-decoration: underline; }
+.shareToolsThemeClassic .shareToolsItemFacebook a, .shareToolsThemeClassic .shareToolsItemFacebook span { background-image: url('facebook_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemTwitter a, .shareToolsThemeClassic .shareToolsItemTwitter span { background-image: url('twitter_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemGoogle a, .shareToolsThemeClassic .shareToolsItemGoogle span { background-image: url('google.gif'); }
+.shareToolsThemeClassic .shareToolsItemTumblr a, .shareToolsThemeClassic .shareToolsItemTumblr span { background-image: url('tumblr_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemLinkedin a, .shareToolsThemeClassic .shareToolsItemLinkedin span { background-image: url('linkedin_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemReddit a, .shareToolsThemeClassic .shareToolsItemReddit span { background-image: url('reddit_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemPermalink a, .shareToolsThemeClassic .shareToolsItemPermalink span { background-image: url('permalink_001.gif'); }
+.shareToolsThemeClassic .shareToolsItemEmail a, .shareToolsThemeClassic .shareToolsItemEmail span { background: url('email.gif') no-repeat scroll 1px 4px transparent; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modules/readercomments.css ::::: */
+
+#readerscomment { float: left; clear: left; width: 190px; background: url('acolumnhorizontalborder.gif') repeat-x scroll left top rgb(235, 241, 245); margin: 0px 15px 20px 0px; }
+#readerscomment h3 { font-family: Arial,Helvetica,sans-serif; font-weight: bold; font-size: 13px; margin: 7px 10px 2px; padding: 5px 15px; background: url('comment_black.gif') no-repeat scroll left center transparent; }
+#readerscomment .RCcontent, #readerscomment .content { padding: 9px 10px 13px; background: url('acolumnhorizontalborder.gif') repeat-x scroll left bottom rgb(235, 241, 245); border-top: 1px solid white; }
+#readerscomment blockquote { margin: 0px 0px 6px; font-size: 12px; }
+#readerscomment .more { font-family: Arial,Helvetica,sans-serif; margin: 0px; }
+#readerscomment .more li { margin: 0px; font-size: 11px; line-height: 1.2em; background: none repeat scroll 0% 0% transparent; padding: 0px; }
+#readerscomment a { text-decoration: none ! important; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/section/travel/modules/expedia.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/article/upnext.css ::::: */
+
+#upNext { width: 360px; padding: 10px 20px 10px 10px; border-top: 2px solid rgb(0, 0, 0); position: fixed; bottom: 0px; right: 0px; background-color: rgb(255, 255, 255); box-shadow: 0px 4px 10px rgb(102, 102, 102); }
+#upNext h6 { text-transform: uppercase; font: bold 1em arial,helvetica,sans-serif; }
+#upNext h6 span { color: rgb(136, 136, 136); font-weight: normal; }
+#upNext h3 { margin: 5px 0px; }
+#upNext button { border: medium none; padding: 0px; position: absolute; top: 5px; right: 5px; width: 13px; height: 13px; background: url('close_window.gif') no-repeat scroll 0px 0px rgb(255, 255, 255); text-indent: -999em; overflow: hidden; cursor: pointer; }
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/article/abstract.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/modal/nytModal.css ::::: */
+
+.nytModalCloseContainer, .nytModal, .nytModalPointer { position: absolute; }
+.nytModalContainer { position: absolute; width: 100%; height: 100%; top: 0px; left: 0px; z-index: 2147483644; }
+.nytOverlay { position: fixed; bottom: 0px; left: 0px; width: 100%; height: 100%; background-color: rgb(255, 255, 255); z-index: 2147483645; opacity: 0.5; }
+.nytModal { border: 1px solid rgb(204, 204, 204); background-color: rgb(255, 255, 255); box-shadow: 0px 1px 3px rgb(170, 170, 170); text-align: left; z-index: 2147483646; }
+.nytModal .inset { margin: 10px; }
+.nytModalHeader { margin-bottom: 4px; }
+.nytModalHeading, .nytModalClose { font-family: arial,helvetica,sans-serif; }
+.nytModalHeading { margin: 0px; font-size: 10px; line-height: 14px; font-weight: bold; text-transform: uppercase; color: rgb(0, 0, 0); }
+.nytModal .opposingFloatControl:after, .nytModal .wrap:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.nytModal .opposingFloatControl, .nytModal .wrap { display: block; }
+.nytModal .opposingFloatControl .element1 { float: left; }
+.nytModal .opposingFloatControl .element2 { float: right; }
+.nytModalClose { display: block; height: 13px; padding-right: 18px; font-size: 10px; line-height: 13px; text-transform: uppercase; text-decoration: none; color: rgb(0, 0, 0) ! important; background: url('close-dialog-box-icon.gif') no-repeat scroll right top transparent; }
+.nytModalClose:hover { text-decoration: underline; }
+.nytModal .singleRule { border-top: 1px solid rgb(204, 204, 204); margin-bottom: 12px; padding-top: 8px; clear: both; }
+.nytModal .nytModalContent { margin-bottom: 20px; }
+.nytModalPointerDown { left: 48%; background: url('pointer-down.png') no-repeat scroll left top transparent; height: 13px; width: 11px; }
+.nytModalPointerLeft { top: 48%; left: -10px; background: url('pointer-left.png') no-repeat scroll left top transparent; height: 15px; width: 10px; }
+.nytModalPointerDown {  }
+.nytModalPointerLeft {  }
+/* ::::: http://graphics8.nytimes.com/css/app/facebook/newsletterPrefs.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/app/facebook/article.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/app/facebook/base.css ::::: */
+
+/* ::::: http://graphics8.nytimes.com/css/0.1/screen/common/util/tooltip.css ::::: */
+
+#facebookContainer {  }
+#facebookContainer .activity { font-size: 10px; clear: both; margin-bottom: 8px; overflow: hidden; }
+#facebookContainer p { font-family: Arial,Helvetica,sans-serif; }
+#facebookContainer .popular { font-family: Georgia,serif; }
+#facebookContainer .sectionHeader, #facebookContainer .sectionHeaderHome { margin-bottom: 12px; white-space: nowrap; }
+a.fb_button { float: right; }
+#facebookContainer.loggedOut { border: 1px solid rgb(204, 204, 204); }
+#facebookContainer .inset .column { width: 152px; margin-right: 14px; }
+#facebookContainer .column { width: 161px; margin-right: 14px; }
+#facebookContainer .last { margin-right: 0px ! important; }
+#mostPopWidget.doubleRule { background: url('acolumnhorizontalborder.gif') repeat-x scroll 0px 16px transparent ! important; border-width: 0px ! important; clear: both; height: auto ! important; margin-bottom: 0px ! important; }
+#mostPopWidget .kicker { margin: 0px; font-size: 10px ! important; font-family: arial,helvetica,sans-serif; font-weight: normal; text-transform: uppercase; }
+#mostPopWidget h4 { font-weight: bold; }
+#mostPopWidget #tabsContainer { position: static; bottom: 0px; left: 0px ! important; }
+#mostPopWidget .tabs { padding: 0px 0px 0px 6px ! important; text-transform: uppercase; margin-bottom: -1px; }
+#mostPopWidget .tabs li { width: 150px; border-width: 0px ! important; background: none repeat scroll 0% 0% transparent; text-align: center; height: 24px ! important; line-height: 2.25em; margin: 0px -2px 0px 0px ! important; padding-top: 13px ! important; font-weight: bold; }
+#mostPopWidget .tabs li.selected { background: url('plaintab160tall.gif') no-repeat scroll center bottom transparent ! important; border-right: 0px none ! important; margin: 0px ! important; height: 23px ! important; }
+#mostPopWidget .tabContent { padding: 4px 0px 0px; border-right: 0px none; border-width: 1px 0px 0px; border-style: solid none none; border-color: rgb(202, 202, 202) -moz-use-text-color -moz-use-text-color; -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+#mostPopWidget .tabContent .loader { text-align: center; padding: 40px 0px; }
+#mostPopWidget .tabContent .loader img { width: 18px; height: 18px; }
+#mostPopWidget .tabContent table { border-collapse: collapse; width: 100%; }
+#mostPopWidget .tabContent table td { text-align: left ! important; font-size: 13px ! important; height: 35px; vertical-align: top; padding: 6px 0px 4px; border-bottom: 1px solid rgb(226, 226, 226); }
+#mostPopWidget .tabContent table td.listNumber { padding: 6px 10px 4px 3px; font-size: 1.3em; text-align: right ! important; }
+#mostPopWidget .tabContent table td.mostPopularImg { width: 30px; padding: 4px 6px 4px 0px; }
+#mostPopWidget .tabContent table td.mostPopularTitle { padding-top: 7px; }
+#mostPopWidget .tabContent table.leftAlignedMostPop td.mostPopularImg { padding-right: 6px; }
+#mostPopWidget .tabContent td.mostPopularImg img { width: 48px; }
+#mostPopWidget .tabContent h4 { font-weight: normal; text-align: left ! important; text-transform: none ! important; font-size: 13px ! important; line-height: 1.15em ! important; margin-bottom: 3px ! important; font-family: georgia,"times new roman",times,serif ! important; }
+#mostPopWidget .mostFooter { font-family: arial,helvetica,sans-serif; margin: 8px 0px 0px; }
+#mostPopWidget .mostFooter p { font-size: 11px; }
+#recommendedFooter { font-family: arial,helvetica,sans-serif; }
+#recommendedFooter .element1 { margin: 13px 0px 0px; }
+#recommendedFooter p { font-size: 1.1em; }
+#recommendedFooter .loggedIn span, #recommendedFooterActions .element2 span { font-size: 10px; color: rgb(153, 153, 153); }
+#recommendedFooter .loggedIn span a, #recommendedFooterActions .element2 span a { color: rgb(102, 102, 102); text-decoration: underline; }
+#recommendedFooterActions .horizontalMenu li { padding: 0px 6px 0px 0px; }
+#recommendedFooterActions .element1 { margin: -1px 0px 0px; }
+#recommendedFooterActions { margin: 12px 0px 0px; }
+#recommendedAdContainer { text-align: center; }
+#recommendedAdContainer iframe { border: 0px none; }
+.hideRecommended:hover, .showRecommended:hover, #fbLoginButton:hover { cursor: pointer; }
+.fb_reset { background: none repeat scroll 0% 0% transparent; border-spacing: 0px; border: 0px none; color: rgb(0, 0, 0); cursor: auto; direction: ltr; font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 1; margin: 0px; overflow: visible; padding: 0px; text-align: left; text-decoration: none; text-indent: 0px; text-shadow: none; text-transform: none; visibility: visible; white-space: normal; word-spacing: normal; }
+.fb_button, .fb_button_rtl { background: url('fgfbc80dukj.png') no-repeat scroll 0% 0% rgb(41, 68, 126); cursor: pointer; display: inline-block; padding: 0px 0px 0px 1px; text-decoration: none; outline: medium none; }
+.fb_button .fb_button_text, .fb_button_rtl .fb_button_text { background: url('fgfbc80dukj.png') repeat scroll 0% 0% rgb(95, 120, 171); border-top: 1px solid rgb(135, 154, 192); border-bottom: 1px solid rgb(26, 53, 110); color: rgb(255, 255, 255); display: block; font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-weight: bold; padding: 2px 6px 3px; margin: 1px 1px 0px 21px; text-shadow: none; }
+a.fb_button, a.fb_button_rtl, .fb_button, .fb_button_rtl { text-decoration: none; }
+a.fb_button:active .fb_button_text, a.fb_button_rtl:active .fb_button_text, .fb_button:active .fb_button_text, .fb_button_rtl:active .fb_button_text { border-bottom: 1px solid rgb(41, 68, 126); border-top: 1px solid rgb(69, 97, 157); background: none repeat scroll 0% 0% rgb(79, 106, 163); text-shadow: none; }
+.fb_button_medium, .fb_button_medium_rtl { background-position: left -188px; font-size: 11px; line-height: 14px; }
+a.fb_button_medium:active { background-position: left -210px; }

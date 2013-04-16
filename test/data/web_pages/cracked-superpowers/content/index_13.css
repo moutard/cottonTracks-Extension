@@ -1,0 +1,11 @@
+/* ::::: http://cdn.stumble-upon.com/css/badges_su.css?v=20120613 ::::: */
+
+* { padding: 0px; margin: 0px; }
+ul.suHostedBadge { list-style-position: outside; list-style-type: none; }
+.suHostedBadge a { display: block; overflow: hidden; border: 0px none; cursor: pointer; color: rgb(37, 141, 177); font-weight: bold; font-family: Arial,Helvetica,sans-serif; font-size: 11px; text-decoration: none; line-height: 18px; }
+.suHostedBadge a.logo { text-indent: -999em; }
+.badge5 .suHostedBadge { width: 50px; height: 60px; z-index: 999; }
+.badge5 li { float: none; }
+.badge5 .suHostedBadge a { background: url('badgerect50x60.png') no-repeat scroll 0px 0px transparent; }
+.badge5 .suHostedBadge a.logo { width: 50px; height: 40px; background-position: 0px 0px; }
+.badge5 .suHostedBadge a.count { width: 50px; height: 20px; text-align: center; background-position: 0px 100%; }

@@ -1,0 +1,16 @@
+{
+  "id": "ars-bitcoin",
+  "url": "http://arstechnica.com/business/2013/04/okcupid-says-it-will-accept-bitcoin-as-currency-falls-to-recent-low/",
+  "path": "test/data/web_pages/ars-bitcoin/content/index.html",
+  "best_image": "http://cdn.arstechnica.net/wp-content/uploads/2013/01/Bitcoin-coins.jpg",
+  "expected": [
+    "On Tuesday, as Bitcoin’s exchange rate fell to its lowest level in days at around $64 per bitcoin, OKCupid announced that it would accept the digital currency from users wanting to pay for bonus features on the site. The popular (and free) dating site, which boasts 4 million active users, will now become one of the world’s largest sites to accept Bitcoin.",
+    "OKCupid users can pay an average of $12 per month (the amount varies depending on how much is prepaid at a time) to access \"A-List\" extra options like being able to browse other profiles anonymously. The real price will continue to be denominated officially in dollars and will be adjusted for Bitcoin users in real time to reflect present exchange rates as determined by Coinbase.",
+    "Sam Yagan, one of the company’s founders, told Ars that for the time being OKCupid has only received around a “dozen requests from users to pay in Bitcoin.” However, it's telling that the company will not be carrying any of its own corporate balance in bitcoins; it will instead use Coinbase to clear all Bitcoin transactions.",
+    "“Our plan is to liquidate our holdings daily and turn them into US dollars,” Yagan said. “There's an open question as to how much liquidity there is. I think there's going to be a tremendous amount of volatility. One of the reasons why we want to be early in the mix is so we can learn.”",
+    "Yagan himself said that he personally does hold bitcoins, but he characterized them as a \"relatively modest amount.\"",
+    "“I’m not doing it as an investment,” he said. “I have enough in there to settle wagers and buy stuff. I'm not crazy enough to hold Bitcoin as an investment strategy.”",
+    "Some Bitcoin watchers continue to tout the currency's advantages—lower transaction feeds, pseudonymity—despite the recent volatility.",
+    "\"Online retailers and service providers are figuring out the true disruptive nature of Bitcoin, which is not about its commodity-like qualities or its exchange rate, but rather that it's a new payment system in competition with Visa, MasterCard, and PayPal,\" wrote Jerry Brito, director of the Technology Policy Program at George Mason University, in an e-mail to Ars."
+  ]
+}

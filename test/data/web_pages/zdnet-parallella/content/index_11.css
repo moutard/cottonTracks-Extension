@@ -1,0 +1,11 @@
+/* ::::: http://www.zdnet.com/css/mantaray-min.css?29764 ::::: */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+a img { border: medium none; }
+body { font: 12px/1.428 Verdana,Arial,sans-serif; color: rgb(37, 37, 37); background-color: rgb(255, 255, 255); }
+a { color: rgb(0, 83, 153); cursor: pointer; text-decoration: none; outline: medium none; }
+a:focus, a:hover, a:active { text-decoration: underline; color: rgb(0, 0, 0); outline: 0px none; }
+a:focus { outline: thin dotted; }
+.mad_center div, .mad_center table, .mad_center iframe, .mad_center img, .mad_center center, .mad_center object, #adDiv, #adDiv div, #adDiv table, #adDiv iframe, #adDiv img, #adDiv center, #adDiv object { margin-left: auto; margin-right: auto; }
+.mad_center img, .mad_center embed, .mad_center iframe { vertical-align: top; }
+.mad_center, #adDiv { text-align: -moz-center; }

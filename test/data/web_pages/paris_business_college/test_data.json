@@ -1,0 +1,18 @@
+{
+  "id": "paris_business_college",
+  "url": "http://www.parisbusinesscollege.com/paris-business-college.cfm",
+  "path": "test/data/web_pages/paris_business_college/content/index.html",
+
+  "best_image": "",
+
+  "expected": [
+    "Paris Business College - Where Business meets Liberal Arts",
+    "Paris Business College : Programme INSEEC Bachelor",
+    "Paris Business College, école de commerce solidement ancrée dans le Groupe INSEEC (1er Groupe d'enseignement supérieur privé français), délivre un titre Bac+3 : l'INSEEC Bachelor, qui donne notamment accès au concours d'entrée en 2ème année du Programme Grande Ecole (Diplôme visé Bac + 5 portant Grade de Master) de l'INSEEC Business School.",
+    "Paris Business College offre également aux étudiants la possibilité de valider 80 crédits ECTS par an, soit 240 crédits au terme des 3 années, ce qui leur permet d'obtenir un BBA (Bachelor of Business Administration, Bac +4), permettant d'intégrer directement sur dossier un programme M2 / Bac+5, tel que un programme M2 du Groupe INSEEC (Paris, Bordeaux, Lyon, Londres, Monaco).",
+    "Un enseignement de qualité",
+    "Le corps professoral de haut niveau, majoritairement américain, est un gage de qualité de l'enseignement, de mise en confiance des élèves et de parfaite maîtrise de la langue anglaise : la majorité des cours sont dispensés en anglais dès la 1ère année. Le programme comprend également des sessions d'étude sur les campus du Groupe INSEEC à Londres et à Chicago (sans frais supplémentaires).",
+    "Une dimension internationale",
+    "Par sa pédagogie basée sur le management, la culture générale et la maîtrise parfaite de l'anglais et d'une seconde langue, le Paris Business College prépare à des carrières internationales réussies."    
+  ]
+}

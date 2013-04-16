@@ -1,0 +1,26 @@
+/* ::::: https://plusone.google.com/_/scs/apps-static/_/ss/k=oz.plusone.17id4ywp8mzl4.L.F4.O/am=CAI/rs=AItRSTPBPLx_anJwFqP0geBKG30F0uzdrg ::::: */
+
+* html .a-f-e, :first-child + html .a-f-e { display: inline; }
+.g-rba-Dh-kQa { margin: 0px; padding: 0px; background-color: transparent; }
+.Bh { border-radius: 3px 3px 3px 3px; -moz-user-select: none; cursor: pointer; display: inline-block; float: left; font-family: arial,sans-serif; font-weight: bold; outline: medium none; position: relative; text-decoration: none; white-space: nowrap; }
+.YrQBHb .Bh { font-size: 12px; line-height: 16px; }
+.ro { display: inline-block; position: absolute; bottom: 0px; background: url('plus-button-8acb339f3635cb33d1a6ec86ea74e7a2.png') no-repeat scroll -178px -36px transparent; height: 11px; width: 13px; }
+.YrQBHb .Bh { padding: 5px 18px 5px 32px; }
+.ro { left: 0px; }
+.Bh.fw { background-color: rgb(228, 228, 228); background-image: -moz-linear-gradient(center top , rgb(244, 244, 244), rgb(228, 228, 228)); border-right: 1px solid rgb(186, 186, 186); border-left: 1px solid rgb(186, 186, 186); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px; border-style: solid; border-color: rgb(202, 202, 202) rgb(186, 186, 186) rgb(172, 172, 172); color: rgb(218, 87, 59); text-shadow: 0px 1px 3px rgba(255, 255, 255, 0.7); }
+.Bh.fw:hover { box-shadow: 0px 1px 3px rgba(255, 255, 255, 0.2) inset; background-color: rgb(244, 244, 244); background-image: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(244, 244, 244)); }
+.Bh.fw:active { box-shadow: 0px 1px 3px rgba(101, 101, 101, 0.2) inset; background-color: rgb(226, 226, 226); background-image: -moz-linear-gradient(center top , rgb(242, 242, 242), rgb(226, 226, 226)); border-right: 1px solid rgb(186, 186, 186); border-left: 1px solid rgb(186, 186, 186); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px; border-style: solid; border-color: rgb(172, 172, 172) rgb(186, 186, 186) rgb(202, 202, 202); }
+.YrQBHb .fw .ro { background: url('plus-button-8acb339f3635cb33d1a6ec86ea74e7a2.png') no-repeat scroll -131px -15px transparent; height: 19px; width: 20px; }
+@media not all, only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+	.YrQBHb .fw .ro { background: url('plus-button-hdpi-1b54dbdf122778fe002019a274ea63cc.png') no-repeat scroll -80px 0px / 156px 50px transparent; height: 19px; width: 20px; }
+}
+.EIbgD .Bh { background-color: rgb(248, 248, 248); background-image: -moz-linear-gradient(center top , rgb(248, 248, 248), rgb(236, 236, 236)); }
+.EIbgD .Bh:hover { background-color: rgb(255, 255, 255); background-image: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(236, 236, 236)); }
+.EIbgD .Bh .ro { background: url('plus-button-8acb339f3635cb33d1a6ec86ea74e7a2.png') no-repeat scroll -124px -36px transparent; width: 10px; height: 10px; }
+.KKXcFe .YrQBHb .Bh .ro, .EIbgD .YrQBHb .Bh .ro { left: 8px; top: 8px; }
+.EIbgD .Bh { color: rgb(153, 153, 153); font-weight: normal; display: inline-block; text-shadow: none; }
+.KKXcFe .YrQBHb .Bh, .EIbgD .YrQBHb .Bh { padding-left: 24px; padding-right: 12px; }
+.EIbgD .B7ELH { background: url('plus-button-8acb339f3635cb33d1a6ec86ea74e7a2.png') no-repeat scroll -176px -23px transparent; height: 11px; width: 10px; display: inline-block; position: relative; margin-left: -3px; }
+.EIbgD:hover .B7ELH { background: url('plus-button-8acb339f3635cb33d1a6ec86ea74e7a2.png') no-repeat scroll -176px 0px transparent; }
+.KKXcFe .YrQBHb .B7ELH, .EIbgD .YrQBHb .B7ELH { margin-top: 9px; }
+.EIbgD .Bh, .EIbgD .Bh:hover { border-right: 1px solid rgb(186, 186, 186); border-left: 1px solid rgb(186, 186, 186); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px; border-style: solid; border-color: rgb(202, 202, 202) rgb(186, 186, 186) rgb(172, 172, 172); }

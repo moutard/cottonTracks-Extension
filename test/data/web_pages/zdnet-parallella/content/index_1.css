@@ -1,0 +1,12 @@
+.bwheadtext a { color: rgb(0, 0, 0); }
+body { margin: 0px; padding: 0px; font: 75%/1.5 Verdana,sans-serif; color: rgb(37, 37, 37); }
+a { text-decoration: none; }
+ul { list-style: none outside none; padding: 0px; margin: 0px 0px 10px; }
+ul li { margin: 0px 0px 10px; padding: 0px 0px 0px 20px; }
+#bwhead { background: url('bkg-hed-stripe.gif') repeat-x scroll 0px 0.5em transparent; font: italic 1.08em Georgia,sans-serif; letter-spacing: 0.02em; margin: 0px 0px 8px; }
+#bwhead .bwheadtext { background-color: rgb(255, 255, 255); padding-right: 10px; }
+.bwtitle { font: italic bold 1.33em Georgia,serif; color: rgb(0, 77, 153); }
+.bwtitle:hover { text-decoration: underline; }
+.bwtext { color: rgb(37, 37, 37); }
+.bwurl { color: rgb(137, 137, 137); }
+.bwurl:hover { text-decoration: underline; }
