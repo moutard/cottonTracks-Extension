@@ -1,0 +1,34 @@
+{
+  "id": "bbc_gchq",
+  "url": "http://www.bbc.co.uk/news/technology-17333601",
+  "path": "test/data/web_pages/bbc_gchq/content/index.html",
+  "best_image": "http://news.bbcimg.co.uk/media/images/59004000/jpg/_59004608_millican.jpg",
+
+  "expected": [
+    "A 19-year-old university student has been named the UK's \"Cyber Security Champion\" following a competition sponsored by the intelligence agency GCHQ and several leading tech firms.",
+    "Judges said Jonathan Millican had demonstrated knowledge \"years beyond his time\".",
+    "The award in Bristol marks the culmination of a six-month long challenge designed to attract talented people to the cyberdefence industry.",
+    "It coincides with high-profile attacks.",
+    "Last week the FBI charged six men - including two in the UK - with computer hacking crimes which it said had affected \"over one million victims\".",
+    "The action prompted retaliatory attacks by the Antisec-wing of the Anonymous hacktivist movement.",
+    "On Saturday, James Jeffrey, from the West Midlands, pleaded guilty to breaking into the website of the British Pregnancy Advisory Service in a separate attack. He is accused of stealing details of people who had contacted the abortion provider.",
+    "The Sunday Times also reported that Chinese spies had stolen information of the F-35 Joint Strike Fighter jet from BAE Systems' computers.",
+    "It said the incident had occurred three years ago and had been revealed by a BAE executive at a private dinner. The firm is not commenting. Chinese authorities denied being behind any such incident.",
+    "Mr Millican won the competition after taking part in a final series of challenges hosted by HP Labs which pitted six five-person teams against each other on Saturday.",
+    "These involved advising an online start-up company how best to protect itself against hackers during a role-playing exercise, and then reconfiguring a computer network during a 15-minute long simulated attack.",
+    "Although Mr Millican's team was beaten by a rival, judges decided he still deserved the top prize.",
+    "\"He showed great leadership, strong technical abilities and also demonstrated that he understood the impact what he was doing would have on a business,\" said Adam Thompson, the chief judge who works for Hewlett Packard's security team.",
+    "Other judges involved were selected from sponsors, including the accountants PricewaterhouseCoopers, telecoms giant BT, defence firm Cassidian and the security technology maker Qinetiq.",
+    "Prizes were tailored towards each winner. Mr Millican - a first year computer sciences student at Jesus College, University of Cambridge - has been offered a paid follow-up masters degree at Royal Holloway, University of London.",
+    "He has also been invited to visit communications intelligence agency GCHQ's Cheltenham base.",
+    "Jonathan Hoyle, director general for cyber security at GCHQ said: \"It is through initiatives such as this that organisations, be they in the public or private sector, can continue to develop and maintain our leading edge in cyberspace by being able to recruit the right people with the right skills.\"",
+    "Baroness Pauline Neville-Jones, the competition's patron and the Prime Minister's special representative to business on cybersecurity, added that she hoped such events would encourage children to put their computer skills to constructive use, rather than be tempted to take part in illegal activities.",
+    "\"There are people who are hacking and one of the worrying things is that they are regarded as heroes,\" she told the BBC.",
+    "\"They are involved in the betrayal of both companies and ordinary people. We've seen cases of people's personal email addresses and passwords and bank details being posted online, opening these unfortunate individuals to crime. So they are definitely not heroes.\"",
+    "Mr Millican said he was most interested in the challenges posed by the more complex cyber-attacks - such as the Stuxnet worm which attacked Iran's nuclear systems or the Duqu Trojan suspected of being designed to gather intelligence from industries' control systems.",
+    "\"We're going into an age of cyberwarfare,\" he said.",
+    "\"Given all the critical systems we have in this country that are connected to the internet it's very important that there are experts out there that can keep people safe.\"",
+    "This was the second year the Cyber Security Challenge has been held.",
+    "Organisers are now accepting applications for their 2012/13 contest. They are planning changes to ensure that some of the youngest entrants, who typically would not make it through to the final stages, will be offered follow-up coaching."
+  ]
+}

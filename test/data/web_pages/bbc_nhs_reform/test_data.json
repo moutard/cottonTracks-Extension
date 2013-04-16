@@ -1,0 +1,38 @@
+{
+  "id": "bbc_nhs_reform",
+  "url": "http://www.bbc.co.uk/news/uk-politics-17330939",
+  "path": "test/data/web_pages/bbc_nhs_reform/content/index.html",
+  "best_image": "http://news.bbcimg.co.uk/media/images/59001000/jpg/_59001571_014229691-1.jpg",
+
+  "expected": [
+    "Nick Clegg has said he remains committed to seeing through changes to the NHS despite being defeated by Lib Dem party members over the issue.",
+    "The Lib Dem leader told the party's spring conference that reforms to the health service in England were \"highly controversial\" but his party had made them \"better\" and put \"patients first\".",
+    "He was speaking after activists in Gateshead failed to back government concessions secured by the Lib Dems.",
+    "They opposed them by 317 votes to 270.",
+    "Mr Clegg has argued his party has secured major revisions to the Health and Social Care Bill and it should now become law.",
+    "But party activists rejected the proposed changes championed by Mr Clegg, including safeguards on the role of the private sector and the extent of competition in the health service.",
+    "Party members voted to delete the section of a motion put forward by Lib Dem peer Baroness Williams expressing support for the government's NHS concessions - effectively signalling their opposition to the bill as a whole.",
+    "The decision is not binding on the government, but BBC correspondent Norman Smith said it was a major setback for the Lib Dem leadership.",
+    "While the deputy PM intended to see the changes through in the face of significant political and medical opposition, our correspondent said it would put Lib Dem peers in a tricky position about whether to continue supporting the bill when it returns to the House of Lords next week.",
+    "One prominent Lib Dem critic of the bill, Dr Charles West, told the BBC that the vote would \"empower\" Lib Dem MPs and peers to reject the bill completely.",
+    "\"This bill was never in the coalition agreement,\" he said.",
+    "\"Nick Clegg has now got a very strong weapon in his negotiations with David Cameron. So we've actually empowered Nick Clegg, we've empowered our MPs and peers, and we've empowered Liberal Democrats.\"",
+    "In his keynote speech to the two-day conference, Mr Clegg did not mention the defeat directly but acknowledged the issue was \"highly controversial and difficult\".",
+    "But he said Lib Dems in Parliament had significantly improved the government's proposals.",
+    "\"Because this is a coalition government, the health bill was stopped in its tracks and rewritten,\" he said.",
+    "\"Because this is a coalition competition will be the servant of health care, not the master because this is a coalition government. Because it is a coalition government, this is a bill for patients not profits. It is not a Liberal Democrat health bill but it is a better bill because of the Liberal Democrats, a better bill because of you.\"",
+    "A host of groups representing medical professionals have called for the bill - under which GPs and other clinicians will be given much more responsibility for spending the budget in England - to be axed.",
+    "However, ministers have said changes to the way care is commissioned are needed to address the rising costs of drugs and an ageing population, and before Sunday's vote had suggested they would not accept any further major changes.",
+    "The party leadership believed that it had seen off a potential rebellion on Saturday when activists chose to debate Baroness Williams' more supportive motion on the health service rather than one urging the party to reject the bill entirely.",
+    "But after the defeat, Lib Dem MP Andrew George urged the government to \"reflect\" on the views of Lib Dem members and take action.",
+    "\"The bill needs to be withdrawn...and to start with a blank sheet of paper,\" he said.",
+    "Health Minister Paul Burstow, who is a Lib Dem MP, said there had been major changes already to the proposed legislation ensuring patients' interests came first and services remained integrated. But he acknowledged the government still had \"more to do\" to convince critics of its proposals.",
+    "\"Conference made up its mind yesterday not to adopt a 'kill the bill' strategy. We had a debate today about concerns conference still has about this bill and that is understandable.",
+    "\"That is why we listen very carefully to those concerns and why we are continuing to make improvements to this legislation.\"",
+    "But Labour said Mr Clegg was passing up an opportunity to \"break away\" from the Conservatives over the issue.",
+    "\"Nick Clegg can tell his party to be proud of what they've achieved all he likes - the only people with a reason to be pleased that the Lib Dems are in government are the Conservatives,\" said the party's deputy leader Harriet Harman.",
+    "\"Nick Clegg should listen to the country, listen to his members and tell the Conservatives to drop this bill.\"",
+    "In his keynote speech, Mr Clegg also pledged to do more to reduce the tax burden for the lowest-paid, saying next week's Budget must have \"fairness\" at his heart.",
+    "The UK's economic recovery would be \"long and hard\", he argued, but the Lib Dems and their Conservative coalition partners were determined to help those facing tough times."
+  ]
+}

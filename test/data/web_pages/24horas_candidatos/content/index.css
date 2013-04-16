@@ -1,0 +1,241 @@
+/* ::::: http://www.24horas.cl/skins/24horas/js/galleria/themes/twelve/galleria.twelve.css ::::: */
+
+/* ::::: http://www.24horas.cl/skins/24horas/css/global.2012082300.css ::::: */
+
+html { height: 100%; }
+body { height: 100%; color: rgb(0, 0, 0); text-align: left; font-family: Arial,Helvetica,sans-serif; background: url('background_wrap.jpg') no-repeat scroll center 127px transparent; margin: 0px; padding: 0px; }
+H1 { width: 620px; height: auto; float: left; padding: 0px; margin: 0px 0px 20px; font-weight: bold; font-size: 40px; line-height: 44px; color: rgb(0, 0, 0); font-style: normal; }
+H3 { width: 620px; height: auto; float: left; padding: 0px; margin: 3px 0px 20px; font-weight: normal; font-size: 14px; line-height: 19px; color: rgb(0, 0, 0); }
+H4 { padding: 5px 10px; display: inline; font-size: 35px; width: 100%; background-color: rgb(0, 0, 0); font-weight: 600; color: rgb(255, 255, 255); line-height: 55px; text-transform: inherit; }
+img { border: medium none; }
+a { color: rgb(0, 0, 0); text-decoration: none; }
+a:link { color: rgb(0, 0, 0); text-decoration: none; }
+a:hover { color: rgb(255, 102, 102); text-decoration: none; }
+a:visited { color: rgb(0, 0, 0); text-decoration: none; }
+a:active { color: rgb(255, 102, 102); text-decoration: none; }
+/* ::::: http://www.24horas.cl/skins/24horas/css/grid.2012082300.css ::::: */
+
+#outer { width: 100%; height: auto; float: left; }
+#page { width: 100%; height: auto; float: left; }
+#header { width: 100%; height: auto; float: left; margin: 0px 0px 20px; }
+#content { width: 100%; height: auto; float: left; margin: 0px; }
+#areas { width: 100%; height: auto; float: left; margin: 0px auto; }
+#top { width: 100%; margin: 0px auto; padding: 0px; float: left; }
+#center { width: 960px; margin: 0px auto; }
+#centerContent { width: 940px; padding: 10px; background: url('blanco_opacidad_60.png') repeat scroll 0% 0% transparent; display: inline-block; float: left; }
+#middle { width: auto; float: left; }
+#right { float: left; }
+#footer { width: 100%; float: left; }
+div.x620x300-extended-config {  }
+div.x620x300-extended-config div#right { float: left; width: 300px; margin: 0px; vertical-align: middle; }
+div.x620x300-extended-config div#main { float: left; margin: 0px 10px 0px 0px; padding: 0px 8px 0px 0px; width: 620px; }
+div.x140x140 { clear: both; width: 300px; margin: 0px; }
+div.x140x140 div.column-1 { float: left; width: 140px; margin: 0px 20px 0px 0px; }
+div.x140x140 div.column-2 { float: left; width: 140px; margin: 0px; }
+/* ::::: http://www.24horas.cl/skins/24horas/css/24horas.2012082300.css ::::: */
+
+.GlobalTop { width: 100%; height: 145px; }
+.GlobalTop .BannerTop { width: 100%; height: 108px; margin: 0px auto; background: url('background.jpg') no-repeat scroll center center rgb(82, 76, 78); }
+.GlobalTop .BannerTopInfo { width: 940px; height: 145px; margin: 0px auto; position: relative; }
+.LogoBT { float: left; width: 113px; height: 96px; background: url('logo24_horas.png') no-repeat scroll 0% 0% transparent; margin: 6px 0px 0px; }
+.LogoBT a { width: 131px; height: 112px; display: block; cursor: pointer; float: left; }
+.RegisterBT { width: 300px; height: 102px; margin: 0px; float: left; color: rgb(255, 255, 255); font-size: 12px; }
+.RegisterBT .DateBT { margin: 65px 0px 0px; font-weight: bold; font-style: italic; }
+.RegisterBT .DateBT span { font-weight: normal; }
+.Menu.TopMenu { width: 100%; padding: 0px; height: 37px; font-size: 13px; background: url('menu_back.jpg') repeat-x scroll 0% 0% rgb(171, 35, 32); position: absolute; top: 108px; left: 0px; right: 0px; }
+.Menu.TopMenu .BannerTopLine { width: 100%; height: 5px; margin: 0px auto; background: url('linea_degradado.jpg') no-repeat scroll center top rgb(51, 0, 0); }
+.Menu.TopMenu .ContenidoTM { width: 940px; height: 32px; margin: 0px auto; padding: 0px; background: url('linea_degradado.jpg') no-repeat scroll center top transparent; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM { width: 810px; padding: 0px; height: 34px; float: left; margin: 5px 0px 0px; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM ul { width: 810px; margin: 0px auto; height: 34px; padding: 0px; float: left; list-style: none outside none; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM li { height: 32px; width: auto; float: left; display: block; cursor: pointer; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM li a { margin: 0px; padding: 0px 4px 0px 5px; display: block; list-style: none outside none; line-height: 32px; font-size: 12px; color: rgb(255, 255, 255); text-decoration: none; cursor: pointer; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM li a:hover { background: url('menu_back_ov.png') repeat-x scroll 0% 0% transparent; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM li.activo { background: url('click.png') repeat-x scroll 0% 0% transparent; }
+.Menu.TopMenu .ContenidoTM .BotoneraTM li img { width: 16px; height: 16px; margin: 5px 0px 0px; }
+.Menu.TopMenu .ContenidoTM img { width: 16px; height: 16px; float: left; margin: 7px 0px 0px 2px; cursor: pointer; border: medium none; }
+.Menu.TopMenu .ContenidoTM .SubmenuTM { width: 150px; height: auto; background-color: rgb(204, 0, 0); float: left; position: absolute; left: 710px; top: 37px; display: none; z-index: 5000; }
+.Menu.TopMenu .ContenidoTM .SubmenuTM ul { list-style: none outside none; float: left; padding: 0px; margin: 0px; }
+.Menu.TopMenu .ContenidoTM .SubmenuTM li { width: 130px; height: auto; margin: 0px; float: left; padding: 0px; }
+.Menu.TopMenu .ContenidoTM .SubmenuTM li a { width: 130px; font-size: 12px; color: rgb(255, 255, 255); display: block; height: 18px; line-height: 18px; padding: 3px 10px; margin: 0px; list-style: none outside none; cursor: pointer; float: left; text-decoration: none; }
+.Menu.TopMenu .ContenidoTM .SubmenuTM li a:hover { background: url('menu_back_ov.png') repeat-x scroll 0% 0% transparent; }
+.simpleSearch { width: 180px; height: 16px; float: left; padding: 0px; margin: 0px; position: absolute; top: 116px; left: 805px; z-index: 50; display: block; }
+.simpleSearch form { float: left; width: 180px; height: 16px; padding: 0px; margin: 0px; }
+.button { margin: 2px 0px 0px 5px; position: absolute; top: 3px; left: 113px; }
+.SearchError { font-size: 14px; display: block; width: 150px; padding: 5px; margin: 0px; position: absolute; top: 30px; left: 50px; z-index: 150; background-color: rgb(102, 102, 102); color: rgb(255, 255, 255); }
+.TickerTape.Extra { width: 100%; height: 22px; margin: 0px 0px 20px; padding: 0px; }
+.TickerTape.Extra .ExtraInt { width: 940px; height: 22px; margin: 0px auto; }
+.TickerTape.Extra .ExtraInt .TituloTT { width: 60px; height: 16px; padding: 3px 10px; background-color: rgb(217, 13, 35); font-size: 16px; font-weight: 600; color: rgb(255, 255, 255); line-height: 16px; float: left; }
+.TickerTape.Extra .ExtraInt .BajadaTT { width: 840px; height: 16px; padding: 3px 10px; float: right; background-color: rgb(204, 204, 204); }
+.TickerTape.Extra .ExtraInt .BajadaTT H5 { float: left; padding: 0px; margin: 0px; }
+.TickerTape.Extra .ExtraInt .BajadaTT H5 a { text-decoration: none; color: rgb(0, 0, 0); font-weight: 600; text-transform: uppercase; font-size: 14px; cursor: pointer; line-height: 16px; text-align: left; }
+.TickerTape.Extra .ExtraInt .BajadaTT H5 a:hover { color: rgb(255, 102, 102); }
+div.Stories.Latest { width: 300px; text-align: left; margin: 0px 0px 10px; float: left; }
+div.Stories.Latest div.ContenidoLT { width: 300px; margin: 0px 0px 30px; float: left; }
+div.Stories.Latest div.ContenidoLT div.FechaLT { width: 300px; font-size: 12px; font-style: italic; font-weight: 600; display: block; margin: 0px 0px 5px; color: rgb(255, 102, 102); }
+div.Stories.Latest div.ContenidoLT a { font-size: 14px; font-weight: 600; cursor: pointer; display: block; margin: 0px 0px 10px; color: rgb(0, 0, 0); text-decoration: none; }
+div.Stories.Latest div.ContenidoLT a:hover { color: rgb(255, 102, 102); }
+div.Stories.Latest div.ContenidoLT div.Linea2LT { width: 300px; height: 1px; background-color: rgb(153, 153, 153); padding: 0px; margin: 0px 0px 10px; }
+div.Stories.Latest div.ContenidoLT P { width: 300px; margin: 0px; font-size: 12px; line-height: 14px; display: block; text-align: left; }
+div.CodeWidgetx300.Pulsos { width: 300px; height: auto; padding: 5px 0px 0px; text-align: left; float: left; margin: 0px 0px 10px; }
+div.CodeWidgetx300.Pulsos div.BackTW { width: 280px; height: auto; margin: 0px 0px 30px; padding: 25px 10px 10px; background-color: rgb(243, 243, 243); background-image: url('flecha_tw.png'); background-position: center top; background-repeat: no-repeat; float: left; }
+div.CodeWidgetx300.Pulsos div.BackTW .twtr-hd { width: 260px; height: 0px; padding: 0px; margin: 0px; }
+div.CodeWidgetx300.Pulsos div.BackTW .twtr-ft { width: 260px; height: 0px; padding: 0px; margin: 0px; }
+div.CodeWidgetx300.Pulsos div.HeaderPLF { margin: 0px 0px 10px; float: left; }
+div.CodeWidgetx300.Pulsos div.HeaderPLF a { color: rgb(255, 255, 255); font-size: 18px; font-weight: 600; cursor: pointer; text-decoration: none; width: auto; height: auto; padding: 5px 10px; background-color: rgb(153, 153, 153); display: block; }
+div.CodeWidgetx300.Pulsos div.HeaderPLF a:hover { color: rgb(255, 255, 255); text-decoration: none; background-color: rgb(102, 102, 102); }
+div.CodeWidgetx300.Pulsos div.HeaderPLF a:visited { color: rgb(255, 255, 255); text-decoration: none; }
+div.CodeWidgetx300.Pulsos div.Linea1PLF { width: 100%; height: 2px; background-color: rgb(153, 153, 153); padding: 0px; margin: 0px 0px 30px; float: left; }
+.AutorSArt { width: 620px; height: auto; float: left; padding: 0px; margin: 0px; border-top: 1px solid rgb(0, 0, 0); border-bottom: 1px solid rgb(0, 0, 0); font-family: Arial,Helvetica,sans-serif; font-weight: bold; font-size: 12px; line-height: 22px; color: rgb(0, 0, 0); text-transform: uppercase; }
+.AutorSArt span { color: rgb(255, 102, 102); }
+.ShareSArt { width: 620px; height: auto; float: left; padding: 0px; margin: 20px 0px; }
+div.Code.Footer { width: 100%; height: auto; padding: 0px; margin: 45px 0px 0px; background-color: rgb(81, 78, 80); float: left; }
+div.Code.Footer div.ContenidoFT { width: 940px; height: 170px; padding: 0px; margin: 0px auto; background-color: rgb(81, 78, 80); }
+div.Code.Footer div.ContenidoFT ul { width: 150px; height: auto; float: left; padding: 0px; margin: 10px 0px 0px 30px; list-style: none outside none; cursor: pointer; }
+div.Code.Footer div.ContenidoFT li { width: 150px; height: auto; padding: 0px; margin: 10px 0px 0px; list-style: none outside none; line-height: 12px; }
+div.Code.Footer div.ContenidoFT li a { font-size: 12px; color: rgb(255, 255, 255); padding: 0px; margin: 10px 0px 0px; text-decoration: none; list-style: none outside none; line-height: 12px; }
+div.Code.Footer div.ContenidoFT li a:hover { color: rgb(255, 102, 102); text-decoration: underline; }
+div.Code.Footer div.ContenidoFT div.LogoFT { background-repeat: no-repeat; background-position: 10px 0px; width: 300px; height: 110px; float: right; padding: 0px; margin: 20px 0px 0px; text-align: left; border-left: 1px solid rgb(255, 255, 255); border-width: 0px 0px 0px 1px; border-style: solid; border-color: rgb(255, 255, 255); }
+div.Code.Footer div.ContenidoFT div.LogoFT img { margin: 0px 0px 0px 10px; border: medium none; }
+div.Code.Footer div.ContenidoFT div.LogoFT p { font-size: 12px; line-height: 16px; text-align: left; display: block; color: rgb(255, 255, 255); margin: 10px 0px 0px 10px; }
+div.Code.Breadcrumb { width: 620px; height: auto; float: left; padding: 0px; margin: 0px 0px 20px; color: rgb(81, 78, 80); }
+div.Code.Breadcrumb div.RutaBC { width: 620px; float: left; padding: 0px; margin: 0px; color: rgb(81, 78, 80); }
+div.Code.Breadcrumb div.RutaBC a { text-decoration: none; font-size: 13px; font-weight: normal; color: rgb(81, 78, 80); text-align: left; }
+div.Code.Breadcrumb div.RutaBC a:hover { color: rgb(255, 102, 102); padding: 0px; text-decoration: underline; }
+div.Code.Breadcrumb div.RutaBC label { color: rgb(81, 78, 80); font-style: normal; padding: 0px; line-height: 16px; font-size: 12px; }
+.SubST { width: 100%; height: auto; float: left; padding: 0px; margin: 0px 0px 20px; }
+.HeaderST { width: auto; height: 20px; margin: 0px 0px 10px; padding: 5px 10px; background-color: rgb(89, 88, 88); color: rgb(255, 255, 255); font-size: 18px; float: left; text-transform: uppercase; font-weight: bold; }
+.HeaderST:hover { background-color: rgb(0, 0, 0); cursor: pointer; }
+.LineST { width: 100%; height: 2px; background-color: rgb(89, 88, 88); padding: 0px; margin: 0px; float: left; }
+.ZonaCaliente .HeaderST { width: auto; height: 20px; margin: 0px 0px 10px; padding: 5px 10px; background-color: rgb(255, 102, 102); color: rgb(255, 255, 255); font-size: 18px; float: left; text-transform: uppercase; font-weight: bold; }
+.ZonaCaliente .HeaderST:hover { background-color: rgb(215, 42, 42); cursor: auto; }
+.ZonaCaliente .LineST { width: 100%; height: 2px; background-color: rgb(255, 102, 102); padding: 0px; margin: 0px; float: left; }
+.Stories.Related { width: 620px; height: auto; float: left; padding: 0px; margin: 0px 0px 45px; }
+.Stories.Related .HeaderSRel { width: auto; height: 20px; display: block; padding: 5px 10px; margin: 0px; background-color: rgb(255, 102, 102); font-size: 18px; font-weight: bold; color: rgb(255, 255, 255); line-height: 20px; text-decoration: none; float: left; }
+.Stories.Related .LineSRel { width: 100%; height: 2px; background-color: rgb(255, 102, 102); padding: 0px; margin: 10px 0px 20px; float: left; }
+.Stories.Related .ContentSRel { width: 140px; height: auto; float: left; padding: 0px; margin: 0px; }
+.Stories.Related .ContentSRel a img { cursor: pointer; }
+.Stories.Related .ContentSRel a:hover img { cursor: pointer; opacity: 0.8; }
+.Stories.Related .ContentSRel .FechaSRel { font-size: 11px; font-style: italic; color: rgb(0, 0, 0); margin-top: 8px; text-decoration: none; }
+.Stories.Related .ContentSRel .TituloSRel { font-size: 13px; font-style: normal; font-weight: bold; color: rgb(0, 0, 0); margin-top: 5px; display: block; height: 60px; }
+.Stories.Related .ContentSRel .TituloSRel a { color: rgb(0, 0, 0); margin-top: 5px; text-decoration: none; cursor: pointer; }
+.Stories.Related .ContentSRel .TituloSRel a:hover { color: rgb(255, 102, 102); }
+.Stories.Related .ContentSRel .LineSRel { width: 140px; height: 1px; float: left; padding: 0px; margin: 8px 0px; background-color: rgb(0, 0, 0); }
+.Stories.Related .ContentSRel .BajadaSRel { font-size: 12px; font-style: normal; color: rgb(0, 0, 0); line-height: 15px; }
+.Stories.Related .SeparationSRel { width: 20px; height: 20px; float: left; padding: 0px; margin: 0px; }
+.fb_edge_widget_with_comment { float: left; }
+a:active { outline: medium none; }
+:focus {  }
+.comments.facebook { float: left; }
+.pageTools { float: left; clear: both; }
+.publicidad300x250 { width: 300px; height: auto; padding: 0px; margin: 0px 0px 20px; float: left; }
+.publicidad940x90 { width: 940px; height: auto; padding: 0px; margin: 0px auto 20px; display: block; }
+.FechaArt { width: 90px; height: auto; float: left; background-image: url('fecha.png'); background-repeat: no-repeat; padding: 10px 0px 0px; position: absolute; top: 15px; left: 0px; }
+.FechaArt .CentroArt { width: 80px; height: auto; padding: 0px 5px; background: none repeat scroll 0% 0% rgb(239, 239, 239); margin: 10px 0px 0px; text-align: center; color: rgb(153, 153, 153); font-size: 12px; font-weight: 600; line-height: 16px; }
+.FechaArt .CentroArt p { padding: 0px; margin: 0px; display: block; }
+.FechaArt .CentroArt font { font-size: 42px; display: block; line-height: 42px; }
+.FechaArt .CentroArt hr { padding: 0px; margin: 5px 0px; border: 1px solid rgb(221, 221, 221); display: block; }
+.FechaArt .AbajoArt { width: 90px; height: 10px; padding: 0px; margin: 0px; float: left; background: url('fecha_2.png') no-repeat scroll 0% 0% transparent; }
+.Articulox620 { width: 620px; height: auto; min-height: 200px; float: left; position: relative; margin: 0px 0px 10px; }
+.Articulox620 div { margin: 0px; padding: 0px; }
+.Articulox620 p { font-size: 12px; line-height: 19px; padding: 0px 0px 0px 160px; margin: 10px 0px; }
+.Articulox620 .tagLabel { width: auto; height: auto; float: left; color: rgb(255, 102, 102); font-size: 12px; line-height: 22px; margin: 0px 0px 20px; }
+.Articulox620 .tagLabel a { color: rgb(102, 102, 102); background: none repeat scroll 0% 0% rgb(238, 238, 238); padding: 2px 6px; margin: 0px 3px 0px 0px; text-transform: capitalize; font-size: 11px; }
+.Articulox620 .tagLabel a:hover { color: rgb(255, 255, 255); background: none repeat scroll 0% 0% rgb(255, 102, 102); cursor: pointer; }
+.twitter-link { float: left; width: auto; min-width: 120px; margin: 0px; padding: 0px; height: auto; }
+.twitter-link .twitter-share-button { margin: 0px; float: left; width: auto; }
+.facebook-link { float: left; width: auto; min-width: 140px; margin: 0px; padding: 0px; height: 18px; }
+#email-link { background: url('correo.png') no-repeat scroll right center transparent; float: left; width: 30px; height: 20px; top: 0px; cursor: pointer; margin: 0px 20px 0px 0px; }
+table { font-size: 12px; padding: 0px; border-collapse: collapse; text-align: left; float: left; margin: 0px 0px 30px; overflow: hidden; }
+.tabs_jjoo { width: 620px; height: auto; float: left; margin: 0px 0px 45px; }
+ul.tabs_jo { list-style: none outside none; margin: 0px; padding: 0px; height: 20px; }
+ul.tabs_jo li { float: left; text-indent: 0px; padding: 0px; margin: 0px; list-style: none outside none; }
+ul.tabs_jo a { background: none repeat scroll 0% 0% rgb(172, 172, 172); font-size: 12px; display: block; height: 20px; color: rgb(255, 255, 255); line-height: 20px; width: 90px; text-align: center; text-decoration: none; padding: 0px; margin: 0px; position: relative; top: 1px; }
+ul.tabs_jo a:active { outline: medium none; }
+ul.tabs_jo a:hover { color: rgb(255, 255, 255); }
+ul.tabs_jo a.current, ul.tabs a.current:hover, ul.tabs li.current a { cursor: pointer; color: rgb(255, 255, 255); background: none repeat scroll 0% 0% rgb(102, 102, 102); }
+/* ::::: http://www.24horas.cl/css/jquery-ui-1.8.6.custom.css ::::: */
+
+button.ui-button::-moz-focus-inner { border: 0px none; padding: 0px; }
+/* ::::: http://www.24horas.cl/skins/24horas/css/jqpopup.css ::::: */
+
+/* ::::: http://widgets.twimg.com/j/2/widget-2.2.css ::::: */
+
+.twtr-widget { position: relative; font-size: 12px ! important; font-family: "lucida grande",lucida,tahoma,helvetica,arial,sans-serif ! important; }
+.twtr-widget .twtr-spinner { width: 14px; height: 14px; position: absolute; background: url('spinner.gif') no-repeat scroll 0% 0% transparent; top: 3px; right: 3px; }
+.twtr-inactive { display: none; }
+.twtr-widget a img { border: 0px none ! important; }
+.twtr-doc { overflow: hidden; width: 100%; text-align: left; font-weight: normal; border-radius: 5px 5px 5px 5px; }
+.twtr-bd { padding: 0px 1px; }
+.twtr-widget .twtr-tweet-wrap { padding: 6px 8px; overflow: hidden; }
+.twtr-widget .twtr-tweet { border-bottom: 1px dotted rgb(221, 221, 221); overflow: hidden; }
+.twtr-widget .twtr-tweet a.twtr-reply { visibility: hidden; }
+.twtr-widget .twtr-tweet:hover a.twtr-reply { visibility: visible; }
+.twtr-widget h3, .twtr-widget h4, .twtr-widget p { margin: 0px ! important; padding: 0px ! important; line-height: 1.2 ! important; width: auto ! important; }
+.twtr-widget h3 { font-size: 11px ! important; font-weight: normal ! important; }
+.twtr-widget h4 { font-size: 16px ! important; }
+.twtr-widget i, .twtr-widget .twtr-new-results { font-size: 9px; font-style: normal; display: block; margin-top: 2px; }
+.twtr-hd { padding: 10px; position: relative; overflow: hidden; }
+.twtr-timeline { border-radius: 6px 6px 6px 6px; position: relative; overflow: hidden; z-index: 2; height: 225px; }
+.twtr-widget .twtr-tweet:last-child { border-bottom-width: 0px; }
+.twtr-ft { position: relative; }
+.twtr-ft div { overflow: hidden; padding: 10px; }
+.twtr-avatar { width: 40px; height: 40px; float: left; overflow: hidden; display: block; }
+.twtr-img { height: 25px; width: 25px; }
+.twtr-img img { width: 30px; height: 30px; }
+.twtr-tweet-text { margin-left: 40px; }
+.twtr-doc a { text-decoration: none ! important; }
+.twtr-doc a:hover { text-decoration: underline ! important; }
+#twtr-widget-1 .twtr-avatar { display: block; }
+#twtr-widget-1 .twtr-user { display: inline; }
+#twtr-widget-1 .twtr-tweet-text { margin-left: 40px; }
+#twtr-widget-1 i { display: block; }
+.fb_reset { background: none repeat scroll 0% 0% transparent; border-spacing: 0px; border: 0px none; color: rgb(0, 0, 0); cursor: auto; direction: ltr; font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 1; margin: 0px; overflow: visible; padding: 0px; text-align: left; text-decoration: none; text-indent: 0px; text-shadow: none; text-transform: none; visibility: visible; white-space: normal; word-spacing: normal; }
+.fb_iframe_widget { position: relative; display: inline-block; }
+.fb_iframe_widget iframe { position: absolute; }
+.fb_iframe_widget span { display: inline-block; position: relative; text-align: justify; vertical-align: text-bottom; }
+.fb_edge_widget_with_comment { position: relative; }
+.gig-comments-container *, div.gig-comments-container, .gig-comments-container span, .gig-comments-container a:hover, .gig-comments-container a:visited, .gig-comments-container a:link, .gig-comments-container a:active { padding: 0px; margin: 0px; text-decoration: none; width: auto; float: none; font-family: arial; font-size: 12px; color: rgb(77, 77, 77); position: static; text-align: left; vertical-align: baseline; }
+.gig-comments-container td, .gig-comments-container tr { vertical-align: middle; }
+a.gig-comments-button, a.gig-comments-button:hover, a.gig-comments-button:link, a.gig-comments-button:active, a.gig-comments-button:visited { line-height: 15px; position: relative; border-radius: 3px 3px 3px 3px; color: rgb(77, 77, 77); cursor: pointer; font-size: 11px; padding: 0px 5px; border: 1px solid rgb(197, 199, 199); display: inline-block; vertical-align: middle; text-align: center; box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15); }
+a.gig-comments-button, a.gig-comments-button:link, a.gig-comments-button:active, a.gig-comments-button:visited { background: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(234, 235, 235)) repeat scroll 0% 0% transparent; }
+.gig-comments-postButton-container { overflow: hidden; }
+.gig-comments-container a {  }
+div.gig-comments-photoImageLarge { text-align: right; width: 48px; height: 48px; }
+div.gig-comments-photo-container { margin-right: 8px; float: left; width: 48px; }
+textarea.gig-comments-textarea { overflow: auto; word-wrap: break-word; height: 78px; padding: 0px; resize: none; border: medium none; background-image: url('1x1.png'); }
+div.gig-comments-textarea-wrapper { border-radius: 3px 3px 3px 3px; margin: 0px 0px 5px; background-color: white; border: 1px solid rgb(192, 192, 192); height: 88px; box-shadow: 0px 0px 4px rgb(220, 220, 220) inset; }
+div.gig-comments-headerText { color: rgb(77, 77, 77); padding: 3px 0px 7px; overflow: hidden; }
+div.gig-comments-checkboxImage { float: left; background-repeat: no-repeat; background-position: center center; margin-right: 5px; width: 11px; height: 16px; background-image: url('checkbox.gif'); }
+div.gig-comments-checkboxProviderImage { background-repeat: no-repeat; width: 16px; height: 16px; float: left; }
+div.gig-comments-checkbox { float: left; cursor: pointer; margin-left: 5px; margin-right: 5px; overflow: hidden; width: 34px; }
+div.gig-comments-shareTo { white-space: nowrap; line-height: 16px; }
+div.gig-comments-loginCanvas-container { overflow: hidden; margin-bottom: 10px; }
+div.gig-comments-commentList-header { overflow: hidden; font-size: 16px; color: rgb(77, 77, 77); font-weight: bold; line-height: 20px; }
+div.gig-comments-commentList-header-commentsCount { padding-top: 30px; float: left; }
+div.gig-comments-providers { float: left; }
+div.gig-comments-providers-container { overflow: hidden; float: left; }
+div.gig-comments-providerIcons { margin: 0px 5px 0px 11px; font-size: 1px; background-position: center center; height: 22px; float: left; background-image: url('buttonlogin_icons.png'); background-repeat: no-repeat; width: 57px; }
+div.gig-comments-commentBox { margin-top: 15px; overflow: hidden; }
+div.gig-validation-error { display: none; color: rgb(206, 88, 90); text-align: center; line-height: 22px; background: none repeat scroll 0% 0% rgb(254, 233, 234); margin-top: 7px; }
+a.gig-comments-button-post, a.gig-comments-button-post:hover, a.gig-comments-button-post:link, a.gig-comments-button-post:active, a.gig-comments-button-post:visited, a.gig-comments-button-ok, a.gig-comments-button-ok:hover, a.gig-comments-button-ok:link, a.gig-comments-button-ok:active, a.gig-comments-button-ok:visited { line-height: 20px; font-weight: bold; font-size: 12px; padding: 0px 10px; float: right; white-space: nowrap; }
+a.gig-comments-dropdown, a.gig-comments-dropdown:hover, a.gig-comments-dropdown:link, a.gig-comments-dropdown:active, a.gig-comments-dropdown:visited { font-weight: bold; line-height: 22px; position: relative; border-radius: 3px 3px 3px 3px; color: rgb(77, 77, 77); cursor: pointer; font-size: 13px; padding-left: 10px; border: 1px solid rgb(197, 199, 199); display: inline-block; vertical-align: middle; text-align: center; box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.15); }
+a.gig-comments-dropdown, a.gig-comments-dropdown:link, a.gig-comments-dropdown:active, a.gig-comments-dropdown:visited { background: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(234, 235, 235)) repeat scroll 0% 0% transparent; }
+a.gig-comments-dropdown:hover, a.gig-comments-dropdown-down, a.gig-comments-dropdown-down:hover, a.gig-comments-dropdown-down:link, a.gig-comments-dropdown-down:active, a.gig-comments-dropdown-down:visited { background: -moz-linear-gradient(center top , rgb(234, 235, 235), rgb(255, 255, 255)) repeat scroll 0% 0% transparent; }
+div.gig-comments-dropdown-button { border-radius: 0px 3px 3px 0px; margin-left: 13px; width: 21px; height: 22px; display: inline-block; background: -moz-linear-gradient(center top , rgb(255, 255, 255), rgb(218, 218, 218)) repeat scroll 0% 0% transparent; }
+a.gig-comments-dropdown-login div.gig-comments-dropdown-button { margin-left: 3px; }
+div.gig-comments-dropdown-login-text { min-width: 34px; }
+a.gig-comments-dropdown:hover div.gig-comments-dropdown-button, a.gig-comments-dropdown-down div.gig-comments-dropdown-button { background: -moz-linear-gradient(center top , rgb(218, 218, 218), rgb(255, 255, 255)) repeat scroll 0% 0% transparent; }
+div.gig-comments-login-container { overflow: hidden; line-height: 24px; }
+div.gig-comments-loginCanvas { overflow: hidden; }
+div.gig-comments-addCommentFooter { overflow: hidden; }
+div.gig-comments-dropdown-button-arrow { background-image: url('arrow.gif'); height: 22px; width: 21px; background-repeat: no-repeat; background-position: center center; }
+div.gig-comments-dropdown-text { float: left; }
+a.gig-comments-more, a.gig-comments-mor:hover, a.gig-comments-more:link, a.gig-comments-more:active, a.gig-comments-more:visited { margin-left: 5px; color: rgb(33, 129, 202); text-decoration: underline; line-height: 16px; }
+.gig-comments-container * { border: medium none; border-radius: 0px 0px 0px 0px; background: none repeat scroll 0% 0% transparent; }
+.gig-comments-container a:focus, .gig-comments-container input:focus, .gig-comments-container textarea:focus { outline: medium none; }
+a.gig-comments-button:hover, a.gig-comments-button-down, a.gig-comments-button-down:link, a.gig-comments-button-down:active, a.gig-comments-button-down:visited { background: -moz-linear-gradient(center top , rgb(234, 235, 235), rgb(255, 255, 255)) repeat scroll 0% 0% transparent; }
+#commentsDiv textarea.gig-comments-commentBox-textarea { width: 490px; }
+#twtr-widget-1 .twtr-doc, #twtr-widget-1 .twtr-hd a, #twtr-widget-1 h3, #twtr-widget-1 h4, #twtr-widget-1 .twtr-popular { background-color: rgb(145, 194, 217) ! important; color: rgb(255, 255, 255) ! important; }
+#twtr-widget-1 .twtr-tweet a { color: rgb(25, 133, 181) ! important; }
+#twtr-widget-1 .twtr-bd, #twtr-widget-1 .twtr-timeline i a, #twtr-widget-1 .twtr-bd p { color: rgb(68, 68, 68) ! important; }
+#twtr-widget-1 .twtr-new-results, #twtr-widget-1 .twtr-results-inner, #twtr-widget-1 .twtr-timeline { background: none repeat scroll 0% 0% rgb(255, 255, 255) ! important; }

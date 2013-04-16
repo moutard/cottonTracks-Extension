@@ -1,0 +1,22 @@
+body.plugin { background: none repeat scroll 0% 0% transparent; overflow: hidden; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+td, td.label { text-align: left; }
+.pluginFaviconButton { display: inline-block; background-color: rgb(95, 120, 171); color: rgb(255, 255, 255); cursor: pointer; vertical-align: top; }
+.pluginFaviconButtonEnabled:active { background-color: rgb(79, 106, 163); }
+.pluginFaviconButtonIcon, .pluginFaviconButtonIconActive, .pluginFaviconButtonIconThrobber, .pluginFaviconButtonIconThrobber .img, .pluginFaviconButtonIconDisabled { vertical-align: top; }
+.pluginFaviconButton:active .pluginFaviconButtonIcon, .pluginFaviconButtonEnabled .pluginFaviconButtonIconActive, form.async_saving .pluginFaviconButtonIcon, form.async_saving .pluginFaviconButton:active .pluginFaviconButtonIconActive, .pluginFaviconButtonIconThrobber { display: none; }
+.pluginFaviconButtonEnabled:active .pluginFaviconButtonIconActive, form.async_saving .pluginFaviconButtonIconThrobber { display: inline-block; }
+.pluginFaviconButtonBorder, form.async_saving .pluginFaviconButtonBorder:active { display: inline-block; border-top: 1px solid rgb(41, 68, 126); border-right: 1px solid rgb(41, 68, 126); border-bottom: 1px solid rgb(26, 53, 110); }
+.pluginFaviconButtonBorder:active { border-color: rgb(52, 67, 125); }
+.pluginFaviconButtonText, form.async_saving .pluginFaviconButtonEnabled:active .pluginFaviconButtonText { display: inline-block; border-top: 1px solid rgb(135, 154, 192); white-space: nowrap; }
+.pluginFaviconButtonEnabled:active .pluginFaviconButtonText { border-top-color: rgb(80, 96, 156); }
+.pluginFaviconButtonMedium .pluginFaviconButtonText { font-size: 11px; line-height: 14px; padding: 2px 6px 3px; }
+.pluginFaviconButtonIconThrobber { border-right: 1px solid rgb(64, 91, 145); border-width: 1px; border-style: solid; border-color: rgb(41, 68, 126) rgb(64, 91, 145) rgb(26, 53, 110) rgb(41, 68, 126); }
+.pluginFaviconButtonIconThrobber .img { border-top: 1px solid rgb(135, 154, 192); }
+.uiGrid { border: 0px none; border-collapse: collapse; border-spacing: 0px; }
+.fwb { font-weight: bold; }
+.sp_login-button { background-image: url('s-dbshszr4d.png'); background-repeat: no-repeat; display: inline-block; height: 18px; width: 18px; }
+.sx_login-button_medium { width: 22px; height: 22px; background-position: 0px -132px; }
+.sx_login-button_mediuma { width: 22px; height: 22px; background-position: 0px -155px; }
+i.img {  }

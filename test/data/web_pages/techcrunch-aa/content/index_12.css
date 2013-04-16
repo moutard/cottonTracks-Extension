@@ -1,0 +1,59 @@
+/* ::::: http://platform.twitter.com/embed/timeline.c589b3cadbed15eba44ca85b5ebf4d4a.default.css ::::: */
+
+html body { display: block; background: none repeat scroll 0% 0% transparent; }
+html, body, h1, h2, h3, blockquote, p, ol, ul, li, img, iframe, button { padding: 0px; margin: 0px; font: 12px/16px "Helvetica Neue",Arial,sans-serif; text-decoration: none; text-transform: none; vertical-align: baseline; list-style: none outside none; border: 0px none; outline: 0px none; }
+b, i { font-style: normal; font-weight: normal; }
+.p-author:before, .p-author:after, .cards-base:before, .cards-base:after { display: table; content: ""; }
+.p-author:after, .cards-base:after { clear: both; }
+.tweet, .root, .p-author {  }
+.root, .tweet, .footer, .detail-expander, .header, .timeline { position: relative; }
+.timeline .e-entry-title, .p-author .p-name, .cards-base h3, .new-tweets-bar button, .load-tweets, .no-more-pane { font-size: 14px; line-height: 16px; }
+.stats strong, .timeline-header- .byline, .timeline-header .list-description { font-size: 12px; line-height: 18px; }
+.stats span { font-size: 10px; }
+.p-author a, .e-entry-title, .cards-base h3, .cards-base .cards-content p { line-height: 18px; }
+a, a:visited, a:active, a:hover, a:focus, .p-author .full-name, .p-author a.profile, .p-author a.profile:hover .p-nickname, .p-author a.profile:focus .p-nickname, .p-author a.profile:hover .p-nickname b, .p-author a.profile:focus .p-nickname b, .cards-base a.profile:hover .p-nickname, .cards-base a.profile:focus .p-nickname, .cards-base a.profile:hover .p-nickname b, .cards-base a.profile:focus .p-nickname b, .cards-base .byline-user .p-nickname { text-decoration: none; }
+a:hover b, a:focus b, a:hover span, a:focus span, h3 a:hover, h3 a:focus, .timeline-header a:hover, .timeline-header a:focus, .e-entry-title .link:hover, .e-entry-title .link:focus, .footer a.expand:hover, a.permalink:hover, a.permalink:focus, a.long-permalink:hover, a.long-permalink:focus, .cards-base p a:hover, .cards-base p a:focus, .retweet-credit a:hover, .retweet-credit a:focus { text-decoration: underline; }
+html, .p-author .profile .p-name, .cards-base p, .cards-base p a, .timeline-header .summary, .timeline-header .summary a:link, .timeline-header .summary a:visited, .p-author a.profile:hover .p-name, .p-author a.profile:focus .p-name { color: rgb(51, 51, 51); }
+.customisable, .customisable:link, .customisable:visited, .customisable:hover, .customisable:active, .customisable-highlight:hover, a:hover .customisable-highlight, a:focus .customisable-highlight { color: rgb(0, 132, 180); }
+a:link, a:visited, .stats span, .byline, .retweet-credit, .no-more-pane, .no-tweets-pane p, .p-geo, .cards-base .byline-user { color: rgb(153, 153, 153); }
+a:hover, a:active, .p-author a.profile:hover, .p-author a.profile:focus, .retweet-credit .profile:hover, .retweet-credit .profile:focus, .stats strong, .no-tweets-pane .load-tweets, .nsfw { color: rgb(102, 102, 102); }
+.customisable-border { border: 1px solid rgb(232, 232, 232); }
+.verified b, .tweet-actions b, abbr.p-geo b, .timeline-header .ic-twitter-badge b, .e-entry-title a .tco-hidden { position: absolute; top: 0px; left: 0px; clip: rect(0px, 0px, 0px, 0px); }
+.verified, .ic-rt, .ic-mask, .ic-top, .timeline-header .ic-twitter-badge, .ic-bird-flourish { display: inline-block; vertical-align: middle; background: url('undefined') no-repeat scroll 0px 0px / 177px 191px transparent; }
+.verified { width: 15px; height: 17px; margin-left: -21px; vertical-align: -25%; background-position: 0px -161px; }
+.ic-mask { width: 12px; height: 13px; background-color: rgb(153, 153, 153); }
+a:hover .ic-mask, a:focus .ic-mask { background-color: rgb(0, 132, 180); }
+.ic-reply { width: 19px; height: 15px; background-position: 0px -87px; }
+.ic-retweet { width: 22px; height: 15px; background-position: -31px -87px; }
+.ic-fav { width: 16px; height: 15px; background-position: -60px -87px; }
+.tweet { padding: 12px 12px 10px 69px; border-width: 0px 0px 1px; }
+.header {  }
+.header .avatar { position: absolute; top: 0px; left: -57px; width: 48px; height: 48px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border-radius: 4px 4px 4px 4px; }
+.p-author .profile .p-name, .cards-base .profile .p-name { font-weight: bold; }
+.tweet .e-entry-title { margin: 0px 5px 0px 0px; overflow: hidden; clear: both; word-wrap: break-word; }
+.footer { overflow: hidden; }
+.tweet-actions { position: absolute; right: 0px; bottom: 1px; background: none repeat scroll 0% 0% rgb(255, 255, 255); visibility: hidden; box-shadow: 0px 0px 10px 5px rgb(255, 255, 255); }
+.tweet-actions li { float: left; }
+.tweet-actions a i { margin: 1px 0px 0px 8px; overflow: hidden; }
+.tweet:hover .tweet-actions, .tweet:focus .tweet-actions, .expanded .tweet-actions { visibility: visible; }
+.tweet .tweet-actions a, .tweet .tweet-actions a b, .tweet .tweet-actions a i, .tweet .tweet-actions li { cursor: pointer; outline: 0px none; }
+.footer { min-height: 16px; padding-top: 1px; margin-top: 2px; overflow: hidden; border-width: 0px; transition: margin-top 0.2s ease-out 0s, padding-top 0.2s ease-out 0s; }
+.expanded .footer { padding-top: 11px; margin-top: 10px; border-width: 1px 0px 0px; }
+.stats-wide, .stats-narrow { display: none; margin-left: 0.3em; }
+.stats span { display: inline-block; margin-right: 3px; text-transform: uppercase; }
+.stats strong { font-weight: bold; }
+.standalone-tweet { padding: 8px 8px 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); border-radius: 5px 5px 5px 5px; }
+.standalone-tweet .subject { margin-top: 4px; }
+.standalone-tweet .subject { padding: 4px 8px 8px; border: 0px none; }
+.standalone-tweet .subject .header { position: relative; min-height: 48px; padding: 3px 0px 4px 57px; }
+.standalone-tweet .expanded .footer { margin-top: 5px; }
+.standalone-tweet .subject .header .avatar { left: 0px; }
+.standalone-tweet .subject .header .profile .p-name { font-size: 16px; }
+.standalone-tweet .subject .header .profile .p-nickname { font-size: 14px; }
+.standalone-tweet .subject .header .profile .p-nickname:before { white-space: pre; content: "\A "; }
+.standalone-tweet .twitter-follow-button { position: absolute; top: 6px; right: 8px; }
+.standalone-tweet .subject .e-entry-title { font: 18px/24px Georgia,"Times New Roman",Palatino,serif; }
+.standalone-tweet .subject .dateline { margin-top: 6px; }
+.standalone-tweet .subject .stats-narrow { display: block; float: left; margin: 0px; }
+.standalone-tweet .subject .tweet-actions { position: static; float: right; margin-bottom: 4px; visibility: visible; }
+body { display: none; }

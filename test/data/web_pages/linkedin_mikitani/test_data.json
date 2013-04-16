@@ -1,0 +1,17 @@
+{
+  "id": "linkedin_mikitani",
+  "url": "http://www.clubic.com/connexion-internet/fai-numericable-numeribox/actualite-481602-la-box-by-numericable-haut-de-gamme-en-details.html",
+  "path": "test/data/web_pages/linkedin_mikitani/content/index.html",
+
+  "best_image": "http://m.c.lnkd.licdn.com/mpr/mpr/shrink_200_200/p/4/000/174/1f7/0d2aa84.jpg",
+
+  "expected": [
+    "Hiroshi Mikitani is Chairman and CEO of Rakuten, one of the world’s leading e-commerce companies. Mikitani has been referred to as a maverick in his approach and is widely seen as the leader of an emerging, ’New Japan’, one which increasingly turns away from traditional modes of doing business.",
+    "Born in Kobe, Japan, Mikitani graduated from Hitotsubashi University in 1988, and earned his MBA from Harvard Business School in 1993. Personal tragedy in the 1995 Great Hanshin earthquake inspired Mikitani to leave a promising career in investment banking to create something that he thought would be more meaningful to society. Starting out with just a handful of team members, Mikitani launched the “Rakuten Ichiba” marketplace in May 1997. Today, Rakuten is listed on the JASDAQ market and is the world’s third largest e-commerce company by revenue.",
+    "Mr. Mikitani’s latest book, MARKETPLACE 3.0: Rewriting the Rules of Borderless Business, will be published March 19, 2013.",
+
+    "In Rakuten, Mikitani sought to create an e-commerce platform characterized by Empowerment and Omotenashi (Japanese service mindset), which empowers businesses through the Internet and provide members with truly exceptional customer service experiences that Japan is renowned for. Rakuten now works with more than 39,000 professional merchants to offer over 90 million registered products to its 76 million members, in addition to an expanding Internet services ecosystem that includes eReading, travel, banking, securities, e-money, and much more.",
+    "From 2008, Mikitani began to take his unique B2B2C model global. With operations in 23 countries across Europe, the Americas, Asia, and Oceania, Rakuten is now a truly international organization. In addition to acquisitions last year in Germany, Brasil and the UK, in late 2011 Mikitani made a bold statement by acquiring global eReading company Kobo, which brought with it a family of innovative hardware and one of the largest online book catalogues in the world.",
+    "Already considered a maverick in Japan, Mikitani stunned the Japanese business community in 2010 by mandating English as the company language in around 2 years. Mikitani and Rakuten are now the subject of a popular Harvard Business School case study on language and globalization taught to all first year students. In 2011, Mikitani withdrew Rakuten’s membership in powerful business lobby group Keidanren (Japan Business Federation) and as Chairman of JeBA(Japan e-Business Association) led its rebirth as JANE (Japan Association of New Economy) in 2012."
+  ]
+}

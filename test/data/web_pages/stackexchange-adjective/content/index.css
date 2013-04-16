@@ -1,0 +1,223 @@
+/* ::::: http://cdn.sstatic.net/english/all.css?v=c2b00e9075c4 ::::: */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; font-size: 100%; vertical-align: baseline; }
+body { line-height: 1; text-align: center; color: rgb(51, 51, 51); font-family: Georgia,"Times New Roman",Times,serif; font-size: 14px; background: url('bg-top.png') repeat-x scroll left top transparent; }
+ol, ul { list-style: none outside none; }
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after, q:before, q:after { content: none; }
+.question .postcell { vertical-align: top; }
+table { border-collapse: collapse; border-spacing: 0px; }
+input, select, button, .button, a.button:link, a.button:visited { font-size: 100%; border: 1px solid rgb(187, 177, 139); }
+input { margin: 5px 0px; padding: 3px; }
+blockquote { margin-bottom: 10px; padding: 10px; background-color: rgb(248, 237, 218) ! important; font-size: 14px; border-bottom: 1px dotted rgb(223, 193, 194); border-top: 1px dotted rgb(223, 193, 194); }
+blockquote p:last-child { margin-bottom: 0px; }
+b, strong { font-weight: bold; }
+i, em { font-style: italic; }
+ul { list-style: disc outside none; margin-left: 30px; margin-bottom: 1em; }
+ol li, ul li { line-height: 1.3em; margin-bottom: 0.5em; }
+ol ul, ul ol, ul ul, ol ol { margin-bottom: 0px; }
+p { clear: both; margin-bottom: 1em; }
+ol { list-style: decimal outside none; margin-left: 30px; margin-bottom: 1em; }
+a { text-decoration: none; cursor: pointer; color: rgb(174, 55, 55); }
+a:hover { text-decoration: underline; }
+a.comment-user { white-space: nowrap; padding: 0px; }
+a.cc-wiki-link { width: 53px; height: 71px; }
+a.genu { display: block; font-size: 1px; text-indent: -999em; }
+a:visited { color: rgb(214, 125, 132); }
+a.cc-wiki-link { background-position: 0px -35px; }
+a.genu { background: url('sprites.png') no-repeat scroll 0px -1px transparent; float: left; height: 18px; outline: medium none; width: 120px; }
+h1 { font-weight: bold; font-size: 170%; margin-bottom: 7px; }
+h2 { font-size: 140%; font-weight: bold; margin-bottom: 7px; }
+sup { font-size: 80%; position: relative; top: -0.4em; }
+.comment-text { padding: 0px 6px 0px 7px; vertical-align: text-top; }
+.vt { vertical-align: top; }
+.fw { margin-bottom: 4px; width: 656px; }
+.votecell { vertical-align: top; width: 60px; padding-top: 4px; }
+.votecell .vote-count-post { color: rgb(51, 51, 51) ! important; line-height: 15px ! important; padding: 9px 0px 7px; }
+#answers { clear: both; padding-top: 10px; width: 728px; }
+.answer { padding-bottom: 20px; padding-top: 20px; width: 728px; border-bottom: 1px solid rgb(231, 208, 169); border-top: 1px solid rgb(255, 255, 255); }
+.post-signature { text-align: left; width: 175px; height: 58px; vertical-align: middle ! important; padding-left: 5px; padding-top: 2px; }
+.owner { padding-top: 0px; width: 187px; height: 104px; background: url('bg-owner.png') no-repeat scroll center center rgb(245, 240, 225); padding-left: 30px; vertical-align: middle ! important; }
+.item-multiplier { margin-right: 4px; color: rgb(136, 136, 136); font-size: 12px; font-family: Arial,Helvetica,sans-serif; }
+.reputation-score { font-weight: bold; font-size: 12px; margin-right: 2px; color: rgb(111, 126, 130); }
+.relativetime { text-decoration: none; }
+#notify-container { font-size: 16px; text-align: center; position: fixed; left: 0px; top: 0px; width: 100%; height: 0px; z-index: 100; color: rgb(255, 255, 255); }
+.lsep { margin: 0px 2px; color: rgb(27, 64, 114); font-size: 1px; visibility: hidden; }
+.post-taglist { margin-bottom: 10px; clear: both; }
+.post-menu { padding-top: 2px; font-size: 12px; }
+.post-menu > a { padding: 0px 3px 2px; color: rgb(136, 136, 136); }
+.post-menu > a:hover { color: rgb(68, 68, 68); text-decoration: none; }
+.post-menu .lsep { margin: 0px; padding: 0px; }
+.post-menu > a:hover { background-color: rgb(251, 226, 84); }
+.comments { width: 660px; margin-top: 10px; padding-bottom: 10px; line-height: 135%; font-size: 13px; border-top: 1px dotted rgb(170, 170, 170); color: rgb(68, 68, 68); }
+.comments > table { width: 100%; }
+.comments-link { padding: 0px 3px 2px; color: rgb(136, 136, 136); font-size: 12px; }
+.comments-link:hover { padding: 0px 3px 2px; background-color: rgb(251, 226, 84); color: rgb(34, 34, 34); text-decoration: none; }
+tr.comment > td { line-height: 17px; }
+tr.comment > td { padding: 7px 7px 7px 0px; border-bottom: 1px dotted rgb(221, 221, 221); }
+tr.comment:hover { background-color: rgb(250, 250, 250); }
+.comment-actions { padding-left: 3px; width: 15px; }
+.comment-score span { font-size: 110%; color: rgb(102, 102, 102); font-weight: bold; padding-right: 2px; }
+.comment-date { color: rgb(153, 153, 153); }
+#footer { clear: both; color: rgb(68, 68, 68); padding: 0px 0px 15px; background: url('bg-footer.jpg') repeat-x scroll left top rgb(244, 227, 200); }
+#footer-menu { float: left; color: rgb(153, 153, 153); font-size: 100%; line-height: 30px; width: 850px; margin-bottom: 15px; }
+#footer-menu a { color: rgb(34, 34, 34); }
+#footer-flair { float: right; text-align: right; margin-left: 12px; width: 90px; height: 67px; margin-top: 12px; font-size: 10px; }
+#footer-flair a { display: inline-block; vertical-align: top; text-indent: -999999em; }
+#svnrev { margin-top: 5px; text-align: right; }
+#copyright { clear: both; }
+#copyright a { text-decoration: underline; }
+#copyright a { color: rgb(68, 68, 68); }
+.user-info { height: 35px; width: 185px; margin-top: 0px ! important; }
+.user-info .user-gravatar32 { float: left; width: 32px; height: 32px; }
+.user-info .user-action-time { margin-top: 2px; margin-bottom: 4px; }
+.user-info .user-details { float: left; margin-left: 5px; width: 145px; overflow: hidden; white-space: nowrap; }
+.user-details { color: rgb(136, 136, 136); line-height: 17px; }
+.user-details .badgecount { font-weight: normal ! important; font-size: 12px; }
+.user-details .badgecount { color: rgb(68, 68, 68); }
+#answers-header { margin-top: 10px; width: 728px; }
+#question-header { width: 960px; background: url('bg-question-header.png') no-repeat scroll center bottom transparent; text-align: center; padding: 0px 0px 25px; }
+#question-header h1 { color: rgb(68, 68, 68); margin-bottom: 0px ! important; }
+#question-header h1 { font-size: 18px; padding: 9px; }
+#question-header .question-hyperlink { font-size: 21px; line-height: 27px; color: rgb(147, 61, 63); font-weight: normal; font-style: italic; }
+.answer-votes { color: rgb(85, 85, 85); text-align: center; float: left; font-weight: bold; padding: 4px 4px 5px; width: 20px; height: 15px; text-decoration: none; font-size: 110%; background-color: rgb(238, 238, 238); }
+.question-hyperlink { font-weight: normal; color: rgb(51, 51, 51); line-height: 22px; font-size: 18px; margin-bottom: 20px; }
+.question-hyperlink:visited { color: rgb(85, 85, 85); }
+.question-hyperlink:hover { border-bottom: 1px dotted rgb(0, 0, 0); text-decoration: none; }
+.question-status { margin-top: 15px; margin-bottom: -5px; line-height: 150%; padding: 15px 8px 1px 60px; clear: both; background-color: rgb(199, 212, 237); width: 657px; color: rgb(54, 70, 100); border-top: 1px solid rgb(137, 163, 211); border-bottom: 1px solid rgb(137, 163, 211); }
+.question-status h2 { font-size: 15px; line-height: 18px; margin-bottom: 10px; }
+.question-status p { font-size: 14px; }
+.container { margin: 0px auto; text-align: left; width: 980px; }
+#content { min-height: 450px; margin: 0px auto; overflow: auto; width: 960px; padding: 0px 10px; }
+#hsearch { float: left; margin-top: 2px; margin-right: 5px; }
+#hsearch .textbox { margin: 0px; width: 208px; max-width: 240px; padding: 3px 7px; font-size: 12px; color: rgb(153, 51, 102); background-color: transparent; border: 1px solid rgb(196, 183, 169); }
+#header { margin: 0px auto; width: 980px; height: 154px; }
+#hlogo { margin: 0px; width: 980px; text-align: center; }
+#hlogo a { display: block; text-indent: -999999em; }
+#hlogo a:focus { outline: medium none; border: medium none; }
+#hlogo a:active { outline: medium none; border: medium none; }
+#hlogo:after { content: "."; visibility: hidden; display: block; height: 0px; clear: left; margin-bottom: 0px; }
+#hlogo a { background: url('logo.png') no-repeat scroll center top transparent; width: 650px; height: 70px; margin: 13px auto 0px; }
+#hlinks { float: left; margin: 0px 24px 0px 0px; font-size: 12px; }
+#hlinks a { color: rgb(135, 122, 86); }
+#hlinks a:visited { color: rgb(135, 122, 86); }
+.nav { float: left; font-size: 15px; }
+.nav li { display: block; }
+.nav a { text-decoration: none; display: block; }
+.nav ul { margin: 0px; }
+.nav li { float: left; padding: 0px 26px 6px 0px; background-position: right -52px; margin-right: 9px; }
+.nav li:first-child a { margin-left: 0px; }
+.nav li:hover a { color: rgb(0, 0, 0); }
+.nav a { font-size: 14px; font-family: Georgia,"Times New Roman",Times,serif; color: rgb(102, 102, 102); padding: 0px; line-height: 11px; font-weight: bold; margin: 3px 0px 1px 3px; }
+.nav a:focus { outline: medium none; }
+#tabs { float: right; margin: 3px 0px 3px 5px; }
+#tabs a { float: left; text-decoration: none; display: block; }
+#tabs a { font-size: 12px; color: rgb(102, 102, 102); padding: 0px 10px 3px; font-style: italic; margin: 3px 0px; line-height: 22px; }
+#tabs a.youarehere { color: rgb(0, 0, 0); font-weight: bold; border-bottom: 3px double rgb(227, 147, 61); }
+#tabs a:focus { outline: medium none; }
+#tabs a:hover { color: rgb(0, 0, 0); }
+.askquestion { float: left; margin: 0px 0px 0px 4px; }
+.askquestion a { margin-right: 0px ! important; }
+.askquestion a:after { content: "" ! important; }
+.askquestion ul li { background: none repeat scroll 0% 0% transparent ! important; }
+#sidebar, .sidebar { float: right; overflow: hidden; margin: 0px 0px 60px; padding-top: 10px; width: 220px; }
+#mainbar, .mainbar { float: left; margin: 0px 10px 20px 0px; width: 728px; }
+#feed-link { text-align: right; float: right; clear: both; margin: 15px; white-space: nowrap; }
+#feed-link a { color: rgb(119, 119, 119); }
+#feed-link-text { float: left; }
+.subheader { clear: both; height: 32px; margin-bottom: 0px; border-bottom: 1px solid rgb(230, 212, 182); padding: 1px 10px; background: url('bg-subheader.png') repeat scroll left top transparent; overflow-y: hidden; }
+.subheader h2 { float: left; line-height: 34px; }
+.subheader h2 { font-size: 13px; margin: 0px 0px 0px 10px; color: rgb(34, 34, 34) ! important; font-weight: bold; text-transform: uppercase; }
+.subheader a { color: rgb(0, 0, 0); }
+.question { clear: both; padding: 10px 0px 0px; width: 728px; }
+.question .postcell { padding-bottom: 10px; }
+.question div.comments { margin-top: 0px; border: medium none; }
+.vote-count-post { display: block; color: rgb(153, 153, 153) ! important; font-size: 24px; line-height: 13px; padding: 5px 0px; text-shadow: 1px 1px 0px rgb(255, 255, 255); font-weight: bold; }
+.cool { color: rgb(153, 153, 153) ! important; }
+.warm { color: rgb(155, 118, 79) ! important; }
+.answered-accepted { color: rgb(89, 138, 30); }
+.mod-flair { margin-left: 3px; font-weight: bold; color: rgb(137, 22, 31); font-size: 15px; }
+.module { color: rgb(68, 68, 68); padding: 0px 8px 8px; margin-bottom: 10px; background: url('bg-sidebar-border.png') repeat-y scroll left top transparent; border-bottom: 1px solid rgb(196, 183, 169); border-top: 1px solid rgb(196, 183, 169); }
+.module .spacer { margin-bottom: 8px; }
+.module p { font-size: 13px; line-height: 1.3; margin-bottom: 0.5em; }
+.module p.label-key { color: rgb(34, 34, 34); margin-bottom: 0px; margin-top: 8px; font-size: 15px; text-transform: capitalize; }
+.module h4 { line-height: 16px; font-size: 13px; padding: 4px 0px; color: rgb(102, 102, 102); font-weight: normal; margin: -1px -8px 8px ! important; text-align: center; background-position: -239px 0px; border-top: 1px solid rgb(196, 183, 169); border-bottom: 1px solid rgb(196, 183, 169); text-transform: uppercase; }
+.vote { text-align: center; }
+.vote span { display: block; color: rgb(119, 119, 119); }
+.vote .vote-count-post { padding: 5px 0px 12px; }
+.vote span { font-size: 22px; }
+.favoritecount { text-align: center; color: rgb(119, 119, 119); margin-top: -2px; margin-bottom: 7px; }
+.post-text { width: 660px; margin-bottom: 5px; margin-right: 5px; font-size: 15px ! important; line-height: 20px ! important; color: rgb(57, 51, 24); }
+.post-text p { word-wrap: break-word; }
+.post-text sup { top: -0.5em; }
+.post-text a { border-bottom: 1px dotted rgb(224, 174, 174); }
+.post-text li { word-wrap: break-word; }
+span.feed-icon { display: inline-block; text-decoration: none; vertical-align: middle; }
+span.feed-icon { background-position: 0px -837px; width: 18px; height: 19px; }
+.post-tag { font-size: 11px; display: inline-block; color: rgb(94, 94, 94); border: 1px solid rgb(242, 227, 219); text-decoration: none; padding: 1px 4px; white-space: nowrap; overflow: visible; height: 14px; margin: 2px 2px 6px 0px; line-height: 12px; background-color: rgb(244, 236, 227); }
+.post-tag:before { content: "*"; font-size: 15px; font-family: "Times New Roman",Times,serif; line-height: 0; display: block; float: left; width: 10px; height: 8px; color: rgb(224, 203, 191); margin-top: 9px; }
+.post-tag:visited { color: rgb(94, 94, 94) ! important; }
+a.post-tag:hover { text-decoration: none; color: rgb(0, 0, 0); }
+.badgecount { font-size: 12px; font-weight: bold; padding-left: 2px; color: rgb(68, 68, 68); }
+.tagged { margin-bottom: 10px; margin-top: 5px; }
+.related { line-height: 14px ! important; font-size: 12px ! important; }
+.related a { font-size: 12px ! important; font-weight: normal; }
+.related a { line-height: 15px ! important; color: rgb(74, 125, 172); }
+.related a:visited { color: rgb(141, 183, 222) ! important; }
+.linked { line-height: 14px ! important; font-size: 12px ! important; }
+.linked a { font-size: 12px ! important; font-weight: normal; }
+.linked a { line-height: 15px ! important; color: rgb(74, 125, 172); }
+.linked a:visited { color: rgb(141, 183, 222) ! important; }
+.cbt { clear: both; }
+.bottom-notice { font-weight: normal; padding: 0px 10px 0px 0px; line-height: 20px; color: rgb(68, 68, 68); font-size: 18px; margin-top: 10px; }
+.bottom-notice .post-tag { height: inherit ! important; font-size: 15px ! important; line-height: 22px ! important; }
+.bottom-notice .post-tag:before { height: inherit ! important; font-size: 15px ! important; margin: 0px ! important; line-height: 24px ! important; }
+.footerwrap { margin: 0px auto; text-align: left; width: 980px; padding-top: 16px; padding-bottom: 10px; background-position: 0px -101px; }
+.envelope-on, .envelope-off, .vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .comment-up-off, .comment-up-on, .comment-flag, .edited-yes, a.cc-wiki-link, .feed-icon, .vote-accepted-off, .vote-accepted-on, .vote-accepted-bounty, .badge-earned-check, .delete-tag, .grippie, .expander-arrow-hide, .expander-arrow-show, .expander-arrow-small-hide, .expander-arrow-small-show, .anonymous-gravatar, .badge1, .badge2, .badge3 { background-image: url('sprites.png'); background-repeat: no-repeat; overflow: hidden; }
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off { display: block; margin: 0px auto; text-indent: -999em; background-position: -1px -239px; width: 42px; height: 32px; }
+.vote-up-off, .vote-down-off, .vote-accepted-off, .star-off, .comment-up-off, .flag-off { cursor: pointer; }
+.vote-up-off, .vote-up-on, .vote-down-off, .vote-down-on, .star-on, .star-off, .comment-up-off, .comment-up-on, .comment-flag, .flag-off, .vote-accepted-off, .vote-accepted-on { text-indent: -9999em; font-size: 1px; }
+.vote-down-off { background-position: -1px -281px; margin-bottom: 3px; }
+.star-off { background-position: -1px -129px; width: 42px; height: 30px; }
+.comment-up-off, .comment-up-on, .comment-flag, .edited-yes { display: inline-block; vertical-align: text-bottom; line-height: 12px; height: 15px; width: 16px; }
+.edited-yes { background-position: 0px -640px; }
+.vote-accepted-off, .vote-accepted-on, .vote-accepted-bounty { display: block; margin: 0px auto; background-position: 0px -564px; width: 42px; height: 30px; }
+.vote-accepted-on { background-position: 0px -467px; }
+.badge1, .badge2, .badge3 { display: inline-block; overflow: hidden; line-height: inherit; vertical-align: text-bottom; width: 14px; height: 14px; margin: 0px 0px 1px 3px; }
+.badge1 { background-position: -39px -1029px; }
+.badge2 { background-position: -19px -1029px; }
+.badge3 { background-position: 0px -1029px; }
+.lastactivity-link { color: inherit; background-color: transparent; }
+#portalLink { float: left; margin-left: 0px; margin-top: 5px; }
+td.answercell { vertical-align: top; }
+html { background: url('bg-site.jpg') repeat scroll left top rgb(252, 250, 243); }
+h1, h2, h3, h4, .module p.label-key, .vote-count-post, .badge, .badge-tag, .vote-count-post strong, .status strong, .summarycount, .history-table .answer-hyperlink, .history-table .question-hyperlink, .summary-table .question-hyperlink, .summary-table .answer-hyperlink, #question-suggestions .question-hyperlink, #system-message, #notify-container div { font-family: Georgia,"Times New Roman",Times,serif; }
+.post-menu, #hlinks, #hsearch .textbox, #tabs, .post-tag, .moderator-tag, .required-tag, .badge-tag, .badge, .started, .votes, .status, .views, .page-numbers, .related a, .linked a, .comments, .comments-link, #tags-legend, #footer-menu, #copyright, .user-details, .subtabs, .date-span, .ac_results, #additional-notices { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; }
+#hsearch .textbox:focus, #interestingTag:focus, #ignoredTag:focus { outline: medium none; }
+#topbar { width: auto; padding: 0px 0px 0px 10px; float: right; height: 25px; line-height: 23px; }
+#hmenus { margin: 10px 0px 0px; float: right; width: 980px; height: 30px; }
+.post-text ol li, .post-text ul li, .wmd-preview ol li, .wmd-preview ul li { margin-bottom: 7px; }
+input[type="submit"], input[type="button"], .button, a.button:link, a.button:visited, .form-submit input, .comment-form > form input, #bounty-submit, #new-tag-synonym input[type="submit"], #logout-user input[type="submit"], #submit-button, form input[type="sumit"], .flag-cancel, .close-cancel, .flag-submit, .close-submit, #btn-captcha, #click, #push-profile, #clear-associations { display: inline-block; outline: medium none; cursor: pointer; text-align: center; text-decoration: none; padding: 4px 6px; font-weight: normal; box-shadow: 0px 1px 2px rgb(85, 85, 85); color: rgb(255, 255, 255); border-right: 1px solid rgb(154, 76, 80); border-left: 1px solid rgb(154, 76, 80); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px; border-style: solid; border-color: rgb(215, 175, 176) rgb(154, 76, 80) rgb(120, 53, 54); background-color: rgb(173, 93, 96); font-family: sans-serif; line-height: normal; }
+.fb-share, .twitter-share, .gp-share, #notify-container span.notify-close, .module h4, #interestingTag, #ignoredTag, .nav li { background-image: url('sprites-extra.png'); background-repeat: no-repeat; overflow: hidden; background-color: transparent; }
+.mainnavs { margin-left: 201px; }
+.nav .youarehere a, .nav .youarehere a:visited, .nav .youarehere a:hover { color: rgb(147, 61, 63) ! important; font-weight: bold; }
+#footer-sites { line-height: 16px; font-size: 12px; }
+.show-votes .sidebar-linked a, .show-votes .sidebar-related a { float: left; font-size: 120%; font-weight: normal; line-height: 130%; margin-bottom: 10px; }
+.show-votes .sidebar-linked .answer-votes, .show-votes .sidebar-related .answer-votes { background-color: rgb(238, 238, 238); color: rgb(68, 68, 68); font-size: 90%; font-weight: normal; margin-right: 5px; padding: 1px 0px 3px; }
+.show-votes .sidebar-linked .question-hyperlink, .show-votes .sidebar-related .question-hyperlink { width: 165px; }
+.show-votes .sidebar-linked .spacer, .show-votes .sidebar-related .spacer { clear: both; min-height: 2em; }
+.comment-date, .comment-date > a { border-bottom: medium none; color: rgb(153, 153, 153); }
+#overlay-header { opacity: 0; display: none; background: none repeat scroll 0% 0% rgba(255, 255, 255, 0.95); font-size: 20px; font-weight: bold; left: 0px; padding: 5px 10% 10px; position: fixed; top: 0px; width: 80%; z-index: 250; box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.3); }
+.answer-votes { cursor: pointer; }
+input[type="button"], input[type="submit"], .button, a.button:link, a.button:visited { cursor: pointer; }
+.user-info.user-hover .user-gravatar32, .user-info.user-hover .user-gravatar48 { box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); border-collapse: separate; }
+.comments {  }
+.search-module .advanced-tips table tr td:nth-child(1) { color: rgb(135, 135, 135); padding-right: 4px; }
+#herobox-mini { width: 960px; height: 50px; margin: 10px auto; border: 1px solid rgb(223, 223, 223); background-color: rgb(255, 255, 255); font-size: 110%; line-height: 1.2; font-family: Arial,Liberation Sans,DejaVu Sans,sans-serif; }
+#herobox-mini #hero-content { height: 44px; background-color: rgb(240, 240, 240); background-image: url('mini-hero-bg.png'); background-repeat: repeat; border: 3px solid rgb(255, 255, 255); }
+#herobox-mini #close { margin-top: 2px; margin-right: 2px; cursor: pointer; }
+#herobox-mini #close a { padding: 0px 6px 3px; margin: 0px; font-size: 16px; font-weight: bold; color: rgb(128, 128, 128) ! important; line-height: 1; vertical-align: baseline; text-decoration: none; }
+#herobox-mini #blurb { padding: 0px 5px; width: 750px; display: table-cell; vertical-align: middle; height: 44px; }
+#herobox-mini #controls { float: right; display: table-cell; line-height: 3em; }
+#herobox-mini { border: medium none; margin: 20px auto; background-color: transparent; }
+#herobox-mini #hero-content { background-color: rgb(249, 240, 230); border: 4px double rgb(231, 212, 180); background-image: none; }

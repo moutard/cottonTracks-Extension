@@ -1,0 +1,322 @@
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/style.css ::::: */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0px; padding: 0px; border: 0px none; font: inherit; vertical-align: baseline; }
+body { line-height: 1; }
+ol, ul {  }
+table { border-spacing: 0px; border: 1px solid; width: 100%; }
+tr th, tr td { padding: 9px 20px; border-right: 1px solid; }
+tr th:last-child, tr td:last-child { border-right: 0px none; }
+body, .no-cufon { font-family: "HelveticaNeue","Helvetica Neue",Arial,sans-serif; }
+body { font-size: 12px; color: rgb(102, 102, 102); line-height: 18.5px; }
+html { min-height: 100%; }
+h1, h2, h3, h4, h5, h6 { color: rgb(24, 24, 24); font-family: "Georgia","Times New Roman",Helvetica,Arial,sans-serif; font-weight: normal; }
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+h1 { margin-bottom: 15px; }
+h3 { margin-bottom: 15px; }
+p { margin: 0px 0px 20px; }
+p img { margin: 0px; }
+strong { font-weight: bold; }
+small { font-size: 80%; }
+a { color: inherit; text-decoration: none; outline: 0px none; }
+a:hover { color: inherit; }
+p a { line-height: inherit; }
+ul, ol {  }
+ul {  }
+ol, ul.square, ul.circle, ul.disc, ul { margin-left: 30px; }
+ul ul, ul ol, ol ol, ol ul { margin: 4px 0px 5px 30px; }
+ul ul li, ul ol li, ol ol li, ol ul li { margin-bottom: 6px; }
+li { line-height: 18px; }
+img { display: block; }
+iframe { display: block; }
+a.button, button, input[type="submit"], input[type="reset"], input[type="button"] { height: 29px; line-height: 26px; padding: 1px 12px 0px; display: inline-block; background: url('gradient-top4-32px.png') repeat-x scroll 0% 0% transparent; font-weight: bold; cursor: pointer; border-radius: 3px 3px 3px 3px; }
+a.button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover { background-image: url('gradient-bottom4-32px.png'); }
+form { padding-bottom: 25px; }
+input[type="text"], input[type="password"], input[type="email"], textarea, select { border: 1px solid rgb(204, 204, 204); padding: 6px 4px; outline: medium none; border-radius: 2px 2px 2px 2px; font: 13px "HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif; color: rgb(119, 119, 119); margin: 0px 0px 20px; width: 210px; max-width: 100%; display: block; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+select { padding: 0px; }
+input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus, textarea:focus { border: 1px solid rgb(170, 170, 170); color: rgb(68, 68, 68); box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.2); }
+textarea { min-height: 60px; }
+label, legend { display: block; }
+select { width: 220px; }
+.aligncenter { margin: 0px auto; }
+br.clear { clear: both; height: 0px; display: block; }
+.display-none { display: none; }
+.mt0 { margin-top: 0px ! important; }
+.mb0 { margin-bottom: 0px ! important; }
+.mr0 { margin-right: 0px ! important; }
+div.body-wrapper {  }
+div#custom-full-background { position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; z-index: -1; }
+div#custom-full-background img { position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto; min-width: 50%; min-height: 50%; }
+div.header-wrapper { position: relative; }
+div.logo-wrapper img { display: inline-block; max-width: 100%; }
+div.social-wrapper { float: right; text-align: center; font-size: 15px; font-weight: bold; margin-right: 10px; }
+div.social-icon { float: right; margin-left: 11px; opacity: 0.55; cursor: pointer; }
+div.navigation-top-gimmick { height: 2px; }
+div.navigation-wrapper { font-size: 13px; font-weight: bold; text-align: center; }
+div.navigation-wrapper ul li ul li { font-weight: normal; }
+div#main-superfish-wrapper { margin-left: 0px; }
+div.content-wrapper { position: relative; }
+div.gdl-page-item {  }
+div.gdl-right-sidebar { float: left; }
+div.gdl-page-item { float: right; }
+div.gdl-page-float-left { float: left; }
+div.custom-sidebar { border-color: inherit; padding-bottom: 20px; clear: both; }
+div.custom-sidebar div { border-color: inherit; }
+div.custom-sidebar ul { list-style: none outside none; margin-left: 0px; padding-bottom: 0px; border-color: inherit; display: block; }
+div.custom-sidebar ul li { padding-top: 9px; padding-bottom: 9px; border-bottom-width: 1px; border-bottom-style: solid; border-color: inherit; }
+div.custom-sidebar ul li { padding-left: 15px; background-position: 0px 4px; }
+div.custom-sidebar ul li:last-child { border-bottom: 0px none; }
+div.custom-sidebar .textwidget, div.custom-sidebar .textwidget p { margin: 0px; }
+div.custom-sidebar .textwidget {  }
+div.gdl-likebox div.bkp-frame {  }
+div.sidebar-header-wrapper { margin: 12px 0px 25px; display: none; }
+h3.sidebar-header-title { font-size: 18px; padding-right: 10px; float: left; margin-bottom: 0px; }
+div.sidebar-header-gimmick { overflow: hidden; height: 18px; margin-right: 10px; margin-top: 10px; }
+div.footer-wrapper .container { background: none repeat scroll 0% 0% transparent; box-shadow: none; }
+div.footer-widget-wrapper { padding-top: 35px; margin-top: 20px; }
+div.footer-widget-wrapper .custom-sidebar {  }
+div.footer-widget-wrapper .custom-sidebar-title { font-size: 16px; margin-bottom: 10px; }
+div.copyright-wrapper-gimmick { height: 2px; }
+div.copyright-wrapper { padding-top: 12px; padding-bottom: 12px; font-size: 11px; font-weight: bold; }
+div.copyright-left { text-align: left; float: left; line-height: 24px; }
+div.copyright-right { text-align: right; float: right; }
+div.comment-wrapper { margin-top: 40px; }
+div.comment-wrapper .comment-form-comment { margin-right: 40px; }
+div.comment-wrapper #reply-title { font-size: 18px; margin-bottom: 15px; }
+div.comment-wrapper input[type="text"], input[type="password"] { width: 320px; height: 30px; padding: 0px 0px 0px 10px; margin: 5px 5px 25px; line-height: 20px; }
+div.comment-wrapper textarea { height: 165px; width: 590px; margin: 5px 5px 25px; padding: 10px; max-width: 100%; line-height: 20px; }
+div.comment-wrapper .comment-form-captcha img { float: left; margin-right: 20px; margin-top: 1px; }
+div.comment-wrapper .comment-form-author input, div.comment-wrapper .comment-form-email input, div.comment-wrapper .comment-form-url input { float: left; }
+div.comment-wrapper .comment-form-captcha input { float: left; width: 205px; }
+div.comment-wrapper .comment-form-author label, div.comment-wrapper .comment-form-email label, div.comment-wrapper .comment-form-url label, div.comment-wrapper .comment-form-captcha label { float: left; line-height: 32px; margin: 5px 0px 0px 10px; }
+div.comment-wrapper .comment-form-author span, div.comment-wrapper .comment-form-email span, div.comment-wrapper .comment-form-url span, div.comment-wrapper .comment-form-captcha span { float: left; line-height: 32px; margin-left: 2px; }
+div.comment-wrapper #respond { margin-top: 30px; }
+div.single-thumbnail-title-wrapper { position: relative; padding-right: 30px; }
+h1.single-thumbnail-title { padding-bottom: 7px; font-size: 21px; margin-bottom: 0px; }
+h1.single-thumbnail-title a { color: inherit; }
+div.single-thumbnail-comment { height: 16px; line-height: 16px; position: absolute; right: 2px; top: 2px; padding-left: 20px; }
+div.single-thumbnail-info { margin-bottom: 10px; font-size: 11px; font-family: Droid Serif; }
+div.single-thumbnail-date { height: 16px; line-height: 16px; font-style: italic; padding-left: 23px; float: left; }
+div.single-thumbnail-author { height: 16px; line-height: 16px; float: left; margin-left: 20px; padding-left: 23px; }
+div.single-content { margin-top: 15px; }
+div.social-share-title { margin-top: 20px; font-size: 18px; }
+div.social-shares ul { list-style: none outside none; margin-left: 0px; margin-top: 15px; }
+div.social-shares ul li { float: left; margin-right: 15px; }
+div.bkp-frame { padding: 5px; }
+div.bkp-frame.single-page-frame { padding: 8px; }
+div.bkp-frame img, div.bkp-frame-wrapper img, div.page-bkp-frame-wrapper.gallery img { max-width: 100%; height: auto; }
+div.advertFooter { margin: 0px auto; width: 728px; }
+.menu-item { font-family: tahoma,arial,sans-serif; font-size: 14px; }
+.sf-menu #menu-item-319005 a { display: block; height: 35px; width: 52px; padding: 0px; outline: medium none; text-indent: -9999px; background: url('1346148467_home.png') repeat scroll center center transparent; }
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/stylesheet/skeleton.css ::::: */
+
+.container { position: relative; width: 980px; margin: 0px auto; padding: 0px; }
+.gdl-page-item { width: 960px; float: left; }
+.container .column, .columns { float: left; display: inline; margin: 0px 10px 20px; position: relative; }
+.container .four.columns { width: 220px; }
+.container .five.columns { width: 310px; }
+.container .eight.columns { width: 460px; }
+.container .sixteen.columns { width: 960px; }
+.container .eight.columns.wrapper { width: 480px; margin-right: 0px; margin-left: 0px; }
+.sidebar-included .gdl-page-item { width: 650px; }
+.container .sidebar-included .gdl-page-item .sixteen.columns { width: 640px; }
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	.container { width: 768px; }
+	.gdl-page-item { width: 768px; float: left; }
+	.container .column, .container .columns {  }
+	.container .four.columns { width: 172px; }
+	.container .five.columns { width: 220px; }
+	.container .eight.columns { width: 364px; }
+	.container .sixteen.columns { width: 748px; }
+	.container .eight.columns.wrapper { width: 384px; margin-right: 0px; margin-left: 0px; }
+	.sidebar-included .gdl-page-item { width: 528px; }
+	.container .sidebar-included .gdl-page-item .sixteen.columns { width: 508px; }
+}
+@media only screen and (max-width: 767px) {
+	.container { width: 300px; }
+	.gdl-page-item { width: 300px; float: left; }
+	.container .columns, .container .column { margin: 0px 0px 20px; }
+	.container .one.column, .container .one.columns, .container .two.columns, .container .three.columns, .container .four.columns, .container .five.columns, .container .six.columns, .container .seven.columns, .container .eight.columns, .container .nine.columns, .container .ten.columns, .container .eleven.columns, .container .twelve.columns, .container .thirteen.columns, .container .fourteen.columns, .container .fifteen.columns, .container .sixteen.columns, .container .one-third.column, .container .two-thirds.column { width: 300px; }
+	.container .four.columns.wrapper, .container .eight.columns.wrapper, .container .twelve.columns.wrapper, .container .sixteen.columns.wrapper, .container .one-third.column.wrapper, .container .two-thirds.column.wrapper { width: 300px; margin-right: 0px; margin-left: 0px; }
+	.sidebar-included .gdl-page-item { width: 300px; }
+	.container .sidebar-included .gdl-page-item .four.columns, .container .sidebar-included .gdl-page-item .eight.columns, .container .sidebar-included .gdl-page-item .twelve.columns, .container .sidebar-included .gdl-page-item .sixteen.columns, .container .sidebar-included .gdl-page-item .one-third.column, .container .sidebar-included .gdl-page-item .two-thirds.column { width: 300px; }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	.container { width: 420px; }
+	.gdl-page-item { width: 420px; float: left; }
+	.container .columns, .container .column { margin: 0px 0px 20px; }
+	.container .one.column, .container .one.columns, .container .two.columns, .container .three.columns, .container .four.columns, .container .five.columns, .container .six.columns, .container .seven.columns, .container .eight.columns, .container .nine.columns, .container .ten.columns, .container .eleven.columns, .container .twelve.columns, .container .thirteen.columns, .container .fourteen.columns, .container .fifteen.columns, .container .sixteen.columns, .container .one-third.column, .container .two-thirds.column { width: 420px; }
+	.container .four.columns.wrapper, .container .eight.columns.wrapper, .container .twelve.columns.wrapper, .container .sixteen.columns.wrapper, .container .one-third.column.wrapper, .container .two-thirds.column.wrapper { width: 420px; margin-right: 0px; margin-left: 0px; }
+	.sidebar-included .gdl-page-item { width: 420px; }
+	.container .sidebar-included .gdl-page-item .four.columns, .container .sidebar-included .gdl-page-item .eight.columns, .container .sidebar-included .gdl-page-item .twelve.columns, .container .sidebar-included .gdl-page-item .sixteen.columns, .container .sidebar-included .gdl-page-item .one-third.column, .container .sidebar-included .gdl-page-item .two-thirds.column { width: 420px; }
+}
+.container:after { content: " "; display: block; height: 0px; clear: both; visibility: hidden; }
+.clearfix:before, .clearfix:after, .row:before, .row:after { content: " "; display: block; overflow: hidden; visibility: hidden; width: 0px; height: 0px; }
+.row:after, .clearfix:after { clear: both; }
+.row, .clearfix {  }
+.clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0px; height: 0px; }
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/stylesheet/layout.css ::::: */
+
+div.responsive-menu-wrapper { display: none; }
+@media only screen and (max-width: 959px) {
+	div.gdl-likebox { display: none; }
+}
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+}
+@media only screen and (max-width: 767px) {
+	div.responsive-menu-wrapper { display: block; }
+	div.responsive-menu-wrapper select { width: 100%; height: 30px; margin: 0px; }
+	div.navigation-top-gimmick, div.navigation-wrapper { display: none; }
+	div.logo-wrapper { text-align: center; margin-top: 35px; margin-bottom: 20px; }
+	div.top-banner-wrapper, div.social-wrapper { margin-top: 0px; margin-bottom: 20px; }
+	div.social-wrapper { float: none; }
+	div.social-icon-wrapper { display: inline-block; }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+	div.comment-wrapper input[type="text"], input[type="password"] { width: 260px ! important; }
+	div.comment-wrapper .comment-form-captcha input { width: 145px ! important; }
+}
+@media only screen and (max-width: 479px) {
+	div.comment-wrapper input[type="text"], input[type="password"] { width: 150px ! important; }
+	div.comment-wrapper .comment-form-captcha input { width: 35px ! important; }
+}
+/* ::::: http://www.basketamericain.com/wp-content/plugins/tubepress/src/main/web/css/tubepress.css?ver=3.5.1 ::::: */
+
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/style-custom.php?ver=3.5.1 ::::: */
+
+.logo-wrapper { margin-top: 0px; margin-left: 0px; margin-bottom: 4px; }
+.social-wrapper { margin-top: 750px; }
+body { font-size: 12px; }
+h1 { font-size: 30px; }
+h3 { font-size: 20px; }
+html { background-color: rgb(255, 255, 255); }
+body {  }
+h1, h2, h3, h4, h5, h6, .gdl-title { font-family: Aller; }
+body { color: rgb(102, 102, 102) ! important; }
+a { color: rgb(198, 0, 32); }
+.footer-wrapper a { color: rgb(198, 0, 32); }
+.gdl-link-title { color: rgb(198, 0, 32) ! important; }
+a:hover { color: rgb(166, 0, 28); }
+.footer-wrapper a:hover { color: rgb(166, 0, 28); }
+h1, h2, h3, h4, h5, h6, .title-color { color: rgb(73, 73, 73); }
+.sidebar-title-color, .sidebar-header-title { color: rgb(73, 73, 73) ! important; }
+.post-title-color { color: rgb(51, 51, 51) ! important; }
+.post-title-color a:hover { color: rgb(112, 112, 112) ! important; }
+.post-info-color, div.custom-sidebar #twitter_update_list { color: rgb(164, 164, 164) ! important; }
+.footer-widget-wrapper .custom-sidebar-title { color: rgb(23, 23, 23) ! important; }
+.footer-widget-wrapper { border-top: 1px solid rgb(233, 233, 233) ! important; background-color: rgb(255, 255, 255) ! important; }
+.footer-wrapper .gdl-divider { border-color: rgb(235, 235, 235) ! important; }
+.footer-wrapper, .footer-wrapper table th { color: rgb(177, 177, 177) ! important; }
+div.copyright-wrapper-gimmick { background: none repeat scroll 0% 0% rgb(193, 193, 193); }
+div.copyright-wrapper { background-color: rgb(47, 47, 47) ! important; color: rgb(128, 128, 128) ! important; }
+div.copyright-wrapper { box-shadow: 0px 3px 6px -3px rgb(17, 17, 17) inset; }
+.gdl-divider { border-color: rgb(236, 236, 236) ! important; }
+table, table tr, table tr td, table tr th { border-color: rgb(229, 229, 229); }
+div.navigation-wrapper { background: url('navigation-gradient.png') repeat-x scroll 0% 0% transparent; }
+.navigation-wrapper { border: 1px solid rgb(215, 215, 215) ! important; box-shadow: 0px 1px 5px -1px rgb(245, 245, 245); }
+div.navigation-top-gimmick { background-color: rgb(215, 215, 215); }
+.navigation-wrapper { background-color: rgb(236, 236, 236) ! important; }
+.navigation-wrapper .sf-menu ul { border-color: rgb(233, 233, 233) ! important; }
+.navigation-wrapper .sf-menu .current-menu-ancestor ul a, .navigation-wrapper .sf-menu .current-menu-item ul a, .navigation-wrapper .sf-menu li li a { color: rgb(136, 136, 136) ! important; }
+.navigation-wrapper .sf-menu li li a:focus, .navigation-wrapper .sf-menu li li a:hover, .navigation-wrapper li li .sf-menu a:active, .navigation-wrapper .sf-menu ul .current-menu-ancestor a, .navigation-wrapper .sf-menu ul .current-menu-item a { color: rgb(61, 61, 61) ! important; }
+.sf-menu li li { background-color: rgb(251, 251, 251) ! important; border-color: rgb(233, 233, 233) ! important; }
+.navigation-wrapper .sf-menu li a { color: rgb(102, 102, 102) ! important; border-right: 1px solid rgb(215, 215, 215) ! important; }
+.navigation-wrapper .sf-menu a:focus, .navigation-wrapper .sf-menu a:hover, .navigation-wrapper .sf-menu a:active { color: rgb(61, 61, 61) ! important; }
+a.button, button, input[type="submit"], input[type="reset"], input[type="button"], a.gdl-button { background-color: rgb(241, 241, 241); color: rgb(122, 122, 122); border: 1px solid rgb(222, 222, 222); }
+a.button:hover, button:hover, input[type="submit"]:hover, input[type="reset"]:hover, input[type="button"]:hover, a.gdl-button:hover { color: rgb(122, 122, 122); }
+div.contact-form-wrapper input[type="text"], div.contact-form-wrapper input[type="password"], div.contact-form-wrapper textarea, div.custom-sidebar #search-text input[type="text"], div.custom-sidebar .contact-widget-whole input, div.comment-wrapper input[type="text"], input[type="password"], div.comment-wrapper textarea, div.custom-sidebar .contact-widget-whole textarea, span.wpcf7-form-control-wrap input[type="text"], span.wpcf7-form-control-wrap input[type="password"], span.wpcf7-form-control-wrap textarea { color: rgb(136, 136, 136); background-color: rgb(255, 255, 255); border: 1px solid rgb(207, 207, 207); box-shadow: 0px 1px 4px rgb(236, 236, 236) inset, -5px -5px 0px 0px rgb(248, 248, 248), 5px 5px 0px 0px rgb(248, 248, 248), 5px 0px 0px 0px rgb(248, 248, 248), 0px 5px 0px 0px rgb(248, 248, 248), 5px -5px 0px 0px rgb(248, 248, 248), -5px 5px 0px 0px rgb(248, 248, 248); }
+div.single-thumbnail-author, div.archive-wrapper .blog-item .blog-thumbnail-author, div.blog-item-holder .blog-item2 .blog-thumbnail-author { background: url('author.png') no-repeat scroll 0px 0px transparent; }
+div.single-thumbnail-date, div.custom-sidebar .recent-post-widget-date, div.archive-wrapper .blog-item .blog-thumbnail-date { background: url('calendar.png') no-repeat scroll 0px 0px transparent; }
+div.single-thumbnail-comment, div.archive-wrapper .blog-item .blog-thumbnail-comment, div.blog-item-holder .blog-thumbnail-comment, div.custom-sidebar .recent-post-widget-comment-num { background: url('comment.png') no-repeat scroll 0px 0px transparent; }
+div.custom-sidebar ul li { background: url('arrow4.png') no-repeat scroll 0px 14px transparent; }
+div.sidebar-header-gimmick { background: url('header-gimmick.png') repeat-x scroll 0px 6px transparent; }
+div.footer-wrapper div.custom-sidebar ul li { background: url('arrow4.png') no-repeat scroll 0px 14px transparent; }
+a.button, button, input[type="submit"], input[type="reset"], input[type="button"], a.gdl-button { box-shadow: 1px 1px 3px rgb(236, 236, 236); }
+div.bkp-frame-wrapper, div.page-bkp-frame-wrapper, div.gdl-widget-tab-header-item, div.gdl-widget-tab-header-item-last { background-color: rgb(248, 248, 248) ! important; }
+div.bkp-frame-wrapper, div.page-bkp-frame-wrapper { border-color: rgb(218, 218, 218) ! important; }
+div.bkp-frame, div.page-bkp-frame, div.gdl-widget-tab-header-item.active { background-color: rgb(255, 255, 255) ! important; }
+/* ::::: http://fonts.googleapis.com/css?family=Droid+Serif%3An%2Ci%2Cb%2Cbi%7C&ver=3.5.1 ::::: */
+
+@font-face {
+	font-family: "Droid Serif";
+	font-style: normal;
+	font-weight: 400;
+	src: local("Droid Serif"), local("DroidSerif"), url('0aksp294htd-nvjgucytalria-7acmaedbvuclsi6gc.woff') format("woff");
+}
+@font-face {
+	font-family: "Droid Serif";
+	font-style: normal;
+	font-weight: 700;
+	src: local("Droid Serif Bold"), local("DroidSerif-Bold"), url('qqt14e8dy39u-eybzmppwrbnbkkeowrkgshdregcocg.woff') format("woff");
+}
+@font-face {
+	font-family: "Droid Serif";
+	font-style: italic;
+	font-weight: 400;
+	src: local("Droid Serif Italic"), local("DroidSerif-Italic"), url('cj2hunsrbhwmspr9ks5894o3zsltyfjv0r05cazkwn8.woff') format("woff");
+}
+@font-face {
+	font-family: "Droid Serif";
+	font-style: italic;
+	font-weight: 700;
+	src: local("Droid Serif Bold Italic"), local("DroidSerif-BoldItalic"), url('c92rd_x0v1lslsft3-qepihgnb6vkvpdra9lsakgxzw.woff') format("woff");
+}
+/* ::::: http://www.basketamericain.com/wp-content/plugins/super-rss-reader/public/srr.css?ver=3.5.1 ::::: */
+
+.widget_super_rss_reader { clear: both; }
+.widget_super_rss_reader * .scrollable .srr-active-tab { font-weight: bold; }
+.widget_super_rss_reader * .scrollable .srr-wrap .srr-item:last-child { margin: 0px; }
+.widget_super_rss_reader * .scrollable { position: relative; overflow: hidden; width: 100%; height: 18px; float: left; }
+.widget_super_rss_reader * .scrollable ul { width: 20000em; position: absolute; }
+.widget_super_rss_reader * .scrollable ul li { float: left; display: block; padding: 0px 6px ! important; text-align: center; text-decoration: none; color: rgb(70, 70, 70) ! important; margin: 0px 2px 0px 0px ! important; background: none repeat scroll 0% 0% transparent; position: relative; outline: medium none; list-style: none outside none; cursor: pointer; }
+.srr-clearfix:after { clear: both; content: "."; display: block; height: 0px; visibility: hidden; font-size: 0px; }
+.widget_super_rss_reader * table.arrowWrap, .widget_super_rss_reader * table.arrowWrap * td { padding: 0px ! important; margin: 0px ! important; border: medium none ! important; background: none repeat scroll 0% 0% transparent ! important; }
+.widget_super_rss_reader * .arrowWrap * a.next, .widget_super_rss_reader * .arrowWrap * a.prev { float: left; background-position: 0px -18px; background-image: url('l-arrow.png'); display: block; text-align: left; width: 18px; height: 18px; color: transparent; cursor: pointer; font-size: 1px; }
+.widget_super_rss_reader * .arrowWrap * a.next { background-image: url('r-arrow.png'); float: right; }
+.widget_super_rss_reader * .ArrowCell { width: 18px; height: 18px; vertical-align: top; margin-top: 3px; text-align: center; }
+.widget_super_rss_reader * ul.feedscontainer { position: relative; top: 0px; left: 0px; list-style: none outside none; margin: auto; overflow: hidden; }
+.widget_super_rss_reader * .feedscontainerwrapper { border-top: 1px solid lightgray; margin-top: 4px; }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item { clear: both; color: rgb(3, 3, 3) ! important; border-bottom: 1px dotted rgb(204, 204, 204); padding: 2px; background: none repeat scroll 0% 0% rgb(255, 255, 255); list-style: none outside none; }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item.odd { background-color: rgb(244, 244, 244); }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item > a { text-decoration: none; cursor: pointer; font-weight: normal; color: rgb(49, 52, 40); display: inline-block; width: 100%; }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item > a > span { display: inline-block; vertical-align: middle; line-height: 100%; text-align: left; }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item > a > span.srr-date { font-size: 80%; color: gray; margin-right: 3px; margin-top: 2px; vertical-align: bottom; height: inherit; display: block; float: left; }
+.widget_super_rss_reader * ul.feedscontainer > .srr-item > a > span.srr-title { font-size: 90%; font-weight: normal; color: black; width: 82%; display: block; float: left; line-height: 110%; }
+.widget_super_rss_reader * .seemore { display: none; }
+.widget_super_rss_reader * .seemore.srr-vticker { display: block; width: 100%; clear: both; }
+.widget_super_rss_reader .seemore.srr-vticker > a { display: block; float: left; width: 50%; margin: 3px; text-align: left; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager { display: block; color: rgb(102, 102, 102); float: right; font-weight: 700; height: 20px; line-height: 20px; vertical-align: top; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager span { vertical-align: top; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager a { background-image: url('sprite.png'); height: 20px; width: 20px; display: inline-block; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager a.prev { background-position: 20px 0px; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager a.next { background-position: 20px 20px; }
+.widget_super_rss_reader .seemore.srr-vticker div.pager a.prev.disabled { background-position: 0px 0px; }
+/* ::::: http://www.basketamericain.com/wp-content/plugins/wp-polls/polls-css.css?ver=2.63 ::::: */
+
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/stylesheet/superfish.css?ver=3.5.1 ::::: */
+
+.sf-menu, .sf-menu * { margin: 0px; padding: 0px; list-style: none outside none; }
+.sf-menu { line-height: 1; }
+.sf-menu ul { position: absolute; top: -999em; width: 10em; }
+.sf-menu ul li { width: 100%; }
+.sf-menu li:hover { visibility: inherit; }
+.sf-menu li { float: left; position: relative; }
+.sf-menu a { display: block; position: relative; }
+.sf-menu li:hover ul, .sf-menu li.sfHover ul { left: 0px; top: 35px; z-index: 101; }
+.sf-menu { float: left; }
+.sf-menu li a { padding: 8px 22px 9px; line-height: 18px; text-decoration: none; }
+.sf-menu li:first-child a {  }
+.sf-menu li:last-child a {  }
+.menu-wrapper .sf-menu li li a { height: auto; border: 0px none ! important; padding-left: 15px; }
+ul.sf-menu li {  }
+ul.sf-menu li li { border-bottom: 1px solid; }
+ul.sf-menu li:last-child { border: 0px none; }
+.sf-sub-indicator { margin-left: 2px; }
+.sf-menu ul { border: 1px solid; text-align: left; box-shadow: 0px 1px 3px rgb(238, 238, 238); }
+/* ::::: http://www.basketamericain.com/wp-content/themes/bangkokpress/stylesheet/prettyPhoto.css?ver=3.5.1 ::::: */
+
+cufon { text-indent: 0px ! important; }
+@media screen, projection {
+	cufon { display: inline-block ! important; position: relative ! important; vertical-align: middle ! important; font-size: 1px ! important; line-height: 1px ! important; }
+	cufon cufontext { display: inline-block ! important; width: 0px ! important; height: 0px ! important; text-align: left ! important; text-indent: -10000in ! important; }
+	cufon canvas { position: relative ! important; }
+}

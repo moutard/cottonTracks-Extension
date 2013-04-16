@@ -1,0 +1,32 @@
+{
+  "id": "el_mundo_sindicatos",
+  "url": "http://www.elmundo.es/elmundo/2012/03/10/espana/1331398805.html",
+  "path": "test/data/web_pages/el_mundo_sindicatos/content/index.html",
+
+  "best_image": "",
+
+  "expected": [
+    "Las calles de Madrid y de otras tantas ciudades españolas se han vuelto a llenar por segunda vez contra la reforma laboral aprobada por el Gobierno. Con estas manifestaciones, los sindicatos CCOO y UGT exhiben su fuerza de cara a la huelga general convocada para el 29 de marzo y cuya movilización ha comenzado ya. Si no hay un cambio \"sustancial\" -han advertido- seguirán las movilizaciones en una advertencia de que el conflicto podría enquistarse en la calle. La protesta central se ha desarrollado en Madrid y se ha celebrado en unas 60 ciudades. También han sido muy numerosas las marchas de Barcelona, Sevilla, Málaga y Valencia",   
+    "Con la huelga general encima de la mesa y en boca de todos, la multitudinaria afluencia de hoy sirve de termómetro para medir el ambiente y la repercusión que tendría la convocatoria. No obstante, los líderes de CCOO, Ignacio Fernández Toxo, y UGT, Cándido Méndez, han lanzando el guante al Gobierno: aún hay tiempo para negociar y desactivar la convocatoria.",
+    "Sin embargo, el 29-M no es el \"final\" del conflicto en la calle. Si no hay una modificación sustancial, algo que el Ejecutivo ha repetido varias veces que no hará, los sindicatos advierten de prolongar sus propuestas más allá porque la ley es un \"chantaje\". Así, han avisado al Gobierno de que la huelga no es un \"trago\" que se pasa ese día, sino que supondría un punto más en una escalada de movilizaciones.",   
+    "Bajo el lema \"No a la reforma laboral inútil e ineficaz, defiende tus derechos y los servicios públicos\", la marcha de Madrid ha reunido a decenas de miles de personas en un ambiente reivindicativo y lleno de color que ha culminado con los discursos de los dirigentes sindicales. Estos han cifrado la movilización de las diferentes protestas del país en un millón y medio de personas.",   
+    "La Dirección General de la Policía ha cifrado en 30.000 el número de manifestantes en Madrid. Le siguen en número de personas Málaga (15.000 personas), Sevilla (15.000) y Barcelona (14.000).",   
+    "'Que mire a Italia y Grecia'",   
+    "En sus intervenciones tras la marcha y en una rueda de prensa previa, Toxo ha subrayado que el Gobierno está atizando el conflicto social y ha mostrado su confianza en que le quede un punto de cordura y atienda el rechazo mayoritario de la sociedad. \"No vamos a permitir que acaben con todo\", ha proclamado",   
+    "Toxo ha dicho al Gobierno que no confíe en que el miedo vaya a atenazar a la gente \"porque la huelga no será de un tono menor\". En su opinión, el crédito y la legitimidad se logran y se pierden, \"y hay procesos que aceleran la pérdida de credibilidad entre la sociedad\".",   
+    "Toxo ha avisado a Rajoy de que el crédito \"no es para siempre\" y que mire a Italia y Grecia, \"no vaya a pasarle lo mismo\", en alusión a la caída de sus gobernantes.",   
+    "'Para toda la vida'",    
+    "Por su parte, Méndez ha criticado que algunos simplifiquen mucho la realidad y se limiten a decir que la huelga y las manifestaciones son una confrontación entre los sindicatos y el Gobierno, \"cuando los sindicatos son el dedo democrático y constitucional que señala los gravísimos problemas que supone la reforma laboral\".",    
+    "Méndez ha subrayado que la reforma laboral causa una \"profunda regresión social\" en el país que no se podrá recuperar. Va más allá de la crisis , ha dicho, \"será para toda la vida\".",    
+    "Para alentar la participación de los ciudadanos en la cita del 29-M, ha dicho que \"sólo hay que tener miedo al propio miedo\" y ha criticado al Gobierno por hacer un \"aprovechamiento inmoral\" de la situación actual.",   
+    "La fecha de la polémica",    
+    "No ajenos a la polémica, Toxo y Méndez han comenzado sus discursos haciendo alusión a las víctimas de los atentados del 11-M y la polémica creada por la coincidencia del aniversario con la marcha de hoy.",    
+    "El líder de CCOO ha criticado al Gobierno por haberles instado a modificar su convocatoria cuando el Ejecutivo no ha hecho ningún acto institucional de recuerdo. \"La derecha no tiene el monopolio del dolor\", ha proclamado.",   
+    "\"Aquí hay mucha gente honrando a las víctimas\", ha enfatizado Méndez. Para el dirigente de UGT decir que los sindicatos no honran a las víctimas al convocar la manifestación de hoy forma parte de la \"historia general de la infamia\" porque \"jamás el ejercicio de un derecho puede ser una afrenta contra las víctimas del terrorismo\".",    
+    "En el acto también han participado los secretarios generales de UGT Madrid, José Ricardo Martínez, y de CCOO Madrid, Javier López. Martínez ha dicho que los sindicatos se solidarizan con \"todos\" los muertos y heridos de todas las familias y ha precisado que \"eso no lo pueden decir otros que sólo apoyan unos muertos y unos heridos\". Los sindicatos \"no aceptamos la manipulación ni olvidamos\", ha recalcado Martínez y ha dirigido un mensaje \"a quienes mintieron y manipularon\" el 11-M de 2004 que \"estaban más preocupados de su futuro político que de las víctimas\".",      
+    "El PSOE, representado",    
+    "El PSOE ha estado representado por su portavoz en el Congreso, Soraya Rodríguez, y otros miembros de la Ejecutiva, así como el líder de los socialistas madrileños, Tomás Gómez, o el portavoz en el Ayuntamiento de Madrid, Jaime Lissavetzky.",    
+    "Sobre huelga general, Rodríguez ha subrayado que hasta el 29 de marzo \"hay mucho tiempo\" para que el Gobierno pueda desconvocarla y ha expresado su confianza en que el Ejecutivo escuche la voz de la calle y paralice la convocatoria. La portavoz socialista ha insistido en que se trata de una \"reforma sumamente desequilibrada\" a favor del empresario y, con ella, \"prácticamente todo es posible en la empresa con la sola voluntad del empresario\". Además, ha advertido de que la negociación colectiva está \"herida de muerte\".",    
+    "Entre los que secundan la marcha y la futura huelga está el coordinador federal de IU, Cayo Lara, quien ha instado a Rajoy a negociar con partidos y sindicatos. En este sentido, ha comentado que \"las movilizaciones previas son la toma de conciencia de la gente con el fondo del problema\" y ha avanzado que, si se tiene que producir, \"la huelga será un éxito\"."
+  ]
+}

@@ -1,0 +1,138 @@
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/themes/vidley/style.css ::::: */
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0px; padding: 0px; }
+fieldset, img { border: 0px none; }
+ol, ul { list-style: none outside none; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+body { background: none repeat scroll 0% 0% rgb(238, 236, 231); width: auto; height: auto; font-family: 'Lucida Sans','Lucida Grande','Lucida Sans Unicode',sans-serif; color: rgb(70, 70, 72); font-size: 12px; line-height: 20px; }
+html > body { min-height: 1200px; height: auto; }
+a:link, a:visited { color: rgb(70, 70, 72); }
+a:hover { color: rgb(153, 153, 153); }
+h2 { font-size: 18px; }
+h3 { font-size: 14px; }
+h1, h2, h3, h4, h5, h6, strong { font-weight: bold; }
+h2 { margin: 0px 0px 5px; }
+ol, ul { margin: 0px; }
+ul li { list-style: none outside none; }
+p, fieldset, table { margin-bottom: 15px; }
+a:link, a:visited { text-decoration: none; }
+:focus { outline: 0px none; }
+#header { width: 100%; float: left; }
+#header-inside { width: 960px; margin: 0px auto; }
+#header-left { width: 350px; float: left; padding: 30px 0px; }
+#header-right { width: 610px; float: left; }
+.menu, .menu * { margin: 0px; padding: 0px; list-style: none outside none; }
+.menu { background: none repeat scroll 0% 0% rgb(223, 221, 216); font-weight: bold; float: right; font-size: 12px; line-height: 1; padding: 0px 20px 1px 0px; }
+.menu a { display: block; position: relative; color: rgb(70, 70, 72); }
+.menu a:hover { color: rgb(153, 153, 153); }
+.menu li { float: left; margin: 3px 0px 5px 20px; padding: 5px 0px; position: relative; }
+.menu li:hover { visibility: inherit; }
+#search { float: right; margin: 0px; }
+input#s { background: none repeat scroll 0% 0% rgb(255, 255, 255); border: medium none; float: left; font-size: 14px; width: 259px; height: 24px; margin: 0px 10px 0px 0px; padding: 7px 0px 0px 15px; }
+input#search-submit { background: none repeat scroll 0% 0% rgb(122, 193, 66); color: rgb(255, 255, 255); font-weight: bold; font-size: 12px; float: left; border: medium none; width: 78px; height: 32px; }
+input#search-submit:hover { background: none repeat scroll 0% 0% rgb(112, 178, 62); }
+#content { width: 100%; float: left; }
+#content-inside { width: 960px; margin: 0px auto; }
+#channels { width: 100%; float: left; }
+#channels-inside { width: 960px; margin: 0px auto; }
+#channels-wrapper { background: none repeat scroll 0% 0% rgb(223, 221, 216); width: 960px; float: left; margin: 30px 0px 0px; padding: 0px 0px 32px; }
+#channels h4 { color: rgb(255, 255, 255); position: absolute; margin: 120px 0px 0px 12px; font-size: 14px; }
+.post-image-home { width: 200px; height: 150px; float: left; margin: 30px 0px 0px 32px; }
+.post-frame-channel { background: url('post-frame.png') repeat scroll 0px 0px transparent; width: 200px; height: 150px; position: absolute; }
+.post-frame-channel:hover { background: url('post-frame.png') repeat scroll 0px -150px transparent; }
+#video-container { width: 100%; float: left; }
+#video-container-inside { width: 960px; margin: 0px auto; }
+#video-top { background: none repeat scroll 0% 0% rgb(223, 221, 216); width: 960px; height: 10px; float: left; }
+#video { background: none repeat scroll 0% 0% rgb(223, 221, 216); width: 960px; float: left; padding: 10px 0px; }
+.video-embed { float: left; padding: 0px 0px 0px 20px; }
+.video-desc { width: 300px; float: left; padding: 0px 0px 0px 20px; }
+.video-desc a { text-decoration: underline; }
+.video-desc h2 a { text-decoration: none; }
+a.continue-reading { background: none repeat scroll 0% 0% rgb(122, 193, 66); color: rgb(255, 255, 255); font-weight: bold; float: left; padding: 8px 15px; text-decoration: none; }
+a.continue-reading:hover { background: none repeat scroll 0% 0% rgb(112, 178, 62); }
+#video h2 { margin: 0px 0px 5px; padding: 0px; }
+#video-bottom { background: none repeat scroll 0% 0% rgb(223, 221, 216); width: 960px; height: 10px; float: left; }
+#breadcrumbs { background: none repeat scroll 0% 0% rgb(223, 221, 216); color: rgb(70, 70, 72); width: 936px; float: left; margin: 0px 0px 30px; padding: 12px; }
+#breadcrumbs p { width: 550px; float: left; font-size: 14px; margin: 0px; padding: 5px 0px 0px; }
+#sidebar-home, #sidebar-single, #sidebar-page { width: 100%; float: left; margin: 30px 0px 0px; }
+#sidebar-home-inside, #sidebar-multiple-inside, #sidebar-single-inside, #sidebar-page-inside { width: 960px; margin: 0px auto; }
+#sidebar-left { width: 300px; float: left; margin: 0px 30px 0px 0px; }
+#sidebar-center { width: 300px; float: left; margin: 0px 30px 0px 0px; }
+#sidebar-right { width: 300px; float: left; margin: 0px; }
+.widget { background: none repeat scroll 0% 0% rgb(223, 221, 216); width: 270px; float: left; margin: 0px 0px 30px; padding: 15px; }
+.widget-title { font-size: 18px; margin: 0px 0px 20px; }
+#footer { width: 100%; float: left; }
+#footer-inside { border-top: 1px solid rgb(223, 221, 216); width: 960px; margin: 0px auto; padding: 20px 0px 50px; }
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/themes/vidley/style.css3.css ::::: */
+
+#video-top {  }
+.menu, #video-bottom {  }
+#channels h3, #channels h4 { text-shadow: 1px 1px 2px rgb(0, 0, 0); }
+input#s, input#search-submit, .previous-post a, .next-post a, ol.commentlist li div.reply {  }
+.menu li ul, #breadcrumbs, #pagination, a.continue-reading, #channels-wrapper, .post-image, .widget, #comments-meta, .avatar, #comment, #author, #email, #url, .cancel-comment-reply a, input#submit, #leave-reply, .wp-caption {  }
+/* ::::: http://www.veronicabelmont.com/?sf-custom-content=css ::::: */
+
+body { background: url('@22@22') repeat fixed left top rgb(255, 255, 255); }
+a:link, a:visited {  }
+a:hover { color: rgb(255, 255, 255); }
+h1, h2, h3, h4, h5, h6 { color: rgb(0, 0, 0); }
+h1 a:link, h1 a:visited, h2 a:link, h2 a:visited, h3 a:link, h3 a:visited { color: rgb(70, 67, 58); }
+h2 a:hover, h3 a:hover, h4 a:hover { color: rgb(70, 67, 58); }
+.menu, .menu li ul, .menu li li li ul, #channels-wrapper, #video-top, #video, #video-single, #video-bottom, #breadcrumbs, .post-image, #pagination, .wp-caption, #comments-meta, .avatar, #leave-reply, .widget { background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+.multiple, .details, .details li, ol.commentlist li, ol.commentlist li.alt, #footer-inside, .divider-margin, .divider-top, .divider { border-color: rgb(255, 255, 255); }
+/* ::::: http://www.veronicabelmont.com/wp/wp-includes/js/thickbox/thickbox.css?ver=20121105 ::::: */
+
+@media print, not all, not all, (min-resolution: 120dpi) {
+}
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/themes/vidley/scripts/coda-slider/style.css?ver=3.5.1 ::::: */
+
+.coda-slider, .coda-slider .panel { width: 960px; }
+#coda-nav { width: 960px; position: relative; }
+.coda-nav-left a { background: url('left.png') repeat scroll 0px 0px transparent; position: absolute; width: 46px; height: 46px; top: 0px; left: -35px; z-index: 500000; }
+.coda-nav-left a:hover { background: url('left.png') repeat scroll 0px -46px transparent; }
+.coda-nav-right a { background: url('right.png') repeat scroll 0px 0px transparent; position: absolute; width: 46px; height: 46px; top: 0px; right: -35px; z-index: 500000; }
+.coda-nav-right a:hover { background: url('right.png') repeat scroll 0px -46px transparent; }
+.coda-slider { float: left; overflow: hidden; position: relative; }
+.coda-slider .panel { display: block; float: left; }
+.coda-slider .panel-container { position: relative; }
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/themes/vidley/scripts/fancybox/style.css?ver=3.5.1 ::::: */
+
+#fancybox-loading { position: fixed; top: 50%; left: 50%; height: 40px; width: 40px; margin-top: -20px; margin-left: -20px; cursor: pointer; overflow: hidden; z-index: 1104; display: none; }
+#fancybox-loading div { position: absolute; top: 0px; left: 0px; width: 40px; height: 480px; background-image: url('fancybox.png'); }
+#fancybox-overlay { position: fixed; top: 0px; left: 0px; bottom: 0px; right: 0px; background: none repeat scroll 0% 0% rgb(0, 0, 0); z-index: 1100; display: none; }
+#fancybox-tmp { padding: 0px; margin: 0px; border: 0px none; overflow: auto; display: none; }
+#fancybox-wrap { position: absolute; top: 0px; left: 0px; margin: 0px; padding: 20px; z-index: 1101; display: none; }
+#fancybox-outer { position: relative; width: 100%; height: 100%; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+#fancybox-inner { position: absolute; top: 0px; left: 0px; width: 1px; height: 1px; padding: 0px; margin: 0px; outline: medium none; overflow: hidden; }
+#fancybox-close { position: absolute; top: -15px; right: -15px; width: 30px; height: 30px; background-image: url('fancybox.png'); background-position: -40px 0px; cursor: pointer; z-index: 1103; display: none; }
+#fancybox-left, #fancybox-right { position: absolute; bottom: 0px; height: 100%; width: 35%; cursor: pointer; outline: medium none; background-image: url('blank.gif'); z-index: 1102; display: none; }
+#fancybox-left { left: 0px; }
+#fancybox-right { right: 0px; }
+#fancybox-left-ico, #fancybox-right-ico { position: absolute; top: 50%; left: -9999px; width: 30px; height: 30px; margin-top: -15px; cursor: pointer; z-index: 1102; display: block; }
+#fancybox-left-ico { background-image: url('fancybox.png'); background-position: -40px -30px; }
+#fancybox-right-ico { background-image: url('fancybox.png'); background-position: -40px -60px; }
+#fancybox-left:hover, #fancybox-right:hover { visibility: visible; }
+#fancybox-left:hover span { left: 20px; }
+#fancybox-right:hover span { left: auto; right: 20px; }
+.fancy-bg { position: absolute; padding: 0px; margin: 0px; border: 0px none; width: 20px; height: 20px; z-index: 1001; }
+#fancy-bg-n { top: -20px; left: 0px; width: 100%; background-image: url('fancybox-x.png'); }
+#fancy-bg-ne { top: -20px; right: -20px; background-image: url('fancybox.png'); background-position: -40px -162px; }
+#fancy-bg-e { top: 0px; right: -20px; height: 100%; background-image: url('fancybox-y.png'); background-position: -20px 0px; }
+#fancy-bg-se { bottom: -20px; right: -20px; background-image: url('fancybox.png'); background-position: -40px -182px; }
+#fancy-bg-s { bottom: -20px; left: 0px; width: 100%; background-image: url('fancybox-x.png'); background-position: 0px -20px; }
+#fancy-bg-sw { bottom: -20px; left: -20px; background-image: url('fancybox.png'); background-position: -40px -142px; }
+#fancy-bg-w { top: 0px; left: -20px; height: 100%; background-image: url('fancybox-y.png'); }
+#fancy-bg-nw { top: -20px; left: -20px; background-image: url('fancybox.png'); background-position: -40px -122px; }
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/plugins/nextgen-gallery/css/nggallery.css?ver=1.0.0 ::::: */
+
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/plugins/nextgen-gallery/shutter/shutter-reloaded.css?ver=1.3.4 ::::: */
+
+body { height: 100%; }
+/* ::::: http://www.veronicabelmont.com/wp/wp-content/plugins/jetpack/modules/widgets/widgets.css?ver=20121003 ::::: */
+
+/* ::::: http://s.gravatar.com/css/hovercard.css?ver=2013Apraa ::::: */
+
+@media not all, not all, only screen and (min--moz-device-pixel-ratio: 1.5), not all {
+}
+/* ::::: http://s.gravatar.com/css/services.css?ver=2013Apraa ::::: */
+

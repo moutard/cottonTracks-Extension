@@ -1,0 +1,32 @@
+body.plugin { background: none repeat scroll 0% 0% transparent; overflow: hidden; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+button { margin: 0px; }
+td, td.label { text-align: left; }
+#facebook .hidden_elem { display: none ! important; }
+.uiGrid { border: 0px none; border-collapse: collapse; border-spacing: 0px; }
+.uiGrid .hCent { text-align: center; }
+.pluginCountBox { background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 1px solid rgb(211, 211, 211); font-size: 13px; height: 24px; margin: 0px; min-width: 35px; padding: 6px 1px 2px 3px; text-align: center; white-space: nowrap; }
+.pluginCountBoxIcon { position: relative; top: 2px; left: -3px; }
+.pluginCountBoxNub { position: relative; z-index: 2; bottom: 1px; height: 7px; left: 7px; width: 0px; }
+.pluginCountBoxNub s, .pluginCountBoxNub i { border-color: rgb(211, 211, 211) transparent transparent; border-style: solid; border-width: 5px; display: block; position: relative; }
+.pluginCountBoxNub i { left: 0px; top: -12px; border-top-color: rgb(255, 255, 255); }
+.pluginCountTextConnected, .pluginCountConnected .pluginCountTextDisconnected { display: none; }
+form { margin: 0px; padding: 0px; }
+.pluginButton { background: none repeat scroll 0% 0% rgb(236, 238, 245); border-radius: 3px 3px 3px 3px; border: 1px solid rgb(202, 212, 231); cursor: pointer; padding: 2px 6px 4px; white-space: nowrap; color: rgb(59, 89, 152); }
+.pluginButtonX { cursor: default; }
+.pluginButton button { background: none repeat scroll 0% 0% transparent; border: 0px none; margin: -1px; padding: 0px; font: inherit; color: inherit; cursor: pointer; }
+.pluginButton button::-moz-focus-inner { border: 0px none; padding: 0px; }
+.pluginButtonIcon { position: relative; top: 3px; margin-right: 3px; }
+.pluginButtonSmall { padding: 0px 5px 2px; }
+.pluginButtonSmall .pluginButtonIcon { margin-right: 2px; }
+.pluginButton:hover { border-color: rgb(157, 172, 206); }
+.pluginButtonPressed, .pluginButtonPressed:hover { background-color: rgb(238, 238, 238); border-color: rgb(221, 221, 221); color: rgb(170, 170, 170); }
+.pluginButtonX .pluginButtonXOff, .pluginButtonX button:hover .pluginButtonXOn { display: inline-block; }
+.pluginButtonX .pluginButtonXOn, .pluginButtonX button:hover .pluginButtonXOff { display: none; }
+.sp_like { background-image: url('1dqf_atk831.png'); background-repeat: no-repeat; display: inline-block; height: 14px; width: 14px; }
+.sx_like_fav { background-position: 0px 0px; }
+.sx_like_ch { background-position: 0px -15px; }
+.sx_like_x { background-position: 0px -30px; }
+.sx_like_thumb { background-position: 0px -45px; }
+i.img {  }

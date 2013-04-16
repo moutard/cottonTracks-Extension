@@ -1,0 +1,265 @@
+/* ::::: http://www.jeuxvideo.com/css/defaut/magazine.css ::::: */
+
+/* ::::: http://www.jeuxvideo.com/css/defaut/base.css ::::: */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend { margin: 0px; padding: 0px; }
+ol, ul { list-style-type: none; font-size: 100%; }
+fieldset, img { border: 0px none; }
+table { font-size: 100%; }
+a img { vertical-align: bottom; }
+hr { display: none; }
+a, #boxes a { color: rgb(10, 119, 184); text-decoration: none; }
+a:hover, a:focus, a:hover span, a:focus span { color: rgb(255, 85, 0) ! important; }
+q:before, q:after { content: ""; }
+h1, h2, h3, h4, h5, h6, strong, b { font-size: 100%; font-weight: bold; }
+html { overflow-y: scroll; }
+body { background: url('body_bg2.png') repeat-x scroll 0px 0px rgb(215, 215, 215); text-align: center; font-family: Arial,Helvetica,sans-serif; font-size: 75%; }
+#global { width: 985px; margin: 0px auto; text-align: left; position: relative; }
+#page { width: 985px; float: left; background: none repeat scroll 0% 0% rgb(255, 255, 255); padding-bottom: 10px; }
+#contenu { width: 840px; float: right; margin: 0px 9px 0px 0px; display: inline; }
+#col1 { width: 530px; float: left; background: none repeat scroll 0% 0% rgb(255, 255, 255); z-index: 5; }
+#col2 { float: right; width: 300px; font-size: 95%; line-height: 120%; margin-top: 24px; }
+#menu2 { float: left; display: inline; width: 117px; margin: 2px 10px 0px 8px; }
+#footer { clear: both; }
+.lien_base { display: block; font-weight: bold; padding-left: 15px ! important; margin: 5px 0px; background: url('puce_base.gif') no-repeat scroll left center transparent; }
+#col2 .lien_base { padding-top: 2px; background: url('puce_base2.gif') no-repeat scroll left top transparent; }
+.small { font-size: 90%; }
+.big { font-size: 110%; }
+.clearfix { clear: both; height: 0px; overflow: hidden; }
+.hautpage { clear: both; margin: 10px 0px; padding-left: 13px; background: url('puce_hautdepage.gif') no-repeat scroll left center transparent; }
+h3 { height: 20px; font-size: 120%; overflow: hidden; }
+h3.titre_bloc { font-size: 110% ! important; }
+h2 span, h3 span { position: absolute; left: -999em; }
+h1.titre_page, h2.titre_page, h3.titre_bloc { font-family: Tahoma,Arial,Geneva,sans-serif; text-transform: uppercase; letter-spacing: 0.008em; height: 24px; line-height: 24px; }
+h3.titre_bloc { height: 20px; line-height: 20px; }
+h1.titre_page span, h2.titre_page span, h3.titre_bloc span { position: static; float: left; color: rgb(102, 102, 102); background: none repeat scroll 0% 0% transparent; }
+h3.titre_bloc span { padding-left: 18px; color: rgb(255, 255, 255); background: url('bloc_fleche.gif') no-repeat scroll left top transparent; }
+.bloc1, .bloc2, .bloc3 { clear: both; padding-bottom: 8px; margin-bottom: 10px; background: url('bloc1_bas.png') no-repeat scroll left bottom transparent; }
+.bloc3 { background: url('bloc3_bas.png') no-repeat scroll left bottom transparent; }
+.bloc1 h3, .bloc2 h3, .bloc3 h3 { color: rgb(255, 255, 255); background: url('bloc_h3.png') no-repeat scroll right top transparent ! important; }
+.bloc3 h3 { background-position: right -40px ! important; }
+.bloc1 .bloc_inner, .bloc2 .bloc_inner, .bloc3 .bloc_inner { padding: 5px 4px; border-width: 1px 1px 0px; border-style: solid; border-color: rgb(189, 223, 239); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; background: none repeat scroll 0% 0% rgb(248, 250, 252); }
+.bloc3 .bloc_inner, .bloc3 .bloc_inner2 { padding: 3px 4px; border: 0px none; background: none repeat scroll 0% 0% rgb(237, 237, 237); }
+input { padding: 1px; }
+.series_images { clear: both; margin-bottom: 12px; text-align: center ! important; }
+#col2 .series_images { margin: 5px 0px; }
+.series_images img { margin: 1px; vertical-align: middle; }
+#imprimer a, #envoyer a, #averti a, #partager a, #cdcoeur a, .imprimer a, .envoyer a, .averti a { display: block; width: 40px; height: 25px; }
+#averti a, .averti a { background: url('barre_outils.png') no-repeat scroll left -50px transparent; }
+#averti a:hover, #averti a:focus, .averti a:hover, .averti a:focus { background-position: left -75px; }
+#partager, #cdcoeur { position: relative; z-index: 5; }
+#cdcoeur a { background: url('barre_outils.png') no-repeat scroll left 0px transparent; }
+#cdcoeur a:hover, #cdcoeur a:focus { background-position: left -25px; }
+#partager li a, #cdcoeur li a { background-image: none ! important; }
+#partager div, #cdcoeur div { font-size: 95%; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); padding: 1px; width: 140px; position: absolute; left: -999em; top: 25px; z-index: 100 ! important; }
+#cdcoeur div { width: auto; white-space: nowrap; }
+#partager ul, #cdcoeur ul { margin: 0px ! important; }
+#partager ul li, #cdcoeur ul li { float: none; border-style: solid; border-color: rgb(204, 204, 204); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 0px 0px; }
+#cdcoeur ul li.first { border: medium none; }
+#partager ul a, #cdcoeur ul a { display: block; width: auto; background: none repeat scroll 0% 0% transparent; height: 16px; line-height: 16px; padding: 3px; }
+#barre_outils_v2 { clear: both; float: left; width: 530px; margin-bottom: 12px; background: url('barre_fond2.png') no-repeat scroll left bottom transparent; }
+#barre_outils_v2 ul { clear: none ! important; margin-bottom: 0px ! important; }
+#barre_outils_v2 #partager_v2 { position: relative; height: 42px; background: url('barre_fond2.png') no-repeat scroll left top transparent; margin-bottom: -5px ! important; }
+#partager_v2 li { float: left; display: inline; margin-top: 10px; width: 130px; vertical-align: top; }
+#partager_v2 .google_plus_un { width: 110px; margin-left: 90px; }
+#barre_fonctions { float: right; padding: 6px 6px 4px 0px; }
+#barre_fonctions li { float: left; }
+#barre_fonctions span { position: absolute; left: -999em; }
+#barre_fonctions a { display: block; width: 32px; height: 25px; }
+#averti a { background: url('barre_outils_v2.png') no-repeat scroll left -50px transparent; }
+#averti a:hover, #averti a:focus { background-position: left -75px; }
+#cdcoeur { position: relative; z-index: 5; }
+#cdcoeur a { background: url('barre_outils_v2.png') no-repeat scroll left 0px transparent; }
+#cdcoeur a:hover, #cdcoeur a:focus { background-position: left -25px; }
+#cdcoeur li a { background-image: none ! important; }
+#cdcoeur div { font-size: 95%; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); padding: 1px; width: 140px; position: absolute; left: -999em; top: 24px; margin-left: 6px; z-index: 100 ! important; }
+#cdcoeur div { width: auto; white-space: nowrap; }
+#cdcoeur ul { margin: 0px ! important; }
+#cdcoeur ul li { float: none; border-style: solid; border-color: rgb(204, 204, 204); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; border-width: 1px 0px 0px; }
+#cdcoeur ul li.first { border: medium none; }
+#cdcoeur ul a { display: block; width: auto; background: none repeat scroll 0% 0% transparent; height: 16px; line-height: 16px; padding: 3px; }
+#col2 .bloc_inner { overflow: hidden; }
+#page span.lexique { white-space: nowrap; color: rgb(0, 0, 0); font-size: 100%; }
+#page span.lexique.actif { color: rgb(238, 102, 0); cursor: help; }
+button::-moz-focus-inner { border: 0px none; padding: 0px; }
+#pub_carre1, #pub_carre2 { width: 300px; clear: both; margin-bottom: 10px; text-align: center; background: none repeat scroll 0% 0% transparent; line-height: normal; }
+.stats, .wunderloop img { height: 1px; position: absolute; top: -999em; left: -999em; }
+input { padding: 1px; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/header.css ::::: */
+
+#new_header { padding-top: 80px; }
+#new_header #header { height: 70px; width: 100%; background: url('logo_bg.png') repeat-x scroll 0px 0px transparent; position: absolute; top: 0px; left: 0px; z-index: 2147483646; }
+#header #logo a { display: block; width: 260px; height: 70px; position: absolute; left: 0px; top: 0px; background: url('logojv_sprite.png') no-repeat scroll 50% 11px transparent; }
+#header #logo img { position: absolute; left: -999em; }
+#connexion { position: absolute; right: 0px; top: 0px; width: 490px; color: rgb(238, 238, 238); font-size: 11px; font-family: Tahoma,Arial,Helvetica,sans-serif; font-weight: bold; text-shadow: 1px 0px 2px rgb(0, 0, 0); overflow: hidden; }
+#connexion div { display: inline-block; height: 28px; line-height: 28px; }
+#connexion a { background: url('sommaire_puce.png') no-repeat scroll -3px 55% transparent; color: rgb(238, 238, 238); display: block; padding: 0px 8px; }
+#connexion #select_skin img { cursor: pointer; padding: 4px; margin-left: 5px; vertical-align: -26%; }
+#recherche { position: absolute; right: 10px; top: 33px; width: 480px; height: 36px; background: url('search_bg.png') no-repeat scroll 0px 0px transparent; }
+#recherche input, #recherche select, #recherche button { position: absolute; top: 0px; left: 0px; padding: 0px; margin: 0px; border: 0px none; }
+#recherche legend { display: none; }
+#recherche #rech_txt { width: 194px; top: 3px; left: 28px; padding: 1px 2px 3px; }
+#recherche #rech_ou { left: 238px; top: 3px; width: 174px; height: 18px; }
+#recherche #rech_valid { width: 60px; height: 26px; left: 420px; background: none repeat scroll 0% 0% transparent; overflow: hidden; cursor: pointer; font-size: 0px; line-height: 100px; }
+#recherche #rech_valid span { position: absolute; left: -9999em; }
+#recherche #rech_valid:hover { background: url('search_bg.png') no-repeat scroll -485px 0px transparent; }
+#recherche #suggest { display: none; background: none repeat scroll 0px 0px rgb(255, 255, 255); border: 1px solid rgb(102, 102, 102); height: auto; width: 228px; position: absolute; left: 0px ! important; top: 26px ! important; z-index: 2147483647; box-shadow: 0px 3px 5px 0px rgb(0, 0, 0); }
+#table_menu_mc { text-align: center; width: 100%; background: url('menu_mc_fond1.png') no-repeat scroll left top transparent; border-bottom: 8px solid rgb(255, 255, 255); }
+#table_menu_mc td { height: 33px; background: url('menu_mc_fond2.png') no-repeat scroll right top transparent; }
+#menu_mc { text-align: center; }
+#menu_mc ul { margin: 0px auto; text-align: center; }
+#menu_mc li { display: inline; }
+#menu_mc a { display: inline-block; vertical-align: bottom; background: url('menu_mc_v4.png') repeat scroll left top transparent; width: 66px; height: 21px; line-height: 20px; margin: 0px 1px; font-family: Tahoma,Arial,Geneva,sans-serif; font-size: 12px; font-weight: bold; }
+#menu_mc a span { color: rgb(255, 255, 255) ! important; text-shadow: 1px 1px 0px rgb(0, 0, 0); }
+#mc_accueil a:hover { background-position: -66px top; }
+#mc_pc a:hover, #pc #mc_pc a { background-position: -132px top; }
+#mc_ps4 a:hover, #ps4 #mc_ps4 a { background-position: -924px top; }
+#mc_ps3 a:hover, #ps3 #mc_ps3 a { background-position: -198px top; }
+#mc_x360 a:hover, #x360 #mc_x360 a { background-position: -264px top; }
+#mc_wii a:hover, #wii #mc_wii a { background-position: -330px top; }
+#mc_wiiu a:hover, #wiiu #mc_wiiu a { background-position: -792px top; }
+#mc_n3ds a:hover, #n3ds #mc_n3ds a { background-position: -726px top; }
+#mc_vita a:hover, #vita #mc_vita a { background-position: -396px top; }
+#mc_iphone a:hover, #iphone #mc_iphone a { background-position: -594px top; }
+#mc_android a:hover, #android #mc_android a { background-position: -858px top; }
+#mc_web a:hover, #web #mc_web a { background-position: -660px top; }
+body > #banner_jv, #banner_loader { position: absolute; left: -9999em; top: 0px; width: 1000px; overflow: hidden; }
+#banner_jv { width: 100%; background: none repeat scroll 0% 0% rgb(255, 255, 255); border: 8px solid rgb(255, 255, 255); margin-top: -8px; }
+#banner_jv td { height: 90px; background: none repeat scroll 0% 0% rgb(221, 221, 221); text-align: center; }
+#banner_jv td > div { font-size: 0px; text-align: center; display: inline-block; }
+#banner_jv td > div * { max-width: 968px; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/footer.css ::::: */
+
+#footer { text-align: center; width: 985px; }
+#liens_pied { background: url('footer_haut1.png') no-repeat scroll left top transparent; padding: 0px; }
+#liens_pied p { color: rgb(255, 255, 255); font-weight: bold; padding: 15px 0px 5px; background: url('footer_haut2.png') no-repeat scroll right top transparent; }
+#liens_pied a { color: rgb(255, 204, 0); }
+#liens_pied a:hover, #liens_pied a:focus { color: rgb(255, 255, 255) ! important; }
+#partenaires { background: url('footer_bas1.png') no-repeat scroll left top rgb(204, 204, 204); }
+#partenaires p { font-size: 10px; line-height: 14px; color: rgb(102, 102, 102); padding: 20px 0px 10px; background: url('footer_bas2.png') no-repeat scroll right top transparent; }
+#partenaires a { color: rgb(102, 102, 102); }
+#partenaires a:hover, #partenaires a:focus { color: rgb(17, 17, 17) ! important; }
+#fbtw2 { float: right; margin: -23px 8px 0px 0px; }
+#fbtw2 li { display: inline; margin-left: 2px; }
+#fbtw2 #nb_plus {  }
+#fbtw2 img { vertical-align: top; opacity: 0.5; }
+#fbtw2 a:hover img { opacity: 1; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/sommaire.css ::::: */
+
+#menu2 div, #menu2 div div, #menu2 ul, #menu2 li { background: url('sommaire_fonds.png') no-repeat scroll -3px top transparent; }
+#menu2 div { padding-bottom: 8px; margin-bottom: 10px; background-position: -120px bottom; }
+#menu2 div div { padding: 0px; margin: 0px; }
+#menu2 ul { background-position: -240px top; }
+#menu2 #menu_telecharger, #menu2 #menu_videos, #menu2 #menu_interactif, #menu2 #menu_concours, #menu2 #menu_apropos, #menu2 ul { background-color: rgb(199, 227, 241); }
+#menu2 h3 { background: url('sommaire_titres.png') repeat scroll 0px 0px transparent; }
+#menu_telecharger h3 { background-position: 0px -20px; }
+#menu_videos h3 { background-position: 0px -40px; }
+#menu_interactif h3 { background-position: 0px -60px; }
+#menu_concours h3 { background-position: 0px -80px; }
+#menu_apropos h3 { background-position: 0px -100px; }
+#menu_boutique h3 { background-position: 0px -120px; }
+#menu2 li { background-position: -360px 0px; }
+#menu2 a { display: block; color: rgb(1, 79, 101); font-weight: bold; text-decoration: none; line-height: 16px; padding: 1px 1px 1px 9px; background: url('sommaire_puces.png') no-repeat scroll left 0.4em transparent; vertical-align: bottom; }
+#menu2 a:hover, #menu2 a:focus { color: rgb(255, 255, 255) ! important; background-color: rgb(89, 170, 198); }
+#menu2 #sponsor_google, #menu2 #sponsor_google iframe { overflow: hidden; width: 117px; margin-bottom: 10px; background: none repeat scroll 0% 0% rgb(199, 227, 241); }
+.carre_100_80_loader { position: absolute; left: -9999em; top: 0px; }
+#menu2 #menu_bas { width: 117px; background: none repeat scroll 0% 0% transparent; overflow: hidden; padding: 0px; margin: 0px; }
+#menu2 #menu_bas * { background: none repeat scroll 0% 0% transparent; }
+#menu2 #menu_bas li { display: block; width: 100px; height: 80px; overflow: hidden; margin: 0px 7px 7px; }
+#menu2 #menu_bas a { padding: 0px; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/boutique_col2.css ::::: */
+
+#fiche_infos2 .jaquette { float: left; }
+#fiche_infos2 .jaquette img { border: 1px solid rgb(0, 0, 0); margin: 3px 2px; }
+#fiche_infos2 .recto_verso, #fiche_infos2 .liens_boutique, #fiche_infos2 .liens_telechargement, #fiche_infos2 .liens_jouer { float: right; margin: 3px 0px 5px; width: 154px; }
+#fiche_infos2 .liens_boutique, #fiche_infos2 .liens_telechargement, #fiche_infos2 .liens_jouer { width: 152px; border: 1px solid rgb(204, 204, 204); background: none repeat scroll 0% 0% rgb(250, 250, 250); }
+#fiche_infos2 a.neuf, .liens_telechargement a { color: rgb(10, 119, 184); font-size: 100%; font-weight: bold; }
+a.occasion { color: rgb(68, 68, 68); }
+#fiche_infos2 .liens_boutique li a, .liens_telechargement a, .liens_jouer a { display: block; margin: 3px; padding: 2px 0px 2px 20px; background: url('ico_caddie.png') no-repeat scroll left center transparent; }
+.fiche_tech li { padding: 4px 0px 4px 120px; position: relative; line-height: 16px; background: url('sep_ccc.gif') repeat-x scroll left top transparent; }
+.fiche_tech li strong { position: absolute; left: 0px; color: rgb(238, 51, 0); }
+.fiche_tech li img { margin: 2px 0px; }
+#motsclefs { color: rgb(170, 170, 170); margin-bottom: 10px; }
+#test_txt { text-align: justify; line-height: 141.667%; }
+#test_txt p { margin-bottom: 12px; }
+#img_chapo { float: right; margin: 5px 0px 0px 8px; }
+.test_encart { width: 130px; border: 1px solid rgb(0, 0, 0); margin-top: 4px; margin-bottom: 4px ! important; background: none repeat scroll 0% 0% rgb(240, 240, 240); }
+.test_encart.v2 { width: 172px; }
+.test_encart q { display: block; text-align: center; font: 95%/130% Arial,Helvetica,sans-serif; margin: 4px 2px; }
+.test_encart.gauche { float: left; margin-right: 8px; }
+.test_encart.droite { float: right; margin-left: 8px; }
+#signature { float: right; padding-left: 15px; background: url('puce_base.gif') no-repeat scroll left center transparent; }
+#test_notes .bloc_inner { padding: 0px; }
+#test_notes li { width: 528px; float: left; background: url('sep_999.gif') repeat-x scroll left bottom transparent; }
+#test_notes h4 { font-size: 110%; color: rgb(0, 102, 153); width: 90px; margin: 7px 4px 7px 9px; float: left; display: inline; }
+#test_notes h4 .critere { display: block; }
+#test_notes #redac .note_moyenne { color: rgb(204, 51, 0); }
+#test_notes #redac h4, #test_notes #lecteurs h4 { margin: 7px 4px; width: 95px; }
+#test_notes #redac h4 .critere, #test_notes #lecteurs h4 .critere { margin-left: 5px; }
+#test_notes h4 .big { font-size: 145%; }
+#test_notes p, #test_notes ul ul { width: 410px; margin: 7px 5px; float: right; text-align: justify; line-height: 16px; display: inline; }
+li#redac { background: none repeat scroll 0% 0% rgb(228, 236, 244); }
+#test_notes #redac h4 { font-size: 120%; color: rgb(204, 51, 0); }
+#test_notes #redac p.small { color: rgb(106, 150, 194); }
+li#lecteurs { background: none repeat scroll 0% 0% transparent; font-weight: bold; }
+#test_notes #lecteurs h4 { color: rgb(255, 102, 0); }
+li#lecteurs li { width: 380px; padding: 2px 0px 2px 17px; background: url('puce_base.gif') no-repeat scroll left center transparent; }
+#col2 .fiche_tech { clear: both; padding-top: 5px; }
+#col2 .fiche_tech li { clear: both; padding: 4px 0px; line-height: 14px; background: url('sep_ccc.gif') repeat-x scroll left top transparent; }
+#col2 .fiche_tech li strong { position: static; color: rgb(204, 51, 0); }
+.note_moyenne { float: left; background: url('avatar_note_bg.png') no-repeat scroll left -78px transparent; font-size: 125%; color: rgb(255, 102, 0); text-align: center; font-weight: bold; width: 78px; height: 48px; line-height: 48px; vertical-align: middle; }
+.note_moyenne .big { font-size: 145%; }
+img {  }
+#test_txt { margin-bottom: 20px; }
+#test_txt p { line-height: 18px; margin-bottom: 18px; }
+#test_txt p:after { clear: both; content: "."; display: block; height: 0px; visibility: hidden; }
+#test_txt #chapo { display: block; font-weight: bold; font-size: 13px; line-height: 18px; }
+#test_txt #chapo:first-letter { background: none repeat scroll 0% 0% rgb(204, 0, 0); color: rgb(255, 255, 255); font-size: 26px; line-height: 28px; margin-right: 2px; padding: 0px 5px; }
+.test_encart.v2 { width: 220px; margin-top: 6px; border: medium none; }
+.test_encart.droite { float: right; margin-left: 10px; }
+.test_encart.gauche { float: left; margin-right: 10px; }
+.test_encart.v2 a { display: block; position: relative; }
+.test_encart.v2 img { width: 220px; height: auto; }
+.test_encart q { display: block; font: 11px/14px Arial,Helvetica,sans-serif; padding: 7px 5px; margin: 0px; text-align: center; position: relative; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/onglets_v2.css ::::: */
+
+#nom_jeu h1 span { font-size: 10px; line-height: 20px; display: inline-block; position: relative; top: 14px; }
+#titre_jeu { width: 840px; text-align: center; margin: 2px 0px 15px; }
+#nom_jeu { background: url('fond_titre_jeu.png') no-repeat scroll left top transparent; width: 695px; vertical-align: middle; }
+#nom_jeu h1 { overflow: visible; position: relative; top: 3px; height: 100%; width: 690px; }
+#nom_jeu h1 span { display: inline-block; position: relative; top: 14px; font-size: 83.33%; line-height: 100%; font-weight: normal; color: rgb(153, 153, 153); }
+#nom_jeu a, #nom_jeu b { display: block; position: absolute; left: 0px; bottom: 0px; width: 680px; margin: 0px 5px; font-size: 150%; color: rgb(204, 0, 0); }
+#nom_mc { height: 60px; }
+#onglets_jeu ul { height: 40px; text-align: center; background: url('onglets_v2.png') repeat-x scroll left top rgb(221, 221, 221); }
+#onglets_jeu li { display: inline-block; height: 25px; vertical-align: top; }
+#onglets_jeu span { display: inline-block; height: 25px; line-height: 25px; font-weight: bold; font-family: Tahoma,Arial,Geneva,sans-serif; letter-spacing: 0.008em; font-size: 91.67%; color: rgb(255, 255, 255); text-transform: uppercase; background: url('onglets_v2.png') repeat scroll right -80px rgb(187, 187, 187); text-shadow: 1px 1px 0px rgb(7, 32, 54); }
+#onglets_jeu span.nolink { padding: 0px 12px 0px 11px; border-left: 1px solid rgb(62, 62, 62); text-shadow: 1px 1px 0px rgb(119, 119, 119); }
+#onglets_jeu a { display: inline-block; height: 25px; padding: 0px 12px 0px 11px; color: rgb(255, 255, 255) ! important; background: url('onglets_v2.png') repeat scroll right -110px rgb(51, 100, 142); border-left: 1px solid rgb(5, 33, 56); }
+#onglets_jeu a:hover, #onglets_jeu a:active, #onglets_jeu a:focus { background: url('onglets_v2.png') repeat scroll right -140px rgb(11, 40, 66); }
+.jeu_fiche .onglet_fiche, .jeu_test .onglet_test, .jeu_apercus .onglet_apercus, .jeu_news .onglet_news, .jeu_images .onglet_images, .jeu_videos .onglet_videos, .jeu_telecharger .onglet_telecharger, .jeu_astuces .onglet_astuces, .jeu_forum .onglet_forum { padding-left: 1px; background: url('onglets_v2.png') repeat scroll left -50px rgb(255, 255, 255) ! important; }
+.jeu_fiche .onglet_fiche span, .jeu_test .onglet_test span, .jeu_apercus .onglet_apercus span, .jeu_news .onglet_news span, .jeu_images .onglet_images span, .jeu_videos .onglet_videos span, .jeu_telecharger .onglet_telecharger span, .jeu_astuces .onglet_astuces span, .jeu_forum .onglet_forum span { background: url('onglets_v2.png') repeat scroll right -50px rgb(255, 255, 255) ! important; }
+.jeu_fiche #onglets_jeu .onglet_fiche a, .jeu_test #onglets_jeu .onglet_test a, .jeu_apercus #onglets_jeu .onglet_apercus a, .jeu_news #onglets_jeu .onglet_news a, .jeu_images #onglets_jeu .onglet_images a, .jeu_videos #onglets_jeu .onglet_videos a, .jeu_telecharger #onglets_jeu .onglet_telecharger a, .jeu_astuces #onglets_jeu .onglet_astuces a, .jeu_forum #onglets_jeu .onglet_forum a { height: 30px ! important; margin-right: 1px; padding-right: 11px; background: url('onglets_v2.png') repeat scroll center -166px transparent ! important; color: rgb(255, 51, 0) ! important; text-shadow: none; border: 0px none; }
+#col1 { clear: left; }
+#col2 { margin-top: 0px; }
+/* ::::: http://www.jeuxvideo.com/css/defaut/playlist.css ::::: */
+
+#playlist { width: 300px; background: url('bloc_videoplaylist_bas.png') no-repeat scroll left bottom transparent; position: relative; z-index: 0; }
+#playlist_video { background: none repeat scroll 0% 0% rgb(51, 57, 67); padding-bottom: 5px; }
+#playlist ul { width: 288px; border: 1px solid rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(42, 42, 42); position: relative; top: 5px; left: 5px; overflow: auto; }
+#playlist li { position: relative; clear: both; color: rgb(170, 170, 170); padding: 3px 0px 2px 3px; height: 4.25em; }
+html > body #playlist li { height: auto; min-height: 4.25em; }
+#playlist li.li2 { background: none repeat scroll 0% 0% rgb(60, 59, 72); }
+#playlist li a { display: block; font-size: 110%; font-weight: bold; color: rgb(255, 102, 0); margin-bottom: 2px; outline: medium none; }
+#playlist a:hover span { background: url('playlist_miniplay.gif') repeat scroll 0% 0% transparent; width: 57px; height: 47px; position: absolute; cursor: pointer; display: block; top: 3px; left: 2px; }
+#playlist li span, #playlist li span a { display: inline; font-size: 100%; font-weight: normal; color: rgb(255, 255, 255); }
+#playlist li img { vertical-align: -15%; }
+#playlist li a img { float: left; clear: both; margin: 1px 3px 0px 0px; }
+#playlist p.lien_base { margin: 10px 0px 0px 5px; }
+#playlist a { color: rgb(255, 102, 0); }
+#playlist a:visited { color: rgb(153, 153, 153); }
+#playlist a:hover, #playlist .active span a:hover, #playlist a:focus, #playlist .active span a:focus { color: rgb(255, 204, 0) ! important; }
+.fb_reset { background: none repeat scroll 0% 0% transparent; border-spacing: 0px; border: 0px none; color: rgb(0, 0, 0); cursor: auto; direction: ltr; font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-size: 11px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 1; margin: 0px; overflow: visible; padding: 0px; text-align: left; text-decoration: none; text-indent: 0px; text-shadow: none; text-transform: none; visibility: visible; white-space: normal; word-spacing: normal; }
+.fb_iframe_widget { position: relative; display: inline-block; }
+.fb_iframe_widget iframe { position: absolute; }
+.fb_iframe_widget span { display: inline-block; position: relative; text-align: justify; vertical-align: text-bottom; }
+.fb_edge_widget_with_comment { position: relative; }
