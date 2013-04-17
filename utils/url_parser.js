@@ -71,6 +71,8 @@ function UrlParser(sUrl) {
     this.generateKeywords();
     this.genericSearch();
     this.imageSearchPreviewSource();
+  } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
+    this.generateLinkedInKeywords();
   }
 }
 
@@ -125,6 +127,27 @@ UrlParser.prototype.generateKeywords = function() {
     this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
   }
 
+};
+
+UrlParser.prototype.generateLinkedInKeywords = function() {
+  // KEYWORDS
+  // Compute queries keywords - under q=key1+key2 -
+  if (this.dSearch === undefined) {
+    this.fineDecomposition();
+  }
+  this.keywords = [];
+
+  // keywords can be separate by '+' or ' '
+  // in a url caracters are escape so '+' of '%20'
+  var oSplitKeywordsRegExp = new RegExp('%20|\\+', 'g');
+  if (this.dSearch['keywords'] !== undefined) {
+    this.keywords = this.keywords.concat(this.dSearch['keywords']
+        .split(oSplitKeywordsRegExp));
+  }
+  // lower Case
+  for ( var j = 0, iLength = this.keywords.length; j < iLength; j++) {
+    this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
+  }
 };
 
 UrlParser.prototype.genericSearch = function() {
