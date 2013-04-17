@@ -29,7 +29,7 @@ Cotton.Config.Parameters = {
   // BAG OF WORDS
   scoreForExtractedWords : 3,
   scoreForStrongQueryWords : 5,
-  scoreForWeakQueryWords : 3,
+  scoreForWeakQueryWords : 2,
 
   // PROD
   bDevMode : true,
