@@ -57,10 +57,10 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setQueryWords : function(lQueryWords) {
     var self = this;
     this._lQueryWords = lQueryWords;
-    // if search query is short, keep it all
     var lStrongQueryWords = Cotton.Algo.Tools.Filter(lQueryWords);
     var lWeakQueryWords = [];
-    if (lStrongQueryWords.length < 3){
+    // keep WeakQueryWords only if the bag of words has very few words
+    if (lStrongQueryWords.length < 3 && this._oBagOfWords.size() < 3){
       for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++){
         if (lStrongQueryWords.indexOf(sQueryWord) === -1){
           lWeakQueryWords.push(sQueryWord);
