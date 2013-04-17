@@ -58,16 +58,25 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     var self = this;
     this._lQueryWords = lQueryWords;
     // if search query is short, keep it all
-    if (Cotton.Algo.Tools.Filter(lQueryWords).length < 3){
-      var lFilteredQueryWords = lQueryWords;
-    } else {
-      var lFilteredQueryWords = Cotton.Algo.Tools.Filter(lQueryWords);
+    var lStrongQueryWords = Cotton.Algo.Tools.Filter(lQueryWords);
+    var lWeakQueryWords = [];
+    if (lStrongQueryWords.length < 3){
+      for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++){
+        if (lStrongQueryWords.indexOf(sQueryWord) === -1){
+          lWeakQueryWords.push(sQueryWord);
+        }
+      }
     }
     // Initialize the bag of words, with QueryWords and ExtractedWords.
-    for (var i = 0, iLength = lFilteredQueryWords.length; i < iLength; i++) {
-      var sWord = lFilteredQueryWords[i];
+    for (var i = 0, iLength = lStrongQueryWords.length; i < iLength; i++) {
+      var sWord = lStrongQueryWords[i];
       self._oBagOfWords.addWord(sWord,
-        Cotton.Config.Parameters.scoreForQueryWords);
+        Cotton.Config.Parameters.scoreForStrongQueryWords);
+    }
+    for (var i = 0, iLength = lWeakQueryWords.length; i < iLength; i++) {
+      var sWord = lWeakQueryWords[i];
+      self._oBagOfWords.addWord(sWord,
+        Cotton.Config.Parameters.scoreForWeakQueryWords);
     }
   },
   extractedWords : function() {
