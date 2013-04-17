@@ -8,9 +8,19 @@ var blackList = ['htm', 'the', 'pdf',
 "furthermore", "moreover", "additionally", "besides", "firstly", "secondly",
 "finally", "instead", "otherwise", "thus", "hence", "accordingly", "anyhow",
 "nevertheless", "nonetheless", "however", "meanwhile", "subsequently", "afterward",
-"are", "com", "fr", "with", "you", "in", "what", "to", "do", "an", "a", "wikipedia",
-"free", "encyclopedia", "wikipédia", "jpg", "gif", "jpeg", "png"
+"are", "com", "fr", "with", "you", "in", "what", "to", "do", "an", "a", "jpg", "gif", "jpeg", "png", "les"
 ];
 
   return blackList.indexOf(sWord) !== -1;
+};
+
+Cotton.Algo.Common.Words.removeCommonMediaFromTitle = function(sTitle) {
+var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipédia",
+"- YouTube", "on Vimeo", "- Stack Overflow", "| TechCrunch", "- The Verge"
+];
+  var sCleanTitle = sTitle;
+  for (var i = 0, sExpression; sExpression = blackList[i]; i++){
+    sCleanTitle = sCleanTitle.replace(sExpression,"");
+  }
+  return sCleanTitle;
 };
