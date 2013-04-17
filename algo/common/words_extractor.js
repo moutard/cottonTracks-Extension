@@ -83,8 +83,7 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
 Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
     // It's a search page use keywords to set query words.
     if(oHistoryItem.oUrl().keywords){
-      oHistoryItem.extractedDNA().setQueryWords(
-        Cotton.Algo.Tools.Filter(oHistoryItem.oUrl().keywords));
+      oHistoryItem.extractedDNA().setQueryWords(oHistoryItem.oUrl().keywords);
     } else {
       // Use title words.
       var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());

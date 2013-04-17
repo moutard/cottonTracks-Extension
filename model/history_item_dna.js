@@ -57,9 +57,15 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setQueryWords : function(lQueryWords) {
     var self = this;
     this._lQueryWords = lQueryWords;
+    // if search query is short, keep it all
+    if (Cotton.Algo.Tools.Filter(lQueryWords).length < 3){
+      var lFilteredQueryWords = lQueryWords;
+    } else {
+      var lFilteredQueryWords = Cotton.Algo.Tools.Filter(lQueryWords);
+    }
     // Initialize the bag of words, with QueryWords and ExtractedWords.
-    for (var i = 0, iLength = self._lQueryWords.length; i < iLength; i++) {
-      var sWord = self._lQueryWords[i];
+    for (var i = 0, iLength = lFilteredQueryWords.length; i < iLength; i++) {
+      var sWord = lFilteredQueryWords[i];
       self._oBagOfWords.addWord(sWord,
         Cotton.Config.Parameters.scoreForQueryWords);
     }
