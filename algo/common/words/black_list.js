@@ -14,7 +14,7 @@ var blackList = ['htm', 'the', 'pdf',
   return blackList.indexOf(sWord) !== -1;
 };
 
-Cotton.Algo.Common.Words.removeCommonMediaFromTitle = function(sTitle) {
+Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
 var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipédia",
 "- YouTube", "on Vimeo", "- Stack Overflow", "| TechCrunch", "- The Verge"
 ];
