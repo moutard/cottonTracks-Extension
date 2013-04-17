@@ -87,13 +87,13 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
 
         oTempHistoryItem = lHistoryItems[oTempVisitItem['cottonHistoryItemId']];
         if (oTempHistoryItem.oUrl().keywords &&
-            _.intersection( Cotton.Algo.Tools.StrongFilter(oTempHistoryItem.oUrl().keywords),
+            _.intersection( Cotton.Algo.Tools.Filter(oTempHistoryItem.oUrl().keywords),
                             oCurrentHistoryItem.extractedDNA().extractedWords()).length > 0 ){
           // we found a page that should be the google closest query page.
           oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
           // This will change the bag of words.
-          oCurrentHistoryItem.extractedDNA().setQueryWords(Cotton.Algo.Tools.StrongFilter(
-            oTempHistoryItem.oUrl().keywords));
+          oCurrentHistoryItem.extractedDNA().setQueryWords(
+            Cotton.Algo.Tools.Filter(oTempHistoryItem.oUrl().keywords));
           break;
         } else {
           // the temp page is not a good google search page.
