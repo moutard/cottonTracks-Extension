@@ -16,7 +16,8 @@ var blackList = ['htm', 'the',
 
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
 var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipédia",
-"- YouTube", "on Vimeo", "- Stack Overflow", "| TechCrunch", "- The Verge",
+"- Wikimedia Commons", "- YouTube", "on Vimeo", "- Stack Overflow",
+"| TechCrunch", "| The Verge",
 ".jpg", ".jpeg", ".png", ".gif", ".pdf"
 ];
   var sCleanTitle = sTitle;
