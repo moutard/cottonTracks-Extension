@@ -92,8 +92,7 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
           // we found a page that should be the google closest query page.
           oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
           // This will change the bag of words.
-          oCurrentHistoryItem.extractedDNA().setQueryWords(
-            Cotton.Algo.Tools.Filter(oTempHistoryItem.oUrl().keywords));
+          oCurrentHistoryItem.extractedDNA().setQueryWords(oTempHistoryItem.oUrl().keywords);
           break;
         } else {
           // the temp page is not a good google search page.
