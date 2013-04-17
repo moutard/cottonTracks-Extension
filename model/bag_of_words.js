@@ -57,5 +57,13 @@ Cotton.Model.BagOfWords = Class.extend({
     });
 
     return lPreponderant;
+  },
+
+  size : function(){
+    var iSize = 0;
+    for (var word in this.get()){
+      iSize++;
+    }
+    return iSize;
   }
 });
