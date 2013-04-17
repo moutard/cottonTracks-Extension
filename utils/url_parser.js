@@ -71,6 +71,8 @@ function UrlParser(sUrl) {
     this.generateKeywords();
     this.genericSearch();
     this.imageSearchPreviewSource();
+  } else if (this.pathname === "/imgres"){
+    this.imageSearchPreviewSource();
   } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
     this.generateLinkedInKeywords();
   }
@@ -159,9 +161,14 @@ UrlParser.prototype.genericSearch = function() {
 };
 
 UrlParser.prototype.imageSearchPreviewSource = function() {
+  if (this.dSearch === undefined) {
+    this.fineDecomposition();
+  }
   if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_"){
     var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
     this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
+  } else if (this.dSearch['imgurl']){
+    this.searchImage = this.dSearch['imgurl'];
   }
 };
 
