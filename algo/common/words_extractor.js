@@ -85,8 +85,16 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
     if(oHistoryItem.oUrl().keywords){
       oHistoryItem.extractedDNA().setQueryWords(oHistoryItem.oUrl().keywords);
     } else {
-      // Use title words.
-      var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
+      // google image result, whose title is the url of the image
+      if (oHistoryItem.oUrl().searchImage) {
+        var oImageUrl = new UrlParser(oHistoryItem.oUrl().searchImage);
+        var lPathname = oImageUrl.pathname.split('/');
+        var sImageName = lPathname[lPathname.length-1].split('.')[0];
+        var lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(sImageName);
+      } else {
+        // Use title words.
+        var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
+      }
       // If there is no title url, use the url pathname.
       if(lExtractedWords.length === 0){
         lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
