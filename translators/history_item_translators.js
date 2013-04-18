@@ -11,6 +11,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       'sUrl' : oHistoryItem.url(),
       'sTitle' : oHistoryItem.title(),
       'iLastVisitTime' : oHistoryItem.lastVisitTime(),
+      'iVisitCount' : oHistoryItem.visitCount(),
       'sStoryId' : oHistoryItem.storyId(),
       'oExtractedDNA' : {
         'lQueryWords' : oHistoryItem.extractedDNA().queryWords(),
@@ -51,6 +52,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     oHistoryItem.initUrl(oDbRecord['sUrl']);
     oHistoryItem.setTitle(oDbRecord['sTitle']);
     oHistoryItem.setLastVisitTime(oDbRecord['iLastVisitTime']);
+    oHistoryItem.setVisitCount(oDbRecord['iVisitCount']);
 
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];

@@ -44,6 +44,7 @@ Cotton.DB.Populate.translateListOfChromeHistoryItems = function(lChromeHistoryIt
     oHistoryItem.initUrl(dChromeHistoryItem['url']);
     oHistoryItem.setTitle(dChromeHistoryItem['title']);
     oHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
+    oHistoryItem.setVisitCount(dChromeHistoryItem['visitCount']);
     // Use the array of lChromeHistoryItems to because we don't need those
     // elements anymore and then we save space.
     lChromeHistoryItems[i] = oHistoryItem;
