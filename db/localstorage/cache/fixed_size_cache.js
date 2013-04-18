@@ -28,7 +28,12 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
    */
   put : function(dItem) {
     var lResults = this.get();
-
+    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+      if (dPoolItem['sUrl'] === dItem['sUrl']){
+        lResults.splice(i,1);
+        break;
+      }
+    }
     if(lResults.length >= this._iMaxSize){
       // Pop the oldest element, it's always the first element of the list.
       // TODO(rmoutard) : check it's true.
