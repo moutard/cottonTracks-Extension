@@ -58,7 +58,14 @@ Cotton.Controllers.Messaging = Class.extend({
 
       self._oMainController._oDatabase.find('historyItems',
         'sUrl', oHistoryItem.url(), function(_oHistoryItem){
+          if (_oHistoryItem){
+            oHistoryItem.incrementVisitCount(_oHistoryItem.visitCount());
+            dHistoryItem['iVisitCount'] += _oHistoryItem.visitCount();
+          }
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+            // update the item
+            self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+              oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
             self._oMainController.setTabStory(sender.tab.id, _oHistoryItem.storyId());
@@ -66,7 +73,8 @@ Cotton.Controllers.Messaging = Class.extend({
             sendResponse({
               'received' : "true",
               'id' : sPutId,
-              'storyId' : _oHistoryItem.storyId()
+              'storyId' : _oHistoryItem.storyId(),
+              'visitCount' : oHistoryItem.visitCount()
             });
 
 
@@ -112,7 +120,8 @@ Cotton.Controllers.Messaging = Class.extend({
                           sendResponse({
                             'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId()
+                            'storyId' : oHistoryItem.storyId(),
+                            'visitCount' : oHistoryItem.visitCount()
                           });
                       });
                       // There is a story for this item, so enable the browserAction
@@ -136,7 +145,8 @@ Cotton.Controllers.Messaging = Class.extend({
                           sendResponse({
                             'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId()
+                            'storyId' : oHistoryItem.storyId(),
+                            'visitCount' : oHistoryItem.visitCount()
                           });
                       });
                     }
