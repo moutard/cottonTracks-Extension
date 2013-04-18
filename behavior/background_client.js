@@ -26,7 +26,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   _bStoryImageUpdated : null,
 
   /**
-   * 
+   *
    */
   init : function() {
     this._iId = "";
@@ -73,6 +73,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       self._oCurrentHistoryItem.initId(response['id']);
       self._iId = response['id'];
       self._oCurrentHistoryItem.setStoryId(response['storyId']);
+      self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
     });
 
   },
