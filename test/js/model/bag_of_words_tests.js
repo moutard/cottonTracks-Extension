@@ -60,4 +60,9 @@ test("bagOfWords capital letters.", function() {
   });
 });
 
+test("bagOfWords size.", function() {
+  var oBagOfWords = new Cotton.Model.BagOfWords(dAliceBag);
+  deepEqual(oBagOfWords.size(),7);
+});
+
 
