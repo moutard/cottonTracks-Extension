@@ -119,7 +119,7 @@ Cotton.Controllers.Background = Class.extend({
             self._bInstalled = true;
             var date = new Date();
             var month = date.getMonth() + 1;
-            localStorage['cohort'] = "" + month + "/" + date.getFullYear();
+            localStorage.setItem('cohort', month + "/" + date.getFullYear());
             self.install();
           } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
             self._bUpdated = true;
