@@ -11,9 +11,24 @@ module(
     }
 );
 
+test("Filter.", function() {
+  var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
+  deepEqual(Cotton.Algo.Tools.Filter(lWords), ["wikipedia", "e34dede", "wikipédia"]);
+});
+
 test("StrongFilter.", function() {
   var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
   deepEqual(Cotton.Algo.Tools.StrongFilter(lWords), ["wikipedia", "wikipédia"]);
+});
+
+test("StrongQueryWords.", function() {
+  var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
+  deepEqual(Cotton.Algo.Tools.strongQueryWords(lWords), ["wikipedia", "e34dede", "wikipédia"]);
+});
+
+test("WeakQueryWords.", function() {
+  var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
+  deepEqual(Cotton.Algo.Tools.weakQueryWords(lWords), ["js"]);
 });
 
 test("extractWordsFromTitle.", function() {
@@ -49,7 +64,7 @@ test("extract words from url. ", function() {
   var sUrl = "http://example.com/what_are_the_words_in_this_url";
   var oUrl = new UrlParser(sUrl);
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
-    ['what', 'words', 'this', 'url']);
+    ['words', 'this', 'url']);
 
 
   var sUrl = "http://techcrunch.com/2013/02/19/yota-to-mass-produce-e-ink-phone-in-singapore/";

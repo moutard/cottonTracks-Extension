@@ -18,6 +18,33 @@ test('tech star seattle with ":" in title', function(){
     });
 });
 
+test('strong and weak keywords - weak left over', function(){
+  var a = new Cotton.Model.HistoryItem({
+    'sTitle': "apply for the best incubator - Recherche Google",
+    'sUrl': "https://www.google.com/search?q=apply+for+the+best+incubator",
+  });
+  Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(a);
+  deepEqual(a.extractedDNA().bagOfWords().get(),
+    {
+      'apply': 5,
+      'best': 5,
+      'incubator':5
+    });
+});
+
+test('strong and weak keywords - weak kept', function(){
+  var a = new Cotton.Model.HistoryItem({
+    'sTitle': "the Doors - Recherche Google",
+    'sUrl': "https://www.google.com/search?q=the+Doors",
+  });
+  Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(a);
+  deepEqual(a.extractedDNA().bagOfWords().get(),
+    {
+      'doors': 5,
+      'the': 2
+    });
+});
+
 test('tech star seattle', function(){
   var a = new Cotton.Model.HistoryItem({
     'sTitle': "Crash Dev: Apply now for TechStars Seattle 2013",
