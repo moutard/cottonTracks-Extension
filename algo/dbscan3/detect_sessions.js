@@ -43,6 +43,7 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
 
   var lNewRoughHistoryItemSession = [];
   var iPreviousTime;
+  var iTotalSessions = 0;
 
   for ( var i = 0, oCurrentVisitItem; oCurrentVisitItem = lChromeVisitItems[i]; i++) {
     if (i === 0) {
@@ -55,6 +56,7 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
         lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
       }
     } else {
+      iTotalSessions++;
       // Close the Session and launch callback on it, then init a new session
       mCallBack(lNewRoughHistoryItemSession);
       lNewRoughHistoryItemSession = [];
@@ -62,6 +64,7 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
     }
     iPreviousTime = oCurrentVisitItem['visitTime'];
   }
-
+  iTotalSessions++;
+  self.postMessage({'iTotalSessions' : iTotalSessions});
   mCallBack(lNewRoughHistoryItemSession);
 };

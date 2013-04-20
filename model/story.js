@@ -134,6 +134,14 @@ Cotton.Model.Story = Class.extend({
   setHistoryItems : function(lHistoryItems) {
     this._lHistoryItems = lHistoryItems;
   },
+  /**
+   * Replace the whole history items id list.
+   *
+   * @param {Array.<iHistoryItemId>} lHistoryItemsId
+   */
+  setHistoryItemsId : function(lHistoryItemsId) {
+    this._lHistoryItemsId = lHistoryItemsId;
+  },
   removeHistoryItem : function(sID) {
     this._lHistoryItemsId = _.reject(this._lHistoryItemsId, function(iHistoryItemId) {
       return iHistoryItemId === sID;
