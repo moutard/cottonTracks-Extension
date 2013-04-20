@@ -65,6 +65,5 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
     iPreviousTime = oCurrentVisitItem['visitTime'];
   }
   iTotalSessions++;
-  self.postMessage({'iTotalSessions' : iTotalSessions});
-  mCallBack(lNewRoughHistoryItemSession);
+  mCallBack(lNewRoughHistoryItemSession, iTotalSessions);
 };
