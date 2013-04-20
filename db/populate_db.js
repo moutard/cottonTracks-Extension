@@ -79,7 +79,6 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
 
     // value by default
     oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(sNonFound);
-    //oCurrentHistoryItem.extractedDNA().setQueryWords([]);
 
     while(oTempVisitItem &&
       Math.abs(oTempVisitItem['visitTime'] - oCurrentVisitItem['visitTime']) < iSliceTime
@@ -93,6 +92,10 @@ Cotton.DB.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lChr
           oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
           // This will change the bag of words.
           oCurrentHistoryItem.extractedDNA().setQueryWords(oTempHistoryItem.oUrl().keywords);
+          var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(oTempHistoryItem.oUrl().keywords);
+          var lWeakQueryWords = Cotton.Algo.Tools.weakQueryWords(oTempHistoryItem.oUrl().keywords);
+          oCurrentHistoryItem.extractedDNA().setStrongQueryWords(lStrongQueryWords);
+          oCurrentHistoryItem.extractedDNA().setWeakQueryWords(lWeakQueryWords);
           break;
         } else {
           // the temp page is not a good google search page.
