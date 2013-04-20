@@ -35,6 +35,21 @@ Cotton.Algo.Tools.StrongFilter = function(lWords){
 
 };
 
+Cotton.Algo.Tools.strongQueryWords = function(lQueryWords){
+  return Cotton.Algo.Tools.Filter(lQueryWords);
+};
+
+Cotton.Algo.Tools.weakQueryWords = function(lQueryWords){
+  var lWeakQueryWords = [];
+  var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lQueryWords);
+  for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++){
+    if (lStrongQueryWords.indexOf(sQueryWord) === -1){
+      lWeakQueryWords.push(sQueryWord);
+    }
+  }
+  return lWeakQueryWords;
+};
+
 
 /**
  * Extract words in a title.
@@ -82,8 +97,13 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
  */
 Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
     // It's a search page use keywords to set query words.
-    if(oHistoryItem.oUrl().keywords){
-      oHistoryItem.extractedDNA().setQueryWords(oHistoryItem.oUrl().keywords);
+    var lQueryWords = oHistoryItem.oUrl().keywords;
+    if(lQueryWords){
+      oHistoryItem.extractedDNA().addListQueryWords(oHistoryItem.oUrl().keywords);
+      oHistoryItem.extractedDNA().setStrongQueryWords(
+        Cotton.Algo.Tools.strongQueryWords(lQueryWords));
+      oHistoryItem.extractedDNA().setWeakQueryWords(
+        Cotton.Algo.Tools.weakQueryWords(lQueryWords));
     } else {
       // google image result, whose title is the url of the image
       if (oHistoryItem.oUrl().searchImage) {

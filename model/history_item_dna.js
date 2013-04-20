@@ -54,29 +54,36 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   queryWords : function() {
     return this._lQueryWords;
   },
+  addQueryWord : function(sQueryWord){
+    if (this._lQueryWords.indexOf(sQueryWord) === -1){
+      this._lQueryWords.push(sQueryWord);
+    }
+  },
+  addListQueryWords : function(lQueryWords){
+    for (var i = 0, sWord; sWord = lQueryWords[i]; i++){
+      this.addQueryWord(sWord);
+    }
+  },
   setQueryWords : function(lQueryWords) {
     var self = this;
     this._lQueryWords = lQueryWords;
-    var lStrongQueryWords = Cotton.Algo.Tools.Filter(lQueryWords);
-    var lWeakQueryWords = [];
-    // keep WeakQueryWords only if the bag of words has very few words
-    if (lStrongQueryWords.length < 3 && this._oBagOfWords.size() < 3){
-      for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++){
-        if (lStrongQueryWords.indexOf(sQueryWord) === -1){
-          lWeakQueryWords.push(sQueryWord);
-        }
-      }
-    }
-    // Initialize the bag of words, with QueryWords and ExtractedWords.
-    for (var i = 0, iLength = lStrongQueryWords.length; i < iLength; i++) {
-      var sWord = lStrongQueryWords[i];
-      self._oBagOfWords.addWord(sWord,
+  },
+  setStrongQueryWords : function(lStrongQueryWords) {
+    var self = this;
+    for (var i = 0, sQueryWord; sQueryWord = lStrongQueryWords[i]; i++) {
+      this.addQueryWord(sQueryWord)
+      self._oBagOfWords.addWord(sQueryWord,
         Cotton.Config.Parameters.scoreForStrongQueryWords);
     }
-    for (var i = 0, iLength = lWeakQueryWords.length; i < iLength; i++) {
-      var sWord = lWeakQueryWords[i];
-      self._oBagOfWords.addWord(sWord,
-        Cotton.Config.Parameters.scoreForWeakQueryWords);
+  },
+  setWeakQueryWords : function(lWeakQueryWords) {
+    var self = this;
+    for (var i = 0, sQueryWord; sQueryWord = lWeakQueryWords[i]; i++) {
+      this.addQueryWord(sQueryWord);
+      if (this._oBagOfWords.size() < 3){
+        self._oBagOfWords.addWord(sQueryWord,
+          Cotton.Config.Parameters.scoreForWeakQueryWords);
+      }
     }
   },
   extractedWords : function() {
