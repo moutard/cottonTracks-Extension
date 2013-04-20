@@ -35,7 +35,9 @@ Cotton.Model.BagOfWords = Class.extend({
   },
 
   addWord : function(sWord, iScore) {
-    this._dBag[sWord.toLowerCase()] = iScore;
+    if (!this._dBag[sWord.toLowerCase()] || this._dBag[sWord.toLowerCase()] < iScore){
+      this._dBag[sWord.toLowerCase()] = iScore;
+    }
   },
 
   increaseWordScore : function(sWord, iScore) {
