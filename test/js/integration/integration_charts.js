@@ -84,6 +84,8 @@ function launchTests(){
     var iStories = 0;
     var fEps = Cotton.Config.Parameters.dbscan3.fEps;
     var iMinPts = Cotton.Config.Parameters.dbscan3.iMinPts;
+    var lStories = [];
+
     Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
       function(lSession){
         var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
@@ -103,9 +105,31 @@ function launchTests(){
             DEBUG && console.debug(JSON.stringify(ldSession));
           }
         });
-        drawStories(dStories['stories']);
 
-      });
+        var lNewStories = [];
+        var iNumberOfStoredStories = lStories.length;
+        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
+          var bMerged = false;
+          for (var j = 0; j < iNumberOfStoredStories; j++){
+            var oStoredStory = lStories[j]
+            // TODO(rkorach) : do not use _.intersection
+            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0){
+              oStoredStory.setHistoryItemsId(
+                _.union(oStory.historyItemsId(),oStoredStory.historyItemsId()));
+              oStoredStory.setDbRecordHistoryItems(
+                _.union(oStory.historyItemsRecord(),oStoredStory.historyItemsRecord()));
+              bMerged = true;
+              break;
+            }
+          }
+          if (!bMerged){
+            lNewStories.push(oStory);
+          }
+        }
+        lStories = lStories.concat(lNewStories);
+
+    });
+    drawStories(lStories);
     drawStoriesRepartition(iStories);
   });
 };
