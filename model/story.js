@@ -63,6 +63,9 @@ Cotton.Model.Story = Class.extend({
   historyItemsId : function() {
     return this._lHistoryItemsId;
   },
+  historyItemsRecord : function() {
+    return this._lHistoryItemsRecord;
+  },
   lastVisitTime : function() {
     return this._fLastVisitTime;
   },
@@ -110,6 +113,22 @@ Cotton.Model.Story = Class.extend({
 
       if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
         this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
+      }
+    }
+  },
+  /**
+   * Replace the whole DbRecord items list.
+   *
+   * @param {Array.<Object>} lHistoryItemsDbRecord
+   */
+  setDbRecordHistoryItems : function(lHistoryItemDbRecord) {
+    this._lHistoryItemsRecord = lHistoryItemDbRecord;
+    this._lHistoryItemsId = [];
+    this._flastVisitTime = 0;
+    for (var i = 0, dHistoryItemDbRecord; dHistoryItemDbRecord = lHistoryItemDbRecord[i]; i++){
+      this._lHistoryItemsId.push(dHistoryItemDbRecord['id']);
+      if (this._flastVisitTime < dHistoryItemDbRecord['iLastVisitTime']){
+        this._flastVisitTime = dHistoryItemDbRecord['iLastVisitTime'];
       }
     }
   },
