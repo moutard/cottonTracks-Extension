@@ -216,33 +216,63 @@ Cotton.Controllers.Background = Class.extend({
     var self = this;
     // Instantiate a new worker with the code in the specified file.
     self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
+    var lStories = [];
+    var iSessionCount = 0;
+    var iTotalSessions = 0;
 
     // Add listener called when the worker send message back to the main thread.
     self._wDBSCAN3.addEventListener('message', function(e) {
+      if (e.data['iTotalSessions']){
+        iTotalSessions = e.data['iTotalSessions'];
+      } else {
+        iSessionCount++;
+        DEBUG && console.debug('wDBSCAN - Worker ends: ',
+          e.data['iNbCluster'], e.data['lHistoryItems']);
 
-      DEBUG && console.debug('wDBSCAN - Worker ends: ',
-        e.data['iNbCluster'], e.data['lHistoryItems']);
+        var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
+                                                e.data['iNbCluster']);
 
-      // Update the historyItems with extractedWords and queryWords.
-      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
-        // Data sent by the worker are serialized. Deserialize using translator.
-        var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
-          e.data['lHistoryItems'][i]);
-        var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
+        var lNewStories = [];
+        var iNumberOfStoredStories = lStories.length;
+        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
+          var bMerged = false;
+          for (var j = 0; j < iNumberOfStoredStories; j++){
+            var oStoredStory = lStories[j]
+            // TODO(rkorach) : do not use _.intersection
+            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0){
+              oStoredStory.setHistoryItemsId(
+                _.union(oStory.historyItemsId(),oStoredStory.historyItemsId()));
+                bMerged = true;
+                break;
+            }
+          }
+          if (!bMerged){
+            lNewStories.push(oStory);
+          }
+        }
+        lStories = lStories.concat(lNewStories);
 
-        self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function() {
-          // pass.
-        });
+
+        // Update the historyItems with extractedWords and queryWords.
+         for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
+           // Data sent by the worker are serialized. Deserialize using translator.
+           var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
+             e.data['lHistoryItems'][i]);
+           var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
+
+           self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function() {
+             // pass.
+           });
+         }
+
+        if (iTotalSessions && iSessionCount === iTotalSessions){
+          // Add stories in IndexedDB.
+          Cotton.DB.Stories.addStories(self._oDatabase, lStories,
+            function(oDatabase, lStories){
+             // pass.
+          });
+        }
       }
-
-      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
-                                              e.data['iNbCluster']);
-
-      // Add stories in IndexedDB.
-      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
-          function(oDatabase, lStories){
-            // pass.
-      });
     }, false);
   },
 
