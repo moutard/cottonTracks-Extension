@@ -137,8 +137,8 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory= function(oStore, oStor
       var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
       oSearchKeyword.addReferringStoryId(oStory.id());
       oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
-        // Becarefull with asynchronous.
-        DEBUG && console.debug('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
+        // Be careful with asynchronous.
+        DEBUG && console.debug('keyword updated with id: ' + iId + ' storyId:' + oStory.id())
       });
   }
 };
