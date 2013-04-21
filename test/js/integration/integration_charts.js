@@ -106,28 +106,30 @@ function launchTests(){
           }
         });
 
-        var lNewStories = [];
-        var iNumberOfStoredStories = lStories.length;
         for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
-          var bMerged = false;
-          for (var j = 0; j < iNumberOfStoredStories; j++){
-            var oStoredStory = lStories[j]
+          var oMergedStory = oStory;
+          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0){
-              oStoredStory.setHistoryItemsId(
-                _.union(oStory.historyItemsId(),oStoredStory.historyItemsId()));
-              oStoredStory.setDbRecordHistoryItems(
-                _.union(oStory.historyItemsRecord(),oStoredStory.historyItemsRecord()));
-              bMerged = true;
-              break;
+            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
+              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
+              && oStory.tags().length > 0)){
+                // there is an item in two different stories or they have the same words
+                // in the title
+                oMergedStory.setHistoryItemsId(
+                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oMergedStory.setDbRecordHistoryItems(
+                  _.union(oStory.historyItemsRecord(),oStoredStory.historyItemsRecord()));
+                oMergedStory.setLastVisitTime(Math.max(
+                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                lStories.splice(j,1);
+                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
+                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
+                }
+                j--;
             }
           }
-          if (!bMerged){
-            lNewStories.push(oStory);
-          }
+          lStories.push(oMergedStory);
         }
-        lStories = lStories.concat(lNewStories);
-
     });
     drawStories(lStories);
     drawStoriesRepartition(iStories);
