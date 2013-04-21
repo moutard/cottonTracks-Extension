@@ -188,6 +188,8 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
 
     // Remove the tools before looking for visitItems.
     glCottonHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+    // Compute blacklisted expressions for titles
+    Cotton.Algo.Common.Words.generateBlacklistExpressions(glCottonHistoryItems);
 
     // After this we are dealing with cotton model history item.
     glCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(glCottonHistoryItems);
