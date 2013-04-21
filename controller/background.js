@@ -232,26 +232,27 @@ Cotton.Controllers.Background = Class.extend({
         var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        var lNewStories = [];
-        var iNumberOfStoredStories = lStories.length;
         for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
-          var bMerged = false;
-          for (var j = 0; j < iNumberOfStoredStories; j++){
-            var oStoredStory = lStories[j]
+          var oMergedStory = oStory;
+          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0){
-              oStoredStory.setHistoryItemsId(
-                _.union(oStory.historyItemsId(),oStoredStory.historyItemsId()));
-                bMerged = true;
-                break;
+            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
+              oStory.tags().sort().join() === oStoredStory.tags().sort().join()){
+                // there is an item in two different stories or they have the same words
+                // in the title
+                oMergedStory.setHistoryItemsId(
+                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oMergedStory.setLastVisitTime(Math.max(
+                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                lStories.splice(j,1);
+                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
+                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
+                }
+                j--;
             }
           }
-          if (!bMerged){
-            lNewStories.push(oStory);
-          }
+          lStories.push(oMergedStory);
         }
-        lStories = lStories.concat(lNewStories);
-
 
         // Update the historyItems with extractedWords and queryWords.
          for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
