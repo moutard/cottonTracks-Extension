@@ -239,7 +239,8 @@ Cotton.Controllers.Background = Class.extend({
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
             if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
-              oStory.tags().sort().join() === oStoredStory.tags().sort().join()){
+              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
+              && oStory.tags().length > 0)){
                 // there is an item in two different stories or they have the same words
                 // in the title
                 oMergedStory.setHistoryItemsId(
