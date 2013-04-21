@@ -219,6 +219,8 @@ Cotton.Controllers.Background = Class.extend({
     var lStories = [];
     var iSessionCount = 0;
     var iTotalSessions = 0;
+    var lHistoryItemsIds = [];
+    var lHistoryItems = [];
 
     // Add listener called when the worker send message back to the main thread.
     self._wDBSCAN3.addEventListener('message', function(e) {
@@ -254,23 +256,26 @@ Cotton.Controllers.Background = Class.extend({
           lStories.push(oMergedStory);
         }
 
-        // Update the historyItems with extractedWords and queryWords.
-         for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
-           // Data sent by the worker are serialized. Deserialize using translator.
-           var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
-             e.data['lHistoryItems'][i]);
-           var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
-
-           self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function() {
-             // pass.
-           });
-         }
+        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++){
+          if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1){
+            lHistoryItemsIds.push(dHistoryItem['id']);
+            // Data sent by the worker are serialized. Deserialize using translator.
+            var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
+              dHistoryItem);
+            var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+            lHistoryItems.push(oHistoryItem);
+          }
+        }
 
         if (iTotalSessions && iSessionCount === iTotalSessions){
-          // Add stories in IndexedDB.
-          Cotton.DB.Stories.addStories(self._oDatabase, lStories,
-            function(oDatabase, lStories){
-             // pass.
+          // add items in indexedDB, then stories. We need to wait for the historyItems
+          // to be in base because when putting the stories we update iStoryId in the base
+          self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function() {
+            // Add stories in IndexedDB.
+            Cotton.DB.Stories.addStories(self._oDatabase, lStories,
+              function(oDatabase, lStories){
+               // pass.
+            });
           });
         }
       }
