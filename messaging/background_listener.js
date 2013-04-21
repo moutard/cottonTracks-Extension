@@ -26,45 +26,49 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
     // Listen all the messages sent to the background page.
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+      if (sender.tab.index === -1){
+        // it is a page preloaded by google in a ghost tab
+        // pass
+      } else {
+        DEBUG && console.debug(request);
 
-      DEBUG && console.debug(request);
+        /**
+         * DISPATCHER
+         * All the message send by sendMessage arrived here.
+         * CottonTracks defined an "action" parameters it's mandatory.
+         */
+        switch(request['action']) {
 
-      /**
-       * DISPATCHER
-       * All the message send by sendMessage arrived here.
-       * CottonTracks defined an "action" parameters it's mandatory.
-       */
-      switch(request['action']) {
-
-        case 'create_history_item':
-          self._oMessagingController.doAction(request['action'],
-            [sendResponse, request['params']['historyItem'], sender]);
-          break;
-
-        case 'update_history_item':
+          case 'create_history_item':
             self._oMessagingController.doAction(request['action'],
-            [sendResponse, request['params']['historyItem'],
-            request['params']['contentSet'], sender]);
-          break;
+              [sendResponse, request['params']['historyItem'], sender]);
+            break;
 
-        case 'get_content_tab':
-          self._oMessagingController.doAction(request['action'],
-            [sendResponse, request['params']['tab_id']]);
-          break;
+          case 'update_history_item':
+              self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['historyItem'],
+              request['params']['contentSet'], sender]);
+            break;
 
-        case 'get_trigger_story':
-          self._oMessagingController.doAction(request['action'], [sendResponse]);
-          break;
+          case 'get_content_tab':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['tab_id']]);
+            break;
 
-        case 'pass_background_screenshot':
-          self._oMessagingController.doAction(request['action'], [sendResponse]);
-          break;
+          case 'get_trigger_story':
+            self._oMessagingController.doAction(request['action'], [sendResponse]);
+            break;
 
-        default:
-          break;
+          case 'pass_background_screenshot':
+            self._oMessagingController.doAction(request['action'], [sendResponse]);
+            break;
+
+          default:
+            break;
+        }
+
+        return true;
       }
-
-      return true;
     });
   },
 
