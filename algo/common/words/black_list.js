@@ -1,3 +1,5 @@
+'use strict'
+
 Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
 var blackList = ['htm', 'the',
 "and", "also", "or", "no", "so", "for", "else", "but", "yet", "still", "anyway",
@@ -28,8 +30,36 @@ var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipéd
 ".jpg", ".jpeg", ".png", ".gif", ".pdf"
 ];
   var sCleanTitle = sTitle;
-  for (var i = 0, sExpression; sExpression = blackList[i]; i++){
-    sCleanTitle = sCleanTitle.replace(sExpression,"");
+  for (var i = 0,
+    sExpression; sExpression = Cotton.Algo.Common.Words.BlacklistExpressions[i]; i++){
+      sCleanTitle = sCleanTitle.replace(sExpression,"");
   }
   return sCleanTitle;
+};
+
+Cotton.Algo.Common.Words.BlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
+
+Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
+  var oRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
+  var dExpressions = {};
+  for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
+    if(dChromeHistoryItem['title'].match(oRegexp)){
+      // console.log(dChromeHistoryItem['title'].match(oRegexp));
+      var lExpressions = dChromeHistoryItem['title'].match(oRegexp);
+      for (var j = 0, sExpression; sExpression = lExpressions[j]; j++){
+        if (dExpressions[sExpression]){
+          dExpressions[sExpression] += dChromeHistoryItem['visitCount'];
+        } else {
+          dExpressions[sExpression] = dChromeHistoryItem['visitCount'];
+        }
+      }
+    }
+  }
+  var threshold = lChromeHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
+  for (var sExpression in dExpressions){
+    if (dExpressions[sExpression] >= threshold){
+        Cotton.Algo.Common.Words.BlacklistExpressions.push(sExpression);
+    }
+  }
+  DEBUG && console.debug(Cotton.Algo.Common.Words.BlacklistExpressions);
 };

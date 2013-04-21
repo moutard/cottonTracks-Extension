@@ -12,7 +12,10 @@ Cotton.Config.Parameters = {
       '^(https?://www.google.fr/accounts/)', '^(https?://www.google.fr/accounts/)' ],
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
-   // DBSCAN2
+  // threshold percentage of the history for an expression to be banned
+  iMinRecurringPattern : 0.15,
+
+  // DBSCAN2
   dbscan2 : {
     fEps : 17,
     iMinPts : 3,
