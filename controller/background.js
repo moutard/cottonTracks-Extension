@@ -103,7 +103,8 @@ Cotton.Controllers.Background = Class.extend({
     self.initWorkerDBSCAN2();
 
     // Initialize the pool.
-    self._oPool = new Cotton.DB.DatabaseFactory().getPool();
+    self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
+    self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {

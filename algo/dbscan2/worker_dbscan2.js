@@ -37,7 +37,6 @@ function handleHistoryItem(lHistoryItems) {
   // Min Points in a cluster
   var iMinPts = Cotton.Config.Parameters.dbscan2.iMinPts;
 
-  lHistoryItems = Cotton.Algo.findClosestGoogleSearchPage(lHistoryItems);
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
       Cotton.Algo.Score.DBRecord.HistoryItem);
 

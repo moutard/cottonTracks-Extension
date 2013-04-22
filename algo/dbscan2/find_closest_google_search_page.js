@@ -52,3 +52,45 @@ Cotton.Algo.findClosestGoogleSearchPage = function(lHistoryItemsFromPool) {
   return lHistoryItems;
 };
 
+Cotton.Algo.findClosestSearchPage = function(oHistoryItem, oSearchCache) {
+  var lSearchElements = oSearchCache.get();
+  var iSliceTime = Cotton.Config.Parameters.iSliceTime;
+  // After this time a page is considered as non-linked with a query search page
+
+  var sNonFound = "http://www.google.fr/";
+
+  // We begin to search from the end of the search cache.
+  var iSearchIndex = lSearchElements.length - 1
+  var dTempSearchItem = lSearchElements[iSearchIndex];
+
+  // value by default
+  oHistoryItem.extractedDNA().setClosestGoogleSearchPage(sNonFound);
+
+  while (dTempSearchItem &&
+    Math.abs(oHistoryItem.lastVisitTime() - dTempSearchItem['iLastVisitTime']) < iSliceTime){
+
+      var lKeywords = new UrlParser(dTempSearchItem['sUrl']).keywords;
+      if (lKeywords &&
+          _.intersection(lKeywords,
+            _.keys(oHistoryItem.extractedDNA().bagOfWords().get())).length > 0 ){
+        // we found a page that should be the google closest query page.
+        oHistoryItem.extractedDNA().setClosestGoogleSearchPage(dTempSearchItem['url']);
+        // This will change the bag of words.
+        oHistoryItem.extractedDNA().setQueryWords(lKeywords);
+        var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lKeywords);
+        var lWeakQueryWords = Cotton.Algo.Tools.weakQueryWords(lKeywords);
+        oHistoryItem.extractedDNA().setStrongQueryWords(lStrongQueryWords);
+        oHistoryItem.extractedDNA().setWeakQueryWords(lWeakQueryWords);
+        break;
+      } else {
+        // the temp page is not a good google search page.
+        // try the newt one.
+        // in the pool older page are first.
+        iSearchIndex --;
+        dTempSearchItem = lSearchElements[iSearchIndex];
+      }
+  }
+
+  return oHistoryItem;
+};
+
