@@ -75,12 +75,12 @@ Cotton.DB.DatabaseFactory = Class.extend({
 
   },
 
-  getPool : function() {
-    // is there is already a pool, fill the cache with the old pool value.
-    var lPoolStore = JSON.parse(localStorage.getItem('ct-cache-pool-store'));
-    if (lPoolStore && lPoolStore !== []) {
-      var oCache = new Cotton.DB.FixedSizeCache('pool', 50);
-      oCache.set(lPoolStore);
+  getCache : function(sCacheName) {
+    // is there is already a cache with this name, fill the cache with the old cache value.
+    var lCacheStore = JSON.parse(localStorage.getItem('ct-cache-' + sCacheName + '-store'));
+    if (lCacheStore && lCacheStore !== []) {
+      var oCache = new Cotton.DB.FixedSizeCache(sCacheName, 50);
+      oCache.set(lCacheStore);
       return oCache;
     } else {
       // Create translator collection.
@@ -89,7 +89,7 @@ Cotton.DB.DatabaseFactory = Class.extend({
       });
 
       // Create engine using translator collection for indexes.
-      var oCache = new Cotton.DB.FixedSizeCache('pool', 50);
+      var oCache = new Cotton.DB.FixedSizeCache(sCacheName, 50);
       // As dbscan2 work directly on dDbRecord and not on the element, we don't
       // need a wrapper here.
       return oCache;
