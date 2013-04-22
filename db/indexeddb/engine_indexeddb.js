@@ -1167,6 +1167,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   putListUniqueHistoryItems: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
+
     var iSuccess = 0;
     var lIds = [];
     for(var i = 0, iLength = lItems.length; i < iLength; i++){
