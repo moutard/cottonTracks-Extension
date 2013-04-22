@@ -53,6 +53,9 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
+      if (oHistoryItem.oUrl().keywords){
+        self._oMainController._oSearchCache.put(dHistoryItem);
+      }
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
@@ -81,6 +84,11 @@ Cotton.Controllers.Messaging = Class.extend({
 
           } else {
             // See if the history items can fit in a story.
+
+            //compute closest searchpage with searchcache
+            oHistoryItem = Cotton.Algo.findClosestSearchPage(
+              oHistoryItem, self._oMainController._oSearchCache);
+            // take keywords in bag of words with the highest score
             var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
             self._oMainController._oDatabase.findGroup('searchKeywords',
               'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
