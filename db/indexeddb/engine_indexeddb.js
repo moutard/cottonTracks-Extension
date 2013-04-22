@@ -1166,80 +1166,18 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   },
 
   putListUniqueHistoryItems: function(sObjectStoreName, lItems, mOnSaveCallback) {
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
+    var self = this;
     var iSuccess = 0;
     var lIds = [];
     for(var i = 0, iLength = lItems.length; i < iLength; i++){
       var dItem = lItems[i];
-      var oPutRequest = oStore.put(dItem);
-
-      oPutRequest.onsuccess = function(oEvent) {
-        lIds.push(oEvent.target.result);
+      this.putUniqueHistoryItem (sObjectStoreName, dItem, function(iId){
         iSuccess++;
-        if (iSuccess === iLength){
-          mOnSaveCallback.call(self, lIds);
+        lIds.push(iId);
+        if (iSuccess === lItems.length) {
+          mOnSaveCallback.call(self,lIds);
         }
-      };
-
-      oPutRequest.onerror = function(oEvent){
-
-        if(this['error']['name'] === "ConstraintError"){
-          // uniqueness unsatisfied
-          // TODO(rmoutard): use
-          // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-          // to get the right key.
-          var oTransaction = self._oDb.transaction([sObjectStoreName],
-          "readwrite");
-          var oStore =  oTransaction.objectStore(sObjectStoreName);
-          var oIndex = oStore.index('sUrl');
-
-          // Get the requested record in the store.
-          var oFindRequest = oIndex.get(dItem['sUrl']);
-          DEBUG && console.debug(dItem['sUrl'] + " already exists it will be updated");
-          oFindRequest.onsuccess = function(oEvent) {
-            var oResult = oEvent.target.result;
-            // If there was no result, it will send back null.
-            dItem['id'] = oResult['id'];
-            // Merge highlighted text.
-            dItem['oExtractedDNA']['lHighlightedText'] = _.union(
-                dItem['oExtractedDNA']['lHighlightedText'],
-                oResult['oExtractedDNA']['lHighlightedText']);
-            // Take the max value of each key.
-            var dTempBag = {};
-            _.pairs(dItem['oExtractedDNA']['oBagOfWords'], function(key, value){
-              var a = dItem['oExtractedDNA']['oBagOfWords'][key] || 0;
-              var b = oResult['oExtractedDNA']['oBagOfWords'][key] || 0;
-              dTempBag[key] = Math.max(a,b);
-            });
-            dItem['oExtractedDNA']['oBagOfWords'] = dTempBag;
-            DEBUG && console.debug(dItem['sUrl'] + " had an id:" + dItem['id'] );
-            var oSecondPutRequest = oStore.put(dItem);
-
-            oSecondPutRequest.onsuccess = function(oEvent) {
-              lIds.push(oEvent.target.result);
-              iSuccess++;
-              if (iSuccess === iLength){
-                mOnSaveCallback.call(self, lIds);
-              }
-            };
-
-            oSecondPutRequest.onerror = function(oEvent) {
-              console.error("can't put: " + dItem);
-            };
-
-          };
-
-          oFindRequest.onerror = function(oEvent) {
-            console.error(oEvent);
-            console.error(this);
-            console.error("can't find: " + dItem['id']);
-          };
-        }
-      };
-
+      });
     }
 
   },
