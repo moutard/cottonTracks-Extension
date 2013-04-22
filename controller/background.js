@@ -83,6 +83,9 @@ Cotton.Controllers.Background = Class.extend({
       DEBUG && console.debug("chrome runtime" + Cotton.ONEVENT);
       if (self._bReadyForStart && !self._bInstalled && Cotton.ONEVENT === 'install'){
         self._bInstalled = true;
+        var date = new Date();
+        var month = date.getMonth() + 1;
+        localStorage.setItem('cohort', month + "/" + date.getFullYear());
         self.install();
       } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
         self._bInstalled = true;
