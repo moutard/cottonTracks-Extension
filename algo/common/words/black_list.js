@@ -39,6 +39,10 @@ var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipéd
 
 Cotton.Algo.Common.Words.BlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
 
+Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
+  Cotton.Algo.Common.Words.BlacklistExpressions = lExpressions;
+};
+
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
   var oRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
   var dExpressions = {};
@@ -62,4 +66,6 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
     }
   }
   DEBUG && console.debug(Cotton.Algo.Common.Words.BlacklistExpressions);
+  localStorage.setItem(
+    'blacklist-expressions',JSON.stringify(Cotton.Algo.Common.Words.BlacklistExpressions));
 };
