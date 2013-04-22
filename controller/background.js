@@ -105,6 +105,10 @@ Cotton.Controllers.Background = Class.extend({
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
     self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
+    if (localStorage.getItem('blacklist-expressions')){
+      Cotton.Algo.Common.Words.setBlacklistExpressions(
+        JSON.parse(localStorage.getItem('blacklist-expressions')));
+    }
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
