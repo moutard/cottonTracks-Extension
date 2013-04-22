@@ -152,17 +152,17 @@ Cotton.Controllers.Background = Class.extend({
             if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
               self._iTriggerStory = _oHistoryItem.storyId();
               chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-	              // TODO(rkorach) : delete ct page from history
-	            });
+                // TODO(rkorach) : delete ct page from history
+              });
             }
           });
         } else {
           self._iTriggerStory = self._dTabStory[lTabs[0].id];
           chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-	        // TODO(rkorach) : delete ct page from history
-	        });
+            // TODO(rkorach) : delete ct page from history
+          });
         }
-	    });
+      });
     });
   },
 
@@ -271,7 +271,7 @@ Cotton.Controllers.Background = Class.extend({
         if (iTotalSessions && iSessionCount === iTotalSessions){
           // add items in indexedDB, then stories. We need to wait for the historyItems
           // to be in base because when putting the stories we update iStoryId in the base
-          self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function() {
+          self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function(lIds) {
             // Add stories in IndexedDB.
             Cotton.DB.Stories.addStories(self._oDatabase, lStories,
               function(oDatabase, lStories){
