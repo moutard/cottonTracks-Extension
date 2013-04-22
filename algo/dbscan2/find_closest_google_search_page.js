@@ -74,7 +74,7 @@ Cotton.Algo.findClosestSearchPage = function(oHistoryItem, oSearchCache) {
           _.intersection(lKeywords,
             _.keys(oHistoryItem.extractedDNA().bagOfWords().get())).length > 0 ){
         // we found a page that should be the google closest query page.
-        oHistoryItem.extractedDNA().setClosestGoogleSearchPage(dTempSearchItem['url']);
+        oHistoryItem.extractedDNA().setClosestGoogleSearchPage(dTempSearchItem['sUrl']);
         // This will change the bag of words.
         oHistoryItem.extractedDNA().setQueryWords(lKeywords);
         var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lKeywords);
