@@ -34,6 +34,9 @@ Cotton.Config.Parameters = {
   scoreForStrongQueryWords : 5,
   scoreForWeakQueryWords : 2,
 
+  // PREPONDERANT KEYWORDS
+  iNumberOfPreponderantKeywords : 3,
+
   // PROD
   bDevMode : true,
   bActiveSumup : false,
