@@ -70,10 +70,11 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       //The historyItem url was not in base, init this one with the new id created
       DEBUG && console.debug('DBSync create visit - response :')
       DEBUG && console.debug(response);
-      self._oCurrentHistoryItem.initId(response['id']);
-      self._iId = response['id'];
       self._oCurrentHistoryItem.setStoryId(response['storyId']);
       self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
+      self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
+      self._oCurrentHistoryItem.initId(response['id']);
+      self._iId = response['id'];
     });
 
   },
