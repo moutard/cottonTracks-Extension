@@ -154,6 +154,7 @@ Cotton.Controllers.Messaging = Class.extend({
                           // Lauch dbscan2 on the pool.
                           var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                           wDBSCAN2.postMessage(self._oMainController._oPool.get());
+                          chrome.browserAction.enable(sender.tab.id);
                           sendResponse({
                             'received' : "true",
                             'id' : sPutId,
