@@ -44,6 +44,5 @@ Cotton.Behavior.Passive.GoogleImageParser = Cotton.Behavior.Passive.Parser.exten
      oHistoryItem._sTitle = window.document.title;
      oHistoryItem._iLastVisitTime = new Date().getTime();
      oHistoryItem._sReferrerUrl = document.referrer;
-     Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
    },
 });
