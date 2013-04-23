@@ -138,7 +138,7 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory= function(oStore, oStor
       oSearchKeyword.addReferringStoryId(oStory.id());
       oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
         // Be careful with asynchronous.
-        DEBUG && console.debug('keyword updated with id: ' + iId + ' storyId:' + oStory.id())
+        DEBUG && console.debug('keyword updated with id: ' + iId + ' storyId:' + oStory.id());
       });
   }
 };
