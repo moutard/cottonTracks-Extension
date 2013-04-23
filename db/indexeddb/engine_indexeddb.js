@@ -1029,7 +1029,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         lAllId.push(iId);
 
         if(p === lItems.length){
-          DEBUG && console.debug("dede");
           DEBUG && console.debug(lAllId);
           mOnSaveCallback.call(self, lAllId);
         }
@@ -1170,6 +1169,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var iSuccess = 0;
     var lIds = [];
+    DEBUG && console.debug(
+      "now putting the historyItems in base before the stories and searchKeywords...");
     for(var i = 0, iLength = lItems.length; i < iLength; i++){
       var dItem = lItems[i];
       this.putUniqueHistoryItem (sObjectStoreName, dItem, function(iId){
