@@ -1102,14 +1102,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
+    var oAddRequest = oStore.add(dItem);
 
-    var oPutRequest = oStore.put(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
+    oAddRequest.onsuccess = function(oEvent) {
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
-    oPutRequest.onerror = function(oEvent){
+    oAddRequest.onerror = function(oEvent){
 
       // console.error(oEvent);
       // console.error(this);
