@@ -151,13 +151,26 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
+        // not a get content
         if(_.isEmpty(self._dTabStory)){
+          var sUrl = lTabs[0]['url'];
+          var oUrl = new UrlParser(sUrl);
+          if (oUrl.isGoogle && oUrl.keywords){
+            sUrl = oUrl.genericSearch;
+          }
           self._oDatabase.find('historyItems',
-          'sUrl', lTabs[0]['url'], function(_oHistoryItem){
+          'sUrl', sUrl, function(_oHistoryItem){
             if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
               self._iTriggerStory = _oHistoryItem.storyId();
               chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
                 // TODO(rkorach) : delete ct page from history
+              });
+            } else {
+              self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
+                self._iTriggerStory = iStoryId;
+                chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
+                  // TODO(rkorach) : delete ct page from history
+                });
               });
             }
           });
@@ -211,6 +224,43 @@ Cotton.Controllers.Background = Class.extend({
     }, false);
 
     return wDBSCAN2;
+  },
+
+  /**
+   * Creates a story around an item, without minimum limit of number
+   */
+  forceStory : function(iSeedId, lItems, mCallback) {
+    var self = this;
+    var mDistance = Cotton.Algo.Score.DBRecord.HistoryItem;
+    var fEps = Cotton.Config.Parameters.dbscan2.fEps;
+    for (var i = 0, dItem; dItem = lItems[i]; i++){
+      dItem['clusterId'] = "UNCLASSIFIED";
+      if (dItem['id'] === iSeedId) {
+        var dSeed = dItem;
+      }
+    }
+    for (var i = 0, dItem; dItem = lItems[i]; i++){
+      if (mDistance(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
+        dItem['clusterId'] = 0;
+      }
+    }
+    var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
+    // TODO(rmoutard) : find a better solution.
+    var lHistoryItemToKeep = [];
+    for (var i = 0, dItem; dItem = lItems[i]; i++){
+      if(dItem['sStoryId'] === "UNCLASSIFIED"
+        && dItem['clusterId'] === "NOISE"){
+          delete dItem['clusterId'];
+          lHistoryItemToKeep.push(dItem);
+      }
+    }
+    self._oPool._refresh(lHistoryItemToKeep);
+    Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
+      function(oDatabase, lStories){
+       mCallback.call(self, lStories[0].id());
+    });
+
+
   },
 
   /**
