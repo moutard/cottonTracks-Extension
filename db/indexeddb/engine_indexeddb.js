@@ -1135,11 +1135,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
               oResult['oExtractedDNA']['lHighlightedText']);
           // Take the max value of each key.
           var dTempBag = {};
-          _.pairs(dItem['oExtractedDNA']['dBagOfWords'], function(key, value){
-            var a = dItem['oExtractedDNA']['dBagOfWords'][key] || 0;
-            var b = oResult['oExtractedDNA']['dBagOfWords'][key] || 0;
-            dTempBag[key] = Math.max(a,b);
-          });
+          for (var sWord in dItem['oExtractedDNA']['dBagOfWords']){
+            var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+            var b = oResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+            dTempBag[sWord] = Math.max(a,b);
+          }
           dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
           DEBUG && console.debug(dItem['sUrl'] + " had an id:" + dItem['id'] );
           var oSecondPutRequest = oStore.put(dItem);
