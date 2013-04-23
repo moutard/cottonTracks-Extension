@@ -53,6 +53,7 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
+      Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
           oHistoryItem, self._oMainController._oSearchCache);
@@ -82,7 +83,8 @@ Cotton.Controllers.Messaging = Class.extend({
               'received' : "true",
               'id' : sPutId,
               'storyId' : _oHistoryItem.storyId(),
-              'visitCount' : oHistoryItem.visitCount()
+              'visitCount' : oHistoryItem.visitCount(),
+              'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
             });
 
 
@@ -130,7 +132,8 @@ Cotton.Controllers.Messaging = Class.extend({
                             'received' : "true",
                             'id' : sPutId,
                             'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount()
+                            'visitCount' : oHistoryItem.visitCount(),
+                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
                           });
                       });
                       // There is a story for this item, so enable the browserAction
@@ -155,7 +158,8 @@ Cotton.Controllers.Messaging = Class.extend({
                             'received' : "true",
                             'id' : sPutId,
                             'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount()
+                            'visitCount' : oHistoryItem.visitCount(),
+                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
                           });
                       });
                     }

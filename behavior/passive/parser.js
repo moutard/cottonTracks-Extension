@@ -50,7 +50,6 @@ Cotton.Behavior.Passive.Parser = Class
          oHistoryItem._iLastVisitTime = new Date().getTime();
          oHistoryItem._sReferrerUrl = document.referrer;
          //oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
-         Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
        },
 
       bestImage : function() {
