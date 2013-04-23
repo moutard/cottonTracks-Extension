@@ -91,7 +91,8 @@ Cotton.Controllers.Messaging = Class.extend({
           } else {
             // See if the history items can fit in a story.
             // take keywords in bag of words with the highest score
-            var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
+            var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(
+              Cotton.Config.Parameters.iNumberOfPreponderantKeywords);
             self._oMainController._oDatabase.findGroup('searchKeywords',
               'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
                 var lStoriesId = [];
