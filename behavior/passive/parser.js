@@ -93,9 +93,8 @@ Cotton.Behavior.Passive.Parser = Class
         this._publishStart();
         $('[data-meaningful]').removeAttr('data-meaningful');
         this._findMeaningfulBlocks();
-        this._removeLeastMeaningfulBlocks();
-
         this.findBestImage();
+        this._saveResults();
         this._publishResults();
       },
 
@@ -235,6 +234,7 @@ Cotton.Behavior.Passive.Parser = Class
       },
 
       _markMeaningfulBlock : function($block) {
+        this._lAllParagraphs.push($block.text());
         // this._lMeaningfulBlock.push($block);
         var i = this._iNbMeaningfulBlock;
         this._iNbMeaningfulBlock += 1;
@@ -243,77 +243,15 @@ Cotton.Behavior.Passive.Parser = Class
         if (Cotton.Config.Parameters.bDevMode === true) {
           $block.css('border', '1px dashed #35d');
         }
-        if (this._oClient.current().extractedDNA().firstParagraph() === "") {
-          this._oClient.current().extractedDNA().setFirstParagraph($block.text());
-          this._oClient.updateVisit();
-        }
-
       },
 
-      _removeLeastMeaningfulBlocks : function() {
-        var self = this;
-        // TODO(fwouts): Move constants.
-        var MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE = 4;
-
-        // Cotton.Utils.log("Keeping only groups of meaningful blocks...");
-
-        // Separate step because we need to know the list of all meaningful
-        // elements at this point.
-        // Because we will gradually remove the data-meaningful attribute to
-        // elements and the
-        // algorithm depends on depth, we need to start with the deepest
-        // elements first.
-        var lSortedByDepthBlocks = $('[data-meaningful]').get();
-        lSortedByDepthBlocks.sort(function(oA, oB) {
-          return $(oB).parents().length - $(oA).parents().length;
-        });
-
-        $.each(lSortedByDepthBlocks, function() {
-          // We need to exclude paragraphs belonging to accessory
-          // elements such as comments.
-          // One method we use here is to count the number of paragraphs
-          // within their
-          // x-level ancestor (x = 3). For comments, this would
-          // generally still contain only
-          // one comment box, which means that if the comment is not an
-          // essay (which would
-          // arguably make it a meaningful content), then we can just
-          // count the number of
-          // paragraphs and conclude that it does not represent the main
-          // article.
-          // Other factors such as height should be considered (some
-          // websites do not divide
-          // their pages properly into multiple paragraphs, but instead
-          // use <br />).
-          // TODO(fwouts): Take height into account.
-          var $paragraph = $(this);
-          var $ancestor = $paragraph.parent().parent().parent();
-          if ($ancestor.find('[data-meaningful]').length >= MIN_MEANINGFUL_BLOCK_COUNT_INSIDE_ARTICLE) {
-            $paragraph.css('border-color', '#f00');
-            if ($paragraph.text()){
-              self._lAllParagraphs.push($paragraph.text());
-            }
-          } else {
-            $paragraph.removeAttr('data-meaningful').attr(
-                'data-least-meaningful', true);
-          }
-        });
-        self._oClient.current().extractedDNA()
-            .setAllParagraphs(this._lAllParagraphs);
-        self._oClient.setParagraph(this._lAllParagraphs);
-        self._oClient.updateVisit();
-
-        if ($('[data-meaningful]').length == 0) {
-          // If we did not find any really meaningful element, we might be in
-          // the case that the
-          // content did not match the usual structure of at least X blocks.
-          // We pick the element closest to the top, which is the most likely to
-          // be part of the content.
-          // TODO(fwouts): Improve the algorithm?
-          $('[data-least-meaningful]:first')
-              .removeAttr('data-least-meaningful')
-              .attr('data-meaningful', true).css('border-color', '#f00');
-        }
+      _saveResults : function() {
+        this._oClient.current().extractedDNA()
+          .setAllParagraphs(this._lAllParagraphs);
+        this._oClient.setParagraph(this._lAllParagraphs);
+        this._oClient.current().extractedDNA().setFirstParagraph(
+          this._lAllParagraphs);
+        this._oClient.updateVisit();
       },
 
       /**
@@ -330,7 +268,6 @@ Cotton.Behavior.Passive.Parser = Class
         }
         this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
         this._oClient.setImage(this._sBestImage);
-        this._oClient.updateVisit();
         return this._sBestImage;
       },
 
