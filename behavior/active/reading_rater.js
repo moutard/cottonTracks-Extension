@@ -53,7 +53,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // Detect user's activity on the page when they move their cursor.
     // If they don't move it during 10 seconds, we conclude they are
     // inactive.
-    this._bDocumentActive = true;
+    this._bDocumentActive = false;
 
     // Create the parser but don't start it.
     this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient);
