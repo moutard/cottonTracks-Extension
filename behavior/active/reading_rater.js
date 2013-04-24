@@ -165,12 +165,36 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       return oActiveElement.nodeName === 'IFRAME' && oActiveElement;
     };
 
+    /*
+     * Save active video iframes
+     */
     var saveClickedIframes = function() {
       var iframe = iframeDetector();
-      iframe && self._saveVideoIframe(iframe);
+      if (iframe) {
+        self._saveVideoIframe(iframe);
+      }
+      return false;
     };
 
+    /*
+     * Warning: This is a hack borrowed from https://github.com/finalclap/iframeTracker-jquery
+     * This is because iframe events are inaccessible and because we need to add
+     * a hidden input element in order to retrieve focus from the iframe.
+     * An alternative solution is to set an interval checking for the active
+     * element but that is discouraged.
+     *
+     * Listen for blur events on the current window and call saveClickedIframes
+     */
     window.addEventListener('blur', saveClickedIframes);
+    $('body').append('<div style="position:fixed; top:0; left:0; overflow:hidden'
+      + ';"><input style="position:absolute; left:-300px;" type="text" value=""'
+      + 'id="focus_retriever" /></div>');
+    var focusRetriever = $('#focus_retriever');
+    $(document).mousemove(function(e){ // Focus back to page
+      if( document.activeElement.nodeName === 'IFRAME' ){
+        focusRetriever.focus();
+      }
+    });
   },
 
   restart : function() {
