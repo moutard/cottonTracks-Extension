@@ -199,7 +199,9 @@ Cotton.Behavior.Passive.Parser = Class
           }
           var iBrCount = $parent.find('br').length;
           if (iBrCount > MIN_BR_FOR_TEXT_CONTAINER) {
-            self._markMeaningfulBlock($parent);
+            if ($parent.width() > MIN_PARAGRAPH_CONTAINER_WIDTH) {
+              self._markMeaningfulBlock($parent);
+            }
           }
         });
 
