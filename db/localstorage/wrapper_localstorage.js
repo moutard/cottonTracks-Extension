@@ -60,6 +60,11 @@ Cotton.DB.LocalStorage.Wrapper = Cotton.DB.Wrapper.extend({
     this._oEngine.put(sObjectStoreName, dItem, mOnSaveCallback);
   },
 
+  putUnique : function(sObjectStoreName, oObject, mOnSaveCallback) {
+
+    this._oEngine.putUnique(sObjectStoreName, dItem, mOnSaveCallback);
+  },
+
   delete : function() {
 
   },

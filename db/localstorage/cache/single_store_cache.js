@@ -98,5 +98,23 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     this.set(lResults);
   },
 
+  /**
+   * Put a item in the cache with url uniqueness.
+   */
+  putUnique : function(dItem) {
+    var lResults = this.get();
+    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+      if (dPoolItem['sUrl'] === dItem['sUrl']){
+        lResults.splice(i,1);
+        break;
+      }
+    }
+    // We could use string to avoid problem with too long int but here it's
+    // not a problem here because date are less that 10^53.
+    dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+    lResults.push(dItem);
+    this.set(lResults);
+  }
+
 });
 

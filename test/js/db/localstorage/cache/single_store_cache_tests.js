@@ -1,5 +1,6 @@
 var dataTest = [
                 {
+                  sUrl: "https://www.github.com",
                   fLastVisitTime: 1360338084196.688,
                   fRelevance: null,
                   id: 1,
@@ -10,6 +11,7 @@ var dataTest = [
                   sTitle: "My Reviews | git.corp Code Review",
                 },
                 {
+                  sUrl: "http://www.ltutech.com/",
                   fLastVisitTime: 1360331471984.9082,
                   fRelevance: null,
                   lTags: [],
@@ -19,6 +21,7 @@ var dataTest = [
                   sTitle: "LTU",
                 },
                 {
+                  sUrl: "http://docs.ltutech.com/",
                   fLastVisitTime: 1360329780640.9968,
                   fRelevance: null,
                   lTags: [],
@@ -28,6 +31,7 @@ var dataTest = [
                   sTitle: "Add New Promotion ‹ LTU — WordPress",
                 },
                 {
+                  sUrl: "http://www.spclarke.com/wp-content/uploads/2011/11/platters-singing.jpg",
                   fLastVisitTime: 1359718583764.991,
                   fRelevance: null,
                   lTags: [],
@@ -64,6 +68,16 @@ test("put", function() {
   var dHistoryItem = oSingleCache.get();
   delete dHistoryItem['sExpiracyDate'];
   deepEqual(oSingleCache.get(), [dataTest[0]]);
+});
+
+test("putUnique", function() {
+  oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
+  oSingleCache.putUnique(dataTest[0]);
+  oSingleCache.putUnique(dataTest[0]);
+  oSingleCache.putUnique(dataTest[1]);
+  var dHistoryItem = oSingleCache.get();
+  delete dHistoryItem['sExpiracyDate'];
+  deepEqual(oSingleCache.get(), [dataTest[0], dataTest[1]]);
 });
 
 test("getFresh updates the store with expiracy 0.", function() {
