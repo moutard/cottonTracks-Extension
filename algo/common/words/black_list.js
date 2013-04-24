@@ -29,7 +29,7 @@ var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipéd
 "| Rap Genius",
 ".jpg", ".jpeg", ".png", ".gif", ".pdf"
 ];
-  var sCleanTitle = sTitle;
+  var sCleanTitle = "" + sTitle;
   for (var i = 0,
     sExpression; sExpression = Cotton.Algo.Common.Words.BlacklistExpressions[i]; i++){
       sCleanTitle = sCleanTitle.replace(sExpression,"");
