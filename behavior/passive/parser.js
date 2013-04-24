@@ -234,14 +234,16 @@ Cotton.Behavior.Passive.Parser = Class
       },
 
       _markMeaningfulBlock : function($block) {
-        this._lAllParagraphs.push($block.text());
-        // this._lMeaningfulBlock.push($block);
-        var i = this._iNbMeaningfulBlock;
-        this._iNbMeaningfulBlock += 1;
-        $block.attr('data-meaningful', 'true');
-        $block.attr('ct-id', i);
-        if (Cotton.Config.Parameters.bDevMode === true) {
-          $block.css('border', '1px dashed #35d');
+        if (! $block.attr('data-meaningful')) {
+          this._lAllParagraphs.push($block.text());
+          // this._lMeaningfulBlock.push($block);
+          var i = this._iNbMeaningfulBlock;
+          this._iNbMeaningfulBlock += 1;
+          $block.attr('data-meaningful', 'true');
+          $block.attr('ct-id', i);
+          if (Cotton.Config.Parameters.bDevMode === true) {
+            $block.css('border', '1px dashed #35d');
+          }
         }
       },
 
