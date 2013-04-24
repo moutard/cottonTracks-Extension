@@ -109,7 +109,7 @@ Cotton.Behavior.Passive.Parser = Class
         var self = this;
 
         // TODO(fwouts): Move constants.
-        var MIN_PARAGRAPH_CONTAINER_WIDTH = 400;
+        var MIN_PARAGRAPH_CONTAINER_WIDTH = 319;
         var MIN_BR_FOR_TEXT_CONTAINER = 5;
         var MIN_OBJECT_WIDTH = 400;
         var MIN_OBJECT_HEIGHT = 300;
