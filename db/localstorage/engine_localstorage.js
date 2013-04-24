@@ -72,6 +72,19 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
     self._oDb.setItem(self._getStoreLocation(sObjectStoreName), JSON.stringify(lResults));
   },
 
+  putUnique : function(sObjectStoreName, dItem) {
+    var self = this;
+    var lResults = self.getList(sObjectStoreName);
+    for (var i = 0, dLocalstorageItem; dLocalstorageItem = lResults[i]; i++){
+      if (dLocalstorageItem['sUrl'] === dItem['sUrl']){
+        lResults.splice(i,1);
+        break;
+      }
+    }
+    lResults.push(dItem);
+    self._oDb.setItem(self._getStoreLocation(sObjectStoreName), JSON.stringify(lResults));
+  },
+
   delete : function() {
 
   },
