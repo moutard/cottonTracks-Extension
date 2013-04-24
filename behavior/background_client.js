@@ -70,7 +70,9 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       DEBUG && console.debug('DBSync create history item', {
         'item': oItem, 'response': response
       });
-      typeof mCallback === 'function' && mCallback(response);
+      if(typeof mCallback === 'function'){
+        mCallback.call(this, response);
+      }
     });
   },
 
