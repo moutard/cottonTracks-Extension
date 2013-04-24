@@ -119,7 +119,7 @@ Cotton.Behavior.Passive.Parser = Class
       parse : function() {
         this._publishStart();
         $('[data-meaningful]').removeAttr('data-meaningful');
-        this._findMeaningfulBlocks();
+        this._findText();
         this.findBestImage();
         this._saveResults();
         this._publishResults();
@@ -131,121 +131,36 @@ Cotton.Behavior.Passive.Parser = Class
        *
        * @returns
        */
-      _findMeaningfulBlocks : function() {
+      _findText : function() {
         var self = this;
-
-        $('p, dd').each(
-            function() {
-              var $paragraph = $(this);
-
-              // Cotton.Utils.log("Parsing the paragraph:");
-              // Cotton.Utils.log($paragraph.text());
-
-              // In any article, the text should have a sufficient width to be
-              // comfortable
-              // to read for the user (except maybe in multi-column layouts?).
-              // We however take into account the case of articles starting with
-              // an image
-              // floating on the left/right side, so we do not consider the
-              // width of the
-              // paragraph itself (which depends on other factors, such as the
-              // value of the
-              // CSS property overflow), but instead we consider the width of
-              // its container.
-              if ($paragraph.width() < self._MIN_PARAGRAPH_WIDTH) {
-                // If the container is not big enough, then we ignore the
-                // paragraph.
-                // For example, it could be a small message "Connect with your
-                // email"
-                // in a sidebar.
-                // Cotton.Utils.log("Ignoring because of insufficient width.");
-                return true;
-              }
-
-              // If the paragraph's container is big enough, it does not
-              // necessarily mean
-              // that the paragraph contains useful textual information. We
-              // analyze it to
-              // extract basic sentence patterns and "count" its length.
-              // We count sentences that "long enough" (e.g. containing at least
-              // three
-              // long-enough words).
-
-              // Cotton.Utils.log("Searching for sentences...");
-
-              // TODO(fwouts): Consider something else than text()?
-              var lSentencesMatching = $paragraph.text().match(
-                  self._SENTENCE_REGEX);
-              if (lSentencesMatching) {
-                // Cotton.Utils.log(lSentencesMatching.length
-                // + " sentences found.");
-                self._markMeaningfulBlock($paragraph);
-              } else {
-                // Cotton.Utils.log("No sentences found.");
-              }
-            });
-
-        // In some websites, there are no <p> nodes containing the text, instead
-        // there is only
-        // a bunch of text where paragraphs are separated by <br /> (e.g.
-        // www.clubic.com).
-        // We try to detect those text-containing blocks.
-        // TODO(fwouts): Improve the method here.
-        $('br').each(function() {
-          var $parent = $(this).parent();
-          if ($parent.is('p, dd') || $parent.find('p').length > 0) {
-            // Since the parent is a paragraph, we already considered it above.
-            return true;
-          }
-          var iBrCount = $parent.find('br').length;
-          if (iBrCount > self._MIN_BR_FOR_TEXT_CONTAINER) {
-            if ($parent.width() > self._MIN_PARAGRAPH_WIDTH) {
-              self._markMeaningfulBlock($parent);
+        var oTextWalker = document.createTreeWalker(
+          document.body,
+          NodeFilter.SHOW_TEXT,
+          function(oNode){
+            var oParent = oNode.parentNode;
+            if (oNode.textContent.match(self._SENTENCE_REGEX)
+              && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH) {
+                return NodeFilter.FILTER_ACCEPT
             }
-          }
-        });
-
-        // Loop through all interactive content such as Flash.
-        // Cotton.Utils.log("Finding all potentially meaningful objects...");
-        $('object, img').each(
-            function() {
-              var $object = $(this);
-              if ($object.width() < self._MIN_OBJECT_WIDTH
-                  || $object.height() < self._MIN_OBJECT_HEIGHT) {
-                // Cotton.Utils.log("Ignoring because of insufficient size.");
-                return true;
-              }
-              // Since the object is big enough, we can consider that it belongs
-              // to the content block.
-              self._markMeaningfulBlock($object);
-            });
-
-        // Take into consideration <pre> (for websites such as StackOverflow).
-        $('pre').each(function() {
-          var $pre = $(this);
-          if ($pre.width() < self._MIN_PRE_WIDTH || $pre.height()
-            < self._MIN_PRE_HEIGHT) {
-            // Cotton.Utils.log("Ignoring because of insufficient size.");
-            return true;
-          }
-          self._markMeaningfulBlock($pre);
-        });
-
-        // TODO(fwouts): Explore other types of containers such as <table>,
-        // <li>.
+            return NodeFilter.FILTER_SKIP;
+          },
+          false
+        );
+        while(oTextWalker.nextNode()) {
+          var oCurrentNode = oTextWalker.currentNode;
+          self._markMeaningful(oCurrentNode);
+        }
       },
 
-      _markMeaningfulBlock : function($block) {
-        if (! $block.attr('data-meaningful')) {
-          this._lAllParagraphs.push($block.text());
-          // this._lMeaningfulBlock.push($block);
-          var i = this._iNbMeaningfulBlock;
-          this._iNbMeaningfulBlock += 1;
-          $block.attr('data-meaningful', 'true');
-          $block.attr('ct-id', i);
-          if (Cotton.Config.Parameters.bDevMode === true) {
-            $block.css('border', '1px dashed #35d');
-          }
+      _markMeaningful : function(oNode) {
+        var i = this._iNbMeaningfulBlock;
+        var oParent = oNode.parentNode;
+        this._lAllParagraphs.push(oParent.textContent);
+        this._iNbMeaningfulBlock += 1;
+        oParent.setAttribute('data-meaningful', 'true');
+        oParent.setAttribute('ct-id', i);
+        if (Cotton.Config.Parameters.bDevMode === true) {
+          oParent.style.border = '1px dashed #35d';
         }
       },
 
