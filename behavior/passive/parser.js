@@ -27,6 +27,17 @@ Cotton.Behavior.Passive.Parser = Class
 
       _oClient : null,
 
+      /*
+       * Parameters
+       */
+      _MIN_PARAGRAPH_WIDTH : null,
+      _MIN_BR_FOR_TEXT_CONTAINER : null,
+      _MIN_OBJECT_WIDTH : null,
+      _MIN_OBJECT_HEIGHT : null,
+      _MIN_PRE_WIDTH : null,
+      _MIN_PRE_HEIGHT : null,
+      _SENTENCE_REGEX : null,
+
       /**
        *
        */
@@ -37,6 +48,22 @@ Cotton.Behavior.Passive.Parser = Class
         this._sBestImage = "";
         this._oClient = oClient;
         this.getFirstInfoFromPage(oClient.current());
+        this._MIN_PARAGRAPH_WIDTH = 319;
+        this._MIN_BR_FOR_TEXT_CONTAINER = 5;
+        this._MIN_OBJECT_WIDTH = 400;
+        this._MIN_OBJECT_HEIGHT = 300;
+        this._MIN_PRE_WIDTH = 400;
+        this._MIN_PRE_HEIGHT = 100;
+        // Detects sentences containing at least three separate words of at
+        // least three
+        // letters each.
+        // TODO(fwouts): Handle accentuated capitals? Handle languages not
+        // following
+        // this convention?
+        // TODO(fwouts): Find a way to have the final punctuation too (causes an
+        // infinite loop
+        // on http://api.jquery.com/parent-selector/).
+        this._SENTENCE_REGEX = /[A-Z][^.!?]*([\w]{3,} [^.!?]*){3,}/g;
       },
 
       /**
@@ -107,32 +134,6 @@ Cotton.Behavior.Passive.Parser = Class
       _findMeaningfulBlocks : function() {
         var self = this;
 
-        // TODO(fwouts): Move constants.
-        var MIN_PARAGRAPH_CONTAINER_WIDTH = 319;
-        var MIN_BR_FOR_TEXT_CONTAINER = 5;
-        var MIN_OBJECT_WIDTH = 400;
-        var MIN_OBJECT_HEIGHT = 300;
-        var MIN_PRE_WIDTH = 400;
-        var MIN_PRE_HEIGHT = 100;
-
-        // Detects sentences containing at least three separate words of at
-        // least three
-        // letters each.
-        // TODO(fwouts): Handle accentuated capitals? Handle languages not
-        // following
-        // this convention?
-        // TODO(fwouts): Find a way to have the final punctuation too (causes an
-        // infinite loop
-        // on http://api.jquery.com/parent-selector/).
-        var rLongEnoughSentenceRegex = /[A-Z][^.!?]*([\w]{3,} [^.!?]*){3,}/g;
-
-        // TODO(fwouts): Maybe use livequery to handle dynamic content changes.
-
-        // alert("This is a sentence that should be
-        // matching.".match(rLongEnoughSentenceRegex));
-
-        // Loop through all the paragraphs to find the actual textual content.
-        // Cotton.Utils.log("Finding all potentially meaningful paragraphs...");
         $('p, dd').each(
             function() {
               var $paragraph = $(this);
@@ -151,7 +152,7 @@ Cotton.Behavior.Passive.Parser = Class
               // value of the
               // CSS property overflow), but instead we consider the width of
               // its container.
-              if ($paragraph.width() < MIN_PARAGRAPH_CONTAINER_WIDTH) {
+              if ($paragraph.width() < self._MIN_PARAGRAPH_WIDTH) {
                 // If the container is not big enough, then we ignore the
                 // paragraph.
                 // For example, it could be a small message "Connect with your
@@ -174,7 +175,7 @@ Cotton.Behavior.Passive.Parser = Class
 
               // TODO(fwouts): Consider something else than text()?
               var lSentencesMatching = $paragraph.text().match(
-                  rLongEnoughSentenceRegex);
+                  self._SENTENCE_REGEX);
               if (lSentencesMatching) {
                 // Cotton.Utils.log(lSentencesMatching.length
                 // + " sentences found.");
@@ -197,8 +198,8 @@ Cotton.Behavior.Passive.Parser = Class
             return true;
           }
           var iBrCount = $parent.find('br').length;
-          if (iBrCount > MIN_BR_FOR_TEXT_CONTAINER) {
-            if ($parent.width() > MIN_PARAGRAPH_CONTAINER_WIDTH) {
+          if (iBrCount > self._MIN_BR_FOR_TEXT_CONTAINER) {
+            if ($parent.width() > self._MIN_PARAGRAPH_WIDTH) {
               self._markMeaningfulBlock($parent);
             }
           }
@@ -209,8 +210,8 @@ Cotton.Behavior.Passive.Parser = Class
         $('object, img').each(
             function() {
               var $object = $(this);
-              if ($object.width() < MIN_OBJECT_WIDTH
-                  || $object.height() < MIN_OBJECT_HEIGHT) {
+              if ($object.width() < self._MIN_OBJECT_WIDTH
+                  || $object.height() < self._MIN_OBJECT_HEIGHT) {
                 // Cotton.Utils.log("Ignoring because of insufficient size.");
                 return true;
               }
@@ -222,7 +223,8 @@ Cotton.Behavior.Passive.Parser = Class
         // Take into consideration <pre> (for websites such as StackOverflow).
         $('pre').each(function() {
           var $pre = $(this);
-          if ($pre.width() < MIN_PRE_WIDTH || $pre.height() < MIN_PRE_HEIGHT) {
+          if ($pre.width() < self._MIN_PRE_WIDTH || $pre.height()
+            < self._MIN_PRE_HEIGHT) {
             // Cotton.Utils.log("Ignoring because of insufficient size.");
             return true;
           }
