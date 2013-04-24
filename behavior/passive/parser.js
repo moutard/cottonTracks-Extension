@@ -137,7 +137,6 @@ Cotton.Behavior.Passive.Parser = Class
         $('p, dd').each(
             function() {
               var $paragraph = $(this);
-              var $container = $paragraph.parent();
 
               // Cotton.Utils.log("Parsing the paragraph:");
               // Cotton.Utils.log($paragraph.text());
@@ -153,7 +152,7 @@ Cotton.Behavior.Passive.Parser = Class
               // value of the
               // CSS property overflow), but instead we consider the width of
               // its container.
-              if ($container.width() < MIN_PARAGRAPH_CONTAINER_WIDTH) {
+              if ($paragraph.width() < MIN_PARAGRAPH_CONTAINER_WIDTH) {
                 // If the container is not big enough, then we ignore the
                 // paragraph.
                 // For example, it could be a small message "Connect with your
