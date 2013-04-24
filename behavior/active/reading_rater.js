@@ -402,8 +402,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
     var $meaningfulAncestors1 = $(oNode1).parents('[data-meaningful]');
     var $meaningfulAncestors2 = $(oNode2).parents('[data-meaningful]');
-    var lIntersectingAncestors = _.intersect(_.toArray($meaningfulAncestors1),
-        _.toArray($meaningfulAncestors2));
+    var lIntersectingAncestors = [];
+    var lMeaningfulAncestors1 = $meaningfulAncestors1.toArray();
+    var lMeaningfulAncestors2 = $meaningfulAncestors2.toArray();
+    for (var i = 0, $ancestor1; $ancestor1 = lMeaningfulAncestors1[i]; i++){
+      for (var j = 0, $ancestor2; $ancestor2 = lMeaningfulAncestors2[j]; j++){
+        if ($ancestor1 === $ancestor2){
+          lIntersectingAncestors.push($ancestor1);
+        }
+      }
+    }
     return $(lIntersectingAncestors);
   },
 
