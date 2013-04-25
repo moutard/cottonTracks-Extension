@@ -363,7 +363,6 @@
     height: 150px;
     display: table;
     background-color: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
 
     > p{
       color: rgba(255, 255, 255, 0.7);
@@ -372,6 +371,40 @@
       display: table-cell;
       vertical-align: middle;
       text-align: center;
+      cursor: pointer;
+
+      &.hidden{
+        display: none;
+      }
+    }
+
+    > .navigation_bar{
+      position: absolute;
+      width: 33px;
+      right: 0;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.5);
+      border-left: solid 1px;
+      border-color: rgba(0,0,0,0.3);
+
+      > .arrow{
+        position: absolute;
+        left: 10px;
+        cursor: pointer;
+
+        &.hidden{
+          display: none;
+        }
+
+        &.next_items{
+          top: 48px;
+        }
+
+        &.previous_items{
+          top: 84px;
+          -webkit-transform: rotate(180deg);
+        }
+      }
     }
   }
 
