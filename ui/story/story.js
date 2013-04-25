@@ -5,9 +5,6 @@
  */
 Cotton.UI.Story.Element = Class.extend({
 
-  // parent element.
-  _oWorld : null,
-
   /**
    * {Cotton.Model.Story} _oStory
    */
@@ -25,9 +22,8 @@ Cotton.UI.Story.Element = Class.extend({
   //
   _bScrolledStory : null,
 
-  init : function(oStory, oDispatcher, oWorld) {
+  init : function(oStory, oDispatcher) {
     var self = this;
-    this._oWorld = oWorld;
     this._oDispatcher = oDispatcher;
     this._oStory = oStory;
     this._lItems = [];
@@ -56,6 +52,10 @@ Cotton.UI.Story.Element = Class.extend({
       // operation faster to avoid the reflow.
       lDOMItems.push(oItem.$());
     }
+    // put the "add element block at the end of the story"
+    var oAddItem = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, this);
+    lDOMItems.push(oAddItem.$());
+
     this._oDispatcher.publish('update_filters', dFilters);
 
     this._oDispatcher.subscribe('story:filter', this, function(dArguments){
