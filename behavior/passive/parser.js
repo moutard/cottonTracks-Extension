@@ -16,11 +16,6 @@ Cotton.Behavior.Passive.Parser = Class
       _sBestImage : null,
 
       /**
-       * Meaningful blocks
-       */
-      _lMeaningfulBlocks : null,
-
-      /**
        * All paragraphs, for reader
        */
       _lAllParagraphs : null,
@@ -42,8 +37,6 @@ Cotton.Behavior.Passive.Parser = Class
        *
        */
       init : function(oClient) {
-        this._MeaningFulBlocks = [];
-        this._iNbMeaningfulBlock = 0;
         this._lAllParagraphs = [];
         this._sBestImage = "";
         this._oClient = oClient;
@@ -153,12 +146,11 @@ Cotton.Behavior.Passive.Parser = Class
       },
 
       _markMeaningful : function(oNode) {
-        var i = this._iNbMeaningfulBlock;
         var oParent = oNode.parentNode;
         this._lAllParagraphs.push(oParent.textContent);
         this._iNbMeaningfulBlock += 1;
         oParent.setAttribute('data-meaningful', 'true');
-        oParent.setAttribute('ct-id', i);
+        oParent.setAttribute('ct-id', this._lAllParagraphs.length);
         if (Cotton.Config.Parameters.bDevMode === true) {
           oParent.style.border = '1px dashed #35d';
         }
