@@ -101,8 +101,8 @@ Cotton.UI.SideMenu.Filters = Class.extend({
   decrementFilter : function (sFilter){
     if (this._dFilters[sFilter]) {
       this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] - 1);
-      this.setFilterCount('all', this._dFilters['all']['count'] - 1);
     }
+    this.setFilterCount('all', this._dFilters['all']['count'] - 1);
   },
 
   incrementFilter : function (sFilter){
