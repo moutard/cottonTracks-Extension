@@ -13,7 +13,7 @@ Cotton.UI.Story.Element = Class.extend({
   /**
    * {Array.<Cotton.UI.Story.Item.Element>}
    */
-  _lItems : [],
+  _lDOMItems : [],
 
   _oAddItems : null,
 
@@ -43,29 +43,15 @@ Cotton.UI.Story.Element = Class.extend({
       this._$itemsContainer
     );
 
-    this.initPlaceItems();
-
     // Fill the story with the historyItems.
-    var lDOMItems = [];
     var dFilters = {};
     var lHistoryItems = oStory.historyItems();
-    for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
-      var oHistoryItem = lHistoryItems[i];
-      var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
-        this._oDispatcher, this);
-      dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
-      this._lItems.push(oItem);
-      // create a temp array that will be passed as jQuery.
-      // jQuery use documentFragment to append array to the DOM making this
-      // operation faster to avoid the reflow.
-      lDOMItems.push(oItem.$());
-      this._$itemsContainer.isotope('insert', oItem.$());
-    }
-    // put the "add element block at the end of the story"
-    this._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, this);
-    this._$itemsContainer.isotope('insert', this._oAddItems.$());
 
-    this._oDispatcher.publish('update_filters', dFilters);
+    this.placeItems(lHistoryItems, dFilters, function(dFilters){
+      // put the "add element block at the end of the story"
+      self._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, self);
+      self._$itemsContainer.isotope('insert', self._oAddItems.$());
+    });
 
     this._oDispatcher.subscribe('story:filter', this, function(dArguments){
       // Show only the elements that have this data-filter.
@@ -80,8 +66,8 @@ Cotton.UI.Story.Element = Class.extend({
 
     // Delete element
     this._oDispatcher.subscribe("item:delete", this, function(dArguments){
-      for (var i = 0, iLength = lDOMItems.length; i < iLength; i++){
-        var $item = lDOMItems[i];
+      for (var i = 0, iLength = self._lDOMItems.length; i < iLength; i++){
+        var $item = self._lDOMItems[i];
         if ($item.attr('id') == dArguments['id']){
           self.removeDOMItem(i, $item);
         }
@@ -117,12 +103,39 @@ Cotton.UI.Story.Element = Class.extend({
     this._$itemsContainer.isotope('remove', $item, function(){});
   },
 
-  initPlaceItems: function() {
+  initPlaceItems : function() {
     this._$itemsContainer.isotope({
       'itemSelector' : '.ct-story_item',
       'layoutMode' : 'fitColumns',
       'animationEngine' : 'css'
     });
+  },
+
+  placeItems : function(lHistoryItems, dFilters, mCallback){
+    if (lHistoryItems && lHistoryItems.length > 0){
+      this.placeItem(lHistoryItems, 0, dFilters,mCallback);
+    }
+  },
+
+  placeItem : function(lHistoryItems, iPosition, dFilters, mCallback){
+    var self = this;
+    this.initPlaceItems();
+    if (lHistoryItems.length > iPosition){
+      var oHistoryItem = lHistoryItems[iPosition];
+      var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
+        self._oDispatcher, self);
+      dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
+      self._oDispatcher.publish('update_filters', dFilters);
+      self._lDOMItems.push(oItem.$())
+      self._$itemsContainer.isotope('insert', oItem.$());
+      setTimeout(function(){
+        self.placeItem(lHistoryItems, iPosition + 1, dFilters, mCallback);
+      }, 100);
+    } else {
+      if (mCallback){
+        mCallback.call(this, dFilters);
+      }
+    }
   },
 
   update : function() {
