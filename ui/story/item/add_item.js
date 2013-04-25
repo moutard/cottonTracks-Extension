@@ -32,9 +32,29 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
 
   showItems : function(lItemsFromPool) {
     this._$default_add_text.addClass('hidden');
+    this._$items_to_add = $('<div class="items_to_add"></div>');
     if (lItemsFromPool && lItemsFromPool.length > 3){
       this.appendNavigationBar();
     }
+    var lDOMItems = [];
+    for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
+      var $itemFromPool = $('<div class="item_from_pool"></div>');
+      var $title = ('<h3>' + oHistoryItem.title() + '</h3>');
+      var oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(
+        oHistoryItem.url());
+      $itemFromPool.append(
+        $title,
+        oWebsite.$()
+      );
+      lDOMItems.push($itemFromPool);
+    }
+    this._$topmost_line = $('<div class="separation_line topmost"></div>');
+    this._$bottommost_line = $('<div class="separation_line bottommost"></div>');
+    this._$add_item.append(this._$items_to_add.append(
+      lDOMItems,
+      this._$topmost_line,
+      this._$bottommost_line
+    ));
   },
 
   appendNavigationBar : function(){
@@ -42,9 +62,11 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     this._$next_items_arrow =
       $('<img class="arrow next_items" src="/media/images/story/item/add_item/arrow.png"/>');
     this._$previous_items_arrow =
-      $('<img class="arrow previous_items" src="/media/images/story/item/add_item/arrow.png"/>').addClass('hidden');
+      $('<img class="arrow previous_items" src="/media/images/story/item/add_item/arrow_grey.png"/>');
     this._$add_item.append(
       this._$navigation_bar.append(
+        this._$next_items_arrow,
+        this._$previous_items_arrow
       )
     );
   }
