@@ -114,6 +114,20 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
     lResults.push(dItem);
     this.set(lResults);
+  },
+
+  /**
+   * Put an item in the cache.
+   */
+  delete : function(iId) {
+    var lResults = this.get();
+    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+      if (dPoolItem['id'] === iId){
+        lResults.splice(i,1);
+        break;
+      }
+    }
+    this.set(lResults);
   }
 
 });
