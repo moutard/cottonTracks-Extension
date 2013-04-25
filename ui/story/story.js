@@ -38,6 +38,12 @@ Cotton.UI.Story.Element = Class.extend({
       }
     });
     this._$itemsContainer = $('<div class="ct-items_container"></div>');
+    // Create element.
+    this._$story.append(
+      this._$itemsContainer
+    );
+
+    this.initPlaceItems();
 
     // Fill the story with the historyItems.
     var lDOMItems = [];
@@ -53,10 +59,11 @@ Cotton.UI.Story.Element = Class.extend({
       // jQuery use documentFragment to append array to the DOM making this
       // operation faster to avoid the reflow.
       lDOMItems.push(oItem.$());
+      this._$itemsContainer.isotope('insert', oItem.$());
     }
     // put the "add element block at the end of the story"
     this._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, this);
-    lDOMItems.push(this._oAddItems.$());
+    this._$itemsContainer.isotope('insert', this._oAddItems.$());
 
     this._oDispatcher.publish('update_filters', dFilters);
 
@@ -80,10 +87,6 @@ Cotton.UI.Story.Element = Class.extend({
         }
       }
     });
-    // Create element.
-    this._$story.append(
-      this._$itemsContainer.append(lDOMItems)
-    );
 
   },
 
