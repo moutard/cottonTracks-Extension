@@ -76,6 +76,7 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     var self = this;
     var $itemFromPool = $('<div class="item_from_pool"></div>').click(function(){
       self._oDispatcher.publish('add_historyItem', {'historyItem': oHistoryItem});
+      $(this).addClass('hidden');
     });
     return $itemFromPool;
   },

@@ -83,7 +83,6 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
       lFreshItems = lFreshItems.slice(0, this._iMaxSize - 1);
     }
     this.set(lFreshItems);
-  },
-
+  }
 });
 
