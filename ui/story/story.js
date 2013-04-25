@@ -88,10 +88,6 @@ Cotton.UI.Story.Element = Class.extend({
       }
     });
 
-    this._oDispatcher.subscribe('add_historyItem', this, function(dArguments){
-      self.addHistoryItem(dArguments['historyItem'])
-    });
-
   },
 
   $ : function() {

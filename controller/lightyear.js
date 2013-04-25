@@ -95,8 +95,19 @@ Cotton.Controllers.Lightyear = Class.extend({
     // add new element from the pool
     this._oDispatcher.subscribe("show_elements", this, function(dArguments){
       self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
-      var lNewElements = self.orderPool(self._oPool);
-      self._oWorld.storyElement().showItemsToAdd(lNewElements);
+      self.orderPool(self._oPool, function(lNewElements){
+        self._oWorld.storyElement().showItemsToAdd(lNewElements);
+      });
+    });
+
+    this._oDispatcher.subscribe('add_historyItem', this, function(dArguments){
+      var oHistoryItem = dArguments['historyItem'];
+      self._oWorld.storyElement().addHistoryItem(oHistoryItem);
+      self._oStory.addHistoryItemId(oHistoryItem.id());
+      oHistoryItem.setStoryId(self._oStory.id());
+      self._oDatabase.put('stories', self._oStory, function(iId){});
+      self._oDatabase.put('historyItems', oHistoryItem, function(iId){});
+      self._oPool.delete(oHistoryItem.id());
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -183,23 +194,28 @@ Cotton.Controllers.Lightyear = Class.extend({
     }
   },
 
-  orderPool : function(oPool){
+  orderPool : function(oPool, mCallback){
+    var self = this;
     var lPoolItems = oPool.get();
+    var lIds = [];
     var lSortedPool = [];
     for (var i = 0, dHistoryItem; dHistoryItem = lPoolItems[i]; i++){
-      var oTranslator = this._oDatabase._translatorForDbRecord('historyItems',
-        dHistoryItem);
-      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
-      oHistoryItem['scoreToStory'] = Cotton.Algo.Score.Object.historyItemToStory(
-        oHistoryItem, this._oStory);
-      lSortedPool.push(oHistoryItem);
+      lIds.push(dHistoryItem['id']);
     }
-    // sort items with most recent first
-    lSortedPool.sort(function(a,b){
-      return b['scoreToStory'] - a['scoreToStory'];
+    this._oDatabase.findGroup('historyItems', 'id', lIds, function(lHistoryItems){
+      for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
+        oHistoryItem['scoreToStory'] = Cotton.Algo.Score.Object.historyItemToStory(
+          oHistoryItem, self._oStory);
+        lSortedPool.push(oHistoryItem);
+      }
+      // sort items with most recent first
+      lSortedPool.sort(function(a,b){
+        return b['scoreToStory'] - a['scoreToStory'];
+      });
+      if (mCallback){
+        mCallback.call(self,lSortedPool);
+      }
     });
-    DEBUG && console.debug(lSortedPool);
-    return lSortedPool;
   }
 
 });
