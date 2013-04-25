@@ -46,6 +46,10 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       var sRemovedItemType = dArguments['type'];
       self.decrementFilter(sRemovedItemType);
     });
+    this._oDispatcher.subscribe('element:added', this, function(dArguments){
+      var sAddedItemType = dArguments['type'];
+      self.incrementFilter(sAddedItemType);
+    });
     this._$filters = $('<div class="ct-filters"></div>');
 
     function createFilterDOM(sFilter, sFilterCount) {
@@ -100,5 +104,12 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       this.setFilterCount('all', this._dFilters['all']['count'] - 1);
     }
   },
+
+  incrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] + 1);
+    }
+    this.setFilterCount('all', this._dFilters['all']['count'] + 1);
+  }
 
 });
