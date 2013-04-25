@@ -88,6 +88,10 @@ Cotton.UI.Story.Element = Class.extend({
       }
     });
 
+    this._oDispatcher.subscribe('add_historyItem', this, function(dArguments){
+      self.addHistoryItem(dArguments['historyItem'])
+    });
+
   },
 
   $ : function() {
@@ -99,8 +103,8 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   addHistoryItem : function(oHistoryItem) {
-    var oItemElement = new Cotton.UI.Story.Item.Element(oDispatcher, oHistoryItem);
-    this._$itemsContainer.append(oItemElement);
+    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._oDispatcher, this);
+    this._$itemsContainer.isotope('insert', oItemElement.$());
   },
 
   recycleItem : function(oHistoryItem) {
