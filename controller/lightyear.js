@@ -16,6 +16,12 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oDatabase : null,
 
   /**
+   * Pool of historyItems.
+   * Needed for the "add element in story" feature.
+   */
+  _oPool : null,
+
+  /**
    * Sender for handle core message. (Chrome message)
    */
   _oSender : null,
@@ -84,6 +90,12 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDispatcher.subscribe("refresh_item", this, function(dArguments){
       self.recycleItem(dArguments['id']);
       self.recycleMenu();
+    });
+
+    // add new element from the pool
+    this._oDispatcher.subscribe("show_elements", this, function(dArguments){
+      self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
+      var lNewElements = self.orderPool(self._oPool);
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -168,6 +180,25 @@ Cotton.Controllers.Lightyear = Class.extend({
         }
       });
     }
+  },
+
+  orderPool : function(oPool){
+    var lPoolItems = oPool.get();
+    var lSortedPool = [];
+    for (var i = 0, dHistoryItem; dHistoryItem = lPoolItems[i]; i++){
+      var oTranslator = this._oDatabase._translatorForDbRecord('historyItems',
+        dHistoryItem);
+      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+      oHistoryItem['scoreToStory'] = Cotton.Algo.Score.Object.historyItemToStory(
+        oHistoryItem, this._oStory);
+      lSortedPool.push(oHistoryItem);
+    }
+    // sort items with most recent first
+    lSortedPool.sort(function(a,b){
+      return b['scoreToStory'] - a['scoreToStory'];
+    });
+    DEBUG && console.debug(lSortedPool);
+    return lSortedPool;
   }
 
 });
