@@ -93,7 +93,6 @@ Cotton.UI.World = Class.extend({
   updateStory : function(oStory) {
     this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispatcher);
     this._$world.append(this._oStoryElement.$());
-    this._oStoryElement.initPlaceItems();
   },
 
   /**
