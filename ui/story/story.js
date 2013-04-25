@@ -101,6 +101,7 @@ Cotton.UI.Story.Element = Class.extend({
   addHistoryItem : function(oHistoryItem) {
     var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._oDispatcher, this);
     this._$itemsContainer.isotope('insert', oItemElement.$());
+    this._oDispatcher.publish('element:added',{'type': oItemElement.type()})
   },
 
   recycleItem : function(oHistoryItem) {
@@ -119,7 +120,8 @@ Cotton.UI.Story.Element = Class.extend({
   initPlaceItems: function() {
     this._$itemsContainer.isotope({
       'itemSelector' : '.ct-story_item',
-      'layoutMode' : 'fitColumns'
+      'layoutMode' : 'fitColumns',
+      'animationEngine' : 'css'
     });
   },
 
