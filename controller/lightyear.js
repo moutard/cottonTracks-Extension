@@ -96,6 +96,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDispatcher.subscribe("show_elements", this, function(dArguments){
       self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
       var lNewElements = self.orderPool(self._oPool);
+      self._oWorld.storyElement().showItemsToAdd(lNewElements);
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
