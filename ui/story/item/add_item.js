@@ -19,7 +19,9 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     this._oStoryElement = oStoryElement;
 
     this._$add_item = $('<div class="ct-story_item ct-add_item"></div>');
-    this._$add_text = $('<p>+ ADD A NEW ELEMENT</p>');
+    this._$add_text = $('<p>+ ADD A NEW ELEMENT</p>').click(function(){
+      self._oDispatcher.publish('show_elements', {});
+    });
 
     this._$add_item.append(this._$add_text);
   },
