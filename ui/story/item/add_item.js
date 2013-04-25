@@ -31,6 +31,7 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
   },
 
   showItems : function(lItemsFromPool) {
+    var self = this;
     this._$default_add_text.addClass('hidden');
     this._$items_to_add = $('<div class="items_to_add"></div>');
     if (lItemsFromPool && lItemsFromPool.length > 3){
@@ -38,7 +39,7 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     }
     var lDOMItems = [];
     for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
-      var $itemFromPool = $('<div class="item_from_pool"></div>');
+      var $itemFromPool = this.domItemFromPool(oHistoryItem);
       var $title = ('<h3>' + oHistoryItem.title() + '</h3>');
       var oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(
         oHistoryItem.url());
@@ -69,6 +70,14 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
         this._$previous_items_arrow
       )
     );
-  }
+  },
+
+  domItemFromPool : function(oHistoryItem){
+    var self = this;
+    var $itemFromPool = $('<div class="item_from_pool"></div>').click(function(){
+      self._oDispatcher.publish('add_historyItem', {'historyItem': oHistoryItem});
+    });
+    return $itemFromPool;
+  },
 
 });
