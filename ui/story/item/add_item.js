@@ -32,12 +32,31 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
 
   showItems : function(lItemsFromPool) {
     var self = this;
+
     this._$default_add_text.addClass('hidden');
-    this._$items_to_add = $('<div class="items_to_add"></div>');
+    this._$items_from_pool = $('<div class="items_from_pool"></div>');
+    this._$topmost_line = $('<div class="separation_line topmost"></div>');
+    this._$bottommost_line = $('<div class="separation_line bottommost"></div>');
+
+    this._$items_from_pool_container = $('<div class="items_from_pool_container"></div>');
+
+    this._$items_from_pool_container.isotope({
+      'itemSelector' : '.pool_item',
+      'layoutMode' : 'fitColumns',
+      'animationEngine' : 'css'
+    });
     if (lItemsFromPool && lItemsFromPool.length > 3){
       this.appendNavigationBar();
     }
     var lDOMItems = [];
+    this._$add_item.append(
+      this._$items_from_pool.append(
+        this._$items_from_pool_container.append(
+          this._$topmost_line,
+          this._$bottommost_line
+        )
+      )
+    );
     for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
       var $itemFromPool = this.domItemFromPool(oHistoryItem);
       var $title = ('<h3>' + oHistoryItem.title() + '</h3>');
@@ -47,15 +66,8 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
         $title,
         oWebsite.$()
       );
-      lDOMItems.push($itemFromPool);
+      this._$items_from_pool_container.isotope('insert', $itemFromPool);
     }
-    this._$topmost_line = $('<div class="separation_line topmost"></div>');
-    this._$bottommost_line = $('<div class="separation_line bottommost"></div>');
-    this._$add_item.append(this._$items_to_add.append(
-      lDOMItems,
-      this._$topmost_line,
-      this._$bottommost_line
-    ));
   },
 
   appendNavigationBar : function(){
@@ -74,7 +86,7 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
 
   domItemFromPool : function(oHistoryItem){
     var self = this;
-    var $itemFromPool = $('<div class="item_from_pool"></div>').click(function(){
+    var $itemFromPool = $('<div class="pool_item"></div>').click(function(){
       self._oDispatcher.publish('add_historyItem', {'historyItem': oHistoryItem});
       $(this).addClass('hidden');
     });
