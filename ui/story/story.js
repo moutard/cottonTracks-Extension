@@ -15,6 +15,8 @@ Cotton.UI.Story.Element = Class.extend({
    */
   _lItems : [],
 
+  _oAddItems : null,
+
   // current element.
   _$story : null,
   _$itemsContainer : null,
@@ -53,8 +55,8 @@ Cotton.UI.Story.Element = Class.extend({
       lDOMItems.push(oItem.$());
     }
     // put the "add element block at the end of the story"
-    var oAddItem = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, this);
-    lDOMItems.push(oAddItem.$());
+    this._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, this);
+    lDOMItems.push(this._oAddItems.$());
 
     this._oDispatcher.publish('update_filters', dFilters);
 
@@ -121,6 +123,10 @@ Cotton.UI.Story.Element = Class.extend({
   update : function() {
     this._$itemsContainer.isotope({});
   },
+
+  showItemsToAdd : function(lItemsFromPool) {
+    this._oAddItems.showItems(lItemsFromPool);
+  }
 
 });
 
