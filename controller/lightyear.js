@@ -54,6 +54,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oStory : null,
 
   /**
+   * Related stories ids
+   **/
+  _lRelatedStoriesId : null,
+
+  /**
    * list of HistoryItems in the triggered story
    **/
   _lHistoryItems : null,
@@ -112,7 +117,8 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
+        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
+        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
       self._oSender.sendMessage({
         'action': 'get_trigger_story'
@@ -121,9 +127,18 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
           self._oStory = oStory;
           // In this case the world is ready before the story has loaded.
-          if (self._bWorldReady) {
-            self._oWorld.updateMenu(oStory);
-          }
+          self._oDatabase.findGroup('searchKeywords', 'sKeyword',
+            oStory.searchKeywords(), function(lSearchKeywords){
+              self._lRelatedStoriesId = [];
+              for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+                var oSearchKeyword = lSearchKeywords[i];
+                self._lRelatedStoriesId = _.union(
+                  self._lRelatedStoriesId, oSearchKeyword.referringStoriesId());
+              };
+              if (self._bWorldReady) {
+                self._oWorld.updateMenu(oStory, self._lRelatedStoriesId.length);
+              }
+          });
           self._oDatabase.findGroup('historyItems', 'id',  oStory.historyItemsId(),
           function(lHistoryItems) {
             // sort items with most recent first

@@ -1,10 +1,12 @@
 .ct-menu {
 
 	@media (min-height : 514px){
+	.ct-toggler{position: absolute;}
 	.ct-filters{position: absolute;}
 	.ct-settings{position: absolute;}
   }
   @media (max-height : 514px){
+	.ct-toggler{position: static;}
 	.ct-filters{position: static;}
 	.ct-settings{position: static;}
   }
@@ -99,6 +101,24 @@
         &.share{
           background-image: url('/media/images/menu/sum_up/share.png');
         }
+      }
+    }
+  }
+
+  > .ct-toggler{
+    width: 100%;
+    margin: auto;
+    bottom: 175px;
+
+    > .toggle_state{
+      width: 206px;
+      margin: auto;
+      padding-left: 22px;
+      padding-top: 10px;
+      cursor: pointer;
+
+      &.hidden{
+        display: none;
       }
     }
   }
