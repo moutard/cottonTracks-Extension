@@ -59,6 +59,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _lRelatedStoriesId : null,
 
   /**
+   * Related stories
+   **/
+  _lRelatedStories : null,
+
+  /**
    * list of HistoryItems in the triggered story
    **/
   _lHistoryItems : null,
@@ -115,6 +120,21 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oPool.delete(oHistoryItem.id());
     });
 
+    this._oDispatcher.subscribe('related_stories', this, function(dArguments){
+      if (self._lRelatedStories) {
+        self._oWorld.relatedStories(self._lRelatedStories);
+      } else {
+        self._oDatabase.findGroup('stories', 'id', self._lRelatedStoriesId, function(lStories){
+          if (!lStories){
+            self._lRelatedStories = [];
+          } else{
+            self._lRelatedStories = lStories;
+            self._oWorld.relatedStories(lStories);
+          }
+        });
+      }
+    });
+
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
@@ -135,6 +155,11 @@ Cotton.Controllers.Lightyear = Class.extend({
                 self._lRelatedStoriesId = _.union(
                   self._lRelatedStoriesId, oSearchKeyword.referringStoriesId());
               };
+              for (var i = 0, iStoryId; iStoryId = self._lRelatedStoriesId[i]; i++){
+                if (iStoryId === self._oStory.id()){
+                  self._lRelatedStoriesId.splice(i,1);
+                }
+              }
               if (self._bWorldReady) {
                 self._oWorld.updateMenu(oStory, self._lRelatedStoriesId.length);
               }
