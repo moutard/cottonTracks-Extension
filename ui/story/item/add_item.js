@@ -43,32 +43,35 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     this._iPreviousItems = 0;
     this._iNextItems = 0;
 
-    if (lItemsFromPool && lItemsFromPool.length > 3){
-      this.appendNavigationBar();
-    }
+    if (!lItemsFromPool || lItemsFromPool.length ===0 ){
+      this.noItems();
+    } else {
 
-    this._$add_item.append(
-      this._$constrainer.append(
-        this._$items_from_pool
-      )
-    );
-    for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
-      var $itemFromPool = this.domItemFromPool(oHistoryItem);
-      var $title = ('<h3>' + oHistoryItem.title() + '</h3>');
-      var oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(
-        oHistoryItem.url());
-      $itemFromPool.append(
-        $title,
-        oWebsite.$()
+      this.appendNavigationBar();
+
+      this._$add_item.append(
+        this._$constrainer.append(
+          this._$items_from_pool
+        )
       );
-      this._$items_from_pool.append($itemFromPool);
-      if (i < 3){
-        this._iCurrentItems++;
-      } else {
-        this._iNextItems++;
+      for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
+        var $itemFromPool = this.domItemFromPool(oHistoryItem);
+        var $title = ('<h3>' + oHistoryItem.title() + '</h3>');
+        var oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(
+          oHistoryItem.url());
+        $itemFromPool.append(
+          $title,
+          oWebsite.$()
+        );
+        this._$items_from_pool.append($itemFromPool);
+        if (i < 3){
+          this._iCurrentItems++;
+        } else {
+          this._iNextItems++;
+        }
       }
+      this.refreshArrows();
     }
-    this.refreshArrows();
   },
 
   appendNavigationBar : function(){
@@ -136,13 +139,21 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
       self._iCurrentItems--;
       self._iNextItems -= Math.min(1, self._iNextItems);
       self.refreshArrows();
-      if (self._iCurrentItems === 0){
+      if (self._iCurrentItems === 0 && self._iPreviousItems === 0){
+        // No more element in pool
+        self._$constrainer.addClass('hidden');
+        self._$navigation_bar.addClass('hidden');
+        self.noItems();
+      } else if (self._iCurrentItems === 0){
         self.previous();
-      } else if (self._iNextItems === 0 && self._iPreviousItems === 0){
-        // No other element to add
       }
     });
     return $itemFromPool;
   },
+
+  noItems : function(){
+    this._$no_items = $('<p>No new element to add</p>');
+    this._$add_item.append(this._$no_items);
+  }
 
 });
