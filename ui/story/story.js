@@ -74,6 +74,11 @@ Cotton.UI.Story.Element = Class.extend({
       }
     });
 
+    // back to story
+    this._oDispatcher.subscribe('back_to_story', this, function(dArguments){
+      this.show();
+    });
+
   },
 
   $ : function() {
@@ -139,14 +144,18 @@ Cotton.UI.Story.Element = Class.extend({
     }
   },
 
-  update : function() {
-    this._$itemsContainer.isotope({});
-  },
-
   showItemsToAdd : function(lItemsFromPool) {
     this._oAddItems.showItems(lItemsFromPool);
-  }
+  },
 
+  hide : function() {
+    this._$story.addClass('hidden');
+  },
+
+  show : function() {
+    this._$story.removeClass('hidden');
+    this._$itemsContainer.isotope('reLayout');
+  }
 });
 
 
