@@ -75,22 +75,10 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     var self = this;
     this._$navigation_bar = $('<div class="navigation_bar"></div>');
     this._$previous_items_arrow = $('<img class="arrow previous_items"/>').click(function(){
-      if (self._iPreviousItems > 0){
-        self._iPreviousItems -= 3;
-        self._iNextItems += self._iCurrentItems;
-        self._iCurrentItems = 3;
-        self._$items_from_pool.css('top', -self._iPreviousItems * 50);
-      }
-      self.refreshArrows();
+      self.previous();
     });
     this._$next_items_arrow = $('<img class="arrow next_items"/>').click(function(){
-      if (self._iNextItems > 0){
-        self._iCurrentItems = Math.min(3, self._iNextItems);
-        self._iNextItems -= self._iCurrentItems;
-        self._iPreviousItems += 3;
-        self._$items_from_pool.css('top', -self._iPreviousItems * 50);
-      }
-      self.refreshArrows();
+      self.next();
     });
     this._$add_item.append(
       this._$navigation_bar.append(
@@ -117,6 +105,26 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     }
   },
 
+  previous : function(){
+    if (this._iPreviousItems > 0){
+      this._iPreviousItems -= 3;
+      this._iNextItems += this._iCurrentItems;
+      this._iCurrentItems = 3;
+      this._$items_from_pool.css('top', -this._iPreviousItems * 50);
+    }
+    this.refreshArrows();
+  },
+
+  next : function(){
+    if (this._iNextItems > 0){
+      this._iCurrentItems = Math.min(3, this._iNextItems);
+      this._iNextItems -= this._iCurrentItems;
+      this._iPreviousItems += 3;
+      this._$items_from_pool.css('top', -this._iPreviousItems * 50);
+    }
+    this.refreshArrows();
+  },
+
   domItemFromPool : function(oHistoryItem){
     var self = this;
     var $itemFromPool = $('<div class="pool_item"></div>').click(function(){
@@ -128,6 +136,11 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
       self._iCurrentItems--;
       self._iNextItems -= Math.min(1, self._iNextItems);
       self.refreshArrows();
+      if (self._iCurrentItems === 0){
+        self.previous();
+      } else if (self._iNextItems === 0 && self._iPreviousItems === 0){
+        // No other element to add
+      }
     });
     return $itemFromPool;
   },
