@@ -19,15 +19,15 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   _oStory : null,
 
-  _$separationLineTop : null,
   _oPreview : null,
+  _oRelatedAccess : null,
   _oFilters : null,
   _oSettings : null,
 
-  init : function(oStory, oDispatcher, oWorld) {
+  init : function(oStory, oDispatcher, iNumberOfRelated) {
 
-    this._oWorld = oWorld;
     this._oDispatcher = oDispatcher;
+    this._iRelated = iNumberOfRelated;
 
     // Current element.
     this._$menu = $('<div class="ct-menu"></div>');
@@ -36,15 +36,16 @@ Cotton.UI.SideMenu.Menu = Class.extend({
     // Sub elements.
     this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
         oStory.title(), oStory.featuredImage(), this._oDispatcher, this);
+    this._oRelatedAccess = new Cotton.UI.SideMenu.RelatedAccess(iNumberOfRelated, this._oDispatcher);
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
     this._oSettings = new Cotton.UI.SideMenu.Settings(this);
-    this._$separationLineTop = $('<div class="separation_line"></div>');
 
     this._oFilters.setFilterCount("all", oStory.historyItemsId().length);
     //construct element
     this._$menu.append(
       this._oPreview.$(),
-      this._oFilters.$().prepend(this._$separationLineTop),
+      this._oRelatedAccess.$(),
+      this._oFilters.$(),
       this._oSettings.$()
     )
   },
