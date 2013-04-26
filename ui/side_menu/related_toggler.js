@@ -4,7 +4,7 @@
  * Access button to related stories
  */
 
-Cotton.UI.SideMenu.RelatedAccess = Class.extend({
+Cotton.UI.SideMenu.RelatedToggler = Class.extend({
 
   /**
    * {Cotton.UI.SideMenu.Menu} parent element.
@@ -16,7 +16,9 @@ Cotton.UI.SideMenu.RelatedAccess = Class.extend({
    */
   _oDispatcher : null,
 
+  _$toggler : null,
   _$related_access : null,
+  _$back_to_story : null,
 
   init: function(iRelated, oDispatcher) {
     var self = this;
