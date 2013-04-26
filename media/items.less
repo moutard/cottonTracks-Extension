@@ -384,74 +384,63 @@
         width: 326px;
         overflow: hidden;
 
-      > .items_from_pool_container{
-        height: 150px;
+      > .separation_line{
+        height: 0;
         width: 326px;
-        overflow: hidden;
+        position: absolute;
+        border-top: solid 1px rgba(0,0,0,0.3);
+        border-bottom: solid 1px rgba(255,255,255,0.3);
 
-        &.full{
-          width: 100%;
+        &.topmost{
+          top: 49px;
         }
 
-        > .separation_line{
-          height: 0;
-          width: 326px;
-          position: absolute;
-          border-top: solid 1px rgba(0,0,0,0.3);
-          border-bottom: solid 1px rgba(255,255,255,0.3);
+        &.bottommost{
+          top: 99px;
+        }
+      }
 
-          &.topmost{
-            top: 49px;
-          }
+      > .pool_item{
+        position: relative;
+        height: 49px;
+        width: 326px;
+        cursor: pointer;
+        border-bottom: solid 1px rgba(0,0,0,0.3);
+        box-shadow: 0 1px 1px 0 rgba(255,255,255,0.5);
 
-          &.bottommost{
-            top: 99px;
-          }
+        > h3 {
+          position: relative;
+          top: 5px;
+          left: 10px;
+          font-weight: 100;
+          font-size: 13px;
+          line-height: 1.3em;
+          color: #333;
+          margin: 0;
+          margin-bottom: 10px;
+          padding: 0;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
 
-        > .pool_item{
-          height: 50px;
-          width: 326px;
-          cursor: pointer;
+        .ct-item_content_website {
+          height: 16px;
+          margin-left: 10px;
 
-          &.hidden{
-            display: none;
-          }
-
-          > h3 {
-            position: relative;
-            top: 5px;
-            left: 10px;
-            font-weight: 100;
-            font-size: 13px;
-            line-height: 1.3em;
+          > .url {
+            margin-left: 5px;
             color: #333;
-            margin: 0;
-            margin-bottom: 10px;
-            padding: 0;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            font-size: 12px;
+            display: inline-block;
+            height: 16px;
+            vertical-align: middle;
           }
 
-          .ct-item_content_website {
-            height: 16px;
-            margin-left: 10px;
-
-            > .url {
-              margin-left: 5px;
-              color: #333;
-              font-size: 12px;
-              display: inline-block;
-              height: 16px;
-              vertical-align: middle;
-            }
-
-            > .favicon {
-              float: left;
-              width: 18px;
-            }
+          > .favicon {
+            float: left;
+            width: 18px;
           }
         }
       }
