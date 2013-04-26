@@ -56,12 +56,14 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     function createFilterDOM(sFilter, sFilterCount) {
       sFilterCount = sFilterCount || 0;
       self._dFilters[sFilter] = {};
-      self._dFilters[sFilter]['dom'] = $('<span class="' + sFilter + '_count"></span>').text(
+      self._dFilters[sFilter]['dom'] = $('<span class="ct-count ' + sFilter + '_count"></span>').text(
         sFilterCount);
+
       return  $('<div class="ct-filter "></div>').append(
-          $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  (' : ' (')),
+          $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  ' : ' ')),
+          $('<span class="ct-count"></span>').text('('),
           self._dFilters[sFilter]['dom'],
-          $('<span></span>').text(')')).click(function(){
+          $('<span class="ct-count"></span>').text(')')).click(function(){
             // Update the story on click.
             if(sFilter === "all") {
               var sFilterCode = '*';
