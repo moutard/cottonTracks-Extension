@@ -87,6 +87,7 @@ Cotton.UI.Story.Element = Class.extend({
   addHistoryItem : function(oHistoryItem) {
     var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._oDispatcher, this);
     this._$itemsContainer.isotope('insert', oItemElement.$());
+    this._lDOMItems.push(oItemElement.$());
     this._oDispatcher.publish('element:added',{'type': oItemElement.type()})
   },
 
@@ -126,7 +127,7 @@ Cotton.UI.Story.Element = Class.extend({
         self._oDispatcher, self);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       self._oDispatcher.publish('update_filters', dFilters);
-      self._lDOMItems.push(oItem.$())
+      self._lDOMItems.push(oItem.$());
       self._$itemsContainer.isotope('insert', oItem.$());
       setTimeout(function(){
         self.placeItem(lHistoryItems, iPosition + 1, dFilters, mCallback);
