@@ -51,6 +51,7 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       self.incrementFilter(sAddedItemType);
     });
     this._$filters = $('<div class="ct-filters"></div>');
+    this._$separationLine = $('<div class="separation_line"></div>');
 
     function createFilterDOM(sFilter, sFilterCount) {
       sFilterCount = sFilterCount || 0;
@@ -79,7 +80,10 @@ Cotton.UI.SideMenu.Filters = Class.extend({
       lDOMFiltersElements.push(createFilterDOM(sFilter));
     }
     //construct element
-    this._$filters.append(lDOMFiltersElements);
+    this._$filters.append(
+      this._$separationLine,
+      lDOMFiltersElements
+    );
 
   },
 

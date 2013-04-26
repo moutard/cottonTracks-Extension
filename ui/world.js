@@ -99,9 +99,9 @@ Cotton.UI.World = Class.extend({
    * @param {Cotton.Model.Story} oStory :
    *  the story can be just with the title and the image.
    */
-  updateMenu : function(oStory) {
+  updateMenu : function(oStory, iNumberOfRelated) {
     if (!this._oSideMenu) {
-      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher);
+      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher, iNumberOfRelated);
       this._$world.append(this._oSideMenu.$());
       this._oSideMenu.slideIn();
     }
