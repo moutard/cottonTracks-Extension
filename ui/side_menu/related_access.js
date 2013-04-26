@@ -26,16 +26,16 @@ Cotton.UI.SideMenu.RelatedAccess = Class.extend({
     this._$related_access = $('<div class="ct-related_access toggle_state">Related stories ('
       + iRelated + ')</div>').click(function(){
         if (iRelated > 0){
-          self._oDispatcher.publish('related_stories', {});
           self._$related_access.addClass('hidden');
           self._$back_to_story.removeClass('hidden');
+          self._oDispatcher.publish('related_stories', {});
         }
     });
     this._$back_to_story = $('<div class="ct-back_to_story toggle_state hidden">Back to story</div>').click(
       function(){
-        self._oDispatcher.publish('back_to_story', {});
         self._$related_access.removeClass('hidden');
         self._$back_to_story.addClass('hidden');
+        self._oDispatcher.publish('back_to_story', {});
     });
 
     this._$toggler = $('<div class="ct-toggler"></div>');
