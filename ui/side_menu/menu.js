@@ -20,7 +20,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
   _oStory : null,
 
   _oPreview : null,
-  _oRelatedAccess : null,
+  _oRelatedToggler : null,
   _oFilters : null,
   _oSettings : null,
 
@@ -36,7 +36,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
     // Sub elements.
     this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
         oStory.title(), oStory.featuredImage(), this._oDispatcher, this);
-    this._oRelatedAccess = new Cotton.UI.SideMenu.RelatedAccess(iNumberOfRelated, this._oDispatcher);
+    this._oRelatedToggler = new Cotton.UI.SideMenu.RelatedToggler(iNumberOfRelated, this._oDispatcher);
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
     this._oSettings = new Cotton.UI.SideMenu.Settings(this);
 
@@ -44,7 +44,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
     //construct element
     this._$menu.append(
       this._oPreview.$(),
-      this._oRelatedAccess.$(),
+      this._oRelatedToggler.$(),
       this._oFilters.$(),
       this._oSettings.$()
     )
