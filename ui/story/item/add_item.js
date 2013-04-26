@@ -121,7 +121,10 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     var self = this;
     var $itemFromPool = $('<div class="pool_item"></div>').click(function(){
       self._oDispatcher.publish('add_historyItem', {'historyItem': oHistoryItem});
-      $(this).fadeOut();
+      $(this).addClass('collapsed');
+      setTimeout(function(){
+        $itemFromPool.addClass('hidden');
+      }, 400);
       self._iCurrentItems--;
       self._iNextItems -= Math.min(1, self._iNextItems);
       self.refreshArrows();
