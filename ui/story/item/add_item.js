@@ -37,14 +37,20 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     var self = this;
 
     this._$default_add_text.addClass('hidden');
+    this._$constrainer = $('<div class="constrainer"></div>');
     this._$items_from_pool = $('<div class="items_from_pool"></div>');
+    this._iCurrentItems = 0;
+    this._iPreviousItems = 0;
+    this._iNextItems = 0;
 
     if (lItemsFromPool && lItemsFromPool.length > 3){
       this.appendNavigationBar();
     }
 
     this._$add_item.append(
-      this._$items_from_pool
+      this._$constrainer.append(
+        this._$items_from_pool
+      )
     );
     for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
       var $itemFromPool = this.domItemFromPool(oHistoryItem);
@@ -56,15 +62,36 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
         oWebsite.$()
       );
       this._$items_from_pool.append($itemFromPool);
+      if (i < 3){
+        this._iCurrentItems++;
+      } else {
+        this._iNextItems++;
+      }
     }
+    this.refreshArrows();
   },
 
   appendNavigationBar : function(){
+    var self = this;
     this._$navigation_bar = $('<div class="navigation_bar"></div>');
-    this._$next_items_arrow =
-      $('<img class="arrow next_items" src="/media/images/story/item/add_item/arrow.png"/>');
-    this._$previous_items_arrow =
-      $('<img class="arrow previous_items" src="/media/images/story/item/add_item/arrow_grey.png"/>');
+    this._$previous_items_arrow = $('<img class="arrow previous_items"/>').click(function(){
+      if (self._iPreviousItems > 0){
+        self._iPreviousItems -= 3;
+        self._iNextItems += self._iCurrentItems;
+        self._iCurrentItems = 3;
+        self._$items_from_pool.css('top', -self._iPreviousItems * 50);
+      }
+      self.refreshArrows();
+    });
+    this._$next_items_arrow = $('<img class="arrow next_items"/>').click(function(){
+      if (self._iNextItems > 0){
+        self._iCurrentItems = Math.min(3, self._iNextItems);
+        self._iNextItems -= self._iCurrentItems;
+        self._iPreviousItems += 3;
+        self._$items_from_pool.css('top', -self._iPreviousItems * 50);
+      }
+      self.refreshArrows();
+    });
     this._$add_item.append(
       this._$navigation_bar.append(
         this._$next_items_arrow,
@@ -73,11 +100,31 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     );
   },
 
+  refreshArrows : function(){
+    if (this._iPreviousItems > 0){
+      this._$previous_items_arrow.attr('src', '/media/images/story/item/add_item/arrow.png');
+      this._$previous_items_arrow.addClass('active');
+    } else{
+      this._$previous_items_arrow.attr('src', '/media/images/story/item/add_item/arrow_grey.png');
+      this._$previous_items_arrow.removeClass('active');
+    }
+    if (this._iNextItems > 0){
+      this._$next_items_arrow.attr('src', '/media/images/story/item/add_item/arrow.png');
+      this._$next_items_arrow.addClass('active');
+    } else{
+      this._$next_items_arrow.attr('src', '/media/images/story/item/add_item/arrow_grey.png');
+      this._$next_items_arrow.removeClass('active');
+    }
+  },
+
   domItemFromPool : function(oHistoryItem){
     var self = this;
     var $itemFromPool = $('<div class="pool_item"></div>').click(function(){
       self._oDispatcher.publish('add_historyItem', {'historyItem': oHistoryItem});
       $(this).fadeOut();
+      self._iCurrentItems--;
+      self._iNextItems -= Math.min(1, self._iNextItems);
+      self.refreshArrows();
     });
     return $itemFromPool;
   },
