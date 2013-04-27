@@ -419,6 +419,10 @@ Cotton.Controllers.Background = Class.extend({
         self.wakeUp();
       }, 5000);
     }
+  },
+
+  setTriggerStory : function(iStoryId){
+    this._iTriggerStory = iStoryId;
   }
 });
 
