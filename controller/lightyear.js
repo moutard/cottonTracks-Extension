@@ -121,18 +121,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('related_stories', this, function(dArguments){
-      if (self._lRelatedStories) {
-        self._oWorld.relatedStories(self._lRelatedStories);
-      } else {
-        self._oDatabase.findGroup('stories', 'id', self._lRelatedStoriesId, function(lStories){
-          if (!lStories){
-            self._lRelatedStories = [];
-          } else{
-            self._lRelatedStories = lStories;
-            self._oWorld.relatedStories(lStories);
-          }
-        });
-      }
+      self._oWorld.relatedStories(self._lRelatedStories);
     });
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -149,20 +138,35 @@ Cotton.Controllers.Lightyear = Class.extend({
           // In this case the world is ready before the story has loaded.
           self._oDatabase.findGroup('searchKeywords', 'sKeyword',
             oStory.searchKeywords(), function(lSearchKeywords){
-              self._lRelatedStoriesId = [];
+              var lRelatedStoriesId = [];
               for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
                 var oSearchKeyword = lSearchKeywords[i];
-                self._lRelatedStoriesId = _.union(
-                  self._lRelatedStoriesId, oSearchKeyword.referringStoriesId());
+                lRelatedStoriesId = _.union(
+                  lRelatedStoriesId, oSearchKeyword.referringStoriesId());
               };
-              for (var i = 0, iStoryId; iStoryId = self._lRelatedStoriesId[i]; i++){
+              for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
                 if (iStoryId === self._oStory.id()){
-                  self._lRelatedStoriesId.splice(i,1);
+                  lRelatedStoriesId.splice(i,1);
                 }
               }
-              if (self._bWorldReady) {
-                self._oWorld.updateMenu(oStory, self._lRelatedStoriesId.length);
-              }
+              self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
+                if (!lStories){
+                  self._lRelatedStories = [];
+                } else {
+                  //take the 6 closest stories
+                  for (var i = 0, oStory; oStory = lStories[i]; i++){
+                    oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
+                  }
+                  lStories.sort(function(a,b){
+                    return b['scoreToStory'] - a['scoreToStory']
+                  });
+                  lStories = lStories.slice(0,Math.min(6, lStories.length));
+                  self._lRelatedStories = lStories;
+                }
+                if (self._bWorldReady) {
+                  self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
+                }
+              });
           });
           self._oDatabase.findGroup('historyItems', 'id',  oStory.historyItemsId(),
           function(lHistoryItems) {
