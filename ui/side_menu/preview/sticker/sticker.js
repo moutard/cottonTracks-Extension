@@ -6,12 +6,6 @@
  **/
 
 Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
-
-  /**
-   * {Cotton.UI.SideMenu.Preview} parent element.
-   */
-  _oPreview : null,
-
   /**
    * {DOM} current element.
    */
@@ -27,9 +21,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
    */
   _oStickerInfos : null,
 
-  init: function(sTile, sImage, oDispatcher, oPreview) {
-	  this._oPreview = oPreview;
-
+  init: function(sTile, sImage, oDispatcher) {
 	  this._$sticker = $('<div class="ct-sticker"></div>');
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(sImage, this);
 	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(sTile, oDispatcher,
@@ -45,10 +37,6 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 
   $ : function() {
 	  return this._$sticker;
-  },
-
-  preview : function() {
-    return this._oPreview;
   },
 
   recycle : function(oStory) {
