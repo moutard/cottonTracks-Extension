@@ -111,6 +111,7 @@ Cotton.UI.World = Class.extend({
     this._oStoryElement.hide();
     if (!this._oRelatedStories){
       this._oRelatedStories = new Cotton.UI.RelatedStories.Stories(lStories);
+      this._$world.append(this._oRelatedStories.$())
     } else {
       this._oRelatedStories.show();
     }
