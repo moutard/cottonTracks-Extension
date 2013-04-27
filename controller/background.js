@@ -151,8 +151,7 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        // not a get content
-        if(_.isEmpty(self._dTabStory)){
+        if(!self._dTabStory || self._dTabStory[lTabs[0].id] === undefined)){
           var sUrl = lTabs[0]['url'];
           var oUrl = new UrlParser(sUrl);
           if (oUrl.isGoogle && oUrl.keywords){
