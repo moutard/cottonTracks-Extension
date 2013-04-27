@@ -13,6 +13,8 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
     this._lRelatedStories = lStories
     this._$related = $('<div class="ct-related"></div>');
     this._$related_container = $('<div class="ct-related_container"></div>');
+    this._$title = $('<h2>Related Stories</h2>');
+    this._$related_container.append(this._$title);
     this.centerTop();
 
     $(window).resize(function(){
@@ -24,7 +26,8 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
       this._$related_container.append(oSticker.$());
     }
 
-    this._$related.append(this._$related_container);
+    this._$related.append(
+      this._$related_container);
   },
 
   $ : function(){
@@ -37,8 +40,8 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
 
   centerTop : function(){
     var iRows = (this._lRelatedStories.length > 3) ? 2 : 1;
-    if ($(window).height() > iRows * 242){
-      var iMargin = $(window).height() - iRows * 242;
+    if ($(window).height() > iRows * 242 + 136){
+      var iMargin = $(window).height() - (iRows * 242 + 136);
       this._$related_container.css('margin-top', iMargin/2 + "px");
     } else {
       this._$related_container.css('margin-top', 0);
