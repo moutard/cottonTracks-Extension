@@ -53,10 +53,11 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
-      Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
+      oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
           oHistoryItem, self._oMainController._oSearchCache);
+      dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
 
       if (oHistoryItem.oUrl().keywords){
         self._oMainController._oSearchCache.putUnique(dHistoryItem);
@@ -86,8 +87,6 @@ Cotton.Controllers.Messaging = Class.extend({
               'visitCount' : oHistoryItem.visitCount(),
               'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
             });
-
-
           } else {
             // See if the history items can fit in a story.
             // take keywords in bag of words with the highest score
