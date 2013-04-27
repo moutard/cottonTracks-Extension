@@ -120,6 +120,15 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oPool.delete(oHistoryItem.id());
     });
 
+    this._oDispatcher.subscribe('enter_related', this, function(dArguments){
+      self._oSender.sendMessage({
+        'action': 'change_story',
+        'params': {'story_id': dArguments['story_id']}
+      }, function(response) {
+        window.location.reload();
+      });
+    });
+
     this._oDispatcher.subscribe('related_stories', this, function(dArguments){
       self._oWorld.relatedStories(self._lRelatedStories);
     });

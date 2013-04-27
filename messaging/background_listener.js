@@ -63,6 +63,11 @@ Cotton.Controllers.BackgroundListener = Class.extend({
             self._oMessagingController.doAction(request['action'], [sendResponse]);
             break;
 
+          case 'change_story':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['story_id']]);
+            break;
+
           default:
             break;
         }

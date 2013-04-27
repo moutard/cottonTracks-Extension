@@ -239,6 +239,13 @@ Cotton.Controllers.Messaging = Class.extend({
 
   'pass_background_screenshot': function(sendResponse){
     sendResponse({'src': this._oMainController.screenshot()});
+  },
+
+  'change_story': function(sendResponse, iStoryId){
+console.log('change');
+    var self = this;
+    self._oMainController.setTriggerStory(iStoryId);
+    sendResponse({});
   }
 
 });

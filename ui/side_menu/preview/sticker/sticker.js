@@ -24,7 +24,9 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   init: function(oStory, oDispatcher, sTypeOfSticker) {
     var self = this;
 
+    this._oDispatcher = oDispatcher;
     this._oStory = oStory;
+
 	  this._$sticker = $('<div class="ct-sticker"></div>');
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
 	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(), oDispatcher,
@@ -61,7 +63,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   },
 
   enterRelatedStory : function(iStoryId){
-    this._oDispatcher.publish('enter_related', {'storyId': iStoryId});
+    this._oDispatcher.publish('enter_related', {'story_id': iStoryId});
   },
 
 
