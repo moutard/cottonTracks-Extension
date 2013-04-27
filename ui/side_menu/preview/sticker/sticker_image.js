@@ -6,18 +6,10 @@
 
 Cotton.UI.SideMenu.Preview.Sticker.Image = Class.extend({
 
-  /**
-   * {Cotton.UI.SideMenu.Preview.Sticker} parent element.
-   */
-  _oSticker : null,
-
   _$stickerImageContainer : null,
   _$stickerImage : null,
 
-  init: function(sImage, oSticker){
-
-	  this._oSticker = oSticker;
-
+  init: function(sImage){
     // Current element.
     this._$stickerImageContainer = $('<div class="ct-story_image"></div>');
 
