@@ -7,11 +7,6 @@
 Cotton.UI.SideMenu.Preview.Element = Class.extend({
 
   /**
-   * {Cotton.UI.SideMenu.Menu} parent element.
-   */
-  _oMenu : null,
-
-  /**
    * {DOM} current element.
    */
   _$preview : null,
@@ -19,12 +14,10 @@ Cotton.UI.SideMenu.Preview.Element = Class.extend({
   _oSticker : null,
   _oActions : null,
 
-  init: function(sTitle, sImage, oDispatcher, oMenu){
-    this._oMenu = oMenu;
-
+  init: function(oStory, oDispatcher, oMenu){
     this._$preview = $('<div class="ct-sum_up"></div>');
-    this._oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(sTitle, sImage,
-      oDispatcher, this);
+    this._oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory,
+      oDispatcher, 'currentStory');
     this._oActions = new Cotton.UI.SideMenu.Preview.Actions(this);
 
     //construct element
@@ -35,10 +28,6 @@ Cotton.UI.SideMenu.Preview.Element = Class.extend({
 
   $ : function(){
 	  return this._$preview;
-  },
-
-  menu : function(){
-    return this._oMenu;
   },
 
   sticker : function(){

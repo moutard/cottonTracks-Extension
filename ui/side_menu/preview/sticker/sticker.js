@@ -21,11 +21,20 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
    */
   _oStickerInfos : null,
 
-  init: function(sTile, sImage, oDispatcher) {
+  init: function(oStory, oDispatcher, sTypeOfSticker) {
+    var self = this;
+
+    this._oStory = oStory;
 	  this._$sticker = $('<div class="ct-sticker"></div>');
-	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(sImage, this);
-	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(sTile, oDispatcher,
-	    this);
+	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
+	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(), oDispatcher,
+	    sTypeOfSticker, oStory.historyItemsId().length);
+
+    if (sTypeOfSticker === "relatedStory"){
+  	  this._$sticker.click(function(){
+        self.enterRelatedStory(self._oStory.id());
+      });
+    }
 
     // Construct element.
 	  this._$sticker.append(
@@ -49,6 +58,11 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 
   stickerInfos : function() {
     return this._oStickerInfos;
-  }
+  },
+
+  enterRelatedStory : function(iStoryId){
+    this._oDispatcher.publish('enter_related', {'storyId': iStoryId});
+  },
+
 
 });

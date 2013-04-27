@@ -35,7 +35,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
     // Sub elements.
     this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
-        oStory.title(), oStory.featuredImage(), this._oDispatcher, this);
+        oStory, this._oDispatcher);
     this._oRelatedToggler = new Cotton.UI.SideMenu.RelatedToggler(iNumberOfRelated, this._oDispatcher);
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
     this._oSettings = new Cotton.UI.SideMenu.Settings(this);
