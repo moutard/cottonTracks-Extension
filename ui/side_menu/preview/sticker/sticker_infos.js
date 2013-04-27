@@ -7,11 +7,6 @@
 Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 
   /**
-   * {Cotton.UI.SideMenu.Preview.Sticker} parent element.
-   */
-  _oSticker : null,
-
-  /**
    * {Cotton.Messaging.Dispatcher} dispatcher for UI
    */
   _oDispatcher : null,
@@ -20,9 +15,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
   _$stickerTitle : null,
   _$stickerDetails : null,
 
-  init: function(sStoryTitle, oDispatcher, oSticker){
-
-	  this._oSticker = oSticker;
+  init: function(sStoryTitle, oDispatcher, sTypeOfSticker, iNumberOfItems){
 	  this._oDispatcher = oDispatcher;
 
     // Current element.
@@ -39,8 +32,12 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     var $bull = $('<span class="bull"> &bull; </span>');
     var $bull2 = $('<span class="bull"> &bull; </span>');
     var $articles_count = $('<span class="articles_count">0 article(s)</span>');
-    var $images_count = $('<span><span class="images_count">0  photo(s)</span>');
+    var $images_count = $('<span><span class="images_count">0 images(s)</span>');
     var $videos_count = $('<span><span class="videos_count">0 videos</span>');
+    if (iNumberOfItems){
+      var $total_count = $('<span><span class="total_count">' + iNumberOfItems + ' elements</span>');
+    }
+
 
     this._oDispatcher.subscribe('filter:update', this, function(dArguments){
       switch (dArguments['type']){
@@ -57,17 +54,25 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     });
 
     //construct element
-	  this._$stickerInfos.append(
-	    this._$stickerTitle,
-      this._$stickerDetails.append(
-          $articles_count,
-          $bull,
-          $images_count,
-          $bull2,
-          $videos_count
+    if (sTypeOfSticker === 'currentStory'){
+  	  this._$stickerInfos.append(
+	      this._$stickerTitle,
+        this._$stickerDetails.append(
+            $articles_count,
+            $bull,
+            $images_count,
+            $bull2,
+            $videos_count
+          )
+	    );
+    } else if (sTypeOfSticker === 'relatedStory'){
+      this._$stickerInfos.append(
+  	    this._$stickerTitle,
+        this._$stickerDetails.append(
+          $total_count
         )
-	  );
-
+  	  );
+    }
   },
 
   $ : function() {

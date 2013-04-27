@@ -1,0 +1,60 @@
+.ct-related_container{
+  width: 726px;
+  margin: auto;
+
+  > .ct-sticker {
+    position: relative;
+    float: left;
+    width: 222px;
+    height: 222px;
+    margin: 10px;
+    border-radius: 5px;
+    -webkit-border-radius: 2px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.75);
+    cursor: pointer;
+
+    > .ct-story_image {
+      position: relative;
+      width: 100%;
+      height: 174px;
+      background-image: url('/media/images/menu/sum_up/default_sticker.png');
+      overflow: hidden;
+		  -webkit-border-radius: 2px 2px 0 0;
+
+		  &.plain{
+	      background: #4d4d4d;
+	    }
+
+      > .resize {
+			   display: none;
+			   position: absolute;
+			  }
+      }
+
+    > .ct-sticker_infos {
+      position: absolute;
+      bottom: 0;
+      height: 28px;
+      width: 202px;
+			padding: 10px;
+      background-color: #262626;
+
+      > .ct-sticker_title{
+        text-transform: capitalize;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #fff;
+      }
+
+		  > .ct-sticker_details{
+			  font-size: 11px;
+			  color: #8a8a8a;
+			}
+
+		  .bull{
+			  font-size: 8px;
+			}
+    }
+  }
+}
