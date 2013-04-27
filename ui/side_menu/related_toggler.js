@@ -33,6 +33,10 @@ Cotton.UI.SideMenu.RelatedToggler = Class.extend({
           self._oDispatcher.publish('related_stories', {});
         }
     });
+    if (iRelated === 0){
+      this._$related_access.addClass('defused');
+    }
+
     this._$back_to_story = $('<div class="ct-back_to_story toggle_state hidden">Back to story</div>').click(
       function(){
         self._$related_access.removeClass('hidden');

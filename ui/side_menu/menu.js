@@ -25,7 +25,9 @@ Cotton.UI.SideMenu.Menu = Class.extend({
   _oSettings : null,
 
   init : function(oStory, oDispatcher, iNumberOfRelated) {
-
+    if (iNumberOfRelated === undefined){
+      iNumberOfRelated = 0;
+    }
     this._oDispatcher = oDispatcher;
     this._iRelated = iNumberOfRelated;
 
