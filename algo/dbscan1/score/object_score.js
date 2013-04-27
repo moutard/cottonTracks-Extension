@@ -11,3 +11,9 @@ Cotton.Algo.Score.Object.historyItemToStory = function(oHistoryItem, oStory){
       oHistoryItem.extractedDNA().bagOfWords().get(),
       oStory.dna().bagOfWords().get());
 };
+
+Cotton.Algo.Score.Object.storyToStory = function(oStory1, oStory2){
+  return Cotton.Algo.Score.DBRecord.BagOfWords(
+      oStory1.dna().bagOfWords().get(),
+      oStory2.dna().bagOfWords().get());
+};
