@@ -140,7 +140,6 @@ Cotton.Controllers.Background = Class.extend({
     chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
       if (changeInfo['status'] === 'loading'){
         chrome.browserAction.disable(tabId);
-        self.removeTabStory(tabId);
       }
     });
 
@@ -151,34 +150,27 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        if(!self._dTabStory || self._dTabStory[lTabs[0].id] === undefined)){
-          var sUrl = lTabs[0]['url'];
-          var oUrl = new UrlParser(sUrl);
-          if (oUrl.isGoogle && oUrl.keywords){
-            sUrl = oUrl.genericSearch;
-          }
-          self._oDatabase.find('historyItems',
-          'sUrl', sUrl, function(_oHistoryItem){
-            if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-              self._iTriggerStory = _oHistoryItem.storyId();
+        var sUrl = lTabs[0]['url'];
+        var oUrl = new UrlParser(sUrl);
+        if (oUrl.isGoogle && oUrl.keywords){
+          sUrl = oUrl.genericSearch;
+        }
+        self._oDatabase.find('historyItems',
+        'sUrl', sUrl, function(_oHistoryItem){
+          if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+            self._iTriggerStory = _oHistoryItem.storyId();
+            chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
+              // TODO(rkorach) : delete ct page from history
+            });
+          } else {
+            self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
+              self._iTriggerStory = iStoryId;
               chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
                 // TODO(rkorach) : delete ct page from history
               });
-            } else {
-              self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
-                self._iTriggerStory = iStoryId;
-                chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-                  // TODO(rkorach) : delete ct page from history
-                });
-              });
-            }
-          });
-        } else {
-          self._iTriggerStory = self._dTabStory[lTabs[0].id];
-          chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-            // TODO(rkorach) : delete ct page from history
-          });
-        }
+            });
+          }
+        });
       });
     });
   },
@@ -256,7 +248,9 @@ Cotton.Controllers.Background = Class.extend({
     self._oPool._refresh(lHistoryItemToKeep);
     Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
       function(oDatabase, lStories){
-       mCallback.call(self, lStories[0].id());
+        if (lStories.length > 0){
+          mCallback.call(self, lStories[0].id());
+        }
     });
 
 
@@ -406,16 +400,6 @@ Cotton.Controllers.Background = Class.extend({
   removeGetContentTab : function (iTabId) {
     delete this._dGetContentTabId[iTabId];
     chrome.tabs.remove(iTabId);
-  },
-
-  setTabStory : function (iTabId, iStoryId) {
-    this._dTabStory[iTabId] = iStoryId;
-  },
-
-  removeTabStory : function (iTabId) {
-    if (this._dTabStory[iTabId]){
-      delete this._dTabStory[iTabId];
-    }
   }
 });
 

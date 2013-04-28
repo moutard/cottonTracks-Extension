@@ -78,7 +78,6 @@ Cotton.Controllers.Messaging = Class.extend({
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
             sPutId = _oHistoryItem.storyId();
-            self._oMainController.setTabStory(sender.tab.id, _oHistoryItem.storyId());
             chrome.browserAction.enable(sender.tab.id);
             sendResponse({
               'received' : "true",
@@ -138,7 +137,6 @@ Cotton.Controllers.Messaging = Class.extend({
                       });
                       // There is a story for this item, so enable the browserAction
                       // and attach a storyId to the tab
-                      self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
                       Cotton.ANALYTICS.storyAvailable();
                       chrome.browserAction.enable(sender.tab.id);
 
