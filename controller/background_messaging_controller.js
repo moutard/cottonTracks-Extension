@@ -57,6 +57,7 @@ Cotton.Controllers.Messaging = Class.extend({
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
           oHistoryItem, self._oMainController._oSearchCache);
+      oHistoryItem.extractedDNA().setMinWeightForWord();
       dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
 
       if (oHistoryItem.oUrl().keywords){
