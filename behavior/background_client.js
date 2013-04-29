@@ -85,6 +85,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
       self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
       self._iId = response['id'];
+      self.updateVisit();
     });
   },
 
