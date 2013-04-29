@@ -49,16 +49,23 @@ Cotton.Model.BagOfWords = Class.extend({
   },
 
   preponderant : function(iNumberOfPreponderant){
-    var lPreponderant = [];
-    //TODO(rmoutard) : find a faster method.
-    _.each(_.pairs(this._dBag).sort(function(lPairA, lPairB){
-      // Sort by increasing order.
-      return lPairB[1] - lPairA[1];
-    }).slice(0, iNumberOfPreponderant), function(lPair){
-      lPreponderant.push(lPair[0]);
-    });
+    var lSortedWordsByWeight = {};
+    var iMaxWeight = 0;
 
-    return lPreponderant;
+    for (var sKey in this._dBag){
+      if (!lSortedWordsByWeight[this._dBag[sKey]]){
+        lSortedWordsByWeight[this._dBag[sKey]] = [];
+        if (this._dBag[sKey] > iMaxWeight){
+          iMaxWeight = this._dBag[sKey];
+        }
+      }
+      lSortedWordsByWeight[this._dBag[sKey]].push(sKey);
+    }
+    if (iMaxWeight > 0){
+      return lSortedWordsByWeight[iMaxWeight];
+    } else {
+      return [];
+    }
   },
 
   size : function(){
