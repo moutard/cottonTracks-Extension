@@ -86,6 +86,7 @@ Cotton.Controllers.Background = Class.extend({
         var date = new Date();
         var month = date.getMonth() + 1;
         localStorage.setItem('cohort', month + "/" + date.getFullYear());
+        self.wakeUp();
         self.install();
       } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
         self._bInstalled = true;
@@ -128,6 +129,7 @@ Cotton.Controllers.Background = Class.extend({
             var date = new Date();
             var month = date.getMonth() + 1;
             localStorage.setItem('cohort', month + "/" + date.getFullYear());
+            self.wakeUp();
             self.install();
           } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
             self._bUpdated = true;
@@ -323,7 +325,7 @@ Cotton.Controllers.Background = Class.extend({
             // Add stories in IndexedDB.
             Cotton.DB.Stories.addStories(self._oDatabase, lStories,
               function(oDatabase, lStories){
-               // pass.
+               self._bInstallFinished = true;
             });
           });
         }
@@ -400,6 +402,24 @@ Cotton.Controllers.Background = Class.extend({
   removeGetContentTab : function (iTabId) {
     delete this._dGetContentTabId[iTabId];
     chrome.tabs.remove(iTabId);
+  },
+
+  wakeUp : function(){
+    var self = this;
+    /*
+     * HACK
+     */
+    // as long as the install and population of the database is not finished
+    // we regularly call the background page to keep it awake
+    chrome.runtime.getBackgroundPage(function(oPage){});
+    if (!this._bInstallFinished){
+      DEBUG && console.debug('wake up!');
+      setTimeout(function(){
+        self.wakeUp();
+      }, 5000);
+    } else {
+      console.log('installed!')
+    }
   }
 });
 

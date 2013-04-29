@@ -28,21 +28,25 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
       _lStories.push(_oStory);
       _oStory.setId(iId);
 
-      Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory(oStore, _oStory);
-      for (var j = 0, lIds = _oStory.historyItemsId(), iIdsLength = lIds.length;
-        j < iIdsLength; j++) {
-
-	        var iHistoryItemId = lIds[j];
-          oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
-            oHistoryItem.setStoryId(_iId);
-            oStore.put('historyItems', oHistoryItem, function(){});
-          });
-      }
-      if (iCount === iLength) {
-        //Cotton.DB.SearchKeywords.updateStoriesSearchKeywords(oStore, lStories);
-        mCallBackFunction(oStore, _lStories);
-      }
-      iCount += 1;
+      Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory(oStore, _oStory, function(lKeywordsIds){
+        if (_oStory.historyItemsId().length === 0 && iCount === iLength && mCallBackFunction){
+          mCallBackFunction(oStore, _lStories);
+        } else {
+          for (var j = 0, lIds = _oStory.historyItemsId(), iIdsLength = lIds.length;
+            j < iIdsLength; j++) {
+  	          var iHistoryItemId = lIds[j];
+              oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
+                oHistoryItem.setStoryId(_iId);
+                oStore.put('historyItems', oHistoryItem, function(){});
+              });
+              if (iCount === iLength && j === iIdsLength - 1 && mCallBackFunction) {
+                mCallBackFunction(oStore, _lStories);
+              }
+          }
+        }
+        // iCount incremented afterwards because iLength = lStories.length - 1 !
+        iCount ++;
+      });
     });
   }
 };
@@ -132,8 +136,11 @@ Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
  */
 Cotton.DB.SearchKeywords = {};
 
-Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory= function(oStore, oStory){
+Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oStory, mCallback){
   var lKeywordsAndId = [];
+  var iLength = oStory.searchKeywords().length;
+  var iCount = 0;
+  var lKeywordsIds = [];
   for (var j = 0, lKeywords = oStory.searchKeywords(),
     iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
       var sKeyword = lKeywords[j];
@@ -142,6 +149,11 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory= function(oStore, oStor
       oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
         // Be careful with asynchronous.
         DEBUG && console.debug('keyword updated with id: ' + iId + ' storyId:' + oStory.id());
+        lKeywordsIds.push(iId);
+        iCount++;
+        if (iCount === iLength && mCallback){
+          mCallback.call(this, lKeywordsIds);
+        }
       });
   }
 };
