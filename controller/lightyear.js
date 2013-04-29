@@ -110,6 +110,7 @@ Cotton.Controllers.Lightyear = Class.extend({
       var oHistoryItem = dArguments['historyItem'];
       self._oWorld.storyElement().addHistoryItem(oHistoryItem);
       self._oStory.addHistoryItemId(oHistoryItem.id());
+      self._oStory.dna().bagOfWords().mergeBag(oHistoryItem.extractedDNA().bagOfWords().get());
       oHistoryItem.setStoryId(self._oStory.id());
       self._oDatabase.put('stories', self._oStory, function(iId){});
       self._oDatabase.put('historyItems', oHistoryItem, function(iId){});

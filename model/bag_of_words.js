@@ -40,6 +40,12 @@ Cotton.Model.BagOfWords = Class.extend({
     }
   },
 
+  mergeBag : function(dBagOfWords) {
+    for (var sWord in dBagOfWords){
+      this.addWord(sWord, dBagOfWords[sWord]);
+    }
+  },
+
   increaseWordScore : function(sWord, iScore) {
     this._dBag[sWord.toLowerCase()] += iScore;
   },
