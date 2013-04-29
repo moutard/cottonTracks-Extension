@@ -69,6 +69,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         }
       }
 
+      // Set story bagOfWords.
+      for (var dWord in lHistoryItems[j]['oExtractedDNA']['dBagOfWords']){
+        lStories[lHistoryItems[j]['clusterId']].dna().bagOfWords().addWord(
+          dWord, lHistoryItems[j]['oExtractedDNA']['dBagOfWords'][dWord]);
+      }
+
       // Set Featured image
       if (lStories[lHistoryItems[j]['clusterId']].featuredImage() === ""
           || lStories[lHistoryItems[j]['clusterId']]['tempimage'] === true) {
