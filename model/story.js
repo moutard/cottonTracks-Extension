@@ -84,14 +84,9 @@ Cotton.Model.Story = Class.extend({
   setTags : function(lTags) {
     var self = this;
     self._lTags = lTags;
-    for (var i = 0, iLength = self._lTags.length; i < iLength; i++) {
-      var sWord = self._lTags[i];
-      self._oDNA.bagOfWords().addWord(sWord, 5);
-    }
   },
   addTags : function(sTag) {
     this._lTags.push(sTag);
-    self._oDNA.bagOfWords().addWord(sTag, 5);
   },
   dna : function()  {
     return this._oDNA;
@@ -244,6 +239,6 @@ Cotton.Model.Story = Class.extend({
   },
 
   searchKeywords : function() {
-    return this._sTitle.toLowerCase().split(" ");
+    return this.dna().bagOfWords().preponderant();
   },
 });
