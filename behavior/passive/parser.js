@@ -132,7 +132,12 @@ Cotton.Behavior.Passive.Parser = Class
           function(oNode){
             var oParent = oNode.parentNode;
             if (oNode.textContent.match(self._SENTENCE_REGEX)
-              && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH) {
+              && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH
+              && ! Cotton.Utils.ancestor('a, [data-meaningful],'
+                + '.comments .Comments, #comments, #Comments'
+                + '.commentaires .Commentaires, #commentaires, #Commentaires'
+                + '.comentarios, .Comentarios, #comentarios, #Comentarios',
+                oNode)) {
                 return NodeFilter.FILTER_ACCEPT
             }
             return NodeFilter.FILTER_SKIP;
@@ -147,8 +152,20 @@ Cotton.Behavior.Passive.Parser = Class
 
       _markMeaningful : function(oNode) {
         var oParent = oNode.parentNode;
-        this._lAllParagraphs.push(oParent.textContent);
-        this._iNbMeaningfulBlock += 1;
+        var oSplit = oParent.innerHTML.split(/<br\/?>/);
+        for (var i = 0, len = oSplit.length; i < len; i++) {
+          var oFakeElement = document.createElement('span');
+          oFakeElement.innerHTML = oSplit[i];
+          if (oFakeElement.textContent.match(this._SENTENCE_REGEX)) {
+            // Removes whitespace from both ends of the string
+            // Replace non-breaking-spaces with ordinary whitespaces
+            // Replace new lines with ordinary whitespaces
+            // Replace multiple spaces with a single space
+            this._lAllParagraphs.push(
+              oFakeElement.textContent.trim().replace(/\u00a0/g, ' ')
+              .replace(/\n/g, ' ').replace(/ +(?= )/g,''));
+          }
+        };
         oParent.setAttribute('data-meaningful', 'true');
         oParent.setAttribute('ct-id', this._lAllParagraphs.length);
         if (Cotton.Config.Parameters.bDevMode === true) {
