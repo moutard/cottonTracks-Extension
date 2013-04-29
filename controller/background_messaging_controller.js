@@ -135,6 +135,10 @@ Cotton.Controllers.Messaging = Class.extend({
                             'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
                           });
                       });
+                      oMinStory.dna().bagOfWords().mergeBag(
+                        oHistoryItem.extractedDNA().bagOfWords().get());
+                      self._oMainController._oDatabase.put(
+                        'stories', oMinStory, function(iStoryId){});
                       // There is a story for this item, so enable the browserAction
                       // and attach a storyId to the tab
                       Cotton.ANALYTICS.storyAvailable();
