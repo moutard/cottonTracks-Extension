@@ -82,12 +82,6 @@ Cotton.Controllers.Background = Class.extend({
       Cotton.ONEVENT = oInstallationDetails['reason'];
       DEBUG && console.debug("chrome runtime" + Cotton.ONEVENT);
       if (self._bReadyForStart && !self._bInstalled && Cotton.ONEVENT === 'install'){
-        self._bInstalled = true;
-        var date = new Date();
-        var month = date.getMonth() + 1;
-        localStorage.setItem('cohort', month + "/" + date.getFullYear());
-        self._startTime = date.getTime();
-        self.wakeUp();
         self.install();
       } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
         self._bInstalled = true;
@@ -126,12 +120,6 @@ Cotton.Controllers.Background = Class.extend({
 
           DEBUG && console.debug('Global store created');
           if (!self._bInstalled && Cotton.ONEVENT === 'install') {
-            self._bInstalled = true;
-            var date = new Date();
-            var month = date.getMonth() + 1;
-            localStorage.setItem('cohort', month + "/" + date.getFullYear());
-            self._startTime = date.getTime();
-            self.wakeUp();
             self.install();
           } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
             self._bUpdated = true;
@@ -350,6 +338,12 @@ Cotton.Controllers.Background = Class.extend({
   install : function(){
     var self = this;
     DEBUG && console.debug("Controller - install");
+    self._bInstalled = true;
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    localStorage.setItem('cohort', month + "/" + date.getFullYear());
+    self._startTime = date.getTime();
+    self.wakeUp();
     var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
     Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
       lHistoryItems, lVisitItems) {
