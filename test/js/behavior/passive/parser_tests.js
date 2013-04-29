@@ -108,17 +108,7 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
               oResults['time']['end'] = performance.now();
               // Define meaningful paragraphs
               lMeaningfulParagraphs = message['results']['meaningful'];
-              // Normalize
-              for (var i = 0, len = lMeaningfulParagraphs.length; i < len; i++) {
-                // Removes whitespace from both ends of the string
-                lMeaningfulParagraphs[i] = lMeaningfulParagraphs[i].trim();
-                // Replace non-breaking-spaces with ordinary whitespaces
-                lMeaningfulParagraphs[i] = lMeaningfulParagraphs[i].replace(/\u00a0/g, ' ');
-                // Replace new lines with ordinary whitespaces
-                lMeaningfulParagraphs[i] = lMeaningfulParagraphs[i].replace(/\n/g, ' ');
-              }
               oResults['meaningful'] = lMeaningfulParagraphs.length;
-
               // The assertions
               // Check lists are not empty
               ok(lExpectedParagraphs.length, 'Expected paragraphs'
