@@ -97,10 +97,6 @@ Cotton.Controllers.Lightyear = Class.extend({
         });
       });
     });
-    this._oDispatcher.subscribe("refresh_item", this, function(dArguments){
-      self.recycleItem(dArguments['id']);
-      self.recycleMenu();
-    });
 
     // add new element from the pool
     this._oDispatcher.subscribe("show_elements", this, function(dArguments){
@@ -208,7 +204,8 @@ Cotton.Controllers.Lightyear = Class.extend({
     // Message listening from background page for getContent
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
       if (request['action'] === 'refresh_item'){
-        self._oDispatcher.publish('refresh_item', {'id': request['params']['itemId']});
+        self.recycleItem(request['params']['itemId']);
+        self.recycleMenu();
       }
     });
 

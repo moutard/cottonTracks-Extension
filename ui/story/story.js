@@ -130,6 +130,7 @@ Cotton.UI.Story.Element = Class.extend({
       var oHistoryItem = lHistoryItems[iPosition];
       var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
         self._oDispatcher, self);
+      this._lItems.push(oItem);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       self._oDispatcher.publish('update_filters', dFilters);
       self._lDOMItems.push(oItem.$());
