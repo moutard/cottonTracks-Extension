@@ -86,6 +86,13 @@ Cotton.Model.HistoryItemDNA = Class.extend({
       }
     }
   },
+  setMinWeightForWord : function(){
+    if (this._oBagOfWords.size() <= 1){
+      for (var sWord in this._oBagOfWords.get()){
+        this._oBagOfWords.addWord(sWord, Cotton.Config.Parameters.scoreForSoleWord);
+      }
+    }
+  },
   extractedWords : function() {
     return this._lExtractedWords;
   },

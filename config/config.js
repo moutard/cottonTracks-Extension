@@ -33,6 +33,7 @@ Cotton.Config.Parameters = {
   scoreForExtractedWords : 3,
   scoreForStrongQueryWords : 5,
   scoreForWeakQueryWords : 2,
+  scoreForSoleWord : 6,
 
   // PREPONDERANT KEYWORDS
   iNumberOfPreponderantKeywords : 3,
