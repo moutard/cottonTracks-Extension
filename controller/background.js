@@ -86,6 +86,7 @@ Cotton.Controllers.Background = Class.extend({
         var date = new Date();
         var month = date.getMonth() + 1;
         localStorage.setItem('cohort', month + "/" + date.getFullYear());
+        self._startTime = date.getTime();
         self.wakeUp();
         self.install();
       } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
@@ -129,6 +130,7 @@ Cotton.Controllers.Background = Class.extend({
             var date = new Date();
             var month = date.getMonth() + 1;
             localStorage.setItem('cohort', month + "/" + date.getFullYear());
+            self._startTime = date.getTime();
             self.wakeUp();
             self.install();
           } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
@@ -325,7 +327,12 @@ Cotton.Controllers.Background = Class.extend({
             // Add stories in IndexedDB.
             Cotton.DB.Stories.addStories(self._oDatabase, lStories,
               function(oDatabase, lStories){
-               self._bInstallFinished = true;
+                var d = new Date();
+                var _endTime = d.getTime();
+                var elapsedTime = (_endTime - self._startTime) / 1000;
+                DEBUG && console.debug("time elapsed during installation: "
+                  + elapsedTime + "ms");
+                self._bInstallFinished = true;
             });
           });
         }
@@ -417,8 +424,6 @@ Cotton.Controllers.Background = Class.extend({
       setTimeout(function(){
         self.wakeUp();
       }, 5000);
-    } else {
-      console.log('installed!')
     }
   }
 });
