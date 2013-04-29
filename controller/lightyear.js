@@ -168,8 +168,9 @@ Cotton.Controllers.Lightyear = Class.extend({
                   lStories = lStories.slice(0,Math.min(6, lStories.length));
                   self._lRelatedStories = lStories;
                 }
-                if (self._bWorldReady) {
+                if (self._bWorldReady && self._bStoryReady) {
                   self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
+                  self._oWorld.updateStory(self._oStory);
                 }
               });
           });
@@ -180,10 +181,10 @@ Cotton.Controllers.Lightyear = Class.extend({
               return b.lastVisitTime()- a.lastVisitTime();
             });
             self._oStory.setHistoryItems(lHistoryItems);
-            if (self._bWorldReady) {
-              self._oWorld.updateMenu(oStory);
-              self._oWorld.updateStory(oStory);
-              self._bStoryReady = true;
+            self._bStoryReady = true;
+            if (self._bWorldReady && self._lRelatedStories) {
+              self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
+              self._oWorld.updateStory(self._oStory);
             }
           });
         });
@@ -194,8 +195,8 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oWorld = new Cotton.UI.World(self, oSender, self._oDispatcher);
       self._bWorldReady = true;
       // In this case the story is ready before the world.
-      if (self._bStoryReady) {
-        self._oWorld.updateMenu(self._oStory);
+      if (self._bStoryReady && self._lRelatedStories) {
+        self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
         self._oWorld.updateStory(self._oStory);
       }
     });
