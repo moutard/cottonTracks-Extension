@@ -1105,6 +1105,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oAddRequest = oStore.add(dItem);
 
     oAddRequest.onsuccess = function(oEvent) {
+      DEBUG && console.debug(dItem['sUrl'] + ' added with id' + oEvent.target.result);
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
