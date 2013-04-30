@@ -15,8 +15,8 @@ Cotton.UI.Story.Item.Image = Cotton.UI.Story.Item.Element.extend({
   _oItemFeaturedImage : null,
   _oToolBox : null,
 
-  init : function(oImageUrl, oHistoryItem, oDispatcher, oItem) {
-    this._super(oHistoryItem, oDispatcher, oItem);
+  init : function(oImageUrl, oHistoryItem, oDispatcher) {
+    this._super(oHistoryItem, oDispatcher);
 
     this.setType("image");
 
