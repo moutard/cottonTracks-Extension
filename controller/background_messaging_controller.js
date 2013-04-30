@@ -212,6 +212,8 @@ Cotton.Controllers.Messaging = Class.extend({
               self._oMainController._oDatabase.put('stories', oStory,
                 function(){});
             });
+          } else {
+            self._oMainController._oPool.putUnique(dHistoryItem);
           }
           if (self._oMainController._dGetContentTabId[sender.tab.id]){
             self._oMainController.removeGetContentTab(sender.tab.id);
