@@ -13,8 +13,8 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
   _oItemLabel : null,
   _oToolbox : null,
 
-  init : function(sMapUrl, oHistoryItem, oDispatcher, oItem) {
-    this._super(oHistoryItem, oDispatcher, oItem);
+  init : function(sMapUrl, oHistoryItem, oDispatcher) {
+    this._super(oHistoryItem, oDispatcher);
 
     this.setType("map");
 

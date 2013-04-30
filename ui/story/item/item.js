@@ -17,10 +17,9 @@ Cotton.UI.Story.Item.Element = Class.extend({
   // sub elements.
   _$content : null,
 
-  init : function(oHistoryItem, oDispatcher, oStoryElement) {
+  init : function(oHistoryItem, oDispatcher) {
     var self = this;
     this._oDispatcher = oDispatcher;
-    this._oStoryElement = oStoryElement;
     this._oHistoryItem = oHistoryItem;
     // current element.
     this._$item = $('<div class="ct-story_item" id="' + this._oHistoryItem.id() + '"></div>');
@@ -35,10 +34,6 @@ Cotton.UI.Story.Item.Element = Class.extend({
 
   dispatcher : function() {
     return this._oDispatcher;
-  },
-
-  story : function() {
-    return this._oStoryElement;
   },
 
   historyItem : function() {

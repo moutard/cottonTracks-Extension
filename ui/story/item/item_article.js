@@ -20,8 +20,8 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
   _oItemMenu : null,
   _oItemReader : null,
 
-  init : function(oHistoryItem, oDispatcher, oStory) {
-    this._super(oHistoryItem, oDispatcher, oStory);
+  init : function(oHistoryItem, oDispatcher) {
+    this._super(oHistoryItem, oDispatcher);
 
     this.setType("article");
 
