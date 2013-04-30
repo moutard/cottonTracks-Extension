@@ -231,8 +231,7 @@ Cotton.Controllers.Background = Class.extend({
     // TODO(rmoutard) : find a better solution.
     var lHistoryItemToKeep = [];
     for (var i = 0, dItem; dItem = lItems[i]; i++){
-      if(dItem['sStoryId'] === "UNCLASSIFIED"
-        && dItem['clusterId'] === "NOISE"){
+      if(dItem['clusterId'] === "UNCLASSIFIED"){
           delete dItem['clusterId'];
           lHistoryItemToKeep.push(dItem);
       }
