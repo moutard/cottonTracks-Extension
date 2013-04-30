@@ -133,9 +133,9 @@ Cotton.Behavior.Passive.Parser = Class
             var oParent = oNode.parentNode;
             if (oNode.textContent.match(self._SENTENCE_REGEX)
               && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH
-              && ! Cotton.Utils.ancestor('a, [data-meaningful],'
-                + '.comments .Comments, #comments, #Comments'
-                + '.commentaires .Commentaires, #commentaires, #Commentaires'
+              && ! Cotton.Utils.ancestor('a, [data-meaningful], '
+                + '.comments, .Comments, #comments, #Comments, '
+                + '.commentaires, .Commentaires, #commentaires, #Commentaires, '
                 + '.comentarios, .Comentarios, #comentarios, #Comentarios',
                 oNode)) {
                 return NodeFilter.FILTER_ACCEPT
