@@ -133,11 +133,20 @@ Cotton.Behavior.Passive.Parser = Class
             var oParent = oNode.parentNode;
             if (oNode.textContent.match(self._SENTENCE_REGEX)
               && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH
-              && ! Cotton.Utils.ancestor('a, [data-meaningful], '
-                + '.comments, .Comments, #comments, #Comments, '
-                + '.commentaires, .Commentaires, #commentaires, #Commentaires, '
-                + '.comentarios, .Comentarios, #comentarios, #Comentarios',
-                oNode)) {
+              && ! Cotton.Utils.ancestor('[data-meaningful], '
+                + 'a, h1, h2, h3, h4, h5, h6, '
+                + '[class*=comments], [class*=Comments], '
+                + '[id*=comments], [id*=Comments], '
+                + '[class*=commentaires], [class*=Commentaires], '
+                + '[id*=commentaires], [id*=Commentaires], '
+                + '[class*=comentarios], [class*=Comentarios], '
+                + '[id*=comentarios], [id*=Comentarios], '
+                + '[class*=footer], [id*=footer], '
+                + '[class*=adsense], [id*=adsense], '
+                + '[class*=promotion], [id*=promotion]',
+                oNode, false)
+              && ! Cotton.Utils.ancestor('[href*="googlead"]', oNode, true)
+              ) {
                 return NodeFilter.FILTER_ACCEPT
             }
             return NodeFilter.FILTER_SKIP;
