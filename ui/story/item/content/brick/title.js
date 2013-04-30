@@ -31,7 +31,7 @@ Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
     if (sUrl){
       this._$title = $('<a href="' + sUrl + '" target="_blank"></a>').append(this._$title);
       this._$title.click(function(){
-        Cotton.ANALYTICS.openItemWithTitle(oItem.type(), 'title');
+        Cotton.ANALYTICS.openItem(oItem.type(), 'title');
       });
     }
   },
