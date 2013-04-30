@@ -26,6 +26,14 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
       this._$related_container.append(oSticker.$());
     }
 
+    oDispatcher.subscribe('back_to_story', this, function(dArguments){
+      this._$related.addClass('hidden');
+    });
+    oDispatcher.subscribe('related_stories', this, function(dArguments){
+      this._$related.removeClass('hidden');
+    });
+
+
     this._$related.append(
       this._$related_container);
   },
