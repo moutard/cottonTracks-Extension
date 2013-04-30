@@ -129,7 +129,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.dHash['video']) {
         	//Dailymotionvideo (from channel page)
           lStories[lHistoryItems[j]['clusterId']]
-              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail/video/" + dHash['video']);
+              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail/video/" + oUrl.dHash['video']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
         	//Google maps
