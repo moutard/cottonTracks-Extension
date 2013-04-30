@@ -249,7 +249,6 @@ Cotton.Controllers.Messaging = Class.extend({
   },
 
   'change_story': function(sendResponse, iStoryId){
-console.log('change');
     var self = this;
     self._oMainController.setTriggerStory(iStoryId);
     sendResponse({});

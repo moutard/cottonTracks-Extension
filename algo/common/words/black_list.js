@@ -48,7 +48,6 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
   var dExpressions = {};
   for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
     if(dChromeHistoryItem['title'].match(oRegexp)){
-      // console.log(dChromeHistoryItem['title'].match(oRegexp));
       var lExpressions = dChromeHistoryItem['title'].match(oRegexp);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++){
         if (dExpressions[sExpression]){
