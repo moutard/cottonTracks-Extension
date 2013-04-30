@@ -60,6 +60,33 @@
         height: 260px;
 
         > .thumbnail{
+          position: absolute;
+
+          &.hidden{
+            display: none;
+          }
+        }
+        > .video_play{
+          position: absolute;
+          cursor: pointer;
+          top: 93px;
+          left: 123px;
+          width: 110px;
+          height: 70px;
+          background-color: rgba(84, 84, 84, 0.55);
+          border: solid 2px rgba(255, 255, 255, 1);
+
+          &:before{
+            content: "";
+            left: 42px;
+            top: 20px;
+            height: 0;
+            position: absolute;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 28px solid #fff;
+          }
+
           &.hidden{
             display: none;
           }
