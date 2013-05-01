@@ -76,7 +76,7 @@ Cotton.Model.BagOfWords = Class.extend({
 
   size : function(){
     var iSize = 0;
-    for (var word in this.get()){
+    for (var word in this._dBag){
       iSize++;
     }
     return iSize;
