@@ -23,5 +23,15 @@ Cotton.Model.StoryDNA = Class.extend({
 
   setBagOfWords : function(oBagOfWords){
     this._oBagOfWords = oBagOfWords;
+  },
+
+  addWord : function(sWord, iWeight){
+    this._oBagOfWords.addWord(sWord, iWeight);
+  },
+
+  addListWords : function(lWords, iWeight){
+    for (var i = 0, sWord; sWord = lWords[i]; i++) {
+      this.addWord(sWord, iWeight);
+    }
   }
 });
