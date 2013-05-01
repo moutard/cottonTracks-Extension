@@ -80,5 +80,15 @@ Cotton.Model.BagOfWords = Class.extend({
       iSize++;
     }
     return iSize;
+  },
+
+  maxWeight : function(){
+    var iMaxWeight = 0;
+    for (var word in this._dBag){
+      if (this._dBag[word] > iMaxWeight){
+        iMaxWeight = this._dBag[word];
+      }
+    }
+    return iMaxWeight;
   }
 });
