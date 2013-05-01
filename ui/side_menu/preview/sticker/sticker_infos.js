@@ -23,8 +23,9 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
 
     // Sub elements.
-	  this._$stickerTitle = $('<div class="ct-sticker_title" contenteditable="true"></div>').text(
-      sStoryTitle).blur(function(){
+	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(sStoryTitle);
+    if (sTypeOfSticker === "currentStory"){
+      this._$stickerTitle.attr('contenteditable','true').blur(function(){
         self._oDispatcher.publish("edit_title", {"title": $(this).text()});
       }).keypress(function(e){
         if (e.which === 13){
@@ -32,6 +33,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
           e.preventDefault();
         }
       });
+    }
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
     //Count details
