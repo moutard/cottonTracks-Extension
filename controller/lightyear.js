@@ -132,6 +132,9 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     this._oDispatcher.subscribe('edit_title', this, function(dArguments){
       self._oStory.setTitle(dArguments['title']);
+      var lTitle = dArguments['title'].split(' ');
+      var lStrongWords = Cotton.Algo.Tools.Filter(lTitle);
+      self._oStory.dna().addListWords(lStrongWords, self._oStory.dna().bagOfWords().maxWeight());
       self._oDatabase.put('stories', self._oStory, function(){});
     });
 
