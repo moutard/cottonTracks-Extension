@@ -130,6 +130,11 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oWorld.relatedStories(self._lRelatedStories);
     });
 
+    this._oDispatcher.subscribe('edit_title', this, function(dArguments){
+      self._oStory.setTitle(dArguments['title']);
+      self._oDatabase.put('stories', self._oStory, function(){});
+    });
+
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,

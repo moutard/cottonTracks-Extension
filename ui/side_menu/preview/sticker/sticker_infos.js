@@ -16,14 +16,22 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
   _$stickerDetails : null,
 
   init: function(sStoryTitle, oDispatcher, sTypeOfSticker, iNumberOfItems){
+    var self = this;
 	  this._oDispatcher = oDispatcher;
 
     // Current element.
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
 
     // Sub elements.
-	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(
-      sStoryTitle);
+	  this._$stickerTitle = $('<div class="ct-sticker_title" contenteditable="true"></div>').text(
+      sStoryTitle).blur(function(){
+        self._oDispatcher.publish("edit_title", {"title": $(this).text()});
+      }).keypress(function(e){
+        if (e.which === 13){
+          $(this).blur();
+          e.preventDefault();
+        }
+      });
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
     //Count details
