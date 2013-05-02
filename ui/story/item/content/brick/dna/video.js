@@ -20,15 +20,13 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Video = Class.extend({
     // video
     // Uses the right embed code depending on the video provider
     if (this._sVideoType == "youtube") {
-      this._$play = $('<div class="video_play"><div>');
+      this._$play = $('<div class="video_play"><div>').click(function(){
+        self.loadVideo();
+      });
       this._$thumbnail = $('<img class="resize thumbnail" src="http://img.youtube.com/vi/'
         + sEmbedCode + '/hqdefault.jpg" />').click(function(){
-          var sEmbedUrl = "http://www.youtube.com/embed/" + sEmbedCode + "?autoplay=1";
-          self._$video = $('<iframe width="360" height="260" src="' + sEmbedUrl + '" frameborder="0" allowfullscreen></iframe>');
-          self._$thumbnail.removeClass('show').addClass('hidden');
-          self._$play.addClass('hidden');
-          self._$video_container.append(self._$video)
-        });
+          self.loadVideo();
+      });
       this._$video_container.append(this._$thumbnail, this._$play);
       this.resize(this._$thumbnail);
 
@@ -39,31 +37,23 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Video = Class.extend({
         url: 'http://vimeo.com/api/v2/video/' + sEmbedCode + '.json',
       }).done(function ( data ) {
           thumbnail_src = data[0]['thumbnail_large'];
-          self._$play = $('<div class="video_play"><div>');
+          self._$play = $('<div class="video_play"><div>').click(function(){
+            self.loadVideo();
+          });
           self._$thumbnail = $('<img class="resize thumbnail" src="' + thumbnail_src + '"/>').click(function(){
-            var sEmbedUrl = "http://player.vimeo.com/video/" + sEmbedCode
-              + "?title=1&byline=0&portrait=0&autoplay=1";
-            self._$video = $('<iframe width="360" height="260" src="'+ sEmbedUrl +'" frameborder="0" webkitAllowFullscreen></iframe>');
-            self._$video.attr('src', sEmbedUrl);
-            self._$thumbnail.removeClass('show').addClass('hidden');
-            self._$play.addClass('hidden');
-            self._$video_container.append(self._$video)
+            self.loadVideo();
           });
           self._$video_container.append(self._$thumbnail, self._$play);
           self.resize(self._$thumbnail);
       });
 
     } else if (this._sVideoType == "dailymotion") {
-      self._$play = $('<div class="video_play"><div>');
+      self._$play = $('<div class="video_play"><div>').click(function(){
+        self.loadVideo();
+      });
       this._$thumbnail = $('<img class="resize thumbnail" src="http://www.dailymotion.com/thumbnail/video/'
         + sEmbedCode + '"/>').click(function(){
-        var sEmbedUrl = "http://www.dailymotion.com/embed/video/"
-            + sEmbedCode
-            + "?background=3E3E3E&foreground=EEEEEE&highlight=5bab7d&autoplay=1";
-        self._$video = $('<iframe width="360" height="260" src="'+ sEmbedUrl +'" frameborder="0"></iframe>');
-        self._$thumbnail.removeClass('show').addClass('hidden');
-        self._$play.addClass('hidden');
-        self._$video_container.append(self._$video)
+          self.loadVideo();
       });
       self._$video_container.append(self._$thumbnail, self._$play);
       self.resize(self._$thumbnail);
@@ -105,6 +95,38 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Video = Class.extend({
       }
       $img.addClass('show');
     });
+  },
+
+  loadVideo : function(){
+    switch (this._sVideoType){
+      case 'youtube':
+        var sEmbedUrl = "http://www.youtube.com/embed/" + this._sEmbedCode + "?autoplay=1";
+        this._$video = $('<iframe width="360" height="260" src="' + sEmbedUrl + '" frameborder="0" allowfullscreen></iframe>');
+        this._$thumbnail.removeClass('show').addClass('hidden');
+        this._$play.addClass('hidden');
+        this._$video_container.append(this._$video)
+      break;
+
+      case 'vimeo':
+        var sEmbedUrl = "http://player.vimeo.com/video/" + this._sEmbedCode
+          + "?title=1&byline=0&portrait=0&autoplay=1";
+        this._$video = $('<iframe width="360" height="260" src="'+ sEmbedUrl +'" frameborder="0" webkitAllowFullscreen></iframe>');
+        this._$video.attr('src', sEmbedUrl);
+        this._$thumbnail.removeClass('show').addClass('hidden');
+        this._$play.addClass('hidden');
+        this._$video_container.append(this._$video)
+      break;
+
+      case 'dailymotion':
+        var sEmbedUrl = "http://www.dailymotion.com/embed/video/"
+            + this._sEmbedCode
+            + "?background=3E3E3E&foreground=EEEEEE&highlight=5bab7d&autoplay=1";
+        this._$video = $('<iframe width="360" height="260" src="'+ sEmbedUrl +'" frameborder="0"></iframe>');
+        this._$thumbnail.removeClass('show').addClass('hidden');
+        this._$play.addClass('hidden');
+        this._$video_container.append(this._$video);
+      break;
+    }
   }
 
 });
