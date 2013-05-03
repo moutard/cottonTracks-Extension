@@ -1134,6 +1134,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           dItem['oExtractedDNA']['lHighlightedText'] = _.union(
               dItem['oExtractedDNA']['lHighlightedText'],
               oResult['oExtractedDNA']['lHighlightedText']);
+          dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
+          dItem['oExtractedDNA']['lExtractedWords'] = oResult['oExtractedDNA']['lExtractedWords'];
           // Take the max value of each key.
           var dTempBag = {};
           for (var sWord in dItem['oExtractedDNA']['dBagOfWords']){
