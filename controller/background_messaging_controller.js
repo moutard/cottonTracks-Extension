@@ -78,7 +78,7 @@ Cotton.Controllers.Messaging = Class.extend({
               oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
-            sPutId = _oHistoryItem.storyId();
+            sPutId = _oHistoryItem.id();
             chrome.browserAction.enable(sender.tab.id);
             sendResponse({
               'received' : "true",
