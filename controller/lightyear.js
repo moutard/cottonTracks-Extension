@@ -130,6 +130,12 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oWorld.relatedStories(self._lRelatedStories);
     });
 
+    this._oDispatcher.subscribe('search_stories', this, function(dArguments){
+      self.searchStories(dArguments['searchWords'], function(){
+        self._oWorld.refreshRelatedStories(self._lRelatedStories);
+      });
+    });
+
     this._oDispatcher.subscribe('edit_title', this, function(dArguments){
       self._oStory.setTitle(dArguments['title']);
       var lTitle = dArguments['title'].split(' ');
@@ -275,6 +281,42 @@ Cotton.Controllers.Lightyear = Class.extend({
       if (mCallback){
         mCallback.call(self,lSortedPool);
       }
+    });
+  },
+
+  searchStories : function(lSearchWords, mCallback){
+    var self = this;
+    this._oDatabase.findGroup('searchKeywords', 'sKeyword',
+      lSearchWords, function(lSearchKeywords){
+        var lRelatedStoriesId = [];
+        for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+          var oSearchKeyword = lSearchKeywords[i];
+          lRelatedStoriesId = _.union(
+            lRelatedStoriesId, oSearchKeyword.referringStoriesId());
+        };
+        for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
+          if (iStoryId === self._oStory.id()){
+            lRelatedStoriesId.splice(i,1);
+          }
+        }
+        self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
+          if (!lStories){
+            self._lRelatedStories = [];
+          } else {
+            //take the 6 closest stories
+            for (var i = 0, oStory; oStory = lStories[i]; i++){
+              oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
+            }
+            lStories.sort(function(a,b){
+              return b['scoreToStory'] - a['scoreToStory']
+            });
+            lStories = lStories.slice(0,Math.min(6, lStories.length));
+            self._lRelatedStories = lStories;
+          }
+          if (mCallback) {
+            mCallback.call(this);
+          }
+        });
     });
   }
 

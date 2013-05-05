@@ -7,24 +7,39 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
 
   _$related_container : null,
   _lRelatedStories : null,
+  _lStickers : null,
 
   init : function(lStories, oDispatcher){
     var self = this;
     this._lRelatedStories = lStories
+    this._oDispatcher = oDispatcher;
+    this._lStickers = [];
     this._$related = $('<div class="ct-related"></div>');
-    this._$related_container = $('<div class="ct-related_container"></div>');
+    this._$related_container = $('<div class="ct-related_container animate"></div>');
+
+    this._oSearch = new Cotton.UI.RelatedStories.Search(oDispatcher);
     this._$title = $('<h2>Related Stories</h2>');
-    this._$related_container.append(this._$title);
+    this._$stories = $('<div class="ct-stories_result"></div>');
+
+    this._$related_container.append(
+      this._oSearch.$(),
+      this._$title,
+      this._$stories
+    );
+
     this.centerTop();
 
     $(window).resize(function(){
+      self._$related_container.removeClass('animate');
       self.centerTop();
+      self._$related_container.addClass('animate');
     });
 
     for (var i=0, oStory; oStory = lStories[i]; i++){
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, oDispatcher, 'relatedStory');
-      this._$related_container.append(oSticker.$());
+      this._lStickers.push(oSticker.$());
     }
+    this._$stories.append(this._lStickers);
 
     oDispatcher.subscribe('back_to_story', this, function(dArguments){
       this._$related.addClass('hidden');
@@ -47,13 +62,24 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
   },
 
   centerTop : function(){
-    var iRows = (this._lRelatedStories.length > 3) ? 2 : 1;
-    if ($(window).height() > iRows * 242 + 136){
-      var iMargin = $(window).height() - (iRows * 242 + 136);
+    if ($(window).height() > 2 * 242 + 136 + 40){
+      var iMargin = $(window).height() - (2 * 242 + 136 + 40);
       this._$related_container.css('margin-top', iMargin/2 + "px");
     } else {
       this._$related_container.css('margin-top', 0);
     }
+  },
+
+  refresh : function(lStories){
+    this._lRelatedStories = lStories;
+    this._lStickers = [];
+    for (var i=0, oStory; oStory = lStories[i]; i++){
+      var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
+      this._lStickers.push(oSticker.$());
+    }
+    this._$title.text('Search Results');
+    this._$stories.empty().append(this._lStickers);
+    this.centerTop();
   }
 
 });
