@@ -115,6 +115,10 @@ Cotton.UI.World = Class.extend({
     } else {
       this._oRelatedStories.show();
     }
+  },
+
+  refreshRelatedStories : function(lStories){
+    this._oRelatedStories.refresh(lStories);
   }
 
 });

@@ -45,7 +45,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     var $images_count = $('<span><span class="images_count">0 images(s)</span>');
     var $videos_count = $('<span><span class="videos_count">0 videos</span>');
     if (iNumberOfItems){
-      var $total_count = $('<span><span class="total_count">' + iNumberOfItems + ' elements</span>');
+      var $total_count = $('<span><span class="total_count">' + iNumberOfItems + ' cards</span>');
     }
 
 

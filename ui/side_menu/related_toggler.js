@@ -25,17 +25,12 @@ Cotton.UI.SideMenu.RelatedToggler = Class.extend({
     this._oDispatcher = oDispatcher;
     this._$separationLine = $('<div class="separation_line"></div>');
 
-    this._$related_access = $('<div class="ct-related_access toggle_state">Related stories <span class="ct-count">('
+    this._$related_access = $('<div class="ct-related_access toggle_state">More stories <span class="ct-count">('
       + iRelated + ')</span></div>').click(function(){
-        if (iRelated > 0){
           self._$related_access.addClass('hidden');
           self._$back_to_story.removeClass('hidden');
           self._oDispatcher.publish('related_stories', {});
-        }
     });
-    if (iRelated === 0){
-      this._$related_access.addClass('defused');
-    }
 
     this._$back_to_story = $('<div class="ct-back_to_story toggle_state hidden">Back to story</div>').click(
       function(){
