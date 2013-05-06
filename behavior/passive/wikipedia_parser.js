@@ -34,7 +34,7 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       _lAllParagraphs : null,
 
       /**
-       * 
+       *
        */
       init : function(oClient) {
         this._super(oClient);
@@ -62,10 +62,10 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
         }
 
         $('[data-meaningful]').removeAttr('data-meaningful');
-        this._findMeaningfulBlocks();
-        this._removeLeastMeaningfulBlocks();
-
+        this._findText();
         this.findBestImage();
+        this._saveResults();
+        this._publishResults();
       },
 
       /**
