@@ -131,23 +131,29 @@ Cotton.Behavior.Passive.Parser = Class
           NodeFilter.SHOW_TEXT,
           function(oNode){
             var oParent = oNode.parentNode;
-            if (oNode.textContent.match(self._SENTENCE_REGEX)
-              && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH
-              && ! Cotton.Utils.ancestor('[data-meaningful], '
-                + 'a, h1, h2, h3, h4, h5, h6, '
-                + '[class*=comments], [class*=Comments], '
-                + '[id*=comments], [id*=Comments], '
-                + '[class*=commentaires], [class*=Commentaires], '
-                + '[id*=commentaires], [id*=Commentaires], '
-                + '[class*=comentarios], [class*=Comentarios], '
-                + '[id*=comentarios], [id*=Comentarios], '
-                + '[class*=footer], [id*=footer], '
-                + '[class*=adsense], [id*=adsense], '
-                + '[class*=promotion], [id*=promotion]',
-                oNode, false)
-              && ! Cotton.Utils.ancestor('[href*="googlead"]', oNode, true)
-              ) {
-                return NodeFilter.FILTER_ACCEPT
+            var sContent = oNode.textContent;
+            if (oNode.textContent.indexOf(unescape("%0A")) === -1) {
+              if (! Cotton.Utils.ancestor('script, #search', oNode, false)) {
+                if (sContent.match(self._SENTENCE_REGEX)
+                  && oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH) {
+                  if (! Cotton.Utils.ancestor('[data-meaningful], '
+                    + 'a, h1, h2, h3, h4, h5, h6, '
+                    + '[class*=comments], [class*=Comments], '
+                    + '[id*=comments], [id*=Comments], '
+                    + '[class*=commentaires], [class*=Commentaires], '
+                    + '[id*=commentaires], [id*=Commentaires], '
+                    + '[class*=comentarios], [class*=Comentarios], '
+                    + '[id*=comentarios], [id*=Comentarios], '
+                    + '[class*=footer], [id*=footer], '
+                    + '[class*=adsense], [id*=adsense], '
+                    + '[class*=promotion], [id*=promotion]',
+                    oNode, false)
+                    && ! Cotton.Utils.ancestor('[href*="googlead"]', oNode, true))
+                  {
+                    return NodeFilter.FILTER_ACCEPT
+                  }
+                }
+              }
             }
             return NodeFilter.FILTER_SKIP;
           },
