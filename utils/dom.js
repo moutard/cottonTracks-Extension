@@ -1,10 +1,18 @@
 (function(){
   'use strict';
 
+  var oCache = {};
+
   Cotton.Utils.ancestor = function (sSelector, oNode, bIncludeChildren) {
+    var oMatches;
+    var lMatches;
     var oParent = oNode.parentNode;
-    var oMatches = document.querySelectorAll(sSelector);
-    var lMatches = Array.prototype.slice.call(oMatches);
+    if (oCache.hasOwnProperty(sSelector)) {
+      lMatches = oCache[sSelector];
+    } else{
+      oMatches = document.querySelectorAll(sSelector);
+      lMatches = oCache[sSelector] = Array.prototype.slice.call(oMatches);
+    }
     while(oParent !== document) {
       if (lMatches.indexOf(oParent) > -1) {
         return oParent;
