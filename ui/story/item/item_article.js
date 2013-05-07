@@ -35,8 +35,13 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
         oHistoryItem.extractedDNA().imageUrl(), 'featured');
+
+    var iQuotes = 0;
+    for (var i = 0, oParagraph; oParagraph = oHistoryItem.extractedDNA().paragraphs()[i]; i++){
+      iQuotes += oParagraph.quotes().length;
+    }
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(
-        oHistoryItem.extractedDNA().highlightedText().length);
+        iQuotes);
 
     var oDNA = oHistoryItem.extractedDNA();
     var bHasExpand = this.hasExpand(oDNA);

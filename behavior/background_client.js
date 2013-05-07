@@ -100,10 +100,9 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
     // Place here the code to only store the most read paragraph.
     var lParagraphs = self._oCurrentHistoryItem.extractedDNA().paragraphs();
-    lParagraphs = _.sortBy(lParagraphs, function(oParagraph) {
-      return -1 * oParagraph.percent();
+    lParagraphs = _.filter(lParagraphs, function(oParagraph) {
+      return (oParagraph.percent() > Cotton.Config.Parameters.minPercentageForBestParagraph);
     });
-    lParagraphs = lParagraphs.slice(0, 2);
     self._oCurrentHistoryItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
