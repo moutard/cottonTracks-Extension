@@ -110,14 +110,26 @@
   > .ct-toggler{
     width: 100%;
     margin: auto;
-    bottom: 175px;
+    bottom: 170px;
+
+    >.separation_line{
+      margin-bottom: 5px;
+    }
 
     > .toggle_state{
       width: 206px;
-      margin: auto;
       padding-left: 22px;
-      padding-top: 10px;
-      cursor: pointer;
+      padding-top: 5px;
+      height: 18px;
+      margin: auto;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      color: #fff;
+			cursor: pointer;
+
+      &:hover{
+        background-color: #454545;
+      }
 
       &.defused{
         cursor: default;
@@ -136,7 +148,7 @@
   > .ct-filters {
     width: 100%;
     bottom: 40px;
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 10px;
 
       > .ct-filter {
