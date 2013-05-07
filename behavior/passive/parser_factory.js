@@ -15,11 +15,11 @@ Cotton.Behavior.Passive.ParserFactory = function(oClient) {
   if (reg.exec(oUrl.hostname)) {
     // Wikipedia
     return new Cotton.Behavior.Passive.WikipediaParser(oClient);
-  } else if (oUrl.isGoogle && oUrl.dSearch['tbm']==='isch'){
+  } else if (oUrl.isGoogle && oUrl.searchImage){
     // Google image search
     return new Cotton.Behavior.Passive.GoogleImageParser(oClient, oUrl);
   } else if (oUrl.isGoogle && oUrl.keywords){
-    // Google image
+    // Google
     return new Cotton.Behavior.Passive.GoogleParser(oClient, oUrl);
   } else {
     // Default
