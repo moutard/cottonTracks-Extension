@@ -295,8 +295,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
       oParagraph.setId(oScore.id());
       oParagraph.setPercent(oScore.score());
+      oParagraph.setQuotes(oScore.quotes());
       self._oClient.current().extractedDNA().addParagraph(oParagraph);
-
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
     });
     return fPageScore;
@@ -347,7 +347,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         function(oEvent) {
           var oSelection = window.getSelection();
 
-          if (oSelection.isCollapsed) {
+          if (oSelection.isCollapsed || oSelection.toString() === " ") {
             // Do not do anything on empty selections.
             $highlightedContentBlocks = $([]);
             return;
@@ -374,7 +374,16 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
             var oScore = $(this).data('score');
             if (oScore) {
               // TODO(fwouts): Tweak the incremental score.
-              oScore.increment(0.2);
+              oScore.setScore(Math.max(oScore.score(), Cotton.Config.Parameters.minPercentageForBestParagraph));
+              oScore.addQuote(oSelection.toString());
+
+              // set the highlighted text as part of a paragraph
+              var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
+              oParagraph.setId(oScore.id());
+              oParagraph.setPercent(oScore.score());
+              oParagraph.setQuotes(oScore.quotes());
+              self._oClient.current().extractedDNA().addParagraph(oParagraph);
+              self._oClient.updateVisit();
             }
           });
         });
