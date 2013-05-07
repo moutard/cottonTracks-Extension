@@ -38,6 +38,9 @@ Cotton.Config.Parameters = {
   // PREPONDERANT KEYWORDS
   iNumberOfPreponderantKeywords : 3,
 
+  // BEST PARAGRAPHS
+  minPercentageForBestParagraph : 0.4,
+
   // PROD
   bDevMode : true,
   bActiveSumup : false,
