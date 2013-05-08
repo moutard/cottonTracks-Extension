@@ -16,6 +16,9 @@
     + '[class*=adsense], [id*=adsense], '
     + '[class*=promotion], [id*=promotion]';
 
+  var sImageParentSelector = '[class*=background], [class*=Background], '
+    + '[id*=background], [id*=Background]';
+
   /**
    * @class : Parser
    *
@@ -55,7 +58,7 @@
           this._oClient = oClient;
           this.getFirstInfoFromPage(oClient.current());
           this._MIN_PARAGRAPH_WIDTH = 319;
-          this._MIN_OBJECT_WIDTH = 199;
+          this._MIN_OBJECT_WIDTH = 149;
           this._MIN_OBJECT_HEIGHT = 139;
           // Detects sentences containing at least three separate words of at
           // least three
@@ -225,25 +228,27 @@
          */
         _findBestImage : function() {
           var lImages = Array.prototype.slice.call(document.images);
-          var oBiggestImage = lImages[0];
-          var nBiggestImageArea = null;
-          var nMinArea = this._MIN_OBJECT_WIDTH * this._MIN_OBJECT_HEIGHT;
-          // var nMiddleX = window.outerWidth * 0.5;
-          // var nMiddleY = document.height * 0.75;
-          for (var i = 1, len = lImages.length; i < len; i++) {
+          for (var i = 0, len = lImages.length; i < len; i++) {
             var oCurrentImage = lImages[i];
-            var nCurrentImageArea = oCurrentImage.clientWidth * oCurrentImage.clientHeight;
-            nBiggestImageArea = oBiggestImage.clientWidth * oBiggestImage.clientHeight;
-            // if (oCurrentImage.x < nMiddleX && oCurrentImage.y < nMiddleY) {
-              if (nCurrentImageArea > nBiggestImageArea) {
-                oBiggestImage = oCurrentImage;
-              }
-            // }
+            var nScore = 0;
+            var nArea = oCurrentImage.clientWidth * oCurrentImage.clientHeight;
+            if (oCurrentImage.clientWidth > this._MIN_OBJECT_WIDTH
+            && oCurrentImage.clientHeight > this._MIN_OBJECT_HEIGHT
+            && oCurrentImage.y < document.height * 0.52
+            && ! Cotton.Utils.ancestor(sImageParentSelector, oCurrentImage,
+              false, true)) {
+              nScore = nArea;
+              nScore /= Math.pow(oCurrentImage.y + 1, 2);
+              nScore /= Math.pow(oCurrentImage.x + 1, 2);
+              oCurrentImage.setAttribute('data-score', nScore);
+            } else{
+              delete lImages[i];
+            }
           }
-          if (oBiggestImage.clientWidth > this._MIN_OBJECT_WIDTH
-            && oBiggestImage.clientHeight > this._MIN_OBJECT_HEIGHT) {
-            this._sBestImage = oBiggestImage.src;
-          }
+          lImages.sort(function(oA, oB){
+            return oB.getAttribute('data-score') - oA.getAttribute('data-score');
+          });
+          this._sBestImage = lImages[0] ? lImages[0].src : '';
           return this;
         },
 
