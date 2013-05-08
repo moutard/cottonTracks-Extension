@@ -21,14 +21,10 @@
   },
   "content_scripts": [
     {
-      "matches": [ "file://*",
-                   "http://*/*",
-                   "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*", "https://www.google.co.uk/*",
-                   "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*",
-                   "https://www.youtube.com/*", "https://www.youtube.fr/*", "https://www.youtube.es/*", "https://www.youtube.co.uk/*",
-                   "https://www.wikipedia.org/*", "https://en.wikipedia.org/*", "https://fr.wikipedia.org/*"
-                 ],
-      "exclude_matches" : ["https://www.google.com/url", "https://www.google.fr/url", "http://www.google.com/url", "http://www.google.fr/url"],
+      "matches": [ "file://*", "*://*/*"],
+      "exclude_globs" : ["https://www.google.*/url"],
+      "include_globs" : ["file://*", "http://*", "https://www.google.*", "https://maps.google.*",
+      "https://www.youtube.*", "https://*.wikipedia.org/*"],
       "css": [],
       "js": [
               "lib/class.js", "lib/jquery-2.0.0.min.js",
