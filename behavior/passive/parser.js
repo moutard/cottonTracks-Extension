@@ -55,8 +55,8 @@
           this._oClient = oClient;
           this.getFirstInfoFromPage(oClient.current());
           this._MIN_PARAGRAPH_WIDTH = 319;
-          this._MIN_OBJECT_WIDTH = 400;
-          this._MIN_OBJECT_HEIGHT = 300;
+          this._MIN_OBJECT_WIDTH = 199;
+          this._MIN_OBJECT_HEIGHT = 139;
           // Detects sentences containing at least three separate words of at
           // least three
           // letters each.
@@ -122,7 +122,7 @@
           $('[data-meaningful]').removeAttr('data-meaningful');
           $('[data-skip]').removeAttr('data-skip');
           this._findText();
-          this.findBestImage();
+          this._findBestImage();
           this._saveResults();
           this._publishResults();
         },
@@ -221,16 +221,30 @@
         /**
          * Finds the best image in the whole page.
          *
-         * @returns {String} src
+         * @returns {this}
          */
-        findBestImage : function() {
-          var sSrc = this._findSearchImageResult();
-          if (sSrc) {
-            this._sBestImage = sSrc;
-          } else {
-            this._sBestImage = this._findBestImageInBlocks($('body'));
+        _findBestImage : function() {
+          var lImages = Array.prototype.slice.call(document.images);
+          var oBiggestImage = lImages[0];
+          var nBiggestImageArea = null;
+          var nMinArea = this._MIN_OBJECT_WIDTH * this._MIN_OBJECT_HEIGHT;
+          // var nMiddleX = window.outerWidth * 0.5;
+          // var nMiddleY = document.height * 0.75;
+          for (var i = 1, len = lImages.length; i < len; i++) {
+            var oCurrentImage = lImages[i];
+            var nCurrentImageArea = oCurrentImage.clientWidth * oCurrentImage.clientHeight;
+            nBiggestImageArea = oBiggestImage.clientWidth * oBiggestImage.clientHeight;
+            // if (oCurrentImage.x < nMiddleX && oCurrentImage.y < nMiddleY) {
+              if (nCurrentImageArea > nBiggestImageArea) {
+                oBiggestImage = oCurrentImage;
+              }
+            // }
           }
-          return this._sBestImage;
+          if (oBiggestImage.clientWidth > this._MIN_OBJECT_WIDTH
+            && oBiggestImage.clientHeight > this._MIN_OBJECT_HEIGHT) {
+            this._sBestImage = oBiggestImage.src;
+          }
+          return this;
         },
 
         /**
