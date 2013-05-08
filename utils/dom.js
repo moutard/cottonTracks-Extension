@@ -23,7 +23,7 @@
     if (bCache && oCache.hasOwnProperty(sSelector)) {
       lMatches = oCache[sSelector];
     } else{
-      oMatches = document.querySelectorAll(sSelector);
+      oMatches = document.body.querySelectorAll(sSelector);
       lMatches = oCache[sSelector] = Array.prototype.slice.call(oMatches);
     }
     while(oParent !== document) {
