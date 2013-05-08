@@ -145,7 +145,7 @@
             document.body,
             NodeFilter.SHOW_TEXT,
             /**
-             * Filter function tobe used in DOM traversal.
+             * Filter function for DOM traversal.
              *
              * Filter out nodes belonging to unwanted parents (scripts, comments, ads...)
              * and accept nodes that satisfy some text-related constraints (sentence regex
@@ -159,16 +159,24 @@
               var mAncestor = Cotton.Utils.ancestor;
               var sContent = oNode.textContent;
 
+              // First avoid REGEXP computation on scripts and noscripts
+              // This prevents the parser to freeze on google searches
               if (! mAncestor('script, noscript', oNode, false, true)) {
                 if (sContent.match(self._SENTENCE_REGEX)) {
+                  // Validation by means of ancestry. If passes then return the
+                  // FILTER_ACCEPT constant, else mark the parent as skippable
                   if (oParent.clientWidth > self._MIN_PARAGRAPH_WIDTH
                   && ! mAncestor(sParentSelector, oNode, false, true)
                   && ! mAncestor('[href*="googlead"]', oNode, true, true)) {
                     oParent.setAttribute('data-meaningful', 'true');
+                    // Append the new meaningful tree to the cache used
+                    // by Cotton.Utils.ancestor
                     Cotton.Utils.appendToCache(sParentSelector, oParent);
                     return NodeFilter.FILTER_ACCEPT;
                   }
                   oParent.setAttribute('data-skip', 'true');
+                  // Append the new skippable tree to the cache used
+                  // by Cotton.Utils.ancestor
                   Cotton.Utils.appendToCache(sParentSelector, oParent);
                 }
               }
