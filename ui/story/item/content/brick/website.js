@@ -31,7 +31,14 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
     this._$url.text(sDomain);
 
     // favicon using chrome API.
-    this._$favicon = $('<img class="favicon" src="chrome://favicon/'+sUrl+'">');
+    var oRegExp = /www.google.[a-z]{2,3}|www.google.[a-z]{2,3}.[a-z]{2,3}/ig;
+    // we treat google differently because favicon api only retrieves favicon for urls that
+    // have been actually visited by the user, but we standardize google urls.
+    if (sDomain.match(oRegExp)){
+      this._$favicon = $('<img class="favicon" src="http://www.google.com/images/google_favicon_128.png">');
+    } else {
+      this._$favicon = $('<img class="favicon" src="chrome://favicon/'+sUrl+'">');
+    }
 
     // construct item.
     this._$website.append(
