@@ -61,8 +61,8 @@ function UrlParser(sUrl) {
                     || this.hostname_without_country  === "www.google.com")
   this.isGoogleMaps = (this.hostname_without_country === "maps.google"
                       || this.hostname_without_country === "maps.google.co")
-  this.isWikipedia = (this.hostname === "en.wikipedia.org"
-                     || this.hostname === "fr.wikipedia.org");
+  var oWikiRegExp = /[a-z]{2,3}.wikipedia.org/ig;
+  this.isWikipedia = (this.hostname.match(oWikiRegExp)) ? true : false;
   this.isYoutube = (this.hostname === "www.youtube.com");
   this.isVimeo = (this.hostname_without_country === "vimeo");
 
