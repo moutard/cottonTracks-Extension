@@ -28,6 +28,10 @@ test("is excluded pattern.", function() {
   var sNotSearchGeneratedPage = 'http://www.blogposts.com/ref?referrer=https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
   var sLocalHost = "http://localhost:8888";
   var sChromeExtension = "chrome-extension://dlemjomhbbkijjhnbndcgglakfcdobjl/lightyear.html";
+  var sGoogleCoUk = "https://www.google.co.uk/url";
+  var sGoogleCl = "https://www.google.cl/url";
+  var sGoogleCom = "https://www.google.com/url";
+  var sGoogleComAu = "https://www.google.com.au/url";
 
   deepEqual(oExcludeContainer.isExcluded(sSearchGeneratedPage), true,
     'searchGeneratedPage is introduced between google and actual search result clicked');
@@ -37,6 +41,14 @@ test("is excluded pattern.", function() {
     'localhost');
   deepEqual(oExcludeContainer.isExcluded(sChromeExtension), true,
     'chrome-extension');
+  deepEqual(oExcludeContainer.isExcluded(sGoogleCoUk), true,
+    'google.co.uk');
+  deepEqual(oExcludeContainer.isExcluded(sGoogleCl), true,
+    'google.cl');
+  deepEqual(oExcludeContainer.isExcluded(sGoogleCom), true,
+    'google.com');
+  deepEqual(oExcludeContainer.isExcluded(sGoogleComAu), true,
+    'google.com.au');
 });
 
 test("is https.", function() {
