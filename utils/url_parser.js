@@ -57,7 +57,8 @@ function UrlParser(sUrl) {
   this.pathname = this.pathname[0];
 
   this.isGoogle = (this.hostname_without_country === "www.google"
-                    || this.hostname_without_country  === "www.google.co")
+                    || this.hostname_without_country  === "www.google.co"
+                    || this.hostname_without_country  === "www.google.com")
   this.isGoogleMaps = (this.hostname_without_country === "maps.google"
                       || this.hostname_without_country === "maps.google.co")
   this.isWikipedia = (this.hostname === "en.wikipedia.org"
