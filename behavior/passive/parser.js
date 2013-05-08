@@ -42,11 +42,8 @@
          * Parameters
          */
         _MIN_PARAGRAPH_WIDTH : null,
-        _MIN_BR_FOR_TEXT_CONTAINER : null,
         _MIN_OBJECT_WIDTH : null,
         _MIN_OBJECT_HEIGHT : null,
-        _MIN_PRE_WIDTH : null,
-        _MIN_PRE_HEIGHT : null,
         _SENTENCE_REGEX : null,
 
         /**
@@ -58,11 +55,8 @@
           this._oClient = oClient;
           this.getFirstInfoFromPage(oClient.current());
           this._MIN_PARAGRAPH_WIDTH = 319;
-          this._MIN_BR_FOR_TEXT_CONTAINER = 5;
           this._MIN_OBJECT_WIDTH = 400;
           this._MIN_OBJECT_HEIGHT = 300;
-          this._MIN_PRE_WIDTH = 400;
-          this._MIN_PRE_HEIGHT = 100;
           // Detects sentences containing at least three separate words of at
           // least three
           // letters each.
