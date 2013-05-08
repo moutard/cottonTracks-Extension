@@ -7,9 +7,9 @@ Cotton.Config.Parameters = {
       'grooveshark.com', 'github.com', 'www.facebook.com', 'www.deezer.com',
       'www.wordreference.com', 'twitter.com' ],
   lExcludePatterns : [
-      '^(https?://www.google.com/url)', '^(https?://www.google.fr/url)',
-      '^(https?://www.google.com/webhp)', '^(https?://www.google.fr/webhp)',
-      '^(https?://www.google.fr/accounts/)', '^(https?://www.google.fr/accounts/)' ],
+      '^(https?://www.google.[a-z]{2,3}/url)', '^(https?://www.google.[a-z]{2,3}.[a-z]{2,3}/url)',
+      '^(https?://www.google.[a-z]{2,3}/webhp)', '^(https?://www.google.[a-z]{2,3}.[a-z]{2,3}/webhp)',
+      '^(https?://www.google.[a-z]{2,3}/accounts/)', '^(https?://www.google.[a-z]{2,3}.[a-z]{2,3}/accounts/)' ],
   iSliceTime : 1000 * 60 * 5, // closestGeneratedPages
 
   // threshold percentage of the history for an expression to be banned
