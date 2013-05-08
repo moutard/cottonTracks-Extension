@@ -71,9 +71,10 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
     // Get test data
     $.getJSON('../../data/web_pages/' + lWebPagesToTest[i]
       + '/test_data.json', function(oTestData) {
-      // Define expected paragraphs
+      // Define expected data
       var lExpectedParagraphs = oTestData['expected'];
       var lMeaningfulParagraphs;
+      var sExpectedImage = oTestData['best_image'];
       var sWebPageId = oTestData['id'];
       var sAbsPath = 'file://' + sOwnPath + oTestData['path'];
       // Results object for the web_page currently being tested
@@ -83,6 +84,7 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
         'time': { 'start': null, 'end': null },
         'expected': lExpectedParagraphs.length,
         'meaningful': null,
+        'image': null,
         'missings': 0,
         'false_positives': 0
       };
@@ -109,6 +111,8 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
               // Define meaningful paragraphs
               lMeaningfulParagraphs = message['results']['meaningful'];
               oResults['meaningful'] = lMeaningfulParagraphs.length;
+              // Define selected image
+              oResults['image'] = message['results']['bestImage'];
               // The assertions
               // Check lists are not empty
               ok(lExpectedParagraphs.length, 'Expected paragraphs'
@@ -135,6 +139,16 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
                 }
                 ok(bPresent, 'Should be expected' + ': ' + sParagraph);
               }
+              // Assert image url
+              var sExpectedImageName = sExpectedImage.split('/');
+              sExpectedImageName = sExpectedImageName[sExpectedImageName.length - 1];
+              // The saved web pages have lowercased file names and hrefs
+              sExpectedImageName = sExpectedImageName.toLowerCase();
+              var sResultImageName = oResults['image'].split('/');
+              sResultImageName = sResultImageName[sResultImageName.length - 1];
+              var bEqual = (sExpectedImageName == sResultImageName);
+              deepEqual(sResultImageName, sExpectedImageName, 'Should pick correct image');
+              oResults['image'] = bEqual;
               // Append current results to all results
               oAllResults.push(oResults);
               chrome.tabs.remove(tab['id']);

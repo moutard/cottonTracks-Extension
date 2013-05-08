@@ -27,6 +27,7 @@ var mDrawTable = function(oAllResults) {
   oData.addColumn('string', 'Id');
   oData.addColumn('string', 'Path');
   oData.addColumn('number', 'Elapsed time (ms)');
+  oData.addColumn('boolean', 'Image');
   oData.addColumn('number', 'Expected');
   oData.addColumn('number', 'Meaningful');
   oData.addColumn('number', 'Missings');
@@ -42,8 +43,8 @@ var mDrawTable = function(oAllResults) {
     var iError = Number((100 * ((iMissings + iFalsePositives) /
       (iExpected + iMeaningful))).toFixed(2));
     oData.addRows([
-      [oResults['id'], oResults['path'], fElapsedTime, iExpected, iMeaningful, iMissings,
-      iFalsePositives , iError]
+      [oResults['id'], oResults['path'], fElapsedTime, oResults.image,
+      iExpected, iMeaningful, iMissings, iFalsePositives , iError]
     ]);
     fTotalTime += fElapsedTime;
     iTotalExpected += iExpected;
@@ -53,9 +54,11 @@ var mDrawTable = function(oAllResults) {
     iTotalError += iError;
   };
   oData.addRows([
-      ['Total', null, Number(fTotalTime.toFixed(2)), iTotalExpected, iTotalMeaningful, iTotalMissings,
-        iTotalFalsePositives , {'v': null, 'f': '--' }],
+      ['Total', null, Number(fTotalTime.toFixed(2)), null, iTotalExpected,
+      iTotalMeaningful, iTotalMissings, iTotalFalsePositives ,
+      {'v': null, 'f': '--' }],
       ['Average', null, Number((fTotalTime / iLen).toFixed(2)),
+        null,
         Number((iTotalExpected / iLen).toFixed(2)),
         Number((iTotalMeaningful / iLen).toFixed(2)),
         Number((iTotalMissings / iLen).toFixed(2)),
