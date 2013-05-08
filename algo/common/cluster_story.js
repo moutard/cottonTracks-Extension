@@ -84,7 +84,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
         var oUrl = new UrlParser(lHistoryItems[j]['sUrl']);
         oUrl.fineDecomposition();
-        if (reg.exec(lHistoryItems[j]['sUrl'])) {
+        var fileReg = /File\:/ig;
+        if (reg.exec(lHistoryItems[j]['sUrl']) && !oUrl.pathname.match(fileReg)) {
         	//Image
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(lHistoryItems[j]['sUrl']);
