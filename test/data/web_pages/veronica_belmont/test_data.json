@@ -3,7 +3,7 @@
   "url": "http://www.veronicabelmont.com/",
   "path": "test/data/web_pages/veronica_belmont/content/index.html",
 
-  "best_image": "http://o.aolcdn.com/aboutme/production138/images/blank.gif",
+  "best_image": "",
 
   "expected": [
     "The author of 22 NYT Best Sellers, creator of Drizzt Do’Urden, and all around fantasy genre luminary R.A. Salvatore joins us to talk what’s next for the Drow Ranger, John Fogerty, and why you should quit writing (if you can). Enjoy!"
