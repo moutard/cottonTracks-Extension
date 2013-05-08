@@ -20,8 +20,8 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, oDispatcher) {
   var sLastStringFromHyphen = sLastStringFromPathname.split('-')[
     sLastStringFromPathname.split('-').length - 1]
 
-
-  if (reg.exec(oHistoryItem.url())) {
+  var fileReg = /File\:/ig;
+  if (reg.exec(oHistoryItem.url()) && !oUrl.pathname.match(fileReg)) {
     // Image
     var sImageUrl = oHistoryItem.url();
     return new Cotton.UI.Story.Item.Image(sImageUrl, oHistoryItem, oDispatcher);
