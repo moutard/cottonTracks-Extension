@@ -3,7 +3,7 @@
   "url": "http://about.me/veronica",
   "path": "test/data/web_pages/about_veronica/content/index.html",
 
-  "best_image": "http://o.aolcdn.com/aboutme/production138/images/blank.gif",
+  "best_image": "",
 
   "expected": [
     "Veronica is a technology and gaming-centric video host based in San Francisco. Currently her projects include Tekzilla (a weekly tech help and how-to show on Revision3.com), Fact or Fictional on TechFeed, and The Sword and Laser, a science fiction and fantasy video show, podcast and community, co-hosted with Tom Merritt.",
