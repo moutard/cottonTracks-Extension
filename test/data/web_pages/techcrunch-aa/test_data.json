@@ -2,7 +2,7 @@
   "id": "techcrunch-aa",
   "url": "http://techcrunch.com/2013/04/16/all-american-airlines-flights-grounded-experiencing-nationwide-computer-outage/?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+Techcrunch+%28TechCrunch%29",
   "path": "test/data/web_pages/techcrunch-aa/content/index.html",
-  "best_image": "http://tctechcrunch2011.files.wordpress.com/2013/04/aa.jpeg?w=256",
+  "best_image": "http://tctechcrunch2011.files.wordpress.com/2013/04/aa.jpeg",
   "expected": [
     "The Federal Aviation Administration has grounded all American Airlines flights until at least 5pm today, citing computer problems that have taken their reservations system down. We will update this story as it unfolds. This cannot be pleasant for those stuck in planes right now."
   ]
