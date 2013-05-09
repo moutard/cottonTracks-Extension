@@ -473,13 +473,13 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _saveVideoIframe : function(oIframe) {
     var self = this;
     var oIframes = document.getElementsByTagName('iframe');
-    var sTitle = oIframe.title || 'Embedded video';
+    var sTitle = (oIframe.title)? oIframe.title + ' - ' : '';
     var oHistoryItem = self._oClient.current();
     var oItem = new Cotton.Model.HistoryItem();
     var sVideoUrl = self._getVideoUrlFromEmbeddingUrl(oIframe.src);
     if (sVideoUrl) {
       oItem.initUrl(sVideoUrl);
-      oItem.setTitle([sTitle, oHistoryItem.title()].join(' - '));
+      oItem.setTitle(sTitle + oHistoryItem.title());
       oItem.setLastVisitTime(Date.now());
       oItem.extractedDNA().setExtractedWords(oHistoryItem.extractedDNA()
         .extractedWords());
