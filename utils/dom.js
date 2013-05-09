@@ -58,5 +58,12 @@
         oCurrentCache.push(oNode);
       }
     }
-  }
+  };
+
+  /**
+   * empty the cache if we want to relaunch parsing.
+   */
+  Cotton.Utils.emptyCache = function() {
+    oCache = {};
+  };
 })();

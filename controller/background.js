@@ -144,7 +144,13 @@ Cotton.Controllers.Background = Class.extend({
       }, function(lTabs){
         var sUrl = lTabs[0]['url'];
         var oUrl = new UrlParser(sUrl);
-        if (oUrl.isGoogle && oUrl.keywords){
+        if (oUrl.isGoogle && oUrl.dSearch && oUrl.dSearch['tbm'] === 'isch'){
+          if (oUrl.searchImage){
+             sUrl = oUrl.searchImage;
+           } else {
+             sUrl = oUrl.genericSearch + "&tbm=isch";
+           }
+        } else if (oUrl.isGoogle && oUrl.keywords){
           sUrl = oUrl.genericSearch;
         }
         self._oDatabase.find('historyItems',

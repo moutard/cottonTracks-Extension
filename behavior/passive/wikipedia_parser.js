@@ -62,6 +62,7 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
         }
 
         $('[data-meaningful]').removeAttr('data-meaningful');
+        $('[data-skip]').removeAttr('data-skip');
         this._findText();
         this.findBestImage();
         this._saveResults();

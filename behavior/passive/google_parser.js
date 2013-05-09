@@ -55,6 +55,7 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
     this._$InfoBox = $('#rhs'); // seems it doesn't work.
 
     $('[data-meaningful]').removeAttr('data-meaningful');
+    $('[data-skip]').removeAttr('data-skip');
     this._findText();
     this.findBestImage();
     this._saveResults();
