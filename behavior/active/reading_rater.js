@@ -334,49 +334,49 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var $highlightedContentBlocks = $([]);
 
     $(document).mouseup(
-        function(oEvent) {
-          var oSelection = window.getSelection();
+      function(oEvent) {
+        var oSelection = window.getSelection();
 
-          if (oSelection.isCollapsed || oSelection.toString() === " ") {
-            // Do not do anything on empty selections.
-            $highlightedContentBlocks = $([]);
-            return;
+        if (oSelection.isCollapsed || oSelection.toString() === " ") {
+          // Do not do anything on empty selections.
+          $highlightedContentBlocks = $([]);
+          return;
+        }
+        self._oClient.current().extractedDNA().addHighlightedText(
+            oSelection.toString());
+        var oStartNode = oSelection.anchorNode;
+        var oEndNode = oSelection.focusNode;
+
+        // We will try to detect if either the start node and the end
+        // node are
+        // both located inside a common content block (which will have
+        // an
+        // attribute named "data-meaningful" because of
+        // Cotton.Behavior.Passive.Parser.
+        $highlightedContentBlocks = self
+            ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
+
+        // If there is such a content block, we will increment the
+        // score
+        // attached
+        // to the block.
+        $highlightedContentBlocks.each(function() {
+          var oScore = $(this).data('score');
+          if (oScore) {
+            // TODO(fwouts): Tweak the incremental score.
+            oScore.setScore(Math.max(oScore.score(), Cotton.Config.Parameters.minPercentageForBestParagraph));
+            oScore.addQuote(oSelection.toString());
+
+            // set the highlighted text as part of a paragraph
+            var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
+            oParagraph.setId(oScore.id());
+            oParagraph.setPercent(oScore.score());
+            oParagraph.setQuotes(oScore.quotes());
+            self._oClient.current().extractedDNA().addParagraph(oParagraph);
+            self._oClient.updateVisit();
           }
-          self._oClient.current().extractedDNA().addHighlightedText(
-              oSelection.toString());
-          var oStartNode = oSelection.anchorNode;
-          var oEndNode = oSelection.focusNode;
-
-          // We will try to detect if either the start node and the end
-          // node are
-          // both located inside a common content block (which will have
-          // an
-          // attribute named "data-meaningful" because of
-          // Cotton.Behavior.Passive.Parser.
-          $highlightedContentBlocks = self
-              ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
-
-          // If there is such a content block, we will increment the
-          // score
-          // attached
-          // to the block.
-          $highlightedContentBlocks.each(function() {
-            var oScore = $(this).data('score');
-            if (oScore) {
-              // TODO(fwouts): Tweak the incremental score.
-              oScore.setScore(Math.max(oScore.score(), Cotton.Config.Parameters.minPercentageForBestParagraph));
-              oScore.addQuote(oSelection.toString());
-
-              // set the highlighted text as part of a paragraph
-              var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
-              oParagraph.setId(oScore.id());
-              oParagraph.setPercent(oScore.score());
-              oParagraph.setQuotes(oScore.quotes());
-              self._oClient.current().extractedDNA().addParagraph(oParagraph);
-              self._oClient.updateVisit();
-            }
-          });
         });
+    });
 
     // We specifically listen to 'copy' events to re-augment the score of
     // highlighted content blocks that are also copied.
