@@ -204,16 +204,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     if (self._oFeedbackElement) {
       self._oFeedbackElement.start();
     }
-    // livequery is a jQuery plugin.
-    // I think this is not usefull because it's done one in start function.
-    $('[data-meaningful]').livequery(function() {
-      var $block = $(this);
-      var oScore = $block.data('score');
-      if (!oScore) {
-        oScore = new Cotton.Behavior.Active.Score($block);
-        $block.data('score', oScore);
-      }
-    });
 
     var mRefreshReadingRate = function() {
       // Do not increase scores if the document is inactive.
