@@ -39,8 +39,12 @@ Cotton.Behavior.Passive.GoogleImageParser = Cotton.Behavior.Passive.Parser.exten
    * @param {Cotton.Model.HistoryItem} oHistoryItem.
    */
    getFirstInfoFromPage : function(oHistoryItem) {
-     oHistoryItem._sUrl = this._oUrl.searchImage;
-     oHistoryItem._sFeaturedImage = this._oUrl.searchImage;
+     if (this._oUrl.searchImage){
+       oHistoryItem._sUrl = this._oUrl.searchImage;
+       oHistoryItem._sFeaturedImage = this._oUrl.searchImage;
+     } else {
+       oHistoryItem._sUrl = this._oUrl.genericSearch + "&tbm=isch";
+     }
      oHistoryItem._sTitle = window.document.title;
      oHistoryItem._iLastVisitTime = new Date().getTime();
      oHistoryItem._sReferrerUrl = document.referrer;

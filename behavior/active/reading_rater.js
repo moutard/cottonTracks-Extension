@@ -94,6 +94,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
 
     this._initializeHighlightListener();
+    this._initializeHashListener();
 
     self._oClient.current().extractedDNA().setTimeTabActive(0);
     self._oClient.current().extractedDNA().setTimeTabOpen(0);
@@ -140,7 +141,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
         }
 
         self._oClient.current().extractedDNA().setPageScore(fPageScore);
-        self._oClient.current().extractedDNA().setPercent(iPercent);
         self._oClient.current().extractedDNA().setPercent(iPercent);
         self._oClient.current().extractedDNA().increaseTimeTabActive(
             Cotton.Behavior.Active.REFRESH_RATE);
@@ -316,6 +316,59 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
 
     return lBlockBundles;
+  },
+
+  /**
+   * Listens for a hash change in the url to create a new historyItem
+   */
+  _initializeHashListener : function() {
+    var self = this;
+    $(window).bind('hashchange', function(e){
+      self.stop();
+      self._refreshStart();
+    });
+  },
+
+  /**
+   * For Google, it is a brand new item (because a new search) with different parameters
+   * For all other pages it is likely to be just an anchor, so the same page.
+   * However for the moment we create a new item with new properties otherwise when
+   * calling the browserAction, the new url is possibly not in the database.
+   */
+  _refreshStart : function() {
+    var self = this;
+
+    var oUrl = new UrlParser(window.location.href);
+    oUrl.fineDecomposition();
+    self._oClient.init();
+    // empty cache to be able to re-walk through the new content.
+    Cotton.Utils.emptyCache();
+    self._oParser.init(self._oClient, oUrl);
+    self._oClient.createVisit();
+
+    self._oClient.current().extractedDNA().setTimeTabActive(0);
+    self._oClient.current().extractedDNA().setTimeTabOpen(0);
+    // To increase performance the parsing is just lanched once.
+    var mRefreshParsing = function() {
+      self._oParser.parse();
+
+      // Set $feedback
+      var sBestImg = self._oParser.bestImage();
+      if (sBestImg) {
+        if (self._oFeedbackElement) {
+          self._oFeedbackElement.setBestImage(sBestImg);
+        }
+
+        // Update oCurrentHistoryItem
+        self._oClient.current().extractedDNA().setImageUrl(sBestImg);
+        self._oClient.updateVisit();
+      }
+      self.restart();
+    };
+    // Launch almost immediately (but try to avoid freezing the page).
+    setTimeout(function(){
+      mRefreshParsing();
+    }, 0);
   },
 
   /**
