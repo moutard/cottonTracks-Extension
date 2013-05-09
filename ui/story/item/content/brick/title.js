@@ -25,7 +25,9 @@ Cotton.UI.Story.Item.Content.Brick.Title = Class.extend({
 
     // current parent element.
     this._oItem = oItem;
-
+    if ((!sTitle || sTitle === "") && sUrl){
+      sTitle = sUrl;
+    }
     // current item
     this._$title = $('<h3></h3>').text(sTitle);
     if (sUrl){
