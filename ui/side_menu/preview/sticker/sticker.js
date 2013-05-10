@@ -34,6 +34,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 
     if (sTypeOfSticker === "relatedStory"){
   	  this._$sticker.click(function(){
+  	    Cotton.ANALYTICS.changeStory();
         self.enterRelatedStory(self._oStory.id());
       });
     }
