@@ -26,6 +26,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(sStoryTitle);
     if (sTypeOfSticker === "currentStory"){
       this._$stickerTitle.attr('contenteditable','true').blur(function(){
+        Cotton.ANALYTICS.editStoryTitle();
         self._oDispatcher.publish("edit_title", {"title": $(this).text()});
       }).keypress(function(e){
         if (e.which === 13){

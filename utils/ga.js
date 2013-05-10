@@ -28,6 +28,11 @@ Cotton.Analytics = Class.extend({
   // Track an event with _gaq.push(['_trackEvent', 'category', 'action', 'opt_label',
   // 'opt_int_value', 'opt_bool_noninteraction']);
 
+  // to track number of people in a cohort
+  setCohort : function(sCohort) {
+    _gaq.push(['_trackEvent', 'cohort', 'setCohort', sCohort]);
+  },
+
   // items tracking
   visitHistoryItem : function() {
     _gaq.push(['_trackEvent', 'historyItem', 'new_visit']);
@@ -49,6 +54,9 @@ Cotton.Analytics = Class.extend({
   scrollStory : function() {
     _gaq.push(['_trackEvent', 'story', 'scroll']);
    },
+  editStoryTitle : function() {
+    _gaq.push(['_trackEvent', 'story', 'edit_title', 'story_title']);
+  },
 
   // Item tracking
   openItem : function(sItemType, sTrigger) {
@@ -72,30 +80,26 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'article', 'collapse', 'toolbox']);
   },
 
-  bestParagraphs : function() {
-    _gaq.push(['_trackEvent', 'article', 'switch', 'best']);
+  scrollReader : function() {
+    _gaq.push(['_trackEvent', 'article', 'scroll', 'reader']);
   },
 
-  quotes : function() {
-    _gaq.push(['_trackEvent', 'article', 'switch', 'quotes']);
+  //related stories and search
+  relatedStories : function() {
+    _gaq.push(['_trackEvent', 'related', 'open_panel', 'related_toggler']);
   },
 
-  wholeArticle : function() {
-    _gaq.push(['_trackEvent', 'article', 'switch', 'whole']);
+  backToStory : function() {
+    _gaq.push(['_trackEvent', 'related', 'back_to_story', 'related_toggler']);
   },
 
-  scrollBestParagraphs : function() {
-    _gaq.push(['_trackEvent', 'article', 'scroll', 'best']);
+  searchStories : function() {
+    _gaq.push(['_trackEvent', 'related', 'search', 'search_bar']);
   },
 
-  scrollQuotes : function() {
-    _gaq.push(['_trackEvent', 'article', 'scroll', 'quotes']);
-  },
-
-  scrollWholeArticle : function() {
-    _gaq.push(['_trackEvent', 'article', 'scroll', 'whole']);
-  },
-
+  changeStory : function() {
+    _gaq.push(['_trackEvent', 'related', 'change_story', 'related_sticker']);
+  }
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();

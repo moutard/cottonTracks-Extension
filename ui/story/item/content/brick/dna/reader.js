@@ -12,6 +12,7 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
   // current element.
   _$reader : null,
+  _bScrolled : null,
 
   init : function(oHistoryItemDNA){
     var self = this;
@@ -22,7 +23,13 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
     this._$reader = $('<div class="ct-content_reader"></div>');
 
     //construct element
-    this._$article = $('<div class="ct-reader_article"></div>');
+    this._$article = $('<div class="ct-reader_article"></div>').scroll(function(){
+      if (!self._bScrolled){
+        Cotton.ANALYTICS.scrollReader();
+        self._bScrolled = true;
+      }
+    });
+    ;
     this.setReader();
     this._$top_shadow = $('<div class="ct-reader_shadow top"></div>');
     this._$bottom_shadow = $('<div class="ct-reader_shadow bottom"></div>');
