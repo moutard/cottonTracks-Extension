@@ -62,7 +62,7 @@ Cotton.Controllers.Background = Class.extend({
   /**
    * boolean that indicates if installation has been launched already
    **/
-  _bInstalled : null,
+  _bInstallLaunched : null,
 
   /**
    * boolean that indicates if update has been launched already
@@ -70,24 +70,30 @@ Cotton.Controllers.Background = Class.extend({
   _bUpdated : null,
 
   /**
+   * boolean that indicates if background is ready for treating content script messages
+   * in particular, are we done with installation.
+   **/
+  _bReadyForMessaging : null,
+
+  /**
    *
    */
   init : function(){
     var self = this;
     self._bReadyForStart = false;
-    self._bInstalled = false;
+    self._bInstallLaunched = false;
     self._bUpdated = false;
+    self._bReadyForMessaging = false;
 
     chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
       Cotton.ONEVENT = oInstallationDetails['reason'];
-      DEBUG && console.debug("chrome runtime" + Cotton.ONEVENT);
-      if (self._bReadyForStart && !self._bInstalled && Cotton.ONEVENT === 'install'){
+      DEBUG && console.debug("chrome runtime " + Cotton.ONEVENT);
+      if (self._bReadyForStart && !self._bInstallLaunched && Cotton.ONEVENT === 'install'){
         self.install();
       } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
-        self._bInstalled = true;
         self.update();
-      } else {
-        // pass
+      } else if (self._bReadyForStart && !self._bInstallLaunched && !self._bUpdated){
+        self._bReadyForMessaging = true;
       }
     });
 
@@ -116,16 +122,16 @@ Cotton.Controllers.Background = Class.extend({
 
         // Init the messaging controller.
         self._oMessagingController = new Cotton.Controllers.Messaging(self);
-        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController);
+        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
 
           DEBUG && console.debug('Global store created');
-          if (!self._bInstalled && Cotton.ONEVENT === 'install') {
+          if (!self._bInstallLaunched && Cotton.ONEVENT === 'install') {
             self.install();
           } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
             self._bUpdated = true;
             self.update();
-          } else {
-            // pass
+          } else if (!self._bInstallLaunched && !self._bUpdated){
+            self._bReadyForMessaging = true;
           }
     });
 
@@ -325,7 +331,7 @@ Cotton.Controllers.Background = Class.extend({
                 var elapsedTime = (_endTime - self._startTime) / 1000;
                 DEBUG && console.debug("time elapsed during installation: "
                   + elapsedTime + "ms");
-                self._bInstallFinished = true;
+                self._bReadyForMessaging = true;
             });
           });
         }
@@ -343,7 +349,7 @@ Cotton.Controllers.Background = Class.extend({
   install : function(){
     var self = this;
     DEBUG && console.debug("Controller - install");
-    self._bInstalled = true;
+    self._bInstallLaunched = true;
     var date = new Date();
     var month = date.getMonth() + 1;
     localStorage.setItem('cohort', month + "/" + date.getFullYear());
@@ -399,6 +405,7 @@ Cotton.Controllers.Background = Class.extend({
    */
   update : function(){
     DEBUG && console.debug("update");
+    this._bReadyForMessaging = true;
   },
 
   addGetContentTab : function (iTabId) {
@@ -419,7 +426,7 @@ Cotton.Controllers.Background = Class.extend({
     // as long as the install and population of the database is not finished
     // we regularly call the background page to keep it awake
     chrome.runtime.getBackgroundPage(function(oPage){});
-    if (!this._bInstallFinished){
+    if (!this._bReadyForMessaging){
       DEBUG && console.debug('wake up!');
       setTimeout(function(){
         self.wakeUp();
