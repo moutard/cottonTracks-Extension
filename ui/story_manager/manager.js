@@ -21,15 +21,9 @@ Cotton.UI.StoryManager.Manager = Class.extend({
       this._sQuery = dArguments['searchWords'].join(' ');
     });
 
-    this._$manager.append(this._oTopbar.$(),
-      this._$stories_container.append(
-        this._$main_story.append(
-          this._$main_title
-        ),
-        this._$other_stories.append(
-          this._$other_title
-        )
-      )
+    this._$manager.append(
+      this._oTopbar.$(),
+      this._$stories_container
     );
 
     $(window).resize(function(){
@@ -51,16 +45,28 @@ Cotton.UI.StoryManager.Manager = Class.extend({
   placeStory: function(oStory){
     if (oStory){
       this._oStorySticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
+      this._$stories_container.prepend(
+        this._$main_story.append(
+          this._$main_title,
+          this._oStorySticker.$()
+        )
+      );
     }
-    this._$main_story.append(this._oStorySticker.$());
   },
 
   placeStoriesInTabs: function(lStoriesInTabs){
-    for (var i=0, oStory; oStory = lStoriesInTabs[i]; i++){
-      var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
-      this._lOtherStickers.push(oSticker.$());
+    if (lStoriesInTabs && lStoriesInTabs.length > 0){
+      for (var i=0, oStory; oStory = lStoriesInTabs[i]; i++){
+        var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
+        this._lOtherStickers.push(oSticker.$());
+      }
+      this._$stories_container.append(
+        this._$other_stories.append(
+          this._$other_title,
+          this._lOtherStickers
+        )
+      );
     }
-    this._$other_stories.append(this._lOtherStickers);
   },
 
   centerTop: function(){
