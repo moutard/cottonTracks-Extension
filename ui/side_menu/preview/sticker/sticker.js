@@ -35,7 +35,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
     if (sTypeOfSticker === "relatedStory"){
   	  this._$sticker.click(function(){
   	    Cotton.ANALYTICS.changeStory();
-        self.enterRelatedStory(self._oStory.id());
+        self.enterStory(self._oStory.id());
       });
     }
 
@@ -63,8 +63,8 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
     return this._oStickerInfos;
   },
 
-  enterRelatedStory : function(iStoryId){
-    this._oDispatcher.publish('enter_related', {'story_id': iStoryId});
+  enterStory : function(iStoryId){
+    this._oDispatcher.publish('enter_story', {'story_id': iStoryId});
   },
 
 

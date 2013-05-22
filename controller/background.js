@@ -27,32 +27,35 @@ Cotton.Controllers.Background = Class.extend({
   _wDBSCAN3 : null,
   _wDBSCAN2 : null,
 
-  _sScreenshotSrc : null,
-
   /**
    * MessagingController
    */
   _oMessagingController : null,
 
- /**
-   * MessagingController
-   */
-  _oContentScriptListener : null,
+  /**
+    * MessagingController
+    */
+   _oContentScriptListener : null,
 
- /**
-  * data of tabs opened for getContent
-  **/
-  _dGetContentTabId : null,
+  /**
+   * data of tabs opened for getContent
+   **/
+   _dGetContentTabId : null,
 
- /**
-  * data of tabs and their HistoryItems
-  **/
-  _dTabStory : null,
+  /**
+   * Story to be displayed in lightyear
+   **/
+   _iTriggerStory : null,
 
- /**
-  * Story to be displayed in lightyear
-  **/
-  _iTriggerStory : null,
+  /**
+   * ids of stories for all open tabs
+   **/
+   _lStoriesInTabsId : null,
+
+  /**
+   * id of the tab from which the browserAction was clicked
+   **/
+  _iCallerTabId : null,
 
   /**
    * boolean that indicates if everything is set for installation or update
@@ -98,7 +101,7 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     this._dGetContentTabId = {};
-    this._dTabStory = {};
+    this._lStoriesInTabsId = [];
 
     chrome.browserAction.disable();
     self.initWorkerDBSCAN3();
@@ -142,39 +145,26 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     chrome.browserAction.onClicked.addListener(function() {
-      self.takeScreenshot();
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        var sUrl = lTabs[0]['url'];
-        var oUrl = new UrlParser(sUrl);
-        if (oUrl.isGoogle && oUrl.dSearch && oUrl.dSearch['tbm'] === 'isch'){
-          if (oUrl.searchImage){
-             sUrl = oUrl.searchImage;
-           } else {
-             sUrl = oUrl.genericSearch + "&tbm=isch";
-           }
-        } else if (oUrl.isGoogle && oUrl.keywords){
-          sUrl = oUrl.genericSearch;
-        }
-        self._oDatabase.find('historyItems',
-        'sUrl', sUrl, function(_oHistoryItem){
-          if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-            self._iTriggerStory = _oHistoryItem.storyId();
-            chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-              // TODO(rkorach) : delete ct page from history
-            });
-          } else {
-            self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
-              self._iTriggerStory = iStoryId;
-              chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-                // TODO(rkorach) : delete ct page from history
+        self._iCallerTabId = lTabs[0]['id'];
+      });
+      chrome.tabs.query({}, function(lTabs){
+        var iOpenTabs = lTabs.length;
+        var iCount = 0;
+        for (var i = 0, oTab; oTab = lTabs[i]; i++){
+          self.getStoryFromTab(oTab, function(){
+            iCount++;
+            if (iCount === iOpenTabs){
+              chrome.tabs.create({
+                'url': 'lightyear.html'
               });
-            });
-          }
-        });
+            }
+          });
+        }
       });
     });
   },
@@ -380,24 +370,6 @@ Cotton.Controllers.Background = Class.extend({
 
   },
 
-
-  /**
-   * return the sreenshot url saved in chrome.
-   */
-  screenshot : function() {
-    return this._sScreenshotSrc;
-  },
-  /**
-   * Takes a screenshot of the visible tab through chrome tabs api.
-   */
-  takeScreenshot : function() {
-    self = this;
-    chrome.tabs.captureVisibleTab(function(img) {
-      self._sScreenshotSrc = img;
-    });
-  },
-
-
   /**
    * Update
    *
@@ -436,7 +408,56 @@ Cotton.Controllers.Background = Class.extend({
 
   setTriggerStory : function(iStoryId){
     this._iTriggerStory = iStoryId;
+  },
+
+  setOtherStories : function(){
+    var self = this;
+    self._lStoriesInTabsId = [];
+    chrome.tabs.query({}, function(lTabs){
+      var iOpenTabs = lTabs.length;
+      var iCount = 0;
+      for (var i = 0, oTab; oTab = lTabs[i]; i++){
+        self.getStoryFromTab(oTab);
+      }
+    });
+  },
+
+  getStoryFromTab : function(oTab, mCallback){
+    var self = this;
+    var sUrl = oTab['url'];
+    var bTrigger = (oTab['id'] === self._iCallerTabId);
+    var oUrl = new UrlParser(sUrl);
+    if (oUrl.isGoogle && oUrl.dSearch && oUrl.dSearch['tbm'] === 'isch'){
+      if (oUrl.searchImage){
+         sUrl = oUrl.searchImage;
+       } else {
+         sUrl = oUrl.genericSearch + "&tbm=isch";
+       }
+    } else if (oUrl.isGoogle && oUrl.keywords){
+      sUrl = oUrl.genericSearch;
+    }
+    self._oDatabase.find('historyItems',
+    'sUrl', sUrl, function(_oHistoryItem){
+      if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+        if (bTrigger){
+          self._iTriggerStory = _oHistoryItem.storyId();
+        } else{
+          if (self._lStoriesInTabsId.indexOf(_oHistoryItem.storyId()) === -1
+            && _oHistoryItem.storyId() !== self._iTriggerStoryId){
+              self._lStoriesInTabsId.push(_oHistoryItem.storyId());
+          }
+        }
+      } else if (bTrigger){
+        self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
+          self._iTriggerStory = iStoryId;
+        });
+      }
+      if (mCallback){
+        mCallback.call(self);
+      }
+    });
   }
+
 });
 
 Cotton.BACKGROUND = new Cotton.Controllers.Background();
