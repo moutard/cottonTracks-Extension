@@ -194,7 +194,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('search_stories', this, function(dArguments){
-      self.searchStories(dArguments['searchWords'], function(lSearchResultStories){
+      self.searchStories(dArguments['searchWords'], dArguments['context'], function(lSearchResultStories){
         if (dArguments['context'] === 'manager'){
           self._oWorld.refreshManager(lSearchResultStories);
         } else {
@@ -221,13 +221,21 @@ Cotton.Controllers.Lightyear = Class.extend({
       }, function(response){
         self._iStoryId = response['trigger_id'];
         self._lStoriesInTabsId = response['stories_in_tabs_id'];
-        self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
-          self._oStory = oStory;
+        if (self._iStoryId){
+          self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
+            self._oStory = oStory;
+            self._bStoryReady = true;
+            if (self._bStoriesInTabsReady && self._bWorldReady){
+              self._oWorld.updateManager(self._oStory, self._lStoriesInTabs);
+            }
+          });
+        } else {
+          self._oStory = null;
           self._bStoryReady = true;
           if (self._bStoriesInTabsReady && self._bWorldReady){
             self._oWorld.updateManager(self._oStory, self._lStoriesInTabs);
           }
-        });
+        }
         if (self._lStoriesInTabsId.length > 0){
           self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
             self._lStoriesInTabs = lStories;
@@ -322,7 +330,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
   },
 
-  searchStories : function(lSearchWords, mCallback){
+  searchStories : function(lSearchWords, sContext, mCallback){
     var self = this;
     this._oDatabase.findGroup('searchKeywords', 'sKeyword',
       lSearchWords, function(lSearchKeywords){
@@ -333,7 +341,7 @@ Cotton.Controllers.Lightyear = Class.extend({
             lRelatedStoriesId, oSearchKeyword.referringStoriesId());
         };
         for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
-          if (iStoryId === self._oStory.id()){
+          if (self._oStory && iStoryId === self._oStory.id()){
             lRelatedStoriesId.splice(i,1);
           }
         }
@@ -341,14 +349,16 @@ Cotton.Controllers.Lightyear = Class.extend({
           if (!lStories){
             lStories = [];
           } else {
-            //take the 6 closest stories
-            for (var i = 0, oStory; oStory = lStories[i]; i++){
-              oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
+            if (sContext !== "manager"){
+              //take the 6 closest stories
+              for (var i = 0, oStory; oStory = lStories[i]; i++){
+                oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
+              }
+              lStories.sort(function(a,b){
+                return b['scoreToStory'] - a['scoreToStory']
+              });
+              lStories = lStories.slice(0,Math.min(6, lStories.length));
             }
-            lStories.sort(function(a,b){
-              return b['scoreToStory'] - a['scoreToStory']
-            });
-            lStories = lStories.slice(0,Math.min(6, lStories.length));
           }
           if (mCallback) {
             mCallback.call(this, lStories);
