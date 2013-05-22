@@ -240,18 +240,14 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'get_trigger_story' : function(sendResponse){
     sendResponse({
-      'trigger_id': this._oMainController._iTriggerStory
+      'trigger_id': this._oMainController._iTriggerStory,
+      'stories_in_tabs_id': this._oMainController._lStoriesInTabsId
     });
   },
 
-  'pass_background_screenshot': function(sendResponse){
-    sendResponse({'src': this._oMainController.screenshot()});
-  },
-
   'change_story': function(sendResponse, iStoryId){
-    var self = this;
-    self._oMainController.setTriggerStory(iStoryId);
-    sendResponse({});
+    this._oMainController.setTriggerStory(iStoryId);
+    this._oMainController.setOtherStories();
   }
 
 });
