@@ -350,9 +350,11 @@ Cotton.Controllers.Lightyear = Class.extend({
           lRelatedStoriesId = _.union(
             lRelatedStoriesId, oSearchKeyword.referringStoriesId());
         };
-        for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
-          if (self._oStory && iStoryId === self._oStory.id()){
-            lRelatedStoriesId.splice(i,1);
+        if (sContext !== "manager"){
+          for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
+            if (self._oStory && iStoryId === self._oStory.id()){
+              lRelatedStoriesId.splice(i,1);
+            }
           }
         }
         self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
