@@ -150,6 +150,12 @@ Cotton.Controllers.Background = Class.extend({
           self.getStoryFromTab(oTab, function(){
             iCount++;
             if (iCount === iOpenTabs){
+              for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+                if (iStoryInTabsId === self._iTriggerStory){
+                  self._lStoriesInTabsId.splice(i,1);
+                  i--;
+                }
+              }
               chrome.tabs.create({
                 'url': 'lightyear.html'
               });
