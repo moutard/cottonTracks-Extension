@@ -103,7 +103,6 @@ Cotton.Controllers.Background = Class.extend({
     this._dGetContentTabId = {};
     this._lStoriesInTabsId = [];
 
-    chrome.browserAction.disable();
     self.initWorkerDBSCAN3();
     self.initWorkerDBSCAN2();
 
@@ -136,12 +135,6 @@ Cotton.Controllers.Background = Class.extend({
           } else if (!self._bInstallLaunched && !self._bUpdated){
             self._bReadyForMessaging = true;
           }
-    });
-
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-      if (changeInfo['status'] === 'loading'){
-        chrome.browserAction.disable(tabId);
-      }
     });
 
     chrome.browserAction.onClicked.addListener(function() {
@@ -322,6 +315,7 @@ Cotton.Controllers.Background = Class.extend({
                 DEBUG && console.debug("time elapsed during installation: "
                   + elapsedTime + "ms");
                 self._bReadyForMessaging = true;
+                chrome.browserAction.enable();
             });
           });
         }
@@ -448,9 +442,19 @@ Cotton.Controllers.Background = Class.extend({
           }
         }
       } else if (bTrigger){
-        self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
-          self._iTriggerStory = iStoryId;
-        });
+        if (!_oHistoryItem){
+          var oUrl = new UrlParser(sUrl);
+          var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+          if (oExcludeContainer.isHttps(oUrl)){
+            self._iTriggerStory = -1;
+          } else {
+            self._iTriggerStory = null;
+          }
+        } else {
+          self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
+            self._iTriggerStory = iStoryId;
+          });
+        }
       }
       if (mCallback){
         mCallback.call(self);

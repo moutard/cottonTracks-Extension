@@ -15,7 +15,8 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     this._$main_story = $('<div class="ct-main_story"></div>');
     this._$main_title = $('<h1>Story from last tab</h1>');
     this._$other_stories = $('<div class="ct-other_stories"></div>');
-    this._$other_title = $('<h1>Stories from other open tabs</h1>');
+    this._$other_title = $('<h1>Stories from open tabs</h1>');
+    this._$https_title = $('<h2>https pages are not parsed by cottonTracks. (a whitelisting feature will be implemented in the future)<br>You can still explore your stories from other tabs or use the search tool</h2>')
 
     this._oDispatcher.subscribe('search_stories', this, function(dArguments){
       this._sQuery = dArguments['searchWords'].join(' ');
@@ -43,7 +44,14 @@ Cotton.UI.StoryManager.Manager = Class.extend({
   },
 
   placeStory: function(oStory){
-    if (oStory){
+    if (oStory && oStory.id() === -1){
+      // https page
+      this._$stories_container.prepend(
+        this._$main_story.append(
+          this._$https_title
+        )
+      );
+    } else if (oStory){
       this._oStorySticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
       this._$stories_container.prepend(
         this._$main_story.append(
