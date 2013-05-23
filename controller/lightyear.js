@@ -222,13 +222,23 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._iStoryId = response['trigger_id'];
         self._lStoriesInTabsId = response['stories_in_tabs_id'];
         if (self._iStoryId){
-          self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
-            self._oStory = oStory;
+          if (self._iStoryId === -1){
+            // the triggering url is https
+            self._oStory = new Cotton.Model.Story();
+            self._oStory.setId(-1);
             self._bStoryReady = true;
             if (self._bStoriesInTabsReady && self._bWorldReady){
               self._oWorld.updateManager(self._oStory, self._lStoriesInTabs);
             }
-          });
+          } else {
+            self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
+              self._oStory = oStory;
+              self._bStoryReady = true;
+              if (self._bStoriesInTabsReady && self._bWorldReady){
+                self._oWorld.updateManager(self._oStory, self._lStoriesInTabs);
+              }
+            });
+          }
         } else {
           self._oStory = null;
           self._bStoryReady = true;
