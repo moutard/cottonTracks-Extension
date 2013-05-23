@@ -146,22 +146,37 @@ Cotton.Controllers.Background = Class.extend({
       chrome.tabs.query({}, function(lTabs){
         var iOpenTabs = lTabs.length;
         var iCount = 0;
-        for (var i = 0, oTab; oTab = lTabs[i]; i++){
-          self.getStoryFromTab(oTab, function(){
-            iCount++;
-            if (iCount === iOpenTabs){
-              for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-                if (iStoryInTabsId === self._iTriggerStory){
-                  self._lStoriesInTabsId.splice(i,1);
-                  i--;
+        chrome.windows.getLastFocused({}, function(oWindow){
+          var iCurrentWindow = oWindow['id'];
+          for (var i = 0, oTab; oTab = lTabs[i]; i++){
+            if (oTab['url'] === chrome.extension.getURL('lightyear.html')
+              && oTab['windowId'] === iCurrentWindow){
+                var oCottonTab = oTab;
+            }
+            self.getStoryFromTab(oTab, function(){
+              iCount++;
+              if (iCount === iOpenTabs){
+                for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+                  if (iStoryInTabsId === self._iTriggerStory){
+                    self._lStoriesInTabsId.splice(i,1);
+                    i--;
+                  }
+                }
+                if (oCottonTab){
+                  chrome.tabs.reload(oCottonTab['id']);
+                  chrome.tabs.highlight({
+                    'windowId': oCottonTab['windowId'],
+                    'tabs': oCottonTab['index']
+                  },function(){});
+                } else{
+                  chrome.tabs.create({
+                    'url': 'lightyear.html'
+                  });
                 }
               }
-              chrome.tabs.create({
-                'url': 'lightyear.html'
-              });
-            }
-          });
-        }
+            });
+          }
+        });
       });
     });
   },
