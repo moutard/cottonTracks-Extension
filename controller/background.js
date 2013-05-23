@@ -195,7 +195,6 @@ Cotton.Controllers.Background = Class.extend({
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
         function(oDatabase, lStories){
-          chrome.browserAction.enable(e.data['iSenderTabId']);
       });
     }, false);
 
