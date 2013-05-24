@@ -260,7 +260,7 @@ Cotton.Controllers.Background = Class.extend({
     var month = date.getMonth() + 1;
     localStorage.setItem('cohort', month + "/" + date.getFullYear());
     Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
-    self._startTime = date.getTime();
+    this._bReadyForMessaging = true;
   },
 
   /**
