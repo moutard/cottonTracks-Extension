@@ -40,7 +40,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
         oStory, this._oDispatcher);
     this._oRelatedToggler = new Cotton.UI.SideMenu.RelatedToggler(iNumberOfRelated, this._oDispatcher);
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
-    this._oSettings = new Cotton.UI.SideMenu.Settings(this);
+    this._oSettings = new Cotton.UI.SideMenu.Settings(this._oDispatcher);
 
     this._oFilters.setFilterCount("all", oStory.historyItemsId().length);
     //construct element

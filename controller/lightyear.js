@@ -203,6 +203,11 @@ Cotton.Controllers.Lightyear = Class.extend({
       });
     });
 
+    this._oDispatcher.subscribe('open_manager', this, function(dArguments){
+      self._oWorld.clearAll();
+      self._oWorld.updateManager(self._oStory, self._lStoriesInTabs);
+    });
+
     this._oDispatcher.subscribe('edit_title', this, function(dArguments){
       self._oStory.setTitle(dArguments['title']);
       var lTitle = dArguments['title'].split(' ');
