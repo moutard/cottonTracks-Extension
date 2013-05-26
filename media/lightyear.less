@@ -27,6 +27,19 @@ body{
 	height: 100%;
 }
 
+#blur_target{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+
+	&.hidden_background{
+    opacity: 0;
+  	-webkit-transition: opacity 0.8s;
+  }
+}
+
 .ct-menu {
 //TODO (rkorach) : find a way to have the menu scroll at the same time as container on responsive design
   position: fixed;
