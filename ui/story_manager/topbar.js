@@ -9,10 +9,14 @@ Cotton.UI.StoryManager.Topbar = Class.extend({
     this._$topbar_container = $('<div class="ct-topbar_container"></div>');
 
     this._oSearch = new Cotton.UI.StoryManager.Search(oDispatcher);
+    this._$quit = $('<div class="ct-quit">x</div>').click(function(){
+      window.history.back();
+    });
 
     this._$topbar.append(
       this._$topbar_container.append(
-        this._oSearch.$()
+        this._oSearch.$(),
+        this._$quit
       )
     );
 
