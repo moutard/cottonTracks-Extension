@@ -286,6 +286,18 @@ Cotton.Controllers.Lightyear = Class.extend({
       }
     });
 
+    // go back to previous page if browserAction clicked
+    chrome.browserAction.onClicked.addListener(function() {
+      chrome.tabs.query({
+        'highlighted':true,
+        'lastFocusedWindow': true
+      }, function(lTabs){
+        if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
+          window.history.back();
+        }
+      });
+    });
+
   },
 
   database : function(){
