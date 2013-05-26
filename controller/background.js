@@ -145,26 +145,24 @@ Cotton.Controllers.Background = Class.extend({
         'lastFocusedWindow': true
       }, function(lTabs){
         self._iCallerTabId = lTabs[0]['id'];
-      });
-      chrome.tabs.query({}, function(lTabs){
-        var iOpenTabs = lTabs.length;
-        var iCount = 0;
-        for (var i = 0, oTab; oTab = lTabs[i]; i++){
-          self.getStoryFromTab(oTab, function(){
-            iCount++;
-            if (iCount === iOpenTabs){
-              for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-                if (iStoryInTabsId === self._iTriggerStory){
-                  self._lStoriesInTabsId.splice(i,1);
-                  i--;
+        chrome.tabs.query({}, function(lTabs){
+          var iOpenTabs = lTabs.length;
+          var iCount = 0;
+          for (var i = 0, oTab; oTab = lTabs[i]; i++){
+            self.getStoryFromTab(oTab, function(){
+              iCount++;
+              if (iCount === iOpenTabs){
+                for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+                  if (iStoryInTabsId === self._iTriggerStory){
+                    self._lStoriesInTabsId.splice(i,1);
+                    i--;
+                  }
                 }
+                chrome.tabs.update(self._iCallerTabId, {'url':'lightyear.html'},function(){});
               }
-              chrome.tabs.create({
-                'url': 'lightyear.html'
-              });
-            }
-          });
-        }
+            });
+          }
+        });
       });
     });
   },
