@@ -144,25 +144,30 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        self._iCallerTabId = lTabs[0]['id'];
-        chrome.tabs.query({}, function(lTabs){
-          var iOpenTabs = lTabs.length;
-          var iCount = 0;
-          for (var i = 0, oTab; oTab = lTabs[i]; i++){
-            self.getStoryFromTab(oTab, function(){
-              iCount++;
-              if (iCount === iOpenTabs){
-                for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-                  if (iStoryInTabsId === self._iTriggerStory){
-                    self._lStoriesInTabsId.splice(i,1);
-                    i--;
+        if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
+          // we are in lightyear, so the UI page will listen to the event
+          // and go back to the previous page. do nothing from background
+        } else {
+          self._iCallerTabId = lTabs[0]['id'];
+          chrome.tabs.query({}, function(lTabs){
+            var iOpenTabs = lTabs.length;
+            var iCount = 0;
+            for (var i = 0, oTab; oTab = lTabs[i]; i++){
+              self.getStoryFromTab(oTab, function(){
+                iCount++;
+                if (iCount === iOpenTabs){
+                  for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+                    if (iStoryInTabsId === self._iTriggerStory){
+                      self._lStoriesInTabsId.splice(i,1);
+                      i--;
+                    }
                   }
+                  chrome.tabs.update(self._iCallerTabId, {'url':'lightyear.html'},function(){});
                 }
-                chrome.tabs.update(self._iCallerTabId, {'url':'lightyear.html'},function(){});
-              }
-            });
-          }
-        });
+              });
+            }
+          });
+        }
       });
     });
   },
