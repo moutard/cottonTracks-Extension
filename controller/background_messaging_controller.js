@@ -243,6 +243,10 @@ Cotton.Controllers.Messaging = Class.extend({
     });
   },
 
+  'pass_background_screenshot': function(sendResponse){
+    sendResponse({'src': this._oMainController.screenshot()});
+  },
+
   'change_story': function(sendResponse, iStoryId){
     this._oMainController.setTriggerStory(iStoryId);
     this._oMainController.setOtherStories();

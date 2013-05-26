@@ -26,6 +26,8 @@ Cotton.Controllers.Background = Class.extend({
    */
   _wDBSCAN2 : null,
 
+  _sScreenshotSrc : null,
+
   /**
    * MessagingController
    */
@@ -136,6 +138,7 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     chrome.browserAction.onClicked.addListener(function() {
+      self.takeScreenshot();
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
         'highlighted':true,
@@ -342,6 +345,22 @@ Cotton.Controllers.Background = Class.extend({
       if (mCallback){
         mCallback.call(self);
       }
+    });
+  },
+
+  /**
+   * return the sreenshot url saved in chrome.
+   */
+  screenshot : function() {
+    return this._sScreenshotSrc;
+  },
+  /**
+   * Takes a screenshot of the visible tab through chrome tabs api.
+   */
+  takeScreenshot : function() {
+    self = this;
+    chrome.tabs.captureVisibleTab(function(img) {
+      self._sScreenshotSrc = img;
     });
   }
 
