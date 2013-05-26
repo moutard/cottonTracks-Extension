@@ -12,7 +12,7 @@ Cotton.UI.SideMenu.Settings = Class.extend({
     var self = this;
     this._oDispatcher = oDispatcher;
 
-    this._$settings = $('<div class="ct-settings"><h3>Menu</h3></div>');
+    this._$settings = $('<div class="ct-settings"><h3>Back to other Stories</h3></div>');
 
     //set value
 
