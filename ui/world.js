@@ -34,7 +34,16 @@ Cotton.UI.World = Class.extend({
     this._oLightyear = oApplication;
     this._oDispatcher = oDispatcher;
 
-    this._$world = $dom_world || $('.ct');
+    this._$world = $dom_world || $('.ct').click(function(event){
+      if (event.target === $(".ct-items_container")[0]
+      || event.target  === $(".ct-related")[0]
+      || event.target  === $(".ct-stories_manager")[0]
+      || event.target  === $(".ct-stories_container")[0]
+      || event.target  === $(".ct-other_stories")[0]
+      || event.target  === $(".ct-main_story")[0]){
+        window.history.back();
+      }
+    });
     this._$temporary_background = $('#blur_target');
 
     oSender.sendMessage({
