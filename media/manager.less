@@ -111,6 +111,10 @@
       margin: auto;
       position: relative;
 
+      > .ct-logo_manager {
+        float:left;
+      }
+
       > .ct-quit{
         position: absolute;
         right: 0;
@@ -133,14 +137,15 @@
       }
 
       > .ct-topbar-search{
-        width: 570px;
+        width: 500px;
         height: 42px;
         position: absolute;
-        right: 0px;
+        /*prefer float but don't have time*/
+        right: 250px;
 
         &:before{
           content: "";
-          width: 546px;
+          width: 400px;
           height: 0px;
           border-bottom: solid 1px #fff;
           position: absolute;
@@ -151,7 +156,7 @@
         input{
           background: rgba(55,55,55,0);
           border: none;
-          width: 530px;
+          width: 400px;
           height: 28px;
           padding-left: 40px;
           padding-top: 8px;
