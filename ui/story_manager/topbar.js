@@ -9,7 +9,7 @@ Cotton.UI.StoryManager.Topbar = Class.extend({
     this._$topbar_container = $('<div class="ct-topbar_container"></div>');
 
     this._oSearch = new Cotton.UI.StoryManager.Search(oDispatcher);
-    this._$quit = $('<div class="ct-quit">x</div>').click(function(){
+    this._$quit = $('<div class="ct-quit"><img src="media/images/manager/close_manager.png"><p>Go back to the page</p></div>').click(function(){
       window.history.back();
     });
 
