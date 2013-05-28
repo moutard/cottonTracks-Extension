@@ -266,6 +266,7 @@ Cotton.Controllers.Background = Class.extend({
    */
   install : function(){
     var self = this;
+    chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
     DEBUG && console.debug("Controller - install");
     self._bInstallLaunched = true;
     var date = new Date();
