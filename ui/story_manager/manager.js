@@ -2,7 +2,7 @@
 
 Cotton.UI.StoryManager.Manager = Class.extend({
 
-  init: function(oStory, lStoriesInTabs, oDispatcher){
+  init: function(oStory, oHistoryItem, lStoriesInTabs, oDispatcher){
     var self = this;
     this._oStory = oStory;
     this._lStoriesInTabs = lStoriesInTabs;
@@ -14,6 +14,8 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     this._$stories_container = $('<div class="ct-stories_container"></div>');
     this._$main_story = $('<div class="ct-main_story"></div>');
     this._$main_title = $('<h1>Story from last tab</h1>');
+    this._$main_story_container = $('<div class="ct-main_story_container"></div>');
+    this._$main_story_infos = $('<div class="ct-story_infos"></div>')
     this._$other_stories = $('<div class="ct-other_stories"></div>');
     this._$other_title = $('<h1>Stories from open tabs</h1>');
     this._$https_title = $('<h2>https pages are not parsed by cottonTracks. (a whitelisting feature will be implemented in the future)<br>You can still explore your stories from other tabs or use the search tool</h2>')
@@ -37,7 +39,7 @@ Cotton.UI.StoryManager.Manager = Class.extend({
         this._$nothing_title
       );
     } else {
-      this.placeStory(oStory);
+      this.placeStory(oStory, oHistoryItem);
       this.placeStoriesInTabs(lStoriesInTabs);
     }
   },
@@ -50,7 +52,7 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     return this._oTopbar;
   },
 
-  placeStory: function(oStory){
+  placeStory: function(oStory, oHistoryItem){
     if (oStory && oStory.id() === -1){
       // https page
       this._$stories_container.prepend(
@@ -60,10 +62,20 @@ Cotton.UI.StoryManager.Manager = Class.extend({
       );
     } else if (oStory){
       this._oStorySticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
+      this._$main_story_name = $('<h2>Open Story</h2><h1>' + oStory.title() + '</h1>');
+      if (oHistoryItem){
+        this._$history_item_name = $('<h2>Viewing the page</h2><h1>' + oHistoryItem.title() + '</h1>');
+      }
       this._$stories_container.prepend(
         this._$main_story.append(
           this._$main_title,
-          this._oStorySticker.$()
+          this._$main_story_container.append(
+            this._oStorySticker.$(),
+            this._$main_story_infos.append(
+              this._$main_story_name,
+              this._$history_item_name
+            )
+          )
         )
       );
     }

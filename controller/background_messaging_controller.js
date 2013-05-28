@@ -239,6 +239,7 @@ Cotton.Controllers.Messaging = Class.extend({
   'get_trigger_story' : function(sendResponse){
     sendResponse({
       'trigger_id': this._oMainController._iTriggerStory,
+      'trigger_item_id': this._oMainController._iTriggerHistoryItem,
       'stories_in_tabs_id': this._oMainController._lStoriesInTabsId
     });
   },
@@ -250,6 +251,7 @@ Cotton.Controllers.Messaging = Class.extend({
   'change_story': function(sendResponse, iStoryId){
     this._oMainController.setTriggerStory(iStoryId);
     this._oMainController.setOtherStories();
+    this._oMainController.resetHistoryItem();
   }
 
 });

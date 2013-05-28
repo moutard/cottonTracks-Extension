@@ -49,6 +49,11 @@ Cotton.Controllers.Background = Class.extend({
    _iTriggerStory : null,
 
   /**
+   * id of the HistoryItem from which lightyear was called
+   **/
+   _iTriggerHistoryItem : null,
+
+  /**
    * ids of stories for all open tabs
    **/
    _lStoriesInTabsId : null,
@@ -139,6 +144,7 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.browserAction.onClicked.addListener(function() {
       self.takeScreenshot();
+      self._iTriggerHistoryItem = -1;
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
         'highlighted':true,
@@ -305,6 +311,10 @@ Cotton.Controllers.Background = Class.extend({
     });
   },
 
+  resetHistoryItem : function(){
+    this._iTriggerHistoryItem = -1;
+  },
+
   getStoryFromTab : function(oTab, mCallback){
     var self = this;
     var sUrl = oTab['url'];
@@ -324,6 +334,7 @@ Cotton.Controllers.Background = Class.extend({
       if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
         if (bTrigger){
           self._iTriggerStory = _oHistoryItem.storyId();
+          self._iTriggerHistoryItem = _oHistoryItem.id();
         } else{
           if (self._lStoriesInTabsId.indexOf(_oHistoryItem.storyId()) === -1
             && _oHistoryItem.storyId() !== self._iTriggerStoryId){
