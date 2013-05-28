@@ -105,36 +105,16 @@
       top: 0px;
     }
 
+    > .ct-logo_manager {
+      float:left;
+      margin-left: 24px;
+    }
+
     > .ct-topbar_container{
       width: 1048px;
       height: 100%;
       margin: auto;
       position: relative;
-
-      > .ct-logo_manager {
-        float:left;
-      }
-
-      > .ct-quit{
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-        width: 200px;
-
-        > img {
-          width: 30px;
-          height: 42px;
-          float: left;
-        }
-
-        > p {
-          float:left;
-          font-size: 16px;
-          color: #FFF;
-          margin-top: 13px;
-        }
-      }
 
       > .ct-topbar-search{
         width: 500px;
@@ -179,6 +159,31 @@
           left: 8px;
           top: 10px;
         }
+      }
+    }
+
+    @media (max-width : 1048px){
+  	.ct-quit{left: 848px;}
+    }
+
+    > .ct-quit{
+      position: absolute;
+      right: 24px;
+      top: 0;
+      cursor: pointer;
+      width: 176px;
+
+      > img {
+        width: 30px;
+        height: 42px;
+        float: left;
+      }
+
+      > p {
+        float:left;
+        font-size: 16px;
+        color: #FFF;
+        margin-top: 13px;
       }
     }
   }
