@@ -15,11 +15,11 @@ Cotton.UI.StoryManager.Topbar = Class.extend({
     });
 
     this._$topbar.append(
+      this._$logo_manager,
       this._$topbar_container.append(
-        this._$logo_manager,
-        this._oSearch.$(),
-        this._$quit
-      )
+        this._oSearch.$()
+      ),
+      this._$quit
     );
 
   },
