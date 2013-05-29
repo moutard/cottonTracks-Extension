@@ -18,14 +18,14 @@ class ProjectCompiler(FileManager, PreCompiler):
     self.removeOld(DESTINATION_PATH, pbForce)
 
     if(pbPRODMode):
-      loPRODCompiler = PRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
+      loPRODCompiler = PRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser)
       loPRODCompiler.compile()
     if(pbPREPRODMode):
-      loPREPRODCompiler = PREPRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
+      loPREPRODCompiler = PREPRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser)
       loPREPRODCompiler.compile()
       runTest()
     if(pbDEVMode):
-      loDEVCompiler = DEVCompiler(SOURCE_PATH, DESTINATION_PATH)
+      loDEVCompiler = DEVCompiler(SOURCE_PATH, DESTINATION_PATH, psBrowser)
       loDEVCompiler.compile()
       runTest()
 
