@@ -324,14 +324,25 @@ Cotton.Controllers.Background = Class.extend({
     this._iTriggerStory = iStoryId;
   },
 
-  setOtherStories : function(){
+  setOtherStories : function(mCallback){
     var self = this;
     self._lStoriesInTabsId = [];
     chrome.tabs.query({}, function(lTabs){
       var iOpenTabs = lTabs.length;
       var iCount = 0;
       for (var i = 0, oTab; oTab = lTabs[i]; i++){
-        self.getStoryFromTab(oTab);
+        self.getStoryFromTab(oTab, function(){
+          iCount++;
+          if (iCount === iOpenTabs){
+            for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+              if (iStoryInTabsId === self._iTriggerStory){
+                self._lStoriesInTabsId.splice(i,1);
+                i--;
+              }
+            }
+            mCallback.call(self);
+          }
+        });
       }
     });
   },
@@ -362,7 +373,7 @@ Cotton.Controllers.Background = Class.extend({
           self._iTriggerHistoryItem = _oHistoryItem.id();
         } else{
           if (self._lStoriesInTabsId.indexOf(_oHistoryItem.storyId()) === -1
-            && _oHistoryItem.storyId() !== self._iTriggerStoryId){
+            && _oHistoryItem.storyId() !== self._iTriggerStory){
               self._lStoriesInTabsId.push(_oHistoryItem.storyId());
           }
         }

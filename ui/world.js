@@ -96,6 +96,7 @@ Cotton.UI.World = Class.extend({
   },
 
   updateManager : function(oStory, oHistoryItem, lStoriesInTabs) {
+    this._oManager = null;
     this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, this._oDispatcher);
     this._$world.append(this._oManager.$());
     this._oManager.centerTop();
