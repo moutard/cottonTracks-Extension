@@ -249,9 +249,14 @@ Cotton.Controllers.Messaging = Class.extend({
   },
 
   'change_story': function(sendResponse, iStoryId){
+    var self = this;
     this._oMainController.setTriggerStory(iStoryId);
-    this._oMainController.setOtherStories();
     this._oMainController.resetHistoryItem();
+    console.log(self._oMainController._lStoriesInTabsId);
+    this._oMainController.setOtherStories(function(){
+      console.log(self._oMainController._lStoriesInTabsId);
+      sendResponse({'stories_in_tabs_id': self._oMainController._lStoriesInTabsId});
+    });
   }
 
 });
