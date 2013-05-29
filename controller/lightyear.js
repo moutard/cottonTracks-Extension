@@ -138,20 +138,22 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('enter_story', this, function(dArguments){
-      self._iStoryId = dArguments['story_id'];
-      self._iHistoryItemId = -1;
-      self._oHistoryItem = null;
-      self._oSender.sendMessage({
-        'action': 'change_story',
-        'params': {'story_id': self._iStoryId}
-      }, function(response){
-        self._lStoriesInTabsId = response['stories_in_tabs_id'];
-        if (self._lStoriesInTabsId.length > 0){
-          self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
-            self._lStoriesInTabs = lStories;
-          });
-        }
-      });
+      if (self._iStoryId !== dArguments['story_id']){
+        self._iStoryId = dArguments['story_id'];
+        self._iHistoryItemId = -1;
+        self._oHistoryItem = null;
+        self._oSender.sendMessage({
+          'action': 'change_story',
+          'params': {'story_id': self._iStoryId}
+        }, function(response){
+          self._lStoriesInTabsId = response['stories_in_tabs_id'];
+          if (self._lStoriesInTabsId.length > 0){
+            self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
+              self._lStoriesInTabs = lStories;
+            });
+          }
+        });
+      }
       self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory){
         self._oStory = oStory;
         var bHistoryItemsReady = false;
