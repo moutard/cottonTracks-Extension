@@ -1,23 +1,53 @@
-import json
+import json, shutil, os
 
 class GlobalConfigs(object):
   """Configs common to all the browsers."""
+
   def permissions(self):
+    """Return the valid for permissions for the current browser."""
     return self._permissions
+
+  def coreDefaultFolder(self):
+    """Return the default core default folder."""
+    return os.path.join("core", "default")
+
   def coreFolder(self):
-    return self._coreFolder
+    """Return the folder that contains the current browser core."""
+    return os.path.join("core", self._sBrowser)
 
 class OperaConfigs(GlobalConfigs):
   """Configs specific to Opera"""
   def __init__(self):
+    self._sBrowser = 'opera'
     self._permissions = ["tabs", "opera://favicon/", "http://*/*", "https://*/*"]
-    self._coreFolder = "core/opera/"
 
 class ChromeConfigs(GlobalConfigs):
   """Configs specific to Chrome."""
   def __init__(self):
+    self._sBrowser = 'chrome'
     self._permissions = ["tabs", "chrome://favicon/", "http://*/*", "https://*/*", "history"]
-    self._coreFolder = "core/chrome/"
+
+class FactoryConfigs(object):
+  """Factory that returns the good configuration class depends of the browser.
+  Handle also all the browsers lists.
+  """
+
+  BROWSER_LIST = ['chrome', 'opera']
+
+  def get(self, psBrowser):
+    """Return a config for a specific browser."""
+    if psBrowser == 'chrome':
+      return ChromeConfigs()
+    elif psBrowser == 'opera':
+      return OperaConfigs()
+    else :
+      raise Exception('Browser not supported')
+
+  def getAll(self):
+    return [self.get(lsBrowser) for lsBrowser in self.BROWSER_LIST]
+
+  def getAllExcept(self, psBrowser):
+    return [self.get(lsBrowser) for lsBrowser in self.BROWSER_LIST if lsBrowser!=psBrowser]
 
 class BrowserHandler(object):
   """Class that handle part of the code that are different depending on the
@@ -26,22 +56,8 @@ class BrowserHandler(object):
   - manifest.json Creator
   - core importation
   """
-
-  BROWSER_SUPPORTED = ['chrome', 'opera']
-
   def __init__(self, psBrowser):
-    if psBrowser in self.BROWSER_SUPPORTED:
-      self._BROWSER = psBrowser
-      self._oConfigs = self._getConfigs()
-    else :
-      raise Exception('Browser not supported')
-
-  def _getConfigs(self):
-    if self._BROWSER == "chrome":
-      return ChromeConfigs()
-    elif self._BROWSER == "opera":
-      return OperaConfigs()
-
+    self._oConfigs = FactoryConfigs().get(psBrowser)
 
   def _createManifest(self):
     """Manifest depends on the browser.
@@ -59,6 +75,22 @@ class BrowserHandler(object):
     loFile.write(json.dumps(ldManifest))
     loFile.close()
 
+  def _importCore(self):
+    """The core folder is a specific folder that contains a binding to all the
+    specific API of a browser.
+    To use it copy the right folder to the location default.
+    """
+    # Remove local default folder if it already exists.
+    if os.path.isdir(self._oConfigs.coreDefaultFolder()):
+      shutil.rmtree(self._oConfigs.coreDefaultFolder())
+    # Copy the selected core to the default folder.
+    shutil.copytree(self._oConfigs.coreFolder(), self._oConfigs.coreDefaultFolder())
+    for loConfigs in FactoryConfigs().getAll():
+      # Remove useless core folder.
+      shutil.rmtree(loConfigs.coreFolder())
+
   def browser_management(self):
+    """Launch all the method specific to each browser."""
     self._createManifest()
+    self._importCore()
 
