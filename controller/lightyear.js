@@ -144,7 +144,14 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oSender.sendMessage({
         'action': 'change_story',
         'params': {'story_id': self._iStoryId}
-      }, function(response){});
+      }, function(response){
+        self._lStoriesInTabsId = response['stories_in_tabs_id'];
+        if (self._lStoriesInTabsId.length > 0){
+          self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
+            self._lStoriesInTabs = lStories;
+          });
+        }
+      });
       self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory){
         self._oStory = oStory;
         var bHistoryItemsReady = false;
