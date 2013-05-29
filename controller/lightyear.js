@@ -424,5 +424,5 @@ Cotton.Controllers.Lightyear = Class.extend({
 
 });
 
-var oSender = new Cotton.Core.Chrome.Sender();
+var oSender = new Cotton.Core.Sender();
 Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear(oSender);
