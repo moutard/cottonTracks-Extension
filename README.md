@@ -8,7 +8,7 @@ Compilation
 -----------
 The compilation process is in charge of:
 - minimize code
-- starts tests
+- start tests
 - package code for release
 
 *Disclaimer: compilation scripts works on unix os (mac osx and linux).*
@@ -100,6 +100,13 @@ file in test/js folder that contains unittests.
 
 Code
 ----
+
+To make your code work on a specific browser on dev you can make a symbolic link
+to the version of the core you want.
+
+```
+cd <PATH TO YOU PROJET>/extension/core/
+ln -s chrome default ```
 
 The extension is written in javascript. All the libraries used are in the folder
 lib/
