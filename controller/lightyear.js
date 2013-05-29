@@ -138,22 +138,29 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('enter_story', this, function(dArguments){
-      if (self._iStoryId !== dArguments['story_id']){
-        self._iStoryId = dArguments['story_id'];
+      self._iStoryId = dArguments['story_id'];
+      if (self._iOriginalStoryId !== dArguments['story_id']){
         self._iHistoryItemId = -1;
         self._oHistoryItem = null;
-        self._oSender.sendMessage({
-          'action': 'change_story',
-          'params': {'story_id': self._iStoryId}
-        }, function(response){
-          self._lStoriesInTabsId = response['stories_in_tabs_id'];
-          if (self._lStoriesInTabsId.length > 0){
-            self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
-              self._lStoriesInTabs = lStories;
-            });
-          }
-        });
+      } else {
+        self._iHistoryItemId = self._iOriginalHistoryItemId;
+        self._oHistoryItem = self._oOriginalHistoryItem;
       }
+      self._oSender.sendMessage({
+        'action': 'change_story',
+        'params': {'story_id': self._iStoryId}
+      }, function(response){
+        self._lStoriesInTabsId = response['stories_in_tabs_id'];
+        if (self._iOriginalStoryId !== self._iStoryId
+          && self._lStoriesInTabsId.indexOf(self._iOriginalStoryId) === -1){
+            self._lStoriesInTabsId.push(self._iOriginalStoryId);
+        }
+        if (self._lStoriesInTabsId.length > 0){
+          self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
+            self._lStoriesInTabs = lStories;
+          });
+        }
+      });
       self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory){
         self._oStory = oStory;
         var bHistoryItemsReady = false;
@@ -245,8 +252,8 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oSender.sendMessage({
         'action': 'get_trigger_story'
       }, function(response){
-        self._iStoryId = response['trigger_id'];
-        self._iHistoryItemId = response['trigger_item_id'];
+        self._iStoryId = self._iOriginalStoryId = response['trigger_id'];
+        self._iHistoryItemId = self._iOriginalHistoryItemId = response['trigger_item_id'];
         self._lStoriesInTabsId = response['stories_in_tabs_id'];
         if (self._iStoryId){
           if (self._iStoryId === -1){
@@ -268,7 +275,7 @@ Cotton.Controllers.Lightyear = Class.extend({
             });
             if (self._iHistoryItemId >= 0){
               self._oDatabase.find('historyItems', 'id', self._iHistoryItemId, function(oHistoryItem) {
-                self._oHistoryItem = oHistoryItem;
+                self._oHistoryItem = self._oOriginalHistoryItem = oHistoryItem;
                 self._bHistoryItemReady = true;
                 if (self._bStoryReady && self._bStoriesInTabsReady && self._bWorldReady){
                   self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs);
