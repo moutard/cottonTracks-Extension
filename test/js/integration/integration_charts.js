@@ -71,7 +71,7 @@ function drawStoriesRepartition(iStories){
 };
 
 function launchTests(){
-  var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
+  var oChromeHistoryClient = new Cotton.Core.History.Client();
   Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(lCottonHistoryItems, lChromeVisitItems,
       iHistoryItem) {
     drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)

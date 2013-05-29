@@ -274,6 +274,30 @@ Cotton.Controllers.Background = Class.extend({
     localStorage.setItem('cohort', month + "/" + date.getFullYear());
     Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
     this._bReadyForMessaging = true;
+    self._startTime = date.getTime();
+    self.wakeUp();
+    var oChromeHistoryClient = new Cotton.Core.History.Client();
+    Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
+      lHistoryItems, lVisitItems) {
+        DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
+          + lHistoryItems.length + ' historyItems and '
+          + lVisitItems.length + ' visitItems:');
+        DEBUG && console.debug(lHistoryItems, lVisitItems);
+        // visitItems are already dictionnaries, whereas historyItems are objects
+        var lHistoryItemsDict = [];
+        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
+          // maybe a setFormatVersion problem
+          var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
+          var dItem = oTranslator.objectToDbRecord(oItem);
+          lHistoryItemsDict.push(dItem);
+        }
+        DEBUG && console.debug(lHistoryItemsDict);
+        self._wDBSCAN3.postMessage({
+          'historyItems' : lHistoryItemsDict,
+          'visitItems' : lVisitItems
+        });
+    });
+
   },
 
   /**

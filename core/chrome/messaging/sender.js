@@ -3,7 +3,7 @@
 /**
  * Client in charge of sending message through chrome api.
  */
-Cotton.Core.Chrome.Sender = Class.extend({
+Cotton.Core.Sender = Class.extend({
 
   init : function() {
 
