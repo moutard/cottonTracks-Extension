@@ -3,7 +3,7 @@
 /**
  * Client in charge of sending message through chrome api.
  */
-Cotton.Core.Chrome.Listener = Class.extend({
+Cotton.Core.Listener = Class.extend({
 
   _ActionsListened : [],
 

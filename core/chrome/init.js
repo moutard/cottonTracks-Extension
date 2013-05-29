@@ -1,1 +1,2 @@
-Cotton.Core.Chrome = {};
+'use strict';
+Cotton.Core = {};

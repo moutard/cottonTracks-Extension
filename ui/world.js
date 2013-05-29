@@ -27,7 +27,7 @@ Cotton.UI.World = Class.extend({
 
   /**
    * @param {Cotton.Application.Lightyear} oApplication
-   * @param {Cotton.Core.Chrome.Sender} oSender
+   * @param {Cotton.Core.Sender} oSender
    */
   init : function(oApplication, oSender, oDispatcher, $dom_world) {
     var self = this;

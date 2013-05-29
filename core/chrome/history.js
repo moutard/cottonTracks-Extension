@@ -1,7 +1,7 @@
 'use strict';
-Cotton.Core.Chrome.History = {};
+Cotton.Core.History = {};
 
-Cotton.Core.Chrome.History.Client = Class.extend({
+Cotton.Core.History.Client = Class.extend({
   init : function() {
 
   },
