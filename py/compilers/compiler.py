@@ -2,20 +2,25 @@ import os, re, shutil, logging, json, zipfile
 import py.sed
 from py.file_manager import FileManager
 from py.precompiler import PreCompiler
+from py.browser_handler import BrowserHandler
 
-class Compiler(FileManager, PreCompiler):
+class Compiler(FileManager, PreCompiler, BrowserHandler):
   """Default class for all the compiler it contains a lot of usefull methods
 
   """
 
-  def __init__(self, SOURCE_PATH, DESTINATION_PATH):
+  def __init__(self, SOURCE_PATH, DESTINATION_PATH, psBrowser):
     self._SOURCE_PATH = SOURCE_PATH
     self._DESTINATION_PATH = DESTINATION_PATH
     self._PRESERVED_FILES = []
 
     self._dirToRemove = []
 
+    BrowserHandler.__init__(self, psBrowser)
+
+
   def compile(self):
+    self.browser_management()
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
     self.compileHtml('unit_tests.html')
