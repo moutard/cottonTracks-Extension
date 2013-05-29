@@ -276,8 +276,8 @@ Cotton.Controllers.Background = Class.extend({
     this._bReadyForMessaging = true;
     self._startTime = date.getTime();
     self.wakeUp();
-    var oChromeHistoryClient = new Cotton.Core.History.Client();
-    Cotton.DB.Populate.visitItems(oChromeHistoryClient, function(
+    var oHistoryClient = new Cotton.Core.History.Client();
+    Cotton.DB.Populate.visitItems(oHistoryClient, function(
       lHistoryItems, lVisitItems) {
         DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
           + lHistoryItems.length + ' historyItems and '

@@ -178,63 +178,65 @@ Cotton.DB.Populate.visitItems = function(oClient, mCallBackFunction) {
   var glCottonHistoryItems = [];
   var glChromeVisitItems = [];
 
-  // Get chrome historyItems.
-  oClient.get({
-    text : '', // get all
-    startTime : 0, // no start time.
-    "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
-  }, function(lChromeHistoryItems) {
-    var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
-    DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
+  if(oClient){
+    // Get chrome historyItems.
+    oClient.get({
+      text : '', // get all
+      startTime : 0, // no start time.
+      "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
+    }, function(lChromeHistoryItems) {
+      var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
+      DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
-    // Remove the tools before looking for visitItems.
-    glCottonHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
-    // Compute blacklisted expressions for titles
-    Cotton.Algo.Common.Words.generateBlacklistExpressions(glCottonHistoryItems);
+      // Remove the tools before looking for visitItems.
+      glCottonHistoryItems = Cotton.DB.Populate.preRemoveTools(lChromeHistoryItems);
+      // Compute blacklisted expressions for titles
+      Cotton.Algo.Common.Words.generateBlacklistExpressions(glCottonHistoryItems);
 
-    // After this we are dealing with cotton model history item.
-    glCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(glCottonHistoryItems);
-    glCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(glCottonHistoryItems);
-    glCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(glCottonHistoryItems);
+      // After this we are dealing with cotton model history item.
+      glCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(glCottonHistoryItems);
+      glCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(glCottonHistoryItems);
+      glCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(glCottonHistoryItems);
 
-    iLength = glCottonHistoryItems.length;
-    DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
+      iLength = glCottonHistoryItems.length;
+      DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
 
-    // For each chromeHistory remaining find all the corresponding visitItems.
-    for(var i = 0; i < iLength; i++){
-      // Attribute an fixed id directly instead of putting in the database
-      // and let the database attribute the id.
-      // Seems there is a problem with the id 0.
-      var oHistoryItem = glCottonHistoryItems[i];
-      oHistoryItem.initId(i+1);
-      oClient.getVisits({
-          'url': oHistoryItem.url()
-        }, function(lVisitItems){
-          // assign a temp cottonhistoryid that correspesponds to its position
-          // int the glChromeVisitItems
-          for( var i = 0; i < lVisitItems.length; i++){
-            lVisitItems[i]['cottonHistoryItemId'] = iCount;
+      // For each chromeHistory remaining find all the corresponding visitItems.
+      for(var i = 0; i < iLength; i++){
+        // Attribute an fixed id directly instead of putting in the database
+        // and let the database attribute the id.
+        // Seems there is a problem with the id 0.
+        var oHistoryItem = glCottonHistoryItems[i];
+        oHistoryItem.initId(i+1);
+        oClient.getVisits({
+            'url': oHistoryItem.url()
+          }, function(lVisitItems){
+            // assign a temp cottonhistoryid that correspesponds to its position
+            // int the glChromeVisitItems
+            for( var i = 0; i < lVisitItems.length; i++){
+              lVisitItems[i]['cottonHistoryItemId'] = iCount;
+            }
+            glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
+            iCount +=1;
+            if(iCount === iLength){
+              glChromeVisitItems.sort(function(a, b){
+                return b['visitTime'] - a['visitTime'];
+              });
+              DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
+              elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
+              DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
+              // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
+              // integration tests, find a way to remove it from here
+              glCottonHistoryItems = Cotton.DB.Populate.SuiteForCotton(
+                glCottonHistoryItems, glChromeVisitItems);
+              mCallBackFunction(
+                glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
+            }
           }
-          glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
-          iCount +=1;
-          if(iCount === iLength){
-            glChromeVisitItems.sort(function(a, b){
-              return b['visitTime'] - a['visitTime'];
-            });
-            DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
-            elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
-            DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
-            // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
-            // integration tests, find a way to remove it from here
-            glCottonHistoryItems = Cotton.DB.Populate.SuiteForCotton(
-              glCottonHistoryItems, glChromeVisitItems);
-            mCallBackFunction(
-              glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
-          }
-        }
-      );
-    }
-  });
+        );
+      }
+    });
+  }
 };
 
 
