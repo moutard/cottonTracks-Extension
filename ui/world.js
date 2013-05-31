@@ -36,6 +36,7 @@ Cotton.UI.World = Class.extend({
 
     this._$world = $dom_world || $('.ct').click(function(event){
       if (event.target === $(".ct-items_container")[0]
+      || event.target  === $(".ct-story")[0]
       || event.target  === $(".ct-related")[0]
       || event.target  === $(".ct-stories_manager")[0]
       || event.target  === $(".ct-stories_container")[0]
