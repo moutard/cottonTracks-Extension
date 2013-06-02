@@ -96,9 +96,9 @@ Cotton.UI.World = Class.extend({
     this._oSideMenu.recycle(oStory);
   },
 
-  updateManager : function(oStory, oHistoryItem, lStoriesInTabs) {
+  updateManager : function(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories) {
     this._oManager = null;
-    this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, this._oDispatcher);
+    this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories, this._oDispatcher);
     this._$world.append(this._oManager.$());
     this._oManager.centerTop();
     this._oManager.topbar().show();

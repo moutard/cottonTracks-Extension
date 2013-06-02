@@ -68,7 +68,12 @@ Cotton.Model.BagOfWords = Class.extend({
       lSortedWordsByWeight[this._dBag[sKey]].push(sKey);
     }
     if (iMaxWeight > 0){
-      return lSortedWordsByWeight[iMaxWeight];
+      var lPreponderant = lSortedWordsByWeight[iMaxWeight];
+      if (lSortedWordsByWeight[iMaxWeight-1]
+        && lSortedWordsByWeight[iMaxWeight-1].length > 0){
+          lPreponderant = lPreponderant.concat(lSortedWordsByWeight[iMaxWeight-1]);
+      }
+      return lPreponderant;
     } else {
       return [];
     }

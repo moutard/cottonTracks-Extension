@@ -383,8 +383,6 @@ Cotton.Controllers.Background = Class.extend({
           var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
           if (oExcludeContainer.isHttps(oUrl)){
             self._iTriggerStory = -1;
-          } else {
-            self._iTriggerStory = null;
           }
         } else {
           self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
