@@ -12,7 +12,6 @@
     width: 1048px;
     margin: auto;
     padding-top:10px;
-    height: 560px;
 
     h1{
       margin: 0;
@@ -61,6 +60,24 @@
           overflow: hidden;
           text-overflow: ellipsis;
           width: 770px;
+        }
+      }
+    }
+
+    .ct-other_stories_container{
+
+      h1{
+        cursor: pointer;
+        display: inline-block;
+
+        &.selected{
+          border-bottom: solid 2px;
+        }
+      }
+
+      > .ct-other_stories{
+        &.hidden{
+          display: none;
         }
       }
     }
