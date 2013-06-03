@@ -32,8 +32,8 @@ Cotton.UI.StoryManager.CollectionSelector = Class.extend({
       this._$collection_selector.append(this._$other_tabs_selector);
     }
     if (!bSelected){
-     this._$related_selector.addClass('selected');
-     bSelected = true;
+      this._$all_selector.addClass('selected');
+      bSelected = true;
     }
     this._$collection_selector.append(this._$all_selector);
 

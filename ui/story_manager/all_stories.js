@@ -8,9 +8,15 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
     this._lStickers = [];
     this._oDispatcher = oDispatcher;
     this._$all_stories = $('<div class="ct-other_stories"></div>');
+    this._$nothing_title = $('<h2>You don\'t have any story yet :( Start exploring deeper a subject to see stories appear here</h2>')
 
     this.getMoreStories();
     this._oDispatcher.subscribe('more_all_stories', this, function(dArguments){
+      if (!dArguments['stories_to_add'] || dArguments['stories_to_add'].length === 0){
+        this._$all_stories.append(
+          this._$nothing_title
+        );
+      }
       this.addMoreStories(dArguments['stories_to_add']);
     });
 
