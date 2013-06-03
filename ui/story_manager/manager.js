@@ -8,14 +8,11 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     this._lStoriesInTabs = lStoriesInTabs;
     this._oDispatcher = oDispatcher;
     this._oTopbar = new Cotton.UI.StoryManager.Topbar(oDispatcher);
-    // this._oRelatedStories = new Cotton.UI.StoryManager.RelatedStories();
-    // this._oAllStories = new Cotton.UI.StoryManager.AllStories();
     // this._oSearchStories = new Cotton.UI.StoryManager.SearchStories();
     this._lOtherStickers = [];
 
     this._$manager = $('<div class="ct-stories_manager"></div>');
     this._$stories_container = $('<div class="ct-stories_container"></div>');
-    this._$nothing_title = $('<h2>No story found :( Explore deeper this subject or use the search tool for other stories</h2>')
 
     this._oDispatcher.subscribe('search_stories', this, function(dArguments){
       this._sQuery = dArguments['searchWords'].join(' ');
@@ -30,16 +27,10 @@ Cotton.UI.StoryManager.Manager = Class.extend({
       self.centerTop();
     });
 
-    if (!oStory && (!lStoriesInTabs || lStoriesInTabs.length === 0)){
-      this._$stories_container.append(
-        this._$nothing_title
-      );
-    } else {
-      this._oMainStory = new Cotton.UI.StoryManager.MainStory(oStory, oHistoryItem, oDispatcher);
-      this._$stories_container.append(this._oMainStory.$());
-      this._oOtherStories = new Cotton.UI.StoryManager.OtherStories(lStoriesInTabs, lRelatedStories, oDispatcher);
-      this._$stories_container.append(this._oOtherStories.$());
-    }
+    this._oMainStory = new Cotton.UI.StoryManager.MainStory(oStory, oHistoryItem, oDispatcher);
+    this._$stories_container.append(this._oMainStory.$());
+    this._oOtherStories = new Cotton.UI.StoryManager.OtherStories(lStoriesInTabs, lRelatedStories, oDispatcher);
+    this._$stories_container.append(this._oOtherStories.$());
   },
 
   $: function(){
