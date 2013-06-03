@@ -38,7 +38,7 @@ test("bagOfWords with dictionnary.", function() {
 test("bagOfWords preponderant.", function() {
   var oBagOfWords = new Cotton.Model.BagOfWords(dAliceBag);
   deepEqual(oBagOfWords.preponderant(),
-    ['caroll']);
+    ['caroll', 'wonderland']);
 });
 
 test("bagOfWords capital letters.", function() {
