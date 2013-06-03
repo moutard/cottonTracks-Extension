@@ -12,11 +12,6 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
 
     this.getMoreStories();
     this._oDispatcher.subscribe('more_all_stories', this, function(dArguments){
-      if (!dArguments['stories_to_add'] || dArguments['stories_to_add'].length === 0){
-        this._$all_stories.append(
-          this._$nothing_title
-        );
-      }
       this.addMoreStories(dArguments['stories_to_add']);
     });
 
@@ -44,7 +39,11 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
 
   addMoreStories : function(lStories){
     this._lAllStories = this._lAllStories.concat(lStories);
-    if (lStories && lStories.length > 0){
+    if (this._lAllStories.length === 0){
+      this._$all_stories.append(
+        this._$nothing_title
+      );
+    } else if (lStories && lStories.length > 0){
       for (var i=0, oStory; oStory = lStories[i]; i++){
         var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
         this._lStickers.push(oSticker.$());
