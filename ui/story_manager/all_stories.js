@@ -5,6 +5,7 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
   init : function(oDispatcher){
     var self = this;
     this._lAllStories = [];
+    this._iMaxStories = 120;
     this._lStickers = [];
     this._oDispatcher = oDispatcher;
     this._$all_stories = $('<div class="ct-other_stories"></div>');
@@ -16,17 +17,13 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
     });
 
     $(window).scroll(function(){
-      if ($(document).height() - $(window).scrollTop() <= $(window).height() + 10
-        && !self._bScrollFlag && !self._$all_stories.hasClass('hidden')){
-          self._bScrollFlag = true;
+      if ($(document).height() - $(window).scrollTop() <= $(window).height() + 600
+        && self._iMaxStories === self._lAllStories.length
+        && !self._$all_stories.hasClass('hidden')){
+          self._iMaxStories += 120;
           self.getMoreStories();
       }
-      if ($(document).height() - $(window).scrollTop() >= $(window).height() + 100
-        && !self._$all_stories.hasClass('hidden')){
-          self._bScrollFlag = false;
-      }
     });
-
   },
 
   $ : function(){
@@ -51,6 +48,9 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
       this._$all_stories.append(
         this._lStickers
       );
+      if ( this._lAllStories.length < this._iMaxStories ){
+        this.getMoreStories();
+      }
     }
   }
 });
