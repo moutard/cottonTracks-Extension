@@ -227,6 +227,7 @@ Cotton.Controllers.Background = Class.extend({
    * {Function} mCallback : function called when
    */
   installIfNeeded : function(mCallback){
+    var self = this;
     self._oDatabase.empty('historyItems', function(bIsEmpty){
       if(bIsEmpty){
         // As we are in a callback function of the database this is the database

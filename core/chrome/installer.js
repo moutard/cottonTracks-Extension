@@ -15,6 +15,7 @@ Cotton.Core.Installer = Class.extend({
   _wInstallWorker : null,
 
   init: function(oDatabase, mCallback){
+    var self = this;
     self._oDatabase = oDatabase;
     self._mIsFinished = mCallback;
 
@@ -133,7 +134,7 @@ Cotton.Core.Installer = Class.extend({
     self.wakeUp();
 
     // Get the historyClient (depends on the browser)
-    var oChromeHistoryClient = new Cotton.Core.Chrome.History.Client();
+    var oChromeHistoryClient = new Cotton.Core.History.Client();
 
     Cotton.DB.Populate.visitItems(oChromeHistoryClient,
       function(lHistoryItems, lVisitItems) {
