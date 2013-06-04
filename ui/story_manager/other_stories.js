@@ -24,6 +24,10 @@ Cotton.UI.StoryManager.OtherStories = Class.extend({
       this.switchCollection(dArguments['collection']);
     });
 
+    this._oDispatcher.subscribe('enter_story', this, function(dArguments){
+      this._oDispatcher.unsubscribe('change_collection', this);
+    });
+
   },
 
   $: function(){
@@ -51,7 +55,6 @@ Cotton.UI.StoryManager.OtherStories = Class.extend({
   },
 
   placeAllStories : function(){
-    this._oDispatcher.publish('all_stories',{});
     this._oAllStories = new Cotton.UI.StoryManager.AllStories(this._oDispatcher);
     this._$other_stories_container.append(this._oAllStories.$());
   },
