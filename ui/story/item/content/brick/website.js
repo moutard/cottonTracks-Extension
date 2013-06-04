@@ -15,7 +15,7 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
   _$url : null,
 
   init : function(sUrl) {
-
+    var self = this;
     this._sUrl = sUrl;
 
     // current element.
@@ -53,7 +53,8 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
   },
 
   faviconUrl : function(sUrl) {
-    return Cotton.Core.Favicon.getSrc() + sUrl;
+    var oFavicon = new Cotton.Core.Favicon();
+    return oFavicon.getSrc() + sUrl;
   },
 
   $ : function() {
