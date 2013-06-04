@@ -31,7 +31,7 @@ Cotton.Core.Installer = Class.extend({
   initInstallWorker : function() {
     var self = this;
     // Instantiate a new worker with the code in the specified file.
-    self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
+    self._wInstallWorker = new Worker('algo/dbscan3/worker_dbscan3.js');
     var lStories = [];
     var iSessionCount = 0;
     var iTotalSessions = 0;
@@ -39,7 +39,7 @@ Cotton.Core.Installer = Class.extend({
     var lHistoryItems = [];
 
     // Add listener called when the worker send message back to the main thread.
-    self._wDBSCAN3.addEventListener('message', function(e) {
+    self._wInstallWorker.addEventListener('message', function(e) {
       if (e.data['iTotalSessions']){
         iTotalSessions = e.data['iTotalSessions'];
       } else {
@@ -154,7 +154,7 @@ Cotton.Core.Installer = Class.extend({
         // TODO(rmoutard): put this callback method later, after all the stories
         // are properly stored.
         self._mIsFinished();
-        self._wDBSCAN3.postMessage({
+        self._wInstallWorker.postMessage({
           'historyItems' : lHistoryItemsDict,
           'visitItems' : lVisitItems
         });
