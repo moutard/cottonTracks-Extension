@@ -96,6 +96,7 @@ Cotton.Controllers.Background = Class.extend({
           // Init the messaging controller.
           self._oMessagingController = new Cotton.Controllers.Messaging(self);
           self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
+          self._bReadyForMessaging = true;
         });
     });
 
@@ -230,7 +231,7 @@ Cotton.Controllers.Background = Class.extend({
       if(bIsEmpty){
         // As we are in a callback function of the database this is the database
         // we access it faster using 'this' than self._oDatabase.
-        loInstaller = new Cotton.Core.Installer(this, mCallback);
+        var oInstaller = new Cotton.Core.Installer(this, mCallback);
       } else {
         mCallback();
       }
