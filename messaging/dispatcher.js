@@ -35,6 +35,17 @@ Cotton.Messaging.Dispatcher = Class.extend({
     for (var i=0, oListener; oListener = lListeners[i]; i++) {
       oListener['function'].call(oListener['context'], dArguments);
     }
+  },
+
+  unsubscribe : function(sMessage, oObject) {
+    var lMessageListeners = this._dMessages[sMessage] || [];
+    for (var i = 0, dListener; dListener = lMessageListeners[i]; i++){
+      if (dListener['context'] === oObject){
+        lMessageListeners.splice(i,1);
+        i--;
+      }
+    }
+    this._dMessages[sMessage] = lMessageListeners;
   }
 
 });
