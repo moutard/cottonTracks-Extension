@@ -90,14 +90,12 @@ Cotton.Controllers.Background = Class.extend({
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
 
-        // Init the messaging controller.
-        // TODO(rmoutard): put this in installer callback function.
-        self._oMessagingController = new Cotton.Controllers.Messaging(self);
-        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
-
         DEBUG && console.debug('Global store created');
         self.installIfNeeded(function(){
           // Do when the installation is finished.
+          // Init the messaging controller.
+          self._oMessagingController = new Cotton.Controllers.Messaging(self);
+          self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
         });
     });
 
