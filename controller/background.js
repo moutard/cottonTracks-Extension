@@ -21,12 +21,6 @@ Cotton.Controllers.Background = Class.extend({
    */
   _oPool : null,
 
-  /**
-   * Worker to make the algo part in different thread.
-   */
-  _wDBSCAN3 : null,
-  _wDBSCAN2 : null,
-
   _sScreenshotSrc : null,
 
   /**
@@ -65,57 +59,25 @@ Cotton.Controllers.Background = Class.extend({
   _iCallerTabId : null,
 
   /**
-   * boolean that indicates if everything is set for installation or update
-   **/
-  _bReadyForStart : null,
-
-  /**
-   * boolean that indicates if installation has been launched already
-   **/
-  _bInstallLaunched : null,
-
-  /**
    * boolean that indicates if update has been launched already
    **/
   _bUpdated : null,
-
-  /**
-   * boolean that indicates if background is ready for treating content script messages
-   * in particular, are we done with installation.
-   **/
-  _bReadyForMessaging : null,
 
   /**
    *
    */
   init : function(){
     var self = this;
-    self._bReadyForStart = false;
-    self._bInstallLaunched = false;
     self._bUpdated = false;
-    self._bReadyForMessaging = false;
-
-    chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
-      Cotton.ONEVENT = oInstallationDetails['reason'];
-      DEBUG && console.debug("chrome runtime " + Cotton.ONEVENT);
-      if (self._bReadyForStart && !self._bInstallLaunched && Cotton.ONEVENT === 'install'){
-        self.install();
-      } else if (self._bReadyForStart && !self._bUpdated && Cotton.ONEVENT === 'update'){
-        self.update();
-      } else if (self._bReadyForStart && !self._bInstallLaunched && !self._bUpdated){
-        self._bReadyForMessaging = true;
-      }
-    });
 
     this._dGetContentTabId = {};
     this._lStoriesInTabsId = [];
 
-    self.initWorkerDBSCAN3();
     self.initWorkerDBSCAN2();
-
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
     self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
+    //TODO(rmoutard): do not put this here.
     if (localStorage.getItem('blacklist-expressions')){
       Cotton.Algo.Common.Words.setBlacklistExpressions(
         JSON.parse(localStorage.getItem('blacklist-expressions')));
@@ -127,21 +89,16 @@ Cotton.Controllers.Background = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
-        self._bReadyForStart = true;
 
         // Init the messaging controller.
+        // TODO(rmoutard): put this in installer callback function.
         self._oMessagingController = new Cotton.Controllers.Messaging(self);
         self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
 
-          DEBUG && console.debug('Global store created');
-          if (!self._bInstallLaunched && Cotton.ONEVENT === 'install') {
-            self.install();
-          } else if(!self._bUpdated && Cotton.ONEVENT === 'update'){
-            self._bUpdated = true;
-            self.update();
-          } else if (!self._bInstallLaunched && !self._bUpdated){
-            self._bReadyForMessaging = true;
-          }
+        DEBUG && console.debug('Global store created');
+        self.installIfNeeded(function(){
+          // Do when the installation is finished.
+        });
     });
 
     chrome.browserAction.onClicked.addListener(function() {
@@ -259,138 +216,26 @@ Cotton.Controllers.Background = Class.extend({
 
   },
 
-  /**
-   * Initialize the worker in charge of DBSCAN3,
-   * Called at the installation on all the element of historyItems.
+   /**
+   * InstallIfNeeded
+   * Check the state of the database to determine whether or not we need to
+   * install the application. If the "historyItems" store is empty, we are
+   * considering that the application need to be installed. The when the
+   * installation is finished, or if there is nothing to do, call the callback
+   * directly.
+   *
+   * {Function} mCallback : function called when
    */
-  initWorkerDBSCAN3 : function() {
-    var self = this;
-    // Instantiate a new worker with the code in the specified file.
-    self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
-    var lStories = [];
-    var iSessionCount = 0;
-    var iTotalSessions = 0;
-    var lHistoryItemsIds = [];
-    var lHistoryItems = [];
-
-    // Add listener called when the worker send message back to the main thread.
-    self._wDBSCAN3.addEventListener('message', function(e) {
-      if (e.data['iTotalSessions']){
-        iTotalSessions = e.data['iTotalSessions'];
+  installIfNeeded : function(mCallback){
+    self._oDatabase.empty('historyItems', function(bIsEmpty){
+      if(bIsEmpty){
+        // As we are in a callback function of the database this is the database
+        // we access it faster using 'this' than self._oDatabase.
+        loInstaller = new Cotton.Core.Installer(this, mCallback);
       } else {
-        iSessionCount++;
-        DEBUG && console.debug('wDBSCAN - Worker ends: ',
-          e.data['iNbCluster'], e.data['lHistoryItems']);
-
-        var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
-                                                e.data['iNbCluster']);
-
-        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
-          var oMergedStory = oStory;
-          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
-            // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
-              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
-              && oStory.tags().length > 0)){
-                // there is an item in two different stories or they have the same words
-                // in the title
-                oMergedStory.setHistoryItemsId(
-                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
-                oMergedStory.setLastVisitTime(Math.max(
-                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
-                lStories.splice(j,1);
-                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
-                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
-                }
-                j--;
-            }
-          }
-          lStories.push(oMergedStory);
-        }
-
-        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++){
-          if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1){
-            lHistoryItemsIds.push(dHistoryItem['id']);
-            // Data sent by the worker are serialized. Deserialize using translator.
-            var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
-              dHistoryItem);
-            var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
-            lHistoryItems.push(oHistoryItem);
-          }
-        }
-
-        if (iTotalSessions && iSessionCount === iTotalSessions){
-          // add items in indexedDB, then stories. We need to wait for the historyItems
-          // to be in base because when putting the stories we update iStoryId in the base
-          self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function(lIds) {
-            // Add stories in IndexedDB.
-            Cotton.DB.Stories.addStories(self._oDatabase, lStories,
-              function(oDatabase, lStories){
-                var d = new Date();
-                var _endTime = d.getTime();
-                var elapsedTime = (_endTime - self._startTime) / 1000;
-                DEBUG && console.debug("time elapsed during installation: "
-                  + elapsedTime + "ms");
-                self._bReadyForMessaging = true;
-                chrome.browserAction.enable();
-            });
-          });
-        }
+        mCallback();
       }
-    }, false);
-  },
-
-  /**
-   * Install
-   *
-   * First installation, the database is empty. Need to populate. Then launch,
-   * DBSCAN1 on the results.
-   *
-   */
-  install : function(){
-    var self = this;
-    chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
-    DEBUG && console.debug("Controller - install");
-    self._bInstallLaunched = true;
-    var date = new Date();
-    var month = date.getMonth() + 1;
-    localStorage.setItem('cohort', month + "/" + date.getFullYear());
-    Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
-    this._bReadyForMessaging = true;
-    self._startTime = date.getTime();
-    self.wakeUp();
-    var oHistoryClient = new Cotton.Core.History.Client();
-    Cotton.DB.Populate.visitItems(oHistoryClient, function(
-      lHistoryItems, lVisitItems) {
-        DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
-          + lHistoryItems.length + ' historyItems and '
-          + lVisitItems.length + ' visitItems:');
-        DEBUG && console.debug(lHistoryItems, lVisitItems);
-        // visitItems are already dictionnaries, whereas historyItems are objects
-        var lHistoryItemsDict = [];
-        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
-          // maybe a setFormatVersion problem
-          var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
-          var dItem = oTranslator.objectToDbRecord(oItem);
-          lHistoryItemsDict.push(dItem);
-        }
-        DEBUG && console.debug(lHistoryItemsDict);
-        self._wDBSCAN3.postMessage({
-          'historyItems' : lHistoryItemsDict,
-          'visitItems' : lVisitItems
-        });
     });
-
-  },
-
-  /**
-   * Update
-   *
-   * If something is needed. But nothing for the moment.
-   */
-  update : function(){
-    DEBUG && console.debug("update");
-    this._bReadyForMessaging = true;
   },
 
   addGetContentTab : function (iTabId) {
@@ -401,22 +246,6 @@ Cotton.Controllers.Background = Class.extend({
   removeGetContentTab : function (iTabId) {
     delete this._dGetContentTabId[iTabId];
     chrome.tabs.remove(iTabId);
-  },
-
-  wakeUp : function(){
-    var self = this;
-    /*
-     * HACK
-     */
-    // as long as the install and population of the database is not finished
-    // we regularly call the background page to keep it awake
-    chrome.runtime.getBackgroundPage(function(oPage){});
-    if (!this._bReadyForMessaging){
-      DEBUG && console.debug('wake up!');
-      setTimeout(function(){
-        self.wakeUp();
-      }, 5000);
-    }
   },
 
   setTriggerStory : function(iStoryId){
