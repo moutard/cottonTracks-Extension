@@ -136,7 +136,7 @@ Cotton.Core.Installer = Class.extend({
     // Get the historyClient (depends on the browser)
     var oChromeHistoryClient = new Cotton.Core.History.Client();
 
-    Cotton.DB.Populate.visitItems(oChromeHistoryClient,
+    Cotton.Core.Populate.visitItems(oChromeHistoryClient,
       function(lHistoryItems, lVisitItems) {
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
