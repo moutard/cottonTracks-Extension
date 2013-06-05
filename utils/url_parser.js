@@ -1,20 +1,49 @@
 'use strict'
 
+/**
+ * Class in charge of parsing url, to extract main informations.
+ *
+ * @param {String} sUrl: url you want to parse.
+ * Ex :
+ * http://fr.wikipedia.org/wiki/Wolfgang_Amadeus_Mozart
+ * protocol + :// + hostname + pathname
+ *
+ *  href // the complete and well formatted url (decodeURIComponents)
+ *  protocol, // http, https, ftp
+ *  host, // name of the website fr.wikipedia.org
+ *  hostname, //
+ *  country, // .fr, .com, .org
+ *  port, // if one :8080
+ *  service, // central part of the host like wikipedia, google
+ *  pathname, // after the port, the /wiki/Wolfgang_Amadeus_Mozart
+ *  hash, // after #
+ *  search, // after ?
+ *  dHash, // dictionnary of parameters that appears in the hash part
+ *  dSearch; // dictionnary of parameters that appears in the search part
+ *
+ *  error // store the error here if an error appears
+ *
+ *  // TODO(rmoutard) : make function to save space
+ *  isGoogle, // true if it's a google service
+ *  isGoogleMaps,
+ *  isVimeo,
+ *  isHttps, // true if protocol is https
+ *  isYoutube;
+ */
+
 function UrlParser(sUrl) {
   var country_with_sub_domains = ['.uk'];
-  // CLASS
-  // save the unmodified url to href property
-
-  // attributes
-  var href, protocol, host, hostname, port, pathname, hash, search, dHash, dSearch;
 
   this.href = sUrl;
+  try {
+    // When a url is a parameter in an other url, then it has been
+    // encodeURIComponents. To avoid problem decode it before using it.
+    this.href = decodeURIComponent(sUrl);
 
-  // split the URL by single-slashes to get the component parts
-  var parts = sUrl.replace('//', '/').split('/');
+    // split the URL by single-slashes to get the component parts
+    var parts = this.href.replace('//', '/').split('/');
 
-  // store the protocol and host
-  if(parts[0]!==undefined && parts[1]!==undefined){
+    // store the protocol and host
     this.protocol = parts[0];
     this.host = parts[1];
 
@@ -47,7 +76,6 @@ function UrlParser(sUrl) {
       this.hash = '';
     }
 
-
     this.pathname = this.pathname[0];
 
     // SEARCH
@@ -77,9 +105,12 @@ function UrlParser(sUrl) {
     } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
       this.generateLinkedInKeywords();
     }
-  } else {
-    console.error(sUrl + " is not well formated.");
+  } catch(e) {
+    // Sometimes the URL is mal formated.
+    this.error = e.message;
+    return 1;
   }
+
 }
 
 // PROTOTYPE
