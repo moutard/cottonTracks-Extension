@@ -176,8 +176,7 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
   var oClient = new Cotton.Core.History.Client();
 
   DEBUG && console.debug('PopulateHistoryItems - Start');
-  var startTime1 = new Date().getTime();
-  var elapsedTime1 = 0;
+  var oBenchmark = new Benchmark("PopulateDB");
 
   var iCount = 0;
   var iLength = 0;
@@ -191,6 +190,8 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
       startTime : 0, // no start time.
       "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
     }, function(lChromeHistoryItems) {
+      oBenchmark.step('Get all historyItems');
+
       var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
       DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
@@ -207,6 +208,7 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
       iLength = glCottonHistoryItems.length;
       DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
 
+      oBenchmark.step('Compute all historyItems');
       // For each chromeHistory remaining find all the corresponding visitItems.
       for(var i = 0; i < iLength; i++){
         // Attribute an fixed id directly instead of putting in the database
@@ -227,13 +229,15 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
             }
             glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
             iCount +=1;
+            // Once we get all the visitItems we can compute googleClosestSearch
+            // page.
             if(iCount === iLength){
               glChromeVisitItems.sort(function(a, b){
                 return b['visitTime'] - a['visitTime'];
               });
               DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
-              elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
-              DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
+
+              oBenchmark.step('Get all visitItems');
               // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
               // integration tests, find a way to remove it from here
               glCottonHistoryItems = Cotton.Core.Populate.SuiteForCotton(
@@ -241,6 +245,9 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
 
               // add historyItems in the database with their id fixed.
               oDatabase.putListUniqueHistoryItems('historyItems', glCottonHistoryItems, function(lIds) {
+
+                oBenchmark.step('Put all historyItems in the database');
+                oBenchmark.end();
                 mCallBackFunction(glCottonHistoryItems, glChromeVisitItems,
                   iInitialNumberOfChromeHistoryItems);
               });
@@ -251,5 +258,4 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
     });
   }
 };
-
 
