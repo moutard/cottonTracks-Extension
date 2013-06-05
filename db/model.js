@@ -1,6 +1,6 @@
 'use strict';
 
-Cotton.Model.Base = Class.extend({
+Cotton.DB.Model = Class.extend({
 
   _sModelStore: undefined,
   _dDBRecord: null, // dictionnary stored that can be stored directly in the database.
@@ -17,7 +17,7 @@ Cotton.Model.Base = Class.extend({
   },
 
   get: function(sKey){
-    return this._dDBRecord[sKey] || this._getDefault[sKey];
+    return this._dDBRecord[sKey] || this._default()[sKey];
   },
 
   set: function(sKey, oValue){
@@ -31,9 +31,6 @@ Cotton.Model.Base = Class.extend({
   _default: function(){
     throw "Default is a mandatory function, need to be implemented in a model"
     // return {};
-  },
-
-  _getDefault: function(sKey){
-    return this._default[sKey] || throw sKey + "is not expected in the model";
   }
+
 });

@@ -3,7 +3,7 @@
 /**
  * Search Keyword
  */
-Cotton.Model.SearchKeyword = Cotton.Model.Base.extend({
+Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
   _sModelStore: 'searchKeywords',
   _default: function(){
     return {
