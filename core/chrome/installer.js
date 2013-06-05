@@ -47,10 +47,10 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug('wDBSCAN - Worker ends: ',
           e.data['iNbCluster'], e.data['lHistoryItems']);
 
-        var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
+        var lStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
+        Cotton.DB.Stories.addStories(self._oDatabase, lStories,
           function(oDatabase, lStories){
             iSessionCount+=1;
             var _endTime =  new Date().getTime();
