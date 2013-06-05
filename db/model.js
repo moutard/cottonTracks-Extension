@@ -2,6 +2,7 @@
 
 Cotton.Model.Base = Class.extend({
 
+  _sModelStore: undefined,
   _dDBRecord: null, // dictionnary stored that can be stored directly in the database.
 
   /**
