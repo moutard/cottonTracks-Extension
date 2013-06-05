@@ -3,82 +3,78 @@
 /**
  * Search Keyword
  */
-Cotton.Model.SearchKeyword = Class.extend({
+Cotton.Model.SearchKeyword = Model.extend({
 
-  _iId : undefined,
-  _sKeyword : undefined,
-  _lReferringHistoryItemsId : null,   // list of historyItems that contains this word.
-  _lReferringStoriesId : null,          // list of stories that contains this word.
-
-  /**
-   * {Integer} _iFrequencyInCorpus :
-   * Number of times word appears in all pages. Allow to compute idf (inverse
-   * document frequency). More the words appears less it is important:
-   *  - because it can be a stop words (verbs like be, go, and conjugaison)
-   *  - imagine all the corpus talk about javascript, then javascript becomes
-   *  less important to classified, we want something smaller.
-   */
-  _iFrequencyInCorpus : undefined,
-
-  /**
-   * 
-   */
-  init : function(sKeyword) {
-    this._sKeyword = sKeyword;
-
-    this._lReferringHistoryItemsId = [];
-    this._lReferringStoriesId = [];
-
-    this._iFrequencyInCorpus = 0;
+  _default: function(){
+    return {
+      'sId': undefined,
+      'sKeyword': undefined,
+      'lReferringHistoryItemsId':[], // list of historyItems that contains this word.
+      'lReferringStoriesId':[], // list of stories that contains this word.
+      /**
+       * {Integer} _iFrequencyInCorpus :
+       * Number of times word appears in all pages. Allow to compute idf (inverse
+       * document frequency). More the words appears less it is important:
+       *  - because it can be a stop words (verbs like be, go, and conjugaison)
+       *  - imagine all the corpus talk about javascript, then javascript becomes
+       *  less important to classified, we want something smaller.
+       */
+      'iFrequencyInCorpus': 0
+    };
   },
 
   id : function() {
-    return this._iId;
+    return this.get('sId');
   },
 
   initId : function(iId) {
-    if(this._iId === undefined){
-      this._iId = iId;
+    if(this.get('sId') === undefined){
+      this.set('sId', iId);
     }
   },
 
   keyword : function() {
-    return this._sKeyword;
+    return this.get('sKeyword');
   },
 
   referringHistoryItemsId : function() {
-    return this._lReferringHistoryItemsId;
+    return this.get('lReferringHistoryItemsId');
   },
 
   setReferringHistoryItemsId : function(lHistoryItemsId) {
-    this._lReferringHistoryItemsId = lHistoryItemsId;
+    this.set('lReferringHistoryItemsId', lHistoryItemsId);
   },
 
   addReferringHistoryItemId : function(iHistoryItemId) {
-    if(_.indexOf(this._lReferringHistoryItemsId, iHistoryItemId)===-1){
-      this._lReferringHistoryItemsId.push(iHistoryItemId);
+    var lTemp = this.get('lReferringHistoryItemsId');
+    if(_.indexOf(lTemp, iHistoryItemId) === -1){
+      lTemp.push(iHistoryItemId);
+      this.set('lReferringHistoryItemsId', lTemp);
     }
   },
 
   referringStoriesId : function() {
-    return this._lReferringStoriesId;
+    return this.get('lReferringStoriesId');
   },
 
   setReferringStoriesId : function(lStoriesId) {
-    this._lReferringStoriesId = lStoriesId;
+    this.set('lReferringStoriesId', lStoriesId);
   },
 
   addReferringStoryId : function(iStoryId) {
-    if(_.indexOf(this._lReferringStoriesId, iStoryId)===-1){
-      this._lReferringStoriesId.push(iStoryId);
+    var lTemp = this.get('lReferringStoriesId');
+    if(_.indexOf(lTemp, iStoryId) === -1){
+      lTemp.push(iStoryId);
+      this.set('lReferringStoriesId', lTemp);
     }
   },
 
   frequency : function() {
-    return this._iFrequencyInCorpus;
+    return this.get('iFrequencyInCorpus');
   },
 
   setFrequency : function(iFrequency) {
-    this._iFrequencyInCorpus = iFrequency;
-  },
+    this.set('iFrequencyInCorpus', iFrequency);
+  }
+
 });
