@@ -10,12 +10,15 @@
 Cotton.Core.Populate = {};
 
 /**
- * PreRemoveTools
- *
- * @param: list of serialized historyItems. (see chrome api for more informations)
- *         remove historyItems that are https, or that are tools.
+ * Among all the chrome historyItem remove those who are tools or exludeded
+ * like https.
+ * This method depends on the browser because the history API is not always the
+ * same:
+ *  - 'url' parameters of the dictionnary in chrome.
+ * @param {Array.<dict>} lChromeHistoryItems: list of serialized historyItems.
+ *  (see chrome api for more informations)
  */
-Cotton.Core.Populate.preRemoveTools = function(lChromeHistoryItems) {
+Cotton.Core.Populate.removeExcludedItem = function(lChromeHistoryItems) {
   DEBUG && console.debug('New PreRemoveTools - Start');
 
   var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
@@ -191,8 +194,8 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
       var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
       DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
-      // Remove the tools before looking for visitItems.
-      glCottonHistoryItems = Cotton.Core.Populate.preRemoveTools(lChromeHistoryItems);
+      // Remove exluded item before looking for visitItems.
+      glCottonHistoryItems = Cotton.Core.Populate.removeExcludedItem(lChromeHistoryItems);
       // Compute blacklisted expressions for titles
       Cotton.Algo.Common.Words.generateBlacklistExpressions(glCottonHistoryItems);
 
