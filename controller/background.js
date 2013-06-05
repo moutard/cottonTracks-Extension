@@ -91,11 +91,13 @@ Cotton.Controllers.Background = Class.extend({
       }, function() {
 
         DEBUG && console.debug('Global store created');
+
+        // Init the messaging controller.
+        self._oMessagingController = new Cotton.Controllers.Messaging(self);
+        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
+
         self.installIfNeeded(function(){
           // Do when the installation is finished.
-          // Init the messaging controller.
-          self._oMessagingController = new Cotton.Controllers.Messaging(self);
-          self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
           self._bReadyForMessaging = true;
         });
     });

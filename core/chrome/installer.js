@@ -96,8 +96,9 @@ Cotton.Core.Installer = Class.extend({
                 var elapsedTime = (_endTime - self._startTime) / 1000;
                 DEBUG && console.debug("time elapsed during installation: "
                   + elapsedTime + "ms");
-                self._bReadyForMessaging = true;
                 chrome.browserAction.enable();
+                self._bReadyForMessaging = true;
+                self._mIsFinished();
             });
           });
         }
@@ -153,7 +154,6 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug(lHistoryItemsDict);
         // TODO(rmoutard): put this callback method later, after all the stories
         // are properly stored.
-        self._mIsFinished();
         self._wInstallWorker.postMessage({
           'historyItems' : lHistoryItemsDict,
           'visitItems' : lVisitItems
