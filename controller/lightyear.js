@@ -117,7 +117,8 @@ Cotton.Controllers.Lightyear = Class.extend({
             self._oStory.setId(-1);
             self._bStoryReady = true;
             self._bHistoryItemReady = true;
-            if (self._bHistoryItemReady && self._bStoriesInTabsReady && self._bRelatedReady && self._bWorldReady){
+            self._bRelatedReady = true;
+            if (self._bStoriesInTabsReady && self._bWorldReady){
               self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
             }
           } else {
