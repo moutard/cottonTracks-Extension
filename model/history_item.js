@@ -7,70 +7,61 @@
  * Every visit on a page corresponds to a historyItem. If you visit the same
  * page twice but at a different moment you have the same historyItem.
  */
-Cotton.Model.HistoryItem = Class.extend({
-
-  _sId : undefined,                 // id fixed by the database.
-
-  _sUrl : undefined,                // url of the visited page.
-  _sTitle : undefined,              // title of the page.
-  _iLastVisitTime : undefined,      // time of the last visit.
-  _iVisitCount : undefined,         // number of visits for this item.
-
-  _sStoryId : undefined,            // id of the story if it belongs to it.
+Cotton.Model.HistoryItem = Model.extend({
+  _sModelStore: "historyItems",
   _oExtractedDNA : undefined,       // dna of the page. Used to compute distance.
 
+  _default: function(){
+    return {
+      'sId': undefined, // {Int} id: of the historyItem in the cotton database.
+      'sUrl': undefined, // {String} url: of the page.
+      'sIitle': "", // {String} title: of the page.
+      'iLastVisitTime': undefined, // {Int} last time we visit this page.
+      'iVisitCount': 1, // {Int} number of time we visit this page.
+      'sStoryId': "UNCLASSIFIED", // {Int} if is in a story, id of this story.
+      'oExtractedDNA' : this._oExtractedDNA._default()
+    };
+  },
   /**
    * {Dictionnary} dDBRecord :
    *  dict that contains all the variables like they are stored in the
    *  database.
    */
   init : function(dDBRecord) {
-    dDBRecord = dDBRecord || {};
-    this._sId = dDBRecord['sId'] || undefined;
-
-    this._sUrl = dDBRecord['sUrl'] || undefined;
-    this._sTitle = dDBRecord['sTitle'] || "";
-    this._iLastVisitTime = dDBRecord['iLastVisitTime'] || undefined;
-    this._iVisitCount = dDBRecord['iVisitCount'] || 1;
-
-    this._sStoryId = dDBRecord['sStoryId'] || "UNCLASSIFIED";
+    this._super(dDBRecord);
     this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this, dDBRecord['oExtractedDNA']);
 
   },
   // can't be set
   id : function() {
-    return this._sId;
+    return this.get('sId');
   },
   initId : function(sId) {
-    if(this._sId === undefined){this._sId = sId;}
+    if(this.get('sId') === undefined){this.set('sId', sId);}
   },
   url : function() {
-    return this._sUrl;
+    return this.get('sUrl');
   },
   initUrl : function(sUrl) {
-    if(!this._sUrl){this._sUrl = sUrl;}
+    if(this.get('sUrl') === undefined){this.set('sUrl', sUrl);}
   },
   title : function() {
-    return this._sTitle;
+    return this.get('sTitle');
   },
   setTitle : function(sTitle) {
-    this._sTitle = sTitle;
+    this.set('sTitle', sTitle);
   },
   lastVisitTime : function() {
-    return this._iLastVisitTime;
+    return this.get('iLastVisitTime');
   },
   setLastVisitTime : function(iVisitTime) {
-    this._iLastVisitTime = iVisitTime;
+    this.set('iVisitTime', iVisitTime);
   },
   visitCount : function() {
-    return this._iVisitCount;
+    return this.get('iVisitCount', iVisitCount);
   },
   setVisitCount : function(iVisitCount) {
-    if (iVisitCount && iVisitCount > 0){
-      this._iVisitCount = iVisitCount;
-    } else {
-      this._iVisitCount = 1;
-    }
+    this.set('iVisitCount', iVisitCount);
   },
   incrementVisitCount : function(iVisitsAdded) {
     if (iVisitsAdded) {
@@ -80,23 +71,23 @@ Cotton.Model.HistoryItem = Class.extend({
     }
   },
   storyId : function() {
-    return this._sStoryId;
+    return this.get('sStoryId');
   },
   setStoryId : function(sStoryId) {
-    this._sStoryId = sStoryId;
+    this.set('sStoryId', sStoryId);
   },
   extractedDNA : function() {
-    return this._oExtractedDNA;
+    return this.get('oExtractedDNA', oExtractedDNA);
   },
   setExtractedDNA : function(oExtractedDNA) {
-    this._oExtractedDNA = oExtractedDNA;
+    this.set('oExtractedDNA', oExtractedDNA);
   },
   searchKeywords : function() {
-    return this._sTitle.toLowerCase().split(" ");
+    return this.get('sTitle').toLowerCase().split(" ");
   },
   oUrl : function() {
     if(!this._oUrl) {
-      this._oUrl = new UrlParser(this._sUrl);
+      this._oUrl = new UrlParser(this.get('sUrl'));
     }
     return this._oUrl;
   }
