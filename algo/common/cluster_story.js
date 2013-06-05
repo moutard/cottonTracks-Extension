@@ -4,12 +4,11 @@
  * Given an array of historyItems labeled with a "clusterId", return a list of
  * stories, that contains all historyItems with the same label.
  *
- * @param {Array.
- *          <Object>} lHistoryItems : array of DbRecordHistoryItem (because they
- *          have been serialized by the worker.)
- * @param {int}
- *          iNbCluster
- * @returns {Object} dStories list of all the stories.
+ * @param {Array.<Object>} lHistoryItems : array of DbRecordHistoryItem (because
+ *        they have been serialized by the worker.)
+ * @param {int} iNbCluster
+ * @returns {Array.<Cotton.Model.Story} list of all the stories that has at
+ *            least one element.
  *
  */
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
@@ -20,9 +19,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
   // There is nothing to cluster.
   if (lHistoryItems.length === 0 || iNbCluster === 0) {
-    return {
-      'stories' : lStories,
-    };
+    return lStories;
   }
 
   // Initialize with empty stories.
@@ -129,7 +126,5 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
     return oStory.lastVisitTime() === 0;
   });
 
-  return {
-    'stories' : lStories,
-  };
+  return lStories;
 };

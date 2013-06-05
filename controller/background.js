@@ -152,7 +152,7 @@ Cotton.Controllers.Background = Class.extend({
         e.data['iNbCluster'], e.data['lHistoryItems']);
 
       // Cluster the story found by dbscan2.
-      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
+      var lStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                               e.data['iNbCluster']);
 
       // TODO(rmoutard) : find a better solution.
@@ -168,7 +168,7 @@ Cotton.Controllers.Background = Class.extend({
       self._oPool._refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
-      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
+      Cotton.DB.Stories.addStories(self._oDatabase, lStories,
         function(oDatabase, lStories){
       });
     }, false);
@@ -194,7 +194,7 @@ Cotton.Controllers.Background = Class.extend({
         dItem['clusterId'] = 0;
       }
     }
-    var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
+    var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
     // TODO(rmoutard) : find a better solution.
     var lHistoryItemToKeep = [];
     for (var i = 0, dItem; dItem = lItems[i]; i++){

@@ -96,8 +96,8 @@ function launchTests(){
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
           Cotton.Algo.Score.DBRecord.HistoryItem);
         iStories += iNbSubCluster;
-        var dStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
-        _.each(dStories['stories'], function(oStory){
+        var lStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
+        _.each(lStories, function(oStory){
           if(oStory.historyItemsId().length < Cotton.Config.Parameters.dbscan3.iMinPts){
             DEBUG && console.debug('session');
             DEBUG && console.debug(JSON.stringify(lSession));
@@ -106,7 +106,7 @@ function launchTests(){
           }
         });
 
-        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
+        for (var i = 0, oStory; oStory = lStories[i]; i++){
           var oMergedStory = oStory;
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
