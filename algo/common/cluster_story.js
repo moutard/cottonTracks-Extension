@@ -11,37 +11,30 @@
  *          iNbCluster
  * @returns {Object} dStories list of all the stories.
  *
- *
  */
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
   DEBUG && console.debug("cluster story")
   DEBUG && console.debug(lHistoryItems);
   DEBUG && console.debug(iNbCluster);
   var lStories = [];
-  // TODO(rmoutard) : storyUnderConstruction is usless now.
-  var oStoryUnderConstruction = new Cotton.Model.Story();
 
   // There is nothing to cluster.
   if (lHistoryItems.length === 0 || iNbCluster === 0) {
     return {
       'stories' : lStories,
-      'storyUnderConstruction' : oStoryUnderConstruction
     };
   }
 
-  // initialized
+  // Initialize with empty stories.
   for ( var i = 0; i < iNbCluster; i++) {
     lStories[i] = new Cotton.Model.Story();
   }
 
-  var bStoryUnderConstruction = true;
-
   for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {
+
+    // If the clusterId is a number, then it goes to the corresponding stories.
     if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lHistoryItems[j]['clusterId'] !== "NOISE") {
-
-      //
-      bStoryUnderConstruction = false;
 
       // Add the historyItem in the corresponding story.
       lStories[lHistoryItems[j]['clusterId']]
@@ -152,9 +145,6 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = true;
         }
       }
-
-    } else if (bStoryUnderConstruction) {
-      oStoryUnderConstruction.addDbRecordHistoryItem(lHistoryItems[j]);
     }
   }
 
@@ -164,6 +154,5 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
   return {
     'stories' : lStories,
-    'storyUnderConstruction' : oStoryUnderConstruction
   };
 };
