@@ -8,7 +8,7 @@
  * why it's called PageDNA.
  */
 
-Cotton.Model.HistoryItemDNA = Class.extend({
+Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
   _lQueryWords : null,                  // words used to make the google search.
   _lExtractedWords : null,              // words extracted from title and content.
@@ -27,28 +27,27 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _lParagraphs : null,
   _lCopyPaste : null,
 
-  /**
-   *
-   */
+  _default: function(){
+    return {
+      'lQueryWords':[],
+      'lExtractedWords':[],
+      'sClosestGoogleSearchPage': "",
+      'oBagOfWords': undefined,
+      'iPercent': 0,
+      'fPageScore': 0,
+      'fTimeTabActive': -1,
+      'lHighlightedText':[],
+      'sImageUrl': "",
+      'sFirstParagraph': "",
+      'sMostReadParagraph':"",
+      'lsAllParagraphs': [],
+      'lParagraphs':[],
+      'lCopyPaste': []
+    };
+  },
+
   init : function(dDBRecord) {
-    //FIXME(rmoutard) : for the moment the bag of words is only synchronized
-    // with extractedWords and QueryWords. Made something better.
-    // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
-
-    dDBRecord = dDBRecord || {};
-
-    this._lQueryWords = dDBRecord['lQueryWords'] || [];
-    this._lExtractedWords = dDBRecord['lQueryWords'] || [];
-    this._iPercent = 0;
-    this._fTimeTabActive = -1;
-    this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
-    this._sImageUrl = dDBRecord['sImageUrl'] || "";
-    this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
-    this._sMostReadParagraph = "";
-    this._lsAllParagraphs = [];
-    this._lParagraphs = [];
-    this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
-
+    this._super(dDBRecord);
     this._oBagOfWords = new Cotton.Model.BagOfWords(dDBRecord['oBagOfWords']);
   },
   queryWords : function() {
