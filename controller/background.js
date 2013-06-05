@@ -230,7 +230,7 @@ Cotton.Controllers.Background = Class.extend({
       if(bIsEmpty){
         // As we are in a callback function of the database this is the database
         // we access it faster using 'this' than self._oDatabase.
-        loInstaller = new Cotton.Core.Installer(this, mCallback);
+        var loInstaller = new Cotton.Core.Installer(this, mCallback);
       } else {
         mCallback();
       }
