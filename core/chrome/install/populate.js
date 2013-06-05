@@ -167,8 +167,11 @@ Cotton.Core.Populate.SuiteForCotton = function(lCottonHistoryItems, lChromeVisit
  * @param :
  *          mCallBackFunction
  */
-Cotton.Core.Populate.visitItems = function(oClient, mCallBackFunction) {
-  // Get all the history items from Chrome Core.
+Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
+
+  // Get the historyClient (depends on the browser)
+  var oClient = new Cotton.Core.History.Client();
+
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var startTime1 = new Date().getTime();
   var elapsedTime1 = 0;

@@ -134,10 +134,7 @@ Cotton.Core.Installer = Class.extend({
     // Make sure the background page is keeped opened during installation.
     self.wakeUp();
 
-    // Get the historyClient (depends on the browser)
-    var oChromeHistoryClient = new Cotton.Core.History.Client();
-
-    Cotton.Core.Populate.visitItems(oChromeHistoryClient,
+    Cotton.Core.Populate.visitItems(self._oDatabase,
       function(lHistoryItems, lVisitItems) {
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
