@@ -16,63 +16,71 @@ function UrlParser(sUrl) {
   var parts = sUrl.replace('//', '/').split('/');
 
   // store the protocol and host
-  this.protocol = parts[0];
-  this.host = parts[1];
+  if(parts[0]!==undefined && parts[1]!==undefined){
+    this.protocol = parts[0];
+    this.host = parts[1];
 
-  // extract any port number from the host
-  // from which we derive the port and hostname
-  parts[1] = parts[1].split(':');
-  this.hostname = parts[1][0];
-  this.port = parts[1].length > 1 ? parts[1][1] : '';
+    // extract any port number from the host
+    // from which we derive the port and hostname
+    parts[1] = parts[1].split(':');
+    this.hostname = parts[1][0];
+    this.port = parts[1].length > 1 ? parts[1][1] : '';
 
-  // Host and country
-  var iIndexOfLastDot = this.hostname.lastIndexOf('.');
-  this.country = this.hostname.substr(iIndexOfLastDot);
-  this.hostname_without_country = this.hostname.substr(0, iIndexOfLastDot);
-  this.service = this.hostname_without_country.split('.')[1];
+    // Host and country
+    var iIndexOfLastDot = this.hostname.lastIndexOf('.');
+    this.country = this.hostname.substr(iIndexOfLastDot);
+    this.hostname_without_country = this.hostname.substr(0, iIndexOfLastDot);
+    this.service = this.hostname_without_country.split('.')[1];
 
-  if(country_with_sub_domains.indexOf(this.country)){
-    // For the moment do nothing.
-  }
+    if(country_with_sub_domains.indexOf(this.country)){
+      // For the moment do nothing.
+    }
 
-  // splice and join the remainder to get the pathname
-  parts.splice(0, 2);
-  this.pathname = '/' + parts.join('/');
+    // splice and join the remainder to get the pathname
+    parts.splice(0, 2);
+    this.pathname = '/' + parts.join('/');
 
-  // HASH
-  // extract any hash - delimited by '#' -
-  this.pathname = this.pathname.split('#');
-  this.hash = this.pathname[1] || "";
 
-  this.pathname = this.pathname[0];
+    // HASH
+    // extract any hash - delimited by '#' -
+    this.pathname = this.pathname.split('#');
+    if(parts[0]){
+      this.hash = parts[0].split('#')[1] || "";
+    } else {
+      this.hash = '';
+    }
 
-  // SEARCH
-  // extract any search query - delimited by '?' -
-  this.pathname = this.pathname.split('?');
-  this.search = this.pathname.length > 1 ? this.pathname[1] : '';
 
-  this.pathname = this.pathname[0];
+    this.pathname = this.pathname[0];
 
-  var oGoogleRegExp = /www.google.[a-z]{2,3}|www.google.[a-z]{2,3}.[a-z]{2,3}/ig;
-  this.isGoogle = (oGoogleRegExp.exec(this.hostname))? true : false;
-  this.isGoogleMaps = (this.hostname_without_country === "maps.google"
-                      || this.hostname_without_country === "maps.google.co"
-                      || (this.isGoogle && this.pathname.match(/^\/maps/ig)));
-  var oWikiRegExp = /[a-z]{2,3}.wikipedia.org/ig;
-  this.isWikipedia = (this.hostname.match(oWikiRegExp)) ? true : false;
-  this.isYoutube = (this.hostname === "www.youtube.com");
-  this.isVimeo = (this.hostname_without_country === "vimeo");
+    // SEARCH
+    // extract any search query - delimited by '?' -
+    this.pathname = this.pathname.split('?');
+    this.search = this.pathname.length > 1 ? this.pathname[1] : '';
 
-  this.isHttps = (this.protocol === "https:");
+    this.pathname = this.pathname[0];
 
-  if(this.pathname === "/search"){
-    this.generateKeywords();
-    this.genericSearch();
-    this.imageSearchPreviewSource();
-  } else if (this.pathname === "/imgres"){
-    this.imageSearchPreviewSource();
-  } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
-    this.generateLinkedInKeywords();
+    var oGoogleRegExp = /www.google.[a-z]{2,3}|www.google.[a-z]{2,3}.[a-z]{2,3}/ig;
+    this.isGoogle = (oGoogleRegExp.exec(this.hostname))? true : false;
+    this.isGoogleMaps = (this.hostname_without_country === "maps.google"
+                        || this.hostname_without_country === "maps.google.co"
+                        || (this.isGoogle && this.pathname.match(/^\/maps/ig)));
+    var oWikiRegExp = /[a-z]{2,3}.wikipedia.org/ig;
+    this.isWikipedia = (this.hostname.match(oWikiRegExp)) ? true : false;
+    this.isYoutube = (this.hostname === "www.youtube.com");
+    this.isVimeo = (this.hostname_without_country === "vimeo");
+
+    this.isHttps = (this.protocol === "https:");
+
+    if(this.pathname === "/search"){
+      this.generateKeywords();
+      this.genericSearch();
+      this.imageSearchPreviewSource();
+    } else if (this.pathname === "/imgres"){
+      this.imageSearchPreviewSource();
+    } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
+      this.generateLinkedInKeywords();
+    }
   }
 }
 
