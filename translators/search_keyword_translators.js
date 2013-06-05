@@ -22,7 +22,9 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
 
-    var oSearchKeyword = new Cotton.Model.SearchKeyword(oDbRecord['sKeyword']);
+    var oSearchKeyword = new Cotton.Model.SearchKeyword({
+      'sKeyword': oDbRecord['sKeyword']
+    });
     oSearchKeyword.initId(oDbRecord['id']);
 
     oSearchKeyword.setReferringHistoryItemsId(oDbRecord['lReferringHistoryItemsId']);

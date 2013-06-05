@@ -10,7 +10,9 @@ module("Cotton.DB.Model.SearchKeyword",{
 });
 
 test("init.", function() {
-  var oBagOfWords = new Cotton.Model.SearchKeyword('wonderland');
+  var oBagOfWords = new Cotton.Model.SearchKeyword({
+    'sKeyword': 'wonderland'
+  });
   ok(oBagOfWords);
 });
 

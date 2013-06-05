@@ -23,7 +23,9 @@ Cotton.Controllers.Messaging = Class.extend({
     for (var i = 0, lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()), iLength = lKeywords.length;
       i < iLength; i++){
         var sKeyword = lKeywords[i];
-        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+        var oSearchKeyword = new Cotton.Model.SearchKeyword({
+          'sKeyword': sKeyword
+        });
         oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
         self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
           oSearchKeyword, function(iHistoryItemId){

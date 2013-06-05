@@ -3,8 +3,8 @@
 /**
  * Search Keyword
  */
-Cotton.Model.SearchKeyword = Model.extend({
-
+Cotton.Model.SearchKeyword = Cotton.Model.Base.extend({
+  _sModelStore: 'searchKeywords',
   _default: function(){
     return {
       'sId': undefined,

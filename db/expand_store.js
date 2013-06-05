@@ -144,7 +144,9 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oSto
   for (var j = 0, lKeywords = oStory.searchKeywords(),
     iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
       var sKeyword = lKeywords[j];
-      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      var oSearchKeyword = new Cotton.Model.SearchKeyword({
+        'sKeyword': sKeyword
+      });
       oSearchKeyword.addReferringStoryId(oStory.id());
       oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
         // Be careful with asynchronous.
@@ -165,7 +167,9 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories
       for (var j = 0, lKeywords = oStory.searchKeywords(),
         iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
           var sKeyword = lKeywords[j];
-          var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+          var oSearchKeyword = new Cotton.Model.SearchKeyword({
+            'sKeyword': sKeyword
+          });
           oSearchKeyword.addReferringStoryId(oStory.id());
           oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
             // Becarefull with asynchronous.
@@ -199,7 +203,10 @@ Cotton.DB.SearchKeywords.updateStoriesSearchKeywords2 = function(oStore, lStorie
           oStore.find('searchKeywords', 'sKeyword', oKeywordAndId['sKeyword'], function(oSearchKeyword){
             // If not find, oSearchKeyword is null.
             if(!oSearchKeyword) {
-              oSearchKeyword = new Cotton.Model.SearchKeyword(oKeywordAndId['sKeyword']);
+              // FIXME(rmoutard): we may use directly oKeywordAndId.
+              oSearchKeyword = new Cotton.Model.SearchKeyword({
+                'sKeyword': oKeywordAndId['sKeyword']
+              });
             }
 
             oSearchKeyword.addReferringStoryId(oKeywordAndId['iStoryId']);

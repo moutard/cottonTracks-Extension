@@ -77,7 +77,9 @@ var Manager = Class.extend({
                 DEBUG && console.debug('story created');
 
                 for(var i=0, sKeyword; sKeyword = lList[i]; i++){
-                  var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+                  var oSearchKeyword = new Cotton.Model.SearchKeyword({
+                    'sKeyword': sKeyword
+                  });
                   oSearchKeyword.addReferringStoryId(iStoryId);
                   self._oDatabase.putUniqueKeyword('searchKeywords',oSearchKeyword,
                     function(){
@@ -117,7 +119,9 @@ var Manager = Class.extend({
         self._oDatabase.put('stories', oStory, function(){
           DEBUG && console.debug('bagOfWords updated.');
           for(var sKey in dBagOfWords){
-            var oSearchKeyword = new Cotton.Model.SearchKeyword(sKey);
+            var oSearchKeyword = new Cotton.Model.SearchKeyword({
+              'sKeyword': sKey
+            });
             oSearchKeyword.addReferringStoryId(iStoryId);
             self._oDatabase.putUniqueKeyword('searchKeywords', oSearchKeyword,
               function(){

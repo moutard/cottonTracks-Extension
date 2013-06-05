@@ -77,7 +77,9 @@ asyncTest("add search keys with the same keywords.", function() {
     var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct-test-integration', {
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
-        var oSearchKeyword = new Cotton.Model.SearchKeyword('wonderland');
+        var oSearchKeyword = new Cotton.Model.SearchKeyword({
+          'sKeyword': 'wonderland'
+        });
 
         throws(self._oDatabase.put('searchKeywords', oSearchKeyword, function(){}), 'must throw error to pass.');
 
