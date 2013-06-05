@@ -213,7 +213,10 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
         // and let the database attribute the id.
         // Seems there is a problem with the id 0.
         var oHistoryItem = glCottonHistoryItems[i];
+
+        // Do we really need that if we put them in the database ?
         oHistoryItem.initId(i+1);
+
         oClient.getVisits({
             'url': oHistoryItem.url()
           }, function(lVisitItems){
@@ -235,8 +238,12 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
               // integration tests, find a way to remove it from here
               glCottonHistoryItems = Cotton.Core.Populate.SuiteForCotton(
                 glCottonHistoryItems, glChromeVisitItems);
-              mCallBackFunction(
-                glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
+
+              // add historyItems in the database with their id fixed.
+              oDatabase.putListUniqueHistoryItems('historyItems', glCottonHistoryItems, function(lIds) {
+                mCallBackFunction(glCottonHistoryItems, glChromeVisitItems,
+                  iInitialNumberOfChromeHistoryItems);
+              });
             }
           }
         );
