@@ -33,8 +33,9 @@ Cotton.Core.Installer = Class.extend({
     // Instantiate a new worker with the code in the specified file.
     self._wInstallWorker = new Worker('algo/dbscan3/worker_dbscan3.js');
     var lStories = [];
+    // Start with -1 to avoid that the first time 0 = 0.
+    var iTotalSessions = -1;
     var iSessionCount = 0;
-    var iTotalSessions = 0;
     var lHistoryItemsIds = [];
     var lHistoryItems = [];
 
@@ -43,31 +44,22 @@ Cotton.Core.Installer = Class.extend({
       if (e.data['iTotalSessions']){
         iTotalSessions = e.data['iTotalSessions'];
       } else {
-        iSessionCount++;
         DEBUG && console.debug('wDBSCAN - Worker ends: ',
           e.data['iNbCluster'], e.data['lHistoryItems']);
 
         var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
-          var oMergedStory = oStory;
-          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
-            // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
-              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
-              && oStory.tags().length > 0)){
-                // there is an item in two different stories or they have the same words
-                // in the title
-                oMergedStory.setHistoryItemsId(
-                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
-                oMergedStory.setLastVisitTime(Math.max(
-                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
-                lStories.splice(j,1);
-                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
-                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
-                }
-                j--;
+        Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
+          function(oDatabase, lStories){
+            iSessionCount+=1;
+            var _endTime =  new Date().getTime();
+            var elapsedTime = (_endTime - self._startTime) / 1000;
+            DEBUG && console.debug("time elapsed during installation: "
+              + elapsedTime + "ms");
+            if(iTotalSessions === iSessionCount){
+              chrome.browserAction.enable();
+              self._bReadyForMessaging = true;
             }
           }
           lStories.push(oMergedStory);
