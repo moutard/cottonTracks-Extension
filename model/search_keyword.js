@@ -3,8 +3,25 @@
 /**
  * Search Keyword
  */
+var dSearchKeywordsIndexes = {
+    'id' : {
+      'unique' : true
+    },
+    'sUrl' : {
+      'unique' : true
+    },
+    'iLastVisitTime' : {
+      'unique' : false
+    },
+    'sStoryId' : {
+      'unique' : false
+    }
+  };
+
 Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
+
   _sModelStore: 'searchKeywords',
+  _dModelIndexes: dSearchKeywordsIndexes,
   _default: function(){
     return {
       'sId': undefined,
