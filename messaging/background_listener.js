@@ -27,9 +27,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
     // Listen all the messages sent to the background page.
     chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-      if (!self._oMainController._bReadyForMessaging){
-        // install is not finished, do nothing
-      } else if (sender.tab.index === -1){
+      if (sender.tab.index === -1){
         // it is a page preloaded by google in a ghost tab
         // pass
       } else {
