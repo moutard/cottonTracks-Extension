@@ -44,7 +44,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
     // oDbRecord is just a dictionnary
-    var oHistoryItem = new Cotton.Model.HistoryItem();
+    var oHistoryItem = new Cotton.Model.HistoryItem({});
     // Use private attributes because they are immutable.
     oHistoryItem.initId(oDbRecord['id']);
     oHistoryItem.setStoryId(oDbRecord['sStoryId']);
@@ -56,7 +56,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
-    var oExtractedDNA = new Cotton.Model.HistoryItemDNA();
+    var oExtractedDNA = new Cotton.Model.HistoryItemDNA({});
     oExtractedDNA.setQueryWords(dExtractedDNA['lQueryWords']);
     var oBagOfWords = new Cotton.Model.BagOfWords(dExtractedDNA['dBagOfWords']);
     oExtractedDNA.setBagOfWords(oBagOfWords);
@@ -102,7 +102,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
   var mChromeHistorytemToObject = function(dChromeHistoryItem){
     // distinction between oIDBHistoryItem and oChromeHistoryItem
-    var oIDBHistoryItem = new Cotton.Model.HistoryItem();
+    var oIDBHistoryItem = new Cotton.Model.HistoryItem({});
 
     oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
     oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);

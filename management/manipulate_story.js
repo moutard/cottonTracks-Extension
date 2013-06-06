@@ -51,7 +51,7 @@ var Manager = Class.extend({
       for(var i = 0, dHistoryItem; dHistoryItem = lHistoryItems[i]; i++){
         //var oTranslator = self._oDatabase._translatorForDbRecord('historyItems', dHistoryItem);
         //var oHistoryItem = oTranslator.
-        var oHistoryItem = new Cotton.Model.HistoryItem();
+        var oHistoryItem = new Cotton.Model.HistoryItem({});
         oHistoryItem.setLastVisitTime(dHistoryItem['iLastVisitTime']);
         oHistoryItem.setTitle(dHistoryItem['sTitle']);
         oHistoryItem.initUrl(dHistoryItem['sUrl']);

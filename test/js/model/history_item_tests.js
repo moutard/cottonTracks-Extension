@@ -10,7 +10,7 @@ module("Cotton.DB.Model.HistoryItem",{
 });
 
 test("init.", function() {
-  var oHistoryItem = new Cotton.Model.HistoryItem();
+  var oHistoryItem = new Cotton.Model.HistoryItem({});
   ok(oHistoryItem);
 });
 

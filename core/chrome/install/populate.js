@@ -41,7 +41,7 @@ Cotton.Core.Populate.removeExcludedItem = function(lChromeHistoryItems) {
 Cotton.Core.Populate.translateListOfChromeHistoryItems = function(lChromeHistoryItems) {
   var iLength = lChromeHistoryItems.length;
   for (var i=0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++) {
-    var oHistoryItem = new Cotton.Model.HistoryItem();
+    var oHistoryItem = new Cotton.Model.HistoryItem({});
 
     //oHistoryItem.initId(i);
     oHistoryItem.initUrl(dChromeHistoryItem['url']);

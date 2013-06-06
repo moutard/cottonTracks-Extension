@@ -10,24 +10,10 @@
 
 Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
-  _lQueryWords : null,                  // words used to make the google search.
-  _lExtractedWords : null,              // words extracted from title and content.
-  _sClosestGoogleSearchPage : undefined,   // closest google search page.
+  _sModelStore : 'historyItemDNA',
   _oBagOfWords : null,
 
-  _iPercent : undefined,
-  _fPageScore : undefined,
-  _fTimeTabActive : undefined,          // time the tab was active.
-  _fTimeTabOpen : undefined,
-  _lHighlightedText : null,
-  _sImageUrl : undefined,
-  _sFirstParagraph : undefined,
-  _sMostReadParagraph : undefined,
-  _lsAllParagraphs : undefined,
-  _lParagraphs : null,
-  _lCopyPaste : null,
-
-  _default: function(){
+  _default: function() {
     return {
       'lQueryWords':[],
       'lExtractedWords':[],
@@ -40,7 +26,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'sImageUrl': "",
       'sFirstParagraph': "",
       'sMostReadParagraph':"",
-      'lsAllParagraphs': [],
+      'lsAllParagraphs': [], //FIXME(rmoutard) : lParagraphs ans lAllParagraphs
       'lParagraphs':[],
       'lCopyPaste': []
     };
@@ -48,168 +34,181 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
   init : function(dDBRecord) {
     this._super(dDBRecord);
-    this._oBagOfWords = new Cotton.Model.BagOfWords(dDBRecord['oBagOfWords']);
+    var dBagOfWords = dDBRecord['oBagOfWords'] || {};
+    this._oBagOfWords = new Cotton.Model.BagOfWords(dBagOfWords);
   },
   queryWords : function() {
-    return this._lQueryWords;
+    return this.get('lQueryWords');
   },
-  addQueryWord : function(sQueryWord){
-    if (this._lQueryWords.indexOf(sQueryWord) === -1){
-      this._lQueryWords.push(sQueryWord);
+  setQueryWords : function(lQueryWords) {
+    this.set('lQueryWords', lQueryWords);
+  },
+  addQueryWord : function(sQueryWord) {
+    var lTemp = this.get('lQueryWords');
+    if (_.indexOf(lTemp, sQueryWord) === -1) {
+      lTemp.push(sQueryWord);
+      this.set('lQueryWords', lTemp);
     }
   },
-  addListQueryWords : function(lQueryWords){
-    for (var i = 0, sWord; sWord = lQueryWords[i]; i++){
+  addListQueryWords : function(lQueryWords) {
+    for (var i = 0, sWord; sWord = lQueryWords[i]; i++) {
       this.addQueryWord(sWord);
     }
   },
-  setQueryWords : function(lQueryWords) {
-    var self = this;
-    this._lQueryWords = lQueryWords;
-  },
   setStrongQueryWords : function(lStrongQueryWords) {
-    var self = this;
     for (var i = 0, sQueryWord; sQueryWord = lStrongQueryWords[i]; i++) {
-      this.addQueryWord(sQueryWord)
-      self._oBagOfWords.addWord(sQueryWord,
+      this.addQueryWord(sQueryWord);
+      this._oBagOfWords.addWord(sQueryWord,
         Cotton.Config.Parameters.scoreForStrongQueryWords);
     }
   },
   setWeakQueryWords : function(lWeakQueryWords) {
-    var self = this;
     for (var i = 0, sQueryWord; sQueryWord = lWeakQueryWords[i]; i++) {
       this.addQueryWord(sQueryWord);
-      if (this._oBagOfWords.size() < 3){
-        self._oBagOfWords.addWord(sQueryWord,
+      //FIXME(rmoutard): ask to rkorach why there is this < 3.
+      if (this._oBagOfWords.size() < 3) {
+        this._oBagOfWords.addWord(sQueryWord,
           Cotton.Config.Parameters.scoreForWeakQueryWords);
       }
     }
   },
-  setMinWeightForWord : function(){
-    if (this._oBagOfWords.size() <= 1){
-      for (var sWord in this._oBagOfWords.get()){
+
+  //FIXME(rmoutard): What is it ?
+  setMinWeightForWord : function() {
+    if (this._oBagOfWords.size() <= 1) {
+      //FIXME(rkorach): do not use for in.
+      for (var sWord in this._oBagOfWords.get()) {
         this._oBagOfWords.addWord(sWord, Cotton.Config.Parameters.scoreForSoleWord);
       }
     }
   },
-  extractedWords : function() {
-    return this._lExtractedWords;
+  extractedWords : function(){
+    return this.get('lExtractedWords');
   },
   setExtractedWords : function(lExtractedWords) {
-    var self = this;
-    self._lExtractedWords = lExtractedWords;
-    for (var i = 0, iLength = self._lExtractedWords.length; i < iLength; i++) {
-      var sWord = self._lExtractedWords[i];
-      self._oBagOfWords.addWord(sWord,
+    // Set the value in dbRecord.
+    this.set('lExtractedWords', lExtractedWords);
+
+    // Update the bag of words.
+    for (var i = 0, iLength = lExtractedWords.length; i < iLength; i++) {
+      var sWord = lExtractedWords[i];
+      this._oBagOfWords.addWord(sWord,
         Cotton.Config.Parameters.scoreForExtractedWords);
     }
   },
-  bagOfWords : function(){
+  bagOfWords : function() {
     return this._oBagOfWords;
   },
-  setBagOfWords : function(oBagOfWords){
+  setBagOfWords : function(oBagOfWords) {
     this._oBagOfWords = oBagOfWords;
   },
   closestGoogleSearchPage : function() {
-    return this._sClosestGoogleSearchPage;
+    return this.get('sClosestGoogleSearchPage', sClosestGoogleSearchPage);
   },
   setClosestGoogleSearchPage : function(sClosestGoogleSearchPage) {
-    this._sClosestGoogleSearchPage = sClosestGoogleSearchPage;
+    this.set('sClosestGoogleSearchPage', sClosestGoogleSearchPage);
   },
-
   highlightedText : function() {
-    return this._lHighlightedText;
+    return this.get('lHighlightedText');
   },
   addHighlightedText : function(sText) {
-    this._lHighlightedText.push(sText);
+    //TODO(rmoutard): I think there is no need for a temp variable.
+    // this.get('lHighlightedText').push(sText);
+    var lTemp = this.get('lHighlightedText');
+    lTemp.push(sText);
+    this.set('lHighlightedText', lTemp);
   },
   setHighlightedText : function(lHighlightedText) {
-    this._lHighlightedText = lHighlightedText;
+    this.set('lHighlightedText', lHighlightedText);
   },
   imageUrl : function() {
-    return this._sImageUrl;
+    return this.get('sImageUrl');
   },
   setImageUrl : function(sImageUrl) {
-    this._sImageUrl = sImageUrl;
+    this.set('sImageUrl', sImageUrl);
   },
   percent : function() {
-    return this._iPercent;
+    return this.get('iPercent');
   },
   setPercent : function(iPercent) {
-    this._iPercent = iPercent;
+    this.set('iPercent', iPercent);
   },
   pageScore : function() {
-    return this._fPageScore;
+    return this.get('fPageScore');
   },
   setPageScore : function(fPageScore) {
-    this._fPageScore = fPageScore;
+    this.set('fPageScore', fPageScore);
   },
   timeTabActive : function() {
-    return this._fTimeTabActive;
+    return this.get('fTimeTabActive');
   },
   setTimeTabActive : function(fTimeTabActive) {
-    this._fTimeTabActive = fTimeTabActive || -1;
+    this.set('fTimeTabActive', fTimeTabActive);
   },
   increaseTimeTabActive : function(fTimeTabActive) {
-    this._fTimeTabActive += fTimeTabActive;
+    var fTemp = this.get('fTimeTabActive');
+    this.set('fTimeTabActive', fTemp);
   },
   timeTabOpen : function() {
-    return this._fTimeTabActive;
+    return this.get('fTimeTabOpen');
   },
   setTimeTabOpen : function(fTimeTabOpen) {
-    this._fTimeTabOpen = fTimeTabOpen || -1;
+    this.set('fTimeTabOpen', fTimeTabOpen);
   },
   increaseTimeTabOpen : function(fTimeTabOpen) {
-    this._fTimeTabOpen += fTimeTabOpen;
+    var fTemp = this.get('fTimeTabOpen');
+    this.set('fTimeTabOpen', fTemp);
   },
   firstParagraph : function() {
-    return this._sFirstParagraph;
+    return this.get('sFirstParagraph');
   },
   setFirstParagraph : function(sFirstParagraph) {
-    this._sFirstParagraph = sFirstParagraph;
+    this.set('FirstParagraph', sFirstParagraph);
   },
-  mostReadParagraph : function(){
-    return this._sMostReadParagraph;
+  mostReadParagraph : function() {
+    return this.get('sMostReadParagraph');
   },
   setMostReadParagraph : function(sMostReadParagraph){
-    this._sMostReadParagraph = sMostReadParagraph;
+    this.set('sMostReadParagraph', sMostReadParagraph);
   },
 
   paragraphs : function() {
-    return this._lParagraphs;
+    return this.get('lParagraphs');
   },
   addParagraph : function(oParagraph) {
-    var self = this;
-    var iIndexOfParagraph = _.indexOf(_.collect(self._lParagraphs,
-                                  function(_oParagraph){
-                                    return _oParagraph.id();
-                                  }),
-                                  oParagraph.id()
-                        );
+    var lTemp = this.get('lParagraphs');
+    //FIXME(rmoutard): collect has desepear from backbone.js
+    var iIndexOfParagraph = _.indexOf(
+      _.collect(lTemp, function(_oParagraph) {
+        return _oParagraph.id();
+    }), oParagraph.id());
     // Add the score if it doesn't exists. If not set it.
     if(iIndexOfParagraph === -1){
-      self._lParagraphs.push(oParagraph);
+      lTemp.push(oParagraph);
     } else {
-      self._lParagraphs[iIndexOfParagraph] = oParagraph;
+      lTemp[iIndexOfParagraph] = oParagraph;
     }
+    this.set('lParagraphs', lTemp);
   },
   setParagraphs : function(lParagraphs) {
-    this._lParagraphs = lParagraphs;
+    this.set('lParagraphs', lParagraphs);
   },
   allParagraphs : function() {
-	return this._lsAllParagraphs;
+	return this.get('lsAllParagraphs');
   },
   setAllParagraphs : function(lsParagraphs) {
-	this._lsAllParagraphs = lsParagraphs;
+	this.set('lsAllParagraphs', lsParagraphs);
   },
   copyPaste : function() {
-    return this._lCopyPaste;
+    return this.get('lCopyPaste');
   },
   setCopyPaste : function(lCopyPaste) {
-    this._lCopyPaste = lCopyPaste;
+    this.set('lCopyPaste', lCopyPaste);
   },
   addCopyPaste : function(sCopyPaste) {
-    this._lCopyPaste.push(sCopyPaste);
-  },
+    var lTemp = this.get('sCopyPaste', sCopyPaste);
+    lTemp.push(sCopyPaste);
+    this.set('sCopyPaste', sCopyPaste);
+  }
 
 });
