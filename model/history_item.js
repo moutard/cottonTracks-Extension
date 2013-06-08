@@ -33,6 +33,7 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
     this._super(dDBRecord);
     var dExtractedDNA = dDBRecord['oExtractedDNA'] || {};
     this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(dExtractedDNA);
+    this._dbRecord['oExtractedDNA'] = this._oExtractedDNA._dbRecord;
 
   },
   // can't be set

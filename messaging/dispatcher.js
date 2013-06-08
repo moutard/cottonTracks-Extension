@@ -30,6 +30,10 @@ Cotton.Messaging.Dispatcher = Class.extend({
     this._dMessages[sMessage] = lMessageListeners;
   },
 
+
+  /**
+   * Call all the objects that listen for the publish event.
+   */
   publish : function(sMessage, dArguments) {
     var lListeners = this._dMessages[sMessage] || [];
     for (var i=0, oListener; oListener = lListeners[i]; i++) {

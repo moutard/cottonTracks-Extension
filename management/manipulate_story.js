@@ -6,7 +6,7 @@ var Manager = Class.extend({
 
   createStory : function(sTitle, sFeaturedImage){
     var self = this;
-    var oStory = new Cotton.Model.Story();
+    var oStory = new Cotton.Model.Story({});
     oStory.setTitle(sTitle);
     oStory.setFeaturedImage(sFeaturedImage);
     oStory.setLastVisitTime(new Date().getTime());
@@ -21,7 +21,7 @@ var Manager = Class.extend({
 
     createStoryWithId : function(iId, sTitle, sFeaturedImage){
     var self = this;
-    var oStory = new Cotton.Model.Story();
+    var oStory = new Cotton.Model.Story({});
     oStory.setId(iId);
     oStory.setTitle(sTitle);
     oStory.setFeaturedImage(sFeaturedImage);
@@ -38,7 +38,7 @@ var Manager = Class.extend({
   createStoryFromList : function(sTitle, sFeaturedImage,
     lHistoryItems){
     var self = this;
-    var oStory = new Cotton.Model.Story();
+    var oStory = new Cotton.Model.Story({});
     oStory.setTitle(sTitle);
     oStory.setFeaturedImage(sFeaturedImage);
     oStory.setLastVisitTime(new Date().getTime());
@@ -61,7 +61,7 @@ var Manager = Class.extend({
           lHistoryItemsId.push(_iId);
           DEBUG && console.debug(lHistoryItemsId.length + '' + lHistoryItems.length);
           if(lHistoryItemsId.length === lHistoryItems.length){
-              var oStory = new Cotton.Model.Story();
+              var oStory = new Cotton.Model.Story({});
               oStory.setTitle(sTitle);
               oStory.setFeaturedImage(sFeaturedImage);
               oStory.setLastVisitTime(new Date().getTime());

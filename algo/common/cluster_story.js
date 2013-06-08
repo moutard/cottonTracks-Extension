@@ -24,7 +24,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
 
   // Initialize with empty stories.
   for ( var i = 0; i < iNbCluster; i++) {
-    lStories[i] = new Cotton.Model.Story();
+    lStories[i] = new Cotton.Model.Story({});
   }
 
   for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {

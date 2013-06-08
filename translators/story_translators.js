@@ -30,7 +30,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
 
   var mDbRecordToObjectConverter = function(oDbRecord) {
 
-    var oStory = new Cotton.Model.Story();
+    var oStory = new Cotton.Model.Story({});
     oStory.setId(oDbRecord['id']);
 
     if (oDbRecord['fLastVisitTime'] !== undefined) {

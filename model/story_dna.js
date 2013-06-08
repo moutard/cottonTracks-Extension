@@ -8,30 +8,37 @@
  * why it's called PageDNA. The extractedDNA depends on the visit.
  */
 
-Cotton.Model.StoryDNA = Class.extend({
+Cotton.Model.StoryDNA = Cotton.DB.Model.extend({
 
   _oBagOfWords : null,
+
+  _default: function() {
+    return {
+      'oBagOfWords': this._oBagOfWords
+    };
+  },
 
   init : function(){
     var self = this;
     self._oBagOfWords = new Cotton.Model.BagOfWords();
   },
 
-  bagOfWords : function(){
+  bagOfWords : function() {
     return this._oBagOfWords;
   },
 
-  setBagOfWords : function(oBagOfWords){
+  setBagOfWords : function(oBagOfWords) {
     this._oBagOfWords = oBagOfWords;
   },
 
-  addWord : function(sWord, iWeight){
+  addWord : function(sWord, iWeight) {
     this._oBagOfWords.addWord(sWord, iWeight);
   },
 
-  addListWords : function(lWords, iWeight){
+  addListWords : function(lWords, iWeight) {
     for (var i = 0, sWord; sWord = lWords[i]; i++) {
       this.addWord(sWord, iWeight);
     }
   }
+
 });

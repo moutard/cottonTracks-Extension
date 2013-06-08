@@ -10,7 +10,7 @@ var MockApplication = Class.extend({
   },
 
   getStory : function() {
-    return new Cotton.Model.Story();
+    return new Cotton.Model.Story({});
   },
 });
 

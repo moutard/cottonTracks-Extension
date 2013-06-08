@@ -113,7 +113,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         if (self._iStoryId){
           if (self._iStoryId === -1){
             // the triggering url is https
-            self._oStory = new Cotton.Model.Story();
+            self._oStory = new Cotton.Model.Story({});
             self._oStory.setId(-1);
             self._bStoryReady = true;
             self._bHistoryItemReady = true;

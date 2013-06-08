@@ -25,6 +25,10 @@ Cotton.DB.Model = Class.extend({
     this._dDBRecord[sKey] = oValue;
   },
 
+  push: function(sKey, oValue){
+    this._dDBRecord[sKey].push(oValue);
+  },
+
   /**
    * Return a dict that contains all the default values.
    * MANDATORY;

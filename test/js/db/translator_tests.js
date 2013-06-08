@@ -76,7 +76,7 @@ test("_translatorForObject", function(){
     'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
   });
 
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   deepEqual(oTranslatorCollection._translatorForObject('stories', oStory)
     ._dIndexDescriptions, {
     "fLastVisitTime": {
@@ -100,7 +100,7 @@ test("getIndexesForObjectStoreNames.", function(){
     'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
   });
 
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   deepEqual(oTranslatorCollection.getIndexesForObjectStoreNames(), {
     "searchKeywords": {
       "id": {
