@@ -475,7 +475,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var oIframes = document.getElementsByTagName('iframe');
     var sTitle = (oIframe.title)? oIframe.title + ' - ' : '';
     var oHistoryItem = self._oClient.current();
-    var oItem = new Cotton.Model.HistoryItem();
+    var oItem = new Cotton.Model.HistoryItem({});
     var sVideoUrl = self._getVideoUrlFromEmbeddingUrl(oIframe.src);
     if (sVideoUrl) {
       oItem.initUrl(sVideoUrl);

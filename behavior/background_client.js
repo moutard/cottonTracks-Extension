@@ -30,7 +30,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
    */
   init : function() {
     this._iId = "";
-    this._oCurrentHistoryItem = new Cotton.Model.HistoryItem();
+    this._oCurrentHistoryItem = new Cotton.Model.HistoryItem({});
     this._bParagraphSet = false;
     this._bImageSet = false;
     this._lAllParagraphs = [];
