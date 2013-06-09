@@ -61,7 +61,7 @@ Cotton.UI.World = Class.extend({
         $('body').blurjs({
           'source': '#blur_target',
           'radius': 15,
-          'overlay': 'rgba(0,0,0,0.2)'
+          'overlay': 'rgba(0,0,0,0.4)'
         });
         setTimeout(function(){
           self._$temporary_background.remove();
