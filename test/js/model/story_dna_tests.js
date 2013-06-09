@@ -10,7 +10,7 @@ module("Cotton.DB.Model.StoryDNA",{
 });
 
 test("init.", function() {
-  var oStoryDNA = new Cotton.Model.StoryDNA();
+  var oStoryDNA = new Cotton.Model.StoryDNA({});
   ok(oStoryDNA);
 });
 

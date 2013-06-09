@@ -18,7 +18,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'lQueryWords':[],
       'lExtractedWords':[],
       'sClosestGoogleSearchPage': "",
-      'oBagOfWords': this._oBagOfWords._default(),
       'iPercent': 0,
       'fPageScore': 0,
       'fTimeTabActive': -1,
@@ -34,9 +33,9 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
   init : function(dDBRecord) {
     this._super(dDBRecord);
-    var dBagOfWords = dDBRecord['oBagOfWords'] || {};
+    var dBagOfWords = dDBRecord['dBagOfWords'] || {};
     this._oBagOfWords = new Cotton.Model.BagOfWords(dBagOfWords);
-    this._dbRecord['oBagOfWords'] = this._oBagOfWords.get();
+    this._dDBRecord['dBagOfWords'] = this._oBagOfWords.get();
   },
   queryWords : function() {
     return this.get('lQueryWords');
@@ -164,7 +163,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
     return this.get('sFirstParagraph');
   },
   setFirstParagraph : function(sFirstParagraph) {
-    this.set('FirstParagraph', sFirstParagraph);
+    this.set('sFirstParagraph', sFirstParagraph);
   },
   mostReadParagraph : function() {
     return this.get('sMostReadParagraph');

@@ -20,7 +20,6 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
       'iLastVisitTime': undefined, // {Int} last time we visit this page.
       'iVisitCount': 1, // {Int} number of time we visit this page.
       'sStoryId': "UNCLASSIFIED", // {Int} if is in a story, id of this story.
-      'oExtractedDNA' : this._oExtractedDNA._default()
     };
   },
 
@@ -33,8 +32,7 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
     this._super(dDBRecord);
     var dExtractedDNA = dDBRecord['oExtractedDNA'] || {};
     this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(dExtractedDNA);
-    this._dbRecord['oExtractedDNA'] = this._oExtractedDNA._dbRecord;
-
+    this._dDBRecord['oExtractedDNA'] = this._oExtractedDNA.dbRecord();
   },
   // can't be set
   id : function() {

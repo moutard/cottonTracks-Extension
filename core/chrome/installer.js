@@ -104,9 +104,7 @@ Cotton.Core.Installer = Class.extend({
         var lHistoryItemsDict = [];
         for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
           // maybe a setFormatVersion problem
-          var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
-          var dItem = oTranslator.objectToDbRecord(oItem);
-          lHistoryItemsDict.push(dItem);
+          lHistoryItemsDict.push(oItem.dbRecord());
         }
         DEBUG && console.debug(lHistoryItemsDict);
         // TODO(rmoutard): put this callback method later, after all the stories

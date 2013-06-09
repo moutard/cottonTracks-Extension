@@ -41,7 +41,15 @@ Cotton.DB.IndexedDB.WrapperModel = Class.extend({
    * @param {Cotton.Model} : oObject
    */
   _objectToDBRecord: function(sObjectStoreName, oObject) {
-    return oObject._dbRecord;
+    return oObject.dbRecord();
+  },
+
+  empty : function(sObjectStoreName, mResultElementCallback){
+     var self = this;
+
+    this._oEngine.empty(sObjectStoreName, function(bIsEmpty){
+       mResultElementCallback.call(self, bIsEmpty);
+    });
   },
 
   iterList: function(sObjectStoreName, mResultElementCallback) {

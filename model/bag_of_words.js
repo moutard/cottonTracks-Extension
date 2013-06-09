@@ -10,7 +10,7 @@
  *  shouldn't be in the bag of words structure.
  */
 
-Cotton.Model.BagOfWords = Cotton.Model.extend({
+Cotton.Model.BagOfWords = Class.extend({
 
   /**
    * {Dictionnary} _lBag:
@@ -22,10 +22,6 @@ Cotton.Model.BagOfWords = Cotton.Model.extend({
    *  words are sorted by alphabetical order. So easy to made a vector mode.
    */
   _dBag : null,
-
-  _default: function() {
-    return {};
-  },
 
   init : function(dBag) {
     this._dBag = {};

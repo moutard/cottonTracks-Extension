@@ -16,12 +16,11 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
   _default: function(){
     return {
       'sId': undefined, // {Int} id: of the historyItem in the cotton database.
-      'sIitle': "", // {String} title: of the story.
+      'sTitle': "", // {String} title: of the story.
       'fLastVisitTime': undefined, // {Int} last time we visit of an item that belongs to this story.
       'fRelevance': 1, // {Int} relevance.
       'sFeaturedImage': "",
       'lHistoryItemsId': [], // {Array.<Int>} }List of history items id that are in this story.
-      'oDNA' : this._oDNA._default()
     };
   },
 
@@ -32,6 +31,7 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
     this._super(dDBRecord);
     var dDNA = dDBRecord['oDNA'] || {};
     this._oDNA = new Cotton.Model.StoryDNA(dDNA);
+    this._dDBRecord['oDNA'] = this._oDNA.dbRecord();
   },
 
   id : function() {
@@ -106,8 +106,8 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
    */
   addDbRecordHistoryItem : function(dHistoryItemDbRecord) {
     var _lHistoryItemsId = this.get('lHistoryItemsId');
-    if (_lHistoryItemsId.indexOf(dHistoryItemDbRecord['id']) === -1) {
-      _lHistoryItemsId.push(dHistoryItemDbRecord['id']);
+    if (_lHistoryItemsId.indexOf(dHistoryItemDbRecord['sId']) === -1) {
+      _lHistoryItemsId.push(dHistoryItemDbRecord['sId']);
       this._lHistoryItemsRecord.push(dHistoryItemDbRecord);
 
       // FIXME(rmoutard): probleme between f and i !

@@ -18,9 +18,10 @@ Cotton.Model.StoryDNA = Cotton.DB.Model.extend({
     };
   },
 
-  init : function(){
-    var self = this;
-    self._oBagOfWords = new Cotton.Model.BagOfWords();
+  init : function(dDBRecord){
+    this._super(dDBRecord);
+    this._oBagOfWords = new Cotton.Model.BagOfWords();
+    this._dDBRecord['oBagOfWords'] = this._oBagOfWords.get();
   },
 
   bagOfWords : function() {

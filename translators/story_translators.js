@@ -42,7 +42,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     oStory.setTitle(oDbRecord['sTitle']);
     oStory.setFeaturedImage(oDbRecord['sFeaturedImage']);
 
-    var oStoryDNA = new Cotton.Model.StoryDNA();
+    var oStoryDNA = new Cotton.Model.StoryDNA({});
     //FIXME(rmoutard) : for the moment the bag of words will be written by
     // tags.
     if(oDbRecord['lTags']){
