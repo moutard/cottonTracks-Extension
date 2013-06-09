@@ -44,8 +44,8 @@ Cotton.Analytics = Class.extend({
   },
 
   // Story tracking
-  storyAvailable : function() {
-    _gaq.push(['_trackEvent', 'story', 'enabled', 'browserAction']);
+  storyAvailable : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'enabled', sSource]);
   },
 
   showLightyear : function() {
