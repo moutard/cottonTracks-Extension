@@ -47,6 +47,8 @@ Cotton.Core.Installer = Class.extend({
    */
   update : function(){
     DEBUG && console.debug("update");
+    var sVersion = chrome.app.getDetails()['version'];
+    Cotton.ANALYTICS.update(sVersion);
   },
 
 });
