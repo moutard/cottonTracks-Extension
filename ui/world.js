@@ -42,6 +42,7 @@ Cotton.UI.World = Class.extend({
       || event.target  === $(".ct-stories_container")[0]
       || event.target  === $(".ct-other_stories")[0]
       || event.target  === $(".ct-main_story")[0]){
+        Cotton.ANALYTICS.backToPage('empty space');
         window.history.back();
       }
     });
