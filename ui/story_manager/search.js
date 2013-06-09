@@ -10,7 +10,7 @@ Cotton.UI.StoryManager.Search = Class.extend({
 
     this._$input.keypress(function(e){
       if (e.which === 13){
-        Cotton.ANALYTICS.searchStories();
+        Cotton.ANALYTICS.searchStories('topbar');
         var lSearchWords = $(this).val().toLowerCase().split(' ');
         oDispatcher.publish('search_stories', {
           'searchWords': lSearchWords,

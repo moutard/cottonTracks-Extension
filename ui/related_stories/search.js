@@ -15,7 +15,7 @@ Cotton.UI.RelatedStories.Search = Class.extend({
 
     this._$input.keypress(function(e){
       if (e.which === 13){
-        Cotton.ANALYTICS.searchStories();
+        Cotton.ANALYTICS.searchStories('related');
         var lSearchWords = $(this).val().toLowerCase().split(' ');
         oDispatcher.publish('search_stories', {'searchWords': lSearchWords});
       }
