@@ -103,8 +103,8 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'related', 'back_to_story', 'related_toggler']);
   },
 
-  searchStories : function() {
-    _gaq.push(['_trackEvent', 'related', 'search', 'search_bar']);
+  searchStories : function(sSearchPlace) {
+    _gaq.push(['_trackEvent', 'related', 'search', sSearchPlace]);
   },
 
   changeStory : function() {
