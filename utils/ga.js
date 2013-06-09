@@ -49,7 +49,11 @@ Cotton.Analytics = Class.extend({
   },
 
   showLightyear : function() {
-    _gaq.push(['_trackEvent', 'story', 'open', 'browserAction']);
+    _gaq.push(['_trackEvent', 'lightyear', 'open', 'browserAction']);
+  },
+
+  backToPage : function(sLeaveMedium) {
+    _gaq.push(['_trackEvent', 'lightyear', 'leave', sLeaveMedium]);
   },
 
   filter : function(sFilterType) {
@@ -59,6 +63,7 @@ Cotton.Analytics = Class.extend({
   scrollStory : function() {
     _gaq.push(['_trackEvent', 'story', 'scroll']);
    },
+
   editStoryTitle : function() {
     _gaq.push(['_trackEvent', 'story', 'edit_title', 'story_title']);
   },

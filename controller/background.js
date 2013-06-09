@@ -113,6 +113,7 @@ Cotton.Controllers.Background = Class.extend({
         if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
           // we are in lightyear, so the UI page will listen to the event
           // and go back to the previous page. do nothing from background
+          Cotton.ANALYTICS.backToPage('browserAction');
         } else {
           self._iCallerTabId = lTabs[0]['id'];
           chrome.tabs.query({}, function(lTabs){
