@@ -37,12 +37,19 @@ Cotton.UI.World = Class.extend({
     this._$world = $dom_world || $('.ct').click(function(event){
       if (event.target === $(".ct-items_container")[0]
       || event.target  === $(".ct-story")[0]
-      || event.target  === $(".ct-related")[0]
-      || event.target  === $(".ct-stories_manager")[0]
+      ){
+        Cotton.ANALYTICS.backToPage('related background');
+        window.history.back();
+      } else if (event.target  === $(".ct-related")[0]){
+        Cotton.ANALYTICS.backToPage('story background');
+        window.history.back();
+      } else if (event.target  === $(".ct-stories_manager")[0]
+      || event.target  === $(".ct-main_story_container")[0]
+      || event.target  === $(".ct-story_infos")[0]
       || event.target  === $(".ct-stories_container")[0]
       || event.target  === $(".ct-other_stories")[0]
       || event.target  === $(".ct-main_story")[0]){
-        Cotton.ANALYTICS.backToPage('empty space');
+        Cotton.ANALYTICS.backToPage('manager background');
         window.history.back();
       }
     });
