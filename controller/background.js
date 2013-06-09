@@ -174,6 +174,9 @@ Cotton.Controllers.Background = Class.extend({
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
         function(oDatabase, lStories){
+          if (lStories && lStories.length > 0){
+            Cotton.ANALYTICS.storyAvailable('pool');
+          }
       });
     }, false);
 
