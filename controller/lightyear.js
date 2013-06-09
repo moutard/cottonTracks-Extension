@@ -377,9 +377,11 @@ Cotton.Controllers.Lightyear = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
-          window.history.back();
-        }
+        chrome.tabs.getCurrent(function(oTab){
+          if(lTabs[0]['id'] === oTab['id']){
+            window.history.back();
+          }
+        });
       });
     });
 
