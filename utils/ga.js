@@ -33,6 +33,11 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'cohort', 'setCohort', sCohort]);
   },
 
+  // monitor updates
+  update : function(sVersion) {
+    _gaq.push(['_trackEvent', 'version', 'update', sVersion]);
+  },
+
   // items tracking
   visitHistoryItem : function() {
     _gaq.push(['_trackEvent', 'historyItem', 'new_visit']);
