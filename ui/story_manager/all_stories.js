@@ -20,6 +20,10 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
         dArguments['more_stories_to_add']);
     });
 
+    this._oDispatcher.subscribe('enter_story', this, function(dArguments){
+      this._oDispatcher.unsubscribe('more_all_stories', this);
+    });
+
     $(window).scroll(function(){
       if (self._bMoreStories
         && self._iMaxStories <= self._lAllStories.length
