@@ -24,7 +24,7 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
 
     // init value
     this._$add_item = $('<div class="ct-story_item ct-add_item"></div>');
-    this._$default_add_text = $('<p>+ ADD A NEW ELEMENT</p>').click(function(){
+    this._$default_add_text = $('<p>+ ADD A NEW CARD</p>').click(function(){
       self._oDispatcher.publish('show_elements', {});
     });
 
