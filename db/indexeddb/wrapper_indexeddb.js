@@ -362,7 +362,7 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
       lAllItems.push(dDbRecord);
     }
 
-    this._oEngine.AputList(sObjectStoreName, lAllItems, function(lAllId) {
+    this._oEngine.putList(sObjectStoreName, lAllItems, function(lAllId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, lAllId);
       }

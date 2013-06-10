@@ -1009,10 +1009,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      //console.error("Can't open the database");
-      //console.error(oEvent);
-      //console.error(this);
-      //throw "Put Request Error";
+      console.error("Can NOT put the database");
+      console.error(oEvent);
     };
 
   },
@@ -1020,20 +1018,35 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
+    // Factorize transaction. Use the same transaction to put all the elements.
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
 
     var lAllId = new Array();
-    var p = 0;
+    var iPutCount = 0, iLength = lItems.length;
     for(var i = 0, dItem; dItem = lItems[i]; i++){
-      self.put(sObjectStoreName, dItem, function(iId){
-        p+=1;
 
-        lAllId.push(iId);
-
-        if(p === lItems.length){
-          DEBUG && console.debug(lAllId);
+      var oPutRequest = oStore.put(dItem);
+      oPutRequest.onsuccess = function(oEvent) {
+        iPutCount++;
+        if(iPutCount === iLength){
           mOnSaveCallback.call(self, lAllId);
         }
-      });
+      };
+
+      oPutRequest.onerror = function(oEvent) {
+        console.error("Can NOT put the database");
+        console.error(oEvent);
+        // Go on even if some elements return an error.
+        iPutCount++;
+        if(iPutCount === iLength){
+          mOnSaveCallback.call(self, lAllId);
+        }
+
+      };
+
     }
   },
 
@@ -1124,7 +1137,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dItem['sUrl']);
-        DEBUG && console.debug(dItem['sUrl'] + " already exists it will be updated");
         oFindRequest.onsuccess = function(oEvent) {
           var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
@@ -1180,7 +1192,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
             dTempBag[sWord] = Math.max(a,b);
           }
           dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
-          DEBUG && console.debug(dItem['sUrl'] + " had an id:" + dItem['id'] );
           var oSecondPutRequest = oStore.put(dItem);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
@@ -1218,31 +1229,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           mOnSaveCallback.call(self,lIds);
         }
       });
-    }
-
-  },
-
-  AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    for(var i = 0, iLength = lItems.length; i < iLength; i++){
-      var dItem = lItems[i];
-      var oPutRequest = oStore.put(dItem);
-
-      oPutRequest.onsuccess = function(oEvent) {
-        DEBUG && console.debug('pp');
-        // mOnSaveCallback.call(self, oEvent.target.result);
-      };
-
-      oPutRequest.onerror = function(oEvent){
-        console.error("Can't open the database");
-        console.error(oEvent);
-        console.error(this);
-        throw "Put Request Error - AputList";
-      };
-
     }
 
   },
