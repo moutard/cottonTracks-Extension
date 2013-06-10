@@ -38,7 +38,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           .addDbRecordHistoryItem(lHistoryItems[j]);
       // If the historyItem was already in a story change the story Id. So when
       // you will put the story, it will be modified.
-      if (lHistoryItems[j]['sStoryId'] !== "UNCLASSIFIED") {
+      // With new_model sStoryId is defined only if it exists.
+      if (lHistoryItems[j]['sStoryId']) {
         lStories[lHistoryItems[j]['clusterId']].setId(lHistoryItems[j]['sStoryId']);
       }
 
@@ -48,7 +49,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         // first condition indicates that title is not defined
         // second condition indicates we can find a better title
         // in both case we recompute the title.
-        if (lHistoryItems[j]['oExtractedDNA']['lQueryWords'].length !== 0) {
+        // With the new model lQueryWords exists only if there is something in.
+        if (lHistoryItems[j]['oExtractedDNA']['lQueryWords']) {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['oExtractedDNA']['lQueryWords'].join(" "));
           lStories[lHistoryItems[j]['clusterId']]['temptitle'] = false;
