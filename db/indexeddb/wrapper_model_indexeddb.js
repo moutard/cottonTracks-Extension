@@ -360,22 +360,6 @@ Cotton.DB.IndexedDB.WrapperModel = Class.extend({
     });
   },
 
-  putListUniqueHistoryItems: function(sObjectStoreName, lObjects, mOnSaveCallback) {
-    var self = this;
-
-    var lAllItems = new Array();
-    for(var i = 0, oObject; oObject = lObjects[i]; i++ ){
-      var dDbRecord = self._objectToDBRecord(sObjectStoreName, oObject);
-      lAllItems.push(dDbRecord);
-    }
-
-    this._oEngine.putListUniqueHistoryItems(sObjectStoreName, lAllItems, function(lAllId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, lAllId);
-      }
-    });
-  },
-
   update: function(sObjectStoreName, sId, oObject, mOnSaveCallback) {
     var self = this;
 

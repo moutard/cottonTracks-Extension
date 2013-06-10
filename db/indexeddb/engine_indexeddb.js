@@ -1182,26 +1182,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
   },
 
-  putListUniqueHistoryItems: function(sObjectStoreName, lItems, mOnSaveCallback) {
-    var self = this;
-
-    var iSuccess = 0;
-    var lIds = [];
-    DEBUG && console.debug(
-      "now putting the historyItems in base before the stories and searchKeywords...");
-    for(var i = 0, iLength = lItems.length; i < iLength; i++){
-      var dItem = lItems[i];
-      this.putUniqueHistoryItem (sObjectStoreName, dItem, function(iId){
-        iSuccess++;
-        lIds.push(iId);
-        if (iSuccess === lItems.length) {
-          mOnSaveCallback.call(self,lIds);
-        }
-      });
-    }
-
-  },
-
   update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
     var self = this;
 
