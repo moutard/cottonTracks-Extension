@@ -89,7 +89,7 @@ Cotton.Core.Installer = Class.extend({
           // to be in base because when putting the stories we update iStoryId in the base
           self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function(lIds) {
             // Add stories in IndexedDB.
-            Cotton.DB.Stories.addStories(self._oDatabase, lStories,
+            Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
               function(oDatabase, lStories){
                 var d = new Date();
                 var _endTime = d.getTime();

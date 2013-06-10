@@ -357,8 +357,28 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('get_more_all_stories', this, function(dArguments){
-      self._oDatabase.getRange('stories', dArguments['iStart'], dArguments['iStart'] + 11, function(lStories) {
-        self._oDispatcher.publish('more_all_stories', {'stories_to_add': lStories});
+      // check if database is empty
+      self._oDatabase.getRange('stories', dArguments['iStart']+1, dArguments['iStart']+1,
+        function(lStories){
+          if (lStories && lStories.length > 0){
+            //there are some more stories, get them.
+            self._oDatabase.getKeyRange('stories', 'fLastVisitTime',
+              dArguments['fDate'] - 100000000, dArguments['fDate']-1, function(lStories) {
+                self._oDispatcher.publish('more_all_stories',
+                  {
+                    'stories_to_add': lStories,
+                    'more_stories_to_add': true
+                  }
+                );
+            });
+          } else {
+            self._oDispatcher.publish('more_all_stories',
+              {
+                'stories_to_add': null,
+                'more_stories_to_add': false
+              }
+            );
+          }
       });
     });
 
