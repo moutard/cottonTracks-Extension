@@ -3,7 +3,7 @@
 /**
  * Search Keyword
  */
-var dSearchKeywordsIndexes = {
+var dSearchKeywordIndexes = {
     'id' : {
       'unique' : true
     },
@@ -21,7 +21,7 @@ var dSearchKeywordsIndexes = {
 Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
 
   _sModelStore: 'searchKeywords',
-  _dModelIndexes: dSearchKeywordsIndexes,
+  _dModelIndexes: dSearchKeywordIndexes,
   _default: function(){
     return {
       'sId': undefined,

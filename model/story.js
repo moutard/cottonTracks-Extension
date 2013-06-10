@@ -4,9 +4,26 @@
  * Story
  *
  */
+
+var dStoryIndexes = {
+  // optional id is indexed automatically.
+  'id' : {
+    'unique' : true
+  },
+  'fLastVisitTime' : {
+    'unique' : false
+  },
+  'lTags' : {
+    'unique' : false,
+    'multiEntry' : true
+  },
+};
+
 Cotton.Model.Story = Cotton.DB.Model.extend({
 
   _sModelStore: "stories",
+  _dModelIndexes: dStoryIndexes,
+
   _oDNA : null,
   // As we don't want those array are stored in the database directly they
   // are not in the default dbRecord.

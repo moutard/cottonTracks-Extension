@@ -7,11 +7,27 @@
  * Every visit on a page corresponds to a historyItem. If you visit the same
  * page twice but at a different moment you have the same historyItem.
  */
+
+var dHistoryItemIndexes = {
+  'id' : {
+    'unique' : true
+  },
+  'sUrl' : {
+    'unique' : true
+  },
+  'iLastVisitTime' : {
+    'unique' : false
+  },
+  'sStoryId' : {
+    'unique' : false
+  }
+};
+
 Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
 
   _sModelStore: "historyItems",
   _oExtractedDNA : undefined, // dna of the page. Used to compute distance.
-
+  _dModelIndexes: dHistoryItemIndexes,
   _default: function(){
     return {
       'sId': undefined, // {Int} id: of the historyItem in the cotton database.
