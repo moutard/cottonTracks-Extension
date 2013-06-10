@@ -964,37 +964,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
-  // Seems there is a problem with put and auto-incremented.
-  // DEPRECATED
-  add: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    // TODO(fwouts): Checks on the type of data contained in dItem?
-    if (!dItem.id) {
-      // In order for the id to be automatically generated, we cannot set it to
-      // undefined or null, it
-      // must not exist.
-      delete dItem.id;
-    }
-    var oPutRequest = oStore.add(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oPutRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
-      console.error(oEvent);
-      console.error(this);
-      throw "Put Request Error";
-    };
-
-  },
-
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
