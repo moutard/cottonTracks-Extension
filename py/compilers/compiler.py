@@ -264,6 +264,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     self._INTEGRATION_TESTS = self._DESTINATION_PATH + '_integration'
     self.pretreatment(self._SOURCE_PATH, self._INTEGRATION_TESTS)
     os.chdir(self._INTEGRATION_TESTS)
+    self.browser_management()
     # Move manifest in the main folder.
     shutil.move(os.path.join(self._INTEGRATION_TESTS,
       "test", "integration", "manifest.json"),
@@ -280,7 +281,4 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     shutil.move(os.path.join(self._INTEGRATION_TESTS,
       "test", "integration", "integration_tests.html"),
       os.path.join(self._INTEGRATION_TESTS, "integration_tests.html"))
-
-
-
     pass
