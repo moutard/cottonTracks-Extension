@@ -4,19 +4,14 @@
  * Search Keyword
  */
 var dSearchKeywordIndexes = {
-    'id' : {
-      'unique' : true
-    },
-    'sUrl' : {
-      'unique' : true
-    },
-    'iLastVisitTime' : {
-      'unique' : false
-    },
-    'sStoryId' : {
-      'unique' : false
-    }
-  };
+  // optional id is indexed automatically.
+  'id' : {
+    'unique' : true
+  },
+  'sKeyword' : {
+    'unique' : true
+  },
+};
 
 Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
 
