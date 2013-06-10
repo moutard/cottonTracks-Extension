@@ -34,7 +34,7 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
     return {
       'id': undefined, // {Int} id: of the historyItem in the cotton database.
       'sTitle': "", // {String} title: of the story.
-      'fLastVisitTime': undefined, // {Int} last time we visit of an item that belongs to this story.
+      'fLastVisitTime': 0, // {Int} last time we visit of an item that belongs to this story.
       'fRelevance': 1, // {Int} relevance.
       'sFeaturedImage': "",
       'lHistoryItemsId': [], // {Array.<Int>} }List of history items id that are in this story.
