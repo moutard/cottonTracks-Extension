@@ -18,6 +18,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
   init: function(sStoryTitle, oDispatcher, sTypeOfSticker, iNumberOfItems){
     var self = this;
 	  this._oDispatcher = oDispatcher;
+	  this._iNumberOfItems = iNumberOfItems;
 
     // Current element.
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
@@ -40,50 +41,27 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     //Count details
     // FIXME(rmoutard): put text in a div to.
     // FIXME(rmoutard) do not use space, use css.
-    var $bull = $('<span class="bull"> &bull; </span>');
-    var $bull2 = $('<span class="bull"> &bull; </span>');
-    var $articles_count = $('<span class="articles_count">0 article(s)</span>');
-    var $images_count = $('<span><span class="images_count">0 images(s)</span>');
-    var $videos_count = $('<span><span class="videos_count">0 videos</span>');
-    if (iNumberOfItems){
-      var $total_count = $('<span><span class="total_count">' + iNumberOfItems + ' cards</span>');
-    }
+    this._$total_count = $('<span class="total_count">' + this._iNumberOfItems + ' cards</span>');
 
+    // increase count of cards when a new item is set from pool
+    this._oDispatcher.subscribe('add_historyItem_from_pool', this, function(dArguments){
+      this._iNumberOfItems += 1;
+      this._$total_count.text(this._iNumberOfItems + ' cards');
+    });
 
-    this._oDispatcher.subscribe('filter:update', this, function(dArguments){
-      switch (dArguments['type']){
-        case 'article':
-        $articles_count.text(dArguments['count'] + ' article(s)');
-        break;
-        case 'video':
-        $videos_count.text(dArguments['count'] + ' video(s)');
-        break;
-        case 'image':
-        $images_count.text(dArguments['count'] + ' image(s)');
-        break;
-      }
+    // decrease count of cards when an item is deleted
+    this._oDispatcher.subscribe('item:delete', this, function(dArguments){
+      this._iNumberOfItems -= 1;
+      this._$total_count.text(this._iNumberOfItems + ' cards');
     });
 
     //construct element
-    if (sTypeOfSticker === 'currentStory'){
-  	  this._$stickerInfos.append(
-	      this._$stickerTitle,
-        this._$stickerDetails.append(
-            $articles_count,
-            $bull,
-            $images_count,
-            $bull2,
-            $videos_count
-          )
-	    );
-    } else if (sTypeOfSticker === 'relatedStory'){
-      this._$stickerInfos.append(
-  	    this._$stickerTitle,
-        this._$stickerDetails.append(
-          $total_count
-        )
-  	  );
-    }
+    this._$stickerInfos.append(
+  	  this._$stickerTitle,
+      this._$stickerDetails.append(
+        this._$total_count
+      )
+  	);
   },
 
   $ : function() {
