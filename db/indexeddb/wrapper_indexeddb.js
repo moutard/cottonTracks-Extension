@@ -110,6 +110,31 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
+  getKeyRange: function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
+                      mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getKeyRange(sObjectStoreName, sIndexKey,
+      iLowerBound, iUpperBound,
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else oResult is a list of Items.
+        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+
+        mResultElementCallback.call(self, lAllObjects);
+    });
+  },
+
 
   getUpperBound: function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict,
