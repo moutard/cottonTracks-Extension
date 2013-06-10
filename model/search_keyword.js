@@ -24,7 +24,7 @@ Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
   _dModelIndexes: dSearchKeywordIndexes,
   _default: function(){
     return {
-      'sId': undefined,
+      'id': undefined,
       'sKeyword': undefined,
       'lReferringHistoryItemsId':[], // list of historyItems that contains this word.
       'lReferringStoriesId':[], // list of stories that contains this word.
@@ -41,12 +41,12 @@ Cotton.Model.SearchKeyword = Cotton.DB.Model.extend({
   },
 
   id : function() {
-    return this.get('sId');
+    return this.get('id');
   },
 
   initId : function(iId) {
-    if(this.get('sId') === undefined){
-      this.set('sId', iId);
+    if(this.get('id') === undefined){
+      this.set('id', iId);
     }
   },
 

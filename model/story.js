@@ -32,7 +32,7 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
 
   _default: function(){
     return {
-      'sId': undefined, // {Int} id: of the historyItem in the cotton database.
+      'id': undefined, // {Int} id: of the historyItem in the cotton database.
       'sTitle': "", // {String} title: of the story.
       'fLastVisitTime': undefined, // {Int} last time we visit of an item that belongs to this story.
       'fRelevance': 1, // {Int} relevance.
@@ -52,10 +52,10 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
   },
 
   id : function() {
-    return this.get('sId');
+    return this.get('id');
   },
-  setId : function(sId) {
-    this.set('sId', sId);
+  setId : function(iId) {
+    this.set('id', iId);
   },
   title : function() {
     return this.get('sTitle');

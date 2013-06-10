@@ -30,7 +30,7 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
   _dModelIndexes: dHistoryItemIndexes,
   _default: function(){
     return {
-      'sId': undefined, // {Int} id: of the historyItem in the cotton database.
+      'id': undefined, // {Int} id: of the historyItem in the cotton database.
       'sUrl': undefined, // {String} url: of the page.
       'sIitle': "", // {String} title: of the page.
       'iLastVisitTime': undefined, // {Int} last time we visit this page.
@@ -52,10 +52,10 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
   },
   // can't be set
   id : function() {
-    return this.get('sId');
+    return this.get('id');
   },
-  initId : function(sId) {
-    if(this.get('sId') === undefined){this.set('sId', sId);}
+  initId : function(iId) {
+    if(this.get('id') === undefined){this.set('id', iId);}
   },
   url : function() {
     return this.get('sUrl');
