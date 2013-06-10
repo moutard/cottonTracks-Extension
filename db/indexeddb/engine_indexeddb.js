@@ -37,9 +37,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
                                             "prev", "prevunique"];
 
     // Open the database. Do not specify version by default.
-    var oRequest = webkitIndexedDB.open(sDatabaseName);
+    var oOpenDBRequest = webkitIndexedDB.open(sDatabaseName);
 
-    oRequest.onsuccess = function(oEvent) {
+    oOpenDBRequest.onsuccess = function(oEvent) {
       var oDb = self._oDb = oEvent.target.result;
       var bHasMissingObjectStore = false;
       var bHasMissingIndexKey = false;
@@ -160,20 +160,21 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           }
         };
 
-        oRequest.onerror = function(oEvent){
-          console.error("Can't open the database");
-          console.error(oEvent);
-          console.error(this);
-
-          throw "Request Error - init engine";
-        };
-
       } else {
         // The database is already up to date, so we are ready.
         DEBUG && console.debug("The database is already up to date");
         mOnReadyCallback.call(self);
       }
     };
+
+    oOpenDBRequest.onerror = function(oEvent){
+        console.error("Can't open the database");
+        console.error(oEvent);
+        console.error(this);
+
+        throw "Request Error - init engine";
+      };
+
   },
 
   /**
