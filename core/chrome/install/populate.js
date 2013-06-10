@@ -244,7 +244,7 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
                 glCottonHistoryItems, glChromeVisitItems);
 
               // add historyItems in the database with their id fixed.
-              oDatabase.putListUniqueHistoryItems('historyItems', glCottonHistoryItems, function(lIds) {
+              oDatabase.putList('historyItems', glCottonHistoryItems, function(lIds) {
 
                 oBenchmark.step('Put all historyItems in the database');
                 oBenchmark.end();
