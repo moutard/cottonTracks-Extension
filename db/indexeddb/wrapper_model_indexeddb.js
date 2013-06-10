@@ -338,6 +338,22 @@ Cotton.DB.IndexedDB.WrapperModel = Class.extend({
     });
   },
 
+  /**
+   * If there is a error due to a unique key that is already in the database,
+   * merge both the one you want to add and the one that already exists.
+   */
+  putUnique: function(sObjectStoreName, oObject, mOnSaveCallback) {
+    var self = this;
+    var dDbRecord = self._objectToDBRecord(sObjectStoreName, oObject);
+    this._oEngine.putUnique(sObjectStoreName, dDbRecord, oObject.merged,
+      function(iId, dDBRecord) {
+      if (mOnSaveCallback) {
+        mOnSaveCallback.call(self, iId, dDBRecord);
+      }
+    });
+
+  },
+
   putUniqueKeyword: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var self = this;
 

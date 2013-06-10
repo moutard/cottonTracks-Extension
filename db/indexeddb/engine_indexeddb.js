@@ -1019,6 +1019,38 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
+  putUnique: function(sObjectStoreName, dItem, mMerged, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    var oPutRequest = oStore.put(dItem);
+
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    oPutRequest.onerror = function(oEvent) {
+      // ConstraintError means that one of the unique key is already present,
+      // so put can't be done without transgressing constraints.
+      console.log(this);
+      console.log(oEvent);
+      if(this['error']['name'] === "ConstraintError") {
+        var oTransaction = self._oDb.transaction([sObjectStoreName],
+        "readwrite");
+        var oStore =  oTransaction.objectStore(sObjectStoreName);
+        var oIndex = oStore.index('sKeyword');
+
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem['sKeyword']);
+        oFindRequest.onsuccess = function(oEvent) {
+        }
+      }
+    }
+  },
+
   putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -1037,11 +1069,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       // console.error(this);
       if(this['error']['name'] === "ConstraintError"){
         // uniquiness unsatisfied
-        // TODO(rmoutard): use
-        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
+        // TODO(rmoutard): use webkitErrorMessage:
+        // "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
         // to get the right key.
-        var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        var oTransaction = self._oDb.transaction([sObjectStoreName], "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
         var oIndex = oStore.index('sKeyword');
 
