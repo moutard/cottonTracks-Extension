@@ -1130,6 +1130,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
           dItem['id'] = oResult['id'];
+          dItem['iLastVisitTime'] = Math.max(
+            dItem['iLastVisitTime'], oResult['iLastVisitTime']);
           // Merge highlighted text.
           dItem['oExtractedDNA']['lHighlightedText'] = _.union(
               dItem['oExtractedDNA']['lHighlightedText'],
