@@ -77,11 +77,17 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
        */
       findBestImage : function() {
         if (this._$InfoBox.length !== 0) {
-          this._sBestImage = this._$InfoBox.find('.image:first img')
-              .attr('src');
+          var lImages = this._$InfoBox.find('.image img');
+          this.checkImage(lImages);
           // Get the first one, but we can do much better.
-        } else {
-          this._sBestImage = $('div.thumbinner:first img').attr('src');
+        }
+        if (!this._sBestImage || this._sBestImage === "" ) {
+          var lImages = $('div.thumbinner img');
+          this.checkImage(lImages);
+        }
+        if (!this._sBestImage || this._sBestImage === "" ) {
+          var lImages = $('.navbox img');
+          this.checkImage(lImages);
         }
         if (this._sBestImage && this._sBestImage.slice(0,2) === "//"){
           this._sBestImage = "http:" + this._sBestImage;
@@ -91,5 +97,15 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
         this._oClient.updateVisit();
         return this._sBestImage;
       },
+
+      checkImage : function(lImages){
+        lImages = lImages || [];
+        for (var i = 0, $image; $image = lImages[i]; i++){
+          if ($image.height >= 50 && $image.width >= 50){
+            this._sBestImage = $image.src;
+            break;
+          }
+        }
+      }
 
     });
