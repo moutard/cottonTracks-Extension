@@ -19,7 +19,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
         'dBagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get(),
         'lHighlightedText' : oHistoryItem.extractedDNA().highlightedText(),
         'sImageUrl' : oHistoryItem.extractedDNA().imageUrl(),
-        'sFirstParagraph' : oHistoryItem.extractedDNA().firstParagraph(),
         'sMostReadParagraph' : oHistoryItem.extractedDNA().mostReadParagraph(),
         'iPercent' : oHistoryItem.extractedDNA().percent(),
         'fPageScore' : oHistoryItem.extractedDNA().pageScore(),
@@ -62,7 +61,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     oExtractedDNA.setExtractedWords(dExtractedDNA['lExtractedWords']);
     oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
-    oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
     oExtractedDNA.setMostReadParagraph(dExtractedDNA['sMostReadParagraph']);
     oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
     oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
