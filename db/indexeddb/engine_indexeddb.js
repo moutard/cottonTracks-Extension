@@ -1067,6 +1067,82 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
+  putUnique: function(sObjectStoreName, dItem, mMerged, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    var oPutRequest = oStore.put(dItem);
+
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    oPutRequest.onerror = function(oEvent) {
+      // ConstraintError means that one of the unique key is already present,
+      // so put can't be done without transgressing constraints.
+      console.log(this);
+      console.log(oEvent);
+      if(this['error']['name'] === "ConstraintError") {
+        var oTransaction = self._oDb.transaction([sObjectStoreName],
+        "readwrite");
+        var oStore =  oTransaction.objectStore(sObjectStoreName);
+
+        // Find the index that do not satisfy the constraints using a regex in
+        // webkitErrorMessage. This message look like :
+        // "Unable to add key to index 'sKeyword': at least one key does not
+        // satisfy the uniqueness requirements."
+        // TODO(rmoutard): make sure this message doesn't change.
+        var sMessage = this['webkitErrorMessage'];
+        var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
+        var lRegExpResults = oRegExp.exec(sMessage);
+        if(lRegExpResults.length > 1) {
+          // The 0 index has the \' character that we don't want.
+          var sIndex = lRegExpResults[1];
+        } else {
+          console.error(this);
+          console.error('The webkitErrorMessage has changed.');
+        }
+
+        var oIndex = oStore.index(sIndex);
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem[sIndex]);
+        oFindRequest.onsuccess = function(oEvent) {
+          // The dbRecord already present in the database.
+          var dResult = oEvent.target.result;
+
+          // Merge the 2 elements using the given function.
+          var dMergedItem = mMerged(dResult, dItem);
+          var oSecondPutRequest = oStore.put(dMergedItem);
+
+          oSecondPutRequest.onsuccess = function(oEvent) {
+            mOnSaveCallback.call(self, oEvent.target.result);
+          };
+
+          oSecondPutRequest.onerror = function(oEvent) {
+            console.error("can't put: " + dMergedItem);
+          };
+
+        };
+
+        oFindRequest.onerror = function(oEvent) {
+          console.error(this);
+          console.error("can't find: " + dItem[sIndex]);
+        };
+
+      }
+    }
+  },
+
+  /**
+   * When you can, prefer to use the putUnique general method that use a merged
+   * function to merge the element already in the database and the oneyou want
+   * to add.
+   * But in some case due to performance issue, create a specific function
+   * allow to gain performance.
+   */
   putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -1081,15 +1157,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      // console.error(oEvent);
-      // console.error(this);
+      // uniquiness is not satsified.
       if(this['error']['name'] === "ConstraintError"){
-        // uniquiness unsatisfied
-        // TODO(rmoutard): use
-        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-        // to get the right key.
-        var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        var oTransaction = self._oDb.transaction([sObjectStoreName], "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
         var oIndex = oStore.index('sKeyword');
 
