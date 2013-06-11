@@ -23,7 +23,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'fTimeTabActive': -1,
       'lHighlightedText':[],
       'sImageUrl': "",
-      'sMostReadParagraph':"",
       'lParagraphs':[],
       'lCopyPaste': []
     };
@@ -161,12 +160,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
     var lParagraphs = this.get('lParagraphs');
     if(lParagraphs.length > 0) return lParagraphs[0];
     else return undefined;
-  },
-  mostReadParagraph : function() {
-    return this.get('sMostReadParagraph');
-  },
-  setMostReadParagraph : function(sMostReadParagraph){
-    this.set('sMostReadParagraph', sMostReadParagraph);
   },
 
   paragraphs : function() {
