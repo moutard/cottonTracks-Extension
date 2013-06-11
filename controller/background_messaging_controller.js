@@ -53,6 +53,10 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
+      if (self._oMainController._dGetContentTabId[sender.tab.id]){
+        // this is a get content, do not update the date
+        oHistoryItem.setLastVisitTime(0);
+      }
       oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
@@ -193,6 +197,11 @@ Cotton.Controllers.Messaging = Class.extend({
       var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 
       var sPutId = ""; // put return the auto-incremented id in the database.
+
+      if (self._oMainController._dGetContentTabId[sender.tab.id]){
+        // this is a get content, do not update the date
+        oHistoryItem.setLastVisitTime(0);
+      }
 
       // The history item already exists, just update it.
       self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
