@@ -1088,6 +1088,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
+  /**
+   * When you can, prefer to use the putUnique general method that use a merged
+   * function to merge the element already in the database and the oneyou want
+   * to add.
+   * But in some case due to performance issue, create a specific function
+   * allow to gain performance.
+   */
   putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -1102,13 +1109,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      // console.error(oEvent);
-      // console.error(this);
+      // uniquiness is not satsified.
       if(this['error']['name'] === "ConstraintError"){
-        // uniquiness unsatisfied
-        // TODO(rmoutard): use webkitErrorMessage:
-        // "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-        // to get the right key.
         var oTransaction = self._oDb.transaction([sObjectStoreName], "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
         var oIndex = oStore.index('sKeyword');
