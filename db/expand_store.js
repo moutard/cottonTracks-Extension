@@ -62,36 +62,6 @@ Cotton.DB.Stories.removeHistoryItemInStory = function(oStore, iStoryId, iHistory
   });
 };
 
-Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
-  new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS
-  }, function() {
-    this.getXYItems('stories', iX, iY, 'fLastVisitTime', "PREV", function(
-        lStories) {
-
-      new Cotton.DB.Store('ct', {
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-      }, function() {
-        var count = 0;
-        var lStoriesTemp = lStories;
-        for ( var i = 0, iLength = lStoriesTemp.length; i < iLength; i++) {
-          var oStory = lStoriesTemp[i];
-          this.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
-              lHistoryItems) {
-
-            lStoriesTemp[count].setHistoryItems(lHistoryItems);
-
-            if (count == (lStoriesTemp.length - 1)) {
-              mCallBackFunction(lStoriesTemp);
-            }
-            count++;
-          });
-        }
-      });
-    });
-  });
-};
-
 /**
  * ----------------------------------------------------------------------------
  * SearchKeywords
