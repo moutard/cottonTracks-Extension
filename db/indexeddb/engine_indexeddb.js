@@ -1041,12 +1041,49 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         var oTransaction = self._oDb.transaction([sObjectStoreName],
         "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
-        var oIndex = oStore.index('sKeyword');
 
-        // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem['sKeyword']);
-        oFindRequest.onsuccess = function(oEvent) {
+        // Find the index that do not satisfy the constraints using a regex in
+        // webkitErrorMessage. This message look like :
+        // "Unable to add key to index 'sKeyword': at least one key does not
+        // satisfy the uniqueness requirements."
+        // TODO(rmoutard): make sure this message doesn't change.
+        var sMessage = this['webkitErrorMessage'];
+        var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
+        var lRegExpResults = oRegExp.exec(sMessage);
+        if(lRegExpResults.length > 1) {
+          // The 0 index has the \' character that we don't want.
+          var sIndex = lRegExpResults[1];
+        } else {
+          console.error(this);
+          console.error('The webkitErrorMessage has changed.');
         }
+
+        var oIndex = oStore.index(sIndex);
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem[sIndex]);
+        oFindRequest.onsuccess = function(oEvent) {
+          // The dbRecord already present in the database.
+          var dResult = oEvent.target.result;
+
+          // Merge the 2 elements using the given function.
+          var dMergedItem = mMerged(dResult, dItem);
+          var oSecondPutRequest = oStore.put(dMergedItem);
+
+          oSecondPutRequest.onsuccess = function(oEvent) {
+            mOnSaveCallback.call(self, oEvent.target.result);
+          };
+
+          oSecondPutRequest.onerror = function(oEvent) {
+            console.error("can't put: " + dMergedItem);
+          };
+
+        };
+
+        oFindRequest.onerror = function(oEvent) {
+          console.error(this);
+          console.error("can't find: " + dItem[sIndex]);
+        };
+
       }
     }
   },
@@ -1079,16 +1116,26 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dItem['sKeyword']);
         oFindRequest.onsuccess = function(oEvent) {
-          var oResult = oEvent.target.result;
           // If there was no result, it will send back null.
-          dItem['id'] = oResult['id'];
-          dItem['lReferringStoriesId'] = _.union(dItem['lReferringStoriesId'],
-              oResult['lReferringStoriesId']);
-          dItem['lReferringHistoryItemsId'] = _.union(dItem['lReferringHistoryItemsId'],
-              oResult['lReferringHistoryItemsId']);
+          var dResult = oEvent.target.result;
 
-          DEBUG && console.debug(dItem['sKeyword'] + " had an id:" + dItem['id'] );
-          var oSecondPutRequest = oStore.put(dItem);
+          // Do not use _.union to merge those 2 arrays.
+          var lStories1 = dResult['lReferringStoriesId'] || [];
+          var lStories2 = dItem['lReferringStoriesId'] || [];
+          var lHistoryItems1 = dResult['lReferringHistoryItemsId'] || [];
+          var lHistoryItems2 = dItem['lReferringHistoryItemsId'] || [];
+
+          for(var i=0; i < lStories2.length; i++) {
+            if(lStories1.indexOf(lStories2[i]) === -1) lStories1.push(lStories2[i]);
+          }
+          if(lStories1.length > 0) { dResult['lReferringStoriesId'] = lStories1;}
+
+          for(var i=0; i < lHistoryItems2.length; i++) {
+            if(lHistoryItems1.indexOf(lHistoryItems2[i]) === -1) lHistoryItems1.push(lHistoryItems2[i]);
+          }
+          if(lHistoryItems1.length > 0){ dResult['lReferringHistoryItemsId'] = lHistoryItems1; }
+
+          var oSecondPutRequest = oStore.put(dResult);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
             mOnSaveCallback.call(self, oEvent.target.result);
