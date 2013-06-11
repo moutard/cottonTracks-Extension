@@ -168,20 +168,3 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oSto
       });
   }
 };
-
-Cotton.DB.SearchKeywords.updateStoriesSearchKeywords = function(oStore, lStories){
-    var lKeywordsAndId = [];
-    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
-      var oStory = lStories[i];
-      for (var j = 0, lKeywords = oStory.searchKeywords(),
-        iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
-          var sKeyword = lKeywords[j];
-          var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-          oSearchKeyword.addReferringStoryId(oStory.id());
-          oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
-            // Becarefull with asynchronous.
-            DEBUG && console.debug('keyword updated ' + sKeyword + ' storyId:' + oStory.id())
-          });
-      }
-    }
-};
