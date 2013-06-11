@@ -241,9 +241,16 @@ Cotton.Controllers.Lightyear = Class.extend({
       var oHistoryItem = dArguments['historyItem'];
       self._oWorld.storyElement().addHistoryItem(oHistoryItem);
       self._oStory.addHistoryItemId(oHistoryItem.id());
-      self._oStory.dna().bagOfWords().mergeBag(oHistoryItem.extractedDNA().bagOfWords().get());
+      self._oStory.dna().bagOfWords().mergeBag(
+        oHistoryItem.extractedDNA().bagOfWords().get());
+      if ((!self._oStory.featuredImage() || self._oStory.featuredImage() === "")
+        && oHistoryItem.extractedDNA().imageUrl() !== ""){
+          self._oStory.setFeaturedImage(oHistoryItem.extractedDNA().imageUrl());
+      }
       oHistoryItem.setStoryId(self._oStory.id());
-      self._oDatabase.put('stories', self._oStory, function(iId){});
+      self._oDatabase.put('stories', self._oStory, function(iId){
+        self._oWorld.recycleMenu(self._oStory);
+      });
       self._oDatabase.put('historyItems', oHistoryItem, function(iId){});
       self._oPool.delete(oHistoryItem.id());
     });
