@@ -92,18 +92,6 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
   });
 };
 
-Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
-  var oStore = new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-
-  }, function() {
-    oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
-        mCallBackFunction(lStories);
-      });
-  });
-};
-
 /**
  * ----------------------------------------------------------------------------
  * SearchKeywords
