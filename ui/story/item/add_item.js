@@ -34,6 +34,10 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
     this._oDispatcher.subscribe('add_historyItem_from_pool', this, function(dArguments){
       self.updateList();
     });
+
+    this._oDispatcher.subscribe('enter_story', this, function(dArguments){
+      this._oDispatcher.unsubscribe('add_historyItem_from_pool', this);
+    });
   },
 
   $ : function() {
