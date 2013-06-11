@@ -69,9 +69,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
   },
 
   hasExpand : function(oDNA){
-    return ((oDNA.allParagraphs().length > 0)
-      || (oDNA.paragraphs().length > 0)
-      || (oDNA.firstParagraph() != ""));
+    return ((oDNA.paragraphs().length > 0) || (oDNA.firstParagraph() != ""));
   },
 
   recycle : function(oHistoryItem) {

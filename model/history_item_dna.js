@@ -25,7 +25,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'sImageUrl': "",
       'sFirstParagraph': "",
       'sMostReadParagraph':"",
-      'lsAllParagraphs': [], //FIXME(rmoutard) : lParagraphs ans lAllParagraphs
       'lParagraphs':[],
       'lCopyPaste': []
     };
@@ -192,12 +191,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   },
   setParagraphs : function(lParagraphs) {
     this.set('lParagraphs', lParagraphs);
-  },
-  allParagraphs : function() {
-	return this.get('lsAllParagraphs');
-  },
-  setAllParagraphs : function(lsParagraphs) {
-	this.set('lsAllParagraphs', lsParagraphs);
   },
   copyPaste : function() {
     return this.get('lCopyPaste');
