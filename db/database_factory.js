@@ -83,10 +83,6 @@ Cotton.DB.DatabaseFactory = Class.extend({
       oCache.set(lCacheStore);
       return oCache;
     } else {
-      // Create translator collection.
-      var oTranslatorsCollection = new Cotton.DB.TranslatorsCollection({
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-      });
 
       // Create engine using translator collection for indexes.
       var oCache = new Cotton.DB.FixedSizeCache(sCacheName, 50);
