@@ -92,32 +92,6 @@ Cotton.DB.Stories.getRange = function(iX, iY, mCallBackFunction) {
   });
 };
 
-Cotton.DB.Stories.getXStories2 = function(iX, mCallBackFunction) {
-  var oStore = new Cotton.DB.Store('ct', {
-    'stories' : Cotton.Translators.STORY_TRANSLATORS,
-    'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-
-  }, function() {
-    oStore.getXItems('stories', 10, 'fLastVisitTime', "PREV", function(lStories) {
-        var count = 0;
-        var lStoriesTemp = lStories;
-        for ( var i = 0, iLength = lStoriesTemp.length; i < iLength; i++) {
-          var oStory = lStoriesTemp[i];
-          oStore.findGroup('historyItems', 'id', oStory.historyItemsId(), function(
-              lHistoryItems) {
-
-            lStoriesTemp[count].setHistoryItems(lHistoryItems);
-
-            if (count == (lStoriesTemp.length - 1)) {
-              mCallBackFunction(lStoriesTemp);
-            }
-            count++;
-          });
-        }
-      });
-  });
-};
-
 Cotton.DB.Stories.getXStories = function(iX, mCallBackFunction) {
   var oStore = new Cotton.DB.Store('ct', {
     'stories' : Cotton.Translators.STORY_TRANSLATORS,
