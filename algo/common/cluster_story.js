@@ -38,9 +38,9 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           .addDbRecordHistoryItem(lHistoryItems[j]);
       // If the historyItem was already in a story change the story Id. So when
       // you will put the story, it will be modified.
-      // With new_model sStoryId is defined only if it exists.
-      if (lHistoryItems[j]['sStoryId']) {
-        lStories[lHistoryItems[j]['clusterId']].setId(lHistoryItems[j]['sStoryId']);
+      // With new_model iStoryId is defined only if it exists.
+      if (lHistoryItems[j]['iStoryId']) {
+        lStories[lHistoryItems[j]['clusterId']].setId(lHistoryItems[j]['iStoryId']);
       }
 
       // Set story title.

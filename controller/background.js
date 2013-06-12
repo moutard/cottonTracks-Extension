@@ -165,7 +165,7 @@ Cotton.Controllers.Background = Class.extend({
       var lHistoryItemToKeep = [];
       for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++){
         var dHistoryItem = e.data['lHistoryItems'][i];
-        if(dHistoryItem['sStoryId'] === "UNCLASSIFIED"
+        if(dHistoryItem['iStoryId'] === -1 // means UNCLASSIFIED
           && dHistoryItem['clusterId'] === "NOISE"){
             delete dHistoryItem['clusterId'];
             lHistoryItemToKeep.push(dHistoryItem);
@@ -300,7 +300,7 @@ Cotton.Controllers.Background = Class.extend({
     }
     self._oDatabase.find('historyItems',
     'sUrl', sUrl, function(_oHistoryItem){
-      if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+      if(_oHistoryItem && _oHistoryItem.storyId() !== -1 ){
         if (bTrigger){
           self._iTriggerStory = _oHistoryItem.storyId();
           self._iTriggerHistoryItem = _oHistoryItem.id();

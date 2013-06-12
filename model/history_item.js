@@ -18,7 +18,7 @@ var dHistoryItemIndexes = {
   'iLastVisitTime' : {
     'unique' : false
   },
-  'sStoryId' : {
+  'iStoryId' : {
     'unique' : false
   }
 };
@@ -35,7 +35,7 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
       'sIitle': "", // {String} title: of the page.
       'iLastVisitTime': undefined, // {Int} last time we visit this page.
       'iVisitCount': 1, // {Int} number of time we visit this page.
-      'sStoryId': "UNCLASSIFIED", // {Int} if is in a story, id of this story.
+      'iStoryId': -1, // {Int} if is in a story, id of this story, -1 means UNCLASSIFIED.
     };
   },
 
@@ -91,10 +91,10 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
     this.set('iVisitsAdded', iTemp);
   },
   storyId : function() {
-    return this.get('sStoryId');
+    return this.get('iStoryId');
   },
-  setStoryId : function(sStoryId) {
-    this.set('sStoryId', sStoryId);
+  setStoryId : function(iStoryId) {
+    this.set('iStoryId', iStoryId);
   },
   extractedDNA : function() {
     return this._oExtractedDNA;

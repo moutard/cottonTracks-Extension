@@ -2,7 +2,7 @@
 var lHistoryItems = [
   {
     'id':1,
-    'sStoryId' : "UNCLASSIFIED",
+    'iStoryId' : -1,
     'sUrl': "http://cottontracks.com",
     'sTitle': "cottonTracks - the application.",
     'iLastVisitTime': 1362754370120.657
@@ -10,7 +10,7 @@ var lHistoryItems = [
   },
   {
     'id':2,
-    'sStoryId' : "UNCLASSIFIED",
+    'iStoryId' : -1,
     'sUrl': "http://cottontracks.com",
     'sTitle': "cottonTracks - the application.",
     'iLastVisitTime': 1362740369641.147
@@ -18,7 +18,7 @@ var lHistoryItems = [
   },
   {
     'id':3,
-    'sStoryId' : "UNCLASSIFIED",
+    'iStoryId' : -1,
     'sUrl': "http://cottontracks.com",
     'sTitle': "cottonTracks - the application.",
     'iLastVisitTime': 1362739338323.528
@@ -26,7 +26,7 @@ var lHistoryItems = [
   },
   {
     'id':4,
-    'sStoryId' : "UNCLASSIFIED",
+    'iStoryId' : -1,
     'sUrl': "http://cottontracks.com",
     'sTitle': "cottonTracks - the application.",
     'iLastVisitTime': 1362739338323.528
@@ -34,7 +34,7 @@ var lHistoryItems = [
   },
   {
     'id':4,
-    'sStoryId' : "UNCLASSIFIED",
+    'iStoryId' : -1,
     'sUrl': "http://cottontracks.com",
     'sTitle': "cottonTracks - the application.",
     'iLastVisitTime': 1362657401358.013
