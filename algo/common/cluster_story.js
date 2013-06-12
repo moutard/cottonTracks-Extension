@@ -52,6 +52,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         lStories[lHistoryItems[j]['clusterId']].setId(lHistoryItems[j]['sStoryId']);
       }
 
+      // Set story bagOfWords.
+      for (var dWord in lHistoryItems[j]['oExtractedDNA']['dBagOfWords']){
+        lStories[lHistoryItems[j]['clusterId']].dna().bagOfWords().addWord(
+          dWord, lHistoryItems[j]['oExtractedDNA']['dBagOfWords'][dWord]);
+      }
+
       // Set story title.
       if (lStories[lHistoryItems[j]['clusterId']].title() === ""
           || lStories[lHistoryItems[j]['clusterId']]['temptitle'] === true) {
@@ -66,13 +72,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['sTitle']);
           lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
+        } else {
+          lStories[lHistoryItems[j]['clusterId']].setTitle(
+            lStories[lHistoryItems[j]['clusterId']].searchKeywords().join(' ')
+          );
+          lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
         }
-      }
-
-      // Set story bagOfWords.
-      for (var dWord in lHistoryItems[j]['oExtractedDNA']['dBagOfWords']){
-        lStories[lHistoryItems[j]['clusterId']].dna().bagOfWords().addWord(
-          dWord, lHistoryItems[j]['oExtractedDNA']['dBagOfWords'][dWord]);
       }
 
       // Set Featured image
