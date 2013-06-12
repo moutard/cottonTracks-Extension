@@ -1159,6 +1159,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     oPutRequest.onerror = function(oEvent){
       // uniquiness is not satsified.
       if(this['error']['name'] === "ConstraintError"){
+        // A new transaction is needed as the other is likely to be aborted.
         var oTransaction = self._oDb.transaction([sObjectStoreName], "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
         var oIndex = oStore.index('sKeyword');
@@ -1226,6 +1227,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         var oFindRequest = oIndex.get(dItem['sUrl']);
         oFindRequest.onsuccess = function(oEvent) {
           var oResult = oEvent.target.result;
+
           // If there was no result, it will send back null.
           dItem['id'] = oResult['id'];
           dItem['iLastVisitTime'] = Math.max(
