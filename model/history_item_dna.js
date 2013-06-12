@@ -22,8 +22,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'fPageScore': 0,
       'fTimeTabActive': -1,
       'sImageUrl': "",
-      'lParagraphs':[],
-      'lCopyPaste': []
+      'lParagraphs':[]
     };
   },
 
@@ -168,17 +167,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   },
   setParagraphs : function(lParagraphs) {
     this.set('lParagraphs', lParagraphs);
-  },
-  copyPaste : function() {
-    return this.get('lCopyPaste');
-  },
-  setCopyPaste : function(lCopyPaste) {
-    this.set('lCopyPaste', lCopyPaste);
-  },
-  addCopyPaste : function(sCopyPaste) {
-    var lTemp = this.get('sCopyPaste', sCopyPaste);
-    lTemp.push(sCopyPaste);
-    this.set('sCopyPaste', sCopyPaste);
   }
 
 });
