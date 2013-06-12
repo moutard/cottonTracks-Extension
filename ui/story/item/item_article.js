@@ -76,8 +76,8 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
     var self = this;
     this._oHistoryItem = oHistoryItem;
     this._oItemFeaturedImage.recycle(oHistoryItem.extractedDNA().imageUrl());
-    this._oItemQuoteIndicator.recycle(
-      oHistoryItem.extractedDNA().highlightedText().length);
+    //FIXME(rmoutard) BUG ! always 0.
+    this._oItemQuoteIndicator.recycle(0);
     this._oToolbox.recycle(self.hasExpand(oHistoryItem.extractedDNA()));
     this._oReader.recycle(oHistoryItem.extractedDNA(), self.hasExpand(
       oHistoryItem.extractedDNA()));

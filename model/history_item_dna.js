@@ -21,7 +21,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'iPercent': 0,
       'fPageScore': 0,
       'fTimeTabActive': -1,
-      'lHighlightedText':[],
       'sImageUrl': "",
       'lParagraphs':[],
       'lCopyPaste': []
@@ -104,19 +103,6 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   },
   setClosestGoogleSearchPage : function(sClosestGoogleSearchPage) {
     this.set('sClosestGoogleSearchPage', sClosestGoogleSearchPage);
-  },
-  highlightedText : function() {
-    return this.get('lHighlightedText');
-  },
-  addHighlightedText : function(sText) {
-    //TODO(rmoutard): I think there is no need for a temp variable.
-    // this.get('lHighlightedText').push(sText);
-    var lTemp = this.get('lHighlightedText');
-    lTemp.push(sText);
-    this.set('lHighlightedText', lTemp);
-  },
-  setHighlightedText : function(lHighlightedText) {
-    this.set('lHighlightedText', lHighlightedText);
   },
   imageUrl : function() {
     return this.get('sImageUrl');

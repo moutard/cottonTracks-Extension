@@ -1192,10 +1192,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
           // If there was no result, it will send back null.
           dItem['id'] = oResult['id'];
-          // Merge highlighted text.
-          dItem['oExtractedDNA']['lHighlightedText'] = _.union(
-              dItem['oExtractedDNA']['lHighlightedText'],
-              oResult['oExtractedDNA']['lHighlightedText']);
           var lParagraphs = [];
           lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
           for (var i = 0, dResultParagraph; dResultParagraph = oResult['oExtractedDNA']['lParagraphs'][i]; i++){

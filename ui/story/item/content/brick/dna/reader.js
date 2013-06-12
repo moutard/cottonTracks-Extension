@@ -54,7 +54,6 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
   setReader : function(){
     var self = this;
     var lBestParagraphs = this._oHistoryItemDNA.paragraphs();
-    var lHighlightedText = this._oHistoryItemDNA.highlightedText();
 
     if (lBestParagraphs.length === 0){
       var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();

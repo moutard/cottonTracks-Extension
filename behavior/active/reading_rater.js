@@ -395,8 +395,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
           $highlightedContentBlocks = $([]);
           return;
         }
-        self._oClient.current().extractedDNA().addHighlightedText(
-            oSelection.toString());
+        // FIXME(rmoutard): do something for quote ??
         var oStartNode = oSelection.anchorNode;
         var oEndNode = oSelection.focusNode;
 
