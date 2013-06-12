@@ -20,6 +20,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       'iPercent': 0, // Percentage of text read according to the visible part of the page.
       'fPageScore': 0,
       'fTimeTabActive': -1,
+      'fTimeTabOpen': 0,
       'sImageUrl': "",
       'lParagraphs':[]
     };
