@@ -124,6 +124,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   },
   increaseTimeTabActive : function(fTimeTabActive) {
     var fTemp = this.get('fTimeTabActive');
+    fTemp += fTimeTabActive;
     this.set('fTimeTabActive', fTemp);
   },
   timeTabOpen : function() {
@@ -134,6 +135,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   },
   increaseTimeTabOpen : function(fTimeTabOpen) {
     var fTemp = this.get('fTimeTabOpen');
+    fTemp += fTimeTabOpen;
     this.set('fTimeTabOpen', fTemp);
   },
   firstParagraph : function() {
