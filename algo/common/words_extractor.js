@@ -118,7 +118,7 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
       if(lExtractedWords.length === 0){
         lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
       }
-      oHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
+      oHistoryItem.extractedDNA().addExtractedWordsToBagOfWords(lExtractedWords);
     }
     return oHistoryItem;
 };

@@ -1230,7 +1230,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
             return dParagraph['id'];
           });
           dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
-          dItem['oExtractedDNA']['lExtractedWords'] = oResult['oExtractedDNA']['lExtractedWords'];
           // Take the max value of each key.
           var dTempBag = {};
           for (var sWord in dItem['oExtractedDNA']['dBagOfWords']){

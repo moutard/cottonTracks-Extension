@@ -16,9 +16,8 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
   _default: function() {
     return {
       'lQueryWords':[],
-      'lExtractedWords':[],
       'sClosestGoogleSearchPage': "",
-      'iPercent': 0,
+      'iPercent': 0, // Percentage of text read according to the visible part of the page.
       'fPageScore': 0,
       'fTimeTabActive': -1,
       'sImageUrl': "",
@@ -77,16 +76,11 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
       }
     }
   },
-  extractedWords : function(){
-    return this.get('lExtractedWords');
-  },
-  setExtractedWords : function(lExtractedWords) {
-    // Set the value in dbRecord.
-    this.set('lExtractedWords', lExtractedWords);
+  addExtractedWordsToBagOfWords : function(lWords) {
 
     // Update the bag of words.
-    for (var i = 0, iLength = lExtractedWords.length; i < iLength; i++) {
-      var sWord = lExtractedWords[i];
+    for (var i = 0, iLength = lWords.length; i < iLength; i++) {
+      var sWord = lWords[i];
       this._oBagOfWords.addWord(sWord,
         Cotton.Config.Parameters.scoreForExtractedWords);
     }

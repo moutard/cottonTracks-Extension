@@ -7,42 +7,36 @@ module(
       'setup' : function() {
         Cotton.Test.Data.Distance.oHistoryItem1 = {
           'oExtractedDNA' : {
-            'lExtractedWords' : ['alice', 'wonderland', 'movie', 'Burton', 'Tim'],
             'lQueryWords' : ['alice', 'wonderland', 'film', 'telerama'],
           }
         };
 
         Cotton.Test.Data.Distance.oHistoryItem2 = {
           'oExtractedDNA' : {
-            'lExtractedWords' : ['alice', 'adventure', 'wonderland', 'lewis', 'carroll', 'novel'],
             'lQueryWords' : ['alice', 'wonderland', 'novel'],
           }
         };
 
         Cotton.Test.Data.Distance.oHistoryItem3 = {
           'oExtractedDNA' : {
-            'lExtractedWords' : ['singapor', 'madrid', 'paris'],
             'lQueryWords' : ['capital', 'country'],
           }
         };
 
         Cotton.Test.Data.Distance.oHistoryNinjutsu = {
           'oExtractedDNA' : {
-            'lExtractedWords' : ['science', 'ninjutsu', 'video', 'dailymotion'],
             'lQueryWords' : [],
           }
         };
 
         Cotton.Test.Data.Distance.oNinjutsu = {
           'oExtractedDNA' : {
-            'lExtractedWords' : ['ninjutsu'],
             'lQueryWords' : [],
           }
         };
 
         Cotton.Test.Data.Distance.oHistoryItemNull = {
           'oExtractedDNA' : {
-            'lExtractedWords' : [],
             'lQueryWords' : [],
           }
         };
@@ -68,64 +62,6 @@ module(
 test("distance key.", function() {
   deepEqual(Cotton.Algo.Distance.distanceKey("foo", {foo: 3}, {foo:4}), 1);
   deepEqual(Cotton.Algo.Distance.distanceKey("foo", {foo: 4}, {foo:3}), 1);
-});
-
-test("distance onExtractedWords for the same value.", function() {
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem1), 0);
-});
-
-test("distance onQueryWords for the same value.", function() {
-  deepEqual(Cotton.Algo.Distance.onQueryWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem1), 0);
-});
-
-test("distance onExtractedWords for null value.", function() {
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItemNull), 1);
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem2,
-      Cotton.Test.Data.Distance.oHistoryItemNull), 1);
-});
-
-test("distance onQueryWords for null value.", function() {
-  deepEqual(Cotton.Algo.Distance.onQueryWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItemNull), 1);
-  deepEqual(Cotton.Algo.Distance.onQueryWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItemNull), 1);
-});
-
-test("distance onExtractedWords.", function() {
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem2), 1 - 2/5);
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem2,
-      Cotton.Test.Data.Distance.oHistoryItem1), 1 - 2/5);
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem2,
-      Cotton.Test.Data.Distance.oHistoryItem3), 1);
-  deepEqual(Cotton.Algo.Distance.onExtractedWords(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem3), 1);
-});
-
-
-test("distance meaning.", function() {
-  deepEqual(Cotton.Algo.Distance.meaning(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem1), 0);
-  deepEqual(Cotton.Algo.Distance.meaning(
-      Cotton.Test.Data.Distance.oHistoryItem1,
-      Cotton.Test.Data.Distance.oHistoryItem2), 0.4666666666666667);
-  deepEqual(Cotton.Algo.Distance.meaning(
-      Cotton.Test.Data.Distance.oHistoryItem2,
-      Cotton.Test.Data.Distance.oHistoryItemNull), 1);
 });
 
 test("distance fromStory.", function() {
