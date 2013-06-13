@@ -71,7 +71,7 @@ Cotton.DB.IndexedDB.Wrapper = Class.extend({
     }
     var oTranslator = lTranslators[lTranslators.length - 1];
     return oTranslator;
-  }
+  },
 
   empty : function(sObjectStoreName, mResultElementCallback){
      var self = this;
