@@ -28,6 +28,22 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
 
   },
 
+  /**
+   * Returns the last translator for the given type. Throws an exception if the
+   * type does not have any translators.
+   *
+   * @param {String} sObjectStoreName:
+   *  name of the store (table in the database).
+   */
+  _lastTranslator: function(sObjectStoreName) {
+    var lTranslators = this._dTranslators[sObjectStoreName];
+    if (!lTranslators) {
+      throw "Unknown type."
+    }
+    var oTranslator = lTranslators[lTranslators.length - 1];
+    return oTranslator;
+  },
+
   empty : function(sObjectStoreName, mResultElementCallback){
      var self = this;
 
