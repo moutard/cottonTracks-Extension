@@ -92,7 +92,7 @@ test("algo of dbscan3 worker.", function() {
   var iMinPts = Cotton.Config.Parameters.dbscan3.iMinPts;
 
   Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
-    // For each rough session, launch dbscan1.
+    // For each rough session, launch dbscan.
     DEBUG && console.debug("New session : " + lSession.length);
     DEBUG && console.debug(lSession);
     // TODO(rmoutard) : Maybe create a worker, by session. or use a queue.
