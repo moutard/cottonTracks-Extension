@@ -207,11 +207,20 @@ UrlParser.prototype.imageSearchPreviewSource = function() {
     var sUnescaped = unescape(unescape(this.dHash['imgrc']));
     this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
   } else if (this.dSearch['imgurl']){
+  if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_") {
+    // imgrc contains a lot of strange infos. Take a closer look in case of
+    // problems. the only way to find the url is to find http and then the ;
+    // that end it.
+    //var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
+    //this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
+    var sEncodeUrl = this.dHash['imgrc'].split("http")[1].split(";")[0];
+    this.searchImage = decodeURIComponent("http" + sEncodeUrl);
+  } else if (this.dSearch['imgurl']) {
     this.searchImage = this.dSearch['imgurl'];
   }
 };
 
-UrlParser.prototype.replaceHexa = function(sEscaped){
+UrlParser.prototype.replaceHexa = function(sEscaped) {
     var reg = /\%25/;
     if (reg.test(sEscaped)){
       // need to replace twice the % in case it was already escaped
