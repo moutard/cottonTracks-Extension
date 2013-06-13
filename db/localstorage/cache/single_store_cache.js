@@ -13,8 +13,6 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
 
   /**
    * @param {String} sDatabaseName
-   * @param {Dictionnary} dTranslators :
-   *  key storename value : corresponding translators.
    * @param {Funtion} mOnReadyCallback:
    */
   init : function(sDatabaseName, iExpiracy) {

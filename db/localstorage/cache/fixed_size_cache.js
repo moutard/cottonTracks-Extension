@@ -13,8 +13,6 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
 
   /**
    * @param {String} sDatabaseName
-   * @param {Dictionnary} dTranslators :
-   *  key storename value : corresponding translators.
    * @param {Funtion} mOnReadyCallback:
    */
   init : function(sDatabaseName, iMaxSize, iExpiracy) {
