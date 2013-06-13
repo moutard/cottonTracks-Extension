@@ -107,8 +107,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
     oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
     oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
-    oIDBHistoryItem.extractedDNA().setExtractedWords(
-      Cotton.Algo.Tools.extractWordsFromTitle(dChromeHistoryItem['title']));
 
     return oIDBHistoryItem;
   };
