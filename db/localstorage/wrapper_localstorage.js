@@ -3,16 +3,18 @@
 /**
  * Absract layer for Cotton.DB.EngineLocalStorage.
  *
+ * NEVER USED FOR THE MOMENT.
+ *
  */
-Cotton.DB.LocalStorage.Wrapper = Cotton.DB.Wrapper.extend({
+Cotton.DB.LocalStorage.Wrapper = Class.extend({
 
-  init : function(sDatabaseName, dTranslators, mOnReadyCallback) {
+  init : function(sDatabaseName, dModels, mOnReadyCallback) {
     var self = this;
-    self._dTranslators = dTranslators;
+    self._dTranslators = dModels;
 
     var dIndexesForObjectStoreNames = {};
-    _.each(dTranslators, function(lTranslators, sObjectStoreName) {
-      dIndexesForObjectStoreNames[sObjectStoreName] = self._lastTranslator(sObjectStoreName).indexDescriptions();
+    _.each(dModels, function(oModelClass, sObjectStoreName) {
+      dIndexesForObjectStoreNames[sObjectStoreName] = oModelClass.prototype._dModelIndexes;
     });
 
     var oEngine = new Cotton.DB.LocalStorage.Engine(
@@ -23,8 +25,6 @@ Cotton.DB.LocalStorage.Wrapper = Cotton.DB.Wrapper.extend({
     });
 
     this._oEngine = oEngine;
-
-    self._super(sDatabaseName, dTranslators);
 
   },
   empty : function() {
