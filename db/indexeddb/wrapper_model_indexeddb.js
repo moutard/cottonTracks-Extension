@@ -376,16 +376,6 @@ Cotton.DB.IndexedDB.WrapperModel = Class.extend({
     });
   },
 
-  update: function(sObjectStoreName, sId, oObject, mOnSaveCallback) {
-    var self = this;
-
-    var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.update(sObjectStoreName, sId, dDbRecord, function(iId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
-      }
-    });
-  },
 
   delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;

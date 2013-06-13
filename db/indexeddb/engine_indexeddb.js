@@ -1223,53 +1223,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
   },
 
-  update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    // Define the index.
-    var oIndex = oStore.index('id');
-
-    // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.only(sId);
-    var oCursorRequest = oIndex.openCursor(oKeyRange);
-    oCursorRequest.onsuccess = function(oEvent) {
-      var oResult = oEvent.target.result;
-
-      // End of the list of results.
-      if (!oResult) {
-        // There is no entry that corresponds to your id. Can not be updated.
-        mResultElementCallback.call(self);
-        return;
-      }
-      else {
-        var oUpdateRequest = this.update(dItem);
-        oUpdateRequest.onsuccess = function(oEvent){
-          mResultElementCallback.call(self, oEvent.target.result);
-          return;
-        };
-        oUpdateRequest.onerror = function(oEvent){
-          DEBUG && console.debug("can not update your entry");
-          DEBUG && console.debug(oEvent);
-          throw "Update Request Error";
-        };
-      }
-    };
-
-
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
-      console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - update";
-    };
-
-
-  },
-
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;
 
