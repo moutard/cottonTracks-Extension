@@ -97,8 +97,8 @@ test("google image search preview.", function() {
   var b = new UrlParser(urlComplexe);
   b.fineDecomposition();
   // keywords are not generated for webph, they are only generated for search path name.
-  deepEqual(b.searchImage,
-            "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonn%C3%A9+Corydon+Talon.png");
+  ok(b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonn%C3%A9+Corydon+Talon.png"
+    || b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
 });
 
 test("dribble search.", function() {
