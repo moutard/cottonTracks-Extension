@@ -425,8 +425,6 @@ Cotton.DB.IndexedDB.Wrapper = Class.extend({
     });
   },
 
-  },
-
   delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;
 
