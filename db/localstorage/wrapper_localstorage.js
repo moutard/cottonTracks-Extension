@@ -10,7 +10,7 @@ Cotton.DB.LocalStorage.Wrapper = Class.extend({
 
   init : function(sDatabaseName, dModels, mOnReadyCallback) {
     var self = this;
-    self._dTranslators = dModels;
+    self._dModels = dModels;
 
     var dIndexesForObjectStoreNames = {};
     _.each(dModels, function(oModelClass, sObjectStoreName) {
