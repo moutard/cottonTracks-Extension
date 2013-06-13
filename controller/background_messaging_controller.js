@@ -103,8 +103,6 @@ Cotton.Controllers.Messaging = Class.extend({
                 // Find the story that is the closest to the historyItem.
                 self._oMainController._oDatabase.findGroup('stories', 'id',
                   lStoriesId, function(lStories){
-                    // Cosine is a distance -> cosine smaller -> story closer.
-                    // FIXME(rmoutard) : find a real value for this !
                     var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
                     var oMinStory = undefined;
                     for (var i = 0, iLength = lStories.length; i < iLength; i++) {
