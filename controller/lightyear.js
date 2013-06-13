@@ -99,10 +99,10 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
 
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-        'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'searchKeywords': Cotton.Model.SearchKeyword,
+      'historyItems': Cotton.Model.HistoryItem,
+      'stories': Cotton.Model.Story
     }, function() {
       self._oSender.sendMessage({
         'action': 'get_trigger_story'
