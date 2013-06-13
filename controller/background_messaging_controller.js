@@ -20,7 +20,9 @@ Cotton.Controllers.Messaging = Class.extend({
 
   addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
     var self = this;
-    for (var i = 0, lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()), iLength = lKeywords.length;
+    for (var i = 0,
+      lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()),
+      iLength = lKeywords.length;
       i < iLength; i++){
         var sKeyword = lKeywords[i];
         var oSearchKeyword = new Cotton.Model.SearchKeyword({
@@ -49,10 +51,7 @@ Cotton.Controllers.Messaging = Class.extend({
        * compiler we need a common structure to communicate throught messaging.
        * We use dbRecord, and translators give us a simple serialisation process.
        */
-      //FIXME(rmoutard): use TranslatorCollection.
-      var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-      var oTranslator = lTranslators[lTranslators.length - 1];
-      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+      var oHistoryItem = new Cotton.Model.HistoryItem(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
       oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
@@ -60,7 +59,7 @@ Cotton.Controllers.Messaging = Class.extend({
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
           oHistoryItem, self._oMainController._oSearchCache);
       oHistoryItem.extractedDNA().setMinWeightForWord();
-      dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
+      dHistoryItem = oHistoryItem.dbRecord();
 
       if (oHistoryItem.oUrl().keywords){
         self._oMainController._oSearchCache.putUnique(dHistoryItem);
@@ -185,9 +184,7 @@ Cotton.Controllers.Messaging = Class.extend({
        * compiler we need a common structure to communicate throught messaging.
        * We use dbRecord, and translators give us a simple serialisation process.
        */
-      var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-      var oTranslator = lTranslators[lTranslators.length - 1];
-      var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+      var oHistoryItem = new Cotton.Model.HistoryItem(dHistoryItem);
       DEBUG && console.debug("Messaging - update_history_item");
       DEBUG && console.debug(oHistoryItem.url());
       // TODO(rmoutard) : use DB system, or a singleton.
