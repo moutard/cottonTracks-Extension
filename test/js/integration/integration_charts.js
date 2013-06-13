@@ -88,10 +88,9 @@ function launchTests(){
 
     Cotton.Algo.roughlySeparateSessionForVisitItems(lCottonHistoryItems, lChromeVisitItems,
       function(lSession){
-        var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
         var ldSession = [];
         for(var i = 0; i < lSession.length; i++){
-          ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
+          ldSession.push(lSession[i].dbRecord());
         }
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
           Cotton.Algo.Score.DBRecord.HistoryItem);

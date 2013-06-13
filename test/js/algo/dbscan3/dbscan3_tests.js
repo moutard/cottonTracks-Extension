@@ -72,18 +72,16 @@ test("algo of dbscan3 worker.", function() {
   var lSampleHistoryItems = cotton_history_source_hadrien;
 
   // we need oHistoryItems objects to compute bagOfWords
-  var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-  var oTranslator = lTranslators[lTranslators.length - 1];
 
   var lHistoryItems = [];
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
-    lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
+    lHistoryItems.push(new Cotton.Model.HistoryItem(dHistoryItem));
   }
   lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
   lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
-    lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);
+    lHistoryItems[i] = oHistoryItem.dbRecord();
   }
   // PARAMETERS
   // Max Distance between neighborhood
@@ -116,18 +114,16 @@ test("algo of dbscan3 worker for hadrien with very low fEps (0)", function() {
   var lSampleHistoryItems = cotton_history_source_hadrien;
 
   // we need oHistoryItems objects to compute bagOfWords
-  var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-  var oTranslator = lTranslators[lTranslators.length - 1];
 
   var lHistoryItems = [];
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
-    lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
+    lHistoryItems.push(new Cotton.Model.HistoryItem(dHistoryItem));
   }
   lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
   lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
-    lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);
+    lHistoryItems[i] = oHistoryItem.dbRecord();
   }
   // PARAMETERS
   // Max Distance between neighborhood
@@ -158,18 +154,16 @@ test("algo of dbscan3 worker for hadrien with high fEps (200)", function() {
   var lSampleHistoryItems = cotton_history_source_hadrien;
 
   // we need oHistoryItems objects to compute bagOfWords
-  var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-  var oTranslator = lTranslators[lTranslators.length - 1];
 
   var lHistoryItems = [];
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
-    lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
+    lHistoryItems.push(new Cotton.Model.HistoryItem(dHistoryItem));
   }
   lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
   lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
-    lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);
+    lHistoryItems[i] = oHistoryItem.dbRecord();
   }
   // PARAMETERS
   // Max Distance between neighborhood
