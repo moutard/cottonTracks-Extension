@@ -29,6 +29,8 @@ var MockSender = Class.extend({
 test('init.', function() {
   var oApplication = new MockApplication();
   var oSender = new MockSender();
-  var oWorld = new Cotton.UI.World(oApplication, oSender);
+  var oDispacher = new Cotton.Messaging.Dispatcher();
+  var $dom_world = $("<div></div>");
+  var oWorld = new Cotton.UI.World(oApplication, oSender, oDispacher, $dom_world);
   ok(oWorld);
 });

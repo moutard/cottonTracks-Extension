@@ -56,7 +56,7 @@ Cotton.UI.World = Class.extend({
         'background-image',
         "url(" + response['src'] + ")"
       );
-      $('body').blurjs({
+      self._$world.blurjs({
         'source': '#blur_target',
         'radius': 15,
         'overlay': 'rgba(0,0,0,0.2)'
