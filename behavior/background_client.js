@@ -55,9 +55,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   createHistoryItem : function(oItem, mCallback) {
     var self = this;
 
-    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-    var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(oItem);
+    var dDbRecord = oItem.dbRecord();
 
    chrome.extension.sendMessage({
       'action' : 'create_history_item',
@@ -106,9 +104,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     self._oCurrentHistoryItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
-    var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
-    var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
+    var dDbRecord = self._oCurrentHistoryItem.dbRecord();
 
     if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
