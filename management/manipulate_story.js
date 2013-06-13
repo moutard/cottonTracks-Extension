@@ -10,8 +10,8 @@ var Manager = Class.extend({
     oStory.setTitle(sTitle);
     oStory.setFeaturedImage(sFeaturedImage);
     oStory.setLastVisitTime(new Date().getTime());
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'stories' : Cotton.Model.Story,
     }, function() {
       self._oDatabase.put('stories', oStory, function(iId){
         DEBUG && console.debug(iId);
@@ -26,8 +26,8 @@ var Manager = Class.extend({
     oStory.setTitle(sTitle);
     oStory.setFeaturedImage(sFeaturedImage);
     oStory.setLastVisitTime(new Date().getTime());
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'stories' : Cotton.Model.Story,
     }, function() {
       self._oDatabase.put('stories', oStory, function(iId){
         DEBUG && console.debug(iId);
@@ -43,10 +43,10 @@ var Manager = Class.extend({
     oStory.setFeaturedImage(sFeaturedImage);
     oStory.setLastVisitTime(new Date().getTime());
     var lHistoryItemsId = [];
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'stories' : Cotton.Translators.STORY_TRANSLATORS,
-      'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-      'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'searchKeywords': Cotton.Model.SearchKeyword,
+      'historyItems': Cotton.Model.HistoryItem,
+      'stories': Cotton.Model.Story
     }, function() {
       for(var i = 0, dHistoryItem; dHistoryItem = lHistoryItems[i]; i++){
         //var oTranslator = self._oDatabase._translatorForDbRecord('historyItems', dHistoryItem);
@@ -95,8 +95,8 @@ var Manager = Class.extend({
   addHistoryItemToStory : function(iStoryId, iHistoryItemId){
     var self = this;
 
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'stories' : Cotton.Translators.STORY_TRANSLATORS,
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'stories' : Cotton.Model.Story,
     }, function() {
       self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         oStory.addHistoryItemId(iHistoryItemId);
@@ -110,9 +110,9 @@ var Manager = Class.extend({
   setStoryBagOfWords : function(iStoryId, dBagOfWords){
     var self = this;
 
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-      'stories' : Cotton.Translators.STORY_TRANSLATORS,
-      'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
+    self._oDatabase = new Cotton.DB.IndexedDB.WrapperModel('ct', {
+      'stories' : Cotton.Model.Story,
+      'searchKeywords' : Cotton.Model.SearchKeyword,
     }, function() {
       self._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         oStory.dna().bagOfWords().setBag(dBagOfWords);
