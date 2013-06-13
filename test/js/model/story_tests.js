@@ -53,12 +53,12 @@ module("Cotton.Model.Story",{
 });
 
 test("init.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   ok(oStory)
 });
 
 test("addDbRecordHistoryItem.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addDbRecordHistoryItem(lHistoryItems[i]);
   }
@@ -67,7 +67,7 @@ test("addDbRecordHistoryItem.", function() {
 });
 
 test("addHistoryItemId.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
@@ -75,25 +75,25 @@ test("addHistoryItemId.", function() {
 });
 
 test("historyItems is reset.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   deepEqual(oStory.historyItemsId(), []);
 });
 
 test("removeHistoryItem for an empty.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   deepEqual(oStory.historyItemsId(), []);
   oStory.removeHistoryItem(1);
   deepEqual(oStory.historyItemsId(), []);
 });
 
 test("removeHistoryItem for an empty1.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   oStory.removeHistoryItem(1);
   deepEqual(oStory._lHistoryItems, []);
 });
 
 test("removeHistoryItem.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
@@ -103,7 +103,7 @@ test("removeHistoryItem.", function() {
 });
 
 test("removeHistoryItem2.", function() {
-  var oStory = new Cotton.Model.Story();
+  var oStory = new Cotton.Model.Story({});
   for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
     oStory.addHistoryItemId(lHistoryItems[i]['id']);
   }
