@@ -97,7 +97,7 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
   },
 
   lastVisitTime : function() {
-    return this.get('flastVisitTime');
+    return this.get('fLastVisitTime');
   },
   setLastVisitTime : function(fLastVisitTime) {
     this.set('fLastVisitTime', fLastVisitTime);
@@ -123,8 +123,9 @@ Cotton.Model.Story = Cotton.DB.Model.extend({
    */
   addDbRecordHistoryItem : function(dHistoryItemDbRecord) {
     var _lHistoryItemsId = this.get('lHistoryItemsId');
-    if (_lHistoryItemsId.indexOf(dHistoryItemDbRecord['sId']) === -1) {
-      _lHistoryItemsId.push(dHistoryItemDbRecord['sId']);
+    if (_lHistoryItemsId.indexOf(dHistoryItemDbRecord['id']) === -1) {
+      _lHistoryItemsId.push(dHistoryItemDbRecord['id']);
+      this.set('lHistoryItemsId', _lHistoryItemsId);
       this._lHistoryItemsRecord.push(dHistoryItemDbRecord);
 
       // FIXME(rmoutard): probleme between f and i !
