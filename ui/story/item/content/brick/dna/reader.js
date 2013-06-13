@@ -58,7 +58,7 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
 
     if (lBestParagraphs.length === 0){
       var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();
-      if (sFirstParagraph !== ""){
+      if (sFirstParagraph && sFirstParagraph !== ""){
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$article.append($paragraph);
       }
