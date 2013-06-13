@@ -17,15 +17,15 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/dbscan1/score/init.js');
-importScripts('../../algo/dbscan1/score/dbrecord_score.js');
-importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan/score/init.js');
+importScripts('../../algo/dbscan/score/dbrecord_score.js');
+importScripts('../../algo/dbscan/dbscan.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
 
 /**
  * This method has 3 steps : - Separate Roughly the historyItems in sessions. -
- * Then compute for each rough sessions dbscan1 with distance only on the
- * time, to refine session. - For each session, compute dbscan1 with the
+ * Then compute for each rough sessions dbscan with distance only on the
+ * time, to refine session. - For each session, compute dbscan with the
  * meaning distance.
  */
 function handleHistoryItems3(lHistoryItems, lVisitItems) {

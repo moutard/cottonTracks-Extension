@@ -19,9 +19,9 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/dbscan1/score/init.js');
-importScripts('../../algo/dbscan1/score/dbrecord_score.js');
-importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan/score/init.js');
+importScripts('../../algo/dbscan/score/dbrecord_score.js');
+importScripts('../../algo/dbscan/dbscan.js');
 importScripts('../../algo/dbscan2/find_closest_google_search_page.js');
 
 /**
