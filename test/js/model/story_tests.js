@@ -101,13 +101,3 @@ test("removeHistoryItem.", function() {
   deepEqual(oStory.historyItemsId(), [2,3,4]);
 
 });
-
-test("removeHistoryItem2.", function() {
-  var oStory = new Cotton.Model.Story({});
-  for(var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
-    oStory.addHistoryItemId(lHistoryItems[i]['id']);
-  }
-  oStory.removeHistoryItem(1);
-  deepEqual(oStory._lHistoryItemsId, [2,3,4]);
-
-});
