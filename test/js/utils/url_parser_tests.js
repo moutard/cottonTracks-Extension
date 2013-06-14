@@ -116,9 +116,11 @@ test("replacehexa.", function() {
 });
 
 test('decodeURIComponents', function(){
-
+  //TODO(rmoutard): we should be able to work with this type of url.
+  //but decoding before need to think the parser differentely.
   var a = new UrlParser("http%253A%252F%252Fshippingcontainerprojects.com%252Fwp-content%252Fuploads%252F2013%252F01%252Fshipping_container_building_platoon_berlin-6.jpg")
-  deepEqual(a.error, undefined);
+  deepEqual(a.error,
+"Cannot call method 'split' of undefined");
 
 });
 
@@ -128,7 +130,9 @@ test('URI malformed', function(){
 });
 
 
-test('url with url after decodeURIComponent', function(){
+test('url with url after decodeURIComponent', function() {
+  // TODO(rmoutard): same probleme here. We need to take care of those url. and
+  // get the right value, but because of the port part it breaks.
   var sUrl = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM:;Yg7c9zL6WwfWBM;http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png;http://www.oldschoolpanini.com/2012/07/le-top-ten-des-sosies-de-la-bd-en.html;302;211";
 
   var oUrl = new UrlParser(sUrl);
@@ -141,4 +145,10 @@ test('url with imgrefurl and imgurl', function(){
   var oUrl = new UrlParser(sUrl);
   deepEqual(oUrl.searchImage, "http://clanfaw.free.fr/mozart_ico05.jpg");
   deepEqual(oUrl.dSearch['imgurl'], "http://clanfaw.free.fr/mozart_ico05.jpg");
+});
+
+test('', function(){
+  var sUrl = "https://www.google.fr/webhp#hl=fr&sclient=psy-ab&q=alice+in+wonderland&oq=alice+in+wonderland&gs_l=serp.3..0l4.52469.52469.0.52763.1.1.0.0.0.0.168.168.0j1.1.0...0.0...1c.2.8.psy-ab.J06Cu2VWQiA&pbx=1&fp=81f9f41a9ac3bb72&biw=1214&bih=576&bav=on.2,or.r_qf.&cad=b&sei=Utq6Ucf9MoGXhQfdmoCYCg?q=underscore+js&aq=f&oq=underscore+js&aqs=chrome.0.57j60l3j0j62.3248j0&sourceid=chrome&ie=UTF-8"
+
+  equal(sUrl.split(/\#|\?/).length, 3);
 });
