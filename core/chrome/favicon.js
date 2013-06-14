@@ -1,12 +1,6 @@
 'use strict';
+Cotton.Core.Favicon = {};
 
-Cotton.Core.Favicon = Class.extend({
-  init : function() {
-
-  },
-
-  getSrc : function() {
-    return "chrome://favicon/";
-  }
-
-});
+Cotton.Core.Favicon.getSrc = function() {
+  return "chrome://favicon/";
+};

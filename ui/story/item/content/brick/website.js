@@ -37,7 +37,7 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
     if (sDomain.match(oRegExp)){
       this._$favicon = $('<img class="favicon" src="http://www.google.com/images/google_favicon_128.png">');
     } else {
-      this._$favicon = $('<img class="favicon" src="' + self.faviconUrl(sUrl) +'">');
+      this._$favicon = $('<img class="favicon" src="' + this.faviconUrl(sUrl) +'">');
     }
 
     // construct item.

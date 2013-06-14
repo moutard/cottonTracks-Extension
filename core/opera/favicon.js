@@ -1,12 +1,7 @@
 'use strict';
 
-Cotton.Core.Favicon = Class.extend({
-  init : function() {
+Cotton.Core.Favicon = {};
 
-  },
-
-  getSrc : function() {
-    return "opera://favicon/";
-  }
-
-});
+Cotton.Core.Favicon.getSrc = function() {
+  return "opera://favicon/";
+};
