@@ -14,6 +14,75 @@ test("init.", function() {
   ok(oHistoryItemDNA);
 });
 
+
+test("init with a dbRecord.", function() {
+  var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({
+    'dBagOfWords': {'Alice': 3, 'Wonderland': 2},
+    'iPercent' : 45,
+    'lQueryWords': ['Alice', 'Wonderland']
+  });
+  ok(oHistoryItemDNA);
+  deepEqual(oHistoryItemDNA.bagOfWords().getWords(), ["alice", "wonderland"]);
+});
+
+test("getters.", function() {
+  var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({
+    'dBagOfWords': {'Alice': 3, 'Wonderland': 2},
+    'iPercent' : 45,
+    'lQueryWords': ['Alice', 'Wonderland']
+  });
+  equal(oHistoryItemDNA.get('iPercent'), 45);
+  equal(oHistoryItemDNA.percent(), 45);
+  equal(oHistoryItemDNA.imageUrl(), "");
+  equal(oHistoryItemDNA.pageScore(), 0);
+  equal(oHistoryItemDNA.timeTabActive(), -1);
+  equal(oHistoryItemDNA.timeTabOpen(), 0);
+  equal(oHistoryItemDNA.firstParagraph(), undefined);
+  deepEqual(oHistoryItemDNA.paragraphs(), []);
+  deepEqual(oHistoryItemDNA.bagOfWords().getWords(), ["alice", "wonderland"]);
+  deepEqual(oHistoryItemDNA.queryWords(), ['Alice', 'Wonderland']);
+
+});
+
+test("setters.", function() {
+  var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({
+    'dBagOfWords': {'Alice': 3, 'Wonderland': 2},
+    'iPercent' : 45,
+    'lQueryWords': ['Alice', 'Wonderland']
+  });
+  oHistoryItemDNA.set('iPercent', 90);
+  oHistoryItemDNA.setImageUrl('white_rabbit.png');
+  oHistoryItemDNA.setPageScore(33);
+  oHistoryItemDNA.setTimeTabActive(44);
+  oHistoryItemDNA.setTimeTabOpen(55);
+  oHistoryItemDNA.addParagraph({'id': 1, 'position': 1, 'text': 'She was sleeping.'});
+
+  oHistoryItemDNA.setQueryWords(['white', 'rabbit']);
+  equal(oHistoryItemDNA.get('iPercent'), 90);
+  equal(oHistoryItemDNA.percent(), 90);
+  equal(oHistoryItemDNA.imageUrl(), 'white_rabbit.png');
+  equal(oHistoryItemDNA.pageScore(), 33);
+  equal(oHistoryItemDNA.timeTabActive(), 44);
+  equal(oHistoryItemDNA.timeTabOpen(), 55);
+  deepEqual(oHistoryItemDNA.firstParagraph(), {'id': 1, 'position': 1, 'text': 'She was sleeping.'});
+  deepEqual(oHistoryItemDNA.paragraphs(), [{'id': 1, 'position': 1, 'text': 'She was sleeping.'}]);
+  deepEqual(oHistoryItemDNA.bagOfWords().getWords(), ['alice', 'wonderland']);
+  deepEqual(oHistoryItemDNA.queryWords(), ['white', 'rabbit']);
+
+});
+
+test("addExtractedWordsToBagOfWords.", function() {
+  var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({
+    'dBagOfWords': {'Alice': 3, 'Wonderland': 2},
+    'iPercent' : 45,
+    'lQueryWords': ['Alice', 'Wonderland']
+  });
+
+  oHistoryItemDNA.addExtractedWordsToBagOfWords(['cat', 'Crazy']);
+  deepEqual(oHistoryItemDNA.bagOfWords().getWords(), ['alice', 'wonderland', 'cat', 'crazy']);
+
+});
+
 test("setQueryWords.", function() {
   var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({});
   oHistoryItemDNA.setQueryWords(['the', 'Magical', 'Mystery', 'Tour', 'of', 'the', 'Beatles']);
@@ -34,3 +103,11 @@ test("setWeakQueryWords.", function(){
   var dBagOfWords = {"the": 2, "of": 2}
   deepEqual(oHistoryItemDNA.bagOfWords().get(), dBagOfWords);
 });
+
+
+test("addParagraph.", function() {
+  var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({});
+  ok(oHistoryItemDNA);
+});
+
+
