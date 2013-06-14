@@ -12,6 +12,8 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
   _sModelStore : 'historyItemDNA',
   _oBagOfWords : null,
+  // {Array.<Cotton.Model.ExtractedParagraph>} list of object.
+  _lParagraphs : [],
 
   _default: function() {
     return {
@@ -28,6 +30,7 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
 
   init : function(dDBRecord) {
     this._super(dDBRecord);
+    this._lParagraphs = [];
     var dBagOfWords = dDBRecord['dBagOfWords'] || {};
     this._oBagOfWords = new Cotton.Model.BagOfWords(dBagOfWords);
     this._dDBRecord['dBagOfWords'] = this._oBagOfWords.get();
@@ -139,31 +142,40 @@ Cotton.Model.HistoryItemDNA = Cotton.DB.Model.extend({
     this.set('fTimeTabOpen', fTemp);
   },
   firstParagraph : function() {
-    var lParagraphs = this.get('lParagraphs');
-    if(lParagraphs.length > 0) return lParagraphs[0];
+    if (this._lParagraphs.length > 0) return this._lParagraphs[0];
     else return undefined;
   },
-
   paragraphs : function() {
-    return this.get('lParagraphs');
+    return this._lParagraphs;
   },
+  /**
+   * If the paragraph already exists simply remove and replace, else just
+   * add it to the list.
+   */
   addParagraph : function(oParagraph) {
-    var lTemp = this.get('lParagraphs');
-    //FIXME(rmoutard): collect has desepear from backbone.js
-    var iIndexOfParagraph = _.indexOf(
-      _.collect(lTemp, function(_oParagraph) {
-        return _oParagraph.id();
-    }), oParagraph.id());
-    // Add the score if it doesn't exists. If not set it.
-    if(iIndexOfParagraph === -1){
-      lTemp.push(oParagraph);
-    } else {
-      lTemp[iIndexOfParagraph] = oParagraph;
+    for (var i = 0, _oParagraph; _oParagraph = this._lParagraphs[i]; i++) {
+      if (_oParagraph.id() === oParagraph.id()) {
+         this._lParagraph[i] = oParagraph;
+         return;
+      }
     }
-    this.set('lParagraphs', lTemp);
+    this._lParagraphs.push(oParagraph);
   },
   setParagraphs : function(lParagraphs) {
-    this.set('lParagraphs', lParagraphs);
+    this._lParagraphs = lParagraphs;
+  },
+
+  /**
+   * When you have complexe things to do to deserialize, you can redifine
+   * the dDBRecord function.
+   */
+  dbRecord: function() {
+    var lTemp = [];
+    for (var i = 0, oParagraph; oParagraph = this._lParagraphs[i]; i++) {
+      lTemp.push(oParagraph.serialize());
+    }
+    this._dDBRecord['lParagraphs'] = lTemp;
+    return this._dDBRecord;
   }
 
 });

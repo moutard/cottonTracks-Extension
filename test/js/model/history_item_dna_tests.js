@@ -3,6 +3,7 @@
 module("Cotton.DB.Model.HistoryItemDNA",{
   setup: function() {
     // runs before each test
+
   },
   teardown: function() {
     // runs after each test
@@ -55,7 +56,9 @@ test("setters.", function() {
   oHistoryItemDNA.setPageScore(33);
   oHistoryItemDNA.setTimeTabActive(44);
   oHistoryItemDNA.setTimeTabOpen(55);
-  oHistoryItemDNA.addParagraph({'id': 1, 'position': 1, 'text': 'She was sleeping.'});
+  var oParagraph = new Cotton.Model.ExtractedParagraph("She was not sleeping.");
+
+  oHistoryItemDNA.addParagraph(oParagraph);
 
   oHistoryItemDNA.setQueryWords(['white', 'rabbit']);
   equal(oHistoryItemDNA.get('iPercent'), 90);
@@ -64,8 +67,8 @@ test("setters.", function() {
   equal(oHistoryItemDNA.pageScore(), 33);
   equal(oHistoryItemDNA.timeTabActive(), 44);
   equal(oHistoryItemDNA.timeTabOpen(), 55);
-  deepEqual(oHistoryItemDNA.firstParagraph(), {'id': 1, 'position': 1, 'text': 'She was sleeping.'});
-  deepEqual(oHistoryItemDNA.paragraphs(), [{'id': 1, 'position': 1, 'text': 'She was sleeping.'}]);
+  deepEqual(oHistoryItemDNA.firstParagraph(), oParagraph);
+  deepEqual(oHistoryItemDNA.paragraphs(), [oParagraph]);
   deepEqual(oHistoryItemDNA.bagOfWords().getWords(), ['alice', 'wonderland']);
   deepEqual(oHistoryItemDNA.queryWords(), ['white', 'rabbit']);
 
@@ -107,7 +110,28 @@ test("setWeakQueryWords.", function(){
 
 test("addParagraph.", function() {
   var oHistoryItemDNA = new Cotton.Model.HistoryItemDNA({});
-  ok(oHistoryItemDNA);
+  var oParagraph1 = new Cotton.Model.ExtractedParagraph("She was sleeping");
+  oParagraph1.setId(1);
+   var oParagraph2 = new Cotton.Model.ExtractedParagraph("He was late");
+  oParagraph2.setId(2);
+  oHistoryItemDNA.addParagraph(oParagraph1);
+  oHistoryItemDNA.addParagraph(oParagraph2);
+  deepEqual(oHistoryItemDNA.dbRecord()['lParagraphs'],
+    [
+      {
+        'id': 1,
+        'fPercent': 0,
+        'sText': 'She was sleeping',
+        'lQuotes': []
+      },
+      {
+        'id': 2,
+        'fPercent': 0,
+        'sText': 'He was late',
+        'lQuotes': []
+      },
+
+    ]);
 });
 
 

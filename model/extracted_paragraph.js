@@ -11,7 +11,7 @@
  * frequent words etc..
  */
 
-Cotton.Model.ExtractedParagraph = Class.extend({
+Cotton.Model.ExtractedParagraph = Cotton.DB.Model.extend({
 
   _iId : undefined, // The id corresponds to the position of the paragraph
   _fPercent : undefined,
