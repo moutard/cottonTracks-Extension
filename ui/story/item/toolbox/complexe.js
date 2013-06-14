@@ -27,7 +27,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
       this._$expand = $('<p class="expand">Expand</p>').hide();
       this._$collapse = $('<p class="collapse">Collapse</p>').hide();
       this._$getContent = $('<p class="get_content">Grab Article</p>').hide();
-      this._$loading = $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">').hide();
+      this._$loading = $('<img class="loading" src="media/images/story/item/default_item/loading.gif">').hide();
 
       // If there is no paragraph you can expand display the getContent button.
       if (bHasExpand) {
