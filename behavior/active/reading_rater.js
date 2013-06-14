@@ -480,8 +480,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       oItem.initUrl(sVideoUrl);
       oItem.setTitle(sTitle + oHistoryItem.title());
       oItem.setLastVisitTime(Date.now());
-      oItem.extractedDNA().setExtractedWords(oHistoryItem.extractedDNA()
-        .extractedWords());
+      // FIXME(rmoutard): do something to add words.
       self._oClient.createHistoryItem(oItem);
     }
   },

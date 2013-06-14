@@ -95,5 +95,14 @@ Cotton.Model.BagOfWords = Class.extend({
       }
     }
     return iMaxWeight;
+  },
+
+  /**
+   * Return all the words that are in the dictionnary as a list. Don't care
+   * about he weight.
+   * @return {Array.<String>} list of all the words in the bag of words.
+   */
+  getWords: function(){
+    return _.keys(this._dBag);
   }
 });
