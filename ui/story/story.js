@@ -59,7 +59,8 @@ Cotton.UI.Story.Element = Class.extend({
          'filter': dArguments['filter']
        });
     });
-    this._oDispatcher.subscribe('item:expand', this, function(dArguments){
+
+    this._oDispatcher.subscribe('relayout', this, function(dArguments){
       // Need to recompute the grid.
       self._$itemsContainer.isotope('reLayout');
     });

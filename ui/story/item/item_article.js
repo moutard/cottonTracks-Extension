@@ -50,8 +50,7 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
         oHistoryItem.url(), this._oDispatcher, this, 'small');
 
     this._oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(
-        oDNA);
-
+        oDNA, oHistoryItem.id(), oDispatcher);
 
     this._$item.append(
       this._$content.append(
