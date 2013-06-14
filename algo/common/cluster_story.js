@@ -68,14 +68,15 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['oExtractedDNA']['lQueryWords'].join(" "));
           lStories[lHistoryItems[j]['clusterId']]['temptitle'] = false;
+        } else if (lStories[lHistoryItems[j]['clusterId']].searchKeywords().length
+          && lStories[lHistoryItems[j]['clusterId']].searchKeywords().length > 0){
+            lStories[lHistoryItems[j]['clusterId']].setTitle(
+              lStories[lHistoryItems[j]['clusterId']].searchKeywords().join(' ')
+            );
+            lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
         } else if (lHistoryItems[j]['sTitle'] !== "") {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['sTitle']);
-          lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
-        } else {
-          lStories[lHistoryItems[j]['clusterId']].setTitle(
-            lStories[lHistoryItems[j]['clusterId']].searchKeywords().join(' ')
-          );
           lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
         }
       }
