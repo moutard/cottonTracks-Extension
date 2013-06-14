@@ -30,6 +30,7 @@ Cotton.UI.Story.Element = Class.extend({
     this._oStory = oStory;
     this._lItems = [];
     this._bScrolled = false;
+    this._sActiveFilter = '*';
 
     this._$story = $('<div class="ct-story"></div>').scroll(function(){
       if (!self._bScrolledStory){
@@ -58,6 +59,7 @@ Cotton.UI.Story.Element = Class.extend({
        this._$itemsContainer.isotope({
          'filter': dArguments['filter']
        });
+       this._sActiveFilter = dArguments['filter'];
     });
 
     this._oDispatcher.subscribe('relayout', this, function(dArguments){
@@ -91,7 +93,8 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   addHistoryItem : function(oHistoryItem) {
-    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._oDispatcher);
+    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._sActiveFilter,
+      this._oDispatcher);
     this._$itemsContainer.isotope('insert', oItemElement.$());
     this._lDOMItems.push(oItemElement.$());
     this._oDispatcher.publish('element:added',{'type': oItemElement.type()})
@@ -130,7 +133,7 @@ Cotton.UI.Story.Element = Class.extend({
     if (lHistoryItems.length > iPosition){
       var oHistoryItem = lHistoryItems[iPosition];
       var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
-        self._oDispatcher);
+        this._sActiveFilter, self._oDispatcher);
       this._lItems.push(oItem);
       dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
       self._oDispatcher.publish('update_filters', dFilters);
