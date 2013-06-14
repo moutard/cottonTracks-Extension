@@ -38,7 +38,7 @@ function UrlParser(sUrl) {
   try {
     // When a url is a parameter in an other url, then it has been
     // encodeURIComponents. To avoid problem decode it before using it.
-    this.href = decodeURIComponent(sUrl);
+    this.href = sUrl;
 
     // split the URL by single-slashes to get the component parts
     var parts = this.href.replace('//', '/').split('/');
@@ -203,12 +203,10 @@ UrlParser.prototype.imageSearchPreviewSource = function() {
     // imgrc contains a lot of strange infos. Take a closer look in case of
     // problems. the only way to find the url is to find http and then the ;
     // that end it.
-    //var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
-    //this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
-    var sEncodeUrl = this.dHash['imgrc'].split("http")[1].split(";")[0];
-    this.searchImage = decodeURIComponent("http" + sEncodeUrl);
+    var sUnescaped = decodeURIComponent(decodeURIComponent(this.dHash['imgrc']));
+    this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
   } else if (this.dSearch['imgurl']) {
-    this.searchImage = this.dSearch['imgurl'];
+    this.searchImage =  decodeURIComponent(decodeURIComponent(this.dSearch['imgurl']));
   }
 };
 

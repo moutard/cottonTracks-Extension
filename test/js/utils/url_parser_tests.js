@@ -97,8 +97,7 @@ test("google image search preview.", function() {
   var b = new UrlParser(urlComplexe);
   b.fineDecomposition();
   // keywords are not generated for webph, they are only generated for search path name.
-  ok(b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonn%C3%A9+Corydon+Talon.png"
-    || b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
+  deepEqual(b.searchImage, "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
 });
 
 test("dribble search.", function() {
@@ -131,4 +130,15 @@ test('URI malformed', function(){
 
 test('url with url after decodeURIComponent', function(){
   var sUrl = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM:;Yg7c9zL6WwfWBM;http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png;http://www.oldschoolpanini.com/2012/07/le-top-ten-des-sosies-de-la-bd-en.html;302;211";
+
+  var oUrl = new UrlParser(sUrl);
+  deepEqual(oUrl.searchImage, "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
+
+});
+
+test('url with imgrefurl and imgurl', function(){
+  var sUrl = "http://www.google.com/imgres?imgurl=http://clanfaw.free.fr/mozart_ico05.jpg&imgrefurl=http://www.musicologie.org/Biographies/mozart_w_a.html&h=594&w=480&sz=86&tbnid=RkGPN8qoumm4tM:&tbnh=110&tbnw=89&zoom=1&usg=__CiKyL_zVUr8CUhhV6c87spL8Los=&docid=iADuOnXDfa1vVM&sa=X&ei=_fC5UfXFD6bA7Abv8IHABg&ved=0CJcBEP4dMAs"
+  var oUrl = new UrlParser(sUrl);
+  deepEqual(oUrl.searchImage, "http://clanfaw.free.fr/mozart_ico05.jpg");
+  deepEqual(oUrl.dSearch['imgurl'], "http://clanfaw.free.fr/mozart_ico05.jpg");
 });
