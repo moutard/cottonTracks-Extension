@@ -14,10 +14,12 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
   _$reader : null,
   _bScrolled : null,
 
-  init : function(oHistoryItemDNA){
+  init : function(oHistoryItemDNA, iHistoryItemId, oDispatcher){
     var self = this;
 
     this._oHistoryItemDNA = oHistoryItemDNA;
+    this._oDispatcher = oDispatcher;
+    this._iHistoryItemId = iHistoryItemId;
 
     // current element
     this._$reader = $('<div class="ct-content_reader"></div>');
@@ -29,7 +31,28 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
         self._bScrolled = true;
       }
     });
-    ;
+
+    this._oDispatcher.subscribe('reader:expand', this, function(dArguments){
+      if (this._iHistoryItemId === dArguments['id']){
+        this.$().addClass('expanded');
+        this.fitToWindow();
+      }
+    });
+
+    this._oDispatcher.subscribe('reader:collapse', this, function(dArguments){
+      if (this._iHistoryItemId === dArguments['id']){
+        this.$().removeClass('expanded');
+        this.$().height(0);
+        this._$article.height(0);
+      }
+    });
+
+    $(window).resize(function(){
+      if (self.$().hasClass('expanded')){
+        self.fitToWindow();
+      }
+    });
+
     this.setReader();
     this._$top_shadow = $('<div class="ct-reader_shadow top"></div>');
     this._$bottom_shadow = $('<div class="ct-reader_shadow bottom"></div>');
@@ -75,6 +98,18 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
           self._$article.append($paragraph);
         }
       }
+    }
+  },
+
+  fitToWindow : function(){
+    if (this.$().hasClass('expanded')){
+      var sHeight = $(window).height();
+      // 150: height of a card
+      // 10: top and bottom margin in the window
+      // 40: height of the scrollbar
+      this.$().height(Math.min(sHeight - 150 - 10 - 10 - 40, 480));
+      // 10: added top and bottom margin in the reader
+      this._$article.height(Math.min(sHeight - 150 - 10 - 10 - 10 - 10 - 40, 460))
     }
   }
 
