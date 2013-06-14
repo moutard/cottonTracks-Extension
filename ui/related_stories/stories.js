@@ -18,7 +18,7 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
     this._$related_container = $('<div class="ct-related_container"></div>');
 
     this._oSearch = new Cotton.UI.RelatedStories.Search(oDispatcher);
-    this._$title = $('<h2>Related Stories</h2>');
+    this._$title = (lStories && lStories.length > 0) ? $('<h2>Related Stories</h2>') : $('<h2>no related stories...</h2>');
     this._$stories = $('<div class="ct-stories_result"></div>');
 
     this._$related_container.append(
