@@ -15,8 +15,8 @@ Cotton.UI.Story.Item.Video = Cotton.UI.Story.Item.Element.extend({
   _oItemFeaturedImage : null,
   _oToolBox : null,
 
-  init : function(sEmbedCode, sVideoType, oHistoryItem, oDispatcher) {
-    this._super(oHistoryItem, oDispatcher);
+  init : function(sEmbedCode, sVideoType, oHistoryItem, sActiveFilter, oDispatcher) {
+    this._super(oHistoryItem, sActiveFilter, oDispatcher);
 
     this.setType("video");
 

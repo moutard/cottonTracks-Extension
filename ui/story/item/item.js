@@ -17,10 +17,11 @@ Cotton.UI.Story.Item.Element = Class.extend({
   // sub elements.
   _$content : null,
 
-  init : function(oHistoryItem, oDispatcher) {
+  init : function(oHistoryItem, sActiveFilter, oDispatcher) {
     var self = this;
     this._oDispatcher = oDispatcher;
     this._oHistoryItem = oHistoryItem;
+    this._sActiveFilter = sActiveFilter;
     // current element.
     this._$item = $('<div class="ct-story_item" id="' + this._oHistoryItem.id() + '"></div>');
 
@@ -43,6 +44,10 @@ Cotton.UI.Story.Item.Element = Class.extend({
   setType : function(sType){
     this._sType = sType;
     this._$item.addClass(sType);
+    if (this._sActiveFilter && this._sActiveFilter !== '*'
+      && sType !== this._sActiveFilter.substring(1)){
+        this._$item.addClass('isotope-hidden');
+    }
     this._$content.addClass(sType);
   },
 
