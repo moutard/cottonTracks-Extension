@@ -37,6 +37,7 @@ Cotton.Model.BagOfWords = Class.extend({
    *  more important in this document.
    */
   setBag : function(dBag) {
+    this._dBag = {};
     for(var sKey in dBag) {
       this._dBag[sKey.toLowerCase()] = dBag[sKey];
     }
@@ -67,7 +68,8 @@ Cotton.Model.BagOfWords = Class.extend({
   },
 
   increaseWordScore : function(sWord, iScore) {
-    this._dBag[sWord.toLowerCase()] += iScore;
+    var iTempScore = this._dBag[sWord.toLowerCase()] || 0;
+    this._dBag[sWord.toLowerCase()] = iTempScore + iScore;
   },
 
   get : function() {
@@ -77,32 +79,23 @@ Cotton.Model.BagOfWords = Class.extend({
   /**
    * Return the words that have the highest score.
    * @param {Int} iNumberOfPreponderant:
-   *  number of words you want.
+   *  number of words you want. (3 by default)
    *  FIXME(rmoutard): seems really complicated for a simple function...
    */
   preponderant : function(iNumberOfPreponderant) {
+    iNumberOfPreponderant = iNumberOfPreponderant || 3;
+    var lPreponderant = [];
+    //TODO(rmoutard) : find a faster method.
+    _.each(_.pairs(this._dBag).sort(function(lPairA, lPairB){
+      // Sort by increasing order.
+      return lPairB[1] - lPairA[1];
+    }).slice(0, iNumberOfPreponderant), function(lPair){
+      lPreponderant.push(lPair[0]);
+    });
     var lSortedWordsByWeight = {};
     var iMaxWeight = 0;
 
-    for (var sKey in this._dBag) {
-      if (!lSortedWordsByWeight[this._dBag[sKey]]) {
-        lSortedWordsByWeight[this._dBag[sKey]] = [];
-        if (this._dBag[sKey] > iMaxWeight){
-          iMaxWeight = this._dBag[sKey];
-        }
-      }
-      lSortedWordsByWeight[this._dBag[sKey]].push(sKey);
-    }
-    if (iMaxWeight > 0){
-      var lPreponderant = lSortedWordsByWeight[iMaxWeight];
-      if (lSortedWordsByWeight[iMaxWeight-1]
-        && lSortedWordsByWeight[iMaxWeight-1].length > 0){
-          lPreponderant = lPreponderant.concat(lSortedWordsByWeight[iMaxWeight-1]);
-      }
-      return lPreponderant;
-    } else {
-      return [];
-    }
+    return lPreponderant;
   },
 
   size : function() {
@@ -115,6 +108,7 @@ Cotton.Model.BagOfWords = Class.extend({
     return iSize;
   },
 
+  //FIXME(rmoutard) rename maxScore to be coherent with others notation.
   maxWeight : function() {
     var iMaxWeight = 0;
     for (var word in this._dBag) {
@@ -130,6 +124,7 @@ Cotton.Model.BagOfWords = Class.extend({
    * about he weight.
    * @return {Array.<String>} list of all the words in the bag of words.
    */
+  //FIXME(rmoutard): rename words to be coherent.
   getWords : function() {
     return _.keys(this._dBag);
   }
