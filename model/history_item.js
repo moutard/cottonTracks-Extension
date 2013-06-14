@@ -32,7 +32,7 @@ Cotton.Model.HistoryItem = Cotton.DB.Model.extend({
     return {
       'id': undefined, // {Int} id: of the historyItem in the cotton database.
       'sUrl': undefined, // {String} url: of the page.
-      'sIitle': "", // {String} title: of the page.
+      'sTitle': "", // {String} title: of the page.
       'iLastVisitTime': undefined, // {Int} last time we visit this page.
       'iVisitCount': 1, // {Int} number of time we visit this page.
       'iStoryId': -1, // {Int} if is in a story, id of this story, -1 means UNCLASSIFIED.
