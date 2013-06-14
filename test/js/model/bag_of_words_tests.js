@@ -173,5 +173,5 @@ test("equal score preponderant.", function() {
 test("preponderant iNumberOfPreponderant by default.", function() {
   var oBagOfWords = new Cotton.Model.BagOfWords(dAliceBag);
   deepEqual(oBagOfWords.preponderant(),
-    ['caroll', 'wonderland']);
+    ['caroll', 'wonderland', 'lewis']);
 });
