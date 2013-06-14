@@ -28,20 +28,40 @@ Cotton.Model.BagOfWords = Class.extend({
     if (dBag) this.setBag(dBag);
   },
 
-  setBag : function(dBag){
-    for(var sKey in dBag){
+  /**
+   * Remove and replace the bag of words by the given one, but ensure
+   * that all the words are lowsercase.
+   * @param {Dictionnary} dBag:
+   *  - key: {String} word
+   *  - value: {Float} score of the word. Bigger means that this word is
+   *  more important in this document.
+   */
+  setBag : function(dBag) {
+    for(var sKey in dBag) {
       this._dBag[sKey.toLowerCase()] = dBag[sKey];
     }
   },
 
+  /**
+   *  Add a word expect if this words already exists in this case the max
+   *  value score is saved.
+   * @param {String} sWord:
+   *    word you want to add in the bag of words.
+   * @param {Int} iScore:
+   *    score attached to it's words. If score is not specified it becomes
+   */
   addWord : function(sWord, iScore) {
-    if (!this._dBag[sWord.toLowerCase()] || this._dBag[sWord.toLowerCase()] < iScore){
+    if (!this._dBag[sWord.toLowerCase()] || this._dBag[sWord.toLowerCase()] < iScore) {
       this._dBag[sWord.toLowerCase()] = iScore;
     }
   },
 
+  /**
+   * @param {Dictionnary} dBagOfWords:
+   *  given a bag of words as a dictionnary, merges it with the current one.
+   */
   mergeBag : function(dBagOfWords) {
-    for (var sWord in dBagOfWords){
+    for (var sWord in dBagOfWords) {
       this.addWord(sWord, dBagOfWords[sWord]);
     }
   },
@@ -54,12 +74,18 @@ Cotton.Model.BagOfWords = Class.extend({
     return this._dBag;
   },
 
-  preponderant : function(iNumberOfPreponderant){
+  /**
+   * Return the words that have the highest score.
+   * @param {Int} iNumberOfPreponderant:
+   *  number of words you want.
+   *  FIXME(rmoutard): seems really complicated for a simple function...
+   */
+  preponderant : function(iNumberOfPreponderant) {
     var lSortedWordsByWeight = {};
     var iMaxWeight = 0;
 
-    for (var sKey in this._dBag){
-      if (!lSortedWordsByWeight[this._dBag[sKey]]){
+    for (var sKey in this._dBag) {
+      if (!lSortedWordsByWeight[this._dBag[sKey]]) {
         lSortedWordsByWeight[this._dBag[sKey]] = [];
         if (this._dBag[sKey] > iMaxWeight){
           iMaxWeight = this._dBag[sKey];
@@ -79,18 +105,20 @@ Cotton.Model.BagOfWords = Class.extend({
     }
   },
 
-  size : function(){
+  size : function() {
+    // TODO(rmoutard): use keys property
+    // http://stackoverflow.com/questions/126100/how-to-efficiently-count-the-number-of-keys-properties-of-an-object-in-javascrip
     var iSize = 0;
-    for (var word in this._dBag){
+    for (var word in this._dBag) {
       iSize++;
     }
     return iSize;
   },
 
-  maxWeight : function(){
+  maxWeight : function() {
     var iMaxWeight = 0;
-    for (var word in this._dBag){
-      if (this._dBag[word] > iMaxWeight){
+    for (var word in this._dBag) {
+      if (this._dBag[word] > iMaxWeight) {
         iMaxWeight = this._dBag[word];
       }
     }
@@ -102,7 +130,8 @@ Cotton.Model.BagOfWords = Class.extend({
    * about he weight.
    * @return {Array.<String>} list of all the words in the bag of words.
    */
-  getWords: function(){
+  getWords : function() {
     return _.keys(this._dBag);
   }
+
 });
