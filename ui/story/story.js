@@ -68,7 +68,7 @@ Cotton.UI.Story.Element = Class.extend({
     });
 
     // Delete element
-    this._oDispatcher.subscribe("item:delete", this, function(dArguments){
+    this._oDispatcher.subscribe("database:item_deleted", this, function(dArguments){
       for (var i = 0, iLength = self._lDOMItems.length; i < iLength; i++){
         var $item = self._lDOMItems[i];
         if ($item.attr('id') == dArguments['id']){
