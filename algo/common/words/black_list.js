@@ -44,12 +44,17 @@ Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
 };
 
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
-  var oRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
+  var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
+  var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
   var oSplitRegExp = /[\ \,\-\|\(\)\']/g;
   var dExpressions = {};
   for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
-    if (dChromeHistoryItem['title'].match(oRegexp)){
-      var lExpressions = dChromeHistoryItem['title'].match(oRegexp);
+    var lEndPattern = dChromeHistoryItem['title'].match(oEndRegexp);
+    var lStartPattern = dChromeHistoryItem['title'].match(oStartRegexp);
+    if (lEndPattern || lStartPattern){
+      lEndPattern = lEndPattern || [];
+      lStartPattern = lStartPattern || [];
+      var lExpressions = lEndPattern.concat(lStartPattern);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++){
         var oUrl = new UrlParser(dChromeHistoryItem['url']);
         var sAccentTidy = accentTidy(sExpression);
