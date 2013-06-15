@@ -45,15 +45,25 @@ Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
 
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
   var oRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
+  var oSplitRegExp = /[\ \,\-\|\(\)\']/g;
   var dExpressions = {};
   for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++){
-    if(dChromeHistoryItem['title'].match(oRegexp)){
+    if (dChromeHistoryItem['title'].match(oRegexp)){
       var lExpressions = dChromeHistoryItem['title'].match(oRegexp);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++){
-        if (dExpressions[sExpression]){
-          dExpressions[sExpression] += dChromeHistoryItem['visitCount'];
-        } else {
-          dExpressions[sExpression] = dChromeHistoryItem['visitCount'];
+        var oUrl = new UrlParser(dChromeHistoryItem['url']);
+        var sAccentTidy = accentTidy(sExpression);
+        var lAccentTidyWords = sAccentTidy.split(oSplitRegExp).filter(
+          function(sWord, lArray){return sWord.length > 3});
+        for (var k=0, sWord; sWord = lAccentTidyWords[k]; k++){
+          if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ){
+            if (dExpressions[sExpression]){
+              dExpressions[sExpression] += dChromeHistoryItem['visitCount'];
+            } else {
+              dExpressions[sExpression] = dChromeHistoryItem['visitCount'];
+            }
+            break;
+          }
         }
       }
     }
