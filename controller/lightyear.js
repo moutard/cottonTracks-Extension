@@ -425,7 +425,9 @@ Cotton.Controllers.Lightyear = Class.extend({
   deleteItem : function(sHistoryItemId){
     var self = this;
     Cotton.DB.Stories.removeHistoryItemInStory(
-      self._oDatabase, self._oStory.id(), sHistoryItemId);
+      self._oDatabase, self._oStory.id(), sHistoryItemId, function(){
+        self._oDispatcher.publish('database:item_deleted',{'id':sHistoryItemId});
+      });
   },
 
   recycleItem : function(sHistoryItemId){
