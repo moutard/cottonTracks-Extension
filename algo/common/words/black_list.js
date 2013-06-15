@@ -67,4 +67,5 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
   DEBUG && console.debug(Cotton.Algo.Common.Words.BlacklistExpressions);
   localStorage.setItem(
     'blacklist-expressions',JSON.stringify(Cotton.Algo.Common.Words.BlacklistExpressions));
+  return(Cotton.Algo.Common.Words.BlacklistExpressions)
 };
