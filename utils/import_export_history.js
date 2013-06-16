@@ -20,7 +20,7 @@ Cotton.Utils.exportHistory = function(mCallBack) {
 Cotton.Utils.importHistory = function(sHistoryBlob) {
   var oHistory = JSON.parse(sHistoryBlob);
 
-   chrome.extension.sendMessage({
+   chrome.runtime.sendMessage({
       'action': 'import_history',
       'params': {
         'history': oHistory

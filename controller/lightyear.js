@@ -220,7 +220,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         "url" : dArguments['url'],
         "active" : false
       }, function(tab){
-        chrome.extension.sendMessage({
+        chrome.runtime.sendMessage({
           'action': "get_content_tab",
           'params': {
             'tab_id': tab['id']
@@ -391,7 +391,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 
 
     // Message listening from background page for getContent
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse){
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
       if (request['action'] === 'refresh_item'){
         self.recycleItem(request['params']['itemId']);
         self.recycleMenu();

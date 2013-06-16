@@ -96,7 +96,7 @@
          */
         _publishResults : function() {
           var self = this;
-          chrome.extension.sendMessage({
+          chrome.runtime.sendMessage({
             'parsing': 'end',
             'results': {
               'meaningful': self._lAllParagraphs,
@@ -110,7 +110,7 @@
          *
          */
         _publishStart : function() {
-          chrome.extension.sendMessage({
+          chrome.runtime.sendMessage({
             'parsing': 'start'
           });
         },

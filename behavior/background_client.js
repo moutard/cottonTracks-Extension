@@ -59,7 +59,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(oItem);
 
-   chrome.extension.sendMessage({
+   chrome.runtime.sendMessage({
       'action' : 'create_history_item',
       'params' : {
         'historyItem' : dDbRecord
@@ -113,7 +113,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
     } else {
-      chrome.extension.sendMessage({
+      chrome.runtime.sendMessage({
         'action' : 'update_history_item',
         'params' : {
           'historyItem' : dDbRecord,
