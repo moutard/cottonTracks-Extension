@@ -19,7 +19,7 @@ test('init.', function(){
 });
 
 async('send a message', function(){
-  chrome.extension.sendMessage({
+  chrome.runtime.sendMessage({
     'action': 'fake_action'
   }, function(oResponse) {
       //The historyItem url was not in base, init this one with the new id created

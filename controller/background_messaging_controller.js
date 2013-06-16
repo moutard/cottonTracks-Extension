@@ -225,7 +225,7 @@ Cotton.Controllers.Messaging = Class.extend({
           }
           if (self._oMainController._dGetContentTabId[sender.tab.id]){
             self._oMainController.removeGetContentTab(sender.tab.id);
-            chrome.extension.sendMessage({
+            chrome.runtime.sendMessage({
               'action': 'refresh_item',
               'params': {
                 'itemId': iId

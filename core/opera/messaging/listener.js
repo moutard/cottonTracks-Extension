@@ -13,7 +13,7 @@ Cotton.Core.Listener = Class.extend({
 
   listen : function(sAction, mCallback) {
     this._ActionsListened.push(sAction);
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       if(request['action'] === sAction){
         mCallback(request, sender, sendResponse);
       }
