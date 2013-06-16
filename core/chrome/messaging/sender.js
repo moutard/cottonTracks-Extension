@@ -13,7 +13,7 @@ Cotton.Core.Sender = Class.extend({
    * Bind the chrome send message function.
    */
   sendMessage : function(dMessage, mCallback) {
-    chrome.extension.sendMessage(dMessage, mCallback);
+    chrome.runtime.sendMessage(dMessage, mCallback);
   }
 
 });

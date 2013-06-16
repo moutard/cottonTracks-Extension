@@ -4,15 +4,15 @@
  * Content Script Listener
  *
  * Instance host by background.html Listen all the messages send by content
- * scripts (i.e. scritps injected directly in the page.
+ * scripts (i.e. scripts injected directly in the page.
  *
  * See below page for more informations.
  * http://code.google.com/chrome/extensions/messaging.html
  */
 
 /**
- * onRequest : link with the chrome API method
- * chrome.extension.onRequest.addListener
+ * onMessage : link with the chrome API method
+ * chrome.runtime.onMessage.addListener
  *
  * Called when a message is passed by a content script.
  */
@@ -26,7 +26,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     self._oMainController = oMainController;
 
     // Listen all the messages sent to the background page.
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       if (!self._oMainController._bReadyForMessaging){
         // install is not finished, do nothing
       } else if (sender.tab.index === -1){

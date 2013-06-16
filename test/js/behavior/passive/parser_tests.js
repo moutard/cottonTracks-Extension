@@ -13,7 +13,7 @@ module(
 );
 
 // Shortcut for extension messages
-var oMessaging = chrome.extension.onMessage;
+var oMessaging = chrome.runtime.onMessage;
 // Results container object
 var oAllResults = [];
 
