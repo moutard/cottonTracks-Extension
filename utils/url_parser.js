@@ -8,7 +8,8 @@ function UrlParser(sUrl) {
   // attributes
   var href, protocol, host, hostname, port, pathname, hash, search, dHash, dSearch;
 
-  sUrl = decodeURIComponent(sUrl);
+  //escape twice because / becomes %2F and % becomes %25 so / becomes %252F
+  sUrl = escape(escape(sUrl));
   this.href = sUrl;
 
   // split the URL by single-slashes to get the component parts
