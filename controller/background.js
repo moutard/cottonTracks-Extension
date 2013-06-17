@@ -102,6 +102,10 @@ Cotton.Controllers.Background = Class.extend({
         });
     });
 
+    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+      //wake up
+    });
+
     chrome.browserAction.onClicked.addListener(function() {
       self.takeScreenshot();
       self._iTriggerHistoryItem = -1;
