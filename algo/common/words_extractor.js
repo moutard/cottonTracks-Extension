@@ -81,7 +81,7 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
  * @returns {Array.<string>}
  */
 Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
-  var oRegexp = /\_|\-|\/|\%20|\;|\.|asp$|php$|html$|htm$|jpg$|png$|jpeg$|pdf$|gif$/ig;
+  var oRegexp = /\_|\-|\/|\%20|\ |\;|\.|asp$|php$|html$|htm$|jpg$|png$|jpeg$|pdf$|gif$/ig;
   var lMatches = sUrlPathname.split(oRegexp) || [];
 
   return Cotton.Algo.Tools.StrongFilter(lMatches);
