@@ -42,12 +42,7 @@ function UrlParser(sUrl) {
   // HASH
   // extract any hash - delimited by '#' -
   this.pathname = this.pathname.split('#');
-  if(parts[0]){
-    this.hash = parts[0].split('#')[1] || "";
-  } else {
-    this.hash = '';
-  }
-
+  this.hash = this.pathname[1] || "";
 
   this.pathname = this.pathname[0];
 
@@ -167,7 +162,7 @@ UrlParser.prototype.imageSearchPreviewSource = function() {
     this.fineDecomposition();
   }
   if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_"){
-    var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
+    var sUnescaped = unescape(unescape(this.dHash['imgrc']));
     this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
   } else if (this.dSearch['imgurl']){
     this.searchImage = this.dSearch['imgurl'];
