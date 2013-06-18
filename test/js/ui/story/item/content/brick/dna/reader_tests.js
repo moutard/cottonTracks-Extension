@@ -13,7 +13,8 @@ test("init.", function() {
   var oHistoryItemDna = new Cotton.Model.HistoryItemDNA({
     'lQueryWords': [],
   });
-  var oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(oHistoryItemDna);
+  var oDispatcher = new MockDispatcher();
+  var oReader = new Cotton.UI.Story.Item.Content.Brick.Dna.Reader(oHistoryItemDna, 1, oDispatcher);
   ok(oReader);
 });
 
