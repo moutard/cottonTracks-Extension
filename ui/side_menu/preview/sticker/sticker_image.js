@@ -60,7 +60,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Image = Class.extend({
   },
 
   recycle : function(sImage) {
-    sImage = decodeURIComponent(sImage);
+    sImage = unescape(unescape(sImage));
     this._$stickerImageContainer.addClass('plain');
     this._$stickerImage.attr('src', sImage);
     // Resize sticker image to fit its container.
