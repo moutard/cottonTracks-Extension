@@ -5,9 +5,9 @@ module('Cotton.UI.SideMenu.Preview.Sticker.Element', {
 });
 
 test('init.', function() {
-  var oDispacher = new MockDispacher();
+  var oDispatcher = new MockDispatcher();
   var oStory = new Cotton.Model.Story();
   var oStickerElement = new Cotton.UI.SideMenu.Preview.Sticker.Element(
-    oStory, oDispacher);
+    oStory, oDispatcher);
   ok(oStickerElement);
 });
