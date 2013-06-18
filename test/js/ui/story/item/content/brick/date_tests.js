@@ -16,7 +16,10 @@ test("init.", function(){
 
 test("init.", function(){
   var oTitle = new Cotton.UI.Story.Item.Content.Brick.Date(1363655245708);
-  equal(oTitle._$date.text(), '18 March - 10:07 pm');
+  var date = new Date(1363655245708);
+  var iHours = date.getHours() % 12;
+  var sWrittenDate = '18 March - ' + iHours + ':' + '0' + date.getMinutes() + ' pm';
+  equal(oTitle._$date.text(), sWrittenDate);
 });
 
 
