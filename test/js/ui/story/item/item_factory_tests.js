@@ -12,7 +12,9 @@ test('init.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
 });
 
@@ -24,7 +26,9 @@ test('create a item article.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
   ok(oItem._sType, "article");
 });
@@ -37,7 +41,9 @@ test('create a item image.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
   ok(oItem._sType, "image");
 });
@@ -50,7 +56,9 @@ test('create a item map.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
   ok(oItem._sType, "map");
 });
@@ -63,7 +71,9 @@ test('create a item search.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
   ok(oItem._sType, "search");
 });
@@ -76,7 +86,9 @@ test('create a item video', function() {
     'oExtractedDNA' : {}
   });
 
-  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+
+  var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem, '*', oDispatcher);
   ok(oItem);
   ok(oItem._sType, "video");
 });

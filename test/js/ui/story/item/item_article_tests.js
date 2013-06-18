@@ -11,6 +11,7 @@ test('init.', function() {
     'iLastVisitTime' : 1363648480386,
     'oExtractedDNA' : {}
   });
-  var oItem = new Cotton.UI.Story.Item.Article(oHistoryItem);
+  var oDispatcher = new MockDispatcher();
+  var oItem = new Cotton.UI.Story.Item.Article(oHistoryItem, "*", oDispatcher);
   ok(oItem);
 });
