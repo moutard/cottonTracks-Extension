@@ -12,9 +12,9 @@ test('init.', function() {
     'oExtractedDNA' : {}
   });
 
-  var oDispacher = new MockDispacher();
+  var oDispatcher = new MockDispatcher();
   var oItem = new Cotton.UI.Story.Item.Video("g0lbfEb8MMk","youtube",
-    oHistoryItem, oDispacher);
+    oHistoryItem, "*", oDispatcher);
   ok(oItem);
 });
 
@@ -26,9 +26,9 @@ test('check sVideo parameters', function() {
     'oExtractedDNA' : {}
   });
 
-  var oDispacher = new MockDispacher();
+  var oDispatcher = new MockDispatcher();
   var oItem = new Cotton.UI.Story.Item.Video("g0lbfEb8MMk","youtube",
-    oHistoryItem, oDispacher);
+    oHistoryItem, "*", oDispatcher);
   equal(oItem._oVideo._sVideoType, "youtube");
 });
 
