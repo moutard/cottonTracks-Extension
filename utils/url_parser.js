@@ -9,7 +9,7 @@ function UrlParser(sUrl) {
   var href, protocol, host, hostname, port, pathname, hash, search, dHash, dSearch;
 
   //escape twice because / becomes %2F and % becomes %25 so / becomes %252F
-  sUrl = escape(escape(sUrl));
+  sUrl = unescape(unescape(sUrl));
   this.href = sUrl;
 
   // split the URL by single-slashes to get the component parts
