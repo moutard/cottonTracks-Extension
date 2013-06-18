@@ -117,7 +117,7 @@ UrlParser.prototype.generateKeywords = function() {
 
   // keywords can be separate by '+' or ' '
   // in a url caracters are escape so '+' of '%20'
-  var oSplitKeywordsRegExp = new RegExp('%20|\\+', 'g');
+  var oSplitKeywordsRegExp = /%20|\ |\+/g;
   if (this.dHash['q'] !== undefined) {
     this.keywords = this.keywords.concat(this.dHash['q']
         .split(oSplitKeywordsRegExp));
@@ -128,7 +128,7 @@ UrlParser.prototype.generateKeywords = function() {
 
   // lower Case
   for ( var j = 0, iLength = this.keywords.length; j < iLength; j++) {
-    this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
+    this.keywords[j] = unescape(unescape(this.keywords[j])).toLowerCase();
   }
 
 };
@@ -150,7 +150,7 @@ UrlParser.prototype.generateLinkedInKeywords = function() {
   }
   // lower Case
   for ( var j = 0, iLength = this.keywords.length; j < iLength; j++) {
-    this.keywords[j] = decodeURIComponent(this.keywords[j]).toLowerCase();
+    this.keywords[j] = unescape(unescape(this.keywords[j])).toLowerCase();
   }
 };
 
