@@ -64,8 +64,8 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'story', 'scroll']);
    },
 
-  editStoryTitle : function() {
-    _gaq.push(['_trackEvent', 'story', 'edit_title', 'story_title']);
+  editStoryTitle : function(sRenameMedium) {
+    _gaq.push(['_trackEvent', 'story', 'edit_title', sRenameMedium]);
   },
 
   // Item tracking
@@ -110,6 +110,7 @@ Cotton.Analytics = Class.extend({
   changeStory : function() {
     _gaq.push(['_trackEvent', 'related', 'change_story', 'related_sticker']);
   }
+
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();

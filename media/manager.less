@@ -93,6 +93,12 @@
       box-shadow: 0px 0px 5px rgba(0,0,0,0.75);
       cursor: pointer;
 
+      &:hover{
+        > .ct-sticker_toolbox{
+          top: -35px;
+        }
+      }
+
       > .ct-story_image {
         position: relative;
         width: 100%;
@@ -106,10 +112,34 @@
 	      }
 
         > .resize {
-	  		   display: none;
-	  		   position: absolute;
-	  		  }
+	  		  display: none;
+	  		  position: absolute;
+	  		}
+      }
+
+      > .ct-sticker_toolbox {
+    	  position: relative;
+        height: 35px;
+        width: 202px;
+      	padding-left: 10px;
+      	padding-right: 10px;
+        background-color: #5bab7d;
+        -webkit-transition: top  0.2s;
+        -webkit-transition-delay: 0.2s;
+
+        p {
+          width: 101px;
+          height: 15px;
+          margin: 0;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 14px;
+          color: white;
+          float: left;
+          text-align: center;
+          cursor: pointer;
         }
+      }
 
       > .ct-sticker_infos {
         position: absolute;

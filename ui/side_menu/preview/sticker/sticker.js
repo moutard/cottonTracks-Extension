@@ -29,19 +29,26 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 
 	  this._$sticker = $('<div class="ct-sticker"></div>');
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
-	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(), oDispatcher,
-	    sTypeOfSticker, oStory.historyItemsId().length);
+	  this._oStickerToolbox = new Cotton.UI.SideMenu.Preview.Sticker.Toolbox(oStory.id(), this, this._oDispatcher);
+	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(),
+  	  oStory.id(), oDispatcher,sTypeOfSticker, oStory.historyItemsId().length);
 
     if (sTypeOfSticker === "relatedStory"){
-  	  this._$sticker.click(function(){
-  	    Cotton.ANALYTICS.changeStory();
-        self.enterStory(self._oStory.id());
+  	  this._$sticker.click(function(e){
+  	    if (e.target !== self._oStickerToolbox.$()[0]
+  	      && e.target !== self._oStickerToolbox.deleteButton()[0]
+  	      && e.target !== self._oStickerToolbox.renameButton()[0]
+  	      && e.target !== self._oStickerInfos.title()[0]){
+  	        Cotton.ANALYTICS.changeStory();
+            self.enterStory(self._oStory.id());
+  	    }
       });
     }
 
     // Construct element.
 	  this._$sticker.append(
 	    this._oStickerImage.$(),
+	    this._oStickerToolbox.$(),
 	    this._oStickerInfos.$()
 	  );
 
@@ -66,6 +73,16 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   enterStory : function(iStoryId){
     this._oDispatcher.publish('enter_story', {'story_id': iStoryId});
   },
+
+  editTitle : function(){
+    this._oStickerInfos.editTitle();
+  },
+
+  hide : function(){
+    this.$().hide(400, function(){
+      self.$().addClass('hidden')
+    });
+  }
 
 
 });
