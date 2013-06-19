@@ -36,6 +36,11 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
         e.preventDefault();
       }
     });
+    self._oDispatcher.subscribe("edit_title", this, function(dArguments){
+      if (dArguments['id'] === iStoryId){
+        self.changeTitle(dArguments['title']);
+      }
+    });
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
     //Count details
@@ -74,6 +79,10 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 
   editTitle : function() {
     this._$stickerTitle.focus();
+  },
+
+  changeTitle : function(sTitle) {
+    this._$stickerTitle.text(sTitle);
   }
 
 });
