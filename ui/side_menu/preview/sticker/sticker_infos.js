@@ -15,7 +15,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
   _$stickerTitle : null,
   _$stickerDetails : null,
 
-  init: function(sStoryTitle, oDispatcher, sTypeOfSticker, iNumberOfItems){
+  init: function(sStoryTitle, iStoryId, oDispatcher, sTypeOfSticker, iNumberOfItems){
     var self = this;
 	  this._oDispatcher = oDispatcher;
 	  this._iNumberOfItems = iNumberOfItems;
@@ -24,18 +24,18 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
 
     // Sub elements.
-	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(sStoryTitle);
-    if (sTypeOfSticker === "currentStory"){
-      this._$stickerTitle.attr('contenteditable','true').blur(function(){
-        Cotton.ANALYTICS.editStoryTitle();
-        self._oDispatcher.publish("edit_title", {"title": $(this).text()});
-      }).keypress(function(e){
-        if (e.which === 13){
-          $(this).blur();
-          e.preventDefault();
-        }
-      });
-    }
+	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(sStoryTitle).click(function(){
+	    Cotton.ANALYTICS.editStoryTitle('story_title');
+    });
+
+    this._$stickerTitle.attr('contenteditable','true').blur(function(){
+      self._oDispatcher.publish("edit_title", {"title": $(this).text(), "id": iStoryId});
+    }).keypress(function(e){
+      if (e.which === 13){
+        $(this).blur();
+        e.preventDefault();
+      }
+    });
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
     //Count details
@@ -66,6 +66,14 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 
   $ : function() {
 	  return this._$stickerInfos;
+  },
+
+  title : function() {
+    return this._$stickerTitle;
+  },
+
+  editTitle : function() {
+    this._$stickerTitle.focus();
   }
 
 });
