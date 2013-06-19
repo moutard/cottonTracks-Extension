@@ -747,6 +747,54 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   },
 
   /**
+   * getFirst :
+   *
+   * the first item sorted by sIndexKey.
+   *
+   * @param {string}
+   *          sObjectStoreName : Object store name
+   * @param {string}
+   *          sIndexKey : name of the index used for sorting
+   * @param {function}
+   *          mResultElementCallback : callback function
+   *
+   * @return the call back function return an dDBRecord element.
+   */
+  getFirst : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define Index.
+    var oIndex = oStore.index(sIndexKey);
+
+    var oCursorRequest = oIndex.openCursor(null, "next");
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+    };
+
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getFirst";
+    };
+
+
+  },
+
+  /**
    * getXItems :
    *
    * get X items in a given direction

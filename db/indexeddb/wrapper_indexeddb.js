@@ -238,6 +238,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
+  getFirst: function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.getFirst(sObjectStoreName, sIndexKey, function(oResult) {
+
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
+
   getXItems: function(sObjectStoreName, iX, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;
