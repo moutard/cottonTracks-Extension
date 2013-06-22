@@ -68,6 +68,10 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'story', 'edit_title', sRenameMedium]);
   },
 
+  deleteStory : function() {
+    _gaq.push(['_trackEvent', 'story', 'delete_story']);
+  },
+
   // Item tracking
   openItem : function(sItemType, sTrigger) {
     _gaq.push(['_trackEvent', sItemType, 'open', sTrigger]);
