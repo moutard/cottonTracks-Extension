@@ -21,6 +21,13 @@ Cotton.UI.SideMenu.Preview.Sticker.Toolbox = Class.extend({
     this._$rename = $('<p>Rename</p>');
     this._$delete = $('<p>Delete</p>');
 
+    this._$delete.click(function(){
+      self._oDispatcher.publish('story:delete', {
+        'id': iStoryId
+      });
+      Cotton.ANALYTICS.deleteStory();
+    });
+
     this._$rename.click(function(){
       self._oSticker.editTitle();
       Cotton.ANALYTICS.editStoryTitle('sticker_toolbox');

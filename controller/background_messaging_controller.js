@@ -265,6 +265,10 @@ Cotton.Controllers.Messaging = Class.extend({
     this._oMainController.setOtherStories(function(){
       sendResponse({'stories_in_tabs_id': self._oMainController._lStoriesInTabsId});
     });
+  },
+
+  'delete_main_story': function(sendResponse){
+    this._oMainController.setTriggerStory(null);
   }
 
 });

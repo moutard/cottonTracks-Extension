@@ -45,6 +45,22 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
       });
     }
 
+    this._oDispatcher.subscribe('story:deleted', this, function(dArguments){
+      if (dArguments['id'] === this._oStory.id()){
+        if (sTypeOfSticker === 'relatedStory'){
+          this.hide();
+        } else {
+          self._oDispatcher.publish('open_manager');
+        }
+      }
+    });
+
+    if (sTypeOfSticker !== 'relatedStory'){
+      this._oDispatcher.subscribe('enter_story', this, function(dArguments){
+        this._oDispatcher.unsubscribe('story:deleted', this);
+      });
+    }
+
     // Construct element.
 	  this._$sticker.append(
 	    this._oStickerImage.$(),
