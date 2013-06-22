@@ -394,7 +394,21 @@ Cotton.Controllers.Lightyear = Class.extend({
         }
       });
     });
+
+    this._oDispatcher.subscribe('story:delete', this, function(dArguments){
+      var bMainStory = dArguments['id'] === self._iStoryId;
+      self._oDatabase.delete('stories', dArguments['id'], function(){
+        self._oDispatcher.publish('story:deleted', {
+          'id': dArguments['id'],
+          'main_story': bMainStory
+        });
       });
+      if (dArguments['id'] === self._iStoryId){
+        self._iStoryId = null;
+        self._oSender.sendMessage({
+          'action': 'delete_main_story',
+        }, function(response){});
+      }
     });
 
 

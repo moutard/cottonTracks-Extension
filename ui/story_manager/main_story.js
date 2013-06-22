@@ -12,6 +12,14 @@ Cotton.UI.StoryManager.MainStory = Class.extend({
     this._$main_story_infos = $('<div class="ct-story_infos"></div>');
     this._$https_title = $('<h2>https pages are not parsed by cottonTracks. (a whitelisting feature will be implemented in the future)<br>You can still explore your stories from other tabs or use the search tool</h2>')
     this.placeStory(oStory, oHistoryItem);
+
+    this._oDispatcher.subscribe('story:deleted', this, function(dArguments){
+      if (dArguments['main_story']){
+        this._$main_story.hide(200, function(){
+          $(this).addClass('hidden');
+        });
+      }
+    });
   },
 
   $: function(){
