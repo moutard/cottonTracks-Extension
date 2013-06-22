@@ -368,6 +368,7 @@ Cotton.Controllers.Lightyear = Class.extend({
           oRelated.setTitle(dArguments['title']);
         }
       }
+      self._oStory.setTitle(dArguments['title']);
     });
 
     this._oDispatcher.subscribe('get_more_all_stories', this, function(dArguments){
