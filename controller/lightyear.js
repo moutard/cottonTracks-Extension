@@ -400,7 +400,8 @@ Cotton.Controllers.Lightyear = Class.extend({
       self._oDatabase.delete('stories', dArguments['id'], function(){
         self._oDispatcher.publish('story:deleted', {
           'id': dArguments['id'],
-          'main_story': bMainStory
+          'main_story': bMainStory,
+          'bOpenStorySticker': dArguments['bOpenStorySticker']
         });
       });
       if (dArguments['id'] === self._iStoryId){

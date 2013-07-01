@@ -9,7 +9,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Toolbox = Class.extend({
   _$rename: null,
   _$delete: null,
 
-  init : function(iStoryId, oSticker, oDispatcher){
+  init : function(iStoryId, oSticker, sTypeOfSticker, oDispatcher){
     var self = this;
     this._oSticker = oSticker;
     this._oDispatcher = oDispatcher;
@@ -23,7 +23,8 @@ Cotton.UI.SideMenu.Preview.Sticker.Toolbox = Class.extend({
 
     this._$delete.click(function(){
       self._oDispatcher.publish('story:delete', {
-        'id': iStoryId
+        'id': iStoryId,
+        'bOpenStorySticker': sTypeOfSticker !== "relatedStory"
       });
       Cotton.ANALYTICS.deleteStory();
     });
