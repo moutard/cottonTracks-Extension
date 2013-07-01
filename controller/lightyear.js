@@ -404,6 +404,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         });
       });
       if (dArguments['id'] === self._iStoryId){
+        // tell background that the current main story has been deleted
         self._iStoryId = null;
         self._oSender.sendMessage({
           'action': 'delete_main_story',
