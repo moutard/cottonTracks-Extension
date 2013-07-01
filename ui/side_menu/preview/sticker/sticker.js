@@ -29,7 +29,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 
 	  this._$sticker = $('<div class="ct-sticker"></div>');
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
-	  this._oStickerToolbox = new Cotton.UI.SideMenu.Preview.Sticker.Toolbox(oStory.id(), this, this._oDispatcher);
+	  this._oStickerToolbox = new Cotton.UI.SideMenu.Preview.Sticker.Toolbox(oStory.id(), this, sTypeOfSticker, this._oDispatcher);
 	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(),
   	  oStory.id(), oDispatcher,sTypeOfSticker, oStory.historyItemsId().length);
 
@@ -48,8 +48,10 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
     this._oDispatcher.subscribe('story:deleted', this, function(dArguments){
       if (dArguments['id'] === this._oStory.id()){
         if (sTypeOfSticker === 'relatedStory'){
+          // stickers in related or manager
           this.hide();
-        } else {
+        } else if(dArguments['bOpenStorySticker']) {
+          // sticker in open story AND the story has been deleted from the open story
           self._oDispatcher.publish('open_manager');
         }
       }
