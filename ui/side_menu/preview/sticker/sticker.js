@@ -95,8 +95,9 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   },
 
   hide : function(){
-    this.$().hide(400, function(){
-      self.$().addClass('hidden')
+    var self = this;
+    this._$sticker.hide(400, function(){
+      self._$sticker.addClass('hidden');
     });
   }
 
