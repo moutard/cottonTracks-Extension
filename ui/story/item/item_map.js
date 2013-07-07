@@ -26,7 +26,7 @@ Cotton.UI.Story.Item.Map = Cotton.UI.Story.Item.Element.extend({
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(
       sMapUrl, oDispatcher, this, 'large');
 
-    var sEmbedUrl = oHistoryItem.url() + "&output=embed&iwloc=near";
+    var sEmbedUrl = sMapUrl + "&output=embed&iwloc=near";
     this._$map.attr('src', sEmbedUrl);
 
     // create the item
