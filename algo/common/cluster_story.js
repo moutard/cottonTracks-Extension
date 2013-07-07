@@ -129,6 +129,18 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
               .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
               "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps") {
+        	//Google maps
+          lStories[lHistoryItems[j]['clusterId']]
+              .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
+              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
+          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
+        	//Google maps
+          lStories[lHistoryItems[j]['clusterId']]
+              .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dHash['!q'] +
+              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dHash['!q']);
+          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (lHistoryItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(lHistoryItems[j]['oExtractedDNA']['sImageUrl']);
