@@ -59,9 +59,17 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, sActiveFilter, oDispatcher
     return new Cotton.UI.Story.Item.Map(sMapUrl, oHistoryItem, sActiveFilter, oDispatcher);
   } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
     oUrl.fineDecomposition();
-    var sMapUrl = "https://www.google.com/maps?q=" + oUrl.dHash['!q'];
-    return new Cotton.UI.Story.Item.Map(sMapUrl, oHistoryItem, sActiveFilter, oDispatcher);
-  }  else if (oUrl.dSearch['q']) {
+    if (oUrl.dSearch['q']){
+      var sMapUrl = "https://www.google.com/maps?q=" + oUrl.dSearch['q'];
+      return new Cotton.UI.Story.Item.Map(sMapUrl, oHistoryItem, sActiveFilter, oDispatcher);
+    } else if (oUrl.dHash['!q']){
+      var sMapUrl = "https://www.google.com/maps?q=" + oUrl.dHash['!q'];
+      return new Cotton.UI.Story.Item.Map(sMapUrl, oHistoryItem, sActiveFilter, oDispatcher);
+    } else {
+      // Default
+      return new Cotton.UI.Story.Item.Article(oHistoryItem, sActiveFilter, oDispatcher);
+    }
+  } else if (oUrl.dSearch['q']) {
     // Search
     return new Cotton.UI.Story.Item.Search(oHistoryItem, sActiveFilter, oDispatcher);
     //TODO(rkorach) : include slideshare
