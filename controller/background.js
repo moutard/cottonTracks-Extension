@@ -219,6 +219,7 @@ Cotton.Controllers.Background = Class.extend({
     Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
       function(oDatabase, lStories){
         if (lStories.length > 0){
+          Cotton.ANALYTICS.storyAvailable('forced');
           mCallback.call(self, lStories[0].id());
         }
     });
