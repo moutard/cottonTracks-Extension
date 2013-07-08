@@ -119,6 +119,7 @@ Cotton.Controllers.Background = Class.extend({
           // and go back to the previous page. do nothing from background
           Cotton.ANALYTICS.backToPage('browserAction');
         } else {
+          Cotton.ANALYTICS.showLightyear();
           self._iCallerTabId = lTabs[0]['id'];
           chrome.tabs.query({}, function(lTabs){
             var iOpenTabs = lTabs.length;
