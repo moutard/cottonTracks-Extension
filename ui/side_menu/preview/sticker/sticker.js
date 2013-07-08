@@ -39,7 +39,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   	      && e.target !== self._oStickerToolbox.deleteButton()[0]
   	      && e.target !== self._oStickerToolbox.renameButton()[0]
   	      && e.target !== self._oStickerInfos.title()[0]){
-  	        Cotton.ANALYTICS.changeStory();
+  	        Cotton.ANALYTICS.enterStory();
             self.enterStory(self._oStory.id());
   	    }
       });
