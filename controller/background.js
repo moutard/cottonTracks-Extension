@@ -201,29 +201,34 @@ Cotton.Controllers.Background = Class.extend({
         var dSeed = dItem;
       }
     }
-    for (var i = 0, dItem; dItem = lItems[i]; i++){
-      if (mDistance(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
-        dItem['clusterId'] = 0;
-      }
-    }
-    var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
-    // TODO(rmoutard) : find a better solution.
-    var lHistoryItemToKeep = [];
-    for (var i = 0, dItem; dItem = lItems[i]; i++){
-      if(dItem['clusterId'] === "UNCLASSIFIED"){
-          delete dItem['clusterId'];
-          lHistoryItemToKeep.push(dItem);
-      }
-    }
-    self._oPool._refresh(lHistoryItemToKeep);
-    Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
-      function(oDatabase, lStories){
-        if (lStories.length > 0){
-          Cotton.ANALYTICS.storyAvailable('forced');
-          mCallback.call(self, lStories[0].id());
+    if (dSeed){
+      for (var i = 0, dItem; dItem = lItems[i]; i++){
+        if (mDistance(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
+          dItem['clusterId'] = 0;
         }
-    });
-
+      }
+      var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
+      // TODO(rmoutard) : find a better solution.
+      var lHistoryItemToKeep = [];
+      for (var i = 0, dItem; dItem = lItems[i]; i++){
+        if(dItem['clusterId'] === "UNCLASSIFIED"){
+            delete dItem['clusterId'];
+            lHistoryItemToKeep.push(dItem);
+        }
+      }
+      self._oPool._refresh(lHistoryItemToKeep);
+      Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
+        function(oDatabase, lStories){
+          if (lStories.length > 0){
+            Cotton.ANALYTICS.storyAvailable('forced');
+            mCallback.call(self, lStories[0].id());
+          }
+      });
+    } else {
+      // the item has not been put in the pool - because the browserAction has been clicked
+      // too early, or because there has been a problem with content script message.
+      mCallback.call(self, 0);
+    }
 
   },
 
@@ -317,6 +322,9 @@ Cotton.Controllers.Background = Class.extend({
               self._lStoriesInTabsId.push(_oHistoryItem.storyId());
           }
         }
+        if (mCallback){
+          mCallback.call(self);
+        }
       } else if (bTrigger){
         if (!_oHistoryItem){
           var oUrl = new UrlParser(sUrl);
@@ -324,14 +332,21 @@ Cotton.Controllers.Background = Class.extend({
           if (oExcludeContainer.isHttps(oUrl)){
             self._iTriggerStory = -1;
           }
+          if (mCallback){
+            mCallback.call(self);
+          }
         } else {
           self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
             self._iTriggerStory = iStoryId;
+            if (mCallback){
+              mCallback.call(self);
+            }
           });
         }
-      }
-      if (mCallback){
-        mCallback.call(self);
+      } else {
+        if (mCallback){
+          mCallback.call(self);
+        }
       }
     });
   },
