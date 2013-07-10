@@ -363,12 +363,16 @@ Cotton.Controllers.Lightyear = Class.extend({
         oStory.dna().addListWords(lStrongWords, oStory.dna().bagOfWords().maxWeight());
         self._oDatabase.put('stories', oStory, function(){});
       });
-      for (var i=0, oRelated; oRelated = self._lRelatedStories[i]; i++){
-        if (oRelated.id() === dArguments['id']){
-          oRelated.setTitle(dArguments['title']);
+      if (self._lRelatedStories){
+        for (var i=0, oRelated; oRelated = self._lRelatedStories[i]; i++){
+          if (oRelated.id() === dArguments['id']){
+            oRelated.setTitle(dArguments['title']);
+          }
         }
       }
-      self._oStory.setTitle(dArguments['title']);
+      if (self._oStory && self._oStory === dArguments['id']){
+        self._oStory.setTitle(dArguments['title']);
+      }
     });
 
     this._oDispatcher.subscribe('get_more_all_stories', this, function(dArguments){
