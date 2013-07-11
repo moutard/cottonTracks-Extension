@@ -200,6 +200,8 @@ Cotton.Controllers.Messaging = Class.extend({
 
       if (self._oMainController._dGetContentTabId[sender.tab.id]){
         // this is a get content, do not update the date
+        // we set the new date to 0 so that it's lower than the one in base
+        // and won't replace it
         oHistoryItem.setLastVisitTime(0);
       }
 
