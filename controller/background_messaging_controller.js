@@ -205,36 +205,41 @@ Cotton.Controllers.Messaging = Class.extend({
         oHistoryItem.setLastVisitTime(0);
       }
 
-      // The history item already exists, just update it.
-      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-        DEBUG && console.debug("Messaging - historyItem updated" + iId);
-        if (bContentSet){
-          if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
-            self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
-              // Set story featured image
-              var sMinStoryImage = oStory.featuredImage();
-              var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
-              if (!sMinStoryImage || sMinStoryImage === ""
-                && sHistoryItemImage !== ""){
-                  oStory.setFeaturedImage(sHistoryItemImage);
-              }
-              // update story in db
-              self._oMainController._oDatabase.put('stories', oStory,
-                function(){});
-            });
-          } else {
-            self._oMainController._oPool.putUnique(dHistoryItem);
-          }
-          if (self._oMainController._dGetContentTabId[sender.tab.id]){
-            self._oMainController.removeGetContentTab(sender.tab.id);
-            chrome.runtime.sendMessage({
-              'action': 'refresh_item',
-              'params': {
-                'itemId': iId
-              }
-            });
-          }
+      self._oMainController._oDatabase.find('historyItems', 'id', oHistoryItem.id(), function(oDbHistoryItem){
+        if (oDbHistoryItem.storyId() !== "UNCLASSIFIED"){
+          oHistoryItem.setStoryId(oDbHistoryItem.storyId());
         }
+        // The history item already exists, just update it.
+        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
+          DEBUG && console.debug("Messaging - historyItem updated" + iId);
+          if (bContentSet){
+            if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
+              self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
+                // Set story featured image
+                var sMinStoryImage = oStory.featuredImage();
+                var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
+                if (!sMinStoryImage || sMinStoryImage === ""
+                  && sHistoryItemImage !== ""){
+                    oStory.setFeaturedImage(sHistoryItemImage);
+                }
+                // update story in db
+                self._oMainController._oDatabase.put('stories', oStory,
+                  function(){});
+              });
+            } else {
+              self._oMainController._oPool.putUnique(dHistoryItem);
+            }
+            if (self._oMainController._dGetContentTabId[sender.tab.id]){
+              self._oMainController.removeGetContentTab(sender.tab.id);
+              chrome.runtime.sendMessage({
+                'action': 'refresh_item',
+                'params': {
+                  'itemId': iId
+                }
+              });
+            }
+          }
+        });
       });
     },
 
