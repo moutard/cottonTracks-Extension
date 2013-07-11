@@ -32,6 +32,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
       } else if (sender.tab.index === -1){
         // it is a page preloaded by google in a ghost tab
         // pass
+        sendResponse({'ghost':true});
       } else {
         DEBUG && console.debug(request);
 

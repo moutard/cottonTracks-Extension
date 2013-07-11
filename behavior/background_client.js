@@ -65,6 +65,10 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         'historyItem' : dDbRecord
       }
     }, function(response) {
+      if (response['ghost']){
+        self._bGhost = true;
+        return;
+      }
       oItem.initId(response['id']);
       oItem.setStoryId(response['storyId']);
       DEBUG && console.debug('DBSync create history item', {
@@ -112,6 +116,9 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
     if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
+      if (self._bGhost){
+        self.createVisit();
+      }
     } else {
       chrome.runtime.sendMessage({
         'action' : 'update_history_item',
