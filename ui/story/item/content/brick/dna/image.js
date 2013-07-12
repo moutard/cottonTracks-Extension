@@ -28,14 +28,12 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Image = Class.extend({
   },
 
   recycle : function(sImageUrl){
-    sImageUrl = unescape(unescape(sImageUrl));
     if (sImageUrl && sImageUrl !== ""){
       this.appendImage(sImageUrl, "featured");
     }
   },
 
   appendImage : function(sImage, sImageType) {
-    sImage = unescape(unescape(sImage));
     // current item.
     this._$image.addClass(sImageType);
     this._$img = $('<img class="resize"></img>');
