@@ -234,6 +234,8 @@
             var nArea = oCurrentImage.clientWidth * oCurrentImage.clientHeight;
             if (oCurrentImage.clientWidth > this._MIN_OBJECT_WIDTH
             && oCurrentImage.clientHeight > this._MIN_OBJECT_HEIGHT
+            && oCurrentImage.naturalWidth  > this._MIN_OBJECT_WIDTH / 4
+            && oCurrentImage.naturalHeight > this._MIN_OBJECT_HEIGHT / 4
             && oCurrentImage.y < document.height * 0.52
             && ! Cotton.Utils.ancestor(sImageParentSelector, oCurrentImage,
               false, true)) {
