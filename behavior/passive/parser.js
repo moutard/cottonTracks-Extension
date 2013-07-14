@@ -193,6 +193,9 @@
           for (var i = 0, len = oSplit.length; i < len; i++) {
             var oFakeElement = document.createElement('span');
             oFakeElement.innerHTML = oSplit[i];
+            //do not take script nodes
+            var lScriptNodes = $(oFakeElement).find('script');
+            lScriptNodes.remove();
             if (oFakeElement.textContent.match(this._SENTENCE_REGEX)) {
               // Removes whitespace from both ends of the string
               // Replace non-breaking-spaces with ordinary whitespaces
