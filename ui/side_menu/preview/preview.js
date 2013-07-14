@@ -14,7 +14,7 @@ Cotton.UI.SideMenu.Preview.Element = Class.extend({
   _oSticker : null,
   _oActions : null,
 
-  init: function(oStory, oDispatcher, oMenu){
+  init: function(oStory, oDispatcher){
     this._$preview = $('<div class="ct-sum_up"></div>');
     this._oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory,
       oDispatcher, 'currentStory');

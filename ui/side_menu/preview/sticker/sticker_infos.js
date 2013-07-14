@@ -15,7 +15,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
   _$stickerTitle : null,
   _$stickerDetails : null,
 
-  init: function(sStoryTitle, iStoryId, oDispatcher, sTypeOfSticker, iNumberOfItems){
+  init: function(sStoryTitle, iStoryId, oDispatcher, iNumberOfItems){
     var self = this;
 	  this._oDispatcher = oDispatcher;
 	  this._iNumberOfItems = iNumberOfItems;
