@@ -115,3 +115,15 @@ test("replacehexa.", function() {
   deepEqual(b.replaceHexa(urlComplexe),
             "http://d1jqu7g1y74ds1.cloudfront.net/wp-content/uploads/2010/11/milkyway.jpg");
 });
+
+test("google maps.", function() {
+  var urlMaps = 'https://maps.google.com/maps?q=lyon,+france&ie=UTF-8&hq=&hnear=0x47f4ea516ae88797:0x408ab2ae4bb21f0,Lyon,+France&ei=yvXiUfuNK7DxiQKZ-YHYCw&ved=0CK0BELYD';
+  var a = new UrlParser(urlMaps);
+  ok(a.isGoogleMaps);
+});
+
+test("new google maps.", function() {
+  var urlNewMaps = "https://www.google.com/maps/preview#!q=1er+Arrondissement%2C+Paris%2C+France&data=!1m4!1m3!1d9597!2d2.3359215!3d48.8619985!4m11!1m10!4m8!1m3!1d213870!2d-71.5650318!3d-33.1163954!3m2!1i1024!2i768!4f13.1!17b1";
+  var a = new UrlParser(urlNewMaps);
+  ok(a.isGoogleMaps);
+});
