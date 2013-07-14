@@ -56,7 +56,8 @@ function UrlParser(sUrl) {
   var oGoogleRegExp = /www.google.[a-z]{2,3}|www.google.[a-z]{2,3}.[a-z]{2,3}/ig;
   this.isGoogle = (oGoogleRegExp.exec(this.hostname))? true : false;
   this.isGoogleMaps = (this.hostname_without_country === "maps.google"
-                      || this.hostname_without_country === "maps.google.co")
+                      || this.hostname_without_country === "maps.google.co"
+                      || (this.isGoogle && this.pathname.match(/^\/maps/ig)));
   var oWikiRegExp = /[a-z]{2,3}.wikipedia.org/ig;
   this.isWikipedia = (this.hostname.match(oWikiRegExp)) ? true : false;
   this.isYoutube = (this.hostname === "www.youtube.com");
