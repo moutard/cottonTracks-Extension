@@ -31,7 +31,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
 	  this._oStickerToolbox = new Cotton.UI.SideMenu.Preview.Sticker.Toolbox(oStory.id(), this, sTypeOfSticker, this._oDispatcher);
 	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(),
-  	  oStory.id(), oDispatcher,sTypeOfSticker, oStory.historyItemsId().length);
+  	  oStory.id(), oDispatcher, oStory.historyItemsId().length);
 
     if (sTypeOfSticker === "relatedStory"){
   	  this._$sticker.click(function(e){
