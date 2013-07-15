@@ -136,11 +136,11 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
               "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
-          var sMapCode = oUrl.dSearch['q'] || dHash['!q'];
+          var sMapCode = oUrl.dSearch['q'] || oUrl.dHash['!q'];
           if (sMapCode){
           	//Google maps
             lStories[lHistoryItems[j]['clusterId']]
-                .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + sMapcode +
+                .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + sMapCode +
                 "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + sMapCode);
             lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
           } else {
