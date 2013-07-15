@@ -6,7 +6,7 @@ google.setOnLoadCallback(drawFootTable);
 function drawFootTable() {
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_history_source_foot;
-  var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
+  var lHistoryItems = Cotton.Core.Populate.Suite(lSampleHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     for(var sWord in oHistoryItem.extractedDNA().bagOfWords().get()){
       dWordsRepartition[sWord] = (dWordsRepartition[sWord] + 1) || 1;
@@ -30,7 +30,7 @@ google.setOnLoadCallback(drawGreenTable);
 function drawGreenTable() {
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_visit_source_green.slice();
-  var lHistoryItems = Cotton.DB.Populate.Suite(lSampleHistoryItems);
+  var lHistoryItems = Cotton.Core.Populate.Suite(lSampleHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     for(var sWord in oHistoryItem.extractedDNA().bagOfWords().get()){
       dWordsRepartition[sWord] = (dWordsRepartition[sWord] + 1) || 1;

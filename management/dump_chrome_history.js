@@ -26,7 +26,7 @@ Cotton.Management.dumpChromeHistoryWithPretreatmentSuite = function(mActionWithI
   var iNumberOfHistoryItem = 1000;
 
   Cotton.Management.dumpChromeHistoryRaw(function(lChromeHistoryItems){
-    var lHistoryItems = Cotton.DB.Populate.Suite(lHistoryItems);
+    var lHistoryItems = Cotton.Core.Populate.Suite(lHistoryItems);
     mActionWithItems(lHistoryItems.slice(0, iNumberOfHistoryItem));
   });
 };
@@ -60,7 +60,7 @@ Cotton.Management.dumpChromeHistoryWithPretreatmentSuite = function () {
  * @param function
  */
 Cotton.Management.dumpChromeVisitHistoryRaw = function(mActionWithItems) {
-  Cotton.DB.Populate.visitItems(undefined, function(lChromeHistoryItems){
+  Cotton.Core.Populate.visitItems(undefined, function(lChromeHistoryItems){
     var sRecord = JSON.stringify(lChromeHistoryItems);
     var blob = new Blob([sRecord], {type: "text/plain;charset=utf-8"});
     saveAs(blob, "chrome_visit_source_yourname.js");
