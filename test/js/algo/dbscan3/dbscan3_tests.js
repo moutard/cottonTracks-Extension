@@ -79,8 +79,8 @@ test("algo of dbscan3 worker.", function() {
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
     lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
   }
-  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);
@@ -123,8 +123,8 @@ test("algo of dbscan3 worker for hadrien with very low fEps (0)", function() {
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
     lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
   }
-  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);
@@ -165,8 +165,8 @@ test("algo of dbscan3 worker for hadrien with high fEps (200)", function() {
   for (var i = 0, dHistoryItem; dHistoryItem = lSampleHistoryItems[i]; i++){
     lHistoryItems.push(oTranslator._mDbRecordToObjectConverter(dHistoryItem));
   }
-  lHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
-  lHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lHistoryItems);
+  lHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lHistoryItems);
   // then back to dictionaries for the algo, just like in the worker
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
     lHistoryItems[i] = oTranslator._mObjectToDbRecordConverter(oHistoryItem);

@@ -17,10 +17,10 @@ test("words repartition for hadrien.", function() {
   expect(0);
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_history_source_hadrien;
-  lSampleHistoryItems = Cotton.DB.Populate.preRemoveTools(lSampleHistoryItems);
-  var lCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
+  lSampleHistoryItems = Cotton.Core.Populate.preRemoveTools(lSampleHistoryItems);
+  var lCottonHistoryItems = Cotton.Core.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lCottonHistoryItems[i]; i++){
     for(var sWord in oHistoryItem.extractedDNA().bagOfWords().get()){
       dWordsRepartition[sWord] = (dWordsRepartition[sWord] + 1) || 1;
@@ -36,10 +36,10 @@ test("words repartition for japan.", function() {
   expect(0);
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_history_source_japan;
-  lSampleHistoryItems = Cotton.DB.Populate.preRemoveTools(lSampleHistoryItems);
-  var lCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
+  lSampleHistoryItems = Cotton.Core.Populate.preRemoveTools(lSampleHistoryItems);
+  var lCottonHistoryItems = Cotton.Core.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lCottonHistoryItems[i]; i++){
     for(var sWord in oHistoryItem.extractedDNA().bagOfWords().get()){
       dWordsRepartition[sWord] = (dWordsRepartition[sWord] + 1) || 1;
@@ -58,25 +58,25 @@ test("words repartition for year.", function() {
     + chrome_visit_source_pink.length + chrome_visit_source_red.length;
   DEBUG && console.debug("number of elements in history:" + total);
 
-  var lBlue = Cotton.DB.Populate.preRemoveTools(chrome_visit_source_blue);
-  lBlue = Cotton.DB.Populate.translateListOfChromeHistoryItems(lBlue);
-  lBlue = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lBlue);
-  lBlue = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lBlue);
+  var lBlue = Cotton.Core.Populate.preRemoveTools(chrome_visit_source_blue);
+  lBlue = Cotton.Core.Populate.translateListOfChromeHistoryItems(lBlue);
+  lBlue = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lBlue);
+  lBlue = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lBlue);
 
-  var lGreen = Cotton.DB.Populate.preRemoveTools(chrome_visit_source_green);
-  lGreen = Cotton.DB.Populate.translateListOfChromeHistoryItems(lGreen);
-  lGreen = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lGreen);
-  lGreen = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lGreen);
+  var lGreen = Cotton.Core.Populate.preRemoveTools(chrome_visit_source_green);
+  lGreen = Cotton.Core.Populate.translateListOfChromeHistoryItems(lGreen);
+  lGreen = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lGreen);
+  lGreen = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lGreen);
 
-  var lPink = Cotton.DB.Populate.preRemoveTools(chrome_visit_source_pink);
-  lPink = Cotton.DB.Populate.translateListOfChromeHistoryItems(lPink);
-  lPink = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lPink);
-  lPink = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lPink);
+  var lPink = Cotton.Core.Populate.preRemoveTools(chrome_visit_source_pink);
+  lPink = Cotton.Core.Populate.translateListOfChromeHistoryItems(lPink);
+  lPink = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lPink);
+  lPink = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lPink);
 
-  var lRed = Cotton.DB.Populate.preRemoveTools(chrome_visit_source_red);
-  lRed = Cotton.DB.Populate.translateListOfChromeHistoryItems(lRed);
-  lRed = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lRed);
-  lRed = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lRed);
+  var lRed = Cotton.Core.Populate.preRemoveTools(chrome_visit_source_red);
+  lRed = Cotton.Core.Populate.translateListOfChromeHistoryItems(lRed);
+  lRed = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lRed);
+  lRed = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lRed);
 
   var lHistoryItems = lBlue.concat(lGreen).concat(lPink).concat(lRed);
   DEBUG && console.debug("number of elements in history:" + lHistoryItems.length);
@@ -103,10 +103,10 @@ test("no history items with no bag of words.", function() {
   var iNbWithoutBagOfWords = 0;
   var dWordsRepartition = {};
   var lSampleHistoryItems = chrome_history_source_hadrien.slice();
-  lSampleHistoryItems = Cotton.DB.Populate.preRemoveTools(lSampleHistoryItems);
-  var lCottonHistoryItems = Cotton.DB.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
-  lCottonHistoryItems = Cotton.DB.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
+  lSampleHistoryItems = Cotton.Core.Populate.preRemoveTools(lSampleHistoryItems);
+  var lCottonHistoryItems = Cotton.Core.Populate.translateListOfChromeHistoryItems(lSampleHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(lCottonHistoryItems);
+  lCottonHistoryItems = Cotton.Core.Populate.removeHistoryItemsWithoutBagOfWords(lCottonHistoryItems);
   for(var i = 0, oHistoryItem; oHistoryItem = lCottonHistoryItems[i]; i++){
     if(_.isEmpty(oHistoryItem.extractedDNA().bagOfWords().get())){
       iNbWithoutBagOfWords+=1;
