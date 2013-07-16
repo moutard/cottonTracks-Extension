@@ -142,6 +142,8 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
           + lVisitItems.length + ' visitItems:');
+        Cotton.ANALYTICS.historyItemsInstallCount(lHistoryItems.length);
+        Cotton.ANALYTICS.visitItemsInstallCount(lVisitItems.length);
         DEBUG && console.debug(lHistoryItems, lVisitItems);
         // visitItems are already dictionnaries, whereas historyItems are objects
         var lHistoryItemsDict = [];
