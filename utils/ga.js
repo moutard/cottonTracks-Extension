@@ -38,18 +38,24 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'version', 'update', sVersion]);
   },
 
-  // number of indexed items at install
+  // number of indexed historyItems at install
   historyItemsInstallCount : function(iItemsCount) {
     _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'install', iItemsCount]);
   },
 
+  // number of indexed visitItems at install
   visitItemsInstallCount : function(iItemsCount) {
     _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'install', iItemsCount]);
   },
 
-  // items tracking
-  visitHistoryItem : function() {
-    _gaq.push(['_trackEvent', 'historyItem', 'new_visit']);
+  // historyItems tracking
+  newHistoryItem : function() {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'browsing', 1]);
+  },
+
+  // visitItems tracking
+  newVisitItem : function() {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'browsing', 1]);
   },
 
   // Story tracking

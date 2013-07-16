@@ -41,7 +41,7 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'create_history_item' : function(sendResponse, dHistoryItem, sender){
       var self = this;
-      Cotton.ANALYTICS.visitHistoryItem();
+      Cotton.ANALYTICS.newVisitItem();
       /**
        * Because Model are compiled in two different way by google closure
        * compiler we need a common structure to communicate throught messaging.
@@ -92,6 +92,7 @@ Cotton.Controllers.Messaging = Class.extend({
               'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
             });
           } else {
+            Cotton.ANALYTICS.newHistoryItem();
             // See if the history items can fit in a story.
             // take keywords in bag of words with the highest score
             var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(
