@@ -130,7 +130,8 @@ Cotton.Controllers.Background = Class.extend({
         'highlighted':true,
         'lastFocusedWindow': true
       }, function(lTabs){
-        if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
+        var sCallerTabUrl = lTabs[0]['url'];
+        if (sCallerTabUrl === chrome.extension.getURL('lightyear.html')){
           // we are in lightyear, so the UI page will listen to the event
           // go back to the manager. do nothing from background
           Cotton.ANALYTICS.backToPage('browserAction');
@@ -162,11 +163,15 @@ Cotton.Controllers.Background = Class.extend({
                     if (oCottonTab){
                       chrome.tabs.remove(oCottonTab['id']);
                     }
-                    chrome.tabs.create({
-                      'url': 'lightyear.html',
-                      'index': iCallerTabIndex + 1,
-                      'openerTabId': self._iCallerTabId
-                    });
+                    if (sCallerTabUrl === "chrome://newtab/"){
+                      chrome.tabs.update(self._iCallerTabId, {'url': 'lightyear.html'});
+                    } else{
+                      chrome.tabs.create({
+                        'url': 'lightyear.html',
+                        'index': iCallerTabIndex + 1,
+                        'openerTabId': self._iCallerTabId
+                      });
+                    }
                   }
                 });
               }
