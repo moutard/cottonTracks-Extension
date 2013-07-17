@@ -274,10 +274,6 @@ Cotton.Controllers.Lightyear = Class.extend({
         'params': {'story_id': self._iStoryId}
       }, function(response){
         self._lStoriesInTabsId = response['stories_in_tabs_id'];
-        if (self._iOriginalStoryId !== self._iStoryId
-          && self._lStoriesInTabsId.indexOf(self._iOriginalStoryId) === -1){
-            self._lStoriesInTabsId.push(self._iOriginalStoryId);
-        }
         if (self._lStoriesInTabsId.length > 0){
           self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
             self._lStoriesInTabs = lStories;
