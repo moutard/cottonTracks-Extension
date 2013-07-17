@@ -73,6 +73,22 @@ Cotton.Controllers.Background = Class.extend({
     this._dGetContentTabId = {};
     this._lStoriesInTabsId = [];
 
+    chrome.runtime.onInstalled.addListener(function(details) {
+      var sVersion = chrome.app.getDetails()['version'];
+      switch (details){
+        case 'install':
+          Cotton.ANALYTICS.install(sVersion);
+          break;
+        case 'update':
+          Cotton.ANALYTICS.update(sVersion);
+          break;
+        case 'chrome_update':
+          break;
+        default:
+          break;
+      }
+    });
+
     self.initWorkerDBSCAN2();
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
