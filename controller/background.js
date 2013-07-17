@@ -137,6 +137,7 @@ Cotton.Controllers.Background = Class.extend({
         } else {
           Cotton.ANALYTICS.showLightyear();
           self._iCallerTabId = lTabs[0]['id'];
+          var iCallerTabIndex = lTabs[0]['index'];
           chrome.tabs.query({}, function(lTabs){
             var iOpenTabs = lTabs.length;
             var iCount = 0;
@@ -162,7 +163,9 @@ Cotton.Controllers.Background = Class.extend({
                       chrome.tabs.remove(oCottonTab['id']);
                     }
                     chrome.tabs.create({
-                      'url': 'lightyear.html'
+                      'url': 'lightyear.html',
+                      'index': iCallerTabIndex + 1,
+                      'openerTabId': self._iCallerTabId
                     });
                   }
                 });
