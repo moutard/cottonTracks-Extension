@@ -164,17 +164,6 @@ Cotton.Core.Installer = Class.extend({
 
   },
 
-  /**
-   * Update
-   *
-   * If something is needed. But nothing for the moment.
-   */
-  update : function(){
-    DEBUG && console.debug("update");
-    var sVersion = chrome.app.getDetails()['version'];
-    Cotton.ANALYTICS.update(sVersion);
-  },
-
   wakeUp : function(){
     var self = this;
     /*
