@@ -22,9 +22,9 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oPool : null,
 
   /**
-   * Sender for handle core message. (Chrome message)
+   * Messenger for handle core message. (Chrome message)
    */
-  _oSender : null,
+  _oMessenger : null,
 
   /**
    * Dispatcher that allows two diffents part of the product to communicate
@@ -89,13 +89,18 @@ Cotton.Controllers.Lightyear = Class.extend({
   _lHistoryItems : null,
 
   /**
+   * list of HistoryItems in the triggered story
+   **/
+  _Messenger : null,
+
+  /**
    *
    */
-  init : function(oSender){
+  init : function(oMessenger){
 
     var self = this;
     LOG && DEBUG && console.debug("Controller Lightyear - init -");
-    this._oSender = oSender;
+    this._oMessenger = oMessenger;
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
 
@@ -104,7 +109,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
-      self._oSender.sendMessage({
+      self._oMessenger.sendMessage({
         'action': 'get_trigger_story'
       }, function(response){
         self._iStoryId = self._iOriginalStoryId = response['trigger_id'];
@@ -201,7 +206,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     $(window).ready(function(){
-      self._oWorld = new Cotton.UI.World(self, oSender, self._oDispatcher);
+      self._oWorld = new Cotton.UI.World(self, oMessenger, self._oDispatcher);
       self._bWorldReady = true;
       if (self._bHistoryItemReady && self._bStoryReady && self._bStoriesInTabsReady && self._bRelatedReady){
         self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
@@ -220,7 +225,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         "url" : dArguments['url'],
         "active" : false
       }, function(tab){
-        chrome.runtime.sendMessage({
+        self._oMessenger.sendMessage({
           'action': "get_content_tab",
           'params': {
             'tab_id': tab['id']
@@ -264,7 +269,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._iHistoryItemId = self._iOriginalHistoryItemId;
         self._oHistoryItem = self._oOriginalHistoryItem;
       }
-      self._oSender.sendMessage({
+      self._oMessenger.sendMessage({
         'action': 'change_story',
         'params': {'story_id': self._iStoryId}
       }, function(response){
@@ -411,7 +416,7 @@ Cotton.Controllers.Lightyear = Class.extend({
       if (dArguments['id'] === self._iStoryId){
         // tell background that the current main story has been deleted
         self._iStoryId = null;
-        self._oSender.sendMessage({
+        self._oMessenger.sendMessage({
           'action': 'delete_main_story',
         }, function(response){});
       }
@@ -419,11 +424,9 @@ Cotton.Controllers.Lightyear = Class.extend({
 
 
     // Message listening from background page for getContent
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-      if (request['action'] === 'refresh_item'){
-        self.recycleItem(request['params']['itemId']);
-        self.recycleMenu();
-      }
+    this._oMessenger.listen('refresh_item', function(request, sender, sendResponse){
+      self.recycleItem(request['params']['itemId']);
+      self.recycleMenu();
     });
 
     // go back to previous page if browserAction clicked
@@ -535,5 +538,5 @@ Cotton.Controllers.Lightyear = Class.extend({
 
 });
 
-var oSender = new Cotton.Core.Sender();
-Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear(oSender);
+var oMessenger = new Cotton.Core.Messenger();
+Cotton.Controllers.LIGHTYEAR = new Cotton.Controllers.Lightyear(oMessenger);

@@ -13,7 +13,7 @@ module(
 );
 
 // Shortcut for extension messages
-var oMessaging = chrome.runtime.onMessage;
+var oMessenger = new Cotton.Core.Messenger();
 // Results container object
 var oAllResults = [];
 
@@ -97,13 +97,13 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
             'active' : false
           }, function(tab) {
           // Listen for parser start
-          oMessaging.addListener(function(message, sender, sendResponse) {
+          oMessenger.listen('*', function(message, sender, sendResponse) {
             if (message.parsing === 'start' && sender['tab']['id'] === tab['id']) {
               oResults['time']['start'] = performance.now();
             }
           });
           // Listen for parsing results
-          oMessaging.addListener(function(message, sender, sendResponse) {
+          oMessenger.listen('*', function(message, sender, sendResponse) {
             // If the message have parsing results and comes from current tab
             if (message.parsing === 'end' && sender['tab']['id']=== tab['id']) {
               // Measure elapsed time

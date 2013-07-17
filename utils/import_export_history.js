@@ -19,8 +19,9 @@ Cotton.Utils.exportHistory = function(mCallBack) {
 
 Cotton.Utils.importHistory = function(sHistoryBlob) {
   var oHistory = JSON.parse(sHistoryBlob);
+  var oMessenger = new Cotton.Core.Messenger();
 
-   chrome.runtime.sendMessage({
+   oMessenger.sendMessage({
       'action': 'import_history',
       'params': {
         'history': oHistory
