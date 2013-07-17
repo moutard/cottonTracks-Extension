@@ -38,17 +38,6 @@ Cotton.Core.Installer = Class.extend({
     localStorage.setItem('cohort', month + "/" + date.getFullYear());
     Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
     self._mIsFinished();
-  },
-
-  /**
-   * Update
-   *
-   * If something is needed. But nothing for the moment.
-   */
-  update : function(){
-    DEBUG && console.debug("update");
-    var sVersion = chrome.app.getDetails()['version'];
-    Cotton.ANALYTICS.update(sVersion);
-  },
+  }
 
 });
