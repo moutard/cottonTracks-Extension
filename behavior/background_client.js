@@ -24,11 +24,12 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   _lAllParagraphs : null,
   _sImageUrl : null,
   _bStoryImageUpdated : null,
+  _oMessenger : null,
 
   /**
    *
    */
-  init : function() {
+  init : function(oMessenger) {
     this._iId = "";
     this._oCurrentHistoryItem = new Cotton.Model.HistoryItem();
     this._bParagraphSet = false;
@@ -36,6 +37,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     this._lAllParagraphs = [];
     this._sImageUrl = "";
     this._bStoryImageUpdated = false;
+    this._oMessenger = oMessenger;
 
   },
 
@@ -59,7 +61,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(oItem);
 
-   chrome.runtime.sendMessage({
+    this._oMessenger.sendMessage({
       'action' : 'create_history_item',
       'params' : {
         'historyItem' : dDbRecord
@@ -120,7 +122,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         self.createVisit();
       }
     } else {
-      chrome.runtime.sendMessage({
+      this._oMessenger.sendMessage({
         'action' : 'update_history_item',
         'params' : {
           'historyItem' : dDbRecord,

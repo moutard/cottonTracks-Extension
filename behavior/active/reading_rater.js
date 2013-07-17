@@ -45,8 +45,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
    * @param {Cotton.Behavior.BackgroundClient} oClient:
    *  client used to communicate with the database.
    */
-  init : function(oClient) {
+  init : function(oClient, oMessenger) {
     this._oClient = oClient;
+    this._oMessenger = oMessenger;
 
     this._iReadingRate = 0;
 
@@ -56,7 +57,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     this._bDocumentActive = false;
 
     // Create the parser but don't start it.
-    this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient);
+    this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient, oMessenger);
     this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
   },
 
@@ -340,10 +341,10 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
     var oUrl = new UrlParser(window.location.href);
     oUrl.fineDecomposition();
-    self._oClient.init();
+    self._oClient.init(oMessenger);
     // empty cache to be able to re-walk through the new content.
     Cotton.Utils.emptyCache();
-    self._oParser.init(self._oClient, oUrl);
+    self._oParser.init(self._oClient, self._oMessenger, oUrl);
     self._oClient.createVisit();
 
     self._oClient.current().extractedDNA().setTimeTabActive(0);
@@ -526,8 +527,9 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
 var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
 if (!oExcludeContainer.isExcluded(window.location.href)){
-  var oBackgroundClient = new Cotton.Behavior.BackgroundClient();
-  var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient);
+  var oMessenger = new Cotton.Core.Messenger();
+  var oBackgroundClient = new Cotton.Behavior.BackgroundClient(oMessenger);
+  var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient, oMessenger);
 
 
   $(document).ready(function() {

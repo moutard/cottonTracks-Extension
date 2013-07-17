@@ -13,6 +13,7 @@
 /**
  * onMessage : link with the chrome API method
  * chrome.runtime.onMessage.addListener
+ * now placed in Core
  *
  * Called when a message is passed by a content script.
  */
@@ -26,7 +27,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     self._oMainController = oMainController;
 
     // Listen all the messages sent to the background page.
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    self._oMainController._oMessenger.listen('*', function(request, sender, sendResponse) {
       if (!self._oMainController._bReadyForMessaging){
         // install is not finished, do nothing
       } else if (sender.tab.index === -1){

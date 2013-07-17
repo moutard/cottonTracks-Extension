@@ -36,8 +36,8 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
       /**
        *
        */
-      init : function(oClient) {
-        this._super(oClient);
+      init : function(oClient, oMessenger) {
+        this._super(oClient, oMessenger);
 
         this._MeaningFulBlocks = [];
         this._iNbMeaningfulBlock = 0;

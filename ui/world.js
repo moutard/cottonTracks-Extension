@@ -27,9 +27,9 @@ Cotton.UI.World = Class.extend({
 
   /**
    * @param {Cotton.Application.Lightyear} oApplication
-   * @param {Cotton.Core.Sender} oSender
+   * @param {Cotton.Core.Messenger} oMessenger
    */
-  init : function(oApplication, oSender, oDispatcher, $dom_world) {
+  init : function(oApplication, oMessenger, oDispatcher, $dom_world) {
     var self = this;
     this._oLightyear = oApplication;
     this._oDispatcher = oDispatcher;
@@ -55,7 +55,7 @@ Cotton.UI.World = Class.extend({
     });
     this._$temporary_background = $('#blur_target');
 
-    oSender.sendMessage({
+    oMessenger.sendMessage({
       'action': 'pass_background_screenshot'
     }, function(response) {
       //set background image and blur it
