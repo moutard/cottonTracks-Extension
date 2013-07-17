@@ -19,7 +19,8 @@ test('init.', function(){
 });
 
 async('send a message', function(){
-  chrome.runtime.sendMessage({
+  var oMessenger = new Cotton.Core.Messenger();
+  oMessenger.sendMessage({
     'action': 'fake_action'
   }, function(oResponse) {
       //The historyItem url was not in base, init this one with the new id created

@@ -29,8 +29,13 @@ Cotton.Controllers.Background = Class.extend({
   _oMessagingController : null,
 
   /**
-    * MessagingController
-    */
+   * Core messenger
+   */
+  _oMessenger : null,
+
+  /**
+   * MessagingController
+   */
    _oContentScriptListener : null,
 
   /**
@@ -88,6 +93,8 @@ Cotton.Controllers.Background = Class.extend({
           break;
       }
     });
+
+    this._oMessenger = new Cotton.Core.Messenger();
 
     self.initWorkerDBSCAN2();
     // Initialize the pool.

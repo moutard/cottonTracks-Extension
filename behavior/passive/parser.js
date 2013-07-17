@@ -52,7 +52,7 @@
         /**
          *
          */
-        init : function(oClient) {
+        init : function(oClient, oMessenger) {
           this._lAllParagraphs = [];
           this._sBestImage = "";
           this._oClient = oClient;
@@ -60,6 +60,7 @@
           this._MIN_PARAGRAPH_WIDTH = 319;
           this._MIN_OBJECT_WIDTH = 149;
           this._MIN_OBJECT_HEIGHT = 139;
+          this._oMessenger = oMessenger;
           // Detects sentences containing at least three separate words of at
           // least three
           // letters each.
@@ -96,7 +97,7 @@
          */
         _publishResults : function() {
           var self = this;
-          chrome.runtime.sendMessage({
+          this._oMessenger.sendMessage({
             'parsing': 'end',
             'results': {
               'meaningful': self._lAllParagraphs,
@@ -110,7 +111,7 @@
          *
          */
         _publishStart : function() {
-          chrome.runtime.sendMessage({
+          this._oMessenger.sendMessage({
             'parsing': 'start'
           });
         },
@@ -380,5 +381,4 @@
         },
 
       });
-
 })();

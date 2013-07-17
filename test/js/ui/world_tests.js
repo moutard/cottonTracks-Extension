@@ -14,9 +14,15 @@ var MockApplication = Class.extend({
   },
 });
 
-var MockSender = Class.extend({
+var MockMessenger = Class.extend({
   init : function() {
 
+  },
+
+  listen : function(sAction, mCallback){
+    mCallback({
+      'status': 0
+    });
   },
 
   sendMessage : function(dMessage, mCallback) {
@@ -28,7 +34,7 @@ var MockSender = Class.extend({
 
 test('init.', function() {
   var oApplication = new MockApplication();
-  var oSender = new MockSender();
-  var oWorld = new Cotton.UI.World(oApplication, oSender);
+  var oMessenger = new MockMessenger();
+  var oWorld = new Cotton.UI.World(oApplication, oMessenger);
   ok(oWorld);
 });

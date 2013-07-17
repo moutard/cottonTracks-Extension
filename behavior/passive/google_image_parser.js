@@ -28,9 +28,9 @@ Cotton.Behavior.Passive.GoogleImageParser = Cotton.Behavior.Passive.Parser.exten
   /**
    *
    */
-  init : function(oClient, oUrl) {
+  init : function(oClient, oMessenger, oUrl) {
     this._oUrl = oUrl;
-    this._super(oClient);
+    this._super(oClient, oMessenger);
   },
 
   /**

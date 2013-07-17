@@ -28,9 +28,9 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   /**
    *
    */
-  init : function(oClient, oUrl) {
+  init : function(oClient, oMessenger, oUrl) {
     this._oUrl = oUrl;
-    this._super(oClient);
+    this._super(oClient, oMessenger);
   },
 
   /**
