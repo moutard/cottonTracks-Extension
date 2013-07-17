@@ -132,7 +132,7 @@ Cotton.Controllers.Background = Class.extend({
       }, function(lTabs){
         if (lTabs[0]['url'] === chrome.extension.getURL('lightyear.html')){
           // we are in lightyear, so the UI page will listen to the event
-          // and go back to the previous page. do nothing from background
+          // go back to the manager. do nothing from background
           Cotton.ANALYTICS.backToPage('browserAction');
         } else {
           Cotton.ANALYTICS.showLightyear();
@@ -140,20 +140,34 @@ Cotton.Controllers.Background = Class.extend({
           chrome.tabs.query({}, function(lTabs){
             var iOpenTabs = lTabs.length;
             var iCount = 0;
-            for (var i = 0, oTab; oTab = lTabs[i]; i++){
-              self.getStoryFromTab(oTab, function(){
-                iCount++;
-                if (iCount === iOpenTabs){
-                  for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-                    if (iStoryInTabsId === self._iTriggerStory){
-                      self._lStoriesInTabsId.splice(i,1);
-                      i--;
-                    }
-                  }
-                  chrome.tabs.update(self._iCallerTabId, {'url':'lightyear.html'},function(){});
+
+            // we authorize one cT tab per window
+            chrome.windows.getLastFocused({}, function(oWindow){
+              var iCurrentWindow = oWindow['id'];
+              for (var i = 0, oTab; oTab = lTabs[i]; i++){
+                if (oTab['url'] === chrome.extension.getURL('lightyear.html')
+                  && oTab['windowId'] === iCurrentWindow){
+                    var oCottonTab = oTab;
                 }
-              });
-            }
+                self.getStoryFromTab(oTab, function(){
+                  iCount++;
+                  if (iCount === iOpenTabs){
+                    for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
+                      if (iStoryInTabsId === self._iTriggerStory){
+                        self._lStoriesInTabsId.splice(i,1);
+                        i--;
+                      }
+                    }
+                    if (oCottonTab){
+                      chrome.tabs.remove(oCottonTab['id']);
+                    }
+                    chrome.tabs.create({
+                      'url': 'lightyear.html'
+                    });
+                  }
+                });
+              }
+            });
           });
         }
       });
