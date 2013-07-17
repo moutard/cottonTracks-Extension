@@ -407,5 +407,5 @@ Cotton.Controllers.Background = Class.extend({
 
 });
 
-Cotton.BACKGROUND = new Cotton.Controllers.Background();
+Cotton.Controllers.BACKGROUND = new Cotton.Controllers.Background();
 
