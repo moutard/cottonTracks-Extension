@@ -428,16 +428,9 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     // go back to previous page if browserAction clicked
     chrome.browserAction.onClicked.addListener(function() {
-      chrome.tabs.query({
-        'highlighted':true,
-        'lastFocusedWindow': true
-      }, function(lTabs){
-        chrome.tabs.getCurrent(function(oTab){
-          if(lTabs[0]['id'] === oTab['id']){
-            window.history.back();
-          }
-        });
-      });
+      //open manager
+      self._oWorld.clearAll();
+      self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
     });
 
   },
