@@ -425,11 +425,10 @@ Cotton.Controllers.Lightyear = Class.extend({
       self.recycleMenu();
     });
 
-    // go back to previous page if browserAction clicked
+    // go back to manager if browserAction clicked
     chrome.browserAction.onClicked.addListener(function() {
       //open manager
-      self._oWorld.clearAll();
-      self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
+      window.location.href = "lightyear.html";
     });
 
   },
