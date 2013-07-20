@@ -434,7 +434,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     // highlighted content blocks that are also copied.
     $(document).bind('copy', function() {
       $highlightedContentBlocks.each(function() {
-        self._oClient.current().extractedDNA().addCopyPaste($(this).text());
         self._oClient.updateVisit();
         var oScore = $(this).data('score');
         if (oScore) {
