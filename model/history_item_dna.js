@@ -19,7 +19,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _fPageScore : undefined,
   _fTimeTabActive : undefined,          // time the tab was active.
   _fTimeTabOpen : undefined,
-  _lHighlightedText : null,
   _sImageUrl : undefined,
   _lParagraphs : null,
   _lCopyPaste : null,
@@ -38,7 +37,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._lExtractedWords = dDBRecord['lQueryWords'] || [];
     this._iPercent = 0;
     this._fTimeTabActive = -1;
-    this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
     this._lParagraphs = [];
     this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
@@ -110,16 +108,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   },
   setClosestGoogleSearchPage : function(sClosestGoogleSearchPage) {
     this._sClosestGoogleSearchPage = sClosestGoogleSearchPage;
-  },
-
-  highlightedText : function() {
-    return this._lHighlightedText;
-  },
-  addHighlightedText : function(sText) {
-    this._lHighlightedText.push(sText);
-  },
-  setHighlightedText : function(lHighlightedText) {
-    this._lHighlightedText = lHighlightedText;
   },
   imageUrl : function() {
     return this._sImageUrl;

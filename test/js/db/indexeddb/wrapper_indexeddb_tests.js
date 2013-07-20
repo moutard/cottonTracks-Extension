@@ -104,14 +104,11 @@ asyncTest("put Unique historyItems with the same url.", function() {
           function(iId){
           var oHistoryItem2 = new Cotton.Model.HistoryItem();
           oHistoryItem2.initUrl("http://cottontracks.com");
-          oHistoryItem2.extractedDNA().addHighlightedText("wonderland");
           self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem2,
               function(iId2){
               equal(iId, iId2);
               self._oDatabase.find('historyItems', 'id', iId2,
                   function(_oHistoryItem){
-                    equal(_oHistoryItem.extractedDNA().highlightedText(),
-                        "wonderland");
                     start();
               });
           });
