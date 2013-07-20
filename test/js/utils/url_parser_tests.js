@@ -128,6 +128,8 @@ test("new google maps.", function() {
   var urlNewMaps = "https://www.google.com/maps/preview#!q=1er+Arrondissement%2C+Paris%2C+France&data=!1m4!1m3!1d9597!2d2.3359215!3d48.8619985!4m11!1m10!4m8!1m3!1d213870!2d-71.5650318!3d-33.1163954!3m2!1i1024!2i768!4f13.1!17b1";
   var a = new UrlParser(urlNewMaps);
   ok(a.isGoogleMaps);
+});
+
 test('decodeURIComponents', function(){
 
   var a = new UrlParser("http%253A%252F%252Fshippingcontainerprojects.com%252Fwp-content%252Fuploads%252F2013%252F01%252Fshipping_container_building_platoon_berlin-6.jpg")
