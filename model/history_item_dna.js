@@ -169,14 +169,5 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setParagraphs : function(lParagraphs) {
     this._lParagraphs = lParagraphs;
   },
-  copyPaste : function() {
-    return this._lCopyPaste;
-  },
-  setCopyPaste : function(lCopyPaste) {
-    this._lCopyPaste = lCopyPaste;
-  },
-  addCopyPaste : function(sCopyPaste) {
-    this._lCopyPaste.push(sCopyPaste);
-  },
 
 });
