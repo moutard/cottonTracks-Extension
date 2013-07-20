@@ -50,7 +50,7 @@ Cotton.Core.Installer = Class.extend({
         var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        for (var i = 0, oStory; oStory = dStories['stories'][i]; i++){
+        for (var i = 0, oStory; oStory = dStories[i]; i++){
           var oMergedStory = oStory;
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
@@ -87,7 +87,7 @@ Cotton.Core.Installer = Class.extend({
         if (iTotalSessions && iSessionCount === iTotalSessions){
           // add items in indexedDB, then stories. We need to wait for the historyItems
           // to be in base because when putting the stories we update iStoryId in the base
-          self._oDatabase.putListUniqueHistoryItems('historyItems', lHistoryItems, function(lIds) {
+          self._oDatabase.putList('historyItems', lHistoryItems, function(lIds) {
             // Add stories in IndexedDB.
             Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
               function(oDatabase, lStories){
