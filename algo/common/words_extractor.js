@@ -1,7 +1,15 @@
 'use strict';
 
 Cotton.Algo.Tools = {};
-Cotton.Algo.Tools.Filter = function(lWords){
+
+/**
+ * Given a list of words keep only those that do match the following
+ * conditions:
+ * - unique
+ * - length > 2 char
+ * - is not in the black list.
+ */
+Cotton.Algo.Tools.Filter = function(lWords) {
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
@@ -13,6 +21,14 @@ Cotton.Algo.Tools.Filter = function(lWords){
 
 };
 
+/**
+ * Given a list of words keep only those that do match the following
+ * conditions:
+ * - unique
+ * - length > 2 char
+ * - is not in the black list.
+ * - there is only letter in the word.
+ */
 Cotton.Algo.Tools.StrongFilter = function(lWords){
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
@@ -35,10 +51,21 @@ Cotton.Algo.Tools.StrongFilter = function(lWords){
 
 };
 
+/**
+ * Return only query words that match the filter.
+ * TODO(rmoutard->rkorach): strongQueryWords is not really explicit as it should
+ * refer to StrongFilter.
+ */
 Cotton.Algo.Tools.strongQueryWords = function(lQueryWords){
   return Cotton.Algo.Tools.Filter(lQueryWords);
 };
 
+/**
+ * Return the list of
+ * FIXME(rmoutard->rkorach): you call strongQueryWords Twice ! once when you
+ * want to compute strongQuery and the other when you want to compute
+ * weak query. As there is a regex in strong query we have to avoid that.
+ */
 Cotton.Algo.Tools.weakQueryWords = function(lQueryWords){
   var lWeakQueryWords = [];
   var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lQueryWords);
@@ -118,7 +145,7 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
       if(lExtractedWords.length === 0){
         lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
       }
-      oHistoryItem.extractedDNA().setExtractedWords(lExtractedWords);
+      oHistoryItem.extractedDNA().addListToBagOfWords(lExtractedWords);
     }
     return oHistoryItem;
 };
