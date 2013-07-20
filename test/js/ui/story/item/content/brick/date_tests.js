@@ -9,17 +9,21 @@ module("Cotton.UI.Story.Item.Content.Brick.Date",{
   }
 });
 
-test("init.", function(){
-  var oTitle = new Cotton.UI.Story.Item.Content.Brick.Date(1363655245708);
-  ok(oTitle);
+test("preview of date is correct.", function() {
+  //Date is dependant of the local time config of the
+  //browser. for test we need to use UTC to avoid problems.
+  // Months and hours starts by 0 !
+  var a = Date.UTC(2012, 2, 18, 7, 6, 5);
+  var oTitle = new Cotton.UI.Story.Item.Content.Brick.Date(a);
+  equal(oTitle._$date.text(), '18 March - 8:06 am');
 });
 
-test("init.", function(){
-  var oTitle = new Cotton.UI.Story.Item.Content.Brick.Date(1363655245708);
-  var date = new Date(1363655245708);
-  var iHours = date.getHours() % 12;
-  var sWrittenDate = '18 March - ' + iHours + ':' + '0' + date.getMinutes() + ' pm';
-  equal(oTitle._$date.text(), sWrittenDate);
+test("preview of date is correct.", function() {
+  //Date is dependant of the local time config of the
+  //browser. for test we need to use UTC to avoid problems.
+  // Months and hours starts by 0 !
+  var a = Date.UTC(2012, 2, 18, 9, 6, 5);
+  var oTitle = new Cotton.UI.Story.Item.Content.Brick.Date(a);
+  equal(oTitle._$date.text(), '18 March - 10:06 am');
 });
-
 
