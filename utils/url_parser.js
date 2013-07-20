@@ -1,4 +1,3 @@
-'use strict'
 
 /**
  * Class in charge of parsing url, to extract main informations.
@@ -200,22 +199,13 @@ UrlParser.prototype.genericSearch = function() {
 };
 
 UrlParser.prototype.imageSearchPreviewSource = function() {
-  if (this.dSearch === undefined) {
+ if (this.dSearch === undefined) {
     this.fineDecomposition();
   }
   if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_"){
     var sUnescaped = unescape(unescape(this.dHash['imgrc']));
     this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
   } else if (this.dSearch['imgurl']){
-  if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_") {
-    // imgrc contains a lot of strange infos. Take a closer look in case of
-    // problems. the only way to find the url is to find http and then the ;
-    // that end it.
-    //var sUnescaped = this.replaceHexa(this.dHash['imgrc']);
-    //this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
-    var sEncodeUrl = this.dHash['imgrc'].split("http")[1].split(";")[0];
-    this.searchImage = decodeURIComponent("http" + sEncodeUrl);
-  } else if (this.dSearch['imgurl']) {
     this.searchImage = this.dSearch['imgurl'];
   }
 };
@@ -258,7 +248,7 @@ function accentTidy(sWord){
   sAccentTidy = sAccentTidy.replace(new RegExp("[ùúûüű]", 'g'),"u");
   sAccentTidy = sAccentTidy.replace(new RegExp("[ýÿ]", 'g'),"y");
   return sAccentTidy;
-}
+};
 // README
 // This system is principaly designed for google search. it maybe interesting
 // to see if 'bing', 'yahoo', or 'duckduckgo' have the same conventions.

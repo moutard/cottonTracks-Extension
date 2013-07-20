@@ -249,14 +249,14 @@ Cotton.Controllers.Background = Class.extend({
           dItem['clusterId'] = 0;
         }
       }
-    }
-    var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
-    // TODO(rmoutard) : find a better solution.
-    var lHistoryItemToKeep = [];
-    for (var i = 0, dItem; dItem = lItems[i]; i++){
-      if(dItem['clusterId'] === "UNCLASSIFIED"){
-          delete dItem['clusterId'];
-          lHistoryItemToKeep.push(dItem);
+      var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
+      // TODO(rmoutard) : find a better solution.
+      var lHistoryItemToKeep = [];
+      for (var i = 0, dItem; dItem = lItems[i]; i++){
+        if(dItem['clusterId'] === "UNCLASSIFIED"){
+            delete dItem['clusterId'];
+            lHistoryItemToKeep.push(dItem);
+        }
       }
       self._oPool._refresh(lHistoryItemToKeep);
       Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
@@ -271,7 +271,6 @@ Cotton.Controllers.Background = Class.extend({
       // too early, or because there has been a problem with content script message.
       mCallback.call(self, 0);
     }
-
   },
 
    /**
