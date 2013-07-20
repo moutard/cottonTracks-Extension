@@ -54,6 +54,12 @@ Cotton.Model.BagOfWords = Class.extend({
     return this._dBag;
   },
 
+  getWords : function() {
+    var lWords = [];
+    for(var sWord in this._dBag) lWords.push(sWord);
+    return lWords;
+  },
+
   preponderant : function(iNumberOfPreponderant){
     var lSortedWordsByWeight = {};
     var iMaxWeight = 0;
@@ -95,5 +101,6 @@ Cotton.Model.BagOfWords = Class.extend({
       }
     }
     return iMaxWeight;
-  }
+  },
+
 });

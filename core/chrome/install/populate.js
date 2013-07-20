@@ -94,7 +94,7 @@ Cotton.Core.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lC
           oTempHistoryItem = lHistoryItems[oTempVisitItem['cottonHistoryItemId']];
           if (oTempHistoryItem.oUrl().keywords &&
               _.intersection( Cotton.Algo.Tools.Filter(oTempHistoryItem.oUrl().keywords),
-                              oCurrentHistoryItem.extractedDNA().extractedWords()).length > 0 ){
+                              oCurrentHistoryItem.extractedDNA().bagOfWords().getWords()).length > 0 ){
             // we found a page that should be the google closest query page.
             oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
             // This will change the bag of words.

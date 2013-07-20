@@ -83,7 +83,6 @@
            oHistoryItem._sTitle = window.document.title;
            oHistoryItem._iLastVisitTime = new Date().getTime();
            oHistoryItem._sReferrerUrl = document.referrer;
-           //oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
          },
 
         bestImage : function() {
