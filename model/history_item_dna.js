@@ -11,7 +11,6 @@
 Cotton.Model.HistoryItemDNA = Class.extend({
 
   _lQueryWords : null,                  // words used to make the google search.
-  _lExtractedWords : null,              // words extracted from title and content.
   _sClosestGoogleSearchPage : undefined,   // closest google search page.
   _oBagOfWords : null,
 
@@ -29,12 +28,11 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   init : function(dDBRecord) {
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
     // with extractedWords and QueryWords. Made something better.
-    // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
+    // Maybe remove QueryKeywords become redondant.
 
     dDBRecord = dDBRecord || {};
 
     this._lQueryWords = dDBRecord['lQueryWords'] || [];
-    this._lExtractedWords = dDBRecord['lQueryWords'] || [];
     this._iPercent = 0;
     this._fTimeTabActive = -1;
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
@@ -85,23 +83,17 @@ Cotton.Model.HistoryItemDNA = Class.extend({
       }
     }
   },
-  extractedWords : function() {
-    return this._lExtractedWords;
-  },
-  setExtractedWords : function(lExtractedWords) {
-    var self = this;
-    self._lExtractedWords = lExtractedWords;
-    for (var i = 0, iLength = self._lExtractedWords.length; i < iLength; i++) {
-      var sWord = self._lExtractedWords[i];
-      self._oBagOfWords.addWord(sWord,
-        Cotton.Config.Parameters.scoreForExtractedWords);
-    }
-  },
   bagOfWords : function(){
     return this._oBagOfWords;
   },
   setBagOfWords : function(oBagOfWords){
     this._oBagOfWords = oBagOfWords;
+  },
+  addListToBagOfWords : function(lWords) {
+    for (var i = 0, iLength = lWords.length; i < iLength; i++) {
+      this._oBagOfWords.addWord(lWords[i],
+        Cotton.Config.Parameters.scoreForExtractedWords);
+    }
   },
   closestGoogleSearchPage : function() {
     return this._sClosestGoogleSearchPage;
