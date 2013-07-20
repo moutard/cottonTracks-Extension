@@ -216,8 +216,6 @@
         _saveResults : function() {
           var oCurrentHistoryItem = this._oClient.current();
           oCurrentHistoryItem.extractedDNA()
-          .setAllParagraphs(this._lAllParagraphs);
-          oCurrentHistoryItem.extractedDNA()
           .setFirstParagraph(this._lAllParagraphs[0]);
           oCurrentHistoryItem.extractedDNA().setImageUrl(this._sBestImage);
           this._oClient.setParagraph(this._lAllParagraphs);

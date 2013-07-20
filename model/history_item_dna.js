@@ -23,7 +23,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _sImageUrl : undefined,
   _sFirstParagraph : undefined,
   _sMostReadParagraph : undefined,
-  _lsAllParagraphs : undefined,
   _lParagraphs : null,
   _lCopyPaste : null,
 
@@ -45,7 +44,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
     this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
     this._sMostReadParagraph = "";
-    this._lsAllParagraphs = [];
     this._lParagraphs = [];
     this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
@@ -196,12 +194,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   },
   setParagraphs : function(lParagraphs) {
     this._lParagraphs = lParagraphs;
-  },
-  allParagraphs : function() {
-	return this._lsAllParagraphs;
-  },
-  setAllParagraphs : function(lsParagraphs) {
-	this._lsAllParagraphs = lsParagraphs;
   },
   copyPaste : function() {
     return this._lCopyPaste;
