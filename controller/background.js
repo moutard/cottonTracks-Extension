@@ -170,14 +170,15 @@ Cotton.Controllers.Background = Class.extend({
                     if (oCottonTab){
                       chrome.tabs.remove(oCottonTab['id']);
                     }
+                    chrome.tabs.create({
+                      'url': 'lightyear.html',
+                      'index': iCallerTabIndex + 1,
+                      'openerTabId': self._iCallerTabId
+                    });
                     if (sCallerTabUrl === "chrome://newtab/"){
-                      chrome.tabs.update(self._iCallerTabId, {'url': 'lightyear.html'});
-                    } else{
-                      chrome.tabs.create({
-                        'url': 'lightyear.html',
-                        'index': iCallerTabIndex + 1,
-                        'openerTabId': self._iCallerTabId
-                      });
+                      // put after the create method
+                      // because we need the tab to be open to have it id as an referrer
+                      chrome.tabs.remove(self._iCallerTabId);
                     }
                   }
                 });

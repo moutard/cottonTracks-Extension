@@ -94,6 +94,11 @@ Cotton.Controllers.Lightyear = Class.extend({
   _Messenger : null,
 
   /**
+   * first arrival on the page, to avoid first onpopstate event
+   **/
+  _bLanding : null,
+
+  /**
    *
    */
   init : function(oMessenger){
@@ -103,6 +108,8 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oMessenger = oMessenger;
     this._oDispatcher = new Cotton.Messaging.Dispatcher();
 
+    this._bLanding = true;
+    this.replaceState(chrome.extension.getURL("lightyear.html"));
 
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
@@ -213,6 +220,22 @@ Cotton.Controllers.Lightyear = Class.extend({
       }
     });
 
+    window.onpopstate = function(){
+      if (!self._bLanding){
+        if (window.history.state['path'] === chrome.extension.getURL('lightyear.html')){
+          self._oDispatcher.publish('open_manager', {'noPushState': true});
+        } else {
+          var sPath = history.state['path'];
+          var iStoryId = parseInt(sPath.split("=")[1]);
+          self._oDispatcher.publish('enter_story', {
+            'story_id': iStoryId,
+            'noPushState': true
+          });
+        }
+      }
+      self._bLanding = false;
+    }
+
     // DISPATCHER SUBSCRIPTIONS
     // On item removal
     this._oDispatcher.subscribe("item:delete", this, function(dArguments){
@@ -262,6 +285,12 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     this._oDispatcher.subscribe('enter_story', this, function(dArguments){
       self._iStoryId = dArguments['story_id'];
+
+      if (!dArguments['noPushState']){
+        var sStoryUrl = chrome.extension.getURL("lightyear.html")+"?sid=" + dArguments['story_id'];
+        this.pushState(sStoryUrl);
+      }
+
       if (self._iOriginalStoryId !== dArguments['story_id']){
         self._iHistoryItemId = -1;
         self._oHistoryItem = null;
@@ -316,6 +345,7 @@ Cotton.Controllers.Lightyear = Class.extend({
                 self._oWorld.clearAll();
                 self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
                 self._oWorld.updateStory(self._oStory);
+                document.title = "cottonTracks - " + self._oStory.title()
               }
             });
         });
@@ -332,6 +362,7 @@ Cotton.Controllers.Lightyear = Class.extend({
               self._oWorld.clearAll();
               self._oWorld.updateMenu(self._oStory, self._lRelatedStories.length);
               self._oWorld.updateStory(self._oStory);
+              document.title = "cottonTracks - " + self._oStory.title();
             }
         });
       });
@@ -354,6 +385,11 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDispatcher.subscribe('open_manager', this, function(dArguments){
       self._oWorld.clearAll();
       self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
+      document.title = "cottonTracks";
+      if (!dArguments || !dArguments['noPushState']){
+        var sManagerUrl = chrome.extension.getURL("lightyear.html");
+        this.pushState(sManagerUrl);
+      }
     });
 
     this._oDispatcher.subscribe('edit_title', this, function(dArguments){
@@ -529,6 +565,14 @@ Cotton.Controllers.Lightyear = Class.extend({
           }
         });
     });
+  },
+
+  pushState : function(sUrl){
+    history.pushState({path: sUrl}, '', sUrl);
+  },
+
+  replaceState : function(sUrl){
+    history.replaceState({path: sUrl}, '', sUrl);
   }
 
 });
