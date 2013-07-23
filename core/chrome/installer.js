@@ -118,16 +118,16 @@ Cotton.Core.Installer = Class.extend({
     chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
 
     DEBUG && console.debug("Controller - install");
+    self._oBenchmark = new Benchmark("Installation");
     // Set cohort for analytics.
+    // FIXME(rmoutard->rkorach): put this in you analytics class.
     var date = new Date();
     var month = date.getMonth() + 1;
     // TODO(rmoutard): use a ct-cohort to avoid conflit on local storage.
     localStorage.setItem('cohort', month + "/" + date.getFullYear());
     Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
 
-    // start time to benchmark.
-    self._startTime = date.getTime();
-
+    // FIXME(rmoutard->rkorach) : I think we don't need it anymore.
     // Make sure the background page is keeped opened during installation.
     self.wakeUp();
 
@@ -141,15 +141,13 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug(lHistoryItems, lVisitItems);
         // visitItems are already dictionnaries, whereas historyItems are objects
         var lHistoryItemsDict = [];
-        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++){
+        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++) {
           // maybe a setFormatVersion problem
           var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
           var dItem = oTranslator.objectToDbRecord(oItem);
           lHistoryItemsDict.push(dItem);
         }
         DEBUG && console.debug(lHistoryItemsDict);
-        // TODO(rmoutard): put this callback method later, after all the stories
-        // are properly stored.
         self._wInstallWorker.postMessage({
           'historyItems' : lHistoryItemsDict,
           'visitItems' : lVisitItems
@@ -176,11 +174,7 @@ Cotton.Core.Installer = Class.extend({
 
   installIsFinished : function() {
     var self = this;
-    var d = new Date();
-    var _endTime = d.getTime();
-    var elapsedTime = (_endTime - self._startTime) / 1000;
-    DEBUG && console.debug("time elapsed during installation: "
-      + elapsedTime + "ms");
+    self._oBenchmark.end();
     chrome.browserAction.enable();
     self._bReadyForMessaging = true;
     self._mIsFinished();
