@@ -7,11 +7,6 @@
 Cotton.UI.SideMenu.Filters = Class.extend({
 
   /**
-   * {Cotton.UI.SideMenu.Menu} parent element.
-   */
-  _oMenu : null,
-
-  /**
    * {Cotton.Messaging.Dispatcher} dispatcher for UI
    */
   _oDispatcher : null,
@@ -28,9 +23,8 @@ Cotton.UI.SideMenu.Filters = Class.extend({
    */
   _dFilters : {},
 
-  init: function(oDispatcher, oMenu) {
+  init: function(oDispatcher) {
     var self = this;
-    this._oMenu = oMenu;
     this._dFilters = {};
 
     this._lFilters = ['all', 'article', 'image', 'video', 'map'];
