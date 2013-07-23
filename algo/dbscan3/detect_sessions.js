@@ -5,6 +5,7 @@
  * consecutive items is more than 5 hours.
  * And copy the corresponding historyItems so the algo can work.
  *
+ * Even if there is no session return an empty session.
  * @param {Array}
  *          lHistoryItems
  */
@@ -24,7 +25,8 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
 
     if (Math.abs(oCurrentVisitItem['visitTime'] - iPreviousTime) <= threshold) {
       var iIndex = oCurrentVisitItem['cottonHistoryItemId'];
-      if(lNewRoughHistoryItemSession.indexOf(lHistoryItems[iIndex]) === -1){
+      // WHY ?
+      if(lNewRoughHistoryItemSession.indexOf(lHistoryItems[iIndex]) === -1) {
         lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
       }
     } else {

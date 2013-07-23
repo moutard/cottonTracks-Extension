@@ -40,7 +40,7 @@ function handleHistoryItems3(lHistoryItems, lVisitItems) {
   // Step 1.
   Cotton.Algo.roughlySeparateSessionForVisitItems(lHistoryItems, lVisitItems,
     function(lSession, iTotalSessions) {
-    if (iTotalSessions){
+    if (iTotalSessions) {
       self.postMessage({'iTotalSessions' : iTotalSessions});
     }
     // Do this for each session.
