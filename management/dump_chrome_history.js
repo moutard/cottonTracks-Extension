@@ -8,7 +8,7 @@ Cotton.Management.dumpChromeHistoryRaw = function(mActionWithItems){
     text : '',
     startTime : 0,
     // january 20th 23:59:59s and before
-    endTime : 1358726399000,
+    //endTime : 1358726399000,
     // take enough to be sure that we'll have at least 1000 left after preRemoveTools
     "maxResults" : 5000,
   }, function(lChromeHistoryItems) {
@@ -16,6 +16,41 @@ Cotton.Management.dumpChromeHistoryRaw = function(mActionWithItems){
   });
 };
 
+Cotton.Management.dumpChromeVisitItemsRaw = function() {
+    var lAllVisitItems = [];
+    var iCount = 0;
+    var iChromeHistoryLength = 0;
+    chrome.history.search({
+    text : '',
+    startTime : 0,
+    // january 20th 23:59:59s and before
+    //endTime : 1358726399000,
+    // take enough to be sure that we'll have at least 1000 left after preRemoveTools
+    "maxResults" : 5000,
+  }, function(lChromeHistoryItems) {
+    var sRecord = JSON.stringify(lChromeHistoryItems);
+    var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+    window.open(sUriContent, 'chrome_history_item_raw');
+
+    iChromeHistoryLength = lChromeHistoryItems.length;
+    for (var i = 0, dHistoryItem; dHistoryItem = lChromeHistoryItems[i]; i++ ) {
+       chrome.history.getVisits({
+          'url': dHistoryItem['url']
+        }, function(lVisitItems) {
+
+          lAllVisitItems = lAllVisitItems.concat(lVisitItems);
+          iCount++;
+          if (iCount == iChromeHistoryLength) {
+            var sRecord = JSON.stringify(lAllVisitItems);
+            var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+            window.open(sUriContent, 'chrome_visit_item_raw');
+          }
+        });
+    }
+
+  });
+
+ };
 /**
  * Return the chrome elements after they have been translate to cotton history
  * item, and the pretreatment suite have been applied. Like exlude
