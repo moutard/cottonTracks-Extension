@@ -1067,7 +1067,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
-  putUnique: function(sObjectStoreName, dItem, mMerged, mOnSaveCallback) {
+  putUnique: function(sObjectStoreName, dItem, mMerge, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1114,7 +1114,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           var dResult = oEvent.target.result;
 
           // Merge the 2 elements using the given function.
-          var dMergedItem = mMerged(dResult, dItem);
+          var dMergedItem = mMerge(dResult, dItem);
           var oSecondPutRequest = oStore.put(dMergedItem);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
@@ -1134,174 +1134,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
       }
     }
-  },
-
-  /**
-   * When you can, prefer to use the putUnique general method that use a merged
-   * function to merge the element already in the database and the oneyou want
-   * to add.
-   * But in some case due to performance issue, create a specific function
-   * allow to gain performance.
-   */
-  putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    var oPutRequest = oStore.put(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oPutRequest.onerror = function(oEvent){
-      // uniquiness is not satsified.
-      if(this['error']['name'] === "ConstraintError"){
-        // A new transaction is needed as the other is likely to be aborted.
-        var oTransaction = self._oDb.transaction([sObjectStoreName], "readwrite");
-        var oStore =  oTransaction.objectStore(sObjectStoreName);
-        var oIndex = oStore.index('sKeyword');
-
-        // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem['sKeyword']);
-        oFindRequest.onsuccess = function(oEvent) {
-          var oResult = oEvent.target.result;
-          // If there was no result, it will send back null.
-          dItem['id'] = oResult['id'];
-          dItem['lReferringStoriesId'] = _.union(dItem['lReferringStoriesId'],
-              oResult['lReferringStoriesId']);
-          dItem['lReferringHistoryItemsId'] = _.union(dItem['lReferringHistoryItemsId'],
-              oResult['lReferringHistoryItemsId']);
-
-          DEBUG && console.debug(dItem['sKeyword'] + " had an id:" + dItem['id'] );
-          var oSecondPutRequest = oStore.put(dItem);
-
-          oSecondPutRequest.onsuccess = function(oEvent) {
-            mOnSaveCallback.call(self, oEvent.target.result);
-          };
-
-          oSecondPutRequest.onerror = function(oEvent) {
-            console.error("can't put: " + dItem);
-          };
-
-        };
-
-        oFindRequest.onerror = function(oEvent) {
-          console.error(oEvent);
-          console.error(this);
-          console.error("can't find: " + dItem['sKeyword']);
-        };
-      }
-    };
-  },
-
-  putUniqueHistoryItem: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-    var oAddRequest = oStore.add(dItem);
-
-    oAddRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oAddRequest.onerror = function(oEvent){
-
-      // console.error(oEvent);
-      // console.error(this);
-      if(this['error']['name'] === "ConstraintError"){
-        // uniqueness unsatisfied
-        // TODO(rmoutard): use
-        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-        // to get the right key.
-        var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
-        var oStore =  oTransaction.objectStore(sObjectStoreName);
-        var oIndex = oStore.index('sUrl');
-
-        // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem['sUrl']);
-        oFindRequest.onsuccess = function(oEvent) {
-          var oResult = oEvent.target.result;
-
-          // If there was no result, it will send back null.
-          dItem['id'] = oResult['id'];
-          dItem['iLastVisitTime'] = Math.max(
-            dItem['iLastVisitTime'], oResult['iLastVisitTime']);
-          // Merge highlighted text.
-          dItem['oExtractedDNA']['lHighlightedText'] = _.union(
-              dItem['oExtractedDNA']['lHighlightedText'],
-              oResult['oExtractedDNA']['lHighlightedText']);
-          var lParagraphs = [];
-          lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
-          for (var i = 0, dResultParagraph; dResultParagraph = oResult['oExtractedDNA']['lParagraphs'][i]; i++){
-            var bMerge = false;
-            for (var j = 0, dParagraph; dParagraph = dItem['oExtractedDNA']['lParagraphs'][j]; j++){
-              if (dResultParagraph['id'] === dParagraph['id']){
-                bMerge = true;
-                dParagraph['fPercent'] = Math.max(dParagraph['fPercent'],dResultParagraph['fPercent']);
-                var lQuotes = [];
-                lQuotes = lQuotes.concat(dParagraph['lQuotes']);
-                for (var k = 0, dResultQuote; dResultQuote = dResultParagraph['lQuotes'][k]; k++){
-                  var bMergeQuote = false;
-                  for (var l = 0, dQuote; dQuote = dParagraph['lQuotes'][l]; l++){
-                    if ((dResultQuote['start']-dQuote['start'])*(dResultQuote['start']-dQuote['end']) <= 0
-                      ||(dResultQuote['end']-dQuote['start'])*(dResultQuote['end']-dQuote['end']) <= 0
-                      || (dResultQuote['start'] <= dQuote['start'] && dResultQuote['end'] >= dQuote['end'])){
-                        bMergeQuote = true;
-                        dQuote['start'] = Math.min(dQuote['start'], dResultQuote['start']);
-                        dQuote['end'] = Math.max(dQuote['end'], dResultQuote['end']);
-                      lQuotes[l] = dQuote;
-                    }
-                  }
-                  if (!bMergeQuote){
-                    lQuotes.push(dResultQuote);
-                  }
-                }
-                lParagraphs[j]['lQuotes'] = lQuotes;
-                break;
-              }
-            }
-            if (!bMerge){
-              lParagraphs.push(dResultParagraph);
-            }
-          }
-          dItem['oExtractedDNA']['lParagraphs'] = _.sortBy(lParagraphs, function(dParagraph){
-            return dParagraph['id'];
-          });
-          dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
-          dItem['oExtractedDNA']['lExtractedWords'] = oResult['oExtractedDNA']['lExtractedWords'];
-          // Take the max value of each key.
-          var dTempBag = {};
-          for (var sWord in dItem['oExtractedDNA']['dBagOfWords']){
-            var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
-            var b = oResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
-            dTempBag[sWord] = Math.max(a,b);
-          }
-          dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
-          var oSecondPutRequest = oStore.put(dItem);
-
-          oSecondPutRequest.onsuccess = function(oEvent) {
-            mOnSaveCallback.call(self, oEvent.target.result);
-          };
-
-          oSecondPutRequest.onerror = function(oEvent) {
-            console.error("can't put: " + dItem);
-          };
-
-        };
-
-        oFindRequest.onerror = function(oEvent) {
-          console.error(oEvent);
-          console.error(this);
-          console.error("can't find: " + dItem['id']);
-        };
-      }
-    };
   },
 
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {

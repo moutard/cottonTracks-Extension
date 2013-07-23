@@ -408,24 +408,11 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
-  putUniqueKeyword: function(sObjectStoreName, oObject, mOnSaveCallback) {
-    var self = this;
-
+  putUnique: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.putUniqueKeyword(sObjectStoreName, dDbRecord, function(iId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
-      }
-    });
-  },
-
-  putUniqueHistoryItem: function(sObjectStoreName, oObject, mOnSaveCallback) {
-    var self = this;
-
-    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
-    var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.putUniqueHistoryItem(sObjectStoreName, dDbRecord, function(iId) {
+    this._oEngine.putUnique(sObjectStoreName, dDbRecord,
+        oTranslator.mergeDBRecords(), function(iId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, iId);
       }

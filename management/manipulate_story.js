@@ -55,7 +55,7 @@ var Manager = Class.extend({
         oHistoryItem.setLastVisitTime(dHistoryItem['iLastVisitTime']);
         oHistoryItem.setTitle(dHistoryItem['sTitle']);
         oHistoryItem.initUrl(dHistoryItem['sUrl']);
-        self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId){
+        self._oDatabase.putUnique('historyItems', oHistoryItem, function(iId){
           var _iId = iId;
           DEBUG && console.debug(_iId);
           lHistoryItemsId.push(_iId);
@@ -79,7 +79,7 @@ var Manager = Class.extend({
                 for(var i=0, sKeyword; sKeyword = lList[i]; i++){
                   var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
                   oSearchKeyword.addReferringStoryId(iStoryId);
-                  self._oDatabase.putUniqueKeyword('searchKeywords',oSearchKeyword,
+                  self._oDatabase.putUnique('searchKeywords',oSearchKeyword,
                     function(){
                   });
                 }
@@ -119,7 +119,7 @@ var Manager = Class.extend({
           for(var sKey in dBagOfWords){
             var oSearchKeyword = new Cotton.Model.SearchKeyword(sKey);
             oSearchKeyword.addReferringStoryId(iStoryId);
-            self._oDatabase.putUniqueKeyword('searchKeywords', oSearchKeyword,
+            self._oDatabase.putUnique('searchKeywords', oSearchKeyword,
               function(){
                 DEBUG && console.debug('searchKeywords updated.');
               });
