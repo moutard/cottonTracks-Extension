@@ -89,7 +89,7 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oSto
       var sKeyword = lKeywords[j];
       var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
       oSearchKeyword.addReferringStoryId(oStory.id());
-      oStore.putUniqueKeyword('searchKeywords', oSearchKeyword, function(iId){
+      oStore.putUnique('searchKeywords', oSearchKeyword, function(iId){
         // Be careful with asynchronous.
         DEBUG && console.debug('keyword updated with id: ' + iId + ' storyId:' + oStory.id());
         lKeywordsIds.push(iId);

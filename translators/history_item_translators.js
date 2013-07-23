@@ -99,8 +99,73 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     return oIDBHistoryItem;
   };
 
+  var mMergeDBRecords = function(oResult, dItem) {
+    var dMerged = {};
+    // If there was no result, it will send back null.
+    dItem['id'] = oResult['id'];
+    dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], oResult['iLastVisitTime']);
+
+    var lParagraphs = [];
+    // Make a local copy.
+    lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
+
+    // For each paragraph in the original oResult, find the corresponding paragraphs
+    // in dItem.
+    for (var i = 0, dResultParagraph; dResultParagraph = oResult['oExtractedDNA']['lParagraphs'][i]; i++) {
+      // Indicates if the paragraph was present in the original.
+      var bMerge = false;
+      for (var j = 0, dParagraph; dParagraph = dItem['oExtractedDNA']['lParagraphs'][j]; j++) {
+        if (dResultParagraph['id'] === dParagraph['id']) {
+          bMerge = true;
+          dParagraph['fPercent'] = Math.max(dParagraph['fPercent'],dResultParagraph['fPercent']);
+          var lQuotes = [];
+          lQuotes = lQuotes.concat(dParagraph['lQuotes']);
+
+          for (var k = 0, dResultQuote; dResultQuote = dResultParagraph['lQuotes'][k]; k++) {
+            // Indicates if the quote was present in the original.
+            var bMergeQuote = false;
+            for (var l = 0, dQuote; dQuote = dParagraph['lQuotes'][l]; l++) {
+
+              if ((dResultQuote['start']-dQuote['start'])*(dResultQuote['start']-dQuote['end']) <= 0
+                //
+                ||(dResultQuote['end']-dQuote['start'])*(dResultQuote['end']-dQuote['end']) <= 0
+                //
+                || (dResultQuote['start'] <= dQuote['start'] && dResultQuote['end'] >= dQuote['end'])) {
+                  bMergeQuote = true;
+                  dQuote['start'] = Math.min(dQuote['start'], dResultQuote['start']);
+                  dQuote['end'] = Math.max(dQuote['end'], dResultQuote['end']);
+                lQuotes[l] = dQuote;
+              }
+            }
+            if (!bMergeQuote){
+              lQuotes.push(dResultQuote);
+            }
+          }
+          lParagraphs[j]['lQuotes'] = lQuotes;
+          break;
+        }
+      }
+      if (!bMerge) {
+        lParagraphs.push(dResultParagraph);
+      }
+    }
+    // FIXME(rmoutard) : Remove the sortBy util we use dictionnary.
+    dItem['oExtractedDNA']['lParagraphs'] = lParagraphs;
+    dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
+    // Take the max value of each key.
+    var dTempBag = {};
+    for (var sWord in dItem['oExtractedDNA']['dBagOfWords']) {
+      var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      var b = oResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      dTempBag[sWord] = Math.max(a,b);
+    }
+    dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
+
+    return dItem;
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter, dIndexes);
+      mDbRecordToObjectConverter, dIndexes, mMergeDBRecords);
 
   // Add a specific method for this translator.
   oTranslator.chromeHistoryItemToObject = mChromeHistorytemToObject;

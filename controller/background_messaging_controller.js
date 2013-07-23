@@ -92,7 +92,7 @@ Cotton.Controllers.Messaging = Class.extend({
           }
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
             // update the item
-            self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+            self._oMainController._oDatabase.putUnique('historyItems',
               oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
@@ -137,7 +137,7 @@ Cotton.Controllers.Messaging = Class.extend({
                     // If we find a min story put the historyItem in it.
                     if(oMinStory){
                       oHistoryItem.setStoryId(oMinStory.id());
-                      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                      self._oMainController._oDatabase.putUnique('historyItems',
                         oHistoryItem, function(iHistoryItemId){
                           DEBUG && console.debug("historyItem added" + iHistoryItemId);
                           sPutId = iHistoryItemId;
@@ -163,7 +163,7 @@ Cotton.Controllers.Messaging = Class.extend({
                       Cotton.ANALYTICS.storyAvailable('join existing story');
 
                     } else {
-                      self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
+                      self._oMainController._oDatabase.putUnique('historyItems',
                         oHistoryItem, function(iHistoryItemId){
                           DEBUG && console.debug("historyItem added" + iHistoryItemId);
                           sPutId = iHistoryItemId;
@@ -224,7 +224,7 @@ Cotton.Controllers.Messaging = Class.extend({
           oHistoryItem.setStoryId(oDbHistoryItem.storyId());
         }
         // The history item already exists, just update it.
-        self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
+        self._oMainController._oDatabase.putUnique('historyItems', oHistoryItem, function(iId) {
           DEBUG && console.debug("Messaging - historyItem updated" + iId);
           if (bContentSet){
             if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
