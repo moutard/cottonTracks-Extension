@@ -209,8 +209,12 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
       DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
 
       oBenchmark.step('Compute all historyItems');
+      if(iLength == 0) {
+        // Stop installation if there is no elements in the history.
+        mCallBackFunction(glCottonHistoryItems, []);
+      }
       // For each chromeHistory remaining find all the corresponding visitItems.
-      for(var i = 0; i < iLength; i++){
+      for(var i = 0; i < iLength; i++) {
         // Attribute an fixed id directly instead of putting in the database
         // and let the database attribute the id.
         // Seems there is a problem with the id 0.
@@ -231,7 +235,7 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction) {
             iCount +=1;
             // Once we get all the visitItems we can compute googleClosestSearch
             // page.
-            if(iCount === iLength){
+            if(iCount === iLength) {
               glChromeVisitItems.sort(function(a, b){
                 return b['visitTime'] - a['visitTime'];
               });
