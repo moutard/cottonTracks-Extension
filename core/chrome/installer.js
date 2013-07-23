@@ -40,7 +40,7 @@ Cotton.Core.Installer = Class.extend({
 
     // Add listener called when the worker send message back to the main thread.
     self._wInstallWorker.addEventListener('message', function(e) {
-      if (e.data['iTotalSessions']){
+      if (e.data['iTotalSessions']) {
         iTotalSessions = e.data['iTotalSessions'];
       } else {
         iSessionCount++;
@@ -50,7 +50,7 @@ Cotton.Core.Installer = Class.extend({
         var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        for (var i = 0, oStory; oStory = dStories[i]; i++){
+        for (var i = 0, oStory; oStory = dStories[i]; i++) {
           var oMergedStory = oStory;
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
@@ -73,8 +73,8 @@ Cotton.Core.Installer = Class.extend({
           lStories.push(oMergedStory);
         }
 
-        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++){
-          if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1){
+        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++) {
+          if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1) {
             lHistoryItemsIds.push(dHistoryItem['id']);
             // Data sent by the worker are serialized. Deserialize using translator.
             var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
@@ -84,23 +84,20 @@ Cotton.Core.Installer = Class.extend({
           }
         }
 
-        if (iTotalSessions && iSessionCount === iTotalSessions){
+        if (iTotalSessions && iSessionCount === iTotalSessions) {
           // add items in indexedDB, then stories. We need to wait for the historyItems
+          // FIXME(rmoutard): be sure that they are all in the base.
           // to be in base because when putting the stories we update iStoryId in the base
-          self._oDatabase.putList('historyItems', lHistoryItems, function(lIds) {
             // Add stories in IndexedDB.
+            if(lStories.length == 0) {
+              // Stop the installation.
+              self.installIsFinished();
+            } else {
             Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
-              function(oDatabase, lStories){
-                var d = new Date();
-                var _endTime = d.getTime();
-                var elapsedTime = (_endTime - self._startTime) / 1000;
-                DEBUG && console.debug("time elapsed during installation: "
-                  + elapsedTime + "ms");
-                chrome.browserAction.enable();
-                self._bReadyForMessaging = true;
-                self._mIsFinished();
-            });
-          });
+              function(oDatabase, lStories) {
+                self.installIsFinished();
+              });
+          }
         }
       }
     }, false);
@@ -161,7 +158,7 @@ Cotton.Core.Installer = Class.extend({
 
   },
 
-  wakeUp : function(){
+  wakeUp : function() {
     var self = this;
     /*
      * HACK
@@ -176,5 +173,17 @@ Cotton.Core.Installer = Class.extend({
       }, 5000);
     }
   },
+
+  installIsFinished : function() {
+    var self = this;
+    var d = new Date();
+    var _endTime = d.getTime();
+    var elapsedTime = (_endTime - self._startTime) / 1000;
+    DEBUG && console.debug("time elapsed during installation: "
+      + elapsedTime + "ms");
+    chrome.browserAction.enable();
+    self._bReadyForMessaging = true;
+    self._mIsFinished();
+  }
 
 });
