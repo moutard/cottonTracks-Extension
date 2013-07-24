@@ -123,10 +123,6 @@ Cotton.Controllers.Background = Class.extend({
         });
     });
 
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-      //wake up
-    });
-
     chrome.browserAction.onClicked.addListener(function() {
       self._iTriggerHistoryItem = -1;
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
@@ -390,7 +386,7 @@ Cotton.Controllers.Background = Class.extend({
         }
       }
     });
-  }
+  },
 
 });
 
