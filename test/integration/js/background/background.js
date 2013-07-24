@@ -1,5 +1,4 @@
 'use strict';
-(fuction() {
 var IntegrationBackground = Class.extend({
 
   init: function() {
@@ -20,7 +19,7 @@ var IntegrationBackground = Class.extend({
   },
 
 });
-oIntegrationBackground = new IntegrationBackground();
-})();
+
+var oIntegrationBackground = new IntegrationBackground();
 
 
