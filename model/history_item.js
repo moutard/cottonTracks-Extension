@@ -85,6 +85,11 @@ Cotton.Model.HistoryItem = Class.extend({
   setStoryId : function(sStoryId) {
     this._sStoryId = sStoryId;
   },
+  removeStoryId : function() {
+    if (this._sStoryId){
+      this._sStoryId = undefined;
+    }
+  },
   extractedDNA : function() {
     return this._oExtractedDNA;
   },

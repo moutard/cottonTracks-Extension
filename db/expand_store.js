@@ -52,10 +52,21 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
 };
 
 Cotton.DB.Stories.removeHistoryItemInStory = function(oStore, iStoryId, iHistoryItemId, mCallBackFunction){
+  var bStoryReady, bItemReady;
   oStore.find('stories', 'id', iStoryId, function(oStory){
     oStory.removeHistoryItem(iHistoryItemId);
     oStore.put('stories', oStory, function(){
-      if (mCallBackFunction){
+      bStoryReady = true;
+      if (bItemReady && mCallBackFunction){
+        mCallBackFunction();
+      }
+    });
+  });
+  oStore.find('historyItems', 'id', iHistoryItemId, function(oHistoryItem){
+    oHistoryItem.removeStoryId();
+    oStore.put('historyItems', oHistoryItem, function(){
+      bItemReady = true;
+      if (bStoryReady && mCallBackFunction){
         mCallBackFunction();
       }
     });
