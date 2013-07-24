@@ -69,14 +69,11 @@ Cotton.UI.Story.Item.Factory = function(oHistoryItem, sActiveFilter, oDispatcher
       // Default
       return new Cotton.UI.Story.Item.Article(oHistoryItem, sActiveFilter, oDispatcher);
     }
-  } else if (oUrl.dSearch['q']) {
-    // Search
-    return new Cotton.UI.Story.Item.Search(oHistoryItem, sActiveFilter, oDispatcher);
-    //TODO(rkorach) : include slideshare
   } else {
     // Default
     return new Cotton.UI.Story.Item.Article(oHistoryItem, sActiveFilter, oDispatcher);
   }
+  //TODO(rkorach) : include slideshare
 
 };
 
