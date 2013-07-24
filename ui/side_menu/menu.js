@@ -42,7 +42,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
     this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
     this._oSettings = new Cotton.UI.SideMenu.Settings(this._oDispatcher);
 
-    this._oFilters.setFilterCount("all", oStory.historyItemsId().length);
+    this._oFilters.setFilterCount("all", oStory.historyItems().length);
     //construct element
     this._$menu.append(
       this._oPreview.$(),

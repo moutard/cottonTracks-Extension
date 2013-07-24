@@ -31,7 +31,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
 	  this._oStickerImage = new Cotton.UI.SideMenu.Preview.Sticker.Image(oStory.featuredImage());
 	  this._oStickerToolbox = new Cotton.UI.SideMenu.Preview.Sticker.Toolbox(oStory.id(), this, sTypeOfSticker, this._oDispatcher);
 	  this._oStickerInfos = new Cotton.UI.SideMenu.Preview.Sticker.Infos(oStory.title(),
-  	  oStory.id(), oDispatcher, oStory.historyItemsId().length);
+  	  oStory.id(), oDispatcher, oStory.historyItems().length);
 
     if (sTypeOfSticker === "relatedStory"){
   	  this._$sticker.click(function(e){
@@ -40,7 +40,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
   	      && e.target !== self._oStickerToolbox.renameButton()[0]
   	      && e.target !== self._oStickerInfos.title()[0]){
   	        Cotton.ANALYTICS.enterStory();
-            self.enterStory(self._oStory.id());
+            self.enterStory(self._oStory);
   	    }
       });
     }
@@ -88,8 +88,11 @@ Cotton.UI.SideMenu.Preview.Sticker.Element = Class.extend({
     return this._oStickerInfos;
   },
 
-  enterStory : function(iStoryId){
-    this._oDispatcher.publish('enter_story', {'story_id': iStoryId});
+  enterStory : function(oStory){
+    this._oDispatcher.publish('enter_story', {
+      'story_id': oStory.id(),
+      'story': oStory
+    });
   },
 
   editTitle : function(){
