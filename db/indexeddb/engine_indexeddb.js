@@ -1083,8 +1083,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     oPutRequest.onerror = function(oEvent) {
       // ConstraintError means that one of the unique key is already present,
       // so put can't be done without transgressing constraints.
-      console.log(this);
-      console.log(oEvent);
       if(this['error']['name'] === "ConstraintError") {
         var oTransaction = self._oDb.transaction([sObjectStoreName],
         "readwrite");
