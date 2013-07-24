@@ -72,10 +72,6 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'lightyear', 'open', 'browserAction']);
   },
 
-  backToPage : function(sLeaveMedium) {
-    _gaq.push(['_trackEvent', 'lightyear', 'leave', sLeaveMedium]);
-  },
-
   filter : function(sFilterType) {
     _gaq.push(['_trackEvent', 'story', 'filter', sFilterType]);
   },
