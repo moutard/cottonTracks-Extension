@@ -203,21 +203,26 @@ Cotton.Controllers.Background = Class.extend({
                                               e.data['iNbCluster']);
 
       // TODO(rmoutard) : find a better solution.
+      // Remove from the pool the historyItems you just add to a new story.
       var lHistoryItemToKeep = [];
-      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++){
+      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
         var dHistoryItem = e.data['lHistoryItems'][i];
-        if(dHistoryItem['sStoryId'] === "UNCLASSIFIED"
-          && dHistoryItem['clusterId'] === "NOISE"){
+        if (dHistoryItem['sStoryId'] === "UNCLASSIFIED"
+            && dHistoryItem['clusterId'] === "NOISE") {
+            // The clusterId is added by the function "clusterStory". So
+            // deleted it to avoid collision the next time.
             delete dHistoryItem['clusterId'];
             lHistoryItemToKeep.push(dHistoryItem);
         }
       }
+      // Refresh completly remove and replace content do. (As we give a param
+      // to refresh the expiracy date is not used.)
       self._oPool._refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
       Cotton.DB.Stories.addStories(self._oDatabase, lStories,
-        function(oDatabase, lStories){
-          if (lStories && lStories.length > 0){
+        function(oDatabase, lStories) {
+          if (lStories && lStories.length > 0) {
             Cotton.ANALYTICS.storyAvailable('pool');
           }
       });
