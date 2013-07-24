@@ -38,7 +38,7 @@ var MockHistoryClient = Class.extend({
      $.getJSON(this._sHistoryItemsFile, function(lHistoryItems) {
       self._lHistoryItems = lHistoryItems;
       mCallback(self._lHistoryItems);
-     }
+     });
   },
 });
 
