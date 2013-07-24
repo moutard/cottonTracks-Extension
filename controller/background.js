@@ -123,63 +123,7 @@ Cotton.Controllers.Background = Class.extend({
         });
     });
 
-    chrome.browserAction.onClicked.addListener(function() {
-      self._iTriggerHistoryItem = -1;
-      // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
-      chrome.tabs.query({
-        'active':true,
-        'lastFocusedWindow': true
-      }, function(lTabs){
-        var sCallerTabUrl = lTabs[0]['url'];
-        if (sCallerTabUrl.indexOf(chrome.extension.getURL('lightyear.html')) !== -1){
-          // we are in lightyear, so the UI page will listen to the event
-          // go back to the manager. do nothing from background
-        } else {
-          Cotton.ANALYTICS.showLightyear();
-          self._iCallerTabId = lTabs[0]['id'];
-          var iCallerTabIndex = lTabs[0]['index'];
-          chrome.tabs.query({}, function(lTabs){
-            var iOpenTabs = lTabs.length;
-            var iCount = 0;
-
-            // we authorize one cT tab per window
-            chrome.windows.getLastFocused({}, function(oWindow){
-              var iCurrentWindow = oWindow['id'];
-              for (var i = 0, oTab; oTab = lTabs[i]; i++){
-                if (oTab['url'].indexOf(chrome.extension.getURL('lightyear.html')) !== -1
-                  && oTab['windowId'] === iCurrentWindow){
-                    var oCottonTab = oTab;
-                }
-                self.getStoryFromTab(oTab, function(){
-                  iCount++;
-                  if (iCount === iOpenTabs){
-                    for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-                      if (iStoryInTabsId === self._iTriggerStory){
-                        self._lStoriesInTabsId.splice(i,1);
-                        i--;
-                      }
-                    }
-                    if (oCottonTab){
-                      chrome.tabs.remove(oCottonTab['id']);
-                    }
-                    chrome.tabs.create({
-                      'url': 'lightyear.html',
-                      'index': iCallerTabIndex + 1,
-                      'openerTabId': self._iCallerTabId
-                    });
-                    if (sCallerTabUrl === "chrome://newtab/"){
-                      // put after the create method
-                      // because we need the tab to be open to have it id as an referrer
-                      chrome.tabs.remove(self._iCallerTabId);
-                    }
-                  }
-                });
-              }
-            });
-          });
-        }
-      });
-    });
+    self._oBrowserAction = new Cotton.Controllers.BrowserAction(this);
   },
 
   /**
