@@ -133,6 +133,11 @@ Cotton.Analytics = Class.extend({
 
   enterStory : function() {
     _gaq.push(['_trackEvent', 'story', 'enter_story']);
+  },
+
+  //navigation in the UI
+  popState : function(sLandingPageType) {
+    _gaq.push(['_trackEvent', 'navigation', 'back_forward', sLandingPageType]);
   }
 
 });
