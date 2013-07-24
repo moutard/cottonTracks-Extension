@@ -268,9 +268,11 @@ Cotton.Controllers.Lightyear = Class.extend({
       if (!self._bLanding){
         if (window.history.state['path'] === chrome.extension.getURL('lightyear.html')){
           self._oDispatcher.publish('open_manager', {'noPushState': true});
+          Cotton.ANALYTICS.popState('manager');
         } else {
           var sPath = history.state['path'];
           var iStoryId = parseInt(sPath.split("=")[1]);
+          Cotton.ANALYTICS.popState('story');
           self._oDispatcher.publish('enter_story', {
             'story_id': iStoryId,
             'noPushState': true
