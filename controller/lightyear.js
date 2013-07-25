@@ -246,17 +246,28 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     window.onpopstate = function(){
       if (!self._bLanding){
-        if (window.history.state['path'] === chrome.extension.getURL('lightyear.html')){
-          self._oDispatcher.publish('open_manager', {'noPushState': true});
-          Cotton.ANALYTICS.popState('manager');
-        } else {
-          var sPath = history.state['path'];
-          var iStoryId = parseInt(sPath.split("=")[1]);
+        var oUrl = new UrlParser(window.history.state['path']);
+        oUrl.fineDecomposition();
+        if (oUrl.dSearch['sid']){
+          //story
+          var iStoryId = parseInt(oUrl.dSearch['sid']);
           Cotton.ANALYTICS.popState('story');
           self._oDispatcher.publish('enter_story', {
             'story_id': iStoryId,
             'noPushState': true
           });
+        } else if (oUrl.dSearch['q']) {
+          //search
+          self._oDispatcher.publish('search_stories', {
+            'noPushState': true,
+            'context': 'manager',
+            'searchWords': oUrl.dSearch['q'].split('+')
+          });
+          Cotton.ANALYTICS.popState('search');
+        } else {
+          //manager
+          self._oDispatcher.publish('open_manager', {'noPushState': true});
+          Cotton.ANALYTICS.popState('manager');
         }
       }
       self._bLanding = false;
@@ -428,6 +439,10 @@ Cotton.Controllers.Lightyear = Class.extend({
           self.setStoriesNoSearch(lSearchResultStories, function(lStoriesNoSearch){
             if (dArguments['context'] === 'manager'){
               self._oWorld.refreshManager(lStoriesNoSearch);
+              if (!dArguments['noPushState']) {
+                var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments["searchWords"].join('+');
+                self.pushState(sSearchUrl);
+              }
             } else {
               self._oWorld.refreshRelatedStories(lStoriesNoSearch);
             }
@@ -436,6 +451,10 @@ Cotton.Controllers.Lightyear = Class.extend({
         else {
           if (dArguments['context'] === 'manager'){
             self._oWorld.refreshManager(lSearchResultStories);
+            if (!dArguments['noPushState']) {
+              var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments["searchWords"].join('+');
+              self.pushState(sSearchUrl);
+            }
           } else {
             self._oWorld.refreshRelatedStories(lSearchResultStories);
           }
