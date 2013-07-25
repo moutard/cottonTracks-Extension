@@ -135,7 +135,7 @@ Cotton.Controllers.Background = Class.extend({
         'lastFocusedWindow': true
       }, function(lTabs){
         var sCallerTabUrl = lTabs[0]['url'];
-        if (sCallerTabUrl === chrome.extension.getURL('lightyear.html')){
+        if (sCallerTabUrl.indexOf(chrome.extension.getURL('lightyear.html')) !== -1){
           // we are in lightyear, so the UI page will listen to the event
           // go back to the manager. do nothing from background
         } else {
