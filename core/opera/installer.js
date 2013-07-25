@@ -32,11 +32,7 @@ Cotton.Core.Installer = Class.extend({
     chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
     DEBUG && console.debug("Controller - install");
     // Set cohort for analytics.
-    var date = new Date();
-    var month = date.getMonth() + 1;
-    // TODO(rmoutard): use a ct-cohort to avoid conflit on local storage.
-    localStorage.setItem('cohort', month + "/" + date.getFullYear());
-    Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
+    Cotton.ANALYTICS.setCohort();
     self._mIsFinished();
   }
 
