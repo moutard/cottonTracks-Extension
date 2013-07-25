@@ -1,8 +1,8 @@
 
 var MockHistoryClient = Class.extend({
 
-  _sHistoryItemsFile : "../../data/client/history_item.json",
-  _sVisitItemsFile : "../../data/client/visit_items.json",
+  _sHistoryItemsFile : "data/client/history_items.json",
+  _sVisitItemsFile : "data/client/visit_items.json",
   _lHistoryItems : undefined,
   _lVisitItems : undefined,
 
@@ -12,11 +12,6 @@ var MockHistoryClient = Class.extend({
 
   getVisits : function(dParams, mCallback) {
     var self = this;
-    if (self._lVisitItems === undefined) {
-      $.getJSON(self._sVisitItemsFile, function(lVisitItems) {
-        self._lVisitItems = lVisitItems;
-      });
-    }
     var lVisitItems = [];
     // find the id.
     var iHistoryItemId;
@@ -34,11 +29,13 @@ var MockHistoryClient = Class.extend({
     mCallback(lVisitItems);
   },
 
-  search : function(dParams, mCallback) {
-     $.getJSON(this._sHistoryItemsFile, function(lHistoryItems) {
-      self._lHistoryItems = lHistoryItems;
-      mCallback(self._lHistoryItems);
-     });
+  get : function(dParams, mCallback) {
+      chrome.runtime.getPackageDirectoryEntry(function(oDirectoryEntry) {
+        console.log(oDirectoryEntry);
+        oDirectoryEntry.getFile("data/client/history_items.json", {}, function(oFile) {
+          console.log(oFile);
+        });
+      });
   },
 });
 
