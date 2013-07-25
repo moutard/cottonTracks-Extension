@@ -555,8 +555,25 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     // go back to manager if browserAction clicked
     chrome.browserAction.onClicked.addListener(function() {
-      //open manager
-      window.location.href = "lightyear.html";
+      var bWindowActive, bTabActive;
+      chrome.windows.getCurrent({'populate': true}, function(oWindow){
+        if (oWindow['focused']) {
+          bWindowActive = true;
+          //open manager
+          if (bTabActive) {
+            window.location.href = "lightyear.html";
+          }
+        }
+      })
+      chrome.tabs.getCurrent(function(oTab){
+        if (oTab['highlighted']) {
+          bTabActive = true;
+          //open manager
+          if (bWindowActive) {
+            window.location.href = "lightyear.html";
+          }
+        }
+      })
     });
 
   },
