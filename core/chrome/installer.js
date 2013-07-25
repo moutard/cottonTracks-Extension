@@ -47,10 +47,10 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug('wDBSCAN - Worker ends: ',
           e.data['iNbCluster'], e.data['lHistoryItems']);
 
-        var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
+        var lNewStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                                 e.data['iNbCluster']);
 
-        for (var i = 0, oStory; oStory = dStories[i]; i++) {
+        for (var i = 0, oStory; oStory = lNewStories[i]; i++) {
           var oMergedStory = oStory;
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
             // TODO(rkorach) : do not use _.intersection
