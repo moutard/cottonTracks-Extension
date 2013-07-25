@@ -217,7 +217,7 @@ Cotton.Controllers.Background = Class.extend({
           dItem['clusterId'] = 0;
         }
       }
-      var lNewStory = Cotton.Algo.clusterStory(lItems, 1)['stories'];
+      var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
       // TODO(rmoutard) : find a better solution.
       var lHistoryItemToKeep = [];
       for (var i = 0, dItem; dItem = lItems[i]; i++){
