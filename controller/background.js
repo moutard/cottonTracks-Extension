@@ -176,6 +176,29 @@ Cotton.Controllers.Background = Class.extend({
   },
 
   /**
+   * InstallIfNeeded
+   * Check the state of the database to determine whether or not we need to
+   * install the application. If the "historyItems" store is empty, we are
+   * considering that the application need to be installed. The when the
+   * installation is finished, or if there is nothing to do, call the callback
+   * directly.
+   *
+   * {Function} mCallback : function called when
+   */
+  installIfNeeded : function(mCallback){
+    var self = this;
+    self._oDatabase.empty('historyItems', function(bIsEmpty){
+      if(bIsEmpty){
+        // As we are in a callback function of the database this is the database
+        // we access it faster using 'this' than self._oDatabase.
+        var oInstaller = new Cotton.Core.Installer(this, mCallback);
+      } else {
+        mCallback();
+      }
+    });
+  },
+
+  /**
    * Creates a story around an item, without minimum limit of number
    */
   forceStory : function(iSeedId, lItems, mCallback) {
@@ -216,29 +239,6 @@ Cotton.Controllers.Background = Class.extend({
       // too early, or because there has been a problem with content script message.
       mCallback.call(self, 0);
     }
-  },
-
-   /**
-   * InstallIfNeeded
-   * Check the state of the database to determine whether or not we need to
-   * install the application. If the "historyItems" store is empty, we are
-   * considering that the application need to be installed. The when the
-   * installation is finished, or if there is nothing to do, call the callback
-   * directly.
-   *
-   * {Function} mCallback : function called when
-   */
-  installIfNeeded : function(mCallback){
-    var self = this;
-    self._oDatabase.empty('historyItems', function(bIsEmpty){
-      if(bIsEmpty){
-        // As we are in a callback function of the database this is the database
-        // we access it faster using 'this' than self._oDatabase.
-        var oInstaller = new Cotton.Core.Installer(this, mCallback);
-      } else {
-        mCallback();
-      }
-    });
   },
 
   addGetContentTab : function (iTabId) {

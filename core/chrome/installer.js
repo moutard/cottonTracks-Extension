@@ -7,7 +7,7 @@ Cotton.Core.Installer = Class.extend({
   /**
    * call back method called when the installation is finished.
    */
-  _mIsFinished : null,
+  _mCallback : null,
 
   /**
    * Worker to make the algo part in different thread.
@@ -17,7 +17,7 @@ Cotton.Core.Installer = Class.extend({
   init: function(oDatabase, mCallback){
     var self = this;
     self._oDatabase = oDatabase;
-    self._mIsFinished = mCallback;
+    self._mCallback = mCallback;
 
     self.initInstallWorker();
     // When everything is ready call the install.
@@ -54,7 +54,7 @@ Cotton.Core.Installer = Class.extend({
         // FIXME(rmoutard) : take a lot of time.
 
         // For all the new stories
-        var bMerged = false;
+        var bHasBeenMerged = false;
         for (var i = 0, oNewStory; oNewStory = lNewStories[i]; i++) {
           // Find among all the stories we already have one that could be merged with.
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++) {
@@ -76,7 +76,7 @@ Cotton.Core.Installer = Class.extend({
             }
             break;
           }
-          if (!bMerged) { lStories.push(oNewStory); }
+          if (!bHasBeenMerged) { lStories.push(oNewStory); }
         }
 
         if (iTotalSessions && iSessionCount === iTotalSessions) {
@@ -147,15 +147,15 @@ Cotton.Core.Installer = Class.extend({
 
   },
 
+  /**
+   * HACK
+   * As long as the install and population of the database is not finished, we
+   * regularly call the background page to keep it awake.
+   */
   wakeUp : function() {
     var self = this;
-    /*
-     * HACK
-     */
-    // as long as the install and population of the database is not finished
-    // we regularly call the background page to keep it awake
     chrome.runtime.getBackgroundPage(function(oPage){});
-    if (!this._bReadyForMessaging){
+    if (!this._bStopWakeUp) {
       DEBUG && console.debug('wake up!');
       setTimeout(function(){
         self.wakeUp();
@@ -163,12 +163,15 @@ Cotton.Core.Installer = Class.extend({
     }
   },
 
+  /**
+   * Called this method when the installation is over.
+   * It stops the benchmark, enable the button, and apply the callback.
+   */
   installIsFinished : function() {
-    var self = this;
-    self._oBenchmark.end();
+    this._oBenchmark.end();
     chrome.browserAction.enable();
-    self._bReadyForMessaging = true;
-    self._mIsFinished();
+    this._bStopWakeUp = true;
+    this._mCallback();
   }
 
 });
