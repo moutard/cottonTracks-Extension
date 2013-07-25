@@ -26,11 +26,11 @@ Cotton.Management.dumpChromeVisitItemsRaw = function() {
     // january 20th 23:59:59s and before
     //endTime : 1358726399000,
     // take enough to be sure that we'll have at least 1000 left after preRemoveTools
-    "maxResults" : 5000,
+    "maxResults" : 800,
   }, function(lChromeHistoryItems) {
-    var sRecord = JSON.stringify(lChromeHistoryItems);
-    var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
-    window.open(sUriContent, 'chrome_history_item_raw');
+    //var sRecord = JSON.stringify(lChromeHistoryItems);
+    //var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+    //window.open(sUriContent, 'chrome_history_item_raw');
 
     iChromeHistoryLength = lChromeHistoryItems.length;
     for (var i = 0, dHistoryItem; dHistoryItem = lChromeHistoryItems[i]; i++ ) {

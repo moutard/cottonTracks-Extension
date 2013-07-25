@@ -170,10 +170,12 @@ Cotton.Core.Populate.SuiteForCotton = function(lCottonHistoryItems, lChromeVisit
  * @param :
  *          mCallBackFunction
  */
-Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction, oSpecificClient) {
+
+Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction,
+    oSpecificClient) {
 
   // Get the historyClient (depends on the browser)
-  var oClient = oSpecificClient || new Cotton.Core.History.Client();
+  var oClient = oSpecificClient || new Cotton.Core.History.Client();
 
   DEBUG && console.debug('PopulateHistoryItems - Start');
   var oBenchmark = new Benchmark("PopulateDB");
