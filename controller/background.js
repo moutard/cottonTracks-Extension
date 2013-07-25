@@ -138,7 +138,6 @@ Cotton.Controllers.Background = Class.extend({
         if (sCallerTabUrl === chrome.extension.getURL('lightyear.html')){
           // we are in lightyear, so the UI page will listen to the event
           // go back to the manager. do nothing from background
-          Cotton.ANALYTICS.backToPage('browserAction');
         } else {
           Cotton.ANALYTICS.showLightyear();
           self._iCallerTabId = lTabs[0]['id'];
