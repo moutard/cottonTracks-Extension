@@ -119,13 +119,9 @@ Cotton.Core.Installer = Class.extend({
 
     DEBUG && console.debug("Controller - install");
     self._oBenchmark = new Benchmark("Installation");
+
     // Set cohort for analytics.
-    // FIXME(rmoutard->rkorach): put this in you analytics class.
-    var date = new Date();
-    var month = date.getMonth() + 1;
-    // TODO(rmoutard): use a ct-cohort to avoid conflit on local storage.
-    localStorage.setItem('cohort', month + "/" + date.getFullYear());
-    Cotton.ANALYTICS.setCohort(month + "/" + date.getFullYear());
+    Cotton.ANALYTICS.setCohort();
 
     // FIXME(rmoutard->rkorach) : I think we don't need it anymore.
     // Make sure the background page is keeped opened during installation.
