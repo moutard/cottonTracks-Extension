@@ -13,8 +13,14 @@ Cotton.Analytics = Class.extend({
       _gaq.push(['_setAccount', 'UA-30134257-3']);
     }
     _gaq.push(['_trackPageview']);
-    if (localStorage['cohort']) {
-      _gaq.push(['_trackEvent', 'cohort', localStorage['cohort']]);
+    if (localStorage['ct-cohort']) {
+      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
+    } else if (localStorage['cohort']) {
+      // transition between cohort to ct-cohort.
+      // remove it after a few updates, when most of the users will be updated.
+      localStorage.setItem('ct-cohort', localStorage['cohort']);
+      localStorage.removeItem('cohort');
+      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
     }
 
     var ga = document.createElement('script');
@@ -30,6 +36,12 @@ Cotton.Analytics = Class.extend({
 
   // to track number of people in a cohort
   setCohort : function(sCohort) {
+    if (!sCohort){
+      var date = new Date();
+      var month = date.getMonth() + 1;
+      localStorage.setItem('ct-cohort', month + "/" + date.getFullYear());
+      var sCohort = month + "/" + date.getFullYear();
+    }
     _gaq.push(['_trackEvent', 'cohort', 'setCohort', sCohort]);
   },
 
