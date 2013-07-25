@@ -150,7 +150,7 @@ Cotton.Controllers.Background = Class.extend({
             chrome.windows.getLastFocused({}, function(oWindow){
               var iCurrentWindow = oWindow['id'];
               for (var i = 0, oTab; oTab = lTabs[i]; i++){
-                if (oTab['url'] === chrome.extension.getURL('lightyear.html')
+                if (oTab['url'].indexOf(chrome.extension.getURL('lightyear.html')) !== -1
                   && oTab['windowId'] === iCurrentWindow){
                     var oCottonTab = oTab;
                 }
