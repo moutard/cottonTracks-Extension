@@ -30,12 +30,11 @@ var MockHistoryClient = Class.extend({
   },
 
   get : function(dParams, mCallback) {
-      chrome.runtime.getPackageDirectoryEntry(function(oDirectoryEntry) {
-        console.log(oDirectoryEntry);
-        oDirectoryEntry.getFile("data/client/history_items.json", {}, function(oFile) {
-          console.log(oFile);
-        });
-      });
+
+     $.getJSON(this._sHistoryItemsFile, function(lHistoryItems) {
+      self._lHistoryItems = lHistoryItems;
+      mCallback(self._lHistoryItems);
+     });
   },
 });
 
