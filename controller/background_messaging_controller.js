@@ -14,11 +14,11 @@ Cotton.Controllers.Messaging = Class.extend({
    * Call the method that correponds to the action message.
    * TODO(rmoutard) : make a error handler in case the function does not exist.
    */
-  doAction : function(sAction, lArguments){
+  doAction : function(sAction, lArguments) {
     this[sAction].apply(this, lArguments);
   },
 
-  addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
+  addHistoryItemSearchKeywords : function(oHistoryItem, iHistoryItemId) {
     var self = this;
     for (var i = 0, lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()), iLength = lKeywords.length;
       i < iLength; i++){
@@ -26,7 +26,21 @@ Cotton.Controllers.Messaging = Class.extend({
         var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
         oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
         self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
-          oSearchKeyword, function(iHistoryItemId){
+          oSearchKeyword, function(iKeywordId){
+            // Return nothing to let the connection be cleaned up.
+        });
+    }
+  },
+
+  addStoryToSearchKeywords : function(oStory) {
+    var self = this;
+    for (var i = 0, lKeywords = _.keys(oStory.dna().bagOfWords().get()), iLength = lKeywords.length;
+      i < iLength; i++){
+        var sKeyword = lKeywords[i];
+        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+        oSearchKeyword.addReferringStoryId(oStory.id());
+        self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+          oSearchKeyword, function(iKeywordId){
             // Return nothing to let the connection be cleaned up.
         });
     }
@@ -129,7 +143,7 @@ Cotton.Controllers.Messaging = Class.extend({
                         oHistoryItem, function(iHistoryItemId){
                           DEBUG && console.debug("historyItem added" + iHistoryItemId);
                           sPutId = iHistoryItemId;
-                          self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                          self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           oMinStory.addHistoryItemId(iHistoryItemId);
                           self._oMainController._oDatabase.put('stories', oMinStory,
                             function(){});
@@ -143,6 +157,7 @@ Cotton.Controllers.Messaging = Class.extend({
                       });
                       oMinStory.dna().bagOfWords().mergeBag(
                         oHistoryItem.extractedDNA().bagOfWords().get());
+                      self.addStoryToSearchKeywords(oMinStory);
                       self._oMainController._oDatabase.put(
                         'stories', oMinStory, function(iStoryId){});
                       // There is a story for this item, so enable the browserAction
@@ -155,7 +170,7 @@ Cotton.Controllers.Messaging = Class.extend({
                           DEBUG && console.debug("historyItem added" + iHistoryItemId);
                           sPutId = iHistoryItemId;
                           dHistoryItem['id'] = sPutId;
-                          self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
+                          self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           // Put the history item in the pool.
                           self._oMainController._oPool.putUnique(dHistoryItem);
                           // Lauch dbscan2 on the pool.
