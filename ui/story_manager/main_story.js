@@ -10,7 +10,7 @@ Cotton.UI.StoryManager.MainStory = Class.extend({
     this._$main_title = $('<h1>Story from last tab</h1>');
     this._$main_story_container = $('<div class="ct-main_story_container"></div>');
     this._$main_story_infos = $('<div class="ct-story_infos"></div>');
-    this._$https_title = $('<h2>https pages are not parsed by cottonTracks. (a whitelisting feature will be implemented in the future)<br>You can still explore your stories from other tabs or use the search tool</h2>')
+    this._$https_title = $('<h2>https pages are not parsed by cottonTracks. (a whitelisting feature will be implemented in the future)<br>You can still explore all your stories or use the search tool</h2>')
     this.placeStory(oStory, oHistoryItem);
 
     this._oDispatcher.subscribe('story:deleted', this, function(dArguments){
