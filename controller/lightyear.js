@@ -566,7 +566,7 @@ Cotton.Controllers.Lightyear = Class.extend({
         }
       })
       chrome.tabs.getCurrent(function(oTab){
-        if (oTab['highlighted']) {
+        if (oTab['active']) {
           bTabActive = true;
           //open manager
           if (bWindowActive) {

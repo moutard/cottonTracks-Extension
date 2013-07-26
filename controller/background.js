@@ -131,7 +131,7 @@ Cotton.Controllers.Background = Class.extend({
       self._iTriggerHistoryItem = -1;
       // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
       chrome.tabs.query({
-        'highlighted':true,
+        'active':true,
         'lastFocusedWindow': true
       }, function(lTabs){
         var sCallerTabUrl = lTabs[0]['url'];
