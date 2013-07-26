@@ -706,16 +706,20 @@ Cotton.Controllers.Lightyear = Class.extend({
     var lTempStories = [];
     var iTempLength = lStories.length;
     var iCount = 0;
-    for (var i = 0, oRelatedStory; oRelatedStory = lStories[i]; i++){
-      this.setItemsNoSearch(oRelatedStory, function(oStoryNoSearch){
-        iCount++;
-        if (oStoryNoSearch.historyItems().length > 0){
-          lTempStories.push(oStoryNoSearch);
-        }
-        if (iCount === iTempLength && mCallback){
-          mCallback.call(this, lTempStories);
-        }
-      });
+    if (iTempLength === 0){
+      mCallback.call(this, lTempStories);
+    } else {
+      for (var i = 0, oRelatedStory; oRelatedStory = lStories[i]; i++){
+        this.setItemsNoSearch(oRelatedStory, function(oStoryNoSearch){
+          iCount++;
+          if (oStoryNoSearch.historyItems().length > 0){
+            lTempStories.push(oStoryNoSearch);
+          }
+          if (iCount === iTempLength && mCallback){
+            mCallback.call(this, lTempStories);
+          }
+        });
+      }
     }
   }
 
