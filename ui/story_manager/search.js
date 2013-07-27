@@ -11,11 +11,23 @@ Cotton.UI.StoryManager.Search = Class.extend({
     this._$input.keypress(function(e){
       if (e.which === 13){
         Cotton.ANALYTICS.searchStories('topbar');
-        var lSearchWords = $(this).val().toLowerCase().split(' ');
+        var sQuery = $(this).val().toLowerCase();
+        var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
         oDispatcher.publish('search_stories', {
           'searchWords': lSearchWords,
           'context': 'manager'
         });
+      }
+    }).keyup(function(e) {
+      if (e.which === 8 || e.which === 46) {
+        var sQuery = $(this).val().toLowerCase();
+        var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
+        if (lSearchWords.length === 0) {
+          oDispatcher.publish('search_stories', {
+            'searchWords': lSearchWords,
+            'context': 'manager'
+          });
+        }
       }
     });
 

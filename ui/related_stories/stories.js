@@ -68,15 +68,25 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
     }
   },
 
-  refresh : function(lStories){
-    this._lRelatedStories = lStories;
-    this._lStickers = [];
+  showSearch : function(lStories){
+    var lStickers = [];
     for (var i=0, oStory; oStory = lStories[i]; i++){
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
-      this._lStickers.push(oSticker.$());
+      lStickers.push(oSticker.$());
     }
     this._$title.text('Search Results');
-    this._$stories.empty().append(this._lStickers);
+    this._$stories.empty().append(lStickers);
+  },
+
+  exitSearch : function(){
+    var self = this;
+    var lStickers = [];
+    this._$title.text('Related Stories');
+    for (var i=0, oStory; oStory = this._lRelatedStories[i]; i++){
+      var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
+      lStickers.push(oSticker.$());
+    }
+    this._$stories.empty().append(lStickers);
   }
 
 });
