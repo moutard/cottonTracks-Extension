@@ -433,30 +433,38 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     this._oDispatcher.subscribe('search_stories', this, function(dArguments){
+      if (dArguments['searchWords'].length === 0) {
+        if (dArguments['context'] === 'manager') {
+          self._oWorld.exitSearchManager();
+        } else {
+          self._oWorld.exitSearchRelated();
+        }
+        return;
+      }
       self.searchStories(dArguments['searchWords'], dArguments['context'], function(lSearchResultStories){
         var iSearch = lSearchResultStories.length;
         if (iSearch > 0){
           self.setStoriesNoSearch(lSearchResultStories, function(lStoriesNoSearch){
             if (dArguments['context'] === 'manager'){
-              self._oWorld.refreshManager(lStoriesNoSearch);
+              self._oWorld.showSearchManager(lStoriesNoSearch);
               if (!dArguments['noPushState']) {
                 var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments["searchWords"].join('+');
                 self.pushState(sSearchUrl);
               }
             } else {
-              self._oWorld.refreshRelatedStories(lStoriesNoSearch);
+              self._oWorld.showSearchRelated(lStoriesNoSearch);
             }
           });
         }
         else {
           if (dArguments['context'] === 'manager'){
-            self._oWorld.refreshManager(lSearchResultStories);
+            self._oWorld.showSearchManager(lSearchResultStories);
             if (!dArguments['noPushState']) {
               var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments["searchWords"].join('+');
               self.pushState(sSearchUrl);
             }
           } else {
-            self._oWorld.refreshRelatedStories(lSearchResultStories);
+            self._oWorld.showSearchRelated(lSearchResultStories);
           }
         }
       });

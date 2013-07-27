@@ -50,8 +50,9 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     }
   },
 
-  refresh: function(lStories){
-    this._$stories_container.empty();
+  showSearch : function(lStories) {
+    this._oMainStory.$().addClass('hidden');
+    this._oOtherStories.$().addClass('hidden');
     this._$search_results_title = (lStories.length > 0) ?
     $('<h1>Search Results for <span class=query>'+ this._sQuery +'</span></h1>') :
     $('<h1>No Result for <span class=query>'+ this._sQuery +'</span> :(</h1>');
@@ -61,6 +62,15 @@ Cotton.UI.StoryManager.Manager = Class.extend({
       this._lStickers.push(oSticker.$());
     }
     this._$stories_container.append(this._$search_results_title, this._lStickers);
+  },
+
+  exitSearch : function() {
+    if (this._$search_results_title) {
+      this._$search_results_title.remove();
+      this._$stories_container.children('.ct-sticker').remove();
+      this._oMainStory.$().removeClass('hidden');
+      this._oOtherStories.$().removeClass('hidden');
+    }
   }
 
 });
