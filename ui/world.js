@@ -96,16 +96,27 @@ Cotton.UI.World = Class.extend({
 
   relatedStories : function(lStories){
     this._oStoryElement.hide();
+    if (this._oRelatedStories) {
+      this._oRelatedStories.$().remove();
+    }
     this._oRelatedStories = new Cotton.UI.RelatedStories.Stories(lStories, this._oDispatcher);
     this._$world.append(this._oRelatedStories.$())
   },
 
-  refreshRelatedStories : function(lStories){
-    this._oRelatedStories.refresh(lStories);
+  showSearchRelated : function(lSearchResultStories){
+    this._oRelatedStories.showSearch(lSearchResultStories);
   },
 
-  refreshManager : function(lSearchResultStories){
-    this._oManager.refresh(lSearchResultStories);
+  exitSearchRelated : function() {
+    this._oRelatedStories.exitSearch();
+  },
+
+  showSearchManager : function(lSearchResultStories){
+    this._oManager.showSearch(lSearchResultStories);
+  },
+
+  exitSearchManager : function() {
+    this._oManager.exitSearch();
   }
 
 });
