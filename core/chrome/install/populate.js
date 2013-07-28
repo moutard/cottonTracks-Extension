@@ -200,40 +200,47 @@ Cotton.Core.Populate.visitItems = function(oClient, mCallBackFunction) {
 
       iLength = glCottonHistoryItems.length;
       DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
-
-      // For each chromeHistory remaining find all the corresponding visitItems.
-      for(var i = 0; i < iLength; i++){
-        // Attribute an fixed id directly instead of putting in the database
-        // and let the database attribute the id.
-        // Seems there is a problem with the id 0.
-        var oHistoryItem = glCottonHistoryItems[i];
-        oHistoryItem.initId(i+1);
-        oClient.getVisits({
-            'url': oHistoryItem.url()
-          }, function(lVisitItems){
-            // assign a temp cottonhistoryid that correspesponds to its position
-            // int the glChromeVisitItems
-            for( var i = 0; i < lVisitItems.length; i++){
-              lVisitItems[i]['cottonHistoryItemId'] = iCount;
+      if (iLength === 0) {
+        DEBUG && console.debug('Number of Chrome VisitItems: 0');
+        elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
+        DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
+        mCallBackFunction(
+          [], [], iInitialNumberOfChromeHistoryItems);
+      } else {
+        // For each chromeHistory remaining find all the corresponding visitItems.
+        for(var i = 0; i < iLength; i++){
+          // Attribute an fixed id directly instead of putting in the database
+          // and let the database attribute the id.
+          // Seems there is a problem with the id 0.
+          var oHistoryItem = glCottonHistoryItems[i];
+          oHistoryItem.initId(i+1);
+          oClient.getVisits({
+              'url': oHistoryItem.url()
+            }, function(lVisitItems){
+              // assign a temp cottonhistoryid that correspesponds to its position
+              // int the glChromeVisitItems
+              for( var i = 0; i < lVisitItems.length; i++){
+                lVisitItems[i]['cottonHistoryItemId'] = iCount;
+              }
+              glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
+              iCount +=1;
+              if(iCount === iLength){
+                glChromeVisitItems.sort(function(a, b){
+                  return b['visitTime'] - a['visitTime'];
+                });
+                DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
+                elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
+                DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
+                // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
+                // integration tests, find a way to remove it from here
+                glCottonHistoryItems = Cotton.Core.Populate.SuiteForCotton(
+                  glCottonHistoryItems, glChromeVisitItems);
+                mCallBackFunction(
+                  glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
+              }
             }
-            glChromeVisitItems = glChromeVisitItems.concat(lVisitItems);
-            iCount +=1;
-            if(iCount === iLength){
-              glChromeVisitItems.sort(function(a, b){
-                return b['visitTime'] - a['visitTime'];
-              });
-              DEBUG && console.debug('Number of Chrome VisitItems: ' + glChromeVisitItems.length);
-              elapsedTime1 =  (new Date().getTime() - startTime1)/1000;
-              DEBUG && console.debug('Elapsed time:' + elapsedTime1 + 'seconds');
-              // TODO(rmoutard) iInitialNumberOfChromeHistoryItems is only used in
-              // integration tests, find a way to remove it from here
-              glCottonHistoryItems = Cotton.Core.Populate.SuiteForCotton(
-                glCottonHistoryItems, glChromeVisitItems);
-              mCallBackFunction(
-                glCottonHistoryItems, glChromeVisitItems, iInitialNumberOfChromeHistoryItems);
-            }
-          }
-        );
+          );
+        }
       }
     });
   }
