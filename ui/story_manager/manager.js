@@ -51,6 +51,10 @@ Cotton.UI.StoryManager.Manager = Class.extend({
   },
 
   showSearch : function(lStories) {
+    if (this._$search_results_title) {
+      this._$search_results_title.remove();
+      this._$stories_container.children('.ct-sticker').remove();
+    }
     this._oMainStory.$().addClass('hidden');
     this._oOtherStories.$().addClass('hidden');
     this._$search_results_title = (lStories.length > 0) ?
