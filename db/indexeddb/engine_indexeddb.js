@@ -1043,7 +1043,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllId = new Array();
     var iPutCount = 0, iLength = lItems.length;
-    for(var i = 0, dItem; dItem = lItems[i]; i++){
+    if (iLength === 0) { mOnSaveCallback.call(self, lAllId); }
+    for (var i = 0, dItem; dItem = lItems[i]; i++) {
 
       var oPutRequest = oStore.put(dItem);
       oPutRequest.onsuccess = function(oEvent) {
