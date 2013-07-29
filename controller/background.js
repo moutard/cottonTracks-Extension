@@ -203,17 +203,17 @@ Cotton.Controllers.Background = Class.extend({
    */
   forceStory : function(iSeedId, lItems, mCallback) {
     var self = this;
-    var mDistance = Cotton.Algo.Score.DBRecord.HistoryItem;
+    var mScore = Cotton.Algo.Score.DBRecord.HistoryItem;
     var fEps = Cotton.Config.Parameters.dbscan2.fEps;
-    for (var i = 0, dItem; dItem = lItems[i]; i++){
+    for (var i = 0, dItem; dItem = lItems[i]; i++) {
       dItem['clusterId'] = "UNCLASSIFIED";
       if (dItem['id'] === iSeedId) {
         var dSeed = dItem;
       }
     }
-    if (dSeed){
-      for (var i = 0, dItem; dItem = lItems[i]; i++){
-        if (mDistance(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
+    if (dSeed) {
+      for (var i = 0, dItem; dItem = lItems[i]; i++) {
+        if (mScore(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
           dItem['clusterId'] = 0;
         }
       }
@@ -228,8 +228,8 @@ Cotton.Controllers.Background = Class.extend({
       }
       self._oPool._refresh(lHistoryItemToKeep);
       Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
-        function(oDatabase, lStories){
-          if (lStories.length > 0){
+        function(oDatabase, lStories) {
+          if (lStories.length > 0) {
             Cotton.ANALYTICS.storyAvailable('forced');
             mCallback.call(self, lStories[0].id());
           }
