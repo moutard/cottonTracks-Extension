@@ -286,16 +286,6 @@ Cotton.Controllers.Background = Class.extend({
     var self = this;
     var sUrl = oTab['url'];
     var bTrigger = (oTab['id'] === self._iCallerTabId);
-    var oUrl = new UrlParser(sUrl);
-    if (oUrl.isGoogle && oUrl.dSearch && oUrl.dSearch['tbm'] === 'isch'){
-      if (oUrl.searchImage){
-         sUrl = oUrl.searchImage;
-       } else {
-         sUrl = oUrl.genericSearch + "&tbm=isch";
-       }
-    } else if (oUrl.isGoogle && oUrl.keywords){
-      sUrl = oUrl.genericSearch;
-    }
     self._oDatabase.find('historyItems',
     'sUrl', sUrl, function(_oHistoryItem){
       if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){

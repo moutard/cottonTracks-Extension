@@ -137,8 +137,8 @@ Cotton.Controllers.Lightyear = Class.extend({
             }
           } else {
             self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory) {
-              self.setItemsNoSearch(oStory, function(oStoryNoSearch){
-                if (oStoryNoSearch.historyItems().length === 0){
+              self.setItemsFiltered(oStory, function(oStoryFiltered){
+                if (oStoryFiltered.historyItems().length === 0){
                   self._oStory = null;
                   self._bStoryReady = true;
                   self._bHistoryItemReady = true;
@@ -147,7 +147,7 @@ Cotton.Controllers.Lightyear = Class.extend({
                     self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
                   }
                 } else {
-                  self._oStory = oStoryNoSearch;
+                  self._oStory = oStoryFiltered;
                   self._bStoryReady = true;
 
                   if (self._iHistoryItemId >= 0){
@@ -183,15 +183,15 @@ Cotton.Controllers.Lightyear = Class.extend({
                             self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
                           }
                         } else {
-                          self.setStoriesNoSearch(lStories, function(lStoriesNoSearch){
+                          self.setStoriesFiltered(lStories, function(lStoriesFiltered){
                             //sort related stories by closest
-                            for (var j = 0, oStory; oStory = lStoriesNoSearch[j]; j++){
+                            for (var j = 0, oStory; oStory = lStoriesFiltered[j]; j++){
                               oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
                             }
-                            lStoriesNoSearch.sort(function(a,b){
+                            lStoriesFiltered.sort(function(a,b){
                               return b['scoreToStory'] - a['scoreToStory'];
                             });
-                            self._lRelatedStories = lStoriesNoSearch || [];
+                            self._lRelatedStories = lStoriesFiltered || [];
                             self._bRelatedReady = true;
                             if (self._bStoriesInTabsReady && self._bWorldReady){
                               self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
@@ -218,8 +218,8 @@ Cotton.Controllers.Lightyear = Class.extend({
         var iTabsLength = self._lStoriesInTabsId.length;
         if (iTabsLength > 0){
           self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
-            self.setStoriesNoSearch(lStories, function(lStoriesNoSearch){
-               self._lStoriesInTabs = lStoriesNoSearch || [];
+            self.setStoriesFiltered(lStories, function(lStoriesFiltered){
+               self._lStoriesInTabs = lStoriesFiltered || [];
                self._bStoriesInTabsReady = true;
                if (self._bStoryReady && self._bHistoryItemReady && self._bRelatedReady && self._bWorldReady){
                  self._oWorld.updateManager(self._oStory, self._oHistoryItem, self._lStoriesInTabs, self._lRelatedStories);
@@ -345,8 +345,8 @@ Cotton.Controllers.Lightyear = Class.extend({
         var iTabsLength = self._lStoriesInTabsId.length;
         if (iTabsLength > 0){
           self._oDatabase.findGroup('stories', 'id', self._lStoriesInTabsId, function(lStories) {
-            self.setStoriesNoSearch(lStories, function(lStoriesNoSearch){
-              self._lStoriesInTabs = lStoriesNoSearch || [];
+            self.setStoriesFiltered(lStories, function(lStoriesFiltered){
+              self._lStoriesInTabs = lStoriesFiltered || [];
             });
           });
         } else {
@@ -381,10 +381,10 @@ Cotton.Controllers.Lightyear = Class.extend({
                 var lRelatedStories = [];
                 var iCount = 0;
                 for (var i = 0, oStory; oStory = lStories[i]; i++){
-                  self.setItemsNoSearch(oStory, function(oStoryNoSearch){
+                  self.setItemsFiltered(oStory, function(oStoryFiltered){
                     iCount++;
-                    if (oStoryNoSearch.historyItems().length > 0){
-                      lRelatedStories.push(oStoryNoSearch);
+                    if (oStoryFiltered.historyItems().length > 0){
+                      lRelatedStories.push(oStoryFiltered);
                     }
                     if (iCount === iRelatedLength){
                       //take the 6 closest stories
@@ -420,8 +420,8 @@ Cotton.Controllers.Lightyear = Class.extend({
         getRelated(self._oStory);
       } else {
         self._oDatabase.find('stories', 'id', self._iStoryId, function(oStory){
-          self.setItemsNoSearch(oStory, function(oStoryNoSearch){
-            self._oStory = oStoryNoSearch;
+          self.setItemsFiltered(oStory, function(oStoryFiltered){
+            self._oStory = oStoryFiltered;
             getRelated(self._oStory);
           })
         });
@@ -444,15 +444,15 @@ Cotton.Controllers.Lightyear = Class.extend({
       self.searchStories(dArguments['searchWords'], dArguments['context'], function(lSearchResultStories){
         var iSearch = lSearchResultStories.length;
         if (iSearch > 0){
-          self.setStoriesNoSearch(lSearchResultStories, function(lStoriesNoSearch){
+          self.setStoriesFiltered(lSearchResultStories, function(lStoriesFiltered){
             if (dArguments['context'] === 'manager'){
-              self._oWorld.showSearchManager(lStoriesNoSearch);
+              self._oWorld.showSearchManager(lStoriesFiltered);
               if (!dArguments['noPushState']) {
                 var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments["searchWords"].join('+');
                 self.pushState(sSearchUrl);
               }
             } else {
-              self._oWorld.showSearchRelated(lStoriesNoSearch);
+              self._oWorld.showSearchRelated(lStoriesFiltered);
             }
           });
         }
@@ -508,10 +508,10 @@ Cotton.Controllers.Lightyear = Class.extend({
             dArguments['fDate'] - 100000000, dArguments['fDate']-1, function(lStories) {
               var iLength = lStories.length;
               if (iLength > 0){
-                self.setStoriesNoSearch(lStories, function(lStoriesNoSearch){
+                self.setStoriesFiltered(lStories, function(lStoriesFiltered){
                   self._oDispatcher.publish('more_all_stories',
                     {
-                      'stories_to_add': lStoriesNoSearch,
+                      'stories_to_add': lStoriesFiltered,
                       'more_stories_to_add': true
                     }
                   );
@@ -693,35 +693,70 @@ Cotton.Controllers.Lightyear = Class.extend({
     history.replaceState({path: sUrl}, '', sUrl);
   },
 
-  setItemsNoSearch : function(oStory, mCallback){
-    var lHistoryItemsNoSearch = oStory.historyItems() || [];
+  setItemsFiltered : function(oStory, mCallback){
+    var self = this;
+    var lHistoryItemsFiltered = oStory.historyItems() || [];
+    var lUrls = [];
+    var lMapsSearch = [];
     this._oDatabase.getKeyRange('historyItems', 'sStoryId', oStory.id(), oStory.id(), function(lHistoryItems){
       for (var j = 0, oHistoryItem; oHistoryItem = lHistoryItems[j]; j++){
         var oUrl = oHistoryItem.oUrl();
         oUrl.fineDecomposition();
-        if (!oUrl.isGoogle || !oUrl.dSearch || oUrl.isGoogleMaps){
-          lHistoryItemsNoSearch.push(oHistoryItem);
+        // we filter google and Youtube searches,
+        // plus we eliminate redundancy in images or maps
+        if (!(oUrl.isGoogle && oUrl.dSearch)
+          && !(oUrl.isYoutube && oUrl.dSearch['search_query'])
+          || oUrl.isGoogleMaps
+          || oUrl.searchImage){
+            if (oUrl.searchImage) {
+              // google image result, check if there is not already the image itself
+              // in the url list
+              if (lUrls.indexOf(oUrl.searchImage) === -1) {
+                lUrls.push(oUrl.searchImage);
+                lHistoryItemsFiltered.push(oHistoryItem);
+              }
+            } else if (oUrl.isGoogleMaps && oUrl.dHash['!q']) {
+              // new google maps, keep only one page per query,
+              // independant of the change of coordinates.
+              if (lMapsSearch.indexOf(oUrl.dHash['!q'].toLowerCase()) === -1) {
+                lMapsSearch.push(oUrl.dHash['!q'].toLowerCase());
+                lHistoryItemsFiltered.push(oHistoryItem);
+              }
+            } else if (oUrl.isGoogleMaps && oUrl.dSearch['q']) {
+              // old google maps, keep only one page per query,
+              // independant of the change of coordinates.
+              if (lMapsSearch.indexOf(oUrl.dSearch['q'].toLowerCase()) === -1) {
+                lMapsSearch.push(oUrl.dSearch['q'].toLowerCase());
+                lHistoryItemsFiltered.push(oHistoryItem);
+              }
+            } else {
+              // primarily for images, to avoid redundancy with google images search
+              if (lUrls.indexOf(oHistoryItem.url()) === -1) {
+                lUrls.push(oHistoryItem.url());
+                lHistoryItemsFiltered.push(oHistoryItem);
+              }
+            }
         }
       }
-      oStory.setHistoryItems(lHistoryItemsNoSearch);
+      oStory.setHistoryItems(lHistoryItemsFiltered);
       if (mCallback){
         mCallback.call(self, oStory);
       }
     });
   },
 
-  setStoriesNoSearch : function(lStories, mCallback){
+  setStoriesFiltered : function(lStories, mCallback){
     var lTempStories = [];
     var iTempLength = lStories.length;
     var iCount = 0;
     if (iTempLength === 0){
       mCallback.call(this, lTempStories);
     } else {
-      for (var i = 0, oRelatedStory; oRelatedStory = lStories[i]; i++){
-        this.setItemsNoSearch(oRelatedStory, function(oStoryNoSearch){
+      for (var i = 0, oStory; oStory = lStories[i]; i++){
+        this.setItemsFiltered(oStory, function(oStoryFiltered){
           iCount++;
-          if (oStoryNoSearch.historyItems().length > 0){
-            lTempStories.push(oStoryNoSearch);
+          if (oStoryFiltered.historyItems().length > 0){
+            lTempStories.push(oStoryFiltered);
           }
           if (iCount === iTempLength && mCallback){
             mCallback.call(this, lTempStories);

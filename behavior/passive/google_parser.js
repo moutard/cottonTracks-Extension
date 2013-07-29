@@ -34,18 +34,6 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   },
 
   /**
-   *
-   * FIXME(rmoutard) : put this in a parser.
-   * @param {Cotton.Model.HistoryItem} oHistoryItem.
-   */
-   getFirstInfoFromPage : function(oHistoryItem) {
-     oHistoryItem._sUrl = this._oUrl.genericSearch;
-     oHistoryItem._sTitle = window.document.title;
-     oHistoryItem._iLastVisitTime = new Date().getTime();
-     oHistoryItem._sReferrerUrl = document.referrer;
-   },
-
-  /**
    * Parse all the blocks and add the attribute 'data-meaningful', if the block
    * is considered interesting. Then remove the some meaningful blocks.
    */
