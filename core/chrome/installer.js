@@ -60,9 +60,9 @@ Cotton.Core.Installer = Class.extend({
           // Find among all the stories we already have one that could be merged with.
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++) {
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
-              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
-              && oStory.tags().length > 0)){
+            if (_.intersection(oMergedStory.historyItemsId(), oStoredStory.historyItemsId()).length > 0 ||
+              (oMergedStory.tags().length > 0
+               && oMergedStory.tags().sort().join() === oStoredStory.tags().sort().join())) {
                 // there is an item in two different stories or they have the same words
                 // in the title
                 oMergedStory.setHistoryItemsId(
@@ -70,7 +70,7 @@ Cotton.Core.Installer = Class.extend({
                 oMergedStory.setLastVisitTime(Math.max(
                   oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
                 lStories.splice(j,1);
-                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
+                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === "") {
                   oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
                 }
                 j--;
