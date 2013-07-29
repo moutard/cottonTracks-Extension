@@ -78,8 +78,22 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     },
   };
 
+  /**
+   * dDBRecord1 is the one already in the database.
+   */
+  var mMergeDBRecords = function(dDBRecord1, dDBRecord2) {
+    dDBRecord2['id'] = dDBRecord1['id'];
+    dDBRecord2['fLastVisitTime'] = Math.max(dDBRecord1['fLastVisitTime'], dDBRecord2['fLastVisitTime']);
+    // Take the title of dDBRecord2 by default.
+    if (dDBRecord2['sFeaturedImage'] === "") {
+      dDBRecord2['sFeaturedImage'] = dDBRecord1['sFeaturedImage'];
+    }
+    // FIXME(rmoutard): merge bag of words.
+    return dDBRecord2;
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter, dIndexes);
+      mDbRecordToObjectConverter, dIndexes, mMergeDBRecords);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);
 
 })();
