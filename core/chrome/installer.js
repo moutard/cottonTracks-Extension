@@ -35,6 +35,8 @@ Cotton.Core.Installer = Class.extend({
     var lStories = [];
     var iSessionCount = 0;
     var iTotalSessions = 0;
+    var lHistoryItemsIds = [];
+    var lHistoryItems = [];
 
     // Add listener called when the worker send message back to the main thread.
     self._wInstallWorker.addEventListener('message', function(e) {
@@ -59,24 +61,34 @@ Cotton.Core.Installer = Class.extend({
           // Find among all the stories we already have one that could be merged with.
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++) {
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oNewStory.historyItemsId(),
-                  oStoredStory.historyItemsId()).length > 0) {
-                bMerged = true;
+            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
+              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
+              && oStory.tags().length > 0)){
                 // there is an item in two different stories or they have the same words
                 // in the title
-                oStoredStory.setHistoryItemsId(_.union(
-                  oStoredStory.historyItemsId(), oNewStory.historyItemsId()));
-                oStoredStory.setLastVisitTime(Math.max(
-                  oStoredStory.lastVisitTime(), oNewStory.lastVisitTime()));
-
-                if (!oStoredStory.featuredImage()
-                    || oStoredStory.featuredImage() === "") {
-                  oStoredStory.setFeaturedImage(oNewStory.featuredImage());
+                oMergedStory.setHistoryItemsId(
+                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oMergedStory.setLastVisitTime(Math.max(
+                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                lStories.splice(j,1);
+                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
+                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
                 }
+                j--;
             }
-            break;
           }
-          if (!bHasBeenMerged) { lStories.push(oNewStory); }
+          lStories.push(oMergedStory);
+        }
+
+        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++) {
+          if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1) {
+            lHistoryItemsIds.push(dHistoryItem['id']);
+            // Data sent by the worker are serialized. Deserialize using translator.
+            var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
+              dHistoryItem);
+            var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
+            lHistoryItems.push(oHistoryItem);
+          }
         }
 
         if (iTotalSessions && iSessionCount === iTotalSessions) {
