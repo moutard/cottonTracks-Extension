@@ -56,8 +56,7 @@ Cotton.Core.Installer = Class.extend({
         // FIXME(rmoutard) : take a lot of time.
 
         // For all the new stories
-        var bHasBeenMerged = false;
-        for (var i = 0, oNewStory; oNewStory = lNewStories[i]; i++) {
+        for (var i = 0, oMergedStory; oMergedStory = lNewStories[i]; i++) {
           // Find among all the stories we already have one that could be merged with.
           for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++) {
             // TODO(rkorach) : do not use _.intersection
