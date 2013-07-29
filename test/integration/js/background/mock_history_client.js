@@ -8,6 +8,8 @@ var MockHistoryClient = Class.extend({
 
   init: function() {
     var self = this;
+    self._lHistoryItems = _history_items;
+    self._lVisitItems = _visit_items;
   },
 
   getVisits : function(dParams, mCallback) {
@@ -30,11 +32,10 @@ var MockHistoryClient = Class.extend({
   },
 
   get : function(dParams, mCallback) {
-
-     $.getJSON(this._sHistoryItemsFile, function(lHistoryItems) {
-      self._lHistoryItems = lHistoryItems;
+    var self = this;
+     //$.getJSON(this._sHistoryItemsFile, function(lHistoryItems) {
       mCallback(self._lHistoryItems);
-     });
+     //});
   },
 });
 
