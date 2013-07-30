@@ -25,7 +25,7 @@ Cotton.Controllers.Messaging = Class.extend({
         var sKeyword = lKeywords[i];
         var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
         oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
-        self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+        self._oMainController._oDatabase.putUnique('searchKeywords',
           oSearchKeyword, function(iKeywordId){
             // Return nothing to let the connection be cleaned up.
         });
@@ -39,7 +39,7 @@ Cotton.Controllers.Messaging = Class.extend({
         var sKeyword = lKeywords[i];
         var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
         oSearchKeyword.addReferringStoryId(oStory.id());
-        self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
+        self._oMainController._oDatabase.putUnique('searchKeywords',
           oSearchKeyword, function(iKeywordId){
             // Return nothing to let the connection be cleaned up.
         });
