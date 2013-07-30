@@ -93,6 +93,9 @@ Cotton.Controllers.Background = Class.extend({
     });
 
     this._oMessenger = new Cotton.Core.Messenger();
+    // Init the messaging controller.
+    self._oMessagingController = new Cotton.Controllers.Messaging(self);
+    self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
 
     self.initWorkerDBSCAN2();
     // Initialize the pool.
@@ -113,13 +116,10 @@ Cotton.Controllers.Background = Class.extend({
 
         DEBUG && console.debug('Global store created');
 
-        // Init the messaging controller.
-        self._oMessagingController = new Cotton.Controllers.Messaging(self);
-        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
 
         self.installIfNeeded(function(){
           // Do when the installation is finished.
-          self._bReadyForMessaging = true;
+          self._oContentScriptListener.start();
         });
     });
 
