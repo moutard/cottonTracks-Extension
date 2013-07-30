@@ -67,17 +67,19 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         'historyItem' : dDbRecord
       }
     }, function(response) {
-      if (response['ghost']){
-        self._bGhost = true;
-        return;
-      }
-      oItem.initId(response['id']);
-      oItem.setStoryId(response['storyId']);
-      DEBUG && console.debug('DBSync create history item', {
-        'item': oItem, 'response': response
-      });
-      if(typeof mCallback === 'function'){
-        mCallback.call(this, response);
+      if (response) {
+        if (response['ghost']){
+          self._bGhost = true;
+          return;
+        }
+        oItem.initId(response['id']);
+        oItem.setStoryId(response['storyId']);
+        DEBUG && console.debug('DBSync create history item', {
+          'item': oItem, 'response': response
+        });
+        if(typeof mCallback === 'function'){
+          mCallback.call(this, response);
+        }
       }
     });
   },
