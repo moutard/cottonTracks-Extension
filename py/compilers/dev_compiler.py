@@ -14,6 +14,7 @@ class DEVCompiler(Compiler):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
     Compiler.compile(self)
+    self.compileTest()
     self.createIntegrationTests()
 
   def compileJs(self, plJavascriptFiles, psOutput="output.min.js"):

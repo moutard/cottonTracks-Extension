@@ -18,6 +18,7 @@ class PRODCompiler(Compiler):
     os.chdir(self._DESTINATION_PATH)
     self.setProdConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
+
     self.removeUnpreservedFiles()
     self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
 

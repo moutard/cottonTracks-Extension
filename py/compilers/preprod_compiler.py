@@ -26,6 +26,7 @@ class PREPRODCompiler(Compiler):
     os.chdir(self._DESTINATION_PATH)
     self.setPreprodConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
+    self.compileTest()
     self.removeUnpreservedFiles()
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):
