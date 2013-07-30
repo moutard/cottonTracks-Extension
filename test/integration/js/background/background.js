@@ -17,6 +17,9 @@ var IntegrationBackground = Class.extend({
             chrome.tabs.create({
               "url": "integration_tests.html"
             });
+            chrome.tabs.create({
+              "url": "quality.html"
+            });
         }, oClient);
     });
   },

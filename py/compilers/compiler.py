@@ -277,4 +277,9 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     shutil.move(os.path.join(self._INTEGRATION_TESTS,
       "test", "integration", "integration_tests.html"),
       os.path.join(self._INTEGRATION_TESTS, "integration_tests.html"))
+     # Move integration_charts page in the main folder.
+    shutil.move(os.path.join(self._INTEGRATION_TESTS,
+      "test", "quality", "quality.html"),
+      os.path.join(self._INTEGRATION_TESTS, "quality.html"))
+
     pass
