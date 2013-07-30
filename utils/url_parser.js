@@ -33,14 +33,31 @@
 function UrlParser(sUrl) {
   var country_with_sub_domains = ['.uk'];
 
-  //escape twice because / becomes %2F and % becomes %25 so / becomes %252F
-  sUrl = unescape(unescape(sUrl));
-  this.href = sUrl;
   try {
     // When a url is a parameter in an other url, then it has been
     // encodeURIComponents. To avoid problem decode it before using it.
     this.href = decodeURIComponent(sUrl);
-
+    this.error = {
+      'errorCode': 0
+    };
+  } catch(oError) {
+    // Sometimes the URL is mal formated so set the error and use unescape instead of
+    // decodeURIComponent
+    this.error = {
+      'message': oError.message,
+      'errorCode': 1
+    };
+    try {
+      //unescape twice because / becomes %2F and % becomes %25 so / becomes %252F
+      this.href = unescape(unescape(sUrl));
+    } catch(oError) {
+      this.error = {
+        'message': oError.message,
+        'errorCode': 2
+      };
+      this.href = sUrl;
+    }
+  }
     // split the URL by single-slashes to get the component parts
     var parts = this.href.replace('//', '/').split('/');
 
@@ -108,11 +125,6 @@ function UrlParser(sUrl) {
     } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
       this.generateLinkedInKeywords();
     }
-  } catch(e) {
-    // Sometimes the URL is mal formated.
-    this.error = e.message;
-    return 1;
-  }
 
 }
 
