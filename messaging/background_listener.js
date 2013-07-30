@@ -19,6 +19,7 @@
  */
 Cotton.Controllers.BackgroundListener = Class.extend({
 
+  _bIsStarted: false,
   _oMessagingController : null,
 
   init: function(oMessagingController, oMainController){
@@ -28,11 +29,11 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
     // Listen all the messages sent to the background page.
     self._oMainController._oMessenger.listen('*', function(request, sender, sendResponse) {
-      if (!self._oMainController._bReadyForMessaging){
+      if (!self._bIsStarted) {
         // install is not finished, do nothing
-      } else if (sender.tab.index === -1){
-        // it is a page preloaded by google in a ghost tab
-        // pass
+      } else if (sender.tab.index === -1) {
+        // it is a page preloaded by google in a ghost tab pass
+        // FIXME(rmoutard->rkorach): do we really need to send a message back ?
         sendResponse({'ghost':true});
       } else {
         DEBUG && console.debug(request);
@@ -83,5 +84,12 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     });
   },
 
+  start: function() {
+    this._bIsStarted = true;
+  },
+
+  stop: function() {
+    this._bIsStarted = false;
+  },
   // TODO(rmoutard) : add a system to subscribe to the dispatcher.
 });
