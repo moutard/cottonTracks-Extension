@@ -49,11 +49,20 @@ Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
 
 //FIXME(rmoutard->rkorach): add comments, and maybe you need a specific function
 // that cuts in the title.
+// Problem: it depends on the chrome api format, but it shouldn't. Use
+// lCottonHistoryItems instead.
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
+
+  // Why are extacly lEndPattern and lStartPattern ?
   var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
   var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
+
   var oSplitRegExp = /[\ \,\-\|\(\)\']/g;
+
+  // Store the frequeny of each expression.
   var dExpressions = {};
+
+  // For each historyItems, using this title, compute it's end and start pattern.
   for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++) {
     var lEndPattern = dChromeHistoryItem['title'].match(oEndRegexp);
     var lStartPattern = dChromeHistoryItem['title'].match(oStartRegexp);
@@ -62,17 +71,28 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
       lStartPattern = lStartPattern || [];
       var lExpressions = lEndPattern.concat(lStartPattern);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
+
+        // FIXME(rmoutard->rkorach): there is already a function that split words
+        // from an url. Use that instead of rewritiing it.
         var oUrl = new UrlParser(dChromeHistoryItem['url']);
+        //FIXME(rmoutard->rkorach): accentTydy prefer a path Cotton.Utils...
         var sAccentTidy = accentTidy(sExpression);
-        var lAccentTidyWords = sAccentTidy.split(oSplitRegExp).filter(
-          function(sWord, lArray){return sWord.length > 3});
-        for (var k=0, sWord; sWord = lAccentTidyWords[k]; k++) {
+        //FIXME(rmoutard->rkorach): do not use filter.
+        var lAccentTidyWords = sAccentTidy.split(oSplitRegExp)
+        .filter(function(sWord, lArray) {
+          // Why 3 ?
+            return sWord.length > 3
+        });
+        for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
+          // What do this "if" exaclty ?
           if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ) {
+            // Set the frequency of the expression.
             if (dExpressions[sExpression]) {
               dExpressions[sExpression] += dChromeHistoryItem['visitCount'];
             } else {
               dExpressions[sExpression] = dChromeHistoryItem['visitCount'];
             }
+            // FIXME(rmoutard->rkorach): I think this break do nothing.
             break;
           }
         }
