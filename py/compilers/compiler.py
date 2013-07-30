@@ -23,10 +23,12 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     self.browser_management()
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
-    self.compileHtml('unit_tests.html')
     self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
+
+  def compileTest(self):
+    self.compileHtml('unit_tests.html')
 
   def compileJs(self):
     raise NotImplementedError
