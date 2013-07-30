@@ -22,7 +22,9 @@
   "content_scripts": [
     {
       "matches": [ "*://*/*"],
-      "exclude_globs" : ["https://www.google.*/url"],
+      "exclude_globs" : [
+          "https://www.google.*/url", "https://www.google.com/analytics/web/*", "https://www.google.com/calendar/*"
+        ],
       "include_globs" : ["http://*", "https://www.google.*", "https://maps.google.*",
       "https://www.youtube.*", "https://*.wikipedia.org/*"],
       "css": [],
