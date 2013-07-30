@@ -259,6 +259,28 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
       except OSError:
         pass
 
+    self.removeEmptyFolders(self._DESTINATION_PATH)
+
+  def removeEmptyFolders(self, psPath):
+    """Recursive function to remove all the empty folder. As the parcours of the
+    folder is in order, we need to wait to have remove all the sub folder
+    before considering removing the main one."""
+    if not os.path.isdir(psPath):
+      return
+
+    # remove empty subfolders
+    llFiles = os.listdir(psPath)
+    if len(llFiles):
+      for loFile in llFiles:
+        lsFullpath = os.path.join(psPath, loFile)
+        if os.path.isdir(lsFullpath):
+          self.removeEmptyFolders(lsFullpath)
+
+    # if folder empty, delete it
+    llFiles = os.listdir(psPath)
+    if len(llFiles) == 0:
+      os.rmdir(psPath)
+
   def createIntegrationTests(self):
     self._INTEGRATION_TESTS = self._DESTINATION_PATH + '_integration'
     self.pretreatment(self._SOURCE_PATH, self._INTEGRATION_TESTS)
