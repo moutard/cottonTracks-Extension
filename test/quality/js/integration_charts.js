@@ -70,9 +70,17 @@ function drawStoriesRepartition(iStories){
   $('#stories_repartition_chart').text(iStories);
 };
 
-function launchTests(){
+var MockDatabase = Class.extend({
+  init: function() {},
+  putList : function(sStoreName, lListOfObjects, mCallback) {
+    mCallback(lListOfObjects);
+  },
+});
+
+function launchTests() {
+  var oMockDatabase = new MockDatabase();
   var oChromeHistoryClient = new Cotton.Core.History.Client();
-  Cotton.Core.Populate.visitItems(oChromeHistoryClient, function(lCottonHistoryItems, lChromeVisitItems,
+  Cotton.Core.Populate.visitItems(oMockDatabase, function(lCottonHistoryItems, lChromeVisitItems,
       iHistoryItem) {
     drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)
     var start = new Date().getTime();
@@ -151,7 +159,7 @@ function historyItemToDOM(oHistoryItem) {
 };
 function historyItemRecordToDOM(dHistoryItem) {
   var $history_item = $('<div class="history_item"></div>');
-  $history_item.html(dHistoryItem['sTitle'] + " :::: "
+  $history_item.text(JSON.stringify(dHistoryItem['sTitle']) + " :::: "
   + JSON.stringify(dHistoryItem['oExtractedDNA']['dBagOfWords'])
   + '<br>' + dHistoryItem['sUrl']);
   return  $history_item;
