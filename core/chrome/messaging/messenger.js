@@ -38,13 +38,7 @@ Cotton.Core.Messenger = Class.extend({
    * Bind the chrome sendMessage function.
    */
   sendMessage : function(dMessage, mCallback) {
-    // FIXME(rmoutard->rkorach): why do you need the if ? if mCallback is
-    // undefined it's exactly the same result.
-    if (mCallback){
-      this._oMessengerApi.sendMessage(dMessage, mCallback);
-    } else {
-      this._oMessengerApi.sendMessage(dMessage);
-    }
+    this._oMessengerApi.sendMessage(dMessage, mCallback);
   }
 
 });
