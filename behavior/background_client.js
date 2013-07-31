@@ -121,6 +121,12 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
       if (self._bGhost){
+        // the page was loaded in the background in a "hidden tab" (chrome prerendering)
+        // we did not listen to it, because chrome doesn't recognise messaging to tabs
+        // with id -1, plus we don't want a historyItem that wasn't actually visited.
+        // However, when the ghost page is actually visited, we don't want to reload it
+        // so we create a new visit.
+        //TODO(rkorach) use chrome.tabs.replace api that handles this particular event.
         self.createVisit();
       }
     } else {
