@@ -60,6 +60,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     self._PRESERVED_FILES.extend([psFile, lsJsOutput])
     self._PRESERVED_FILES.extend(llJsLib)
     print 'Total compilation of %s - SUCCESS' %  psFile
+    return llJsLib, lsJsOutput
 
   def compileLess(self, plLessFiles, psOutput="output.min.css"):
     """For each less file create a css file, then merge all those css files
@@ -108,8 +109,14 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     self._PRESERVED_FILES.append(psFile)
 
   def compileManifest(self, psFile):
+    """Replace the manifest content scripts by the compiled one.
+    And for the background page remove page "background.html" and replace by
+    scripts: [list of scripts]
+    """
+    # Open the manifest as reading
     loFile = open(psFile, 'r')
     ldManifest = json.loads(loFile.read())
+    # Replace all content scripts by the scritps.
     for i, ldContentScript in enumerate(ldManifest['content_scripts']):
       llLib = [lsFile for lsFile in ldContentScript['js'] if self.isLib(lsFile)]
       llJs = [lsFile for lsFile in ldContentScript['js'] if not self.isLib(lsFile)]
@@ -117,6 +124,17 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
       ldContentScript['js'] = llLib + ['content_scripts%s.min.js' % i,]
       self._PRESERVED_FILES.append('content_scripts%s.min.js' % i)
       self._PRESERVED_FILES.extend(llLib)
+
+
+    # Background page.
+    ldBackground = ldManifest['background']
+    llJs, llJsLib, llLess = self.getIncludes(ldBackground['page'])
+    ldBackground['scripts'] = llJsLib + llJs
+    os.remove(ldBackground['page'])
+    del ldBackground['page']
+    ldManifest['background'] = ldBackground
+
+    # Save the dictionnary as a new manifets.
     loFile.close()
     loFile = open(psFile, 'w')
     loFile.write(json.dumps(ldManifest))
