@@ -18,19 +18,6 @@ Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
 };
 
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
-  //FIXME(rmoutard->rkorach): local blackList is not used.
-  var blackList = ["| LinkedIn", "- Wikipedia, the free encyclopedia", "- Wikipédia",
-  "- Wikimedia Commons", "- YouTube", "on Vimeo", "- Stack Overflow",
-  "| TechCrunch", "| The Verge", "| Abduzeedo Design Inspiration & Tutorials", "| VentureBeat",
-  "| Geeklets", "– SoftFacade", "Daily Design Inspiration -", "| Daily design inspiration",
-  "Dribbble -", "| Tumblr", "| Flickr - Photo Sharing!", "Megapont -", "sur CINEMUR.FR",
-  "- AlloCiné", "| From up North", "| Co.Design: business + innovation + design", "– Fubiz™",
-  "- HTML / CSS - Creattica", "The Pirate Bay - The galaxy's most resilient bittorrent site",
-  "- L'Equipe.fr", "| Wired.com", "| Wired", "| Fast Company", "(download torrent) - TPB",
-  "- Venture Hacks", "| Complex", "- IMDb", "Venture Hacks -", "- Springer", "- Google Scholar",
-  "| Rap Genius",
-  ".jpg", ".jpeg", ".png", ".gif", ".pdf"
-  ];
   // FIXME(rmoutard->rkorach) what's this ""+sTitle ?
   var sCleanTitle = "" + sTitle;
   for (var i = 0, sExpression;
