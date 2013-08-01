@@ -1,4 +1,8 @@
 'use strict';
+
+// Allow to wait until the integration background is ready.
+QUnit.config.autostart = false;
+
 var IntegrationBackground = Class.extend({
 
   _oDatabase : undefined,
@@ -20,8 +24,15 @@ var IntegrationBackground = Class.extend({
             chrome.tabs.create({
               "url": "quality.html"
             });
+
+            // Start tests.
+            start();
         }, oClient);
     });
+  },
+
+  database : function() {
+    return this._oDatabase;
   },
 
 });
