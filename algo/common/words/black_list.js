@@ -36,9 +36,7 @@ Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
 
 //FIXME(rmoutard->rkorach): add comments, and maybe you need a specific function
 // that cuts in the title.
-// Problem: it depends on the chrome api format, but it shouldn't. Use
-// lCottonHistoryItems instead.
-Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryItems) {
+Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) {
 
   // Why are extacly lEndPattern and lStartPattern ?
   var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
@@ -50,9 +48,9 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
   var dExpressions = {};
 
   // For each historyItems, using this title, compute it's end and start pattern.
-  for (var i = 0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++) {
-    var lEndPattern = dChromeHistoryItem['title'].match(oEndRegexp);
-    var lStartPattern = dChromeHistoryItem['title'].match(oStartRegexp);
+  for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
+    var lEndPattern = oHistoryItem.title().match(oEndRegexp);
+    var lStartPattern = oHistoryItem.title().match(oStartRegexp);
     if (lEndPattern || lStartPattern) {
       lEndPattern = lEndPattern || [];
       lStartPattern = lStartPattern || [];
@@ -61,7 +59,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
 
         // FIXME(rmoutard->rkorach): there is already a function that split words
         // from an url. Use that instead of rewritiing it.
-        var oUrl = new UrlParser(dChromeHistoryItem['url']);
+        var oUrl = new UrlParser(oHistoryItem.url());
         //FIXME(rmoutard->rkorach): accentTydy prefer a path Cotton.Utils...
         var sAccentTidy = accentTidy(sExpression);
         //FIXME(rmoutard->rkorach): do not use filter.
@@ -75,9 +73,9 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
           if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ) {
             // Set the frequency of the expression.
             if (dExpressions[sExpression]) {
-              dExpressions[sExpression] += dChromeHistoryItem['visitCount'];
+              dExpressions[sExpression] += oHistoryItem.visitCount();
             } else {
-              dExpressions[sExpression] = dChromeHistoryItem['visitCount'];
+              dExpressions[sExpression] = oHistoryItem.visitCount();
             }
             // FIXME(rmoutard->rkorach): I think this break do nothing.
             break;
@@ -86,7 +84,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lChromeHistoryI
       }
     }
   }
-  var threshold = lChromeHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
+  var threshold = lHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
   for (var sExpression in dExpressions) {
     if (dExpressions[sExpression] >= threshold) {
         Cotton.Algo.Common.Words.BlacklistExpressions.push(sExpression);
