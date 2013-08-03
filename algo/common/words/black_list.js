@@ -18,11 +18,15 @@ Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
 };
 
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
-  // FIXME(rmoutard->rkorach) what's this ""+sTitle ?
-  var sCleanTitle = "" + sTitle;
-  for (var i = 0, sExpression;
+  if (sTitle) {
+    var sCleanTitle = sTitle;
+    for (var i = 0, sExpression;
       sExpression = Cotton.Algo.Common.Words.BlacklistExpressions[i]; i++){
       sCleanTitle = sCleanTitle.replace(sExpression, "");
+    }
+  } else {
+    //handle the undefined case
+    var sCleanTitle = "";
   }
   return sCleanTitle;
 };
