@@ -53,13 +53,18 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
 
   var oBlackListExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
 
-  // Why are extacly lEndPattern and lStartPattern ?
+  // oEndRexexp is made to find all end patterns in title looking like
+  // "some random text here - pattern_after_space_plus_dash", or
+  // "some random text here | pattern_after_space_plus_vertical_bar"
   var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
+  // oEndRexexp is made to find all end patterns in title looking like
+  // "pattern_before_space_plus_dash - some random text here", or
+  // "pattern_before_space_plus_vertical_bar | some random text here"
   var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
 
   var oSplitRegExp = /[\ \,\-\|\(\)\']/g;
 
-  // Store the frequeny of each expression.
+  // Store the frequency of each expression.
   var dExpressions = {};
 
   // For each historyItems, using this title, compute it's end and start pattern.
