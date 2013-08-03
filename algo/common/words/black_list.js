@@ -31,16 +31,27 @@ Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   return sCleanTitle;
 };
 
-// FIXME(rmoutard->rkorach): avoid to use a global variable for this.
-Cotton.Algo.Common.Words.BlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
+Cotton.Algo.Common.Words.BlacklistExpressions = function(){
+  var lExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
 
-Cotton.Algo.Common.Words.setBlacklistExpressions = function(lExpressions) {
-  Cotton.Algo.Common.Words.BlacklistExpressions = lExpressions;
+  return {
+    expressions : function(){
+      return lExpressions;
+    },
+    addExpression : function(sExpression){
+      lExpressions.push(sExpression);
+    },
+    setExpressions : function(lSetOfExpressions){
+      lExpressions = lSetOfExpressions;
+    }
+  }
 };
 
 //FIXME(rmoutard->rkorach): add comments, and maybe you need a specific function
 // that cuts in the title.
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) {
+
+  var oBlackListExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
 
   // Why are extacly lEndPattern and lStartPattern ?
   var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
@@ -91,12 +102,12 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   var threshold = lHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
   for (var sExpression in dExpressions) {
     if (dExpressions[sExpression] >= threshold) {
-        Cotton.Algo.Common.Words.BlacklistExpressions.push(sExpression);
+        oBlackListExpressions.addExpression(sExpression);
     }
   }
-  DEBUG && console.debug(Cotton.Algo.Common.Words.BlacklistExpressions);
+  DEBUG && console.debug(oBlackListExpressions.expressions());
   // FIXME(rmoutard): the local storage should be out the function.
   localStorage.setItem(
-    'blacklist-expressions',JSON.stringify(Cotton.Algo.Common.Words.BlacklistExpressions));
-  return(Cotton.Algo.Common.Words.BlacklistExpressions)
+    'blacklist-expressions',JSON.stringify(oBlackListExpressions.expressions()));
+  return(oBlackListExpressions.expressions());
 };
