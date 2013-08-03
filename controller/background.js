@@ -102,8 +102,9 @@ Cotton.Controllers.Background = Class.extend({
     self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
     self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
     //TODO(rmoutard): do not put this here.
+    var oBlacklistExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
     if (localStorage.getItem('blacklist-expressions')){
-      Cotton.Algo.Common.Words.setBlacklistExpressions(
+      oBlacklistExpressions.setExpressions(
         JSON.parse(localStorage.getItem('blacklist-expressions')));
     }
 
@@ -330,4 +331,3 @@ Cotton.Controllers.Background = Class.extend({
 });
 
 Cotton.Controllers.BACKGROUND = new Cotton.Controllers.Background();
-
