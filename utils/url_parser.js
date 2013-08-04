@@ -118,7 +118,6 @@ function UrlParser(sUrl) {
 
     if(this.pathname === "/search"){
       this.generateKeywords();
-      this.genericSearch();
       this.imageSearchPreviewSource();
     } else if (this.pathname === "/imgres"){
       this.imageSearchPreviewSource();
@@ -200,14 +199,6 @@ UrlParser.prototype.generateLinkedInKeywords = function() {
   for ( var j = 0, iLength = this.keywords.length; j < iLength; j++) {
     this.keywords[j] = unescape(unescape(this.keywords[j])).toLowerCase();
   }
-};
-
-UrlParser.prototype.genericSearch = function() {
-  // Two identical searches are different if they have been made in a different way
-  // omnibox, suggestion, google site, language, timestamp, ...
-  // keep only the common part. Start with keywords
-  this.genericSearch = this.protocol + "//" + this.hostname + "/search?q="
-    + this.keywords.join("+");
 };
 
 UrlParser.prototype.imageSearchPreviewSource = function() {
