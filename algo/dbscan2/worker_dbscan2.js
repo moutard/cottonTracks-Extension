@@ -9,9 +9,12 @@
 // Cotton.lib.
 importScripts('../../lib/class.js');
 importScripts('../../lib/underscore.min.js');
-importScripts('../../utils/url_parser.js');
 
 importScripts('../../init.js');
+
+// Cotton.utils.
+importScripts('../../utils/init.js');
+importScripts('../../utils/url_parser.js');
 
 // Cotton.config
 importScripts('../../config/init.js');

@@ -80,8 +80,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
         // FIXME(rmoutard->rkorach): there is already a function that split words
         // from an url. Use that instead of rewritiing it.
         var oUrl = new UrlParser(oHistoryItem.url());
-        //FIXME(rmoutard->rkorach): accentTydy prefer a path Cotton.Utils...
-        var sAccentTidy = accentTidy(sExpression);
+        var sAccentTidy = Cotton.Utils.AccentTidy(sExpression);
         //FIXME(rmoutard->rkorach): do not use filter.
         var lAccentTidyWords = sAccentTidy.split(oSplitRegExp)
         .filter(function(sWord, lArray) {
