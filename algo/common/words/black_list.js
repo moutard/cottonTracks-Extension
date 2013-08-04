@@ -57,9 +57,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   // "some random text here - pattern_after_space_plus_dash", or
   // "some random text here | pattern_after_space_plus_vertical_bar"
   var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
-  // oEndRexexp is made to find all end patterns in title looking like
-  // "pattern_before_space_plus_dash - some random text here", or
-  // "pattern_before_space_plus_vertical_bar | some random text here"
+  // same for oStartRegexp but with the recurring pattern before the dash or vertical bar
   var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
 
   // Store the frequency of each expression.
@@ -75,10 +73,12 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       var lExpressions = lEndPattern.concat(lStartPattern);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
         var oUrl = new UrlParser(oHistoryItem.url());
+        // clear the accents to be able to compare the title with the hostname
         var sAccentTidy = Cotton.Utils.AccentTidy(sExpression);
         var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
         for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
-          // What do this "if" exaclty ?
+          // check if one of the words in the pattern is also in the hostname
+          // to decide if we put the pattern in the blacklist candidates
           if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ) {
             // Set the frequency of the expression.
             if (dExpressions[sExpression]) {
@@ -86,7 +86,9 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
             } else {
               dExpressions[sExpression] = oHistoryItem.visitCount();
             }
-            // FIXME(rmoutard->rkorach): I think this break do nothing.
+            // break the 'for' loop on words
+            // because only one word in common with the hostname is necessary to validate
+            // the pattern as a blacklisted candidate.
             break;
           }
         }
@@ -95,6 +97,8 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   }
   var threshold = lHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
   for (var sExpression in dExpressions) {
+    // we check all the blacklist candidates and see if the appear
+    // more frequently than a threshold
     if (dExpressions[sExpression] >= threshold) {
         oBlackListExpressions.addExpression(sExpression);
     }
