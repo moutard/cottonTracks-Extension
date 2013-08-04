@@ -71,15 +71,16 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       lEndPattern = lEndPattern || [];
       lStartPattern = lStartPattern || [];
       var lExpressions = lEndPattern.concat(lStartPattern);
+      var oUrl = new UrlParser(oHistoryItem.url());
+      oUrl.hostname.toLowerCase();
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
-        var oUrl = new UrlParser(oHistoryItem.url());
         // clear the accents to be able to compare the title with the hostname
         var sAccentTidy = Cotton.Utils.AccentTidy(sExpression);
         var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
         for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
           // check if one of the words in the pattern is also in the hostname
           // to decide if we put the pattern in the blacklist candidates
-          if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ) {
+          if (oUrl.hostname.indexOf(sWord) !== -1 ) {
             // Set the frequency of the expression.
             if (dExpressions[sExpression]) {
               dExpressions[sExpression] += oHistoryItem.visitCount();
