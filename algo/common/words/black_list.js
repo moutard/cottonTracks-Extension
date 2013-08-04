@@ -62,8 +62,6 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   // "pattern_before_space_plus_vertical_bar | some random text here"
   var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
 
-  var oSplitRegExp = /[\ \,\-\|\(\)\']/g;
-
   // Store the frequency of each expression.
   var dExpressions = {};
 
@@ -76,17 +74,9 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       lStartPattern = lStartPattern || [];
       var lExpressions = lEndPattern.concat(lStartPattern);
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
-
-        // FIXME(rmoutard->rkorach): there is already a function that split words
-        // from an url. Use that instead of rewritiing it.
         var oUrl = new UrlParser(oHistoryItem.url());
         var sAccentTidy = Cotton.Utils.AccentTidy(sExpression);
-        //FIXME(rmoutard->rkorach): do not use filter.
-        var lAccentTidyWords = sAccentTidy.split(oSplitRegExp)
-        .filter(function(sWord, lArray) {
-          // Why 3 ?
-            return sWord.length > 3
-        });
+        var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
         for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
           // What do this "if" exaclty ?
           if (oUrl.hostname.toLowerCase().indexOf(sWord) !== -1 ) {
