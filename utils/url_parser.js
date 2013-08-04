@@ -238,7 +238,7 @@ UrlParser.prototype.replaceHexa = function(sEscaped) {
 };
 
 
-function accentTidy(sWord){
+Cotton.Utils.AccentTidy = function(sWord){
   var sAccentTidy = sWord.toLowerCase();
   sAccentTidy = sAccentTidy.replace(new RegExp("[àáâãäå]", 'g'),"a");
   sAccentTidy = sAccentTidy.replace(new RegExp("æ", 'g'),"ae");
