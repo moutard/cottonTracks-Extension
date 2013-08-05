@@ -89,9 +89,12 @@ Cotton.UI.World = Class.extend({
    *  the story can be just with the title and the image.
    */
   updateMenu : function(oStory, iNumberOfRelated) {
+      var self = this;
       this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher, iNumberOfRelated);
+      // FIXME(rmoutard or rkorach): the append shouldn't be there.
       this._$world.append(this._oSideMenu.$());
-      this._oSideMenu.slideIn();
+      // Make sure the oSideMenu has been append.
+      setTimeout(function(){self._oSideMenu.slideIn();}, 0);
   },
 
   relatedStories : function(lStories){
