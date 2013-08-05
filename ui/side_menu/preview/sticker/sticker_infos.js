@@ -43,9 +43,7 @@ Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
     });
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
-    //Count details
-    // FIXME(rmoutard): put text in a div to.
-    // FIXME(rmoutard) do not use space, use css.
+    // Count details
     this._$total_count = $('<span class="total_count">' + this._iNumberOfItems + ' cards</span>');
 
     // increase count of cards when a new item is set from pool
