@@ -15,14 +15,27 @@ Cotton.UI.Story.Element = Class.extend({
    */
   _lDOMItems : [],
 
+  /**
+   * { Cotton.UI.Story.Item.AddItem} _oAddItems: specific view to add item to
+   * a story.
+   */
   _oAddItems : null,
 
   // current element.
   _$story : null,
   _$itemsContainer : null,
 
-  //
+  /**
+   * FIXME(rmoutard->rkorache): add a comment to describe this value.
+   * {Boolean} _bScrolledStory:
+   */
   _bScrolledStory : null,
+
+  /**
+   * FIXME(rmoutard->rkorache): add a comment to describe this value.
+   * {String} _sActiveFilter:
+   */
+  _sActiveFilter : null,
 
   init : function(oStory, oDispatcher) {
     var self = this;
