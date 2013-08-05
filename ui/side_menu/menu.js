@@ -78,8 +78,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
   },
 
   slideIn : function() {
-    // FIXME(rmoutard) : use a open class css.
-    this._$menu.animate({left: '+=250',}, 300, function(){});
+    this._$menu.addClass('slideIn');
   },
 
   filters : function() {
