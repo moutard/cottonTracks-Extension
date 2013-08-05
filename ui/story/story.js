@@ -112,7 +112,7 @@ Cotton.UI.Story.Element = Class.extend({
     this._lDOMItems.push(oItemElement.$());
     this._oDispatcher.publish('element:added', {
       'type': oItemElement.type()
-    })
+    });
   },
 
   recycleItem : function(oHistoryItem) {
@@ -137,12 +137,19 @@ Cotton.UI.Story.Element = Class.extend({
     });
   },
 
+  /**
+   * use placeItem to place them all.
+   * FIXME(rmoutard->rkorach) : prefer to put all the element once to avoid useless refresh
+   */
   placeItems : function(lHistoryItems, dFilters, mCallback) {
     if (lHistoryItems && lHistoryItems.length > 0) {
       this.placeItem(lHistoryItems, 0, dFilters,mCallback);
     }
   },
 
+  /**
+   * FIXME(rmoutard->rkorach): complex method can you add some comments.
+   */
   placeItem : function(lHistoryItems, iPosition, dFilters, mCallback) {
     var self = this;
     this.initPlaceItems();
