@@ -91,18 +91,18 @@ Cotton.Core.Installer = Class.extend({
         }
 
         if (iTotalSessions && iSessionCount === iTotalSessions) {
-          // add items in indexedDB, then stories. We need to wait for the historyItems
-          // FIXME(rmoutard): be sure that they are all in the base.
-          // to be in base because when putting the stories we update iStoryId in the base
-            // Add stories in IndexedDB.
-            if(lStories.length == 0) {
-              // Stop the installation.
+          // PopulateDB.visitItems ensure that the callback function is called
+          // only when all visitItems are in the database.
+
+          // Add stories in IndexedDB, and update corresponding historyItems.
+          if (lStories.length == 0) {
+            // Stop the installation.
+            self.installIsFinished();
+          } else {
+          Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
+            function(oDatabase, lStories) {
               self.installIsFinished();
-            } else {
-            Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
-              function(oDatabase, lStories) {
-                self.installIsFinished();
-              });
+            });
           }
         }
       }
