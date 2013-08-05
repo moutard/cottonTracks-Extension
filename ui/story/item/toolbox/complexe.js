@@ -36,9 +36,9 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         this._$getContent.show();
       }
 
-      //set actions on buttons
+      // Set actions on buttons.
 
-      //expand reader
+      // Expand reader.
       this._$expand.click(function(){
         // FIXME(rmoutard) : we can avoid that with local dispatcher or id.
         self._$toolbox.addClass("visible");
@@ -51,7 +51,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         Cotton.ANALYTICS.expand();
       });
 
-      //collapse reader
+      // Collapse reader.
       this._$collapse.click(function(){
         self._$toolbox.removeClass("visible");
         $(this).hide();
@@ -63,7 +63,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         Cotton.ANALYTICS.collapse();
       });
 
-      //get content
+      // Get content.
       this._$getContent.click(function(){
         self._oDispatcher.publish('item:get_content', {
           'id': oItem.historyItem().id(),
@@ -75,7 +75,7 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
         Cotton.ANALYTICS.getContent();
       });
 
-      // construct item
+      // Construct item.
       this._$toolbox.append(
         this._$expand,
         this._$collapse,
