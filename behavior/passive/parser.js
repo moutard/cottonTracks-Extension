@@ -102,7 +102,7 @@
               'meaningful': self._lAllParagraphs,
               'bestImage': self.bestImage()
             }
-          });
+          }, function() {});
         },
 
         /**
@@ -112,7 +112,7 @@
         _publishStart : function() {
           this._oMessenger.sendMessage({
             'parsing': 'start'
-          });
+          }, function() {});
         },
 
         /**
