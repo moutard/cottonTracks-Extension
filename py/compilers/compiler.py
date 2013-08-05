@@ -187,14 +187,13 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     # FIXME(rmoutard) : doesn't work if you put all your script includes on
     # one line.
     for lsLine in loFile :
-      # FIXME(rmoutard) : allow double quote.
-      loJsResult = re.search('importScripts\(\'(.+\.js)', lsLine)
+      # Allow double quote.
+      loJsResult = re.search('importScripts\([\'|\"](.+\.js)', lsLine)
       if loJsResult:
         if(not self.isLib(loJsResult.group(1))):
           llJsImports.append(loJsResult.group(1))
 
     loFile.close()
-    #FIXME(rmoutard): preserved files.
     return llJsImports
 
   def getIncludes(self, psFile):
@@ -219,7 +218,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     # FIXME(rmoutard) : doesn't work if you put all your script includes on
     # one line.
     for lsLine in loFile :
-      # FIXME(rmoutard) : allow double quote.
+      # Allow double quote.
       loJsResult = re.search('src\=[\'|\"](.+\.js)', lsLine)
       loLessResult = re.search('href\=[\'|\"](.+\.less)', lsLine)
       if loJsResult:
