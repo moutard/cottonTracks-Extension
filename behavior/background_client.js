@@ -68,17 +68,20 @@ Cotton.Behavior.BackgroundClient = Class.extend({
       }
     }, function(response) {
       if (response) {
-        if (response['ghost']){
+        if (response['ghost']) {
           self._bGhost = true;
-          return;
-        }
-        oItem.initId(response['id']);
-        oItem.setStoryId(response['storyId']);
-        DEBUG && console.debug('DBSync create history item', {
-          'item': oItem, 'response': response
-        });
-        if(typeof mCallback === 'function'){
-          mCallback.call(this, response);
+        } else if (response['status'] == "not started") {
+          // the database is not ready yet, retry.
+          self.createVisit();
+        } else {
+          oItem.initId(response['id']);
+          oItem.setStoryId(response['storyId']);
+          DEBUG && console.debug('DBSync create history item', {
+            'item': oItem, 'response': response
+          });
+          if(typeof mCallback === 'function'){
+            mCallback.call(this, response);
+          }
         }
       }
     });
@@ -86,15 +89,17 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
    * Create a visit item
+   * Used for embeded video to create a independant historyItem that
+   * contains the url of the video.
    */
   createVisit : function() {
     var self = this;
-    self.createHistoryItem(self.current(), function(response) {
-      self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
-      self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
-      self._iId = response['id'];
-      self.updateVisit();
-    });
+      self.createHistoryItem(self.current(), function(response) {
+        self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
+        self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
+        self._iId = response['id'];
+        //self.updateVisit();
+      });
   },
 
   /**
