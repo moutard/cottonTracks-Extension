@@ -31,6 +31,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
     self._oMainController._oMessenger.listen('*', function(request, sender, sendResponse) {
       if (!self._bIsStarted) {
         // install is not finished, do nothing
+        sendResponse({'status': 'not started'});
       } else if (sender.tab.index === -1) {
         // it is a page preloaded by google in a ghost tab pass
         // FIXME(rmoutard->rkorach): do we really need to send a message back ?
