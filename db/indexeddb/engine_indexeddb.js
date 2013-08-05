@@ -47,43 +47,49 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
 
       // We need to compare whether the current list of object stores in the
-      // database matches the
-      // object stores that are requested in lObjectStoreNames.
+      // database matches the object stores that are requested in
+      // lObjectStoreNames.
 
       var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
 
       // lExistingObjectStoreNames is the list of object stores that are already
-      // present in the database
-      // and match the requested list of object stores. For example, if we ask
-      // for
-      // two stores
-      // ['abc, 'def'] and the present stores are ['abc', 'ghi'],
-      // lExistingObjectStoreNames will contain
-      // ['abc'] (still ).
+      // present in the database and match the requested list of object stores.
+      // For example:
+      // if we ask for two stores ['abc, 'def']
+      // and the present stores are ['abc', 'ghi'],
+      // lExistingObjectStoreNames will contain ['abc']
       var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
 
       // See if there are any object stores missing.
       lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
       bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
 
-      // Check if, among the present object stores, there is any that miss an
-      // index.
-
-      // FIXME !!
-      // TODO(rmoutard) this part create a problem.
+      // Determine if there is a missing index in the existing store.
       if (lExistingObjectStoreNames.length > 0) {
+
+        // Create a transaction to read and write.
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
+
+        // For each existing stores, create the missing indexes.
         for (var i = 0, iLength = lExistingObjectStoreNames.length; i < iLength; i++) {
-	  var sExistingObjectStoreName = lExistingObjectStoreNames[i];
+	        var sExistingObjectStoreName = lExistingObjectStoreNames[i];
+          // Initialize lMissingIndexKeys and dMissingIndexKeysForObjectStoreNames.
+          // And with the same reference, so they are both updated !
           lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
-          _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
-            try {
-              oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
-            } catch (e) {
-              // TODO(fwouts): Check that e is an instance of NotFoundError.
-              lMissingIndexKeys.push(sIndexKey);
-              bHasMissingIndexKey = true;
-            }
+          // For each index that already exists.
+          _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName],
+              function(dIndexDescription, sIndexKey) {
+                try {
+                  // Make a call to the current index to check it exists.
+                  oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
+                } catch (e) {
+                  // If there is an error then the index do not exists or
+                  // maybe corrupted so put it in the lMissingIndexKeys so it
+                  // will be created during the _upgradeVersion.
+                  // TODO(rmoutard): Check that e is an instance of NotFoundError.
+                  lMissingIndexKeys.push(sIndexKey);
+                  bHasMissingIndexKey = true;
+                }
           });
         }
       }
@@ -195,8 +201,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   _upgradeVersion : function(oTransaction,
     lMissingObjectStoreNames, dIndexesForObjectStoreNames,
-    dMissingIndexKeysForObjectStoreNames, mOnReadyCallback){
-
+    dMissingIndexKeysForObjectStoreNames, mOnReadyCallback) {
     var self = this;
     oTransaction.oncomplete = function(){
       DEBUG && console.debug("setVersion result transaction oncomplete");
