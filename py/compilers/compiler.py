@@ -184,8 +184,8 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     # Open the file in read mode.
     loFile = open(psFile, 'r')
     # For each line find the pattern src=''
-    # FIXME(rmoutard) : doesn't work if you put all your script includes on
-    # one line.
+    # TODO(rmoutard) : doesn't work if you put all your script includes on
+    # one line, not a priority.
     for lsLine in loFile :
       # Allow double quote.
       loJsResult = re.search('importScripts\([\'|\"](.+\.js)', lsLine)
@@ -215,8 +215,8 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     # Open the file in read mode.
     loFile = open(psFile, 'r')
     # For each line find the pattern src=''
-    # FIXME(rmoutard) : doesn't work if you put all your script includes on
-    # one line.
+    # TODO(rmoutard) : doesn't work if you put all your script includes on
+    # one line, not a priority.
     for lsLine in loFile :
       # Allow double quote.
       loJsResult = re.search('src\=[\'|\"](.+\.js)', lsLine)
