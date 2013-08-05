@@ -42,7 +42,6 @@ Cotton.UI.Story.Element = Class.extend({
     this._oDispatcher = oDispatcher;
     this._oStory = oStory;
     this._lItems = [];
-    this._bScrolled = false;
     this._sActiveFilter = '*';
 
     this._$story = $('<div class="ct-story"></div>').scroll(function() {
