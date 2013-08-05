@@ -7,7 +7,7 @@
  * @param oHistoryItem
  * @returns {Cotton.UI.Story.Item.Element}
  */
-// FIXME(rmoutard) : create a real factory.
+// TODO(rmoutard) : it's actualy a factory method, we can create a real factory.
 Cotton.UI.Story.Item.Factory = function(oHistoryItem, sActiveFilter, oDispatcher) {
 
   var oUrl = new UrlParser(oHistoryItem.url());
