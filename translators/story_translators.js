@@ -88,7 +88,15 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     if (dDBRecord2['sFeaturedImage'] === "") {
       dDBRecord2['sFeaturedImage'] = dDBRecord1['sFeaturedImage'];
     }
-    // FIXME(rmoutard): merge bag of words.
+    // Take the max value of each key.
+    var dTempBag = {};
+    for (var sWord in dDBRecord1['oExtractedDNA']['dBagOfWords']) {
+      var a = dDBRecord1['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      var b = dDBRecord2['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      dTempBag[sWord] = Math.max(a,b);
+    }
+    dDBRecord2['oExtractedDNA']['dBagOfWords'] = dTempBag;
+
     return dDBRecord2;
   };
 
