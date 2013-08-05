@@ -45,8 +45,8 @@ Cotton.UI.Story.Element = Class.extend({
     this._bScrolled = false;
     this._sActiveFilter = '*';
 
-    this._$story = $('<div class="ct-story"></div>').scroll(function(){
-      if (!self._bScrolledStory){
+    this._$story = $('<div class="ct-story"></div>').scroll(function() {
+      if (!self._bScrolledStory) {
         Cotton.ANALYTICS.scrollStory();
         self._bScrolledStory = true;
       }
@@ -61,13 +61,13 @@ Cotton.UI.Story.Element = Class.extend({
     var dFilters = {};
     var lHistoryItems = oStory.historyItems();
 
-    this.placeItems(lHistoryItems, dFilters, function(dFilters){
-      // put the "add element block at the end of the story"
+    this.placeItems(lHistoryItems, dFilters, function(dFilters) {
+      // Put the "add element block at the end of the story".
       self._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, self);
       self._$itemsContainer.isotope('insert', self._oAddItems.$());
     });
 
-    this._oDispatcher.subscribe('story:filter', this, function(dArguments){
+    this._oDispatcher.subscribe('story:filter', this, function(dArguments) {
       // Show only the elements that have this data-filter.
        this._$itemsContainer.isotope({
          'filter': dArguments['filter']
@@ -75,23 +75,23 @@ Cotton.UI.Story.Element = Class.extend({
        this._sActiveFilter = dArguments['filter'];
     });
 
-    this._oDispatcher.subscribe('relayout', this, function(dArguments){
+    this._oDispatcher.subscribe('relayout', this, function(dArguments) {
       // Need to recompute the grid.
       self._$itemsContainer.isotope('reLayout');
     });
 
     // Delete element
-    this._oDispatcher.subscribe("database:item_deleted", this, function(dArguments){
-      for (var i = 0, iLength = self._lDOMItems.length; i < iLength; i++){
+    this._oDispatcher.subscribe("database:item_deleted", this, function(dArguments) {
+      for (var i = 0, iLength = self._lDOMItems.length; i < iLength; i++) {
         var $item = self._lDOMItems[i];
-        if ($item.attr('id') == dArguments['id']){
+        if ($item.attr('id') == dArguments['id']) {
           self.removeDOMItem(i, $item);
         }
       }
     });
 
     // back to story
-    this._oDispatcher.subscribe('back_to_story', this, function(dArguments){
+    this._oDispatcher.subscribe('back_to_story', this, function(dArguments) {
       this.show();
     });
 
@@ -106,17 +106,21 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   addHistoryItem : function(oHistoryItem) {
-    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem, this._sActiveFilter,
+    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem,
+      this._sActiveFilter,
       this._oDispatcher);
     this._$itemsContainer.isotope('insert', oItemElement.$());
     this._lDOMItems.push(oItemElement.$());
-    this._oDispatcher.publish('element:added',{'type': oItemElement.type()})
+    this._oDispatcher.publish('element:added', {
+      'type': oItemElement.type()
+    })
   },
 
   recycleItem : function(oHistoryItem) {
     for (var i = 0, iLength = this._lItems.length; i < iLength; i++) {
       var oItem = this._lItems[i];
-      if (oItem.historyItem().id() === oHistoryItem.id() && oItem.type() == 'article'){
+      if (oItem.historyItem().id() === oHistoryItem.id()
+          && oItem.type() == 'article') {
         oItem.recycle(oHistoryItem);
       }
     }
@@ -134,16 +138,16 @@ Cotton.UI.Story.Element = Class.extend({
     });
   },
 
-  placeItems : function(lHistoryItems, dFilters, mCallback){
-    if (lHistoryItems && lHistoryItems.length > 0){
+  placeItems : function(lHistoryItems, dFilters, mCallback) {
+    if (lHistoryItems && lHistoryItems.length > 0) {
       this.placeItem(lHistoryItems, 0, dFilters,mCallback);
     }
   },
 
-  placeItem : function(lHistoryItems, iPosition, dFilters, mCallback){
+  placeItem : function(lHistoryItems, iPosition, dFilters, mCallback) {
     var self = this;
     this.initPlaceItems();
-    if (lHistoryItems.length > iPosition){
+    if (lHistoryItems.length > iPosition) {
       var oHistoryItem = lHistoryItems[iPosition];
       var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
         this._sActiveFilter, self._oDispatcher);
@@ -152,11 +156,11 @@ Cotton.UI.Story.Element = Class.extend({
       self._oDispatcher.publish('update_filters', dFilters);
       self._lDOMItems.push(oItem.$());
       self._$itemsContainer.isotope('insert', oItem.$());
-      setTimeout(function(){
+      setTimeout(function() {
         self.placeItem(lHistoryItems, iPosition + 1, dFilters, mCallback);
       }, 100);
     } else {
-      if (mCallback){
+      if (mCallback) {
         mCallback.call(this, dFilters);
       }
     }
