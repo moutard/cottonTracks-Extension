@@ -67,32 +67,6 @@ Cotton.Algo.Tools.TightFilter = function(lWords) {
 };
 
 /**
- * Return only query words that match the filter.
- * TODO(rmoutard->rkorach): strongQueryWords is not really explicit as it should
- * refer to StrongFilter.
- */
-Cotton.Algo.Tools.strongQueryWords = function(lQueryWords) {
-  return Cotton.Algo.Tools.LooseFilter(lQueryWords);
-};
-
-/**
- * Return the list of
- * FIXME(rmoutard->rkorach): you call strongQueryWords Twice ! once when you
- * want to compute strongQuery and the other when you want to compute
- * weak query. As there is a regex in strong query we have to avoid that.
- */
-Cotton.Algo.Tools.weakQueryWords = function(lQueryWords) {
-  var lWeakQueryWords = [];
-  var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lQueryWords);
-  for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++) {
-    if (lStrongQueryWords.indexOf(sQueryWord) === -1) {
-      lWeakQueryWords.push(sQueryWord);
-    }
-  }
-  return lWeakQueryWords;
-};
-
-/**
  * Return the list of queryWords strong and weak.
  */
 Cotton.Algo.Tools.QueryWords = function(lQueryWords) {
