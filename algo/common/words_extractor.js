@@ -29,7 +29,7 @@ Cotton.Algo.Tools.LooseFilter = function(lWords) {
  * - is not in the black list.
  * - there is only letter in the word.
  */
-Cotton.Algo.Tools.TightFilter = function(lWords){
+Cotton.Algo.Tools.TightFilter = function(lWords) {
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
@@ -42,7 +42,7 @@ Cotton.Algo.Tools.TightFilter = function(lWords){
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     var sWord = lWords[i];
     if(allow_onlyletters.test(sWord)
-      && (! Cotton.Algo.Common.Words.isInBlackList(sWord))){
+      && (! Cotton.Algo.Common.Words.isInBlackList(sWord))) {
       lWordsFiltered.push(sWord);
       }
   }
@@ -56,7 +56,7 @@ Cotton.Algo.Tools.TightFilter = function(lWords){
  * TODO(rmoutard->rkorach): strongQueryWords is not really explicit as it should
  * refer to StrongFilter.
  */
-Cotton.Algo.Tools.strongQueryWords = function(lQueryWords){
+Cotton.Algo.Tools.strongQueryWords = function(lQueryWords) {
   return Cotton.Algo.Tools.LooseFilter(lQueryWords);
 };
 
@@ -66,11 +66,11 @@ Cotton.Algo.Tools.strongQueryWords = function(lQueryWords){
  * want to compute strongQuery and the other when you want to compute
  * weak query. As there is a regex in strong query we have to avoid that.
  */
-Cotton.Algo.Tools.weakQueryWords = function(lQueryWords){
+Cotton.Algo.Tools.weakQueryWords = function(lQueryWords) {
   var lWeakQueryWords = [];
   var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lQueryWords);
-  for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++){
-    if (lStrongQueryWords.indexOf(sQueryWord) === -1){
+  for (var i = 0, sQueryWord; sQueryWord = lQueryWords[i]; i++) {
+    if (lStrongQueryWords.indexOf(sQueryWord) === -1) {
       lWeakQueryWords.push(sQueryWord);
     }
   }
@@ -121,10 +121,10 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
  * That limits the numbers of error because url parser is prone for error.
  * @param {Array.<Cotton.Model.HistoryItem>}
  */
-Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
+Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem) {
     // It's a search page use keywords to set query words.
     var lQueryWords = oHistoryItem.oUrl().keywords;
-    if(lQueryWords){
+    if (lQueryWords) {
       oHistoryItem.extractedDNA().addListQueryWords(oHistoryItem.oUrl().keywords);
       oHistoryItem.extractedDNA().setStrongQueryWords(
         Cotton.Algo.Tools.strongQueryWords(lQueryWords));
@@ -142,7 +142,7 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem){
         var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
       }
       // If there is no title url, use the url pathname.
-      if(lExtractedWords.length === 0){
+      if (lExtractedWords.length === 0) {
         lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(oHistoryItem.oUrl().pathname);
       }
       oHistoryItem.extractedDNA().addListToBagOfWords(lExtractedWords);
