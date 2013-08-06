@@ -2,6 +2,18 @@
 
 Cotton.Algo.Tools = {};
 
+Cotton.Algo.Tools.LooseCondition = function(sWord) {
+  var sTempWord.toLowerCase();
+  return sTempWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sTempWord));
+};
+
+Cotton.Algo.Tools.TightCondition = function(sWord) {
+  var sTempWord.toLowerCase();
+  var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
+  return allow_onlyletters.test(sTempWord)
+      && (! Cotton.Algo.Common.Words.isInBlackList(sTempWord));
+};
+
 /**
  * Given a list of words keep only those that do match the following
  * conditions:
@@ -14,11 +26,13 @@ Cotton.Algo.Tools.LooseFilter = function(lWords) {
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
   }
-  lWords = _.filter(lWords, function(sWord) {
-    return sWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sWord));
-  });
-  return lWords;
-
+  var lWordsFiltered = [];
+  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+    if (sWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sWord))) {
+      lWordsFiltered.push(sWord);
+    }
+  }
+  return lWordsFiltered;
 };
 
 /**
@@ -77,6 +91,30 @@ Cotton.Algo.Tools.weakQueryWords = function(lQueryWords) {
   return lWeakQueryWords;
 };
 
+/**
+ * Return the list of queryWords strong and weak.
+ */
+Cotton.Algo.Tools.QueryWords = function(lQueryWords) {
+  var lWeakQueryWords = [];
+  var lStrongQueryWords = [];
+  var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
+
+  for (var i = 0, sWord; sWord = lQueryWords[i], i++) {
+    var sTempWord = sWord.toLowerCase();
+    if (sTempWord.length > 2
+        && (!Cotton.Algo.Common.Words.isInBlackList(sTempWord))) {
+      if (allow_onlyletters.test(sTempWord)) {
+        lStrongQueryWords.push(sTempWord);
+      } else {
+        lWeakQueryWords.push(sTempWord);
+      }
+    }
+  }
+  return {
+    "weak": lWeakQueryWords,
+    "strong": lStrongQueryWords
+  };
+};
 
 /**
  * Extract words in a title.
