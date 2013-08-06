@@ -20,10 +20,9 @@ Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   if (sTitle) {
     var sCleanTitle = sTitle;
-    var oBlacklistExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
-    var lExpressions = oBlacklistExpressions.expressions();
+    var lBlacklistExpressions = JSON.parse(localStorage.getItem('blacklist-expressions'))||[];
     for (var i = 0, sExpression;
-      sExpression = lExpressions[i]; i++){
+      sExpression = lBlacklistExpressions[i]; i++){
       sCleanTitle = sCleanTitle.replace(sExpression, "");
     }
   } else {
@@ -33,27 +32,10 @@ Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   return sCleanTitle;
 };
 
-Cotton.Algo.Common.Words.BlacklistExpressions = function(){
-  var lExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
-
-  return {
-    expressions : function(){
-      return lExpressions;
-    },
-    addExpression : function(sExpression){
-      lExpressions.push(sExpression);
-    },
-    setExpressions : function(lSetOfExpressions){
-      lExpressions = lSetOfExpressions;
-    }
-  }
-};
-
 //FIXME(rmoutard->rkorach): add comments, and maybe you need a specific function
 // that cuts in the title.
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) {
-
-  var oBlackListExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
+  var lBlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
 
   // oEndRexexp is made to find all end patterns in title looking like
   // "some random text here - pattern_after_space_plus_dash", or
@@ -103,14 +85,14 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
     // we check all the blacklist candidates and see if the appear
     // more frequently than a threshold
     if (dExpressions[sExpression] >= threshold) {
-        oBlackListExpressions.addExpression(sExpression);
+        lBlacklistExpressions.push(sExpression);
     }
   }
-  DEBUG && console.debug(oBlackListExpressions.expressions());
+  DEBUG && console.debug(lBlacklistExpressions);
   // FIXME(rmoutard): the local storage should be out the function.
   localStorage.setItem(
-    'blacklist-expressions',JSON.stringify(oBlackListExpressions.expressions()));
-  return(oBlackListExpressions.expressions());
+    'blacklist-expressions',JSON.stringify(lBlacklistExpressions));
+  return(lBlacklistExpressions);
 };
 
 
