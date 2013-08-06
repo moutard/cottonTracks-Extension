@@ -9,7 +9,7 @@ Cotton.Algo.Tools = {};
  * - length > 2 char
  * - is not in the black list.
  */
-Cotton.Algo.Tools.Filter = function(lWords) {
+Cotton.Algo.Tools.LooseFilter = function(lWords) {
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
@@ -57,7 +57,7 @@ Cotton.Algo.Tools.StrongFilter = function(lWords){
  * refer to StrongFilter.
  */
 Cotton.Algo.Tools.strongQueryWords = function(lQueryWords){
-  return Cotton.Algo.Tools.Filter(lQueryWords);
+  return Cotton.Algo.Tools.LooseFilter(lQueryWords);
 };
 
 /**

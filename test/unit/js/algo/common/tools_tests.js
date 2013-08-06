@@ -13,7 +13,7 @@ module(
 
 test("Filter.", function() {
   var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
-  deepEqual(Cotton.Algo.Tools.Filter(lWords), ["wikipedia", "e34dede", "wikipédia"]);
+  deepEqual(Cotton.Algo.Tools.LooseFilter(lWords), ["wikipedia", "e34dede", "wikipédia"]);
 });
 
 test("StrongFilter.", function() {
