@@ -23,12 +23,14 @@ test("TightFilter.", function() {
 
 test("StrongQueryWords.", function() {
   var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
-  deepEqual(Cotton.Algo.Tools.strongQueryWords(lWords), ["wikipedia", "e34dede", "wikipédia"]);
+  var dQueryWords = Cotton.Algo.Tools.QueryWords(lWords);
+  deepEqual(dQueryWords["strong"], ["wikipedia", "e34dede", "wikipédia"]);
 });
 
 test("WeakQueryWords.", function() {
   var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
-  deepEqual(Cotton.Algo.Tools.weakQueryWords(lWords), ["js"]);
+  var dQueryWords = Cotton.Algo.Tools.QueryWords(lWords);
+  deepEqual(dQueryWords["weak"], ["js"]);
 });
 
 test("extractWordsFromTitle.", function() {

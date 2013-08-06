@@ -77,10 +77,12 @@ Cotton.Algo.findClosestSearchPage = function(oHistoryItem, oSearchCache) {
         oHistoryItem.extractedDNA().setClosestGoogleSearchPage(dTempSearchItem['sUrl']);
         // This will change the bag of words.
         oHistoryItem.extractedDNA().setQueryWords(lKeywords);
-        var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(lKeywords);
-        var lWeakQueryWords = Cotton.Algo.Tools.weakQueryWords(lKeywords);
-        oHistoryItem.extractedDNA().setStrongQueryWords(lStrongQueryWords);
-        oHistoryItem.extractedDNA().setWeakQueryWords(lWeakQueryWords);
+
+        // Use method to compute in one step strong and weak query words.
+        var dQueryWords = Cotton.Algo.Tools.QueryWords(lKeywords);
+        oHistoryItem.extractedDNA().setStrongQueryWords(dQueryWords["strong"]);
+        oHistoryItem.extractedDNA().setWeakQueryWords(dQueryWords["weak"]);
+
         break;
       } else {
         // the temp page is not a good google search page.
