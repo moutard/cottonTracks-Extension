@@ -523,7 +523,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -571,7 +571,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â>= iLowerBound
+    // bStrict == false All keys[sIndexKey] >= iLowerBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -825,7 +825,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -879,7 +879,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
