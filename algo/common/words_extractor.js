@@ -3,12 +3,12 @@
 Cotton.Algo.Tools = {};
 
 Cotton.Algo.Tools.LooseCondition = function(sWord) {
-  var sTempWord.toLowerCase();
+  var sTempWord = sWord.toLowerCase();
   return sTempWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sTempWord));
 };
 
 Cotton.Algo.Tools.TightCondition = function(sWord) {
-  var sTempWord.toLowerCase();
+  var sTempWord = sWord.toLowerCase();
   var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
   return allow_onlyletters.test(sTempWord)
       && (! Cotton.Algo.Common.Words.isInBlackList(sTempWord));
@@ -28,6 +28,7 @@ Cotton.Algo.Tools.LooseFilter = function(lWords) {
   }
   var lWordsFiltered = [];
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+    var sWord = lWords[i];
     if (sWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sWord))) {
       lWordsFiltered.push(sWord);
     }
@@ -97,17 +98,15 @@ Cotton.Algo.Tools.weakQueryWords = function(lQueryWords) {
 Cotton.Algo.Tools.QueryWords = function(lQueryWords) {
   var lWeakQueryWords = [];
   var lStrongQueryWords = [];
-  var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
-
-  for (var i = 0, sWord; sWord = lQueryWords[i], i++) {
+  // We use the LooseCondition for the query word.
+  // Reminder we use TightCondition only for words extracted from an url.
+  for (var i = 0, sWord; sWord = lQueryWords[i]; i++) {
     var sTempWord = sWord.toLowerCase();
     if (sTempWord.length > 2
         && (!Cotton.Algo.Common.Words.isInBlackList(sTempWord))) {
-      if (allow_onlyletters.test(sTempWord)) {
         lStrongQueryWords.push(sTempWord);
-      } else {
-        lWeakQueryWords.push(sTempWord);
-      }
+    } else {
+      lWeakQueryWords.push(sTempWord);
     }
   }
   return {
@@ -164,10 +163,12 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem) {
     var lQueryWords = oHistoryItem.oUrl().keywords;
     if (lQueryWords) {
       oHistoryItem.extractedDNA().addListQueryWords(oHistoryItem.oUrl().keywords);
-      oHistoryItem.extractedDNA().setStrongQueryWords(
-        Cotton.Algo.Tools.strongQueryWords(lQueryWords));
-      oHistoryItem.extractedDNA().setWeakQueryWords(
-        Cotton.Algo.Tools.weakQueryWords(lQueryWords));
+
+      // Use method to compute in one step strong and weak query words.
+      var dQueryWords = Cotton.Algo.Tools.QueryWords(lQueryWords);
+      oHistoryItem.extractedDNA().setStrongQueryWords(dQueryWords["strong"]);
+      oHistoryItem.extractedDNA().setWeakQueryWords(dQueryWords["weak"]);
+
     } else {
       // google image result, whose title is the url of the image
       if (oHistoryItem.oUrl().searchImage) {
