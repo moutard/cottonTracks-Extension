@@ -23,9 +23,10 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
       iPreviousTime = oCurrentVisitItem['visitTime'];
     }
 
+    var iIndex = oCurrentVisitItem['cottonHistoryItemId'];
     if (Math.abs(oCurrentVisitItem['visitTime'] - iPreviousTime) <= threshold) {
-      var iIndex = oCurrentVisitItem['cottonHistoryItemId'];
-      // WHY ?
+      // The result of separate session is direclty send to the dbscan
+      // algorithm. So we need unique elements for dbscan.
       if(lNewRoughHistoryItemSession.indexOf(lHistoryItems[iIndex]) === -1) {
         lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
       }
