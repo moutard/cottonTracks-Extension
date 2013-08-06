@@ -7,6 +7,30 @@ module("Cotton.Utils.UrlParser",{
   }
 });
 
+test('understand unescape and decodeURIComponent', function() {
+  var sBaseProtocol = "http%253A%252F%252F";
+  // %25 -> %
+  // %3A -> :
+  // %2F -> /
+  deepEqual(unescape(sBaseProtocol), "http%3A%2F%2F");
+  deepEqual(decodeURIComponent(sBaseProtocol), "http%3A%2F%2F");
+
+  deepEqual(unescape(unescape(sBaseProtocol)), "http://");
+  deepEqual(decodeURIComponent(decodeURIComponent(sBaseProtocol)), "http://");
+
+});
+
+test('accent difference unescape and decodeURIComponent', function() {
+  // Unescape and decodeURIComponent do not handle accent in the same way.
+  var sWithAccent = "Caf%25C3%25A9";
+
+  var sUnescaped = unescape(unescape(sWithAccent));
+  var sDecoded = decodeURIComponent(decodeURIComponent(sWithAccent));
+
+  deepEqual(sUnescaped, "CafÃ©");
+  deepEqual(sDecoded, "Café")
+});
+
 test("simple url.", function() {
   var urlSimple   = 'http://www.google.com/search?p=dede&q=keyword1+keyword2+keyword3&aq=autre';
   var a = new UrlParser(urlSimple);
