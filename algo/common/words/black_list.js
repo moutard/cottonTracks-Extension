@@ -20,8 +20,10 @@ Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   if (sTitle) {
     var sCleanTitle = sTitle;
+    var oBlacklistExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
+    var lExpressions = oBlacklistExpressions.expressions();
     for (var i = 0, sExpression;
-      sExpression = Cotton.Algo.Common.Words.BlacklistExpressions[i]; i++){
+      sExpression = lExpressions[i]; i++){
       sCleanTitle = sCleanTitle.replace(sExpression, "");
     }
   } else {
