@@ -46,8 +46,11 @@ test("tricky extract words from url - mbostock. ", function() {
 test("tricky extract words from url - branch. ", function() {
   var sUrl = "http://branch.com/b/workless-a-classy-html5-css3-framework";
   var oUrl = new UrlParser(sUrl);
+  // Because extractWordsFromUrlPathname use StrongFilter so it only authorize
+  // words without numbers. That's why "html5" and "css3" are remove by the
+  // filter.
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
-    ['workless', 'classy', 'html5', 'css3', 'framework']);
+    ['workless', 'classy', 'framework']);
 });
 
 test("tricky extract words from url - nodejs. ", function() {
