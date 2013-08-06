@@ -77,7 +77,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       oUrl.hostname.toLowerCase();
       for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
         // clear the accents to be able to compare the title with the hostname
-        var sAccentTidy = Cotton.Utils.AccentTidy(sExpression);
+        var sAccentTidy = Cotton.Algo.Common.Words.AccentTidy(sExpression);
         var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
         for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
           // check if one of the words in the pattern is also in the hostname
@@ -111,4 +111,20 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   localStorage.setItem(
     'blacklist-expressions',JSON.stringify(oBlackListExpressions.expressions()));
   return(oBlackListExpressions.expressions());
+};
+
+
+Cotton.Algo.Common.Words.AccentTidy = function(sWord){
+  var sAccentTidy = sWord.toLowerCase();
+  sAccentTidy = sAccentTidy.replace(new RegExp("[àáâãäå]", 'g'),"a");
+  sAccentTidy = sAccentTidy.replace(new RegExp("æ", 'g'),"ae");
+  sAccentTidy = sAccentTidy.replace(new RegExp("ç", 'g'),"c");
+  sAccentTidy = sAccentTidy.replace(new RegExp("[èéêë]", 'g'),"e");
+  sAccentTidy = sAccentTidy.replace(new RegExp("[ìíîï]", 'g'),"i");
+  sAccentTidy = sAccentTidy.replace(new RegExp("ñ", 'g'),"n");
+  sAccentTidy = sAccentTidy.replace(new RegExp("[òóôõöő]", 'g'),"o");
+  sAccentTidy = sAccentTidy.replace(new RegExp("œ", 'g'),"oe");
+  sAccentTidy = sAccentTidy.replace(new RegExp("[ùúûüű]", 'g'),"u");
+  sAccentTidy = sAccentTidy.replace(new RegExp("[ýÿ]", 'g'),"y");
+  return sAccentTidy;
 };
