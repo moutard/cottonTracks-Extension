@@ -237,21 +237,6 @@ UrlParser.prototype.replaceHexa = function(sEscaped) {
     }
 };
 
-
-Cotton.Utils.AccentTidy = function(sWord){
-  var sAccentTidy = sWord.toLowerCase();
-  sAccentTidy = sAccentTidy.replace(new RegExp("[àáâãäå]", 'g'),"a");
-  sAccentTidy = sAccentTidy.replace(new RegExp("æ", 'g'),"ae");
-  sAccentTidy = sAccentTidy.replace(new RegExp("ç", 'g'),"c");
-  sAccentTidy = sAccentTidy.replace(new RegExp("[èéêë]", 'g'),"e");
-  sAccentTidy = sAccentTidy.replace(new RegExp("[ìíîï]", 'g'),"i");
-  sAccentTidy = sAccentTidy.replace(new RegExp("ñ", 'g'),"n");
-  sAccentTidy = sAccentTidy.replace(new RegExp("[òóôõöő]", 'g'),"o");
-  sAccentTidy = sAccentTidy.replace(new RegExp("œ", 'g'),"oe");
-  sAccentTidy = sAccentTidy.replace(new RegExp("[ùúûüű]", 'g'),"u");
-  sAccentTidy = sAccentTidy.replace(new RegExp("[ýÿ]", 'g'),"y");
-  return sAccentTidy;
-};
 // README
 // This system is principaly designed for google search. it maybe interesting
 // to see if 'bing', 'yahoo', or 'duckduckgo' have the same conventions.
