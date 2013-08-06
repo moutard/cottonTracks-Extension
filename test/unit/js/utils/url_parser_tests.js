@@ -117,14 +117,13 @@ test("imgres.", function() {
 });
 
 test("google image search preview.", function() {
+  // This example has an accent.
   var urlComplexe = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM%3A%3BYg7c9zL6WwfWBM%3Bhttp%253A%252F%252F3.bp.blogspot.com%252F-R66X-DI0C5A%252FT_wSaIK7ogI%252FAAAAAAAAZqU%252FMFoC5Xv34b4%252Fs400%252F22-Alambic%252BDieudonn%25C3%25A9%252BCorydon%252BTalon.png%3Bhttp%253A%252F%252Fwww.oldschoolpanini.com%252F2012%252F07%252Fle-top-ten-des-sosies-de-la-bd-en.html%3B302%3B211";
   var b = new UrlParser(urlComplexe);
   b.fineDecomposition();
   // keywords are not generated for webph, they are only generated for search path name.
   deepEqual(b.searchImage,
-            "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+DieudonnÃ©+Corydon+Talon.png");
-  ok(b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonn%C3%A9+Corydon+Talon.png"
-    || b.searchImage === "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
+            "http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png");
 });
 
 test("dribble search.", function() {
@@ -154,19 +153,35 @@ test("new google maps.", function() {
   ok(a.isGoogleMaps);
 });
 
-test('decodeURIComponents', function(){
+test('do not pass directly an encodedURI to the UrlParser', function(){
 
-  var a = new UrlParser("http%253A%252F%252Fshippingcontainerprojects.com%252Fwp-content%252Fuploads%252F2013%252F01%252Fshipping_container_building_platoon_berlin-6.jpg")
-  deepEqual(a.error, undefined);
+  // This can not happen. has we never put directly an encodeURI in the
+  // UrlParser.
+  var sEncodedUrl = "http%253A%252F%252Fshippingcontainerprojects.com%252Fwp-content%252Fuploads%252F2013%252F01%252Fshipping_container_building_platoon_berlin-6.jpg";
+  var oNoErrorWithUnescape = new UrlParser(unescape(sEncodedUrl));
+  var oNoErrorWithDecodeURI = new UrlParser(decodeURIComponent(sEncodedUrl));
+  throws(function() { new UrlParser(sEncodedUrl) }); // This create an error as there is no /
+  // to split the url.
+  equal(oNoErrorWithUnescape.error.code, 0);
+  equal(oNoErrorWithDecodeURI.error.code, 0);
 
 });
 
 test('URI malformed', function(){
    var a = new UrlParser("http://fr.wiktionary.org/wiki/%20son%20travail%20pour%20avoir%20donn%E9%20une%20gifle%20%E0%20son%20employeur.%20Ch%F4meur%2C%20il%20part%2C%20en%20pleine%20crise%20industrielle%2C%20dans%20le%20Nord%20de%20la%20france%2C%20%E0%20la%20recherche%20d%u2019un%20nouvel%20emploi.%20Il%20se%20fait%20embaucher%20aux%20mines%20de%20Montsou%20et%20conna%EEt%20des%20conditions%20de%20travail%20effroyables%20.%20%0AIl%20fait%20la%20connaissance%20d%20%27%20une%20famille%20de%20mineurs%2C%20les%20Maheu%20et%20tombe%20amoureux%20de%20la%20jeune%20Catherine.%20Mais%20celle-ci%20est%20la%20ma%EEtresse%20d%20%27%20un%20ouvrier%20brutal%2C%20Chaval%2C%20et%20bien%20qu%20%27%20elle%20ne%20soie%20pas%20insensible%20%E0%20Etienne%2C%20elle%20a%20%E0%20son%20%E9gard%20une%20attitude%20%E9trange.%20%0A%0AEtienne%20s%20%27%20int%E8gre%20vite%20parmi%20le%20peuple%20des%20mineurs.%20Il%20est%20r%E9volt%E9%20par%20l%20%27%20injustice%20qu%20%27%20il%20d%E9couvre%20et%20par%20les%20conditions%20de%20vie%20des%20mineurs.%20Il%20propage%20assez%20rapidement%20des%20id%E9es%20r%E9volutionnaires.%20");
-   deepEqual(a.error, 'URI malformed')
+   deepEqual(a.error.message, 'URI malformed')
+   deepEqual(a.error.code, 1)
 });
 
 
-test('url with url after decodeURIComponent', function(){
+test('url with url after 2 steps of decodeURIComponent', function(){
+  var urlComplexe = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM%3A%3BYg7c9zL6WwfWBM%3Bhttp%253A%252F%252F3.bp.blogspot.com%252F-R66X-DI0C5A%252FT_wSaIK7ogI%252FAAAAAAAAZqU%252FMFoC5Xv34b4%252Fs400%252F22-Alambic%252BDieudonn%25C3%25A9%252BCorydon%252BTalon.png%3Bhttp%253A%252F%252Fwww.oldschoolpanini.com%252F2012%252F07%252Fle-top-ten-des-sosies-de-la-bd-en.html%3B302%3B211";
+
   var sUrl = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM:;Yg7c9zL6WwfWBM;http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png;http://www.oldschoolpanini.com/2012/07/le-top-ten-des-sosies-de-la-bd-en.html;302;211";
+
+  deepEqual(decodeURIComponent(decodeURIComponent(urlComplexe)), sUrl);
+  var oWrongResult = new UrlParser(sUrl); // This create an error as there is no /
+  // As we split parts using '/' if it not escaped there are mani parts. and we don't put
+  // them together well.
+  deepEqual(oWrongResult.searchImage, 'http:');
 });

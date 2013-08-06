@@ -205,8 +205,8 @@ UrlParser.prototype.imageSearchPreviewSource = function() {
  if (this.dSearch === undefined) {
     this.fineDecomposition();
   }
-  if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_"){
-    var sUnescaped = unescape(unescape(this.dHash['imgrc']));
+  if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_") {
+    var sUnescaped = decodeURIComponent(this.dHash['imgrc']);
     this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
   } else if (this.dSearch['imgurl']){
     this.searchImage = this.dSearch['imgurl'];
