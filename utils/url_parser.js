@@ -38,14 +38,14 @@ function UrlParser(sUrl) {
     // encodeURIComponents. To avoid problem decode it before using it.
     this.href = decodeURIComponent(sUrl);
     this.error = {
-      'errorCode': 0
+      'code': 0
     };
   } catch(oError) {
     // Sometimes the URL is mal formated so set the error and use unescape instead of
     // decodeURIComponent
     this.error = {
       'message': oError.message,
-      'errorCode': 1
+      'code': 1
     };
     try {
       //unescape twice because / becomes %2F and % becomes %25 so / becomes %252F
@@ -53,7 +53,7 @@ function UrlParser(sUrl) {
     } catch(oError) {
       this.error = {
         'message': oError.message,
-        'errorCode': 2
+        'code': 2
       };
       this.href = sUrl;
     }
