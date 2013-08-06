@@ -16,9 +16,9 @@ test("Filter.", function() {
   deepEqual(Cotton.Algo.Tools.LooseFilter(lWords), ["wikipedia", "e34dede", "wikipédia"]);
 });
 
-test("StrongFilter.", function() {
+test("TightFilter.", function() {
   var lWords = ["wikipedia", "js", "e34dede", "wikipédia"];
-  deepEqual(Cotton.Algo.Tools.StrongFilter(lWords), ["wikipedia", "wikipédia"]);
+  deepEqual(Cotton.Algo.Tools.TightFilter(lWords), ["wikipedia", "wikipédia"]);
 });
 
 test("StrongQueryWords.", function() {
