@@ -84,8 +84,11 @@ test("tricky extract words from url - ebooks. ", function() {
 test("tricky extract words from url - emlab. ", function() {
   var sUrl = "http://emlab.berkeley.edu/wp/mcfadden0204/browser120104.pdf";
   var oUrl = new UrlParser(sUrl);
+  // The regex cuts the path name like that :
+  //  "wp" "mcfadden0204" "browser120104", so they will be removed by
+  //  stong filter.
   deepEqual(Cotton.Algo.Tools.extractWordsFromUrlPathname(oUrl['pathname']),
-    ['mcfadden', 'browser']);
+    []);
 });
 
 test("tricky extract words from url - jeux video", function() {
