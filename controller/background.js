@@ -101,12 +101,6 @@ Cotton.Controllers.Background = Class.extend({
     // Initialize the pool.
     self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
     self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
-    //TODO(rmoutard): do not put this here.
-    var oBlacklistExpressions = Cotton.Algo.Common.Words.BlacklistExpressions();
-    if (localStorage.getItem('blacklist-expressions')){
-      oBlacklistExpressions.setExpressions(
-        JSON.parse(localStorage.getItem('blacklist-expressions')));
-    }
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -114,9 +108,7 @@ Cotton.Controllers.Background = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
-
         DEBUG && console.debug('Global store created');
-
 
         self.installIfNeeded(function(){
           // Do when the installation is finished.
