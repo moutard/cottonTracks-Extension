@@ -29,6 +29,7 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
     // Listen all the messages sent to the background page.
     self._oMainController._oMessenger.listen('*', function(request, sender, sendResponse) {
+      DEBUG && console.debug(request);
       if (!self._bIsStarted) {
         // install is not finished, do nothing
         sendResponse({'status': 'not started'});
@@ -37,8 +38,6 @@ Cotton.Controllers.BackgroundListener = Class.extend({
         // FIXME(rmoutard->rkorach): do we really need to send a message back ?
         sendResponse({'ghost':true});
       } else {
-        DEBUG && console.debug(request);
-
         /**
          * DISPATCHER
          * All the message send by sendMessage arrived here.
