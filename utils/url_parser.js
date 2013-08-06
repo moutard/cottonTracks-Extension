@@ -1,4 +1,4 @@
-
+'use strict';
 /**
  * Class in charge of parsing url, to extract main informations.
  *
