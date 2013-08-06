@@ -97,13 +97,17 @@ Cotton.Core.Populate.computeClosestGoogleSearchPage = function(lHistoryItems, lC
                               oCurrentHistoryItem.extractedDNA().bagOfWords().getWords()).length > 0 ){
             // we found a page that should be the google closest query page.
             oCurrentHistoryItem.extractedDNA().setClosestGoogleSearchPage(oTempHistoryItem.url());
+
             // This will change the bag of words.
+            // FIXME(rmoutard): old setQueryWords.
             oCurrentHistoryItem.extractedDNA().setQueryWords(oTempHistoryItem.oUrl().keywords);
-            var lStrongQueryWords = Cotton.Algo.Tools.strongQueryWords(oTempHistoryItem.oUrl().keywords);
-            var lWeakQueryWords = Cotton.Algo.Tools.weakQueryWords(oTempHistoryItem.oUrl().keywords);
-            oCurrentHistoryItem.extractedDNA().setStrongQueryWords(lStrongQueryWords);
-            oCurrentHistoryItem.extractedDNA().setWeakQueryWords(lWeakQueryWords);
+
+            // Use method to compute in one step strong and weak query words.
+            var dQueryWords = Cotton.Algo.Tools.QueryWords(oTempHistoryItem.oUrl().keywords);
+            oCurrentHistoryItem.extractedDNA().setStrongQueryWords(dQueryWords["strong"]);
+            oCurrentHistoryItem.extractedDNA().setWeakQueryWords(dQueryWords["weak"]);
             oCurrentHistoryItem.extractedDNA().setMinWeightForWord();
+
             break;
           } else {
             // the temp page is not a good google search page.
