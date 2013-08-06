@@ -29,7 +29,7 @@ Cotton.Algo.Tools.LooseFilter = function(lWords) {
  * - is not in the black list.
  * - there is only letter in the word.
  */
-Cotton.Algo.Tools.StrongFilter = function(lWords){
+Cotton.Algo.Tools.TightFilter = function(lWords){
    // Lower case to compare correctly.
   for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
@@ -95,7 +95,7 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   sTitle = Cotton.Algo.Common.Words.removeFromTitle(sTitle);
   var lMatches = sTitle.split(oRegexp) || [];
 
-  return Cotton.Algo.Tools.StrongFilter(lMatches);
+  return Cotton.Algo.Tools.TightFilter(lMatches);
 
 };
 
@@ -111,7 +111,7 @@ Cotton.Algo.Tools.extractWordsFromUrlPathname = function(sUrlPathname) {
   var oRegexp = /\_|\-|\/|\%20|\ |\;|\.|asp$|php$|html$|htm$|jpg$|png$|jpeg$|pdf$|gif$/ig;
   var lMatches = sUrlPathname.split(oRegexp) || [];
 
-  return Cotton.Algo.Tools.StrongFilter(lMatches);
+  return Cotton.Algo.Tools.TightFilter(lMatches);
 
 };
 
