@@ -182,8 +182,6 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction,
 
   var iCount = 0;
   var iLength = 0;
-  var glChromeHistoryItems = [];
-  var glCottonHistoryItems = [];
   var glChromeVisitItems = [];
 
   if(oClient){
@@ -202,7 +200,7 @@ Cotton.Core.Populate.visitItems = function(oDatabase, mCallBackFunction,
       var glChromeHistoryItems = Cotton.Core.Populate.removeExcludedItem(lChromeHistoryItems);
 
       // After the following we are dealing with cotton model history item.
-      glCottonHistoryItems = Cotton.Core.Populate.translateListOfChromeHistoryItems(glChromeHistoryItems);
+      var glCottonHistoryItems = Cotton.Core.Populate.translateListOfChromeHistoryItems(glChromeHistoryItems);
       // Compute blacklisted expressions for titles
       Cotton.Algo.Common.Words.generateBlacklistExpressions(glCottonHistoryItems);
       glCottonHistoryItems = Cotton.Core.Populate.computeBagOfWordsForHistoryItemsList(glCottonHistoryItems);
