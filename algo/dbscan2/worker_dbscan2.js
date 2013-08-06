@@ -13,7 +13,6 @@ importScripts('../../lib/underscore.min.js');
 importScripts('../../init.js');
 
 // Cotton.utils.
-importScripts('../../utils/init.js');
 importScripts('../../utils/url_parser.js');
 
 // Cotton.config
