@@ -38,7 +38,6 @@ Cotton.Controllers.Lightyear = Class.extend({
   _BATCH_SIZE : 25,
 
   /**
-   *
    * @param {Cotton.Core.Messenger} oCoreMessenger
    */
   init : function(oCoreMessenger) {

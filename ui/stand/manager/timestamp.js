@@ -22,9 +22,10 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
    * @param {float}
    *          fTime: time of the last visit time of elements in the shelf.
    */
-  init : function(fTomorrow, fTime, sScale) {
+  init : function(fTomorrow, fTime) {
     this._$timestamp = $('<div class="ct-timestamp"></div>');
-    this._$date = $('<div class="ct-timestamp_date">' + oDate + '</div>');
+    this._$date = $('<div class="ct-timestamp_date">' +
+      this._computeTitle(fTomorrow, fTime) + '</div>');
 
     // Construct element.
     this._$timestamp.append(this._$date);
@@ -32,6 +33,37 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
 
   $ : function() {
     return this._$timestamp;
+  },
+
+  /**
+   * Given the reference and the time of the shelf return the title that
+   * will be display (like TODAY, YESTERDAY 3 MONTHS AGO).
+   * @param {float}
+   *          fTomorrow: reference date.
+   * @param {float}
+   *          fTime: time of the last visit time of elements in the shelf.
+   */
+  _computeTitle : function(fTomorrow, fTime, isCompleteMonth) {
+    // the reference is tomorrow 00:00
+    var iDaysOld = Math.floor((fTomorrow - fTime) / 86400000);
+    var sDate = "";
+    if (iDaysOld === 0) {
+      sDate = "TODAY";
+    } else if (iDaysOld === 1) {
+      sDate = "YESTERDAY";
+    } else if (iDaysOld < 7) {
+      sDate = iDaysOld + " DAYS AGO";
+    } else if (iDaysOld < 14) {
+      sDate = "A WEEK AGO";
+    } else if (iDaysOld < 21) {
+      sDate = "2 WEEKS AGO";
+    } else {
+      var MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
+        "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
+      sDate = MONTHS[new Date(fTime).getMonth()] + " " + new Date(fTime).getFullYear();
+      if (!isCompleteMonth)  sDate = "EARLIER IN " + sDate;
+    }
+    return sDate;
   },
 
   purge : function() {
