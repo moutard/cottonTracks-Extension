@@ -206,9 +206,16 @@ UrlParser.prototype.imageSearchPreviewSource = function() {
     this.fineDecomposition();
   }
   if (this.dHash['imgrc'] && this.dHash['imgrc'] !== "_") {
-    var sUnescaped = decodeURIComponent(this.dHash['imgrc']);
-    this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
-  } else if (this.dSearch['imgurl']){
+    try {
+      var sUnescaped = decodeURIComponent(this.dHash['imgrc']);
+      this.searchImage = "http" + sUnescaped.split("http")[1].split(";")[0];
+    } catch (oError) {
+      this.error = {
+        'message': oError.message,
+        'code': 1
+      }
+    }
+  } else if (this.dSearch['imgurl']) {
     this.searchImage = this.dSearch['imgurl'];
   }
 };
