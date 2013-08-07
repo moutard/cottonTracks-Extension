@@ -1,0 +1,26 @@
+/**
+ * Sizes
+ */
+@topbar_height: 34px;
+@topbar_margin: 20px;
+@topbar_max_width: 1450px;
+@topbar_min_width: 960px;
+
+/**
+ * Colors
+ */
+@fagrey: #fafafa;
+
+.ct-topbar {
+  position: relative;
+  width: calc(~"100% - 2*@{topbar_margin}");
+  max-width: @topbar_max_width;
+  min-width: @topbar_min_width;
+  margin: auto;
+  height: @topbar_height;
+  margin-top: @topbar_margin;
+  margin-bottom: @topbar_margin;
+  background-color: @fagrey;
+  border-radius: 1px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.5);
+}
