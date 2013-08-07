@@ -133,7 +133,8 @@ Cotton.Core.Installer = Class.extend({
     // Make sure the background page is keeped opened during installation.
     self.wakeUp();
 
-    Cotton.Core.Populate.visitItems(self._oDatabase,
+    //Cotton.Core.Populate.visitItems(self._oDatabase,
+    new TempDatabase(self._oDatabase,
       function(lHistoryItems, lVisitItems) {
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '

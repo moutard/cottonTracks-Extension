@@ -18,7 +18,7 @@ Cotton.Model.HistoryItem = Class.extend({
 
   _sStoryId : undefined,            // id of the story if it belongs to it.
   _oExtractedDNA : undefined,       // dna of the page. Used to compute distance.
-
+  _iChromeId : undefined,           // id in chrome database, use during populate. (use parseInt to make it an int)
   /**
    * {Dictionnary} dDBRecord :
    *  dict that contains all the variables like they are stored in the
@@ -35,7 +35,7 @@ Cotton.Model.HistoryItem = Class.extend({
 
     this._sStoryId = dDBRecord['sStoryId'] || "UNCLASSIFIED";
     this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this, dDBRecord['oExtractedDNA']);
-
+    this._iChromeId = dDBRecord['sChromeId'] || undefined;
   },
   // can't be set
   id : function() {
@@ -104,6 +104,12 @@ Cotton.Model.HistoryItem = Class.extend({
       this._oUrl = new UrlParser(this._sUrl);
     }
     return this._oUrl;
-  }
+  },
+  chromeId : function() {
+    return this._iChromeId;
+  },
+  setChromeId : function(iChromeId) {
+    this._iChromeId = iChromeId;
+  },
 
 });
