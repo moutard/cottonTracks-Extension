@@ -22,8 +22,13 @@ Cotton.UI.World = Class.extend({
   _oGlobalDispatcher : null,
 
   /**
-   * @param {Cotton.Application.Lightyear} oApplication
-   * @param {Cotton.Core.Messenger} oMessenger
+   * Topbar object, always present, containing menu and search
+   */
+  _oTopbar : null,
+
+  /**
+   * @param {Cotton.Core.Messenger} oCoreMessenger
+   * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(oCoreMessenger, oGlobalDispatcher, $dom_world) {
     var self = this;
@@ -33,7 +38,8 @@ Cotton.UI.World = Class.extend({
   },
 
   initTopbar : function() {
-
+    this._oTopbar = new Cotton.UI.Topbar.UITopbar(this._oGlobalDispatcher);
+    this._$world.append(this._oTopbar.$());
   },
 
   initManager : function(lStories) {
