@@ -23,9 +23,11 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(lStories, oGlobalDispatcher) {
+    var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
     // DOM object for the manager.
     this._$manager = $('<div class="ct-manager"></div>');
+
   },
 
   $ : function() {

@@ -21,6 +21,13 @@ Cotton.UI.World = Class.extend({
    */
   _oGlobalDispatcher : null,
 
+
+  /**
+   * DOM Listener, will listen all dom events and then dispatch what is needed through
+   * the Global dispatcher. This is to avoid multiple same dom listener in various objects
+   */
+  _oWindowListener : null,
+
   /**
    * Topbar object, always present, containing menu and search
    */
@@ -33,7 +40,7 @@ Cotton.UI.World = Class.extend({
   init : function(oCoreMessenger, oGlobalDispatcher, $dom_world) {
     var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
-
+    this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
     this._$world = $dom_world || $('.ct');
   },
 
