@@ -33,6 +33,7 @@
         width: 100%;
         clear: both;
         -webkit-box-shadow: inset 9px 0px 0px 9px #333;
+        clear: both;
 
         &:before {
           position: absolute;
@@ -68,5 +69,28 @@
     color: @purewhite;
     text-align: center;
     vertical-align: middle;
+  }
+
+
+  > .ct-footer {
+    width: 100%;
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    color: @purewhite;
+
+    &.ct-load_more {
+      cursor: s-resize;
+    }
+
+    &.ct-end_of_history {
+      cursor: default;
+
+      > .ct-underline {
+        position: relative;
+        top: -2px;
+        text-decoration: underline;
+      }
+    }
   }
 }
