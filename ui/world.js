@@ -32,6 +32,12 @@ Cotton.UI.World = Class.extend({
     this._$world = $dom_world || $('.ct');
   },
 
+  initTopbar : function() {
 
+  },
+
+  initManager : function(lStories) {
+    console.log(lStories);
+  }
 
 });
