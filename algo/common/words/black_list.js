@@ -1,20 +1,11 @@
 'use strict'
 
 Cotton.Algo.Common.Words.isInBlackList = function(sWord) {
-  // TODO(rmoutard): pre sort black list and make a dicotomique search.
-  var blackList = ['htm', 'the',
-  "and", "also", "or", "no", "so", "for", "else", "but", "yet", "still", "anyway",
-  "both", "not", "also", "only", "too", "either", "neither", "rather", "than",
-  "more", "less", "whether", "neither", "besides", "because", "since", "rather",
-  "though", "unless", "even", "although", "while", "whereas", "despite", "spite",
-  "regardless", "where", "wherever", "until", "the", "once",
-  "furthermore", "moreover", "additionally", "besides", "firstly", "secondly",
-  "finally", "instead", "otherwise", "thus", "hence", "accordingly", "anyhow",
-  "nevertheless", "nonetheless", "however", "meanwhile", "subsequently", "afterward",
-  "are", "com", "fr", "with", "you", "in", "what", "to", "do", "an", "a", "les"
-  ];
-
-  return blackList.indexOf(sWord) !== -1;
+  // The blackList is pre-sorted to make a binary search.
+  var lBlackList = ["a", "accordingly", "additionally", "afterward", "also", "also", "although", "an", "and", "anyhow", "anyway", "are", "because", "besides", "besides", "both", "but", "com", "despite", "do", "either", "else", "even", "finally", "firstly", "for", "fr", "furthermore", "hence", "however", "htm", "in", "instead", "les", "less", "meanwhile", "more", "moreover", "neither", "neither", "nevertheless", "no", "nonetheless", "not", "once", "only", "or", "otherwise", "rather", "rather", "regardless", "secondly", "since", "so", "spite", "still", "subsequently", "than", "the", "the", "though", "thus", "to", "too", "unless", "until", "what", "where", "whereas", "wherever", "whether", "while", "with", "yet", "you"]
+  // Using underscore indexOf, pass the last parameter as true, to make
+  // binary search.
+  return _.indexOf(lBlackList, sWord, true) !== -1;
 };
 
 Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
