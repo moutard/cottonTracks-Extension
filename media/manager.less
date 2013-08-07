@@ -1,10 +1,72 @@
 /**
  * Sizes
  */
+@topbar_max_width: 1450px;
+@topbar_min_width: 960px;
 @topbar_height: 34px;
 @topbar_margin: 20px;
+
+/**
+ * Colors
+ */
+@33grey: #333333;
+@e6grey: #e6e6e6;
+@purewhite: #ffffff;
 
 .ct-manager {
   width: 100%;
   height: calc(~"100% - @{topbar_height} - 2*@{topbar_margin}");
+  overflow-y: scroll;
+
+  > .ct-shelves_container {
+    width: 90%;
+    max-width: @topbar_max_width;
+    min-width: @topbar_min_width;
+    margin: 0 auto;
+
+    > .ct-shelf {
+      float: left;
+      width: 100%;
+
+      > .ct-timestamp {
+        position: relative;
+        width: 100%;
+        clear: both;
+        -webkit-box-shadow: inset 9px 0px 0px 9px #333;
+
+        &:before {
+          position: absolute;
+          width: 100%;
+          height: 1px;
+          top: 20px;
+          content: "";
+          background: @e6grey;
+          z-index: -1;
+        }
+
+        > .ct-timestamp_date {
+          background-color: @33grey;
+          font-family: SourceSansPro-Light;
+          height: 21px;
+          padding-left: 5px;
+          padding-right: 10px;
+          font-size: 28px;
+          color: @e6grey;
+          background-color: @33grey;
+          display: table-cell;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+
+  > .ct-no_story {
+    font-family: SourceSansPro-Light;
+    font-size: 21px;
+    width: 100%;
+    height: 100%;
+    color: @purewhite;
+    text-align: center;
+    vertical-align: middle;
+  }
 }
