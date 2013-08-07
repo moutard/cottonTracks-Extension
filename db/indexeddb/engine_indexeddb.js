@@ -521,6 +521,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  // Get all elements through the indexKey up to the iUpperBound.
+  // Sorted or inverse-sorted depending iDirection
+  // Includes bound if bStrict === false
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
     // bStrict == false All keys[sIndexKey] <= iUpperBound
@@ -569,6 +572,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  // Get all elements through the indexKey down to the iLowerBound.
+  // Sorted or inverse-sorted depending iDirection
+  // Includes bound if bStrict === false
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
     // bStrict == false All keys[sIndexKey] >= iLowerBound
