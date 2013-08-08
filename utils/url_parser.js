@@ -111,8 +111,8 @@ function UrlParser(sUrl) {
                         || (this.isGoogle && this.pathname.match(/^\/maps/ig)));
     var oWikiRegExp = /[a-z]{2,3}.wikipedia.org/ig;
     this.isWikipedia = (this.hostname.match(oWikiRegExp)) ? true : false;
-    this.isYoutube = (this.hostname === "www.youtube.com");
-    this.isVimeo = (this.hostname_without_country === "vimeo");
+    this.isYoutube = (this.service === "youtube");
+    this.isVimeo = (this.service === "vimeo");
 
     this.isHttps = (this.protocol === "https:");
 
