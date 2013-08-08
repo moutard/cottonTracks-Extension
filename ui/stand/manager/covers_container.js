@@ -16,6 +16,11 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
   _lStories : null,
 
   /**
+   * {Cotton.Messaging.Dispatcher}
+   */
+  _oGlobalDispatcher : null,
+
+  /**
    * @param {Array.<Cotton.Model.Story>} lStories
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */

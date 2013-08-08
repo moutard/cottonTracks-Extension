@@ -62,6 +62,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     // specific case : you load the interface today and keep it open, the you
     // load more stories the next day. fTomorrow need to be constant.
     // TODO (rmoutard): force the reload if fTomorrow change.
+    // set today's date as a reference for timestamps
     this._oNow = new Date();
 
     this._lShelves = [];

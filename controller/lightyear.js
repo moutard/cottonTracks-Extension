@@ -54,6 +54,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     this._oCoreMessenger = oCoreMessenger;
     this._oGlobalDispatcher = new Cotton.Messaging.Dispatcher();
+    this._oDispatchingController = new Cotton.Controllers.DispatchingController(this, this._oGlobalDispatcher);
 
     this._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
@@ -83,8 +84,14 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
   },
 
-  database : function() {
-    return this._oDatabase;
+  /**
+   * Ask to the world to replace the Manager and open an UIStory instead.
+   *
+   * @param {Cotton.Model.Story} oStory:
+   *        story that contains the data you want to display in the UIStory.
+   */
+  openStory : function(oStory) {
+    this._oWorld.openStory(oStory);
   },
 
   /**
