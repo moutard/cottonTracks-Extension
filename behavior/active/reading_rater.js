@@ -482,7 +482,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       oItem.setLastVisitTime(Date.now());
       // FIXME(rmoutard) : check here for no extracted words.
       oItem.extractedDNA().setBagOfWords(oHistoryItem.extractedDNA()
-        .bagOfWords().get());
+        .bagOfWords());
       self._oClient.createHistoryItem(oItem);
     }
   },
