@@ -56,10 +56,12 @@ Cotton.UI.World = Class.extend({
     this._oManager.setShelvesHeight();
   },
 
-  openStory : function(oStory){
-    this._oStory = this._oStory || new Cotton.UI.Stand.Story.UIStory(oStory, this._oGlobalDispatcher)
-    this._oStory.open(oStory);
+  openStory : function(oStory) {
     this._oManager.hide();
+    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory,
+        this._oGlobalDispatcher)
+    this._oUIStory.open(oStory);
+    this._$world.append(this._oUIStory.$());
   }
 
 });
