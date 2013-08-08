@@ -163,7 +163,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
      */
     var iframeDetector = function() {
       var oActiveElement = document.activeElement;
-      return oActiveElement.nodeName === 'IFRAME' && oActiveElement;
+      var oIframeUrl = (oActiveElement.src)? new UrlParser(oActiveElement.src) : {};
+      return oActiveElement.nodeName === ('IFRAME'||'INPUT') && (oIframeUrl.isYoutube || oIframeUrl.isVimeo) && oActiveElement;
     };
 
     /*
@@ -192,7 +193,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       + 'id="focus_retriever" /></div>');
     var focusRetriever = $('#focus_retriever');
     $(document).mousemove(function(e){ // Focus back to page
-      if( document.activeElement.nodeName === 'IFRAME' ){
+      if(iframeDetector()){
         focusRetriever.focus();
       }
     });
