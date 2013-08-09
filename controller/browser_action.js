@@ -31,7 +31,6 @@ Cotton.Controllers.BrowserAction = Class.extend({
           // The tab that make the call to the browser action is already lightyear,
           // so the UI page will listen to the event go back to the manager.
           // Do nothing from background.
-          Cotton.ANALYTICS.backToPage('browserAction');
         } else {
           Cotton.ANALYTICS.showLightyear();
           self._oMainController._iCallerTabId = lTabs[0]['id'];
