@@ -15,6 +15,11 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
   _$topbar : null,
 
   /**
+   * logo at the bottom left of the topbar, to go back to the manager
+   */
+  _$logo : null,
+
+  /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(oGlobalDispatcher) {
@@ -23,6 +28,12 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
 
     // Topbar dom object.
     this._$topbar = $('<div class="ct-topbar"></div>');
+
+    // Home icon, opens the manager on click.
+    this._$logo = $('<div class="ct-logo_topbar"></div>').click(function(){
+      oGlobalDispatcher.publish('home');
+    });
+    this._$topbar.append(this._$logo);
   },
 
   $ : function() {
