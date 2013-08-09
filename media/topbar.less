@@ -41,4 +41,25 @@
     border-bottom-left-radius: 10px;
     cursor: pointer;
   }
+
+  > .ct-menu_topbar {
+    width: calc(~"32% - @{logo_width}");
+    -webkit-box-sizing: border-box;
+    min-width: 125px;
+    height: 100%;
+    background: @f5grey;
+    float: left;
+
+    > .ct-settings_menu_topbar {
+      float: right;
+      height: 18px;
+      width: 18px;
+      background-repeat: no-repeat;
+      background-image: url('/media/images/common/ct-icons.png');
+      background-position: -50px -10px;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 16px;
+    }
+  }
 }
