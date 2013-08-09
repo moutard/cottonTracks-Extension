@@ -19,6 +19,11 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
    */
   _$logo : null,
 
+   /**
+    * topbar menu object, with the navigation arrows, the settings gear
+    */
+  _oMenu : null,
+
   /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
@@ -33,7 +38,9 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     this._$logo = $('<div class="ct-logo_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('home');
     });
-    this._$topbar.append(this._$logo);
+
+    this._oMenu = new Cotton.UI.Topbar.Menu(oGlobalDispatcher);
+    this._$topbar.append(this._$logo, this._oMenu.$());
   },
 
   $ : function() {
