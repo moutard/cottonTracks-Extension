@@ -40,6 +40,7 @@ Cotton.UI.World = Class.extend({
   initTopbar : function() {
     this._oTopbar = new Cotton.UI.Topbar.UITopbar(this._oGlobalDispatcher);
     this._$world.append(this._oTopbar.$());
+    this._oGlobalDispatcher.publish('focus_search');
   },
 
   initManager : function(lStories) {
