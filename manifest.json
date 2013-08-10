@@ -4,9 +4,9 @@
   "version": "0.6.0",
   "minimum_chrome_version": "22",
   "icons": {
-    "16": "/media/images/cotton_tracks_favicon_16.png",
-    "48": "/media/images/cotton_tracks_favicon_48.png",
-    "128": "/media/images/cotton_tracks_favicon_128.png"
+    "16": "/media/images/manifest/cotton_tracks_favicon_16.png",
+    "48": "/media/images/manifest/cotton_tracks_favicon_48.png",
+    "128": "/media/images/manifest/cotton_tracks_favicon_128.png"
   },
   "description": "cottonTracks lets you remember easily the best of what you browse",
   "homepage_url": "http://www.cottontracks.com",
