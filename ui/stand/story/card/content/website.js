@@ -16,8 +16,9 @@ Cotton.UI.Stand.Story.Card.Content.Website = Class.extend({
    * @param {string} sUrl:
    *    url of the historyItem
    */
-  init : function(sUrl) {
+  init : function(sUrl, oLocalDispatcher) {
     var self = this;
+    this._oLocalDispatcher = oLocalDispatcher;
 
     // dom element that contains the favicon and website domain
     this._$website = $('<div class="ct-card_website"></div>');
@@ -35,6 +36,11 @@ Cotton.UI.Stand.Story.Card.Content.Website = Class.extend({
       $favicon,
       $domain
     );
+
+    // local dispatcher, remove $website when an iframe is appended
+    this._oLocalDispatcher.subscribe('load_video', this, function(){
+      this._$website.fadeOut(function(){$(this).remove()});
+    });
   },
 
   $ : function() {
@@ -56,6 +62,9 @@ Cotton.UI.Stand.Story.Card.Content.Website = Class.extend({
 
 
   purge : function() {
+    this._oLocalDispatcher.unsubscribe('load_video', this);
+    this._oLocalDispatcher = null;
+
     this._$website.empty().remove();
     this._$website = null;
   }
