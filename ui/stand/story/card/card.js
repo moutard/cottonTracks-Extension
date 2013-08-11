@@ -15,6 +15,11 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
   _oGlobalDispatcher : null,
 
   /**
+   * Local Dispatcher just for a card
+   */
+  _oLocalDispatcher : null,
+
+  /**
    * {DOM} card frame
    */
   _$card : null,
@@ -56,6 +61,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
    * @param{Cotton.Messaging.Dispatcher} oGlobalDisPatcher
    */
   init : function(oHistoryItem, oGlobalDispatcher) {
+    this._oLocalDispatcher = new Cotton.Messaging.Dispatcher();
+
     this._$card = $('<div class="ct-card"></div>');
     this._$details = $('<div class="ct-card_details"></div>');
     this._oTitle = new Cotton.UI.Stand.Story.Card.Content.Title(oHistoryItem);
@@ -63,7 +70,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
       oGlobalDispatcher.publish('delete_card', {'history_item': oHistoryItem.id()});
     });
     this._$url = $('<div class="ct-card_url">' + oHistoryItem.url() +'</div>');
-    this._oWebsite = new Cotton.UI.Stand.Story.Card.Content.Website(oHistoryItem.url());
+    this._oWebsite = new Cotton.UI.Stand.Story.Card.Content.Website(oHistoryItem.url(), this._oLocalDispatcher);
   },
 
   $ : function() {

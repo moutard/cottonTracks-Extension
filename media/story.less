@@ -194,10 +194,10 @@
           }
         }
 
-        &.ct-image_card {
+        &.ct-image_card, &.ct-video_card {
           height: 325px;
 
-          > .ct-media_image {
+          > .ct-media_image, .ct-media_video {
             float: left;
             height: 100%;
 
@@ -212,6 +212,24 @@
             &.ct-full_image {
               /*if full image in an image element*/
               width: 501px;
+            }
+
+            &.ct-full_video {
+              width: 501px;
+              cursor: pointer;
+              position: relative;
+
+              &:after {
+                background-repeat: no-repeat;
+                background-position: center;
+                background-image: url('/media/images/story/card/ct-video_play_icon.png');
+              }
+
+              &.ct-play {
+                &:after {
+                  display: none;
+                }
+              }
             }
           }
         }
