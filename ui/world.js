@@ -1,4 +1,10 @@
 'use strict';
+/**
+ * GLOBAL VARIABLES
+ * for performance issues inline them when needed.
+ */
+var TOPBAR_HEIGHT = 74;
+var DASHBOARD_WIDTH = 396;
 
 /**
  * World class representing the whole interface.
