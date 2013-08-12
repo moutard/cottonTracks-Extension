@@ -55,7 +55,9 @@ Cotton.Core.TempDatabase = Class.extend({
         self._lChromeHistoryItems = [];
 
         // Compute blacklisted expressions for titles
-        Cotton.Algo.Common.Words.generateBlacklistExpressions(self._lCottonHistoryItems);
+        localStorage.setItem('blacklist-expressions',JSON.stringify(
+          Cotton.Algo.Common.Words.generateBlacklistExpressions(self._lCottonHistoryItems)
+        ));
         self.computeBagOfWordsForHistoryItemsList();
         self.removeHistoryItemsWithoutBagOfWords();
 
