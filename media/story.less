@@ -194,8 +194,12 @@
           }
         }
 
-        &.ct-image_card, &.ct-video_card {
+        &.ct-image_card, &.ct-video_card, &.ct-map_card {
           height: 325px;
+
+          > .ct-media_map {
+            float: left;
+          }
 
           > .ct-media_image, .ct-media_video {
             float: left;
