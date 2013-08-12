@@ -44,19 +44,19 @@ Cotton.UI.Stand.Story.Card.Factory = function(oHistoryItem, oGlobalDispatcher) {
       "dailymotion", oHistoryItem, oGlobalDispatcher);
   } else if (oUrl.hostname.match(/^(maps\.google\.)/)
       && oUrl.pathname == "/maps") {
-    var sMapUrl = oUrl.href;
-    return new Cotton.UI.Stand.Story.Card.Map(sMapUrl, oHistoryItem, oGlobalDispatcher);
+    var sMapCode = oUrl.dSearch['q'];
+    return new Cotton.UI.Stand.Story.Card.Map(sMapCode, oHistoryItem, oGlobalDispatcher);
   } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps") {
-    var sMapUrl = oUrl.href;
-    return new Cotton.UI.Stand.Story.Card.Map(sMapUrl, oHistoryItem, oGlobalDispatcher);
+    var sMapCode = oUrl.dSearch['q'];
+    return new Cotton.UI.Stand.Story.Card.Map(sMapCode, oHistoryItem, oGlobalDispatcher);
   } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
     oUrl.fineDecomposition();
     if (oUrl.dSearch['q']){
-      var sMapUrl = "https://www.google.com/maps?q=" + oUrl.dSearch['q'];
-      return new Cotton.UI.Stand.Story.Card.Map(sMapUrl, oHistoryItem, oGlobalDispatcher);
+      var sMapCode = oUrl.dSearch['q'];
+      return new Cotton.UI.Stand.Story.Card.Map( sMapCode, oHistoryItem, oGlobalDispatcher);
     } else if (oUrl.dHash['!q']){
-      var sMapUrl = "https://www.google.com/maps?q=" + oUrl.dHash['!q'];
-      return new Cotton.UI.Stand.Story.Card.Map(sMapUrl, oHistoryItem, oGlobalDispatcher);
+      var sMapCode = oUrl.dHash['!q'];
+      return new Cotton.UI.Stand.Story.Card.Map(sMapCode, oHistoryItem, oGlobalDispatcher);
     } else {
       // Default
       return new Cotton.UI.Stand.Story.Card.Default(oHistoryItem, oGlobalDispatcher);
