@@ -80,15 +80,8 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
     }
   }
   DEBUG && console.debug(lBlacklistExpressions);
-  // FIXME(rmoutard): the local storage should be out the function.
-  localStorage.setItem(
-    'blacklist-expressions',JSON.stringify(lBlacklistExpressions));
 
-  // Purge the array after putting in the localstorage.
-  for (var i = 0; i < lBlacklistExpressions.length; i++) {
-    lBlacklistExpressions[i] = null;
-  }
-  lBlacklistExpressions = [];
+  return(lBlacklistExpressions);
 };
 
 
