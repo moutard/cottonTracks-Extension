@@ -23,54 +23,60 @@ Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   return sCleanTitle;
 };
 
-//FIXME(rmoutard->rkorach): add comments, and maybe you need a specific function
-// that cuts in the title.
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) {
   var lBlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
-
-  // oEndRexexp is made to find all end patterns in title looking like
-  // "some random text here - pattern_after_space_plus_dash", or
-  // "some random text here | pattern_after_space_plus_vertical_bar"
-  var oEndRegexp = /\-\ [^\-\|]+|\|\ [^\-\|]+/g;
-  // same for oStartRegexp but with the recurring pattern before the dash or vertical bar
-  var oStartRegexp = /[^\-\|]+\ \-|[^\-\|]+\ \|/g;
 
   // Store the frequency of each expression.
   var dExpressions = {};
 
-  // For each historyItems, using this title, compute it's end and start pattern.
+  // For each historyItems, using this title, find the expressions starting or ending with " - " or " | ".
   for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
-    var lEndPattern = oHistoryItem.title().match(oEndRegexp);
-    var lStartPattern = oHistoryItem.title().match(oStartRegexp);
-    if (lEndPattern || lStartPattern) {
-      lEndPattern = lEndPattern || [];
-      lStartPattern = lStartPattern || [];
-      var lExpressions = lEndPattern.concat(lStartPattern);
-      var oUrl = new UrlParser(oHistoryItem.url());
-      oUrl.hostname.toLowerCase();
-      for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
-        // clear the accents to be able to compare the title with the hostname
-        var sAccentTidy = Cotton.Algo.Common.Words.AccentTidy(sExpression);
-        var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
-        for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
-          // check if one of the words in the pattern is also in the hostname
-          // to decide if we put the pattern in the blacklist candidates
-          if (oUrl.hostname.indexOf(sWord) !== -1 ) {
-            // Set the frequency of the expression.
-            if (dExpressions[sExpression]) {
-              dExpressions[sExpression] += oHistoryItem.visitCount();
-            } else {
-              dExpressions[sExpression] = oHistoryItem.visitCount();
-            }
-            // break the 'for' loop on words
-            // because only one word in common with the hostname is necessary to validate
-            // the pattern as a blacklisted candidate.
-            break;
+    var oUrl = new UrlParser(oHistoryItem.url());
+    var sHostname = oUrl.hostname.toLowerCase();
+    var lExpressions = [];
+
+    var lDash = oHistoryItem.title().split(' - ');
+    for (var j = 0, sDash, jLength = lDash.length; sDash = lDash[j]; j++) {
+      if (jLength > 1 && j > 0){
+        lExpressions.push("- " + sDash);
+      }
+      if (jLength > 1 && j < jLength - 1){
+        lExpressions.push(sDash + " -");
+      }
+    }
+    var lBar = oHistoryItem.title().split(' | ');
+    for (var j = 0, sBar, jLength = lBar.length; sBar = lBar[j]; j++) {
+      if (jLength > 1 && j > 0){
+        lExpressions.push("| " + sBar);
+      }
+      if (jLength > 1 && j < jLength - 1){
+        lExpressions.push(sBar + " |");
+      }
+    }
+
+    for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
+      // clear the accents to be able to compare the title with the hostname
+      var sAccentTidy = Cotton.Algo.Common.Words.AccentTidy(sExpression);
+      var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
+      for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
+        // check if one of the words in the pattern is also in the hostname
+        // to decide if we put the pattern in the blacklist candidates
+        if (sHostname.indexOf(sWord) !== -1 ) {
+          // Set the frequency of the expression.
+          if (dExpressions[sExpression]) {
+            dExpressions[sExpression] += oHistoryItem.visitCount();
+          } else {
+            dExpressions[sExpression] = oHistoryItem.visitCount();
           }
+          // break the 'for' loop on words
+          // because only one word in common with the hostname is necessary to validate
+          // the pattern as a blacklisted candidate.
+          break;
         }
       }
     }
   }
+
   var threshold = lHistoryItems.length * Cotton.Config.Parameters.iMinRecurringPattern / 100;
   for (var sExpression in dExpressions) {
     // we check all the blacklist candidates and see if the appear
@@ -80,7 +86,6 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
     }
   }
   DEBUG && console.debug(lBlacklistExpressions);
-
   return(lBlacklistExpressions);
 };
 

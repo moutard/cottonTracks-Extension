@@ -102,7 +102,7 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   // Include all normal characters, dash, accented characters.
   // TODO(fwouts): Consider other characters such as digits?
   //var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var oRegexp = /\ |\-|\_|\"|\'|\xAB|\xBB|\.|\,|\;|\:|\?|\!|\(|\)|\\|\//;
+  var oRegexp = /\ |\-|\||\_|\"|\'|\xAB|\xBB|\.|\,|\;|\:|\?|\!|\(|\)|\\|\//;
   sTitle = Cotton.Algo.Common.Words.removeFromTitle(sTitle);
   var lMatches = sTitle.split(oRegexp) || [];
 
