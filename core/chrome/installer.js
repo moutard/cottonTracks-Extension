@@ -14,7 +14,7 @@ Cotton.Core.Installer = Class.extend({
    */
   _wInstallWorker : null,
 
-  init: function(oDatabase, mCallback){
+  init: function(oDatabase, mCallback) {
     var self = this;
     self._oDatabase = oDatabase;
     self._mCallback = mCallback;
@@ -100,7 +100,14 @@ Cotton.Core.Installer = Class.extend({
             self.installIsFinished();
           } else {
           Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
-            function(oDatabase, lStories) {
+            function(oDatabase, _lStories) {
+              // Purge lStories.
+              var iLength = lStories.length;
+              for (var i = 0; i < iLength; i++) {
+                lStories[i] = null;
+              }
+              lStories = [];
+              _lStories = [];
               self.installIsFinished();
             });
           }
@@ -134,7 +141,7 @@ Cotton.Core.Installer = Class.extend({
     self.wakeUp();
 
     //Cotton.Core.Populate.visitItems(self._oDatabase,
-    self._oTempDatabase = new TempDatabase(self._oDatabase,
+    self._oTempDatabase = new Cotton.Core.TempDatabase(self._oDatabase,
       function(lHistoryItems, lVisitItems) {
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
@@ -195,6 +202,7 @@ Cotton.Core.Installer = Class.extend({
     this._oTempDatabase.purge();
     this._oTempDatabase = null;
     this._wInstallWorker = null;
+    delete Cotton.Core.TempDatabase;
   },
 
 });
