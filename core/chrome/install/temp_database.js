@@ -31,12 +31,20 @@ var TempDatabase = Class.extend({
         // Remove exluded item before looking for visitItems.
         self._lChromeHistoryItems = self.removeExcludedItem(lChromeHistoryItems);
         console.log(self._lChromeHistoryItems.length);
-        // Compute blacklisted expressions for titles
-        Cotton.Algo.Common.Words.generateBlacklistExpressions(self._lChromeHistoryItems);
 
         // After this we are dealing with cotton model history item.
         self.translateListOfChromeHistoryItems();
         console.log(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
+
+        // Purge the lChrome not needed anymore.
+        var iLength = self._lChromeHistoryItems.length;
+        for (var i = 0; i < iLength; i++) {
+          self._lChromeHistoryItems[i] = null;
+        }
+        self._lChromeHistoryItems = [];
+
+        // Compute blacklisted expressions for titles
+        Cotton.Algo.Common.Words.generateBlacklistExpressions(self._lCottonHistoryItems);
         self.computeBagOfWordsForHistoryItemsList();
         self.removeHistoryItemsWithoutBagOfWords();
 
@@ -174,9 +182,9 @@ var TempDatabase = Class.extend({
       oHistoryItem.setChromeId(parseInt(dChromeHistoryItem['id']));
       // Use the array of lChromeHistoryItems to because we don't need those
       // elements anymore and then we save space.
-      this._lChromeHistoryItems[i] = oHistoryItem;
+      this._lCottonHistoryItems[i] = oHistoryItem;
     }
-    this._lCottonHistoryItems = this._lChromeHistoryItems;
+    // this._lCottonHistoryItems = this._lChromeHistoryItems;
   },
 
   /**
@@ -268,6 +276,36 @@ var TempDatabase = Class.extend({
       }
     }
     this._lCottonHistoryItems = lHistoryItemsWithBagOfWords;
+  },
+
+  /**
+   * For each array:
+   * - set all references inside the array to null
+   * - set the array to []
+   * Call this method when you don't want to use the the temp_database
+   * anymore to be sure that all the references are set to null to allow
+   * garbage collector to remove properly elements from the heap.
+   */
+  purge : function() {
+
+    // Purge the lChrome not needed anymore.
+    var iLength = this._lChromeHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lChromeHistoryItems[i] = null;
+    }
+    var iLength = this._lChromeVisitItems.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lChromeVisitItems[i] = null;
+    }
+    var iLength = this._lCottonHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lCottonHistoryItems[i] = null;
+    }
+
+    this._lChromeHistoryItems = [];
+    this._lChromeVisitItems = [];
+    this._lCottonHistoryItems = [];
+
   },
 
 });
