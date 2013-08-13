@@ -42,36 +42,15 @@ Cotton.Controllers.Background = Class.extend({
    _dGetContentTabId : null,
 
   /**
-   * Story to be displayed in lightyear
-   **/
-   _iTriggerStory : null,
-
-  /**
-   * id of the HistoryItem from which lightyear was called
-   **/
-   _iTriggerHistoryItem : null,
-
-  /**
-   * ids of stories for all open tabs
-   **/
-   _lStoriesInTabsId : null,
-
-  /**
    * id of the tab from which the browserAction was clicked
    **/
   _iCallerTabId : null,
-
-  /**
-   * boolean that indicates if update has been launched already
-   **/
-  _bUpdated : null,
 
   /**
    *
    */
   init : function(){
     var self = this;
-    self._bUpdated = false;
 
     this._dGetContentTabId = {};
     this._lStoriesInTabsId = [];
@@ -192,55 +171,6 @@ Cotton.Controllers.Background = Class.extend({
     });
   },
 
-  /**
-   * Creates a story around an item, without minimum limit of number
-   */
-  forceStory : function(iSeedId, lItems, mCallback) {
-    var self = this;
-    var mScore = Cotton.Algo.Score.DBRecord.HistoryItem;
-    var fEps = Cotton.Config.Parameters.dbscan2.fEps;
-    var iLength = lItems.length;
-    for (var i = 0; i < iLength; i++){
-      var dItem = lItems[i];
-      dItem['clusterId'] = "UNCLASSIFIED";
-      if (dItem['id'] === iSeedId) {
-        var dSeed = dItem;
-      }
-    }
-    if (dSeed) {
-      //iLength already set
-      for (var i = 0; i < iLength; i++){
-        var dItem = lItems[i];
-        if (mScore(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
-          dItem['clusterId'] = 0;
-        }
-      }
-      var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
-      // TODO(rmoutard) : find a better solution.
-      var lHistoryItemToKeep = [];
-      //iLength already set
-      for (var i = 0; i < iLength; i++){
-        var dItem = lItems[i];
-        if(dItem['clusterId'] === "UNCLASSIFIED"){
-            delete dItem['clusterId'];
-            lHistoryItemToKeep.push(dItem);
-        }
-      }
-      self._oPool._refresh(lHistoryItemToKeep);
-      Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
-        function(oDatabase, lStories) {
-          if (lStories.length > 0) {
-            Cotton.ANALYTICS.storyAvailable('forced');
-            mCallback.call(self, lStories[0].id());
-          }
-      });
-    } else {
-      // the item has not been put in the pool - because the browserAction has been clicked
-      // too early, or because there has been a problem with content script message.
-      mCallback.call(self, 0);
-    }
-  },
-
   addGetContentTab : function (iTabId) {
     this._dGetContentTabId[iTabId] = true;
     DEBUG && console.debug(this._dGetContentTabId);
@@ -249,88 +179,7 @@ Cotton.Controllers.Background = Class.extend({
   removeGetContentTab : function (iTabId) {
     delete this._dGetContentTabId[iTabId];
     chrome.tabs.remove(iTabId);
-  },
-
-  setTriggerStory : function(iStoryId){
-    this._iTriggerStory = iStoryId;
-  },
-
-  setOtherStories : function(mCallback){
-    var self = this;
-    self._lStoriesInTabsId = [];
-    var lStoriesIdWithoutTrigger = [];
-    chrome.tabs.query({}, function(lTabs){
-      var iOpenTabs = lTabs.length;
-      var iCount = 0;
-      var iLength = lTabs.length;
-      for (var i = 0; i < iLength; i++){
-        var oTab = lTabs[i];
-        self.getStoryFromTab(oTab, function(){
-          iCount++;
-          if (iCount === iOpenTabs){
-            var iLength = self._lStoriesInTabsId.length;
-            for (var i = 0; i < iLength; i++){
-              var iStoryInTabsId = self._lStoriesInTabsId[i];
-              if (iStoryInTabsId !== self._iTriggerStory){
-                lStoriesIdWithoutTrigger.push(iStoryInTabsId);
-              }
-            }
-            self._lStoriesInTabsId = lStoriesIdWithoutTrigger;
-            mCallback.call(self);
-          }
-        });
-      }
-    });
-  },
-
-  resetHistoryItem : function(){
-    this._iTriggerHistoryItem = -1;
-  },
-
-  getStoryFromTab : function(oTab, mCallback){
-    var self = this;
-    var sUrl = oTab['url'];
-    var bTrigger = (oTab['id'] === self._iCallerTabId);
-    self._oDatabase.find('historyItems',
-    'sUrl', sUrl, function(_oHistoryItem){
-      if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-        if (bTrigger){
-          self._iTriggerStory = _oHistoryItem.storyId();
-          self._iTriggerHistoryItem = _oHistoryItem.id();
-        } else{
-          if (self._lStoriesInTabsId.indexOf(_oHistoryItem.storyId()) === -1
-            && _oHistoryItem.storyId() !== self._iTriggerStory){
-              self._lStoriesInTabsId.push(_oHistoryItem.storyId());
-          }
-        }
-        if (mCallback){
-          mCallback.call(self);
-        }
-      } else if (bTrigger){
-        if (!_oHistoryItem){
-          var oUrl = new UrlParser(sUrl);
-          var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
-          if (oExcludeContainer.isHttpsRejected(oUrl)){
-            self._iTriggerStory = -1;
-          }
-          if (mCallback){
-            mCallback.call(self);
-          }
-        } else {
-          self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
-            self._iTriggerStory = iStoryId;
-            if (mCallback){
-              mCallback.call(self);
-            }
-          });
-        }
-      } else {
-        if (mCallback){
-          mCallback.call(self);
-        }
-      }
-    });
-  },
+  }
 
 });
 
