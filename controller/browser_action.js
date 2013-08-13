@@ -22,7 +22,7 @@ Cotton.Controllers.BrowserAction = Class.extend({
       // Rq: chrome.tabs.getSelected is now deprecated. chrome.tabs.query is
       // used instead
       chrome.tabs.query({
-        'highlighted':true,
+        'active':true,
         'lastFocusedWindow': true
       }, function(lTabs) {
         // Url of the tab that called the browser action.
