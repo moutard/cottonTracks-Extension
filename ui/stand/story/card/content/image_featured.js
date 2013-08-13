@@ -9,12 +9,10 @@ Cotton.UI.Stand.Story.Card.Content.ImageFeatured =
    *   url of the image to load
    */
   init : function(sImage) {
-    if(sImage){
-      // we init with the parent generic class Cotton.UI.Story.Card.Content.Image
-      this._super();
+    // we init with the parent generic class Cotton.UI.Story.Card.Content.Image
+    this._super();
 
-      this._$image.addClass("ct-featured_image");
-      this.appendImage(sImage);
-    }
+    this._$image.addClass("ct-featured_image");
+    this.appendImage(sImage);
   }
 });
