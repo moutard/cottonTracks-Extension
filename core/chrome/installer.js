@@ -134,7 +134,7 @@ Cotton.Core.Installer = Class.extend({
     self.wakeUp();
 
     //Cotton.Core.Populate.visitItems(self._oDatabase,
-    new TempDatabase(self._oDatabase,
+    self._oTempDatabase = new TempDatabase(self._oDatabase,
       function(lHistoryItems, lVisitItems) {
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
@@ -180,10 +180,21 @@ Cotton.Core.Installer = Class.extend({
    * It stops the benchmark, enable the button, and apply the callback.
    */
   installIsFinished : function() {
+    this.purge();
     this._oBenchmark.end();
     chrome.browserAction.enable();
     this._bStopWakeUp = true;
     this._mCallback();
-  }
+  },
+
+  /**
+   * Unreferenced all elements, so the Garbage collector can collect
+   * them at the next loop.
+   */
+  purge : function() {
+    this._oTempDatabase.purge();
+    this._oTempDatabase = null;
+    this._wInstallWorker = null;
+  },
 
 });
