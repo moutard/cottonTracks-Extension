@@ -28,6 +28,7 @@
 
   > .ct-story_container {
     width: calc(~"100% - 2*@{topbar_margin}");
+    height: 100%;
     max-width: @topbar_max_width;
     min-width: @topbar_min_width;
     margin: auto;
@@ -109,6 +110,12 @@
             display: none;
           }
         }
+
+        &.ct-black_domain{
+          > .ct-card_domain {
+            color: @pureblack;
+          }
+        }
       }
     }
 
@@ -161,6 +168,12 @@
             float: left;
             width: 16px;
             margin-top: 2px;
+          }
+
+          &.ct-black_domain {
+            > .ct-card_domain {
+              color: @pureblack;
+            }
           }
         }
 
@@ -238,8 +251,19 @@
           }
         }
 
-        &.ct-video_card {
-          height: 325px;
+        &.ct-default_card {
+            height: 105px;
+
+          > .ct-media_image {
+            float: left;
+            height: 100%;
+            -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
+
+            &.ct-featured_image {
+              /*if featured image in an default element*/
+              width: 250px;
+            }
+          }
         }
       }
     }
