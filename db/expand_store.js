@@ -28,8 +28,14 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
       _lStories.push(_oStory);
       _oStory.setId(iId);
 
-      Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory(oStore, _oStory, function(lKeywordsIds){
+      Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory(oStore, _oStory, function() {
         if (_oStory.historyItemsId().length === 0 && iCount === iLength && mCallBackFunction){
+          // Purge:
+          var kLength = _lStories.length;
+          for (var k = 0; k < kLength; k++) {
+            _lStories[k] = null;
+          }
+          _lStories = null;
           mCallBackFunction(oStore, _lStories);
         } else {
           for (var j = 0, lIds = _oStory.historyItemsId(), iIdsLength = lIds.length;
@@ -40,7 +46,14 @@ Cotton.DB.Stories.addStories = function(oStore, lStories, mCallBackFunction) {
                 oStore.put('historyItems', oHistoryItem, function(){});
               });
               if (iCount === iLength && j === iIdsLength - 1 && mCallBackFunction) {
-                mCallBackFunction(oStore, _lStories);
+
+                // Purge:
+                var kLength = _lStories.length;
+                for (var k = 0; k < kLength; k++) {
+                  _lStories[k] = null;
+                }
+                _lStories = null;
+                mCallBackFunction(oStore);
               }
           }
         }
@@ -93,8 +106,13 @@ Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oSto
         // Be careful with asynchronous.
         lKeywordsIds.push(iId);
         iCount++;
-        if (iCount === iLength && mCallback){
-          mCallback.call(this, lKeywordsIds);
+        if (iCount === iLength && mCallback) {
+          // Purge :
+          for (var i = 0; i < lKeywordsIds.length; i++) {
+            lKeywordsIds[i] = null;
+          }
+          lKeywordsIds = [];
+          mCallback();
         }
       });
   }
