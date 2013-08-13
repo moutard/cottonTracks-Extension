@@ -84,9 +84,13 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
   /**
    * we use drawCard and not the init function because we need the media to be set
    * before the rest for css reasons (for $details to know what size to take)
-   * TODO(rkorach) see if it is better to have local variable than attributes
-   */
-  drawCard : function() {
+   **/
+  drawCard : function(){
+    // if there is no media, the website on the bottom left must be written in black
+    if (!this._$media) {
+      this._oWebsite.$().addClass('ct-black_domain');
+    }
+
     this._$card.append(
       this._$media,
       this._$details.append(
@@ -100,6 +104,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
 
   purge : function() {
     this._oGlobalDispatcher = null;
+    this._oLocalDispatcher = null;
     this._oTitle.purge();
     this._oTitle = null;
     this._$url = null;
