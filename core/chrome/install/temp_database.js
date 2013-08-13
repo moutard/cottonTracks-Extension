@@ -1,5 +1,5 @@
 'use strict';
-var TempDatabase = Class.extend({
+Cotton.Core.TempDatabase = Class.extend({
 
   _lChromeHistoryItems: undefined,
   _lChromeVisitItems: undefined,
