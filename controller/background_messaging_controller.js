@@ -266,30 +266,6 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'get_content_tab' : function(sendResponse, iTabId){
     this._oMainController.addGetContentTab(iTabId);
-  },
-
-  /**
-   * Ligthyear asks for the story to display
-   */
-  'get_trigger_story' : function(sendResponse){
-    sendResponse({
-      'trigger_id': this._oMainController._iTriggerStory,
-      'trigger_item_id': this._oMainController._iTriggerHistoryItem,
-      'stories_in_tabs_id': this._oMainController._lStoriesInTabsId
-    });
-  },
-
-  'change_story': function(sendResponse, iStoryId){
-    var self = this;
-    this._oMainController.setTriggerStory(iStoryId);
-    this._oMainController.resetHistoryItem();
-    this._oMainController.setOtherStories(function(){
-      sendResponse({'stories_in_tabs_id': self._oMainController._lStoriesInTabsId});
-    });
-  },
-
-  'delete_main_story': function(sendResponse){
-    this._oMainController.setTriggerStory(null);
   }
 
 });
