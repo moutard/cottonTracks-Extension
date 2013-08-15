@@ -18,6 +18,47 @@ for (var i = 0; i < l ; i++) {
   var sDimension = lList[i];
   newList.push(sDimension);
 }
+}).add('array[i]', function() {
+var lList = create_list(10000);
+var l = lList.length;
+var fCosine = 0;
+var newList = [];
+for (var i = 0; i < l ; i++) {
+  newList.push(lList[i]);
+}
+}).add('init.length', function() {
+var lList = create_list(10000);
+var fCosine = 0;
+var newList = [];
+for (var i = 0, l = lList.length; i < l ; i++) {
+  var sDimension = lList[i];
+  newList.push(sDimension);
+}
+}).add('array.length', function() {
+var lList = create_list(10000);
+var fCosine = 0;
+var newList = [];
+for (var i = 0; i < lList.length ; i++) {
+  var sDimension = lList[i];
+  newList.push(sDimension);
+}
+}).add('declare_variable', function() {
+var lList = create_list(10000);
+var l = lList.length;
+var fCosine = 0;
+var newList = [];
+for (var i = 0, sDimension; i < l ; i++) {
+  sDimension = lList[i];
+  newList.push(sDimension);
+}
+}).add('double_condition', function() {
+var lList = create_list(10000);
+var l = lList.length;
+var fCosine = 0;
+var newList = [];
+for (var i = 0; (i < l) && (sDimension = lList[i]); i++) {
+  newList.push(sDimension);
+}
 }).add('endOfArray', function() {
 var lList = create_list(10000);
 var fCosine = 0;
