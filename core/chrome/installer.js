@@ -67,6 +67,8 @@ Cotton.Core.Installer = Class.extend({
             // TODO(rkorach) : do not use _.intersection
             if (_.intersection(oNewStory.historyItemsId(), oStoredStory.historyItemsId()).length > 0 ||
               (oNewStory.tags().length > 0
+              && oNewStory.tags().length === oStoredStory.tags().length
+              && oNewStory.tags().join().length === oStoredStory.tags().join().length
               && oNewStory.tags().sort().join() === oStoredStory.tags().sort().join())) {
                 // there is an item in two different stories or they have the same words
                 // in the title
