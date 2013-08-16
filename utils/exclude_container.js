@@ -59,10 +59,14 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return false;
   },
 
-  isHttps : function(oUrl){
-    // exlude Https except if it's google.
-    return oUrl.protocol === "https:" && !oUrl.isGoogle
-      && !oUrl.isGoogleMaps && !oUrl.isWikipedia && !oUrl.isYoutube && !oUrl.isVimeo;
+  isWhitelisted : function(oUrl){
+    // some https sites are allowed
+    return oUrl.isGoogle || oUrl.isGoogleMaps || oUrl.isWikipedia || oUrl.isYoutube || oUrl.isVimeo;
+  },
+
+  isHttpsRejected : function(oUrl){
+    // see if an https site is really rejected
+    return oUrl.isHttps && !this.isWhitelisted(oUrl);
   },
 
   /**
@@ -72,14 +76,13 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    * @return {boolean}
    */
   isExcluded : function(sUrl){
-    var self = this;
     var oUrl = new UrlParser(sUrl);
 
-    return self.isHttps(oUrl) || self.isExcludedPattern(sUrl)
-      || self.isTool(oUrl.hostname)
-      || self.isFileProtocol(oUrl.protocol)
-      || self.isChromeExtension(oUrl.protocol)
-      || self.isLocalhost(oUrl.hostname);
+    return this.isHttpsRejected(oUrl) || this.isExcludedPattern(sUrl)
+      || this.isTool(oUrl.hostname)
+      || this.isFileProtocol(oUrl.protocol)
+      || this.isChromeExtension(oUrl.protocol)
+      || this.isLocalhost(oUrl.hostname);
   },
 
 });

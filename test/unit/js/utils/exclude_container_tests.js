@@ -51,7 +51,7 @@ test("is excluded pattern.", function() {
     'google.com.au');
 });
 
-test("is https.", function() {
+test("is https rejected.", function() {
   var sSecurePage1 = 'https://www.vimeo.com';
   var oSecurePage1 = new UrlParser(sSecurePage1);
   var sSecurePage2 = 'https://twitter.com';
@@ -61,25 +61,35 @@ test("is https.", function() {
   var sLocalHost = 'http://localhost:8888';
   var oLocalHost = new UrlParser(sLocalHost);
 
-  deepEqual(oExcludeContainer.isHttps(oSecurePage1), true, 'it is an https');
-  deepEqual(oExcludeContainer.isHttps(oSecurePage2), true, 'it is an https');
-  deepEqual(oExcludeContainer.isHttps(oUnsecurePage), false, 'it is not an https');
-  deepEqual(oExcludeContainer.isHttps(oLocalHost), false,'it is a localhost');
+  deepEqual(oExcludeContainer.isHttpsRejected(oSecurePage1), false, 'it is a whitelisted https');
+  deepEqual(oExcludeContainer.isHttpsRejected(oSecurePage2), true, 'it is an https');
+  deepEqual(oExcludeContainer.isHttpsRejected(oUnsecurePage), false, 'it is not an https');
+  deepEqual(oExcludeContainer.isHttpsRejected(oLocalHost), false,'it is a localhost');
+});
+
+test("is https whitelisted.", function() {
+  var sSecurePage1 = 'https://www.vimeo.com';
+  var oSecurePage1 = new UrlParser(sSecurePage1);
+  var sSecurePage2 = 'https://twitter.com';
+  var oSecurePage2 = new UrlParser(sSecurePage2);
+
+  deepEqual(oExcludeContainer.isWhitelisted(oSecurePage1), true, 'whitelisted https');
+  deepEqual(oExcludeContainer.isWhitelisted(oSecurePage2), false, 'not whitelisted https');
 });
 
 test("is excluded.", function() {
-  var sTool1 = 'http://mail.google.com';
-  var sTool2 = 'https://accounts.google.com';
-  var sNotTool = 'http://www.lemonde.fr/ref?referrer=https://mail.google.com/mail/u/0/#inbox/13d8886c2c498338';
   var sSecurePage1 = 'https://www.vimeo.com';
   var sSecurePage2 = 'https://twitter.com';
   var sUnsecurePage = 'http://www.cottontracks.com';
   var sLocalHost = 'http://localhost:8888';
+  var sTool1 = 'http://mail.google.com';
+  var sTool2 = 'https://accounts.google.com';
+  var sNotTool = 'http://www.lemonde.fr/ref?referrer=https://mail.google.com/mail/u/0/#inbox/13d8886c2c498338';
   var sSearchGeneratedPage =
      'https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
   var sNotSearchGeneratedPage = 'http://www.blogposts.com/ref?referrer=https://www.google.com/url?url=http%3A%2F%2Fwww.journaldugeek.com%2F2013%2F03%2F18%2Fgoogle-keep-evernote-made-in-google';
 
-  deepEqual(oExcludeContainer.isExcluded(sSecurePage1), true, 'excluded (https)');
+  deepEqual(oExcludeContainer.isExcluded(sSecurePage1), false, 'whitelisted https');
   deepEqual(oExcludeContainer.isExcluded(sSecurePage2), true, 'excluded (https)');
   deepEqual(oExcludeContainer.isExcluded(sUnsecurePage), false, 'valid url');
   deepEqual(oExcludeContainer.isExcluded(sLocalHost), true,'localhost');
