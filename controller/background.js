@@ -298,7 +298,7 @@ Cotton.Controllers.Background = Class.extend({
         if (!_oHistoryItem){
           var oUrl = new UrlParser(sUrl);
           var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
-          if (oExcludeContainer.isHttps(oUrl)){
+          if (oExcludeContainer.isHttpsRejected(oUrl)){
             self._iTriggerStory = -1;
           }
           if (mCallback){
