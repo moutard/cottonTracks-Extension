@@ -38,11 +38,12 @@ Cotton.Messaging.Dispatcher = Class.extend({
   },
 
   unsubscribe : function(sMessage, oObject) {
-    var lMessageListeners = this._dMessages[sMessage] || [];
-    for (var i = 0, dListener; dListener = lMessageListeners[i]; i++){
-      if (dListener['context'] === oObject){
-        lMessageListeners.splice(i,1);
-        i--;
+    var lMessageListeners = [];
+    var iLength = this._dMessages[sMessage].length;
+    for (var i = 0; i < iLength; i++){
+      var dListener = this._dMessages[sMessage][i];
+      if (dListener['context'] !== oObject){
+        lMessageListeners.push(dListener['context']);
       }
     }
     this._dMessages[sMessage] = lMessageListeners;
