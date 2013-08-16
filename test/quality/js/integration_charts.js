@@ -105,7 +105,7 @@ function launchTests() {
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
           Cotton.Algo.Score.DBRecord.HistoryItem);
         iStories += iNbSubCluster;
-        var lStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
+        var lNewStories = Cotton.Algo.clusterStory(ldSession, iNbSubCluster);
         _.each(lStories, function(oStory){
           if(oStory.historyItemsId().length < Cotton.Config.Parameters.dbscan3.iMinPts){
             DEBUG && console.debug('session');
@@ -115,29 +115,34 @@ function launchTests() {
           }
         });
 
-        for (var i = 0, oStory; oStory = lStories[i]; i++){
-          var oMergedStory = oStory;
-          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++){
+        // For all the new stories
+        var iLength = lNewStories.length;
+        for (var i = 0; i < iLength; i++) {
+          var oNewStory = lNewStories[i];
+          // Find among all the stories we already have one that could be merged with.
+          var lMergedStories = [];
+          var jLength = lStories.length;
+          for (var j = 0; j < jLength; j++) {
+            var oStoredStory = lStories[j];
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oStory.historyItemsId(),oStoredStory.historyItemsId()).length > 0 ||
-              (oStory.tags().sort().join() === oStoredStory.tags().sort().join()
-              && oStory.tags().length > 0)){
+            if (_.intersection(oNewStory.historyItemsId(), oStoredStory.historyItemsId()).length > 0 ||
+              (oNewStory.tags().length > 0
+              && oNewStory.tags().sort().join() === oStoredStory.tags().sort().join())) {
                 // there is an item in two different stories or they have the same words
                 // in the title
-                oMergedStory.setHistoryItemsId(
-                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
-                oMergedStory.setDbRecordHistoryItems(
-                  _.union(oStory.historyItemsRecord(),oStoredStory.historyItemsRecord()));
-                oMergedStory.setLastVisitTime(Math.max(
-                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
-                lStories.splice(j,1);
-                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === ""){
-                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
+                oNewStory.setHistoryItemsId(
+                  _.union(oNewStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oNewStory.setLastVisitTime(Math.max(
+                  oNewStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                if (!oNewStory.featuredImage() || oNewStory.featuredImage() === "") {
+                  oNewStory.setFeaturedImage(oStoredStory.featuredImage());
                 }
-                j--;
+            } else {
+              lMergedStories.push(oStoredStory);
             }
           }
-          lStories.push(oMergedStory);
+          lMergedStories.push(oNewStory);
+          lStories = lMergedStories;
         }
     });
     drawStories(lStories);

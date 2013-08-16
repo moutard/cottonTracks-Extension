@@ -251,6 +251,7 @@ Cotton.Controllers.Background = Class.extend({
   setOtherStories : function(mCallback){
     var self = this;
     self._lStoriesInTabsId = [];
+    var lStoriesIdWithoutTrigger = [];
     chrome.tabs.query({}, function(lTabs){
       var iOpenTabs = lTabs.length;
       var iCount = 0;
@@ -258,12 +259,14 @@ Cotton.Controllers.Background = Class.extend({
         self.getStoryFromTab(oTab, function(){
           iCount++;
           if (iCount === iOpenTabs){
-            for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._lStoriesInTabsId[i]; i++){
-              if (iStoryInTabsId === self._iTriggerStory){
-                self._lStoriesInTabsId.splice(i,1);
-                i--;
+            var iLength = self._lStoriesInTabsId.length;
+            for (var i = 0; i < iLength; i++){
+              var iStoryInTabsId = self._lStoriesInTabsId[i];
+              if (iStoryInTabsId !== self._iTriggerStory){
+                lStoriesIdWithoutTrigger.push(iStoryInTabsId);
               }
             }
+            self._lStoriesInTabsId = lStoriesIdWithoutTrigger;
             mCallback.call(self);
           }
         });

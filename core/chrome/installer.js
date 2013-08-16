@@ -56,27 +56,33 @@ Cotton.Core.Installer = Class.extend({
         // FIXME(rmoutard) : take a lot of time.
 
         // For all the new stories
-        for (var i = 0, oMergedStory; oMergedStory = lNewStories[i]; i++) {
+        var iLength = lNewStories.length;
+        for (var i = 0; i < iLength; i++) {
+          var oNewStory = lNewStories[i];
           // Find among all the stories we already have one that could be merged with.
-          for (var j = 0, oStoredStory; oStoredStory = lStories[j]; j++) {
+          var lMergedStories = [];
+          var jLength = lStories.length;
+          for (var j = 0; j < jLength; j++) {
+            var oStoredStory = lStories[j];
             // TODO(rkorach) : do not use _.intersection
-            if (_.intersection(oMergedStory.historyItemsId(), oStoredStory.historyItemsId()).length > 0 ||
-              (oMergedStory.tags().length > 0
-               && oMergedStory.tags().sort().join() === oStoredStory.tags().sort().join())) {
+            if (_.intersection(oNewStory.historyItemsId(), oStoredStory.historyItemsId()).length > 0 ||
+              (oNewStory.tags().length > 0
+              && oNewStory.tags().sort().join() === oStoredStory.tags().sort().join())) {
                 // there is an item in two different stories or they have the same words
                 // in the title
-                oMergedStory.setHistoryItemsId(
-                  _.union(oMergedStory.historyItemsId(),oStoredStory.historyItemsId()));
-                oMergedStory.setLastVisitTime(Math.max(
-                  oMergedStory.lastVisitTime(),oStoredStory.lastVisitTime()));
-                lStories.splice(j,1);
-                if (!oMergedStory.featuredImage() || oMergedStory.featuredImage() === "") {
-                  oMergedStory.setFeaturedImage(oStoredStory.featuredImage());
+                oNewStory.setHistoryItemsId(
+                  _.union(oNewStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oNewStory.setLastVisitTime(Math.max(
+                  oNewStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                if (!oNewStory.featuredImage() || oNewStory.featuredImage() === "") {
+                  oNewStory.setFeaturedImage(oStoredStory.featuredImage());
                 }
-                j--;
+            } else {
+              lMergedStories.push(oStoredStory);
             }
           }
-          lStories.push(oMergedStory);
+          lMergedStories.push(oNewStory);
+          lStories = lMergedStories;
         }
 
         for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++) {
