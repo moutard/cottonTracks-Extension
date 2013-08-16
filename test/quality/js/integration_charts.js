@@ -134,6 +134,8 @@ function launchTests() {
                 // in the title
                 oNewStory.setHistoryItemsId(
                   _.union(oNewStory.historyItemsId(),oStoredStory.historyItemsId()));
+                oNewStory._lHistoryItemsRecord = _.union(
+                  oNewStory._lHistoryItemsRecord, oStoredStory._lHistoryItemsRecord);
                 oNewStory.setLastVisitTime(Math.max(
                   oNewStory.lastVisitTime(),oStoredStory.lastVisitTime()));
                 if (!oNewStory.featuredImage() || oNewStory.featuredImage() === "") {
