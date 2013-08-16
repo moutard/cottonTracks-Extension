@@ -38,6 +38,7 @@ Cotton.Controllers.BrowserAction = Class.extend({
           chrome.tabs.query({}, function(lTabs) {
             var iOpenTabs = lTabs.length;
             var iCount = 0;
+            var lStoriesIdWithoutTrigger = [];
 
             // We authorize one cT tab per window.
             chrome.windows.getLastFocused({}, function(oWindow) {
@@ -50,12 +51,14 @@ Cotton.Controllers.BrowserAction = Class.extend({
                 self._oMainController.getStoryFromTab(oTab, function() {
                   iCount++;
                   if (iCount === iOpenTabs) {
-                    for (var i = 0, iStoryInTabsId; iStoryInTabsId = self._oMainController._lStoriesInTabsId[i]; i++) {
-                      if (iStoryInTabsId === self._oMainController._iTriggerStory) {
-                        self._oMainController._lStoriesInTabsId.splice(i,1);
-                        i--;
+                    var iLength = self._oMainController._lStoriesInTabsId.length;
+                    for (var i = 0; i < iLength; i++) {
+                      var iStoryInTabsId = self._oMainController._lStoriesInTabsId[i];
+                      if (iStoryInTabsId !== self._oMainController._iTriggerStory) {
+                        lStoriesIdWithoutTrigger.push(iStoryInTabsId);
                       }
                     }
+                    self._oMainController._lStoriesInTabsId = lStoriesIdWithoutTrigger;
                     if (oCottonTab) {
                       chrome.tabs.remove(oCottonTab['id']);
                     }
