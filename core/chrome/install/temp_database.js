@@ -5,20 +5,31 @@ Cotton.Core.TempDatabase = Class.extend({
   _lChromeVisitItems: undefined,
   _lCottonHistoryItems: undefined,
 
-  init: function(oDatabase, mCallBackFunction,
-    oSpecificClient) {
+  _oDatabase: null,
+  _oClient: null,
+
+  init: function(oDatabase, oSpecificClient) {
     var self = this;
     this._lChromeHistoryItems = [];
     this._lChromeVisitItems = [];
     this._lCottonHistoryItems = [];
-    var oBenchmark = new Benchmark("PopulateDB");
+    this._oDatabase = oDatabase;
 
     // Get the historyClient (depends on the browser)
-    var oClient = oSpecificClient || new Cotton.Core.History.Client();
+    this._oClient = oSpecificClient || new Cotton.Core.History.Client();
 
-    if (oClient) {
+  },
+
+  /**
+   * Start the populate process.
+   * Differenciate from the initiation.
+   */
+  populate : function(mCallBackFunction) {
+    var self = this;
+   if (this._oClient) {
+      var oBenchmark = new Benchmark("PopulateDB");
       // Get chrome historyItems.
-      oClient.get({
+      this._oClient.get({
         text : '', // get all
         startTime : 0, // no start time.
         "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
@@ -72,7 +83,7 @@ Cotton.Core.TempDatabase = Class.extend({
           // FIXME !!
           oHistoryItem.initId(i+1);
 
-          oClient.getVisits({
+          self._oClient.getVisits({
               'url': oHistoryItem.url()
             }, function(lVisitItems) {
 
@@ -105,13 +116,13 @@ Cotton.Core.TempDatabase = Class.extend({
                 oBenchmark.step('Get all visitItems');
                 self.computeClosestGoogleSearchPage();
                 // add historyItems in the database with their id fixed.
-                oDatabase.putList('historyItems', self._lCottonHistoryItems, function(lIds) {
+                self._oDatabase.putList('historyItems', self._lCottonHistoryItems, function(lIds) {
 
                   oBenchmark.step('Put all historyItems in the database');
                   oBenchmark.end();
                   mCallBackFunction(self._lCottonHistoryItems, self._lChromeVisitItems,
                     iInitialNumberOfChromeHistoryItems);
-                });
+                  });
               }
           });
         }
@@ -278,6 +289,9 @@ Cotton.Core.TempDatabase = Class.extend({
     this._lCottonHistoryItems = lHistoryItemsWithBagOfWords;
   },
 
+  suite : function() {
+
+  },
   /**
    * For each array:
    * - set all references inside the array to null
