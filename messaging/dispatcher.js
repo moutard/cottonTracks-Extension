@@ -45,7 +45,10 @@ Cotton.Messaging.Dispatcher = Class.extend({
     for (var i = 0; i < iLength; i++){
       var dListener = this._dMessages[sMessage][i];
       if (dListener['context'] !== oObject){
-        lMessageListeners.push(dListener['context']);
+        lMessageListeners.push({
+          'context': dListener['context'],
+          'function': dListener['function']
+        });
       }
     }
     this._dMessages[sMessage] = lMessageListeners;
