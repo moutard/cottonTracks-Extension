@@ -16,8 +16,8 @@ var IntegrationBackground = Class.extend({
       }, function() {
         // Get the historyClient (depends on the browser)
         var oClient = new MockHistoryClient();
-        Cotton.Core.Populate.visitItems(self._oDatabase,
-          function(lHistoryItems, lVisitItems) {
+        var oTempDatabase = new Cotton.Core.TempDatabase(self._oDatabase, oClient);
+        oTempDatabase.populate(function(lHistoryItems, lVisitItems) {
             chrome.tabs.create({
               "url": "integration_tests.html"
             });
@@ -27,7 +27,7 @@ var IntegrationBackground = Class.extend({
 
             // Start tests.
             start();
-        }, oClient);
+        });
     });
   },
 
