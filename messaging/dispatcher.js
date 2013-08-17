@@ -32,7 +32,9 @@ Cotton.Messaging.Dispatcher = Class.extend({
 
   publish : function(sMessage, dArguments) {
     var lListeners = this._dMessages[sMessage] || [];
-    for (var i=0, oListener; oListener = lListeners[i]; i++) {
+    var iLength = lListeners.length;
+    for (var i=0; i < iLength; i++) {
+      var oListener = lListeners[i];
       oListener['function'].call(oListener['context'], dArguments);
     }
   },

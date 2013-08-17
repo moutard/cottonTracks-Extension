@@ -37,7 +37,10 @@ Cotton.UI.Story.Item.Article = Cotton.UI.Story.Item.Element.extend({
         oHistoryItem.extractedDNA().imageUrl(), 'featured');
 
     var iQuotes = 0;
-    for (var i = 0, oParagraph; oParagraph = oHistoryItem.extractedDNA().paragraphs()[i]; i++){
+    var lParagraphs = oHistoryItem.extractedDNA().paragraphs();
+    var iLength = lParagraphs.length;
+    for (var i = 0; i < iLength; i++){
+      var oParagraph = lParagraphs[i];
       iQuotes += oParagraph.quotes().length;
     }
     this._oItemQuoteIndicator = new Cotton.UI.Story.Item.Content.Brick.Dna.QuoteIndicator(

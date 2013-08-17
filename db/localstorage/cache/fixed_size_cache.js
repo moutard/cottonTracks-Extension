@@ -46,7 +46,9 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
    */
   putUnique : function(dItem) {
     var lResults = this.get();
-    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+    var iLength = lResults.length;
+    for (var i = 0; i < iLength; i++){
+      var dPoolItem = lResults[i];
       if (dPoolItem['sUrl'] === dItem['sUrl']){
         lResults.splice(i,1);
         break;
@@ -74,9 +76,11 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
       var _lFreshItems = this.get();
       // Perf: do not use native or underscore filter that are slow.
       lFreshItems = [];
-      for(var i = 0, iLength = _lFreshItems.length; i < iLength; i++){
-        if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
-          lFreshItems.push(_lFreshItems[i]);
+      var iLength = _lFreshItems.length;
+      for (var i = 0; i < iLength; i++) {
+        var dFreshItem = _lFreshItems[i];
+        if (iCurrentDate < dFreshItem['sExpiracyDate']) {
+          lFreshItems.push(dFreshItem);
         }
       }
     } else if(lFreshItems.length > this._iMaxSize){

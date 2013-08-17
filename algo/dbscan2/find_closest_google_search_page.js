@@ -11,7 +11,8 @@ Cotton.Algo.findClosestGoogleSearchPage = function(lHistoryItemsFromPool) {
 
   var sNonFound = "http://www.google.fr/";
 
-  for ( var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
+  var iLength = lHistoryItems.length;
+  for ( var i = 0; i < iLength; i++) {
     // The historyItem where we want to find the closest google search page.
     var oCurrentHistoryItem = lHistoryItems[i];
 
@@ -33,7 +34,8 @@ Cotton.Algo.findClosestGoogleSearchPage = function(lHistoryItemsFromPool) {
           // we found a page that should be the google closest query page.
           oCurrentHistoryItem['oExtractedDNA']['sClosestGoogleSearchPage']=oTempHistoryItem['sUrl'];
           // This will change the bag of words.
-          for(var j=0; j < lKeywords.length; j++){
+          var jLength = lKeywords.length;
+          for (var j = 0; j < jLength; j++) {
             var sWord = lKeywords[j];
             oCurrentHistoryItem['oExtractedDNA']['dBagOfWords'][sWord] =
               (oCurrentHistoryItem['oExtractedDNA']['dBagOfWords'][sWord] || 0) + 5;

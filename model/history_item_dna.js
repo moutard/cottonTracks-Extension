@@ -50,7 +50,9 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     }
   },
   addListQueryWords : function(lQueryWords){
-    for (var i = 0, sWord; sWord = lQueryWords[i]; i++){
+    var iLength = lQueryWords.length;
+    for (var i = 0; i < iLength; i++){
+      var sWord = lQueryWords[i];
       this.addQueryWord(sWord);
     }
   },
@@ -60,7 +62,9 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   },
   setStrongQueryWords : function(lStrongQueryWords) {
     var self = this;
-    for (var i = 0, sQueryWord; sQueryWord = lStrongQueryWords[i]; i++) {
+    var iLength = lStrongQueryWords.length;
+    for (var i = 0; i < iLength; i++) {
+      var sQueryWord = lStrongQueryWords[i];
       this.addQueryWord(sQueryWord)
       self._oBagOfWords.addWord(sQueryWord,
         Cotton.Config.Parameters.scoreForStrongQueryWords);
@@ -68,7 +72,9 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   },
   setWeakQueryWords : function(lWeakQueryWords) {
     var self = this;
-    for (var i = 0, sQueryWord; sQueryWord = lWeakQueryWords[i]; i++) {
+    var iLength = lWeakQueryWords.length;
+    for (var i = 0; i < iLength; i++) {
+      var sQueryWord = lWeakQueryWords[i];
       this.addQueryWord(sQueryWord);
       if (this._oBagOfWords.size() < 3){
         self._oBagOfWords.addWord(sQueryWord,
@@ -90,7 +96,8 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._oBagOfWords = oBagOfWords;
   },
   addListToBagOfWords : function(lWords) {
-    for (var i = 0, iLength = lWords.length; i < iLength; i++) {
+    var iLength = lWords.length;
+    for (var i = 0; i < iLength; i++) {
       this._oBagOfWords.addWord(lWords[i],
         Cotton.Config.Parameters.scoreForExtractedWords);
     }

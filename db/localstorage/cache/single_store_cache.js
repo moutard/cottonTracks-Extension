@@ -56,9 +56,11 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
 
     // Perf: do not use native or underscore filter that are slow.
     var lFreshItems = [];
-    for(var i = 0, iLength = lItems.length; i < iLength; i++){
-      if(iCurrentDate < lItems[i]['sExpiracyDate']){
-        lFreshItems.push(lItems[i]);
+    var iLength = lItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var dItem = lItems[i];
+      if (iCurrentDate < dItem['sExpiracyDate']) {
+        lFreshItems.push(dItem);
       }
     }
 
@@ -77,9 +79,11 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
       var _lFreshItems = this.get();
       // Perf: do not use native or underscore filter that are slow.
       lFreshItems = [];
-      for(var i = 0, iLength = _lFreshItems.length; i < iLength; i++){
-        if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
-          lFreshItems.push(_lFreshItems[i]);
+      var iLength = _lFreshItems.length;
+      for (var i = 0; i < iLength; i++) {
+        var dItem = _lFreshItems[i];
+        if(iCurrentDate < dItem['sExpiracyDate']){
+          lFreshItems.push(dItem);
         }
       }
     }
@@ -103,7 +107,9 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
    */
   putUnique : function(dItem) {
     var lResults = this.get();
-    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+    var iLength = lResults.length;
+    for (var i = 0; i < iLength; i++){
+      var dPoolItem = lResults[i];
       if (dPoolItem['sUrl'] === dItem['sUrl']){
         lResults.splice(i,1);
         break;
@@ -121,7 +127,9 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
    */
   delete : function(iId) {
     var lResults = this.get();
-    for (var i = 0, dPoolItem; dPoolItem = lResults[i]; i++){
+    var iLength = lResults.length;
+    for (var i = 0; i < iLength; i++){
+      var dPoolItem = lResults[i];
       if (dPoolItem['id'] === iId){
         lResults.splice(i,1);
         break;

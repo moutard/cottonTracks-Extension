@@ -22,12 +22,14 @@ Cotton.Algo.Tools.TightCondition = function(sWord) {
  * - is not in the black list.
  */
 Cotton.Algo.Tools.LooseFilter = function(lWords) {
-   // Lower case to compare correctly.
-  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+  // Lower case to compare correctly.
+  var iLength = lWords.length;
+  for ( var i = 0; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
   }
   var lWordsFiltered = [];
-  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+  var iLength = lWords.length;
+  for ( var i = 0; i < iLength; i++) {
     var sWord = lWords[i];
     if (sWord.length > 2 && (!Cotton.Algo.Common.Words.isInBlackList(sWord))) {
       lWordsFiltered.push(sWord);
@@ -45,8 +47,9 @@ Cotton.Algo.Tools.LooseFilter = function(lWords) {
  * - there is only letter in the word.
  */
 Cotton.Algo.Tools.TightFilter = function(lWords) {
-   // Lower case to compare correctly.
-  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+  // Lower case to compare correctly.
+  var iLength = lWords.length;
+  for ( var i = 0; i < iLength; i++) {
     lWords[i] = lWords[i].toLowerCase();
   }
 
@@ -54,7 +57,8 @@ Cotton.Algo.Tools.TightFilter = function(lWords) {
   // and words need length > 2.
   var allow_onlyletters = new RegExp("^[a-zA-Zàáâãäåçèéêëìíîïðòóôõöùúûüýÿ]{3,}$");
   var lWordsFiltered = [];
-  for ( var i = 0, iLength = lWords.length; i < iLength; i++) {
+  var iLength = lWords.length;
+  for ( var i = 0; i < iLength; i++) {
     var sWord = lWords[i];
     if(allow_onlyletters.test(sWord)
       && (! Cotton.Algo.Common.Words.isInBlackList(sWord))) {
@@ -74,8 +78,9 @@ Cotton.Algo.Tools.QueryWords = function(lQueryWords) {
   var lStrongQueryWords = [];
   // We use the LooseCondition for the query word.
   // Reminder we use TightCondition only for words extracted from an url.
-  for (var i = 0, sWord; sWord = lQueryWords[i]; i++) {
-    var sTempWord = sWord.toLowerCase();
+  var iLength = lQueryWords.length;
+  for (var i = 0; i < iLength; i++) {
+    var sTempWord = lQueryWords[i].toLowerCase();
     if (sTempWord.length > 2
         && (!Cotton.Algo.Common.Words.isInBlackList(sTempWord))) {
         lStrongQueryWords.push(sTempWord);

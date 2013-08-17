@@ -77,18 +77,23 @@ Cotton.UI.Story.Item.Content.Brick.Dna.Reader = Class.extend({
   setReader : function(){
     var self = this;
     var lBestParagraphs = this._oHistoryItemDNA.paragraphs();
+    var iParagraphsLength = lBestParagraphs.length;
 
-    if (lBestParagraphs.length === 0){
+    if (iParagraphsLength === 0){
       var sFirstParagraph = this._oHistoryItemDNA.firstParagraph();
       if (sFirstParagraph && sFirstParagraph !== ""){
         var $paragraph = $('<p>' + sFirstParagraph + '</p>');
         self._$article.append($paragraph);
       }
     } else{
-      for (var i = 0, oParagraph; oParagraph = lBestParagraphs[i]; i++) {
+      for (var i = 0; i < iParagraphsLength; i++) {
+        var oParagraph = lBestParagraphs[i];
         if(oParagraph.text() !== ""){
           var sParagraph = "" + oParagraph.text();
-          for (var j = 0, sQuote; sQuote = oParagraph.quotes()[j]; j++){
+          var lQuotes = oParagraph.quotes();
+          var jLength = lQuotes.length;
+          for (var j = 0; j < jLength; j++){
+            var sQuote = lQuotes[j]
             sParagraph = sParagraph.slice(0,sQuote['start'])
             + '<span class="quote">' + sParagraph.slice(sQuote['start'], sQuote['end'])
             + '</span>' + sParagraph.slice(sQuote['end'], sParagraph.length);

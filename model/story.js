@@ -119,7 +119,9 @@ Cotton.Model.Story = Class.extend({
     this._lHistoryItemsRecord = lHistoryItemDbRecord;
     this._lHistoryItemsId = [];
     this._flastVisitTime = 0;
-    for (var i = 0, dHistoryItemDbRecord; dHistoryItemDbRecord = lHistoryItemDbRecord[i]; i++){
+    var iLength = lHistoryItemDbRecord.length;
+    for (var i = 0; i < iLength; i++){
+      var dHistoryItemDbRecord = lHistoryItemDbRecord[i];
       this._lHistoryItemsId.push(dHistoryItemDbRecord['id']);
       if (this._flastVisitTime < dHistoryItemDbRecord['iLastVisitTime']){
         this._flastVisitTime = dHistoryItemDbRecord['iLastVisitTime'];

@@ -81,7 +81,8 @@ Cotton.UI.Story.Element = Class.extend({
 
     // Delete element
     this._oDispatcher.subscribe("database:item_deleted", this, function(dArguments) {
-      for (var i = 0, iLength = self._lDOMItems.length; i < iLength; i++) {
+      var iLength = self._lDOMItems.length;
+      for (var i = 0; i < iLength; i++) {
         var $item = self._lDOMItems[i];
         if ($item.attr('id') == dArguments['id']) {
           self.removeDOMItem(i, $item);
@@ -116,7 +117,8 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   recycleItem : function(oHistoryItem) {
-    for (var i = 0, iLength = this._lItems.length; i < iLength; i++) {
+    var iLength = this._lItems.length;
+    for (var i = 0; i < iLength; i++) {
       var oItem = this._lItems[i];
       if (oItem.historyItem().id() === oHistoryItem.id()
           && oItem.type() == 'article') {

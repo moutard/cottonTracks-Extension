@@ -94,26 +94,26 @@ Cotton.DB.SearchKeywords = {};
 
 Cotton.DB.SearchKeywords.updateSearchKeywordsForOneStory = function(oStore, oStory, mCallback){
   var lKeywordsAndId = [];
-  var iLength = oStory.searchKeywords().length;
   var iCount = 0;
   var lKeywordsIds = [];
-  for (var j = 0, lKeywords = oStory.searchKeywords(),
-    iKeywordsLength = lKeywords.length; j < iKeywordsLength; j++) {
-      var sKeyword = lKeywords[j];
-      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-      oSearchKeyword.addReferringStoryId(oStory.id());
-      oStore.putUnique('searchKeywords', oSearchKeyword, function(iId){
-        // Be careful with asynchronous.
-        lKeywordsIds.push(iId);
-        iCount++;
-        if (iCount === iLength && mCallback) {
-          // Purge :
-          for (var i = 0; i < lKeywordsIds.length; i++) {
-            lKeywordsIds[i] = null;
-          }
-          lKeywordsIds = [];
-          mCallback();
+  var lKeywords = oStory.searchKeywords();
+  var iKeywordsLength = lKeywords.length;
+  for (var i = 0; i < iKeywordsLength; i++) {
+    var sKeyword = lKeywords[i];
+    var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+    oSearchKeyword.addReferringStoryId(oStory.id());
+    oStore.putUnique('searchKeywords', oSearchKeyword, function(iId){
+      // Be careful with asynchronous.
+      lKeywordsIds.push(iId);
+      iCount++;
+      if (iCount === iKeywordsLength && mCallback) {
+        // Purge :
+        for (var i = 0; i < iKeywordsLength; i++) {
+          lKeywordsIds[i] = null;
         }
-      });
+        lKeywordsIds = [];
+        mCallback();
+      }
+    });
   }
 };

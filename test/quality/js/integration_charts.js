@@ -99,7 +99,8 @@ function launchTests() {
       function(lSession){
         var oTranslator = Cotton.Translators.HISTORY_ITEM_TRANSLATORS[0];
         var ldSession = [];
-        for(var i = 0; i < lSession.length; i++){
+        var iLength = lSession.length;
+        for (var i = 0; i < iLength; i++) {
           ldSession.push(oTranslator.objectToDbRecord(lSession[i]));
         }
         var iNbSubCluster = Cotton.Algo.DBSCAN(ldSession, fEps, iMinPts,
@@ -157,7 +158,8 @@ function launchTests() {
 
 function sessionToDOM(lSession, owner){
   var $small_session = $('<div class="small_session color' +owner+'"></div>');
-  for(var i=0; i < lSession.length; i++){
+  var iLength = lSession.length;
+  for (var i = 0; i < iLength; i++){
    $small_session.append(historyItemToDOM(lSession[i]));
   }
   return $small_session;
@@ -180,8 +182,11 @@ function storyToDOM(oStory){
   var $title = $('<div class="title"></div>').text(oStory.title());
   var $historyItemsId = $('<div class="historyItemsId"></div>');
   var $historyItems = $('<div class="historyItems"></div>');
-  for(var i = 0; i < oStory.historyItemsId().length; i++){
-    $historyItemsId.append($('<span>'+oStory.historyItemsId()[i]+'</span>'));
+  var lHistoryItemsId = oStory.historyItemsId();
+  var iLength = lHistoryItemsId.length;
+  for(var i = 0; i < iLength; i++){
+    var iHistoryItemId = lHistoryItemsId[i];
+    $historyItemsId.append($('<span>'+iHistoryItemId+'</span>'));
     $historyItems.append(historyItemRecordToDOM(oStory._lHistoryItemsRecord[i]));
   }
   $story.append($title, $historyItemsId, $historyItems);

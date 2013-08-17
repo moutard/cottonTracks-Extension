@@ -87,7 +87,9 @@ Cotton.Core.Installer = Class.extend({
           lStories = lMergedStories;
         }
 
-        for (var i = 0, dHistoryItem; dHistoryItem = e.data['lHistoryItems'][i]; i++) {
+        var iLength = e.data['lHistoryItems'].length;
+        for (var i = 0; i < iLength; i++) {
+          var dHistoryItem = e.data['lHistoryItems'][i];
           if (lHistoryItemsIds.indexOf(dHistoryItem['id']) === -1) {
             lHistoryItemsIds.push(dHistoryItem['id']);
             // Data sent by the worker are serialized. Deserialize using translator.
@@ -167,7 +169,9 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug(lHistoryItems, lVisitItems);
         // visitItems are already dictionnaries, whereas historyItems are objects
         self.lHistoryItemsDict = [];
-        for(var i = 0, oItem; oItem = lHistoryItems[i]; i++) {
+        var iLength = lHistoryItems.length;
+        for (var i = 0, oItem; i < iLength; i++) {
+          var oItem = lHistoryItems[i];
           // maybe a setFormatVersion problem
           var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
           var dItem = oTranslator.objectToDbRecord(oItem);

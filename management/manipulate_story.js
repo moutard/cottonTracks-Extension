@@ -48,9 +48,10 @@ var Manager = Class.extend({
       'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
       'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
     }, function() {
-      for(var i = 0, dHistoryItem; dHistoryItem = lHistoryItems[i]; i++){
-        //var oTranslator = self._oDatabase._translatorForDbRecord('historyItems', dHistoryItem);
-        //var oHistoryItem = oTranslator.
+      var iLength = lHistoryItems.length;
+      for (var i = 0; i < iLength; i++) {
+        var dHistoryItem = lHistoryItems[i];
+
         var oHistoryItem = new Cotton.Model.HistoryItem();
         oHistoryItem.setLastVisitTime(dHistoryItem['iLastVisitTime']);
         oHistoryItem.setTitle(dHistoryItem['sTitle']);
@@ -60,7 +61,7 @@ var Manager = Class.extend({
           DEBUG && console.debug(_iId);
           lHistoryItemsId.push(_iId);
           DEBUG && console.debug(lHistoryItemsId.length + '' + lHistoryItems.length);
-          if(lHistoryItemsId.length === lHistoryItems.length){
+          if(lHistoryItemsId.length === iLength){
               var oStory = new Cotton.Model.Story();
               oStory.setTitle(sTitle);
               oStory.setFeaturedImage(sFeaturedImage);
@@ -68,7 +69,9 @@ var Manager = Class.extend({
               oStory._lHistoryItemsId = lHistoryItemsId;
               var dBagOfWords = {};
               var lList = sTitle.split(' ');
-              for(var i=0, sKeyword; sKeyword = lList[i]; i++){
+              var jLength = lList.length;
+              for (var j = 0; j < jLength; j++) {
+                var sKeyword = lList[j];
                 dBagOfWords[sKeyword] = 10;
               }
               oStory.dna().bagOfWords().setBag(dBagOfWords);
@@ -76,7 +79,9 @@ var Manager = Class.extend({
                 DEBUG && console.debug(iStoryId);
                 DEBUG && console.debug('story created');
 
-                for(var i=0, sKeyword; sKeyword = lList[i]; i++){
+                //jLength is defined at previous loop
+                for (var j = 0; j < jLength; j++) {
+                  var sKeyword = lList[i]
                   var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
                   oSearchKeyword.addReferringStoryId(iStoryId);
                   self._oDatabase.putUnique('searchKeywords',oSearchKeyword,
