@@ -41,11 +41,11 @@ Cotton.Core.TempDatabase = Class.extend({
 
         // Remove exluded item before looking for visitItems.
         self._lChromeHistoryItems = self.removeExcludedItem(lChromeHistoryItems);
-        console.log(self._lChromeHistoryItems.length);
+        DEBUG && console.debug(self._lChromeHistoryItems.length);
 
         // After this we are dealing with cotton model history item.
         self.translateListOfChromeHistoryItems();
-        console.log(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
+        DEBUG && console.debug(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
 
         // Purge the lChrome not needed anymore.
         var iLength = self._lChromeHistoryItems.length;
@@ -64,7 +64,7 @@ Cotton.Core.TempDatabase = Class.extend({
         self._lCottonHistoryItems.sort(function(a, b) {
           return a.chromeId() - b.chromeId();
         });
-        console.log(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
+        DEBUG && console.debug(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
         var iLength = self._lCottonHistoryItems.length;
         var iCount = 0;
         DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
