@@ -142,7 +142,8 @@ Cotton.Controllers.Background = Class.extend({
       // TODO(rmoutard) : find a better solution.
       // Remove from the pool the historyItems you just add to a new story.
       var lHistoryItemToKeep = [];
-      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
+      var iLength = e.data['lHistoryItems'].length;
+      for (var i = 0; i < iLength; i++) {
         var dHistoryItem = e.data['lHistoryItems'][i];
         if (dHistoryItem['sStoryId'] === "UNCLASSIFIED"
             && dHistoryItem['clusterId'] === "NOISE") {
@@ -198,14 +199,18 @@ Cotton.Controllers.Background = Class.extend({
     var self = this;
     var mScore = Cotton.Algo.Score.DBRecord.HistoryItem;
     var fEps = Cotton.Config.Parameters.dbscan2.fEps;
-    for (var i = 0, dItem; dItem = lItems[i]; i++) {
+    var iLength = lItems.length;
+    for (var i = 0; i < iLength; i++){
+      var dItem = lItems[i];
       dItem['clusterId'] = "UNCLASSIFIED";
       if (dItem['id'] === iSeedId) {
         var dSeed = dItem;
       }
     }
     if (dSeed) {
-      for (var i = 0, dItem; dItem = lItems[i]; i++) {
+      //iLength already set
+      for (var i = 0; i < iLength; i++){
+        var dItem = lItems[i];
         if (mScore(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
           dItem['clusterId'] = 0;
         }
@@ -213,7 +218,9 @@ Cotton.Controllers.Background = Class.extend({
       var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
       // TODO(rmoutard) : find a better solution.
       var lHistoryItemToKeep = [];
-      for (var i = 0, dItem; dItem = lItems[i]; i++){
+      //iLength already set
+      for (var i = 0; i < iLength; i++){
+        var dItem = lItems[i];
         if(dItem['clusterId'] === "UNCLASSIFIED"){
             delete dItem['clusterId'];
             lHistoryItemToKeep.push(dItem);
@@ -255,7 +262,9 @@ Cotton.Controllers.Background = Class.extend({
     chrome.tabs.query({}, function(lTabs){
       var iOpenTabs = lTabs.length;
       var iCount = 0;
-      for (var i = 0, oTab; oTab = lTabs[i]; i++){
+      var iLength = lTabs.length;
+      for (var i = 0; i < iLength; i++){
+        var oTab = lTabs[i];
         self.getStoryFromTab(oTab, function(){
           iCount++;
           if (iCount === iOpenTabs){

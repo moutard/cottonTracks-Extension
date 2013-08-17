@@ -190,7 +190,8 @@
         _markMeaningful : function(oNode) {
           var oParent = oNode.parentNode;
           var oSplit = oParent.innerHTML.split(/<br\/?>/);
-          for (var i = 0, len = oSplit.length; i < len; i++) {
+          var iLength = oSplit.length;
+          for (var i = 0; i < iLength; i++) {
             var oFakeElement = document.createElement('span');
             oFakeElement.innerHTML = oSplit[i];
             //do not take script nodes
@@ -228,7 +229,8 @@
          */
         _findBestImage : function() {
           var lImages = Array.prototype.slice.call(document.images);
-          for (var i = 0, len = lImages.length; i < len; i++) {
+          var iLength = lImages.length;
+          for (var i = 0; i < iLength; i++) {
             var oCurrentImage = lImages[i];
             var nScore = 0;
             var nArea = oCurrentImage.clientWidth * oCurrentImage.clientHeight;

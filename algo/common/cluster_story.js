@@ -27,7 +27,8 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
     lStories[i] = new Cotton.Model.Story();
   }
 
-  for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {
+  var jLength = lHistoryItems.length;
+  for ( var j = 0; j < jLength; j++) {
 
     // If the clusterId is a number, then it goes to the corresponding stories.
     if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"

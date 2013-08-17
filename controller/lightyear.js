@@ -151,7 +151,10 @@ Cotton.Controllers.Lightyear = Class.extend({
                   self._bStoryReady = true;
 
                   if (self._iHistoryItemId >= 0){
-                    for (var i = 0, oHistoryItem; oHistoryItem = oStory.historyItems()[i]; i++){
+                    var lHistoryItems = oStory.historyItems();
+                    var iLength = lHistoryItems.length;
+                    for (var i = 0; i < iLength; i++){
+                      var oHistoryItem = lHistoryItems[i];
                       if (oHistoryItem.id() === self._iHistoryItemId){
                         self._oHistoryItem = self._oOriginalHistoryItem = oHistoryItem;
                         self._bHistoryItemReady = true;
@@ -165,16 +168,22 @@ Cotton.Controllers.Lightyear = Class.extend({
                   self._oDatabase.findGroup('searchKeywords', 'sKeyword',
                     self._oStory.searchKeywords(), function(lSearchKeywords){
                       var lRelatedStoriesId = [];
-                      for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+                      var iLength = lSearchKeywords.length;
+                      for (var i = 0; i < iLength; i++){
                         var oSearchKeyword = lSearchKeywords[i];
                         lRelatedStoriesId = _.union(
                           lRelatedStoriesId, oSearchKeyword.referringStoriesId());
                       };
-                      for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
-                        if (iStoryId === self._oStory.id()){
-                          lRelatedStoriesId.splice(i,1);
+                      var iLength = lRelatedStoriesId.length;
+                      var lRelatedIdWithoutCurrent = [];
+                      for (var i = 0; i < iLength; i++){
+                        var iStoryId = lRelatedStoriesId[i];
+                        if (iStoryId !== self._oStory.id()){
+                          lRelatedIdWithoutCurrent.push(iStoryId);
                         }
                       }
+                      lRelatedStoriesId = lRelatedIdWithoutCurrent;
+
                       self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
                         if (!lStories){
                           self._lRelatedStories = [];
@@ -185,7 +194,9 @@ Cotton.Controllers.Lightyear = Class.extend({
                         } else {
                           self.setStoriesFiltered(lStories, function(lStoriesFiltered){
                             //sort related stories by closest
-                            for (var j = 0, oStory; oStory = lStoriesFiltered[j]; j++){
+                            var jLength = lStoriesFiltered.length;
+                            for (var j = 0; j < jLength; j++){
+                              var oStory = lStoriesFiltered[j];
                               oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
                             }
                             lStoriesFiltered.sort(function(a,b){
@@ -359,16 +370,22 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._oDatabase.findGroup('searchKeywords', 'sKeyword',
           self._oStory.searchKeywords(), function(lSearchKeywords){
             var lRelatedStoriesId = [];
-            for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+            var iLength = lSearchKeywords.length;
+            for (var i = 0; i < iLength; i++){
               var oSearchKeyword = lSearchKeywords[i];
               lRelatedStoriesId = _.union(
                 lRelatedStoriesId, oSearchKeyword.referringStoriesId());
             };
-            for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
-              if (iStoryId === self._oStory.id()){
-                lRelatedStoriesId.splice(i,1);
+            var iLength = lRelatedStoriesId.length;
+            var lRelatedStoriesIdWithoutCurrent = [];
+            for (var i = 0; i < iLength; i++){
+              var iStoryId = lRelatedStoriesId[i];
+              if (iStoryId !== self._oStory.id()){
+                lRelatedStoriesIdWithoutCurrent.push(iStoryId);
               }
             }
+            lRelatedStoriesId = lRelatedStoriesIdWithoutCurrent;
+
             self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
               if (!lStories || lStories.length === 0){
                 self._lRelatedStories = [];
@@ -380,7 +397,8 @@ Cotton.Controllers.Lightyear = Class.extend({
                 var iRelatedLength = lStories.length;
                 var lRelatedStories = [];
                 var iCount = 0;
-                for (var i = 0, oStory; oStory = lStories[i]; i++){
+                for (var i = 0; i < iRelatedLength; i++){
+                  var oStory = lStories[i];
                   self.setItemsFiltered(oStory, function(oStoryFiltered){
                     iCount++;
                     if (oStoryFiltered.historyItems().length > 0){
@@ -388,8 +406,10 @@ Cotton.Controllers.Lightyear = Class.extend({
                     }
                     if (iCount === iRelatedLength){
                       //take the 6 closest stories
-                      for (var i = 0, oStory; oStory = lRelatedStories[i]; i++){
-                        oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
+                      var jLength = lRelatedStories.length;
+                      for (var j = 0; j < jLength; j++){
+                        var oRelatedStory = lRelatedStories[j];
+                        oRelatedStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oRelatedStory, self._oStory);
                       }
                       lRelatedStories.sort(function(a,b){
                         return b['scoreToStory'] - a['scoreToStory']
@@ -489,7 +509,9 @@ Cotton.Controllers.Lightyear = Class.extend({
         self._oDatabase.put('stories', oStory, function(){});
       });
       if (self._lRelatedStories){
-        for (var i=0, oRelated; oRelated = self._lRelatedStories[i]; i++){
+        var iLength = self._lRelatedStories.length;
+        for (var i=0; i < iLength; i++){
+          var oRelated = self._lRelatedStories[i];
           if (oRelated.id() === dArguments['id']){
             oRelated.setTitle(dArguments['title']);
           }
@@ -627,11 +649,15 @@ Cotton.Controllers.Lightyear = Class.extend({
     var lPoolItems = oPool.get();
     var lIds = [];
     var lSortedPool = [];
-    for (var i = 0, dHistoryItem; dHistoryItem = lPoolItems[i]; i++){
+    var iLength = lPoolItems.length;
+    for (var i = 0; i < iLength; i++){
+      var dHistoryItem = lPoolItems[i];
       lIds.push(dHistoryItem['id']);
     }
     this._oDatabase.findGroup('historyItems', 'id', lIds, function(lHistoryItems){
-      for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++){
+      var iLength = lHistoryItems.length;
+      for (var i = 0; i < iLength; i++){
+        var oHistoryItem = lHistoryItems[i];
         oHistoryItem['scoreToStory'] = Cotton.Algo.Score.Object.historyItemToStory(
           oHistoryItem, self._oStory);
         lSortedPool.push(oHistoryItem);
@@ -651,17 +677,22 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDatabase.findGroup('searchKeywords', 'sKeyword',
       lSearchWords, function(lSearchKeywords){
         var lRelatedStoriesId = [];
-        for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+        var iLength = lSearchKeywords.length;
+        for (var i = 0; i < iLength; i++){
           var oSearchKeyword = lSearchKeywords[i];
           lRelatedStoriesId = _.union(
             lRelatedStoriesId, oSearchKeyword.referringStoriesId());
         };
         if (sContext !== "manager"){
-          for (var i = 0, iStoryId; iStoryId = lRelatedStoriesId[i]; i++){
-            if (self._oStory && iStoryId === self._oStory.id()){
-              lRelatedStoriesId.splice(i,1);
+          var iLength = lRelatedStoriesId.length;
+          var lRelatedStoriesIdWithoutCurrent = [];
+          for (var i = 0; i < iLength; i++){
+            var iStoryId = lRelatedStoriesId[i];
+            if (!self._oStory || iStoryId !== self._oStory.id()){
+              lRelatedStoriesIdWithoutCurrent.push(iStoryId);
             }
           }
+          lRelatedStoriesId = lRelatedStoriesIdWithoutCurrent;
         }
         self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId, function(lStories){
           if (!lStories){
@@ -669,7 +700,9 @@ Cotton.Controllers.Lightyear = Class.extend({
           } else {
             if (sContext !== "manager"){
               //take the 6 closest stories
-              for (var i = 0, oStory; oStory = lStories[i]; i++){
+              var iLength = lStories.length;
+              for (var i = 0, oStory; i < iLength; i++){
+                var oStory = lStories[i];
                 oStory['scoreToStory'] = Cotton.Algo.Score.Object.storyToStory(oStory, self._oStory);
               }
               lStories.sort(function(a,b){
@@ -699,7 +732,9 @@ Cotton.Controllers.Lightyear = Class.extend({
     var lUrls = [];
     var lMapsSearch = [];
     this._oDatabase.getKeyRange('historyItems', 'sStoryId', oStory.id(), oStory.id(), function(lHistoryItems){
-      for (var j = 0, oHistoryItem; oHistoryItem = lHistoryItems[j]; j++){
+      var iLength = lHistoryItems.length;
+      for (var i = 0; i < iLength; i++){
+        var oHistoryItem = lHistoryItems[i]
         var oUrl = oHistoryItem.oUrl();
         oUrl.fineDecomposition();
         // we filter google and Youtube searches,
@@ -752,7 +787,9 @@ Cotton.Controllers.Lightyear = Class.extend({
     if (iTempLength === 0){
       mCallback.call(this, lTempStories);
     } else {
-      for (var i = 0, oStory; oStory = lStories[i]; i++){
+      var iLength = lStories.length;
+      for (var i = 0; i < iLength; i++){
+        var oStory = lStories[i];
         this.setItemsFiltered(oStory, function(oStoryFiltered){
           iCount++;
           if (oStoryFiltered.historyItems().length > 0){

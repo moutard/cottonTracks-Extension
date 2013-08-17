@@ -43,7 +43,9 @@ Cotton.Behavior.Active.Score = Class
         var iEndIndex = iStartIndex + sQuote.length;
         var bMerge = false;
         var lQuotesToRemove = [];
-        for (var i=0, dQuote; dQuote = this._lQuotes[i]; i++){
+        var iLength = this._lQuotes.length;
+        for (var i = 0; i < iLength; i++){
+          var dQuote = this._lQuotes[i];
           if ((iStartIndex-dQuote['start'])*(iStartIndex-dQuote['end']) <= 0
             || (iEndIndex-dQuote['start'])*(iEndIndex-dQuote['end']) <= 0
             || (iStartIndex <= dQuote['start'] && iEndIndex >= dQuote['end'])){
@@ -59,7 +61,9 @@ Cotton.Behavior.Active.Score = Class
 
       removeQuotes : function(lQuotesToRemoveIndexes){
         var lQuotes = [];
-        for (var i=0, dQuote; dQuote = this._lQuotes[i]; i++){
+        var iLength = this._lQuotes.length;
+        for (var i = 0; i < iLength; i++){
+          var dQuote = this._lQuotes[i];
           if (lQuotesToRemoveIndexes.indexOf(i) === -1){
             lQuotes.push(dQuote);
           }

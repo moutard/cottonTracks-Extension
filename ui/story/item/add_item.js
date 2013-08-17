@@ -65,7 +65,9 @@ Cotton.UI.Story.Item.AddItem = Class.extend({
           this._$items_from_pool
         )
       );
-      for (var i = 0, oHistoryItem; oHistoryItem = lItemsFromPool[i]; i++){
+      var iLength = lItemsFromPool.length;
+      for (var i = 0; i < iLength; i++){
+        var oHistoryItem = lItemsFromPool[i];
         var $pool_item = this.domItemFromPool(oHistoryItem);
         this._$items_from_pool.append($pool_item);
         if (i < 3){

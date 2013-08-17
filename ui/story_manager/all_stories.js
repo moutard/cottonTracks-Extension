@@ -58,7 +58,9 @@ Cotton.UI.StoryManager.AllStories = Class.extend({
       );
     } else if (lStories && lStories.length > 0){
       this._fDate = lStories[lStories.length - 1].lastVisitTime();
-      for (var i=0, oStory; oStory = lStories[i]; i++){
+      var iLength = lStories.length;
+      for (var i=0; i < iLength; i++){
+        var oStory = lStories[i];
         var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
         this._lStickers.push(oSticker.$());
       }

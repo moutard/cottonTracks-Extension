@@ -39,8 +39,9 @@ function drawSessionChart() {
     chrome_visit_source_pink.slice(),
     chrome_visit_source_red.slice(),
     chrome_visit_source_no_preremove_green.slice(),
-    ];
-  for(var i = 0; i < lColors.length; i++){
+  ];
+  var iLength = lColors.length;
+  for(var i = 0; i < iLength; i++){
     Cotton.Algo.roughlySeparateSession(lColors[i], function(lSession){
       if(lSession.length <= 5) {
         llData[1][i+1] +=1;
@@ -59,7 +60,8 @@ function drawSessionChart() {
 
   function sessionToDOM(lSession, owner){
     var $small_session = $('<div class="small_session color' +owner+'"></div>');
-    for(var i=0; i < lSession.length; i++){
+    var iLength = lSession.length;
+    for(var i = 0; i < iLength; i++){
      $small_session.append(historyItemToDOM(lSession[i]));
     }
     return $small_session;

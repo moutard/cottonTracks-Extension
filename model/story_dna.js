@@ -30,7 +30,9 @@ Cotton.Model.StoryDNA = Class.extend({
   },
 
   addListWords : function(lWords, iWeight){
-    for (var i = 0, sWord; sWord = lWords[i]; i++) {
+    var iLength = lWords.length;
+    for (var i = 0; i < iLength; i++) {
+      var sWord = lWords[i];
       this.addWord(sWord, iWeight);
     }
   }

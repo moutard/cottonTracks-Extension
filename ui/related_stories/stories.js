@@ -33,7 +33,9 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
       self.centerTop();
     });
 
-    for (var i=0, oStory; oStory = lStories[i]; i++){
+    var iLength = lStories.length;
+    for (var i=0; i < iLength; i++){
+      var oStory = lStories[i];
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, oDispatcher, 'relatedStory');
       this._lStickers.push(oSticker.$());
     }
@@ -70,7 +72,9 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
 
   showSearch : function(lStories){
     var lStickers = [];
-    for (var i=0, oStory; oStory = lStories[i]; i++){
+    var iLength = lStories.length;
+    for (var i=0; i < iLength; i++){
+      var oStory = lStories[i];
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
       lStickers.push(oSticker.$());
     }
@@ -82,7 +86,9 @@ Cotton.UI.RelatedStories.Stories = Class.extend({
     var self = this;
     var lStickers = [];
     this._$title.text('Related Stories');
-    for (var i=0, oStory; oStory = this._lRelatedStories[i]; i++){
+    var iLength = this._lRelatedStories.length;
+    for (var i=0; i < iLength; i++){
+      var oStory = this._lRelatedStories[i];
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
       lStickers.push(oSticker.$());
     }

@@ -17,13 +17,17 @@ var MockHistoryClient = Class.extend({
     var lVisitItems = [];
     // find the id.
     var iHistoryItemId;
-    for (var i= 0, dHistoryItems; dHistoryItems = this._lHistoryItems[i]; i++) {
+    var iLength = this._lHistoryItems.length;
+    for (var i= 0; i < iLength; i++) {
+      var dHistoryItems = this._lHistoryItems[i];
       if (dHistoryItems['url'] == dParams['url']) {
         iHistoryItemId = dHistoryItems['id'];
         break;
       }
     }
-    for (var i=0, dVisitItems; dVisitItems = this._lVisitItems[i]; i++) {
+    var iLength = this._lVisitItems.length;
+    for (var i=0; i < iLength; i++) {
+      var dVisitItems = this._lVisitItems[i];
       if (dVisitItems['id'] == iHistoryItemId) {
         lVisitItems.push(dVisitItems);
       }

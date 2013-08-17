@@ -61,7 +61,9 @@ Cotton.UI.StoryManager.Manager = Class.extend({
     $('<h1>Search Results for <span class=query>'+ this._sQuery +'</span></h1>') :
     $('<h1>No Result for <span class=query>'+ this._sQuery +'</span> :(</h1>');
     this._lStickers = [];
-    for (var i = 0, oStory; oStory = lStories[i]; i++){
+    var iLength = lStories.length;
+    for (var i = 0; i < iLength; i++){
+      var oStory = lStories[i];
       var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, this._oDispatcher, 'relatedStory');
       this._lStickers.push(oSticker.$());
     }
