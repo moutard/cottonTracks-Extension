@@ -1,4 +1,4 @@
-module("Cotton.Core.Install.Populate",{
+module("Cotton.Core.Install.TempDatabase",{
   setup: function() {
     // runs before each test
   },
@@ -10,7 +10,8 @@ module("Cotton.Core.Install.Populate",{
 
 test("preRemoveTools.", function() {
   var lChromeHistoryItem = chrome_history_source_japan;
-  var lResult = Cotton.Core.Populate.preRemoveTools(lChromeHistoryItem);
+  var oTempDatabase = new Cotton.Core.TempDatabase();
+  var lResult = oTempDatabase.removeExcludedItem(lChromeHistoryItem);
   equal(lResult.length, 29);
 });
 
