@@ -33,19 +33,20 @@ Cotton.Management.dumpChromeVisitItemsRaw = function() {
     //window.open(sUriContent, 'chrome_history_item_raw');
 
     iChromeHistoryLength = lChromeHistoryItems.length;
-    for (var i = 0, dHistoryItem; dHistoryItem = lChromeHistoryItems[i]; i++ ) {
-       chrome.history.getVisits({
-          'url': dHistoryItem['url']
-        }, function(lVisitItems) {
+    for (var i = 0; i < iChromeHistoryLength; i++ ) {
+      var dHistoryItem = lChromeHistoryItems[i];
+      chrome.history.getVisits({
+        'url': dHistoryItem['url']
+      }, function(lVisitItems) {
 
-          lAllVisitItems = lAllVisitItems.concat(lVisitItems);
-          iCount++;
-          if (iCount == iChromeHistoryLength) {
-            var sRecord = JSON.stringify(lAllVisitItems);
-            var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
-            window.open(sUriContent, 'chrome_visit_item_raw');
-          }
-        });
+        lAllVisitItems = lAllVisitItems.concat(lVisitItems);
+        iCount++;
+        if (iCount == iChromeHistoryLength) {
+          var sRecord = JSON.stringify(lAllVisitItems);
+          var sUriContent = "data:application/octet-stream," + encodeURIComponent(sRecord);
+          window.open(sUriContent, 'chrome_visit_item_raw');
+        }
+      });
     }
 
   });

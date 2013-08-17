@@ -33,7 +33,8 @@
       if (bIncludeChildren) {
         var oChildren = oParent.children;
         var lChildren = Array.prototype.slice.call(oChildren);
-        for (var i = 0, len = lChildren.length; i < len; i++) {
+        var iLength = lChildren.length;
+        for (var i = 0; i < iLength; i++) {
           var oChild = lChildren[i];
           if (lMatches.indexOf(oChild) > -1) {
             return oChild;

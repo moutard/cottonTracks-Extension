@@ -50,7 +50,8 @@ test("_array IS A STATIC variable shared by all the class if not reinitialized, 
   var oClass = new BadClassTest();
   deepEqual(oClass.array(), []);
   // Problem appears with addInArray !
-  for(var i = 0, iLength = L.length; i < iLength; i++){
+  var iLength = L.length;
+  for(var i = 0; i < iLength; i++){
     oClass.addInArray(L[i]);
   };
   deepEqual(oClass.array(), [6,7,8]);
@@ -131,7 +132,8 @@ test("setArray complexe.", function() {
 test("_array IS A STATIC variable shared by all the class if not reinitialized, in the init function.", function() {
   var oClass = new GoodClassTest();
   deepEqual(oClass.array(), []);
-  for(var i = 0, iLength = L.length; i < iLength; i++){
+  var iLength = L.length;
+  for(var i = 0; i < iLength; i++){
     oClass.addInArray(L[i]);
   };
   deepEqual(oClass.array(), [6,7,8]);

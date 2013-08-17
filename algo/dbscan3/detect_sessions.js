@@ -18,7 +18,9 @@ Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChrom
   var iPreviousTime;
   var iTotalSessions = 0;
 
-  for ( var i = 0, oCurrentVisitItem; oCurrentVisitItem = lChromeVisitItems[i]; i++) {
+  var iLength = lChromeVisitItems.length;
+  for ( var i = 0; i < iLength; i++) {
+    var oCurrentVisitItem = lChromeVisitItems[i];
     if (i === 0) {
       iPreviousTime = oCurrentVisitItem['visitTime'];
     }

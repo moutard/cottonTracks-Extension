@@ -12,8 +12,10 @@ Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
   if (sTitle) {
     var sCleanTitle = sTitle;
     var lBlacklistExpressions = JSON.parse(localStorage.getItem('blacklist-expressions'))||[];
-    for (var i = 0, sExpression;
-      sExpression = lBlacklistExpressions[i]; i++){
+
+    var iLength = lBlacklistExpressions.length;
+    for (var i = 0; i < iLength; i++){
+      var sExpression = lBlacklistExpressions[i];
       sCleanTitle = sCleanTitle.replace(sExpression, "");
     }
   } else {
@@ -30,13 +32,17 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
   var dExpressions = {};
 
   // For each historyItems, using this title, find the expressions starting or ending with " - " or " | ".
-  for (var i = 0, oHistoryItem; oHistoryItem = lHistoryItems[i]; i++) {
+  var iLength = lHistoryItems.length;
+  for (var i = 0; i < iLength; i++) {
+    var oHistoryItem = lHistoryItems[i];
     var oUrl = new UrlParser(oHistoryItem.url());
     var sHostname = oUrl.hostname.toLowerCase();
     var lExpressions = [];
 
     var lDash = oHistoryItem.title().split(' - ');
-    for (var j = 0, sDash, jLength = lDash.length; sDash = lDash[j]; j++) {
+    var jLength = lDash.length;
+    for (var j = 0; j < jLength; j++) {
+      var sDash = lDash[j];
       if (jLength > 1 && j > 0){
         lExpressions.push("- " + sDash);
       }
@@ -45,7 +51,9 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       }
     }
     var lBar = oHistoryItem.title().split(' | ');
-    for (var j = 0, sBar, jLength = lBar.length; sBar = lBar[j]; j++) {
+    var jLength = lBar.length;
+    for (var j = 0; j < jLength; j++) {
+      var sBar = lBar[j];
       if (jLength > 1 && j > 0){
         lExpressions.push("| " + sBar);
       }
@@ -54,11 +62,15 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       }
     }
 
-    for (var j = 0, sExpression; sExpression = lExpressions[j]; j++) {
+    var jLength = lExpressions.length;
+    for (var j = 0; j < jLength; j++) {
+      var sExpression = lExpressions[j];
       // clear the accents to be able to compare the title with the hostname
       var sAccentTidy = Cotton.Algo.Common.Words.AccentTidy(sExpression);
       var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
-      for (var k = 0, sWord; sWord = lAccentTidyWords[k]; k++) {
+      var kLength = lAccentTidyWords.length;
+      for (var k = 0; k < kLength; k++) {
+        var sWord = lAccentTidyWords[k];
         // check if one of the words in the pattern is also in the hostname
         // to decide if we put the pattern in the blacklist candidates
         if (sHostname.indexOf(sWord) !== -1 ) {

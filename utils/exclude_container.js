@@ -50,7 +50,9 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    */
   isExcludedPattern : function(sUrl){
     var self = this;
-    for ( var i = 0, sPattern; sPattern = self._lExludePatterns[i]; i++) {
+    var iLength = self._lExludePatterns.length;
+    for ( var i = 0; i < iLength; i++) {
+      var sPattern = self._lExludePatterns[i];
       var oRegExp = new RegExp(sPattern, "g");
       if (oRegExp.test(sUrl)) {
         return true;

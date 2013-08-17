@@ -111,20 +111,30 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
     // For each paragraph in the original oResult, find the corresponding paragraphs
     // in dItem.
-    for (var i = 0, dResultParagraph; dResultParagraph = oResult['oExtractedDNA']['lParagraphs'][i]; i++) {
+    var lResultParagraphs = oResult['oExtractedDNA']['lParagraphs'];
+    var iLength = lResultParagraphs.length;
+    for (var i = 0; i < iLength; i++) {
+      var dResultParagraph = lResultParagraphs[i];
       // Indicates if the paragraph was present in the original.
       var bMerge = false;
-      for (var j = 0, dParagraph; dParagraph = dItem['oExtractedDNA']['lParagraphs'][j]; j++) {
+      var lParagraphs = dItem['oExtractedDNA']['lParagraphs'];
+      var jLength = lParagraphs.length;
+      for (var j = 0; j < jLength; j++) {
+        var dParagraph = lParagraphs[j];
         if (dResultParagraph['id'] === dParagraph['id']) {
           bMerge = true;
           dParagraph['fPercent'] = Math.max(dParagraph['fPercent'],dResultParagraph['fPercent']);
           var lQuotes = [];
           lQuotes = lQuotes.concat(dParagraph['lQuotes']);
 
-          for (var k = 0, dResultQuote; dResultQuote = dResultParagraph['lQuotes'][k]; k++) {
+          var kLength = dResultParagraph['lQuotes'].length;
+          for (var k = 0; k < kLength; k++) {
+            var dResultQuote = dResultParagraph['lQuotes'][k];
             // Indicates if the quote was present in the original.
             var bMergeQuote = false;
-            for (var l = 0, dQuote; dQuote = dParagraph['lQuotes'][l]; l++) {
+            var nLength = dParagraph['lQuotes'].length;
+            for (var n = 0; n < nLength; n++) {
+              var dQuote = dParagraph['lQuotes'][n];
 
               if ((dResultQuote['start']-dQuote['start'])*(dResultQuote['start']-dQuote['end']) <= 0
                 //

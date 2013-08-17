@@ -67,7 +67,8 @@ $.ajaxSetup({ cache: false });
 $.getJSON('../../data/absolute_path_to_extension_folder.json',
   function(sOwnPath) {
   // For each page in test/data/webpage that is listed in lWebPagesToTest
-  for (var i = 0, len = lWebPagesToTest.length; i < len; i++) {
+  var iLength = lWebPagesToTest.length;
+  for (var i = 0; i < iLength; i++) {
     // Get test data
     $.getJSON('../../data/web_pages/' + lWebPagesToTest[i]
       + '/test_data.json', function(oTestData) {
@@ -121,7 +122,8 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
                 + ' list should have at least one member');
               // Assert each member of lExpectedParagraphs is also memeber of
               // lMeaningfulParagraphs
-              for (var i = 0, len = lExpectedParagraphs.length; i < len; i++) {
+              var iLength = lExpectedParagraphs.length;
+              for (var i = 0; i < iLength; i++) {
                 var sParagraph = lExpectedParagraphs[i];
                 var bPresent = (lMeaningfulParagraphs.indexOf(sParagraph) > -1);
                 if (!bPresent) {
@@ -131,7 +133,8 @@ $.getJSON('../../data/absolute_path_to_extension_folder.json',
               }
               // Assert each member of lMeaningfulParagraphs is also memeber of
               // lExpectedParagraphs
-              for (var i = 0, len = lMeaningfulParagraphs.length; i < len; i++) {
+              var iLength = lMeaningfulParagraphs.length;
+              for (var i = 0; i < iLength; i++) {
                 var sParagraph = lMeaningfulParagraphs[i];
                 var bPresent = (lExpectedParagraphs.indexOf(sParagraph) > -1);
                 if (!bPresent) {

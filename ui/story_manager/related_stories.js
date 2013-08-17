@@ -10,7 +10,9 @@ Cotton.UI.StoryManager.RelatedStories = Class.extend({
     this._lRelatedStickers = [];
 
     if (lRelatedStories && lRelatedStories.length > 0){
-      for (var i=0, oStory; oStory = lRelatedStories[i]; i++){
+      var iLength = lRelatedStories.length;
+      for (var i=0; i < iLength; i++){
+        var oStory = lRelatedStories[i];
         var oSticker = new Cotton.UI.SideMenu.Preview.Sticker.Element(oStory, oDispatcher, 'relatedStory');
         this._lRelatedStickers.push(oSticker.$());
       }

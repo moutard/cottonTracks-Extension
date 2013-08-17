@@ -98,8 +98,9 @@ Cotton.Core.TempDatabase = Class.extend({
                 iPositionInTheArray = self._getHistoryItemPositionFromId(lVisitItems[0]['id']);
 
                 if(iPositionInTheArray != -1) {
-                  for( var i = 0; i < lVisitItems.length; i++) {
-                    lVisitItems[i]['cottonHistoryItemId'] = iPositionInTheArray;
+                  var jLength = lVisitItems.length;
+                  for (var j = 0; j < jLength; j++) {
+                    lVisitItems[j]['cottonHistoryItemId'] = iPositionInTheArray;
                   }
                   self._lChromeVisitItems = self._lChromeVisitItems.concat(lVisitItems);
                 } else {
@@ -173,7 +174,9 @@ Cotton.Core.TempDatabase = Class.extend({
     var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
     var lResult = [];
 
-    for (var i=0, dChromeHistoryItem; dChromeHistoryItem = lChromeHistoryItems[i]; i++) {
+    var iLength = lChromeHistoryItems.length;
+    for (var i=0; i < iLength; i++) {
+      var dChromeHistoryItem = lChromeHistoryItems[i];
       if(!oExcludeContainer.isExcluded(dChromeHistoryItem['url'])){
         lResult.push(dChromeHistoryItem);
       }
@@ -184,7 +187,8 @@ Cotton.Core.TempDatabase = Class.extend({
 
   translateListOfChromeHistoryItems : function() {
     var iLength = this._lChromeHistoryItems.length;
-    for (var i=0, dChromeHistoryItem; dChromeHistoryItem = this._lChromeHistoryItems[i]; i++) {
+    for (var i=0; i < iLength; i++) {
+      var dChromeHistoryItem = this._lChromeHistoryItems[i];
       var oHistoryItem = new Cotton.Model.HistoryItem();
 
       //oHistoryItem.initId(i);
@@ -211,7 +215,8 @@ Cotton.Core.TempDatabase = Class.extend({
     // After this time a page is considered as non-linked with a query search page
 
     var sNonFound = "http://www.google.fr/";
-    for ( var i = 0, iLength = this._lChromeVisitItems.length; i < iLength; i++) {
+    var iLength = this._lChromeVisitItems.length;
+    for ( var i = 0; i < iLength; i++) {
       // The historyItem where we want to find the closest google search page.
       var oCurrentVisitItem = this._lChromeVisitItems[i];
       var oCurrentHistoryItem = this._lCottonHistoryItems[oCurrentVisitItem['cottonHistoryItemId']];
@@ -269,7 +274,8 @@ Cotton.Core.TempDatabase = Class.extend({
    * @param {Array.<Cotton.Model.HistoryItem>}
    */
   computeBagOfWordsForHistoryItemsList : function() {
-    for ( var i = 0, iLength = this._lCottonHistoryItems.length; i < iLength; i++) {
+    var iLength = this._lCottonHistoryItems.length;
+    for ( var i = 0; i < iLength; i++) {
       var oHistoryItem = this._lCottonHistoryItems[i];
       // It's a search page use keywords to set query words.
       Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
@@ -282,7 +288,8 @@ Cotton.Core.TempDatabase = Class.extend({
    */
   removeHistoryItemsWithoutBagOfWords : function() {
     var lHistoryItemsWithBagOfWords = [];
-    for (var i = 0, iLength = this._lCottonHistoryItems.length; i < iLength; i++) {
+    var iLength = this._lCottonHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
       var oHistoryItem = this._lCottonHistoryItems[i];
       if (!_.isEmpty(oHistoryItem.extractedDNA().bagOfWords().get())) {
         lHistoryItemsWithBagOfWords.push(oHistoryItem);

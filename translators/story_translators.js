@@ -51,8 +51,10 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
     oStoryDNA.setBagOfWords(oBagOfWords);
     oStory.setDNA(oStoryDNA);
+    var iLength = oDbRecord['lHistoryItemsId'].length;
     if (oDbRecord['lHistoryItemsId'] !== undefined) {
-      for ( var i = 0, iHistoryItemId; iHistoryItemId = oDbRecord['lHistoryItemsId'][i]; i++) {
+      for ( var i = 0; i < iLength; i++) {
+        var iHistoryItemId = oDbRecord['lHistoryItemsId'][i];
         oStory.addHistoryItemId(iHistoryItemId);
       }
     }

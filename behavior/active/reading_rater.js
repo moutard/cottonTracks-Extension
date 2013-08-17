@@ -456,8 +456,12 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var lIntersectingAncestors = [];
     var lMeaningfulAncestors1 = $meaningfulAncestors1.toArray();
     var lMeaningfulAncestors2 = $meaningfulAncestors2.toArray();
-    for (var i = 0, $ancestor1; $ancestor1 = lMeaningfulAncestors1[i]; i++){
-      for (var j = 0, $ancestor2; $ancestor2 = lMeaningfulAncestors2[j]; j++){
+    var iLength = lMeaningfulAncestors1.length;
+    for (var i = 0; i < iLength; i++){
+      var $ancestor1 = lMeaningfulAncestors1[i];
+      var jLength = lMeaningfulAncestors2.length;
+      for (var j = 0; j < jLength; j++){
+        var $ancestor2 = lMeaningfulAncestors2[j];
         if ($ancestor1 === $ancestor2){
           lIntersectingAncestors.push($ancestor1);
         }

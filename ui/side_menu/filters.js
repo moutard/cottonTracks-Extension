@@ -72,7 +72,9 @@ Cotton.UI.SideMenu.Filters = Class.extend({
     };
 
     var lDOMFiltersElements = [];
-    for (var i = 0, sFilter; sFilter=this._lFilters[i]; i++){
+    var iLength = this._lFilters.length;
+    for (var i = 0; i < iLength; i++){
+      var sFilter = this._lFilters[i];
       lDOMFiltersElements.push(createFilterDOM(sFilter));
     }
     //construct element

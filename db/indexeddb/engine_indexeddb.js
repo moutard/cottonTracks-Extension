@@ -64,14 +64,15 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
       bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
 
+      var iExistingLength = lExistingObjectStoreNames.length;
       // Determine if there is a missing index in the existing store.
-      if (lExistingObjectStoreNames.length > 0) {
+      if (iExistingLength > 0) {
 
         // Create a transaction to read and write.
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
 
         // For each existing stores, create the missing indexes.
-        for (var i = 0, iLength = lExistingObjectStoreNames.length; i < iLength; i++) {
+        for (var i = 0; i < iExistingLength; i++) {
 	        var sExistingObjectStoreName = lExistingObjectStoreNames[i];
           // Initialize lMissingIndexKeys and dMissingIndexKeysForObjectStoreNames.
           // And with the same reference, so they are both updated !
@@ -231,7 +232,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     try {
-      for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+      var iLength = lMissingObjectStoreNames.length;
+      for (var i = 0; i < iLength; i++) {
+        var sMissingObjectStoreName = lMissingObjectStoreNames[i];
         // Create the new object store.
         DEBUG && console.debug('Creating object store ' + sMissingObjectStoreName);
         var objectStore = self._oDb.createObjectStore(sMissingObjectStoreName, {
@@ -249,8 +252,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
         var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
         var objectStore = oTransaction.objectStore(sObjectStoreName);
-        for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
-	  var sIndexKey = lMissingIndexKeys[i];
+        var iLength = lMissingIndexKeys.length;
+        for (var i = 0; i < iLength; i++) {
+          var sIndexKey = lMissingIndexKeys[i];
           DEBUG && console.debug('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
           objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
         }
@@ -519,7 +523,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -567,7 +571,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â>= iLowerBound
+    // bStrict == false All keys[sIndexKey] Ã¢>= iLowerBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -821,7 +825,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -875,7 +879,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -963,8 +967,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var p = 0;
-    if(lIndexValue.length > 0) {
-      for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
+    var iLength = lIndexValue.length;
+    if (iLength > 0) {
+      for (var i = 0; i < iLength; i++){
+        var oIndexValue = lIndexValue[i];
         self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
           p+=1;
           if(oResult){
@@ -1047,9 +1053,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
 
     var lAllId = new Array();
-    var iPutCount = 0, iLength = lItems.length;
+    var iPutCount = 0;
+    var iLength = lItems.length;
     if (iLength === 0) { mOnSaveCallback.call(self, lAllId); }
-    for (var i = 0, dItem; dItem = lItems[i]; i++) {
+    for (var i = 0; i < iLength; i++) {
+      var dItem = lItems[i];
 
       var oPutRequest = oStore.put(dItem);
       oPutRequest.onsuccess = function(oEvent) {

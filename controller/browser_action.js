@@ -43,7 +43,9 @@ Cotton.Controllers.BrowserAction = Class.extend({
             // We authorize one cT tab per window.
             chrome.windows.getLastFocused({}, function(oWindow) {
               var iCurrentWindow = oWindow['id'];
-              for (var i = 0, oTab; oTab = lTabs[i]; i++) {
+              var iLength = lTabs.length;
+              for (var i = 0; i < iLength; i++) {
+                var oTab = lTabs[i];
                 if (oTab['url'] === chrome.extension.getURL('lightyear.html')
                   && oTab['windowId'] === iCurrentWindow) {
                     var oCottonTab = oTab;

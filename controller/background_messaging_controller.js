@@ -20,29 +20,31 @@ Cotton.Controllers.Messaging = Class.extend({
 
   addHistoryItemSearchKeywords : function(oHistoryItem, iHistoryItemId) {
     var self = this;
-    for (var i = 0, lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get()), iLength = lKeywords.length;
-      i < iLength; i++){
-        var sKeyword = lKeywords[i];
-        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-        oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
-        self._oMainController._oDatabase.putUnique('searchKeywords',
-          oSearchKeyword, function(iKeywordId){
-            // Return nothing to let the connection be cleaned up.
-        });
+    var lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get());
+    var iLength = lKeywords.length;
+    for (var i = 0; i < iLength; i++){
+      var sKeyword = lKeywords[i];
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
+      self._oMainController._oDatabase.putUnique('searchKeywords',
+        oSearchKeyword, function(iKeywordId){
+          // Return nothing to let the connection be cleaned up.
+      });
     }
   },
 
   addStoryToSearchKeywords : function(oStory) {
     var self = this;
-    for (var i = 0, lKeywords = _.keys(oStory.dna().bagOfWords().get()), iLength = lKeywords.length;
-      i < iLength; i++){
-        var sKeyword = lKeywords[i];
-        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-        oSearchKeyword.addReferringStoryId(oStory.id());
-        self._oMainController._oDatabase.putUnique('searchKeywords',
-          oSearchKeyword, function(iKeywordId){
-            // Return nothing to let the connection be cleaned up.
-        });
+    var lKeywords = _.keys(oStory.dna().bagOfWords().get());
+    var iLength = lKeywords.length;
+    for (var i = 0; i < iLength; i++){
+      var sKeyword = lKeywords[i];
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringStoryId(oStory.id());
+      self._oMainController._oDatabase.putUnique('searchKeywords',
+        oSearchKeyword, function(iKeywordId){
+          // Return nothing to let the connection be cleaned up.
+      });
     }
   },
 
@@ -114,7 +116,8 @@ Cotton.Controllers.Messaging = Class.extend({
             self._oMainController._oDatabase.findGroup('searchKeywords',
               'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
                 var lStoriesId = [];
-                for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
+                var iLength = lSearchKeywords.length;
+                for (var i = 0; i < iLength; i++){
                   var oSearchKeyword = lSearchKeywords[i];
                   lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
                 }
@@ -124,7 +127,8 @@ Cotton.Controllers.Messaging = Class.extend({
                   lStoriesId, function(lStories){
                     var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
                     var oMinStory = undefined;
-                    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+                    var iLength = lStories.length;
+                    for (var i = 0; i < iLength; i++) {
                       var oStory = lStories[i];
                       var iCurrentScore = Cotton.Algo.Score.Object.historyItemToStory(
                         oHistoryItem, oStory);
