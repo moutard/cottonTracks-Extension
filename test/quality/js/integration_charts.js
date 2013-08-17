@@ -80,7 +80,8 @@ var MockDatabase = Class.extend({
 function launchTests() {
   var oMockDatabase = new MockDatabase();
   var oChromeHistoryClient = new Cotton.Core.History.Client();
-  Cotton.Core.Populate.visitItems(oMockDatabase, function(lCottonHistoryItems, lChromeVisitItems,
+  var oTempDatabase = new Cotton.Core.TempDatabase(oMockDatabase);
+  oTempDatabase.populate(function(lCottonHistoryItems, lChromeVisitItems,
       iHistoryItem) {
     drawChromeRepartitionChart(iHistoryItem, lCottonHistoryItems.length, lChromeVisitItems.length)
     var start = new Date().getTime();
