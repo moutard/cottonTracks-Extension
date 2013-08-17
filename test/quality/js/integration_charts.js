@@ -66,8 +66,8 @@ function drawSessionsRepartitionChart(lCottonHistoryItems, lChromeVisitItems) {
   chart.draw(data, options);
 };
 
-function drawStoriesRepartition(iStories){
-  $('#stories_repartition_chart').text(iStories);
+function drawStoriesRepartition(iStories, iMergedStories){
+  $('#stories_repartition_chart').text(iStories + " - after merge: " + iMergedStories);
 };
 
 var MockDatabase = Class.extend({
@@ -151,7 +151,7 @@ function launchTests() {
         }
     });
     drawStories(lStories);
-    drawStoriesRepartition(iStories);
+    drawStoriesRepartition(iStories, lStories.length);
   });
 };
 
