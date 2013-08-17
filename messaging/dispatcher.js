@@ -39,19 +39,31 @@ Cotton.Messaging.Dispatcher = Class.extend({
     }
   },
 
+  /**
+   * Unsuscribe a object for a given message.
+   */
   unsubscribe : function(sMessage, oObject) {
-    var lMessageListeners = [];
-    var iLength = this._dMessages[sMessage].length;
-    for (var i = 0; i < iLength; i++){
-      var dListener = this._dMessages[sMessage][i];
-      if (dListener['context'] !== oObject){
-        lMessageListeners.push({
-          'context': dListener['context'],
-          'function': dListener['function']
-        });
+    // If the message exists.
+    if (this._dMessages[sMessage]) {
+      // Recompute the list of listener removing the current object.
+      var lMessageListeners = [];
+      var iLength = this._dMessages[sMessage].length;
+      for (var i = 0; i < iLength; i++) {
+        var dListener = this._dMessages[sMessage][i];
+        if (dListener['context'] !== oObject) {
+          lMessageListeners.push({
+            'context': dListener['context'],
+            'function': dListener['function']
+          });
+        } else {
+          // Make sure to nullify the reference to the object and the function,
+          // to avoid memory leak.
+          dListener['context'] = null;
+          dListener['function'] = null;
+        }
       }
+      this._dMessages[sMessage] = lMessageListeners;
     }
-    this._dMessages[sMessage] = lMessageListeners;
   }
 
 });
