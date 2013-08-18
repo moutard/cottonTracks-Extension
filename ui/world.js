@@ -62,6 +62,26 @@ Cotton.UI.World = Class.extend({
         this._oGlobalDispatcher)
     this._oUIStory.open(oStory);
     this._$world.append(this._oUIStory.$());
+  },
+
+  hideStory : function(){
+    if (this._oUIStory) {
+      this._oUIStory.purge();
+      this._oUIStory = null;
+    }
+  },
+
+  openManager : function() {
+    if (this._oManager.isDetached()){
+      // the manager is not visible, clear everything and attach it.
+      this.clear();
+      this._$world.append(this._oManager.$());
+      this._oManager.attached();
+    }
+  },
+
+  clear : function() {
+    this.hideStory();
   }
 
 });
