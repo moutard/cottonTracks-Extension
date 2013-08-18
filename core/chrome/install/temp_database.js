@@ -5,11 +5,10 @@ Cotton.Core.TempDatabase = Class.extend({
   _lChromeVisitItems: undefined,
   _lCottonHistoryItems: undefined,
 
-  _oDatabase: null,
-  _oClient: null,
+  _oDatabase: undefined,
+  _oClient: undefined,
 
   init: function(oDatabase, oSpecificClient) {
-    var self = this;
     this._lChromeHistoryItems = [];
     this._lChromeVisitItems = [];
     this._lCottonHistoryItems = [];
@@ -17,7 +16,7 @@ Cotton.Core.TempDatabase = Class.extend({
 
     // Get the historyClient (depends on the browser)
     this._oClient = oSpecificClient || new Cotton.Core.History.Client();
-
+    this._oDatabase = oDatabase;
   },
 
   /**
@@ -26,7 +25,7 @@ Cotton.Core.TempDatabase = Class.extend({
    */
   populate : function(mCallBackFunction) {
     var self = this;
-   if (this._oClient) {
+    if (self._oClient) {
       var oBenchmark = new Benchmark("PopulateDB");
       // Get chrome historyItems.
       this._oClient.get({
