@@ -21,9 +21,21 @@ Cotton.Controllers.DispatchingController = Class.extend({
   init : function(oLightyearController, oGlobalDispatcher) {
     this._oLightyearController = oLightyearController;
 
+    /**
+     * Enter story
+     * - arguments : {Cotton.Model.Story} story
+     */
     oGlobalDispatcher.subscribe('enter_story', this, function(dArguments){
       oLightyearController.openStory(dArguments["story"]);
     });
+
+    /**
+     * Go back to the manager
+     */
+    oGlobalDispatcher.subscribe('home', this, function(dArguments){
+      oLightyearController._oWorld.openManager();
+    });
+
   }
 
 });
