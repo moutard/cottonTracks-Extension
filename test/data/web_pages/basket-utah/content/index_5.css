@@ -1,0 +1,27 @@
+a { color: rgb(226, 0, 38); }
+body, table, div, ul, li { margin: 0px; padding: 0px; }
+#tlc .rc_bg div { background-color: rgb(255, 255, 255); }
+#tlc .rc_border div { background-color: rgb(60, 60, 60); }
+#trc .rc_bg div { background-color: rgb(255, 255, 255); }
+#trc .rc_border div { background-color: rgb(60, 60, 60); }
+#blc .rc_bg div { background-color: rgb(255, 255, 255); }
+#blc .rc_border div { background-color: rgb(60, 60, 60); }
+#brc .rc_bg div { background-color: rgb(60, 60, 60); }
+#brc .rc_border div { background-color: rgb(60, 60, 60); }
+.bg { background-color: rgb(255, 255, 255); border-color: rgb(60, 60, 60); border-style: solid; border-width: 0px; height: 18px; position: absolute; width: 18px; }
+#ads { height: 230px; left: 2px; position: absolute; top: 1px; width: 296px; }
+#ads ul { list-style: none outside none; }
+#ads ul li { clear: both; float: left; line-height: 0; padding: 1px 4px; overflow: hidden; position: relative; }
+.ad { text-align: center; }
+.adc { table-layout: fixed; width: 100%; }
+.adt { font-size: 18px; font-weight: bold; line-height: 1.2; }
+.adt:hover { color: rgb(38, 226, 0); }
+.adb { color: rgb(0, 0, 0); font-size: 15px; line-height: 1.2; }
+div.adu { overflow: hidden; text-overflow: ellipsis; }
+.adu { color: rgb(0, 128, 0); font-size: 15px; line-height: 1.2; text-decoration: none; white-space: nowrap; }
+.adus { cursor: pointer; }
+.iconw { float: left; }
+.icon { background: -moz-linear-gradient(center top , rgb(229, 229, 229), rgb(183, 183, 183)) repeat scroll 0% 0% rgb(229, 229, 229); border-color: rgb(160, 160, 160); border-radius: 2px 2px 2px 2px; border-style: solid; border-width: 1px; cursor: pointer; height: 32px; margin: 0px auto; width: 76px; }
+.icon:hover { background-image: -moz-linear-gradient(center top , rgb(229, 229, 229), rgb(164, 164, 164)); }
+.iconi { border-width: 0px; display: block; height: 22px; margin: 5px auto; width: 22px; }
+.attribution li { float: right; height: 18px; }

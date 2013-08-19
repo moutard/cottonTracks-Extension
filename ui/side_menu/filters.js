@@ -1,67 +1,117 @@
 'use strict';
 
 /**
- *   Filters for elements in the story.
- **/
+ * Filters for elements in the story.
+ */
 
 Cotton.UI.SideMenu.Filters = Class.extend({
 
-  _oMenu : null,
-  _$filters : null,
-  _$all : null,
-  _$article : null,
-  _$images : null,
-  _$videos : null,
-  _$maps : null,
-  _$sounds : null,
-  _$quotes : null,
+  /**
+   * {Cotton.Messaging.Dispatcher} dispatcher for UI
+   */
+  _oDispatcher : null,
 
- init: function(oMenu){
-	  this._oMenu = oMenu;
-	
-	  this._$filters = $('<div class="ct-filters"></div>');
-	  this._$all = $('<div class="ct-filter all_filter" data-filter="*">');
-		this._$articles = $('<div class="ct-filter articles_filter" data-filter=".ct-item-default">');
-		this._$images = $('<div class="ct-filter images_filter" data-filter=".ct-item-image">');
-		this._$videos = $('<div class="ct-filter videos_filter" data-filter=".ct-item-video">');
-		this._$maps = $('<div class="ct-filter maps_filter" data-filter=".ct-item-map">');
-		this._$sounds = $('<div class="ct-filter sounds_filter" data-filter=".ct-item-quote">');
-		this._$quotes = $('<div class="ct-filter quotes_filter">');
-		
-		//set values
-		var sAllCount = 'All (<span class="all_count"></span>)'
-		this._$all.html(sAllCount);
-		var sArticlesCount = 'Articles (<span class="articles_count"></span>)'
-		this._$articles.html(sArticlesCount);
-		var sImagesCount = 'Images (<span class="images_count"></span>)'
-		this._$images.html(sImagesCount);
-		var sVideosCount = 'Videos (<span class="videos_count"></span>)'
-		this._$videos.html(sVideosCount);
-		var sMapsCount = 'Maps (<span class="maps_count"></span>)'
-		this._$maps.html(sMapsCount);
-		var sSoundsCount = 'Sounds (<span class="sounds_count"></span>)'
-		this._$sounds.html(sSoundsCount);
-		var sQuotesCount = 'Quotes (<span class="quotes_count"></span>)'
-		this._$quotes.html(sQuotesCount);
-		
+  /**
+   * {DOM} current element.
+   */
+  _$filters : null,
+
+  /**
+   * Dictionnary that contains
+   *  key : {String} filter name
+   *  value : {DOM} corresponding DOM element.
+   */
+  _dFilters : {},
+
+  init: function(oDispatcher) {
+    var self = this;
+    this._dFilters = {};
+
+    this._lFilters = ['all', 'article', 'image', 'video', 'map'];
+
+    this._oDispatcher = oDispatcher;
+
+    this._oDispatcher.subscribe('update_filters', this, function(dFiltersCount){
+      for (var sFilter in dFiltersCount) {
+        self.setFilterCount(sFilter, dFiltersCount[sFilter]);
+      }
+    });
+    this._oDispatcher.subscribe('item:delete', this, function(dArguments){
+      var sRemovedItemType = dArguments['type'];
+      self.decrementFilter(sRemovedItemType);
+    });
+    this._oDispatcher.subscribe('element:added', this, function(dArguments){
+      var sAddedItemType = dArguments['type'];
+      self.incrementFilter(sAddedItemType);
+    });
+    this._$filters = $('<div class="ct-filters"></div>');
+    this._$separationLine = $('<div class="separation_line"></div>');
+
+    function createFilterDOM(sFilter, sFilterCount) {
+      sFilterCount = sFilterCount || 0;
+      self._dFilters[sFilter] = {};
+      self._dFilters[sFilter]['dom'] = $('<span class="ct-count ' + sFilter + '_count"></span>').text(
+        sFilterCount);
+
+      return  $('<div class="ct-filter "></div>').append(
+          $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  ' : ' ')),
+          $('<span class="ct-count"></span>').text('('),
+          self._dFilters[sFilter]['dom'],
+          $('<span class="ct-count"></span>').text(')')).click(function(){
+            // Update the story on click.
+            if(sFilter === "all") {
+              var sFilterCode = '*';
+            } else {
+              var sFilterCode = '.' + sFilter;
+            }
+            self._oDispatcher.publish('story:filter', {
+              'filter': sFilterCode
+            });
+            Cotton.ANALYTICS.filter(sFilterCode);
+          });
+    };
+
+    var lDOMFiltersElements = [];
+    var iLength = this._lFilters.length;
+    for (var i = 0; i < iLength; i++){
+      var sFilter = this._lFilters[i];
+      lDOMFiltersElements.push(createFilterDOM(sFilter));
+    }
     //construct element
-	  this._$filters.append( 
-      this._$all,
-      this._$articles,
-      this._$images,
-      this._$videos,
-      this._$maps,
-      this._$sounds,
-      this._$quotes
-	  );
-	
-	  this._$filters.children().click(function(){
-		  //do something
-	  });
+    this._$filters.append(
+      this._$separationLine,
+      lDOMFiltersElements
+    );
+
   },
 
   $ : function(){
-	  return this._$filters;
+    return this._$filters;
   },
+
+  setFilterCount : function(sFilter, iCount) {
+    if (this._dFilters[sFilter]) {
+      this._dFilters[sFilter]['count'] = iCount;
+      this._dFilters[sFilter]['dom'].text(iCount);
+      this._oDispatcher.publish('filter:update', {
+        'type': sFilter,
+        'count': iCount
+      });
+    }
+  },
+
+  decrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] - 1);
+    }
+    this.setFilterCount('all', this._dFilters['all']['count'] - 1);
+  },
+
+  incrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] + 1);
+    }
+    this.setFilterCount('all', this._dFilters['all']['count'] + 1);
+  }
 
 });

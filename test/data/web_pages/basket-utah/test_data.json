@@ -1,0 +1,11 @@
+{
+  "id": "basket-utah",
+  "url": "http://www.basketamericain.com/nba/utah-fait-durer-le-suspense-en-gagnant-face-a-minnesota/2013/",
+  "path": "test/data/web_pages/basket-utah/content/index.html",
+  "best_image": "http://www.basketamericain.com/wp-content/uploads/2013/04/Capture-d%E2%80%99%C3%A9cran-2013-04-15-%C3%A0-21.59.12.png",
+  "expected": [
+    "Utah pouvait être disqualifié de la course aux playoffs en s’inclinant face à Minnesota.",
+    "Motivé par l’enjeu, Utah s’est montré, rapidement, très en place offensivement, infligeant un 14-2 pour ouvrir le match. Utah a réussi à conserver son intensité sur l’ensemble du match, dominant les Timberwolves sur tous les compartiments du jeu. Très consistant sur cette fin de saison, Al Jefferson a terminé la rencontre avec 22 points et 8 rebonds, et il s’est montré comme un vrai leader pour le Jazz. A ses côtés, Mo Williams a ajouté 15 points et Randy Foy 14.",
+    "Pour Minnesota, Derrick Williams a terminé meilleur marqueur de son équipe avec 18 points mais il était bien trop seul pour pouvoir inquiété une équipe d’Utah qui semble déterminer à aller chercher cette 8e place à l’ouest. Utah revient donc sur Los Angeles et si les Lakers s’inclinent face à Houston, le Jazz aura l’obligation de gagner contre Memphis, mercredi."
+  ]
+}

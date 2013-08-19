@@ -1,0 +1,31 @@
+a, div, img { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-size: 100%; vertical-align: baseline; background: none repeat scroll 0% 0% transparent; }
+:focus { outline: 0px none; }
+#widget-inshop { width: 288px; height: 238px; padding: 5px; border: 1px solid rgb(229, 239, 247); background-color: rgb(250, 251, 253); }
+#widget-inshop, #widget-inshop.list-mask, #widget-inshop .list { position: relative; }
+#widget-inshop .list-mask { width: 100%; height: 198px; overflow: hidden; }
+#widget-inshop .list, #widget-inshop list-group, #widget-inshop .item { height: 100%; }
+#widget-inshop .list-group { width: 288px; }
+#widget-inshop .list-group, #widget-inshop .item { float: left; }
+#widget-inshop .item { padding: 0px 3px; width: 90px; height: 198px; text-align: center; }
+#widget-inshop .item div { overflow: hidden; }
+#widget-inshop div, #widget-inshop div a, #widget-inshop .item div a { font-family: arial; font-size: 11px; color: rgb(64, 64, 64); text-decoration: none; }
+#widget-inshop .item div a { display: inline; outline: 0px none; cursor: pointer; }
+#widget-inshop .item div a:hover { text-decoration: underline; }
+#widget-inshop .item .item-titre, #widget-inshop .item .item-price, #widget-inshop .item .item-seller { line-height: 13px; }
+#widget-inshop .item .item-image, #widget-inshop .item .item-price, #widget-inshop .item .item-btn, #widget-inshop .item .item-seller { margin-top: 6px; }
+#widget-inshop .item .item-titre { height: 26px; }
+#widget-inshop .item .item-seller { height: 26px; }
+#widget-inshop .item .item-price { height: 13px; font-weight: bold; }
+#widget-inshop .item .item-btn { height: 19px; }
+#widget-inshop .nav { clear: both; width: 278px; padding: 5px 5px 0px; height: 16px; line-height: 16px; }
+#widget-inshop .nav div { height: 100%; float: left; }
+#widget-inshop .nav .prev, #widget-inshop .nav .next, #widget-inshop .nav .info { width: 50%; cursor: pointer; font-size: 10px; }
+#widget-inshop .nav .next { text-align: right; float: right; }
+#widget-inshop .item .button { display: inline-block; padding: 2px 10px; border: 1px solid rgb(225, 25, 13); color: rgb(255, 255, 255); border-radius: 3px 3px 3px 3px; line-height: 12px; vertical-align: middle; background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(255, 55, 43) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .item .button:hover { border: 1px solid rgb(225, 25, 13); background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(210, 10, 0) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .item .button { display: inline-block; padding: 2px 10px; border: 1px solid rgb(225, 25, 13); color: rgb(255, 255, 255); border-radius: 3px 3px 3px 3px; line-height: 12px; vertical-align: middle; background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(255, 55, 43) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .item .button:hover { border: 1px solid rgb(225, 25, 13); background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(210, 10, 0) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .item .button { display: inline-block; padding: 2px 10px; border: 1px solid rgb(225, 25, 13); color: rgb(255, 255, 255); border-radius: 3px 3px 3px 3px; line-height: 12px; vertical-align: middle; background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(255, 55, 43) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .item .button:hover { border: 1px solid rgb(225, 25, 13); background: -moz-linear-gradient(center top , rgb(225, 25, 13) 0%, rgb(210, 10, 0) 100%) repeat scroll 0% 0% transparent; }
+#widget-inshop .copyright { position: absolute; bottom: 0px; right: 0px; width: 10px; background-color: rgb(229, 239, 247); text-align: center; border-top-left-radius: 3px; }
+#widget-inshop .copyright a { color: rgb(169, 169, 169); }

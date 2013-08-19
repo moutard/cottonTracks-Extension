@@ -26,13 +26,11 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
   _$rhsBox : undefined,
 
   /**
-   * @constructor
+   *
    */
-  init : function(oClient) {
-    this._super(oClient);
-
-    this._MeaningFulBlocks = [];
-    this._iNbMeaningfulBlock = 0;
+  init : function(oClient, oMessenger, oUrl) {
+    this._oUrl = oUrl;
+    this._super(oClient, oMessenger);
   },
 
   /**
@@ -45,10 +43,11 @@ Cotton.Behavior.Passive.GoogleParser = Cotton.Behavior.Passive.Parser.extend({
     this._$InfoBox = $('#rhs'); // seems it doesn't work.
 
     $('[data-meaningful]').removeAttr('data-meaningful');
-    this._findMeaningfulBlocks();
-    this._removeLeastMeaningfulBlocks();
-
+    $('[data-skip]').removeAttr('data-skip');
+    this._findText();
     this.findBestImage();
+    this._saveResults();
+    this._publishResults();
   },
 
   /**

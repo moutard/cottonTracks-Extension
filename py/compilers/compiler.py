@@ -2,28 +2,33 @@ import os, re, shutil, logging, json, zipfile
 import py.sed
 from py.file_manager import FileManager
 from py.precompiler import PreCompiler
+from py.browser_handler import BrowserHandler
 
-class Compiler(FileManager, PreCompiler):
+class Compiler(FileManager, PreCompiler, BrowserHandler):
   """Default class for all the compiler it contains a lot of usefull methods
 
   """
 
-  def __init__(self, SOURCE_PATH, DESTINATION_PATH):
+  def __init__(self, SOURCE_PATH, DESTINATION_PATH, psBrowser):
     self._SOURCE_PATH = SOURCE_PATH
     self._DESTINATION_PATH = DESTINATION_PATH
     self._PRESERVED_FILES = []
 
     self._dirToRemove = []
 
+    BrowserHandler.__init__(self, psBrowser)
+
+
   def compile(self):
+    self.browser_management()
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
-    self.compileHtml('unit_tests.html')
-    self.compileHtml('algo_test.html')
-    self.compileWorker('algo/dbscan1/worker.js')
     self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
+
+  def compileTest(self):
+    self.compileHtml('unit_tests.html')
 
   def compileJs(self):
     raise NotImplementedError
@@ -55,6 +60,7 @@ class Compiler(FileManager, PreCompiler):
     self._PRESERVED_FILES.extend([psFile, lsJsOutput])
     self._PRESERVED_FILES.extend(llJsLib)
     print 'Total compilation of %s - SUCCESS' %  psFile
+    return llJsLib, lsJsOutput
 
   def compileLess(self, plLessFiles, psOutput="output.min.css"):
     """For each less file create a css file, then merge all those css files
@@ -103,8 +109,14 @@ class Compiler(FileManager, PreCompiler):
     self._PRESERVED_FILES.append(psFile)
 
   def compileManifest(self, psFile):
+    """Replace the manifest content scripts by the compiled one.
+    And for the background page remove page "background.html" and replace by
+    scripts: [list of scripts]
+    """
+    # Open the manifest as reading
     loFile = open(psFile, 'r')
     ldManifest = json.loads(loFile.read())
+    # Replace all content scripts by the scritps.
     for i, ldContentScript in enumerate(ldManifest['content_scripts']):
       llLib = [lsFile for lsFile in ldContentScript['js'] if self.isLib(lsFile)]
       llJs = [lsFile for lsFile in ldContentScript['js'] if not self.isLib(lsFile)]
@@ -112,6 +124,17 @@ class Compiler(FileManager, PreCompiler):
       ldContentScript['js'] = llLib + ['content_scripts%s.min.js' % i,]
       self._PRESERVED_FILES.append('content_scripts%s.min.js' % i)
       self._PRESERVED_FILES.extend(llLib)
+
+
+    # Background page.
+    ldBackground = ldManifest['background']
+    llJs, llJsLib, llLess = self.getIncludes(ldBackground['page'])
+    ldBackground['scripts'] = llJsLib + llJs
+    os.remove(ldBackground['page'])
+    del ldBackground['page']
+    ldManifest['background'] = ldBackground
+
+    # Save the dictionnary as a new manifets.
     loFile.close()
     loFile = open(psFile, 'w')
     loFile.write(json.dumps(ldManifest))
@@ -161,17 +184,16 @@ class Compiler(FileManager, PreCompiler):
     # Open the file in read mode.
     loFile = open(psFile, 'r')
     # For each line find the pattern src=''
-    # FIXME(rmoutard) : doesn't work if you put all your script includes on
-    # one line.
+    # TODO(rmoutard) : doesn't work if you put all your script includes on
+    # one line, not a priority.
     for lsLine in loFile :
-      # FIXME(rmoutard) : allow double quote.
-      loJsResult = re.search('importScripts\(\'(.+\.js)', lsLine)
+      # Allow double quote.
+      loJsResult = re.search('importScripts\([\'|\"](.+\.js)', lsLine)
       if loJsResult:
         if(not self.isLib(loJsResult.group(1))):
           llJsImports.append(loJsResult.group(1))
 
     loFile.close()
-    #FIXME(rmoutard): preserved files.
     return llJsImports
 
   def getIncludes(self, psFile):
@@ -193,10 +215,10 @@ class Compiler(FileManager, PreCompiler):
     # Open the file in read mode.
     loFile = open(psFile, 'r')
     # For each line find the pattern src=''
-    # FIXME(rmoutard) : doesn't work if you put all your script includes on
-    # one line.
+    # TODO(rmoutard) : doesn't work if you put all your script includes on
+    # one line, not a priority.
     for lsLine in loFile :
-      # FIXME(rmoutard) : allow double quote.
+      # Allow double quote.
       loJsResult = re.search('src\=[\'|\"](.+\.js)', lsLine)
       loLessResult = re.search('href\=[\'|\"](.+\.less)', lsLine)
       if loJsResult:
@@ -256,5 +278,48 @@ class Compiler(FileManager, PreCompiler):
       except OSError:
         pass
 
+    self.removeEmptyFolders(self._DESTINATION_PATH)
+
+  def removeEmptyFolders(self, psPath):
+    """Recursive function to remove all the empty folder. As the parcours of the
+    folder is in order, we need to wait to have remove all the sub folder
+    before considering removing the main one."""
+    if not os.path.isdir(psPath):
+      return
+
+    # remove empty subfolders
+    llFiles = os.listdir(psPath)
+    if len(llFiles):
+      for loFile in llFiles:
+        lsFullpath = os.path.join(psPath, loFile)
+        if os.path.isdir(lsFullpath):
+          self.removeEmptyFolders(lsFullpath)
+
+    # if folder empty, delete it
+    llFiles = os.listdir(psPath)
+    if len(llFiles) == 0:
+      os.rmdir(psPath)
+
   def createIntegrationTests(self):
+    self._INTEGRATION_TESTS = self._DESTINATION_PATH + '_integration'
+    self.pretreatment(self._SOURCE_PATH, self._INTEGRATION_TESTS)
+    os.chdir(self._INTEGRATION_TESTS)
+    self.browser_management()
+    # Move manifest in the main folder.
+    shutil.move(os.path.join(self._INTEGRATION_TESTS,
+      "test", "integration", "manifest.json"),
+      os.path.join(self._INTEGRATION_TESTS, "manifest.json"))
+    # Move integration_background page in the main folder.
+    shutil.move(os.path.join(self._INTEGRATION_TESTS,
+      "test", "integration", "integration_background.html"),
+      os.path.join(self._INTEGRATION_TESTS, "integration_background.html"))
+    # Move integration_charts page in the main folder.
+    shutil.move(os.path.join(self._INTEGRATION_TESTS,
+      "test", "integration", "integration_tests.html"),
+      os.path.join(self._INTEGRATION_TESTS, "integration_tests.html"))
+     # Move integration_charts page in the main folder.
+    shutil.move(os.path.join(self._INTEGRATION_TESTS,
+      "test", "quality", "quality.html"),
+      os.path.join(self._INTEGRATION_TESTS, "quality.html"))
+
     pass

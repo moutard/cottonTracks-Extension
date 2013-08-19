@@ -4,13 +4,11 @@
  * Given an array of historyItems labeled with a "clusterId", return a list of
  * stories, that contains all historyItems with the same label.
  *
- * @param {Array.
- *          <Object>} lHistoryItems : array of DbRecordHistoryItem (because they
- *          have been serialized by the worker.)
- * @param {int}
- *          iNbCluster
- * @returns {Object} dStories list of all the stories.
- *
+ * @param {Array.<Object>} lHistoryItems : array of DbRecordHistoryItem (because
+ *        they have been serialized by the worker.)
+ * @param {int} iNbCluster
+ * @returns {Array.<Cotton.Model.Story} list of all the stories that has at
+ *            least one element.
  *
  */
 Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
@@ -18,30 +16,23 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
   DEBUG && console.debug(lHistoryItems);
   DEBUG && console.debug(iNbCluster);
   var lStories = [];
-  // TODO(rmoutard) : storyUnderConstruction is usless now.
-  var oStoryUnderConstruction = new Cotton.Model.Story();
 
   // There is nothing to cluster.
   if (lHistoryItems.length === 0 || iNbCluster === 0) {
-    return {
-      'stories' : lStories,
-      'storyUnderConstruction' : oStoryUnderConstruction
-    };
+    return lStories;
   }
 
-  // initialized
+  // Initialize with empty stories.
   for ( var i = 0; i < iNbCluster; i++) {
     lStories[i] = new Cotton.Model.Story();
   }
 
-  var bStoryUnderConstruction = true;
+  var jLength = lHistoryItems.length;
+  for ( var j = 0; j < jLength; j++) {
 
-  for ( var j = 0, iLength = lHistoryItems.length; j < iLength; j++) {
+    // If the clusterId is a number, then it goes to the corresponding stories.
     if (lHistoryItems[j]['clusterId'] !== "UNCLASSIFIED"
         && lHistoryItems[j]['clusterId'] !== "NOISE") {
-
-      //
-      bStoryUnderConstruction = false;
 
       // Add the historyItem in the corresponding story.
       lStories[lHistoryItems[j]['clusterId']]
@@ -50,6 +41,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
       // you will put the story, it will be modified.
       if (lHistoryItems[j]['sStoryId'] !== "UNCLASSIFIED") {
         lStories[lHistoryItems[j]['clusterId']].setId(lHistoryItems[j]['sStoryId']);
+      }
+
+      // Set story bagOfWords.
+      for (var dWord in lHistoryItems[j]['oExtractedDNA']['dBagOfWords']){
+        lStories[lHistoryItems[j]['clusterId']].dna().bagOfWords().addWord(
+          dWord, lHistoryItems[j]['oExtractedDNA']['dBagOfWords'][dWord]);
       }
 
       // Set story title.
@@ -62,6 +59,12 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['oExtractedDNA']['lQueryWords'].join(" "));
           lStories[lHistoryItems[j]['clusterId']]['temptitle'] = false;
+        } else if (lStories[lHistoryItems[j]['clusterId']].searchKeywords().length
+          && lStories[lHistoryItems[j]['clusterId']].searchKeywords().length > 0){
+            lStories[lHistoryItems[j]['clusterId']].setTitle(
+              lStories[lHistoryItems[j]['clusterId']].searchKeywords().join(' ')
+            );
+            lStories[lHistoryItems[j]['clusterId']]['temptitle'] = true;
         } else if (lHistoryItems[j]['sTitle'] !== "") {
           lStories[lHistoryItems[j]['clusterId']]
               .setTitle(lHistoryItems[j]['sTitle']);
@@ -75,10 +78,11 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         // first condition indicates that imageFeatured is not defined
         // second condition indicates we can find a better image
         // in both case we recompute the title.
-        var reg = new RegExp(".(jpg|png|gif)$", "g");
+        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
         var oUrl = new UrlParser(lHistoryItems[j]['sUrl']);
         oUrl.fineDecomposition();
-        if (reg.exec(lHistoryItems[j]['sUrl'])) {
+        var fileReg = /File\:/ig;
+        if (reg.exec(lHistoryItems[j]['sUrl']) && !oUrl.pathname.match(fileReg)) {
         	//Image
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(lHistoryItems[j]['sUrl']);
@@ -90,23 +94,15 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(sSearchImgUrl);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+        } else if(oUrl.searchImage){
+          var sSearchImgUrl = oUrl.searchImage;
+          lStories[lHistoryItems[j]['clusterId']]
+              .setFeaturedImage(sSearchImgUrl);
+          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "www.youtube.com" && oUrl.dSearch['v']) {
         	//Youtube video
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage("http://img.youtube.com/vi/" + oUrl.dSearch['v'] + "/mqdefault.jpg");
-          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
-        } else if (oUrl.hostname === "vimeo.com" && oUrl.pathname.match(/(\/[0-9]+)$/)) {
-        	//Vimeo video
-          var thumbnail_src;
-          $.ajax({
-              url: 'http://vimeo.com/api/v2/video/' + sLastStringFromPathname + '.json',
-              dataType: 'json',
-              async: false,
-              success: function(data) {
-              thumbnail_src = data[0].thumbnail_large;
-            }
-          });
-          lStories[lHistoryItems[j]['clusterId']].setFeaturedImage(thumbnail_src);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.pathname.split('/')[1] == "video") {
         	//Dailymotion video (from video page)
@@ -116,7 +112,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         } else if (oUrl.hostname === "www.dailymotion.com" && oUrl.dHash['video']) {
         	//Dailymotionvideo (from channel page)
           lStories[lHistoryItems[j]['clusterId']]
-              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail/video/" + dHash['video']);
+              .setFeaturedImage("http://" + oUrl.hostname + "/thumbnail/video/" + oUrl.dHash['video']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname.match(/^(maps\.google\.)/) && oUrl.pathname == "/maps") {
         	//Google maps
@@ -124,15 +120,29 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
               .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
               "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps") {
+        	//Google maps
+          lStories[lHistoryItems[j]['clusterId']]
+              .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
+              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
+          lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+        } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
+          var sMapCode = oUrl.dSearch['q'] || oUrl.dHash['!q'];
+          if (sMapCode){
+          	//Google maps
+            lStories[lHistoryItems[j]['clusterId']]
+                .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + sMapCode +
+                "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + sMapCode);
+            lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
+          } else {
+            lStories[lHistoryItems[j]['clusterId']]['tempimage'] = true;
+          }
         } else if (lHistoryItems[j]['oExtractedDNA']['sImageUrl'] !== "") {
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage(lHistoryItems[j]['oExtractedDNA']['sImageUrl']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = true;
         }
       }
-
-    } else if (bStoryUnderConstruction) {
-      oStoryUnderConstruction.addDbRecordHistoryItem(lHistoryItems[j]);
     }
   }
 
@@ -140,8 +150,5 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
     return oStory.lastVisitTime() === 0;
   });
 
-  return {
-    'stories' : lStories,
-    'storyUnderConstruction' : oStoryUnderConstruction
-  };
+  return lStories;
 };

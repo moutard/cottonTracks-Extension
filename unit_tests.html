@@ -8,13 +8,16 @@
 
 	<!-- Library -->
 	<script type='text/javascript' src='lib/class.js'></script>
-	<script type='text/javascript' src='lib/jquery-1.9.1.min.js'></script>
-	<script type='text/javascript' src='lib/jquery-ui-1.10.0.custom.min.js'></script>
+	<script type='text/javascript' src='lib/jquery-2.0.0.min.js'></script>
 	<script type='text/javascript' src='lib/underscore.min.js'></script>
-	<script type='text/javascript' src='lib/backbone.min.js'></script>
+  <script type='text/javascript' src='lib/isotope.js'></script>
 
 	<!-- Cotton -->
 	<script type='text/javascript' src='init.js'></script>
+
+	<!-- Core -->
+	<script type='text/javascript' src='core/default/init.js'></script>
+	<script type='text/javascript' src='core/default/favicon.js'></script>
 
 	<!-- Cotton.config -->
 	<script type='text/javascript' src='config/init.js'></script>
@@ -23,15 +26,17 @@
   <!-- Cotton.utils -->
   <script type='text/javascript' src='utils/init.js'></script>
   <script type='text/javascript' src='utils/url_parser.js'></script>
-  <script type='text/javascript' src='utils/tools_container.js'></script>
   <script type='text/javascript' src='utils/exclude_container.js'></script>
+  <script type='text/javascript' src='utils/benchmark.js'></script>
+
+  <!-- Cotton.messaging -->
+  <script type='text/javascript' src='messaging/init.js'></script>
+  <script type='text/javascript' src='messaging/dispatcher.js'></script>
 
 	<!-- Cotton.db -->
   <script type='text/javascript' src='db/init.js'></script>
   <script type='text/javascript' src='db/translator.js'></script>
-  <script type='text/javascript' src='db/translators_collection.js'></script>
   <script type='text/javascript' src='db/wrapper.js'></script>
-  <script type='text/javascript' src='db/wrapper_for_engine.js'></script>
   <script type='text/javascript' src='db/indexeddb/init.js'></script>
   <script type='text/javascript' src='db/indexeddb/engine_indexeddb.js'></script>
   <script type='text/javascript' src='db/indexeddb/wrapper_indexeddb.js'></script>
@@ -51,7 +56,6 @@
   <script type='text/javascript' src='model/extracted_paragraph.js'></script>
   <script type='text/javascript' src='model/history_item_dna.js'></script>
   <script type='text/javascript' src='model/history_item.js'></script>
-  <script type='text/javascript' src='model/tool.js'></script>
   <script type='text/javascript' src='model/search_keyword.js'></script>
   <!-- Cotton.translators -->
   <script type='text/javascript' src='translators/init.js'></script>
@@ -61,39 +65,118 @@
   <!-- Cotton.algo -->
   <script type='text/javascript' src='algo/init.js'></script>
   <script type='text/javascript' src='algo/common/init.js'></script>
-  <script type='text/javascript' src='algo/common/tools.js'></script>
+  <script type='text/javascript' src='algo/common/words_extractor.js'></script>
+  <script type='text/javascript' src='algo/common/words/init.js'></script>
+  <script type='text/javascript' src='algo/common/words/black_list.js'></script>
   <script type='text/javascript' src='algo/common/cluster_story.js'></script>
-  <script type='text/javascript' src='algo/dbscan1/distance.js'></script>
-  <script type='text/javascript' src='algo/dbscan1/dbscan.js'></script>
-  <script type='text/javascript' src='algo/dbscan1/pre_treatment.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/init.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/dbrecord_score.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/object_score.js'></script>
+  <script type='text/javascript' src='algo/dbscan/dbscan.js'></script>
+  <script type='text/javascript' src='algo/dbscan2/find_closest_google_search_page.js'></script>
+  <script type='text/javascript' src='algo/dbscan3/detect_sessions.js'></script>
 
-  <!-- Cotton.algo -->
+  <!-- Cotton.ui -->
+  <script type='text/javascript' src='ui/init.js'></script>
+  <script type='text/javascript' src='ui/world.js'></script>
+  <script type='text/javascript' src='ui/side_menu/init.js'></script>
+  <script type='text/javascript' src='ui/side_menu/menu.js'></script>
+  <script type='text/javascript' src='ui/side_menu/filters.js'></script>
+  <script type='text/javascript' src='ui/side_menu/settings.js'></script>
+	<script type='text/javascript' src='ui/side_menu/related_toggler.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/init.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/preview.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/actions.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/sticker/init.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_toolbox.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_image.js'></script>
+  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_infos.js'></script>
+  <script type='text/javascript' src='ui/story/init.js'></script>
+  <script type='text/javascript' src='ui/story/story.js'></script>
+  <script type='text/javascript' src='ui/story/item/init.js'></script>
+  <script type='text/javascript' src='ui/story/item/item.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_article.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_image.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_map.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_search.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_video.js'></script>
+  <script type='text/javascript' src='ui/story/item/item_factory.js'></script>
+  <script type='text/javascript' src='ui/story/item/toolbox/init.js'></script>
+  <script type='text/javascript' src='ui/story/item/toolbox/simple.js'></script>
+  <script type='text/javascript' src='ui/story/item/toolbox/complexe.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/init.js'></script>
+
+  <script type='text/javascript' src='ui/story/item/content/brick/init.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/title.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/date.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/website.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/small_label.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/large_label.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/dna/init.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/dna/image.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/dna/video.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/dna/quote_indicator.js'></script>
+  <script type='text/javascript' src='ui/story/item/content/brick/dna/reader.js'></script>
 
 
   <!-- QUnit for testing -->
-  <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen"/>
-  <script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" type="text/css" media="screen"/>
+  <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.12.0.js"></script>
 
-  <script type='text/javascript' src='test/init.js'></script>
   <!-- File with data -->
-  <script type='text/javascript' src='test/data/japan_history.js'></script>
+  <script type='text/javascript' src='test/data/cotton_history_source_japan.js'></script>
+  <script type='text/javascript' src='test/data/client/history_items.js'></script>
   <!-- File with tests -->
-  <script type='text/javascript' src='test/js/utils/url_parser_tests.js'></script>
-  <script type='text/javascript' src='test/js/db/translator_tests.js'></script>
-  <script type='text/javascript' src='test/js/db/localstorage/engine_localstorage_tests.js'></script>
-  <script type='text/javascript' src='test/js/db/localstorage/cache/cache_tests.js'></script>
-  <script type='text/javascript' src='test/js/db/localstorage/cache/single_store_cache_tests.js'></script>
-  <script type='text/javascript' src='test/js/db/localstorage/cache/fixed_size_cache_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/class_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/bag_of_words_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/search_keywords_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/story_dna_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/story_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/history_item_tests.js'></script>
-  <script type='text/javascript' src='test/js/model/history_item_dna_tests.js'></script>
-  <script type='text/javascript' src='test/js/algo/common/tools_tests.js'></script>
-  <script type='text/javascript' src='test/js/algo/dbscan1/distance_tests.js'></script>
-  <script type='text/javascript' src='test/js/algo/dbscan1/pre_treatment_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/utils/url_parser_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/db/translator_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/utils/exclude_container_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/db/localstorage/engine_localstorage_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/db/localstorage/cache/cache_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/db/localstorage/cache/single_store_cache_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/db/localstorage/cache/fixed_size_cache_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/class_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/bag_of_words_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/search_keywords_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/story_dna_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/story_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/history_item_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/model/history_item_dna_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/algo/common/tools_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/algo/common/words_extractor_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/algo/dbscan/score/object_score_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/algo/dbscan3/detect_sessions_tests.js'></script>
+  <script type="text/javascript" src="test/unit/js/algo/common/tools_for_algo_tests.js"></script>
+  <script type="text/javascript" src="test/unit/js/algo/common/words/blacklist_tests.js"></script>
+
+  <script type='text/javascript' src='test/unit/js/ui/world_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_infos_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_image_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/actions_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/preview_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/filters_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/side_menu/menu_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/story_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_article_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_image_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_map_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_search_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_video_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/item_factory_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/title_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/date_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/website_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/small_label_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/large_label_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/image_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/quote_indicator_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/reader_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/toolbox/simple_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/story/item/toolbox/complexe_tests.js'></script>
+
+  <script type='text/javascript' src='test/unit/js/messaging/dispatcher_tests.js'></script>
 
 </head>
 <body>

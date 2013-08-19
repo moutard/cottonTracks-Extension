@@ -1,9 +1,27 @@
 .isotope {
-  -webkit-transition-property: height, width;
-  -webkit-transition-duration: 0.8s;
+  -webkit-transition-duration: 0.3s;
+}
 
-  > .isotope-item {
-	  -webkit-transition-duration: 0.8s;
-    -webkit-transition-property: -webkit-transform, opacity;
-  }
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.5s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+}
+
+.isotope-hidden {
+  opacity: 0;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
 }

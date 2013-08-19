@@ -9,15 +9,13 @@
 Cotton.Utils.ExcludeContainer = Class.extend({
 
   _lExludePatterns : null,
-  _lExludeUrls : null,
   _lToolsHostname : null,
   /**
-   * @constructor
+   *
    */
   init : function() {
     var self = this;
     self._lExludePatterns = Cotton.Config.Parameters.lExcludePatterns;
-    self._lExludeUrls = Cotton.Config.Parameters.lExcludeUrls;
     self._lToolsHostname = Cotton.Config.Parameters.lTools;
   },
 
@@ -32,15 +30,16 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return _.indexOf(self._lToolsHostname, sHostname) !== -1;
   },
 
-  /**
-   * Return if the url is part of the excluded url.
-   *
-   * @param sHostname
-   * @return {boolean}
-   */
-  isExcludedUrl : function(sUrl){
-    var self = this;
-    return _.indexOf(self._lExludeUrls, sUrl) !== -1;
+  isFileProtocol : function(sProtocol) {
+    return (sProtocol === "file:") && (! DEBUG);
+  },
+
+  isChromeExtension : function(sProtocol) {
+    return sProtocol === "chrome-extension:";
+  },
+
+  isLocalhost : function(sHostname) {
+    return sHostname === "localhost";
   },
 
   /**
@@ -51,7 +50,9 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    */
   isExcludedPattern : function(sUrl){
     var self = this;
-    for ( var i = 0, sPattern; sPattern = self._lExludePatterns[i]; i++) {
+    var iLength = self._lExludePatterns.length;
+    for ( var i = 0; i < iLength; i++) {
+      var sPattern = self._lExludePatterns[i];
       var oRegExp = new RegExp(sPattern, "g");
       if (oRegExp.test(sUrl)) {
         return true;
@@ -60,10 +61,14 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return false;
   },
 
-  isHttps : function(oUrl){
-    // exlude Https except if it's google.
-    return oUrl.protocol === "https:" && !oUrl.isGoogle
-      && !oUrl.isGoogleMap && !oUrl.isVimeo;
+  isWhitelisted : function(oUrl){
+    // some https sites are allowed
+    return oUrl.isGoogle || oUrl.isGoogleMaps || oUrl.isWikipedia || oUrl.isYoutube || oUrl.isVimeo;
+  },
+
+  isHttpsRejected : function(oUrl){
+    // see if an https site is really rejected
+    return oUrl.isHttps && !this.isWhitelisted(oUrl);
   },
 
   /**
@@ -73,11 +78,13 @@ Cotton.Utils.ExcludeContainer = Class.extend({
    * @return {boolean}
    */
   isExcluded : function(sUrl){
-    var self = this;
     var oUrl = new UrlParser(sUrl);
 
-    return self.isHttps(oUrl) || self.isExcludedPattern(sUrl) ||
-      self.isExcludedUrl(sUrl) || self.isTool(oUrl.hostname);
+    return this.isHttpsRejected(oUrl) || this.isExcludedPattern(sUrl)
+      || this.isTool(oUrl.hostname)
+      || this.isFileProtocol(oUrl.protocol)
+      || this.isChromeExtension(oUrl.protocol)
+      || this.isLocalhost(oUrl.hostname);
   },
 
 });
