@@ -14,10 +14,15 @@ body{
   overflow-x: hidden;
   background-size: cover;
   margin: 0;
-  font-family: Helvetica-Light;
+  font-family: Helvetica-Light, Helvetica;
 	font-weight: 100;
 	font-size: 12px;
 	-webkit-font-smoothing: antialiased;
+	background-color: #fff;
+
+	&.plain{
+  	background-color: #ccc;
+  }
 }
 
 .ct {
@@ -32,6 +37,11 @@ body{
 	left: 0px;
 	width: 100%;
 	height: 100%;
+
+	&.hidden_background{
+    opacity: 0;
+  	-webkit-transition: opacity 0.8s;
+  }
 }
 
 .ct-menu {
@@ -117,25 +127,21 @@ body{
   > .ct-filters {
     width: 100%;
     bottom: 50px;
-    > .ct-filter_options {
-      padding-top: 10px;
-      padding-bottom: 10px;
-		  vertical-align: middle;
 
-      > .ct-filter {
-        width: 206px;
-        padding-left: 22px;
-	    	padding-top: 5px;
-        height: 18px;
-        margin: auto;
-        border-radius: 5px;
-        -webkit-border-radius: 5px;
-        color: #fff;
-				cursor: pointer;
+    > .ct-filter {
+      width: 206px;
+      padding-left: 22px;
+      padding-top: 5px;
+      height: 18px;
+      margin: auto;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      text-transform: capitalize;
 
-        &:hover{
-          background-color: #454545;
-        }
+      &:hover{
+        background-color: #454545;
       }
     }
   }
@@ -171,17 +177,21 @@ body{
 }
 
 
-.spacer {
+.ct-spacer {
 	position: relative;
 	width: 245px;
 	height: 100%;
 	float: left;
 }
 
-.storyboard{
+.ct-story, .ct-related{
 	position: relative;
 	height: 100%;
 	overflow-y: hidden;
+
+	&.hidden{
+    display: none;
+  }
 
 	&::-webkit-scrollbar{
 		  position: absolute;
@@ -195,10 +205,10 @@ body{
 		  background-color: rgba(255,255,255,0.4);
 		  box-shadow: inset 0px 12px 5px -10px rgba(255,255,255,0.27);
 	}
-}
 
-.ct-story_container {
-	position: relative;
-	padding-right: 10px;
-  height: 100%;
+  > .ct-items_container {
+  	position: relative;
+  	padding-right: 10px;
+    height: 100%;
+  }
 }

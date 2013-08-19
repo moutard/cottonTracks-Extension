@@ -1,0 +1,344 @@
+/* ::::: http://estaticos02.cache.el-mundo.net/elmundo/estilos/v5.x/v5.02/comentarios/comentarios.css ::::: */
+
+#comentarios { margin: 0px 0px 10px; clear: both; font-size: 12px; }
+#comentarios_lectores .wrap { overflow: hidden; width: 470px; padding: 0px; float: none; border: 1px solid rgb(238, 238, 238); background: none repeat scroll 0% 0% rgb(248, 248, 248); }
+#comentarios_lectores h3, #comentarios_lectores h5, #comentarios_lectores h6 { margin-bottom: 0px; }
+#comentarios h5 { padding: 10px; font-size: 18px; font-weight: normal; line-height: 24px; }
+#comentarios_lectores_listado ol { padding: 0px; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+#comentarios_lectores_listado ol li { border: 1px solid rgb(238, 238, 238); clear: both; background: none repeat scroll 0% 0% rgb(255, 255, 255); margin: 10px 0px 20px; color: rgb(3, 90, 137); padding: 0px; position: relative ! important; }
+:first-child + html #comentarios_lectores_listado ol li { border: 1px solid rgb(238, 238, 238); position: relative ! important; }
+.fecha_hora { color: rgb(60, 129, 162); font-size: 10px; font-style: italic; font-weight: normal; display: block; }
+#comentarios_lectores_listado ol li h4 { background: url('comment_arrow.png') no-repeat scroll right top transparent; font-size: 24px; line-height: 35px; font-family: Georgia,"Times New Roman",Times,serif; font-style: normal; font-weight: bold; color: rgb(85, 85, 85); position: relative; z-index: 30; float: right; top: 0px; width: 100px ! important; text-align: right; padding-right: 10px; padding-bottom: 10px; margin-bottom: -15px; margin-top: 0px; border: 0px none; }
+#comentarios_lectores_listado ol li div.usuario { padding: 8px 0px 5px 10px; background: none repeat scroll 0% 0% rgb(241, 241, 241); height: 46px; color: rgb(85, 85, 85); }
+#comentarios_lectores_listado ol li div.usuario strong { font-size: 14px; }
+#comentarios_lectores_listado ol li p { font-size: 12px; line-height: 20px; padding: 15px; margin-bottom: 0px; }
+.num_comentarios { clear: both; width: 100%; padding: 5px 0px; margin: 0px 0px 10px; overflow: hidden; background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+.nav_comentarios { width: auto; float: right; clear: none; }
+.nav_comentarios li { margin: 0px 2px 0px 0px; border: 1px solid rgb(224, 224, 224); float: left; }
+.nav_comentarios li:hover {  }
+.nav_comentarios li a { float: left; display: block; padding: 2px 5px; font-size: 11px; font-weight: normal; }
+.nav_comentarios li a:hover { color: rgb(255, 255, 255) ! important; background: none repeat scroll 0% 0% rgb(63, 89, 116); }
+.nav_comentarios li span { float: left; display: block; color: rgb(180, 180, 180); font-weight: normal; font-size: 11px; padding: 2px 5px; }
+#comentarios_lectores_listado ol li { position: inherit; }
+#comentarios_lectores_listado ol li p { position: inherit; }
+#comentarios_lectores_listado ol { position: inherit; }
+#comentarios_lectores_listado { position: relative; margin-bottom: 10px; }
+.publicidad_cuerpo_noticia { font-size: 12px; margin: 10px 0px; }
+.comenta { background: url('bubble_peq.gif') no-repeat scroll 5px 4px transparent; clear: both; font-size: 12px; font-weight: normal ! important; margin: 5px 0px; padding: 3px 2px 8px 25px; position: absolute; right: 0px; top: -3px; }
+.comenta span { color: rgb(153, 153, 153); }
+.comenta a { color: rgb(45, 106, 149) ! important; }
+.comenta a:hover { color: rgb(90, 137, 26) ! important; }
+.metadata_noticia { height: 35px ! important; }
+#comentarios_lectores h3 { border-bottom: 1px solid rgb(238, 238, 238); padding: 8px 0px 2px; }
+#comentarios_lectores h3 span { color: rgb(60, 129, 162); font-family: Georgia,"Times New Roman",Times,serif; }
+#contenido #comentarios_lectores h3 span.encabezado { color: rgb(63, 89, 116); font-size: 18px; font-weight: normal; letter-spacing: normal; }
+.float_right { float: right; }
+#contenido #comentarios h3 span.links_comentar { float: right; font-size: 11px; font-weight: normal; letter-spacing: normal; color: rgb(85, 85, 85); padding-top: 10px; font-family: Arial,Helvetica,sans-serif; }
+#comentarios h3 span.links_comentar a { color: rgb(3, 90, 137); }
+#comentarios h3 span.links_comentar a:hover { color: rgb(119, 0, 53); }
+#contenido #comentarios h3 span.links_comentar span { color: rgb(85, 85, 85); font-family: Arial,Helvetica,sans-serif; }
+#comentarios_lectores ul.comentarios_nav { float: left; width: 100%; height: 22px; border-bottom: 1px solid rgb(224, 224, 224); margin: 5px 0px 15px; }
+#comentarios_lectores ul.comentarios_nav li { float: left; display: inline; margin-right: 10px; text-align: center; text-transform: uppercase; }
+#comentarios_lectores ul.comentarios_nav li.msg_mention span, #comentarios_lectores ul.comentarios_nav li.msg_net span { border-top: 1px solid rgb(224, 224, 224); border-left: 1px solid rgb(224, 224, 224); border-right: 1px solid rgb(224, 224, 224); background: none repeat scroll 0% 0% rgb(243, 242, 248); font-family: Georgia,"Times New Roman",Times,serif; font-size: 10px; font-weight: normal; color: rgb(200, 200, 200); padding: 3px 15px 2px; display: block; }
+#comentarios_lectores ul.comentarios_nav li a { border-top: 1px solid rgb(224, 224, 224); border-left: 1px solid rgb(224, 224, 224); border-right: 1px solid rgb(224, 224, 224); background: none repeat scroll 0% 0% rgb(237, 236, 241); font-family: Georgia,"Times New Roman",Times,serif; font-size: 10px; font-weight: normal; color: rgb(124, 124, 124); padding: 3px 15px 2px; display: block; }
+#comentarios_lectores ul.comentarios_nav li a:hover { background: none repeat scroll 0% 0% rgb(242, 241, 245); }
+#comentarios_lectores ul.comentarios_nav li.seleccionado { border-bottom: 1px solid rgb(255, 255, 255); margin-top: 0px; position: relative; top: 1px; }
+#comentarios_lectores ul.comentarios_nav li.seleccionado a { background: none repeat scroll 0% 0% rgb(255, 255, 255); font-weight: bold; }
+#comentarios_lectores ul.comentarios_nav li.seleccionado a:hover { background: none repeat scroll 0% 0% rgb(255, 255, 255); cursor: default; }
+#comentarios_lectores li img.avatar { float: left; padding: 3px 8px 0px 0px; }
+#comentarios_lectores_listado ol li div.usuario .usuario_nombre { float: left; width: 330px; }
+#comentarios .interact { border-top: 1px dotted rgb(198, 198, 198); margin: 0px 15px; padding: 10px 0px; font-size: 11px; color: rgb(204, 204, 204); height: 16px; }
+#comentarios .interact a { font-weight: normal; font-size: 11px; float: left; }
+#comentarios .interact a.responder, #comentarios .interact span.responder { background: url('ico_comentarios_responder.png') no-repeat scroll 0px 2px transparent; padding-left: 18px; margin-right: 15px; float: left; }
+#comentarios .interact a.citar { background: url('ico_comentarios_citar.png') no-repeat scroll 0px 2px transparent; padding: 0px 0px 0px 18px; float: left; }
+#comentarios .interact .valorar { margin-left: 15px; padding-top: 1px; display: inline-block; float: left; }
+#comentarios .interact .valorar p, #comentarios .interact .denunciar p { padding: 0px; margin: 0px; float: left; line-height: normal; font-size: 11px; color: rgb(136, 136, 136); }
+#comentarios .interact .valorar a, #comentarios .interact .valorar p { display: block; }
+#comentarios .interact .valorar a.valorar_positivo, #comentarios .interact .valorar p.valorar_positivo { background: url('ico_valorar_positivo.png') no-repeat scroll 0% 0% transparent; padding-right: 5px; width: 14px; height: 13px; }
+#comentarios .interact .valorar a.valorar_positivo { margin: -1px 0px 0px 8px; }
+#comentarios .interact .valorar a.valorar_negativo, #comentarios .interact .valorar p.valorar_negativo { background: url('ico_valorar_negativo.png') no-repeat scroll 0px 1px transparent; width: 14px; height: 14px; }
+#comentarios .interact .valorar a.valorar_positivo:hover { background: url('ico_valorar_positivo.png') no-repeat scroll 0px -15px transparent; }
+#comentarios .interact .valorar a.valorar_negativo:hover { background: url('ico_valorar_negativo.png') no-repeat scroll 0px -13px transparent; }
+#comentarios .interact .valorar a span { position: absolute; left: -1000000px; }
+#comentarios .interact .valorar span.separador { background: url('separador_votacion.png') no-repeat scroll center 4px transparent; width: 1px; height: 12px; display: block; float: left; margin: 0px 8px 0px 3px; }
+#comentarios .interact .denunciar { float: right; background: url('ico_denunciar.png') no-repeat scroll 0px 2px transparent; padding-left: 18px; }
+#comentarios .interact span.denunciar { opacity: 0.3; color: rgb(51, 51, 51); }
+#comentarios .info_usuario, #comentarios .mensaje_privado { width: 315px; position: absolute; left: -35px; top: 55px; clear: both; float: left; z-index: 200; }
+#comentarios span.info_top { background: url('ventana_usuario_top.png') no-repeat scroll 0% 0% transparent; display: block; height: 12px; width: 315px; float: left; }
+#comentarios span.info_bottom { background: url('ventana_usuario_bottom.png') no-repeat scroll 0% 0% transparent; display: block; height: 11px; width: 315px; float: left; }
+#comentarios .info_usuario .info_contenedor, #comentarios .contenido_mensaje_privado { background: url('ventana_usuario_bkg.png') repeat-y scroll 0% 0% transparent; width: 315px; float: left; }
+#comentarios a.cerrar_ventana { background: url('ventana_usuario_cerrar.png') no-repeat scroll 0% 0% transparent; display: block; width: 18px; height: 18px; outline: medium none; position: absolute; right: -3px; top: -1px; }
+#comentarios a.cerrar_ventana span { position: absolute; top: -10000px; }
+#comentarios .contenido_mensaje_privado { padding: 5px 18px 12px; }
+#comentarios .contenido_mensaje_privado h5 { font-size: 16px; padding: 0px; margin: 0px 0px 10px; font-weight: bold; }
+#comentarios .contenido_mensaje_privado p { border: medium none; float: none; padding: 0px 0px 10px ! important; width: auto ! important; }
+#comentarios .contenido_mensaje_privado label { color: rgb(102, 102, 102); display: block; font: bold 14px Arial,Helvetica,sans-serif; padding: 0px 5px 5px 0px; }
+#comentarios .contenido_mensaje_privado input, #comentarios .contenido_mensaje_privado textarea { border: 1px solid rgb(165, 172, 178); color: rgb(102, 102, 102); font: 13px Arial,Helvetica,sans-serif; margin-bottom: 10px; padding: 4px 2px; width: 260px; }
+#comentarios .contenido_mensaje_privado textarea { height: 100px; }
+#comentarios .contenido_mensaje_privado .boton { background: none repeat scroll 0px 0px rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); color: rgb(73, 110, 146); cursor: pointer; font-size: 11px; font-weight: bold; height: 27px; margin: 0px 0px 0px 176px; text-decoration: none; text-transform: uppercase; vertical-align: bottom; width: 90px; }
+div.info_special_tabs, div.info_special_candado { margin-bottom: 10px; clear: both; background: none repeat scroll 0% 0% rgb(248, 248, 248); border: 1px solid rgb(238, 238, 238); }
+div.info_special_candado { border: medium none; margin-bottom: 0px; }
+div.info_special_tabs p, div.info_special_candado p { font-size: 14px; line-height: 18px; color: rgb(153, 153, 153); padding: 10px 10px 10px 45px; margin-bottom: 0px; font-weight: bold; }
+div.info_special_candado p.candado { background: url('ico_candado.png') no-repeat scroll 15px 7px transparent; }
+#texto_listado_comentarios_todos:before, #texto_listado_comentarios_mejor_valorados:before { font-size: 10px ! important; }
+#texto_numero_comentarios:before { font-size: 22px ! important; }
+#texto_quieres_comentar:before { font-size: 11px ! important; }
+/* ::::: http://estaticos03.cache.el-mundo.net/elmundo/estilos/v5.x/v5.05/base.css ::::: */
+
+* { margin: 0px; padding: 0px; }
+h1, h2, h3, h4, h5, h6, th, td, caption { font-weight: normal; }
+li { list-style: none outside none; }
+a { outline: medium none; text-decoration: none; }
+a img { border: 0px none; }
+th, td { vertical-align: top; }
+table { border-collapse: collapse; border-spacing: 0px; }
+body { font: 100%/1 Arial,Helvetica,sans-serif; }
+#contenedor { width: 990px; margin: 0px auto; text-align: left; overflow: visible; position: relative; }
+#contenido { float: left; position: relative; width: 964px; padding: 10px 13px; }
+.col { float: left; }
+.col + .col { margin-left: 20px; }
+.derecha + .col { margin-left: 0px; margin-right: 20px; }
+.derecha { float: right; }
+.col-2 { width: 144px; }
+.col-4 { width: 308px; }
+.col-6 { width: 472px; }
+.col-8 { width: 636px; }
+.envuelve { height: 37px; border-bottom: 1px solid rgb(204, 204, 204); text-align: center; padding: 0px; clear: both; margin: 0px auto; width: 990px; }
+#minicabecera { width: 960px; padding: 5px 15px; margin: auto; text-align: left; font-size: 75%; }
+#minicabecera a:link { color: rgb(60, 129, 162); text-decoration: none; }
+#minicabecera a:hover, #minicabecera a:active, #minicabecera a:focus { text-decoration: underline; color: rgb(60, 129, 162); }
+#minicabecera a:visited { color: rgb(60, 129, 162); }
+#minicabecera a img { border: 0px none; }
+#minicabecera #logo { float: left; }
+#minicabecera ul { float: right; list-style-type: none; position: relative; margin: 0px; top: -3px; }
+#minicabecera li { float: left; margin-right: 10px; }
+#minicabecera li a { background: url('li.png') no-repeat scroll 0px 4px transparent; display: block; margin-top: 4px; padding-left: 20px; line-height: 160%; }
+#minicabecera li label strong { display: none; }
+#minicabecera #buscar { background: url('submit.png') repeat-x scroll center bottom rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); color: rgb(51, 51, 51); font-size: 91.6%; margin: 3px 20px 0px 10px; padding: 2px 10px; }
+#minicabecera #buscador { font-size: 91.6%; color: rgb(80, 80, 80); }
+#nav-portal { float: left; position: relative; width: 100%; margin: 5px 0px 10px; padding: 0px; font-size: 75%; }
+#nav-portal li { float: left; }
+#nav-portal li:hover { background-position: left center; }
+#nav-portal li a { float: left; color: rgb(53, 119, 152); text-decoration: none; padding: 2px 8px; border-right: 1px solid rgb(231, 231, 231); }
+#nav-portal li a:hover { color: rgb(153, 0, 68); }
+#nav-portal li.primero a { padding-left: 10px; text-align: left; }
+#nav-portal li.ultimo a { border: 0px none; }
+.rastro-migas { float: left; position: relative; width: 964px; margin-left: 13px; background-color: rgb(53, 53, 53); height: 32px; overflow: hidden; border-left: medium none; font-size: 80%; line-height: 115%; }
+#nav-seccion li { float: left; display: block; padding-right: 8px; }
+#nav-seccion li a, #nav-seccion li span { float: left; padding: 9px 15px; color: rgb(255, 255, 255); text-decoration: none; position: relative; }
+#miga-1 { background: url('miga-1.png') no-repeat scroll right top rgb(3, 50, 79); }
+#miga-1 a, #miga-1 span { background-color: rgb(3, 50, 79); }
+#miga-2 { background: url('miga-2.png') no-repeat scroll right top rgb(13, 78, 127); }
+#miga-2.ultimo { background: url('miga-2_ultimo.png') no-repeat scroll right top rgb(13, 78, 127); font-weight: bold; }
+#miga-2 a, #miga-2 span { background-color: rgb(13, 78, 127); }
+#nav-pagina li { float: left; border-right: 1px solid rgb(255, 255, 255); border-left: 1px solid rgb(72, 76, 79); }
+#nav-pagina li.primero { border-left: 0px none; }
+#nav-pagina li.ultimo { border-right: 0px none; }
+#nav-pagina li a { float: left; color: rgb(218, 218, 218); text-decoration: none; padding: 9px 15px; }
+#nav-pagina li a:hover { color: rgb(118, 118, 118); }
+#nav-pagina li.ultimo { border-right: 0px none; }
+#contenido { color: rgb(85, 85, 85); }
+#contenido a { color: rgb(0, 102, 153); text-decoration: none; }
+#contenido .desarrollo p a { text-decoration: underline; }
+#contenido a:hover, #contenido a:active, #contenido a:focus { color: rgb(153, 0, 0); }
+#contenido h1 { font: 200%/100% Arial,Helvetica,sans-serif; margin: 20px 0px 15px; padding: 0px 0px 5px; border-bottom: 3px solid rgb(13, 78, 127); clear: left; }
+#contenido h2 a, #contenido h3 a, #contenido h4 a, #contenido h5 a, #contenido h6 a { color: rgb(4, 67, 100); }
+#contenido h3 { font: 175%/115% Arial,Helvetica,sans-serif; margin: 0px 0px 10px; }
+.alerta { clear: both; margin: 10px 0px; padding: 0px; float: left; }
+#contenido .video { margin-bottom: 20px; }
+.cubre_reproductor { position: relative; overflow: hidden; }
+.cubre_reproductor a.boton_play { height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; background: url('play.png') no-repeat scroll right bottom transparent; text-indent: -9000px; }
+.cubre_reproductor a.boton_play:hover { background: url('play_hover.png') no-repeat scroll right bottom transparent; }
+.ficha dt:nth-last-of-type(1) { border-bottom: 0px none; }
+.ficha dd:nth-last-of-type(1) { border-bottom: 0px none; }
+#modulo_ranking { float: left; position: relative; width: 100%; z-index: 1; margin: 0px 0px 20px; padding: 0px; font-size: 70%; }
+#modulo_ranking .pestana_GDP { float: left; position: relative; border: 1px solid rgb(221, 225, 229); z-index: 1; padding: 4px; }
+#modulo_ranking .nav_ranking { position: relative; top: 3px; float: left; height: 30px; z-index: 100; }
+#modulo_ranking .nav_ranking li { float: left; position: relative; border: 1px solid rgb(221, 225, 229); bottom: -1px; margin: 0px 2px 0px 0px; }
+#modulo_ranking .nav_ranking li a { float: left; line-height: 150%; background: url('pestanas_lomas_normal.gif') repeat-x scroll left center rgb(124, 158, 179); color: rgb(255, 255, 255); height: 17px; padding: 3px 4px; }
+#modulo_ranking .nav_ranking li.numero_activa { border-width: 1px; border-style: solid; border-color: rgb(221, 225, 229) rgb(221, 225, 229) rgb(255, 255, 255); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+#modulo_ranking .nav_ranking li.numero_activa a { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(109, 125, 146); padding: 5px 6px 1px; height: 19px; }
+#modulo_ranking ol { float: left; position: relative; background: url('fondo_listado_noticias.gif') repeat scroll 0px 0px rgb(255, 255, 255); width: 270px; height: 180px; margin-left: 0px; padding-left: 27px; }
+#modulo_ranking ol li { float: left; position: relative; clear: left; color: rgb(153, 153, 153); width: 100%; list-style: decimal outside none; line-height: 18px; }
+#modulo_ranking .mas { margin: 5px 0px 0px; padding-top: 5px; border-top: 1px dotted rgb(224, 224, 224); clear: both; color: rgb(3, 90, 137); display: block; text-align: right; font: bold 100% Arial,Helvetica,sans-serif; }
+.nav_ranking { position: relative; top: 3px; float: left; height: 30px; z-index: 100; }
+.nav_ranking li { float: left; position: relative; border: 1px solid rgb(221, 225, 229); bottom: -1px; margin: 0px 2px 0px 0px; }
+.nav_ranking li a { float: left; line-height: 150%; background: url('pestanas_lomas_normal.gif') repeat-x scroll left center rgb(124, 158, 179); color: rgb(255, 255, 255); height: 17px; padding: 3px 4px; }
+.nav_ranking li.numero_activa { border-width: 1px; border-style: solid; border-color: rgb(221, 225, 229) rgb(221, 225, 229) rgb(255, 255, 255); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; }
+.nav_ranking li.numero_activa a { background: url('none') repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(109, 125, 146); padding: 5px 6px 1px; height: 19px; }
+#contenido .listado-noticias > div:nth-child(1) h3 { font-size: 200%; }
+#contenido .listado-noticias > li:nth-child(1) h3 { font-size: 200%; }
+#contenido .col-5 .listado-noticias > div:nth-child(1) h3 { font-size: 180%; }
+#contenido .col-5 .listado-noticias > li:nth-child(1) h3 { font-size: 180%; }
+#contenido .col-4 h3 { font-size: 110%; line-height: 115%; margin-bottom: 10px; }
+#contenido .col-4 .listado-noticias > div:nth-child(1) h3 { font-size: 120%; }
+#contenido .col-4 .listado-noticias > li:nth-child(1) h3 { font-size: 120%; }
+#contenido .col-3 .listado-noticias > div:nth-child(1) h3 { font-size: 120%; }
+#contenido .col-3 .listado-noticias > li:nth-child(1) h3 { font-size: 120%; }
+#publicidadsuperior, .publicidadhorizontal { width: 990px; margin: 0px auto; position: relative; z-index: 1000; }
+.publicidadhorizontal table { background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+.publicidadmodulo, .publi_234, .publi-234, .publicidad-234, .publicidad_234 { float: left; width: 234px; }
+.publicidadhorizontal { float: left; width: auto; }
+.bloque_publicidad { padding: 0px; clear: both; margin: 0px auto; float: none ! important; width: 990px; background: none repeat scroll 0% 0% transparent; }
+.publicidad { clear: both; margin: 0px auto; }
+.publicidad_150, .publicidad_150b { width: 150px; clear: both; overflow: hidden; margin: 0px 0px 20px; float: none; }
+.publicidad td { background-color: rgb(208, 208, 208); }
+.publicidad_lateral_a, .publicidad_lateral_b { position: absolute; top: 5px; z-index: 1; }
+.publicidad_lateral_a { right: 1004px; }
+.publicidad_lateral_b { left: 1004px; }
+#contenedor { position: relative; overflow: visible; }
+.publicidad_entre_bloques { width: 985px; margin: 0px auto; }
+.rastro-migas { margin-bottom: 5px; }
+.publicidad_google { clear: both; }
+.publicidad_google { font: 11px/12px Arial,Helvetica,Sans-serif; margin: 5px 0px; padding: 0px; display: block; overflow: hidden; color: rgb(85, 85, 85); }
+body.Noticia #contenido h1 { border-bottom: 0px none; color: rgb(53, 53, 53); padding-bottom: 0px; font: 250%/110% Arial,Helvetica,sans-serif; letter-spacing: -1px; }
+#tamano { border-bottom: 3px solid rgb(153, 153, 153); margin-bottom: 10px; padding-bottom: 10px; }
+foto, .video { position: relative; float: left; width: 100%; }
+.foto img { float: left; width: 100%; height: auto; }
+.foto p { float: left; background-color: black; font-size: 80%; width: 96%; padding: 5px 2.2%; clear: left; color: rgb(255, 255, 255); }
+.desarrollo .video p { background-color: rgb(255, 255, 255); border-bottom: 1px solid rgb(221, 221, 221); color: rgb(102, 102, 102); padding: 5px 10px; margin: 0px; font-size: 75%; width: auto; line-height: 100%; }
+.desarrollo .subtitulo { float: left; width: 100%; margin: 12px 0px; font-size: 120%; }
+.desarrollo .subtitulo li { background: url('bullet.png') no-repeat scroll 0px 8px transparent; color: rgb(68, 68, 68); line-height: 140%; margin-bottom: 10px; padding-left: 15px; }
+.noticia p, .desarrollo p { line-height: 150%; }
+.noticia p + p, .desarrollo p + p, .noticia .sumario + p, .desarrollo .sumario + p { margin-top: 1.4em; }
+.desarrollo p.firma { float: left; font-size: 80%; padding-right: 10px; }
+.desarrollo p.antetitulo, .noticia p.antetitulo { margin: 10px 0px 8px; line-height: 1; font-size: 90%; color: rgb(153, 0, 68); }
+#contenido .desarrollo h3, #contenido .desarrollo h4, #contenido .desarrollo h5, #contenido .desarrollo h6 { color: rgb(119, 119, 119); font-size: 130%; margin: 25px 0px 10px; padding-bottom: 3px; }
+#contenido .desarrollo #tamano h3 { width: auto; border: medium none; color: rgb(85, 85, 85); font: 170%/100% Arial,Helvetica,sans-serif; }
+.metadata_noticia { line-height: 140%; border-bottom: 3px solid rgb(153, 153, 153); border-top: 1px solid rgb(217, 218, 219); clear: both; color: rgb(153, 153, 153); margin: 0px 0px 20px; padding: 5px 0px 10px; position: relative; white-space: nowrap; float: left; width: 100%; }
+.desarrollo .metadata_noticia .firma { font-size: 80%; margin-bottom: 0px; margin-top: 0px; }
+.metadata_noticia .firma { color: rgb(68, 68, 68); }
+.metadata_noticia .firma em { font-style: normal; font-weight: bold; }
+.metadata_noticia .herramientas { bottom: 8px; margin: 0px; padding: 0px; position: absolute; right: 0px; }
+.metadata_noticia .herramientas li { float: left; margin: 0px 0px 0px 2px; }
+.metadata_noticia .herramientas li, .metadata_noticia .herramientas li a { display: block; height: 16px; padding: 0px; text-indent: -9999px; width: 16px; }
+.metadata_noticia .update { font-size: 75%; clear: left; }
+.metadata_noticia .update strong { font-weight: normal; }
+.metadata_noticia .update strong.hora { color: rgb(153, 0, 68); font-weight: bold; }
+.metadata_noticia .herramientas li.aumentaletra a { background: url('mas.gif') no-repeat scroll 0px -20px transparent; }
+.metadata_noticia .herramientas li.disminuyeletra a { background: url('menos.gif') no-repeat scroll 0px -20px transparent; }
+.metadata_noticia .herramientas li.aumentaletra a:hover, .metadata_noticia .herramientas li.disminuyeletra a:hover { background-position: 0px 0px; }
+.apoyos { float: left; margin-bottom: 20px; }
+#contenido .desarrollo .apoyos > h4 { margin-top: 10px; background: url('titulo-columna.png') no-repeat scroll right center transparent; border-bottom: 1px dotted rgb(204, 204, 204); color: rgb(102, 102, 102); font-size: 105%; margin-bottom: 12px; padding: 2px 0px; width: 100%; }
+.apoyos li { font-size: 80%; line-height: 150%; padding: 0px 0px 0px 20px; margin: 0px 0px 5px; background: url('bolillo.gif') no-repeat scroll 0px 1px transparent; color: rgb(153, 153, 153); }
+.apoyos li a { display: inline; color: rgb(60, 129, 162); }
+.apoyos a:hover { color: rgb(153, 0, 68); }
+.nav_herramientas { float: left; width: 190px; margin: 0px 0px 20px; padding: 5px 0px 0px; }
+.nav_herramientas li { margin: 0px 4px 0px 0px; display: block; overflow: hidden; font-size: 75%; line-height: 150%; }
+.nav_herramientas li, #contenido .nav_herramientas li a { color: rgb(136, 136, 136); }
+#contenido .nav_herramientas li a:hover { color: rgb(153, 0, 0); }
+.nav_herramientas li { font-weight: bold; list-style-type: none; height: 16px; margin-bottom: 3px; }
+.nav_herramientas a { float: left; width: 130px; margin: 0px 0px 1px; padding: 0px 0px 0px 22px; font-weight: normal; }
+.nav_herramientas li a:hover { text-decoration: none; color: rgb(119, 0, 53); }
+.nav_herramientas li.enviar a { background: url('b_enviar.png') repeat scroll 0% 0% transparent; }
+.nav_herramientas li.imprimir a { background: url('b_imprimir.png') repeat scroll 0% 0% transparent; }
+.nav_herramientas li.valorar a { background: url('b_valorar.png') repeat scroll 0% 0% transparent; }
+.nav_herramientas li.movil a { background: url('b_movil.png') repeat scroll 0% 0% transparent; }
+.nav_herramientas li.rectificar a { background: url('b_rectificar.png') repeat scroll 0% 0% transparent; }
+.nav_herramientas li.enviar a, .nav_herramientas li.imprimir a, .nav_herramientas li.valorar a, .nav_herramientas li.movil a, .nav_herramientas li.rectificar a, .nav_herramientas li.escuchar a { background-repeat: no-repeat; text-decoration: none; background-position: 0px -40px; }
+.nav_herramientas li.enviar a:hover, .nav_herramientas li.imprimir a:hover, .nav_herramientas li.valorar a:hover, .nav_herramientas li.movil a:hover, .nav_herramientas li.rectificar a:hover, .nav_herramientas li.escuchar a:hover { background-position: 0px 0px; text-decoration: none; }
+.nav_compartir { float: left; position: relative; width: 183px; margin: 10px 0px; padding: 3px 0px; border-top: 1px dotted rgb(221, 221, 221); border-bottom: 1px dotted rgb(221, 221, 221); z-index: 10; }
+.nav_compartir li { float: left; width: 15px; padding: 1px 2px; margin: 0px 2px 0px 0px; border: 1px solid rgb(224, 224, 224); }
+.nav_compartir li a { float: left; font-weight: bold; width: 17px; height: 17px; padding: 0px; margin: 0px 8px 0px 0px; }
+.compartir li a { background-position: 0px 0px; background-repeat: no-repeat; }
+.compartir li.meneame a { background: url('meneame.gif') repeat scroll 0% 0% transparent; }
+.compartir li.delicious a { background: url('delicious.gif') repeat scroll 0% 0% transparent; }
+.compartir li.fresqui a { background: url('fresqui.gif') repeat scroll 0% 0% transparent; }
+.compartir li.myspace a { background: url('myspace.gif') repeat scroll 0% 0% transparent; }
+.compartir li.livespaces a { background: url('livespaces.gif') repeat scroll 0% 0% transparent; }
+.compartir li.google a { background: url('google.gif') repeat scroll 0% 0% transparent; }
+.redes .compartir { float: left; margin-right: 5px; }
+.col-2 .redes .titulo-columna { border-bottom: 1px dotted rgb(204, 204, 204); color: rgb(102, 102, 102); float: left; font-size: 105%; margin-bottom: 12px; padding: 2px 0px; width: 100%; background: url('titulo-columna.png') no-repeat scroll right 13px transparent; }
+.col-2 .redes > div { width: 134px; }
+.col-2 .compartir {  }
+.col-2 .compartir.nav_compartir { border: 0px none; }
+.col-2 .compartir.facebook { height: 20px; padding: 5px; }
+.col-2 .compartir.twitter { height: 20px; padding: 5px; }
+.col-2 .compartir.tuenti { padding: 0px 5px; }
+.compartir.tuenti a { background: none repeat scroll 0px 0px transparent; display: block; margin: 0px; overflow: hidden; width: 80px; }
+#modulo_multimedia { float: left; position: relative; width: 636px; overflow: hidden; background: url('bg_modulo_multimedia.png') repeat-x scroll -348px 0px transparent; }
+#modulo_multimedia .nav { position: relative; left: -4px; top: auto; }
+#modulo_multimedia.el_js_esta_activo .pestana_GDP { position: absolute; left: -999999px; top: -99999px; }
+#modulo_multimedia.el_js_esta_activo .pestana_GDP.activaJs_GDP { position: relative; top: auto; left: auto; }
+ul.nav_multimedia { clear: both; overflow: hidden; z-index: 2; background: url('bg_modulo_multimedia.png') repeat-x scroll left top transparent; float: left; border-right: 1px solid rgb(255, 255, 255); width: auto; padding: 7px 0px 0px 15px; }
+ul.nav_multimedia li { float: left; width: auto; text-align: center; padding: 0px; text-transform: uppercase; line-height: 120%; }
+ul.nav_multimedia li a { float: left; padding: 3px 10px 2px; margin: 0px; font-size: 75%; font-weight: bold; text-align: center; border-left: 1px solid rgb(255, 255, 255); border-right: 1px solid rgb(217, 218, 219); color: rgb(3, 90, 137); }
+ul.nav_multimedia li a:hover { text-decoration: none; background: none repeat scroll 0% 0% rgb(225, 225, 225); color: rgb(255, 255, 255); }
+ul.nav_multimedia li.numero_activa { background: none repeat scroll 0% 0% rgb(225, 225, 225); }
+#contenido ul.nav_multimedia li.numero_activa a { margin: 0px; color: rgb(102, 102, 102); cursor: default; }
+#modulo_multimedia .pestana_GDP .video { width: 636px ! important; margin-bottom: 0px; }
+#modulo_multimedia .pestana_GDP .foto { border: medium none; padding: 0px; margin-bottom: 0px; width: 100% ! important; }
+#modulo_multimedia .pestana_GDP .foto p { margin: 0px; }
+#modulo_multimedia .pestana_GDP .foto img { width: 100% ! important; height: auto ! important; }
+.modulo .pestana_GDP { display: none; clear: both; overflow: hidden; }
+.modulo .pestana_GDP.activa_GDP, .modulo .pestana_GDP.activaJs_GDP { display: block; }
+.modulo li.numero_activa a { cursor: default; }
+.Noticia ul.listado_noticias { float: left; margin: 0px 0px 15px; border-right: 1px dotted rgb(160, 160, 160); border-width: 1px; border-style: solid dotted dotted; border-color: rgb(160, 160, 160); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; padding: 10px; width: 92%; clear: left; font-size: 80%; }
+.Noticia ul.listado_noticias:before { border-bottom: 1px solid rgb(124, 158, 179); color: rgb(74, 70, 70); float: left; font: 125% Georgia,"Times New Roman",Times,serif; margin: 5px 0px 10px; padding: 0px 0px 5px; content: "Más noticias"; width: 100%; }
+.Noticia ul.listado_noticias li { float: left; margin-bottom: 5px; padding: 5px 0px 3px; width: 100%; background: none repeat scroll 0% 0% transparent; border-bottom: 0px none; }
+.Noticia ul.listado_noticias li + li { border-top: 1px dotted rgb(217, 218, 219); }
+.Noticia #contenido ul.listado_noticias li h3 { font: 170%/80% Arial,Helvetica,sans-serif; color: rgb(98, 98, 98); margin: 0px; }
+.Noticia #contenido ul.listado_noticias li h3 a { color: rgb(0, 102, 153); }
+.Noticia ul.listado_noticias li h3 a { font-size: 60%; }
+#contenido .publicidad_cuerpo_noticia { padding-bottom: 5px; font-size: 75%; display: inline-block; }
+#contenido .publicidad_cuerpo_noticia p { height: 20px; float: left; margin: 0px; }
+#contenido .publicidad_cuerpo_noticia p.label { text-transform: uppercase; font-size: 90%; color: rgb(153, 153, 153); margin: 0px 10px 0px 0px; float: left; position: relative; top: 2px; }
+#contenido .publicidad_cuerpo_noticia p.publicidad_contenido { width: 365px; font-weight: bold; }
+#contenido .publicidad_patrocinio_ranking { width: 160px; position: absolute; bottom: 5px; left: 0px; z-index: 20; padding: 0px 0px 0px 10px; font-size: 90%; }
+#contenido .publicidad_300a, .publicidad_300b { margin: 0px 0px 10px 4px; float: left; position: relative; z-index: 998; display: inline; }
+#comentarios { font-size: 100%; margin-top: 20px; }
+.comenta a { color: rgb(0, 102, 153) ! important; }
+.comenta a:hover { color: rgb(153, 0, 0) ! important; }
+#comentarios_lectores ul.comentarios_nav li a, #comentarios_lectores ul.comentarios_nav li.msg_mention span, #comentarios_lectores ul.comentarios_nav li.msg_net span { padding: 6px 15px 5px; }
+#comentarios_lectores h3 span { font-size: 105%; }
+#contenido #comentarios h3 span.links_comentar { padding-top: 5px; }
+#comentarios h3 span.links_comentar a { font-size: 110%; }
+.nav_comentarios li a, .nav_comentarios li span { font-size: 75%; padding: 4px 5px; }
+#comentarios_lectores_listado ol li { color: rgb(85, 85, 85); }
+#comentarios_lectores_listado ol li p { font-size: 90%; margin-bottom: 10px; }
+.fecha_hora { font-size: 70%; }
+#comentarios_lectores_listado ol li div.usuario strong { font-size: 100%; line-height: 160%; }
+#contenido #comentarios_lectores_listado ol li h4 { margin: 0px 10px 0px 0px; display: inline; border-bottom: 0px none; }
+#comentarios .interact { font-size: 75%; }
+#comentarios .interact a { font-size: 100%; }
+#comentarios .interact .valorar p, #comentarios .interact .denunciar p { font-size: 100%; }
+#comentarios .interact .valorar { padding-top: 0px; margin-top: -2px; }
+#comentarios .interact .denunciar { background-position: 0px 0px; }
+#contenido #comentarios h5 { margin: 0px 0px 5px; font-size: 110%; border-bottom: 0px none; }
+#comentarios_lectores .wrap { width: auto; }
+#info_site { position: relative; width: 970px; font-size: 75%; border: 1px solid rgb(240, 240, 240); color: rgb(119, 119, 119); padding: 5px; margin: 20px 0px; clear: both; overflow: hidden; }
+#info_site #redes { padding-left: 0px; }
+#logo_avisolegal { float: left; padding: 5px 0px; position: relative; width: 930px; }
+#info_site .avisos { position: absolute; right: 15px; top: 11px; }
+#info_site .avisos li { border-right: 1px solid rgb(224, 224, 224); float: left; line-height: 12px; padding: 0px 5px; }
+#info_site img { display: inline; position: relative; left: 2px; }
+#info_site strong { font-weight: normal; margin-left: 10px; top: -3px; position: relative; }
+#info_site a { color: rgb(0, 102, 153); text-decoration: none; }
+#info_site a:hover, #info_site a:active, #info_site a:focus { text-decoration: underline; }
+#redes { display: inline; float: left; height: 16px; margin: 0px; padding: 9px 0px 5px 10px; position: relative; width: 40px; }
+#info_site .facebook { background: url('ico_facebook.gif') no-repeat scroll center center transparent; display: block; float: right; height: 15px; margin: 0px 5px 0px 0px; width: 15px; }
+#info_site .twitter { background: url('ico_twitter.gif') no-repeat scroll center center transparent; display: block; float: right; height: 15px; margin: 0px 5px 0px 0px; width: 15px; }
+/* ::::: http://estaticos04.cache.el-mundo.net/elmundo/estilos/v5.x/v5.05/medios.css ::::: */
+
+/* ::::: http://estaticos01.cache.el-mundo.net/elmundo/economia/crisis/css/crisis-noticia.css ::::: */
+
+#modulo_economia { padding-left: 5px; position: relative; width: 315px; float: left; }
+#modulo_economia h4 { margin: 9px 9px 3px 0px; }
+#modulo_economia .nav_economia { left: 0px; position: absolute; top: 0px; width: auto; }
+#modulo_economia .nav_economia li { bottom: -1px; font-size: 11px; margin: 0px 0px 0px 1px; position: relative; text-transform: uppercase; border: 1px solid rgb(221, 225, 229); display: inline; }
+#modulo_economia .contenido_modulo_economia { border: 1px solid rgb(221, 225, 229); margin: 0px; padding: 5px; }
+#modulo_economia .contenido { clear: none; display: inline; float: left; height: auto; margin: 1px 2px; overflow: visible; position: relative; width: 300px; }
+#modulo_economia.opcion_a .bolsas { margin-bottom: 15px; padding-top: 20px; }
+#modulo_economia .nav_economia li.numero_activa { border-color: rgb(221, 225, 229) rgb(221, 225, 229) rgb(255, 255, 255); border-style: solid; border-width: 1px; height: 24px; }
+.nav_economia li a { background: url('pestanas_lomas_normal_001.gif') repeat-x scroll left center rgb(124, 158, 179) ! important; color: white ! important; font-weight: normal; padding: 3px 10px ! important; }
+.nav_economia li.numero_activa a { background: none repeat scroll 0% 0% rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255) ! important; color: rgb(153, 0, 68); }
+#modulo_economia h4 { background: url('tope_modulos_col02.gif') no-repeat scroll right 0px transparent; color: rgb(123, 123, 123); font-family: Georgia,"Times New Roman",Times,serif; font-size: 17px; font-weight: normal; left: auto; margin: 0px 0px 10px; padding: 13px 20px 0px 0px; position: relative; right: 0px; text-align: right; top: 0px; width: auto; }
+#modulo_economia .nav { z-index: 100; clear: both; display: block; }
+.nav_economia li a { background: url('pestanas_lomas_normal_001.gif') repeat-x scroll left center rgb(124, 158, 179); color: rgb(255, 255, 255); font-weight: normal; padding: 3px 6px; }
+.nav_economia li.numero_activa a { background: none repeat scroll 0% 0% rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255) ! important; color: rgb(153, 0, 68); }
+dd.cotizacion.baja { background: url('bullet_baja.gif') no-repeat scroll right center transparent; padding-right: 25px; }
+dt.indice { display: none; }
+dd.cotizacion { color: rgb(17, 105, 153); font: bold 28px "Times New Roman",Times,serif; text-decoration: none; width: auto; float: left; }
+dd.var-porcentual { float: left; font-family: times New Roman; font-size: 18px; font-weight: bold; margin: 14px 5px 0px; }
+dd.variacion { float: left; font-size: 13px; font-weight: normal; margin-top: 15px; color: rgb(153, 153, 153); }
+dd.baja, .col_02 #indices-mundo td.baja { color: rgb(179, 5, 5); }

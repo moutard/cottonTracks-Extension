@@ -1,0 +1,11 @@
+html { color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td { margin: 0px; padding: 0px; }
+fieldset, img, iframe { border: 0px none; }
+li { list-style: none outside none; }
+body { font: 14px/1.231 helvetica,arial,clean,sans-serif; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+.module-sponsored-ads { clear: both; border-top: 1px solid rgb(204, 204, 204); width: 630px; overflow: hidden; margin-bottom: 20px; padding: 8px 0px 0px 10px; }
+.module-sponsored-ads p { text-align: center; font-size: 10px; padding-bottom: 10px; }
+.module-sponsored-ads p.advertise-here a { color: rgb(51, 51, 255); font-weight: normal; letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+.module-sponsored-ads ul { width: 580px; margin: auto; }
+.module-sponsored-ads ul li { float: left; margin: 0px 20px 0px 0px; list-style: none outside none; }

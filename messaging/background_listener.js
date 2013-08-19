@@ -4,62 +4,93 @@
  * Content Script Listener
  *
  * Instance host by background.html Listen all the messages send by content
- * scripts (i.e. scritps injected directly in the page.
+ * scripts (i.e. scripts injected directly in the page.
  *
  * See below page for more informations.
  * http://code.google.com/chrome/extensions/messaging.html
  */
 
 /**
- * onRequest : link with the chrome API method
- * chrome.extension.onRequest.addListener
+ * onMessage : link with the chrome API method
+ * chrome.runtime.onMessage.addListener
+ * now placed in Core
  *
  * Called when a message is passed by a content script.
  */
 Cotton.Controllers.BackgroundListener = Class.extend({
 
+  _bIsStarted: false,
   _oMessagingController : null,
 
-  init: function(oMessagingController){
+  init: function(oMessagingController, oMainController){
     var self = this;
     self._oMessagingController = oMessagingController;
+    self._oMainController = oMainController;
 
-    // Listen for the content script to send a message to the background page.
-    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    // Listen all the messages sent to the background page.
+    self._oMainController._oMessenger.listen('*', function(request, sender, sendResponse) {
+      if (!self._bIsStarted) {
+        // install is not finished, do nothing
+        sendResponse({'status': 'not started'});
+      } else if (sender.tab.index === -1) {
+        // it is a page preloaded by google in a ghost tab pass
+        // FIXME(rmoutard->rkorach): do we really need to send a message back ?
+        sendResponse({'ghost':true});
+      } else {
+        DEBUG && console.debug(request);
 
-      DEBUG && console.debug(request);
+        /**
+         * DISPATCHER
+         * All the message send by sendMessage arrived here.
+         * CottonTracks defined an "action" parameters it's mandatory.
+         */
+        switch(request['action']) {
 
-      /**
-       * DISPACHER
-       * All the message send by sendMessage arrived here.
-       * CottonTracks defined an "action" parameters.
-       * - create_history_item
-       * - import_history
-       */
-      if (request['params'] && request['params']['historyItem']) {
-        self._oMessagingController.doAction(request['action'], [sendResponse,
-          request['params']['historyItem'], sender]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
-        return true;
-      }
-      
-      if (request['action'] == 'get_content_tab' ){
-        self._oMessagingController.doAction(request['action'], [sendResponse,
-          request['params']['tab_id']]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
-        return true;
-      }
+          case 'create_history_item':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['historyItem'], sender]);
+            break;
 
-      if (request['action'] == 'get_trigger_story' ){
-        self._oMessagingController.doAction(request['action'], [sendResponse]);
-        // need to add sendResponse as an argument because it's only defined in
-        // addListener functions.
+          case 'update_history_item':
+              self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['historyItem'],
+              request['params']['contentSet'], sender]);
+            break;
+
+          case 'get_content_tab':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['tab_id']]);
+            break;
+
+          case 'get_trigger_story':
+            self._oMessagingController.doAction(request['action'], [sendResponse]);
+            break;
+
+          case 'change_story':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse, request['params']['story_id']]);
+            break;
+
+          case 'delete_main_story':
+            self._oMessagingController.doAction(request['action'],
+              [sendResponse]);
+            break;
+
+          default:
+            break;
+        }
+
         return true;
       }
     });
   },
 
-  // TODO(rmoutard) : add a system to suscribe to the dispacher.
+  start: function() {
+    this._bIsStarted = true;
+  },
+
+  stop: function() {
+    this._bIsStarted = false;
+  },
+  // TODO(rmoutard) : add a system to subscribe to the dispatcher.
 });

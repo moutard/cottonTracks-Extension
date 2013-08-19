@@ -10,7 +10,7 @@ from py.own_parameters import *
 
 class ProjectCompiler(FileManager, PreCompiler):
 
-  def __init__(self, pbPRODMode, pbPREPRODMode, pbDEVMode,  pbForce):
+  def __init__(self, psBrowser, pbPRODMode, pbPREPRODMode, pbDEVMode,  pbForce):
 
     self._SOURCE = SOURCE_PATH
     self._LIB = os.path.join(SOURCE_PATH, 'lib')
@@ -18,14 +18,14 @@ class ProjectCompiler(FileManager, PreCompiler):
     self.removeOld(DESTINATION_PATH, pbForce)
 
     if(pbPRODMode):
-      loPRODCompiler = PRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
+      loPRODCompiler = PRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser)
       loPRODCompiler.compile()
     if(pbPREPRODMode):
-      loPREPRODCompiler = PREPRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER)
+      loPREPRODCompiler = PREPRODCompiler(SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser)
       loPREPRODCompiler.compile()
       runTest()
     if(pbDEVMode):
-      loDEVCompiler = DEVCompiler(SOURCE_PATH, DESTINATION_PATH)
+      loDEVCompiler = DEVCompiler(SOURCE_PATH, DESTINATION_PATH, psBrowser)
       loDEVCompiler.compile()
       runTest()
 
@@ -33,6 +33,8 @@ class ProjectCompiler(FileManager, PreCompiler):
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Compile the project.')
+  parser.add_argument('-b', '--browser', dest='browser', default="chrome",
+      help='browser supported are "chrome", "opera"')
   parser.add_argument('--dev',  dest='DEV', action='store_true',
       help='compile in DEV mode')
   parser.add_argument('--prod', dest='PROD',action='store_true',
@@ -46,4 +48,5 @@ if __name__ == '__main__':
   args = parser.parse_args()
   if(not args.PROD and not args.DEV and not args.PREPROD):
     parser.error('No MODE precised, please provide --dev, --prod or both')
-  ProjectCompiler(args.PROD, args.PREPROD, args.DEV, args.FORCE)
+  else:
+    ProjectCompiler(args.browser, args.PROD, args.PREPROD, args.DEV, args.FORCE)

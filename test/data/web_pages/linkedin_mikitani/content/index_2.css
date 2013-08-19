@@ -1,0 +1,93 @@
+/* ::::: https://static.licdn.com/scds/concat/common/css?h=4ac0dg6ldb6e58rbrixrhrggi ::::: */
+
+@font-face {
+	font-family: "LinkedInGlyphs";
+	font-style: normal;
+	font-weight: normal;
+	src: url('linkedin-glyphs.eot') format("eot"), url('linkedin-glyphs.woff') format("woff"), url('linkedin-glyphs.ttf') format("truetype"), url('linkedin-glyphs.svg') format("svg");
+}
+html { overflow-y: scroll; margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body { font: 62.5%/1.2 sans-serif; color: rgb(0, 0, 0); margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body, input, select, textarea, button { font-family: sans-serif; }
+img { border: medium none; }
+a { text-decoration: none; color: rgb(0, 102, 153); }
+a:hover { text-decoration: underline; }
+a:visited, #footer a:visited { color: rgb(0, 102, 153); }
+a:focus { outline: thin dotted; }
+a:active, a:hover { outline: 0px none; }
+/* ::::: https://static.licdn.com/scds/concat/common/css?h=cv4cvfq8dxxwejkd2x9u08g9y ::::: */
+
+.btn-primary, .btn-new-primary, .btn-secondary, .btn-new-secondary, .btn-tertiary, .btn-ternary, .btn-quaternary, .btn-action { border-width: 1px; border-style: solid; border-radius: 3px 3px 3px 3px; cursor: pointer; font-size: 12px; line-height: 1.35; margin: 0px; overflow: visible; padding: 3px 10px 2px; text-decoration: none ! important; vertical-align: top; width: auto; }
+a.btn-primary, a.btn-new-primary, a.btn-secondary, a.btn-new-secondary, a.btn-tertiary, a.btn-ternary, a.btn-quaternary, a.btn-action { display: inline-block ! important; }
+a.btn-primary:hover, a.btn-new-primary:hover, a.btn-secondary:hover, a.btn-new-secondary:hover, a.btn-tertiary:hover, a.btn-ternary:hover, a.btn-quaternary:hover, a.btn-action:hover { text-decoration: none ! important; }
+.btn-primary, .btn-menu-open.btn-primary, .btn-split.btn-primary:hover { background: -moz-linear-gradient(center top , rgb(115, 174, 201) 0px, rgb(115, 174, 201) 1px, rgb(51, 138, 176) 1px, rgb(5, 113, 166) 100%) repeat scroll 0% 0% transparent; border-color: rgb(4, 90, 139); color: rgb(255, 255, 255) ! important; }
+.btn-primary:hover, .btn-split-toggle-hover.btn-primary:hover { background: -moz-linear-gradient(center top , rgb(105, 160, 182) 0px, rgb(105, 160, 182) 1px, rgb(39, 118, 150) 1px, rgb(4, 96, 142) 100%) repeat scroll 0% 0% transparent; border-color: rgb(0, 74, 115); }
+.btn-primary:active, .btn-split-toggle-hover.btn-primary:active { background: -moz-linear-gradient(center top , rgb(2, 95, 141) 0px, rgb(38, 118, 150) 100%) repeat scroll 0% 0% transparent; border-color: rgb(0, 74, 115); }
+html, body, div, span, h1, h2 h3, h4, p, a, img, ul, li { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+ul { list-style: none outside none; }
+html { overflow: hidden; margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body { font: 62.5%/1.2 Arial,Helvetica,"Nimbus Sans L",sans-serif; color: rgb(0, 0, 0); margin: 0px; padding: 0px; border: 0px none; outline: 0px none; background-color: rgb(255, 255, 255); }
+a { text-decoration: none; color: rgb(0, 102, 153); outline: medium none; }
+a:hover { text-decoration: none; }
+a:visited { color: rgb(0, 102, 153); }
+.ad { border-radius: 8px 8px 8px 8px; background: -moz-linear-gradient(center top , rgb(248, 248, 248) 0%, rgb(239, 239, 239) 100%) repeat scroll 0% 0% transparent; border: 1px solid rgb(204, 204, 204); color: rgb(51, 51, 51); height: 248px; overflow: hidden; position: relative; width: 298px; }
+.ad .hd { padding-top: 10px; }
+.ad .hd h1 { font-size: 14px; text-align: center; }
+.ad .hd h1 .company-name { color: rgb(0, 0, 0); display: block; font-size: 18px; }
+.ad .bd { padding: 10px 5px; }
+.ad .ft { background: -moz-linear-gradient(center top , rgb(255, 255, 255) 0%, rgb(220, 238, 246) 100%) repeat scroll 0% 0% transparent; border-top: 1px solid rgb(204, 204, 204); text-align: center; height: 36px; border-radius: 0px 0px 8px 8px; padding-top: 12px; position: absolute; bottom: 0px; width: 100%; }
+.ad .hd { margin-top: 3px; }
+.ad .bd { height: 164px; overflow: hidden; padding-top: 16px; }
+.ad .bd p { font-size: 12px; font-weight: bold; margin: 5px auto; text-align: center; width: 80%; }
+.ad .bd img { border: 1px solid rgb(204, 204, 204); display: block; height: 60px; margin: 0px auto; padding: 0px; width: 60px; }
+.ad .bd .img-link { background-color: rgb(255, 255, 255); border: 1px solid rgb(150, 206, 231); display: block; height: 64px; margin: 0px auto; overflow: hidden; padding-top: 2px; width: 66px; }
+.ad .ft { height: 74px; overflow: hidden; }
+.ad .ft .follow-start { width: 45%; }
+/* ::::: https://static.licdn.com/scds/concat/common/css?h=4ac0dg6ldb6e58rbrixrhrggi ::::: */
+
+@font-face {
+	font-family: "LinkedInGlyphs";
+	font-style: normal;
+	font-weight: normal;
+	src: url('linkedin-glyphs.eot') format("eot"), url('linkedin-glyphs.woff') format("woff"), url('linkedin-glyphs.ttf') format("truetype"), url('linkedin-glyphs.svg') format("svg");
+}
+html { overflow-y: scroll; margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body { font: 62.5%/1.2 sans-serif; color: rgb(0, 0, 0); margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body, input, select, textarea, button { font-family: sans-serif; }
+img { border: medium none; }
+a { text-decoration: none; color: rgb(0, 102, 153); }
+a:hover { text-decoration: underline; }
+a:visited, #footer a:visited { color: rgb(0, 102, 153); }
+a:focus { outline: thin dotted; }
+a:active, a:hover { outline: 0px none; }
+/* ::::: https://static.licdn.com/scds/concat/common/css?h=cv4cvfq8dxxwejkd2x9u08g9y ::::: */
+
+.btn-primary, .btn-new-primary, .btn-secondary, .btn-new-secondary, .btn-tertiary, .btn-ternary, .btn-quaternary, .btn-action { border-width: 1px; border-style: solid; border-radius: 3px 3px 3px 3px; cursor: pointer; font-size: 12px; line-height: 1.35; margin: 0px; overflow: visible; padding: 3px 10px 2px; text-decoration: none ! important; vertical-align: top; width: auto; }
+a.btn-primary, a.btn-new-primary, a.btn-secondary, a.btn-new-secondary, a.btn-tertiary, a.btn-ternary, a.btn-quaternary, a.btn-action { display: inline-block ! important; }
+a.btn-primary:hover, a.btn-new-primary:hover, a.btn-secondary:hover, a.btn-new-secondary:hover, a.btn-tertiary:hover, a.btn-ternary:hover, a.btn-quaternary:hover, a.btn-action:hover { text-decoration: none ! important; }
+.btn-primary, .btn-menu-open.btn-primary, .btn-split.btn-primary:hover { background: -moz-linear-gradient(center top , rgb(115, 174, 201) 0px, rgb(115, 174, 201) 1px, rgb(51, 138, 176) 1px, rgb(5, 113, 166) 100%) repeat scroll 0% 0% transparent; border-color: rgb(4, 90, 139); color: rgb(255, 255, 255) ! important; }
+.btn-primary:hover, .btn-split-toggle-hover.btn-primary:hover { background: -moz-linear-gradient(center top , rgb(105, 160, 182) 0px, rgb(105, 160, 182) 1px, rgb(39, 118, 150) 1px, rgb(4, 96, 142) 100%) repeat scroll 0% 0% transparent; border-color: rgb(0, 74, 115); }
+.btn-primary:active, .btn-split-toggle-hover.btn-primary:active { background: -moz-linear-gradient(center top , rgb(2, 95, 141) 0px, rgb(38, 118, 150) 100%) repeat scroll 0% 0% transparent; border-color: rgb(0, 74, 115); }
+html, body, div, span, h1, h2 h3, h4, p, a, img, ul, li { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+ul { list-style: none outside none; }
+html { overflow: hidden; margin: 0px; padding: 0px; border: 0px none; outline: 0px none; }
+body { font: 62.5%/1.2 Arial,Helvetica,"Nimbus Sans L",sans-serif; color: rgb(0, 0, 0); margin: 0px; padding: 0px; border: 0px none; outline: 0px none; background-color: rgb(255, 255, 255); }
+a { text-decoration: none; color: rgb(0, 102, 153); outline: medium none; }
+a:hover { text-decoration: none; }
+a:visited { color: rgb(0, 102, 153); }
+.ad { border-radius: 8px 8px 8px 8px; background: -moz-linear-gradient(center top , rgb(248, 248, 248) 0%, rgb(239, 239, 239) 100%) repeat scroll 0% 0% transparent; border: 1px solid rgb(204, 204, 204); color: rgb(51, 51, 51); height: 248px; overflow: hidden; position: relative; width: 298px; }
+.ad .hd { padding-top: 10px; }
+.ad .hd h1 { font-size: 14px; text-align: center; }
+.ad .hd h1 .company-name { color: rgb(0, 0, 0); display: block; font-size: 18px; }
+.ad .bd { padding: 10px 5px; }
+.ad .ft { background: -moz-linear-gradient(center top , rgb(255, 255, 255) 0%, rgb(220, 238, 246) 100%) repeat scroll 0% 0% transparent; border-top: 1px solid rgb(204, 204, 204); text-align: center; height: 36px; border-radius: 0px 0px 8px 8px; padding-top: 12px; position: absolute; bottom: 0px; width: 100%; }
+.ad ul { overflow: hidden; margin: 0px auto; width: 100%; }
+.ad li { float: left; width: 49%; text-align: center; font-size: 11px; }
+.ad li.no-photo strong, .ad li .img-link { background-color: rgb(255, 255, 255); border: 1px solid rgb(150, 206, 231); display: block; height: 64px; margin: 0px auto; overflow: hidden; padding-top: 2px; width: 66px; }
+.ad li img, .ad li span { border: 1px solid rgb(204, 204, 204); display: block; height: 60px; margin: 0px auto; padding: 0px; width: 60px; }
+.ad li span { font-size: 15px; height: 50px; padding-top: 10px; width: 100px; }
+.ad li div { margin-top: 2px; text-align: center; }
+.ad li.has-photo div { color: rgb(102, 102, 102); }
+.ad .bd { height: 172px; background: url('icon_arrows_green_28x25.gif') no-repeat scroll 49% 33px transparent; }
+.ad .bd p { font-size: 12px; font-weight: bold; margin: 5px auto; text-align: center; width: 80%; }
+.ad .ft .follow-start { width: 45%; }

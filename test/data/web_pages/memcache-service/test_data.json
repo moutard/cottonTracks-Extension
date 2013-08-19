@@ -1,0 +1,13 @@
+{
+  "id": "memcache-service",
+  "url": "http://www.memcachedasaservice.com/",
+  "path": "test/data/web_pages/memcache-service/content/index.html",
+  "best_image": "",
+  "expected": [
+    "Info This is a proof of concept application I built for my cs50x final project: Build your own SaaS using Docker. This project is based on a new open-sourced technology called Docker. You can find the source code of this application on GitHub and the paper on SlideShare.",
+    "Contact Feel free to contact me if you have any questions or comments.",
+    "Memcached Memcached is a free & open source, high-performance, distributed memory object caching system, generic in nature, but intended for use in speeding up dynamic web applications by alleviating database load.",
+    "Docker Docker is a Linux container runtime. Docker complements LXC with a high-level API which operates at the process level. It runs unix processes with strong guarantees of isolation and repeatability across servers.",
+    "Warning This is a sample application. Do not use in production."
+  ]
+}

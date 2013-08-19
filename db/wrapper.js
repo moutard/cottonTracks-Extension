@@ -32,7 +32,9 @@ Cotton.DB.Wrapper = Class.extend({
   _translator: function(sObjectStoreName, sFormatVersion) {
     var lTranslators = this._dTranslators[sObjectStoreName];
     // TODO(fwouts): Store the translators as a hash using versions as keys?
-    for (var iI = 0, oTranslator; oTranslator = lTranslators[iI]; iI++) {
+    var iLength = lTranslators.length;
+    for (var i = 0, oTranslator; i < iLength; i++) {
+      var oTranslator = lTranslators[i];
       if (oTranslator.formatVersion() == sFormatVersion) {
         break;
       }

@@ -1,0 +1,76 @@
+*::-moz-selection { background: none repeat scroll 0% 0% rgb(255, 248, 130); color: rgb(68, 68, 68); }
+body { margin: 0px; padding: 0px; font-size: 18px; }
+p, li, blockquote { line-height: 28px; margin: 0px; }
+h1, h2, h3 { margin: 0px; padding: 0px; font-weight: 400; font-size: 30px; }
+#tumblr_controls { display: none; }
+body { color: rgb(51, 51, 51); background-color: rgb(255, 255, 255); }
+a { color: rgb(51, 51, 51); text-decoration: none; border-bottom: 1px solid rgba(136, 136, 136, 0.3); }
+#header h1 a { color: rgb(51, 51, 51); border-bottom: medium none; }
+a:hover { color: rgb(51, 51, 51); }
+a:active { position: relative; outline: medium none; top: 1px; color: rgb(51, 51, 51); }
+.metadata a, #footer-links a, #footer p.promo a, .links a { color: rgb(136, 136, 136); border-bottom: medium none; }
+.metadata a:hover, #footer-links a:hover, #footer p.promo a:hover, .links a:hover, .more a:hover, a.mobile-player:hover { color: rgb(51, 51, 51); }
+.post { border-bottom: 1px solid rgba(136, 136, 136, 0.4); }
+body { font-family: georgia,georgia,serif; font-weight: normal; }
+.title h1, .link-title h1, .chat-title h1, .q h1, .a h1, .album-info h2, #footer h2 { font-family: futura,georgia,serif; font-weight: bold; }
+.blog-title h1 { font-family: futura,futura,helvetica,arial,sans-serif; font-weight: bold; font-size: 96px; line-height: 1em; }
+.metadata a { font-family: futura,futura,helvetica,arial,sans-serif; font-weight: normal; }
+#page { border: 0px solid; max-width: 900px; padding-left: 50px; padding-right: 50px; margin: auto; }
+#header { margin-top: 20px; margin-bottom: 80px; display: block; overflow: visible; }
+#header a { text-decoration: none; }
+.blog-title { display: block; width: 100%; text-align: center; margin-top: 70px; }
+.blog-title a { border-bottom: medium none; }
+.links { margin-top: 0px; text-align: center; float: none; border-bottom: 1px solid rgba(136, 136, 136, 0.4); }
+.links ul { margin-top: 10px; padding: 0px; display: block; text-align: center; float: none; }
+.links li { display: inline; margin-left: 10px; text-transform: none; }
+.links li:first-child { margin-left: 0px; }
+#content { width: 100%; overflow-x: hidden; }
+.post { margin-bottom: 45px; padding-bottom: 40px; width: 100%; }
+.narrow { max-width: 640px; margin: auto; }
+.title h1, .link-title h1, .chat-title h1 { text-align: center; margin: auto auto 25px; font-size: 42px; line-height: 50px; }
+.caption p { margin-bottom: 15px; }
+.caption blockquote { margin-bottom: 10px; border-left: 3px solid rgba(136, 136, 136, 0.2); margin-left: 5px; padding-left: 15px; line-height: 26px; }
+.caption pre { white-space: pre-wrap; word-wrap: break-word; background-color: rgba(136, 136, 136, 0.2); border-radius: 2px 2px 2px 2px; padding: 10px 15px; font-size: 15px; line-height: 24px; margin: 15px 0px 25px; }
+.caption ul, ol { margin-top: 0px; margin-bottom: 25px; padding-left: 40px; }
+.caption img { display: block; max-width: 100%; height: auto; margin: 30px auto; border-radius: 2px 2px 2px 2px; }
+.metadata { border: 0px solid gray; overflow: auto; font-size: 12px; text-transform: uppercase; margin-top: 20px; }
+.metadata a { text-decoration: none; }
+.date, .tags, .notes-count { display: block; float: left; margin-right: 15px; }
+.tags a, .notes-count a, .date a { margin-right: 5px; }
+#footer { text-align: center; margin-bottom: 40px; }
+#footer a { text-decoration: none; border-bottom: medium none; }
+#footer-links ul { margin-bottom: 0px; padding: 0px; display: block; text-align: center; }
+#footer-links li { display: inline; margin-left: 5px; font-size: 14px; }
+#footer-links li:first-child { margin-left: 0px; }
+#permalink-content { margin-top: 40px; }
+.avatar_frame { position: relative; top: 4px; margin-right: 10px; }
+.comments h3, .permalink-notes h3 { font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+.permalink-notes ol { padding-left: 0px; }
+.permalink-notes li { list-style: none outside none; margin-bottom: 10px; padding-top: 10px; border-top: 1px solid rgba(136, 136, 136, 0.3); font-size: 13px; }
+.permalink-notes blockquote { margin: 5px 0px 5px 20px; border-left: 3px solid rgba(136, 136, 136, 0.2); padding-left: 15px; line-height: 24px; }
+.notes a { border-bottom: medium none; text-decoration: underline; }
+@media screen and (max-width: 800px) {
+	#header { margin-top: 20px; display: block; overflow: visible; padding-bottom: 0px; }
+	.blog-title { display: block; text-align: center; margin-top: 50px; float: none; width: 100%; margin-bottom: 50px; }
+	.blog-title h1 { font-size: 40px; margin-bottom: 10px; }
+	.links { margin-top: 0px; margin-bottom: 0px; text-align: center; float: none; border-bottom: 1px solid rgba(136, 136, 136, 0.4); }
+	.links ul { margin-top: 10px; padding: 0px; display: block; text-align: center; float: none; }
+	.links li { display: inline; margin-left: 16px; font-size: 17px; text-transform: none; }
+	.metadata { font-size: 16px; }
+	.title h1, .link-title h1, .chat-title h1 { text-align: center; font-size: 36px; line-height: 42px; }
+}
+@media screen and (max-width: 740px) {
+	#page { padding-left: 1em; padding-right: 1em; }
+	#header { margin-bottom: 50px; }
+}
+/* ::::: http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css ::::: */
+
+.pln { color: rgb(0, 0, 0); }
+@media screen {
+	.kwd { color: rgb(0, 0, 136); }
+	.com { color: rgb(136, 0, 0); }
+	.typ { color: rgb(102, 0, 102); }
+	.pun, .opn, .clo { color: rgb(102, 102, 0); }
+}
+pre.prettyprint { padding: 2px; border: 1px solid rgb(136, 136, 136); }
+pre.prettyprint { overflow-x: auto; }

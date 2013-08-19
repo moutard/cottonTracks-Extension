@@ -1,151 +1,153 @@
 'use strict';
-// (function() {
 
 var _gaq = _gaq || [];
 
 Cotton.Analytics = Class.extend({
-  _sAccount : null,
-  _oGoogleAnalytics : null,
-  _gaq : null,
 
   init : function() {
-    var self = this;
-    // self._sAccount = Cotton.Config.Parameters._sAccount;
-
-    self._gaq = _gaq || [];
+    this._gaq = _gaq || [];
 
     if (Cotton.Config.Parameters.bAnalytics === true) {
-      _gaq.push([ '_setAccount', 'UA-30134257-1' ]);
-      _gaq.push([ '_trackPageview' ]);
-
-      self._oGoogleAnalytics = document.createElement('script');
-      self._oGoogleAnalytics.type = 'text/javascript';
-      self._oGoogleAnalytics.async = true;
-      self._oGoogleAnalytics.src = 'https://ssl.google-analytics.com/ga.js';
-      var oScript = document.getElementsByTagName('script')[0];
-      oScript.parentNode.insertBefore(self._oGoogleAnalytics, oScript);
+      _gaq.push(['_setAccount', 'UA-30134257-1']);
+    } else {
+      _gaq.push(['_setAccount', 'UA-30134257-3']);
     }
+    _gaq.push(['_trackPageview']);
+    if (localStorage['ct-cohort']) {
+      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
+    } else if (localStorage['cohort']) {
+      // transition between cohort to ct-cohort.
+      // remove it after a few updates, when most of the users will be updated.
+      localStorage.setItem('ct-cohort', localStorage['cohort']);
+      localStorage.removeItem('cohort');
+      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
+    }
+
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = 'https://ssl.google-analytics.com/ga.js';
+    var script = document.getElementsByTagName('script')[0];
+    script.parentNode.insertBefore(ga, script);
   },
 
-  enterStory : function() {
-    _gaq.push([ '_trackEvent', 'Story trafic', 'Enter story',
-        'Click on sticker' ]);
+  // Track an event with _gaq.push(['_trackEvent', 'category', 'action', 'opt_label',
+  // 'opt_int_value', 'opt_bool_noninteraction']);
+
+  // to track number of people in a cohort
+  setCohort : function(sCohort) {
+    if (!sCohort){
+      var date = new Date();
+      var month = date.getMonth() + 1;
+      localStorage.setItem('ct-cohort', month + "/" + date.getFullYear());
+      var sCohort = month + "/" + date.getFullYear();
+    }
+    _gaq.push(['_trackEvent', 'cohort', 'setCohort', sCohort]);
   },
 
-  deleteStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'delete' ]);
+  // monitor installs
+  install : function(sVersion) {
+    _gaq.push(['_trackEvent', 'version', 'install', sVersion]);
   },
 
-  editStickerOn : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Edit on' ]);
+  // monitor updates
+  update : function(sVersion) {
+    _gaq.push(['_trackEvent', 'version', 'update', sVersion]);
   },
 
-  editStickerOff : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Edit off' ]);
+  // number of indexed historyItems at install
+  historyItemsInstallCount : function(iItemsCount) {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'install', iItemsCount]);
   },
 
-  changeStoryTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Title changed' ]);
-  },
-  
-  changeStoryThumbnail : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Thumbnail changed' ]);
+  // number of indexed visitItems at install
+  visitItemsInstallCount : function(iItemsCount) {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'install', iItemsCount]);
   },
 
-  dragStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Story dragged' ]);
+  // historyItems tracking
+  newHistoryItem : function() {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'browsing', 1]);
   },
 
-  mergeStory : function() {
-    _gaq.push([ '_trackEvent', 'Story modification', 'Story merged' ]);
+  // visitItems tracking
+  newVisitItem : function() {
+    _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'browsing', 1]);
   },
 
-  scrollWithLeftArrow : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Left arrow in story selector' ]);
+  // Story tracking
+  storyAvailable : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'enabled', sSource]);
   },
 
-  scrollWithRightArrow : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Right arrow in story selector' ]);
+  showLightyear : function() {
+    _gaq.push(['_trackEvent', 'lightyear', 'open', 'browserAction']);
   },
 
-  scrollStorySelector : function() {
-    _gaq.push([ '_trackEvent', 'Hook', 'Browse stories',
-        'Scroll in story selector' ]);
-  },
-
-  clickItemTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
-        'Item' ]);
-  },
-
-  clickDefaultItemFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
-        'Default Item' ]);
-  },
-
-  clickSearchItemTitle : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Title Clicked',
-        'Search Item' ]);
-  },
-
-  clickSearchItemFeaturedImage : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Item Featured Image Clicked',
-        'Search Item' ]);
-  },
-
-  viewImageItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Image viewed', 'Image Item' ]);
-  },
-
-  viewSlideshowItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Slideshow viewed',
-        'Slideshow Item' ]);
-  },
-
-  viewVideoItem : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Video viewed', 'Video Item' ]);
+  filter : function(sFilterType) {
+    _gaq.push(['_trackEvent', 'story', 'filter', sFilterType]);
   },
 
   scrollStory : function() {
-    _gaq.push([ '_trackEvent', 'Story use', 'Scroll Story', 'Story' ]);
-  },
-  
-  changeStory : function() {
-    _gaq.push([ '_trackEvent', 'Item modification', 'Changed of story' ]);
-  },
-  
-  moveItem : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Position changed' ]);
+    _gaq.push(['_trackEvent', 'story', 'scroll']);
+   },
+
+  editStoryTitle : function(sRenameMedium) {
+    _gaq.push(['_trackEvent', 'story', 'edit_title', sRenameMedium]);
   },
 
-  editItemOn : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit on' ]);
+  deleteStory : function() {
+    _gaq.push(['_trackEvent', 'story', 'delete_story']);
   },
 
-  editItemOff : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item edit off' ]);
+  // Item tracking
+  openItem : function(sItemType, sTrigger) {
+    _gaq.push(['_trackEvent', sItemType, 'open', sTrigger]);
   },
 
-  deleteItem : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Item deleted' ]);
+  deleteItem : function(sItemType) {
+    _gaq.push(['_trackEvent', sItemType, 'delete', 'toolbox']);
   },
-  
-  changeItemImage : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Image changed', 'Default or Image Item' ]);
+
+  getContent : function() {
+    _gaq.push(['_trackEvent', 'article', 'getContent', 'toolbox']);
   },
-    
-  changeItemTitle : function() {
-  	_gaq.push([ '_trackEvent', 'Item modification', 'Title changed'  ]);
+
+  // Reader Tracking
+  expand : function() {
+    _gaq.push(['_trackEvent', 'article', 'expand', 'toolbox']);
   },
-    
-  updateVersion : function(currVersion) {
-    _gaq.push([ '_trackEvent', 'Extension update', currVersion ]);
+
+  collapse : function() {
+    _gaq.push(['_trackEvent', 'article', 'collapse', 'toolbox']);
   },
+
+  scrollReader : function() {
+    _gaq.push(['_trackEvent', 'article', 'scroll', 'reader']);
+  },
+
+  //related stories and search
+  relatedStories : function() {
+    _gaq.push(['_trackEvent', 'related', 'open_panel', 'related_toggler']);
+  },
+
+  backToStory : function() {
+    _gaq.push(['_trackEvent', 'related', 'back_to_story', 'related_toggler']);
+  },
+
+  searchStories : function(sSearchPlace) {
+    _gaq.push(['_trackEvent', 'related', 'search', sSearchPlace]);
+  },
+
+  enterStory : function() {
+    _gaq.push(['_trackEvent', 'story', 'enter_story']);
+  },
+
+  //navigation in the UI
+  popState : function(sLandingPageType) {
+    _gaq.push(['_trackEvent', 'navigation', 'back_forward', sLandingPageType]);
+  }
+
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();
-
-_.extend(Cotton.ANALYTICS, Backbone.Events);
-// })();

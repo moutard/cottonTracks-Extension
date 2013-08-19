@@ -1,0 +1,10 @@
+{
+  "id": "illinois-jobs",
+  "url": "http://www.ides.illinois.gov/page.aspx?item=50",
+  "path": "test/data/web_pages/illinois-jobs/content/index.html",
+  "best_image": "",
+  "expected": [
+    "IllinoisJobLink.com is an Internet-based job search tool that features current job openings, searching for open jobs by Job category. Both statewide and nationwide job banks are included.",
+    "You're a step closer to finding a job that works for you. Do a quick search right now and start applying for jobs! Or, take the next step and create an IllinoisJobLink.com Job Seeker account - it's quick and easy."
+  ]
+}

@@ -1,0 +1,6 @@
+body { margin: 2px 0px 0px; font-family: Tahoma,Geneva,sans-serif; font-size: 13px; font-weight: bold; }
+.tickercontainer { width: 960px; padding: 10px; background-color: rgb(34, 34, 34); color: rgb(255, 255, 255); overflow: hidden; }
+.tickercontainer .mask { position: relative; left: -10px; top: -8px; width: 968px; overflow: hidden; }
+ul.newsticker { position: relative; left: 970px; list-style-type: none; margin: -2px 0px 0px; padding: 0px; }
+ul.newsticker li { float: left; padding: 0px; margin: 0px 50px 0px 0px; display: inline; white-space: nowrap; }
+ul.newsticker a { white-space: nowrap; padding: 0px; color: rgb(255, 255, 255); text-decoration: none; }

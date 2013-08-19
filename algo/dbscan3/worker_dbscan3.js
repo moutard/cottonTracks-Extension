@@ -8,10 +8,8 @@
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.lib.
 importScripts('../../lib/class.js');
-importScripts('../../lib/underscore.min.js');
 
 importScripts('../../init.js');
-importScripts('../../utils/url_parser.js');
 
 // Cotton.config
 importScripts('../../config/init.js');
@@ -19,61 +17,44 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/common/init.js');
-importScripts('../../algo/common/tools.js');
-importScripts('../../algo/common/simple_cluster.js');
-importScripts('../../algo/dbscan1/init.js');
-importScripts('../../algo/dbscan1/pre_treatment.js');
-importScripts('../../algo/dbscan1/distance.js');
-importScripts('../../algo/dbscan1/dbscan.js');
+importScripts('../../algo/dbscan/score/init.js');
+importScripts('../../algo/dbscan/score/dbrecord_score.js');
+importScripts('../../algo/dbscan/dbscan.js');
 importScripts('../../algo/dbscan3/detect_sessions.js');
 
-function handleHistoryItems3(lHistoryItems) {
-  /**
-   * This method has 3 steps : - Separate Roughly the historyItems in sessions. -
-   * Then compute for each rough sessions dbscan1 with distance only on the
-   * time, to refine session. - For each session, compute dbscan1 with the
-   * meaning distance.
-   */
+/**
+ * This method has 3 steps : - Separate Roughly the historyItems in sessions. -
+ * Then compute for each rough sessions dbscan with distance only on the
+ * time, to refine session. - For each session, compute dbscan with the
+ * meaning distance.
+ */
+function handleHistoryItems3(lHistoryItems, lVisitItems) {
 
   // Max Distance between neighborhood.
-  var fEps = Cotton.Config.Parameters.distanceMeaning.fEps;
-  var fEpsTime = Cotton.Config.Parameters.distanceVisitTime.fEps;
+  var fEps = Cotton.Config.Parameters.dbscan3.fEps;
   // Min Points in a cluster.
-  var iMinPts = Cotton.Config.Parameters.distanceMeaning.iMinPts;
-  var iMinPtsTime = Cotton.Config.Parameters.distanceVisitTime.iMinPts;
+  var iMinPts = Cotton.Config.Parameters.dbscan3.iMinPts;
 
-  // Applyed all the pretreatment first.
-  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  // Pretreatment suite has already been applied
 
   // Step 1.
-  Cotton.Algo.roughlySeparateSession(lHistoryItems, function(lSession) {
-
+  Cotton.Algo.roughlySeparateSessionForVisitItems(lHistoryItems, lVisitItems,
+    function(lSession, iTotalSessions) {
+    if (iTotalSessions) {
+      self.postMessage({'iTotalSessions' : iTotalSessions});
+    }
     // Do this for each session.
 
     // Step 2.
-    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEpsTime, iMinPtsTime,
-        Cotton.Algo.Distance.distanceVisitTime);
+    var iNbCluster = Cotton.Algo.DBSCAN(lSession, fEps, iMinPts,
+        Cotton.Algo.Score.DBRecord.HistoryItem);
 
-    // Cluster each session after a dbscan algorithm.
-    var llClusters = Cotton.Algo.simpleCluster(lSession, iNbCluster);
+    var dData = {};
+    dData['iNbCluster'] = iNbCluster;
+    dData['lHistoryItems'] = lSession;
 
-    // For each session clustered by time, use DBSCAN1 with meaning distance.
-    for ( var i = 0, iLength = llClusters.length; i < iLength; i++) {
-      var lCluster = llClusters[i];
-
-      // Step 3.
-      var iNbSubCluster = Cotton.Algo.DBSCAN(lCluster, fEps, iMinPts,
-          Cotton.Algo.Distance.meaning);
-
-      var dData = {};
-      dData['iNbCluster'] = iNbSubCluster;
-      dData['lHistoryItems'] = lCluster;
-
-      // Send data to the main thread. Data are serialized.
-      self.postMessage(dData);
-
-    }
+    // Send data to the main thread. Data are serialized.
+    self.postMessage(dData);
 
     // Terminates the worker.
     self.close();
@@ -81,11 +62,11 @@ function handleHistoryItems3(lHistoryItems) {
   });
 }
 
+/**
+ * Connect worker with main thread. Worker starts when it receive
+ * postMessage(). Data received are serialized. i.e. it's non
+ * Cotton.Model.HistoryItem, but object.
+ */
 self.addEventListener('message', function(e) {
-  /**
-   * Connect worker with main thread. Worker starts when it receive
-   * postMessage(). Data received are serialized. i.e. it's non
-   * Cotton.Model.HistoryItem, but object.
-   */
-  handleHistoryItems3(e.data);
+  handleHistoryItems3(e.data['historyItems'], e.data['visitItems']);
 }, false);

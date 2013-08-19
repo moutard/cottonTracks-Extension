@@ -1,37 +1,46 @@
 'use strict';
 
 /**
- * separate roughly the historyItems when the time difference between two
+ * Separate roughly the visitItems when the time difference between two
  * consecutive items is more than 5 hours.
+ * And copy the corresponding historyItems so the algo can work.
  *
+ * Even if there is no session return an empty session.
  * @param {Array}
  *          lHistoryItems
  */
-
-Cotton.Algo.roughlySeparateSession = function(lHistoryItems, mCallBack) {
+Cotton.Algo.roughlySeparateSessionForVisitItems = function(lHistoryItems, lChromeVisitItems,
+    mCallBack) {
   // 5 hours
   var threshold = 5 * 60 * 60 * 1000;
 
-  var lNewRoughSession = [];
+  var lNewRoughHistoryItemSession = [];
   var iPreviousTime;
+  var iTotalSessions = 0;
 
-  for ( var i = 0, oCurrentHistoryItem; oCurrentHistoryItem = lHistoryItems[i]; i++) {
+  var iLength = lChromeVisitItems.length;
+  for ( var i = 0; i < iLength; i++) {
+    var oCurrentVisitItem = lChromeVisitItems[i];
     if (i === 0) {
-      iPreviousTime = oCurrentHistoryItem['iLastVisitTime'];
+      iPreviousTime = oCurrentVisitItem['visitTime'];
     }
-    // var a = new Date(iPreviousTime).toLocaleString();
-    // var b = new Date(oCurrentHistoryItem['iLastVisitTime']).toLocaleString();
 
-    if (Math.abs(oCurrentHistoryItem['iLastVisitTime'] - iPreviousTime) <= threshold) {
-      lNewRoughSession.push(oCurrentHistoryItem);
+    var iIndex = oCurrentVisitItem['cottonHistoryItemId'];
+    if (Math.abs(oCurrentVisitItem['visitTime'] - iPreviousTime) <= threshold) {
+      // The result of separate session is direclty send to the dbscan
+      // algorithm. So we need unique elements for dbscan.
+      if(lNewRoughHistoryItemSession.indexOf(lHistoryItems[iIndex]) === -1) {
+        lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
+      }
     } else {
-      mCallBack(lNewRoughSession);
-      lNewRoughSession = [];
-      lNewRoughSession.push(oCurrentHistoryItem);
+      iTotalSessions++;
+      // Close the Session and launch callback on it, then init a new session
+      mCallBack(lNewRoughHistoryItemSession);
+      lNewRoughHistoryItemSession = [];
+      lNewRoughHistoryItemSession.push(lHistoryItems[iIndex]);
     }
-    iPreviousTime = oCurrentHistoryItem['iLastVisitTime'];
-
+    iPreviousTime = oCurrentVisitItem['visitTime'];
   }
-
-  mCallBack(lNewRoughSession);
+  iTotalSessions++;
+  mCallBack(lNewRoughHistoryItemSession, iTotalSessions);
 };

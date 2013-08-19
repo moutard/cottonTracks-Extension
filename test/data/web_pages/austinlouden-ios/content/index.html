@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+<!--                                                                                                 
+
+Observer Theme
+By Zack Sultan
+Revised February 21, 2013
+                
+-->
+
+
+    
+        <title>Your First iOS App: 100% Programmatically</title>
+        <link rel="shortcut icon" href="avatar_d1575cd6e9db_16.png">
+        <link rel="alternate" type="application/rss+xml" href="http://blog.austinlouden.com/rss">
+        
+        <link rel="shortcut icon" href="avatar_d1575cd6e9db_16.png">
+        <link rel="alternate" type="application/rss+xml" href="http://blog.austinlouden.com/rss">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no">
+
+<!-- Options -->
+
+        <meta name="if:Show Navigation" content="1">
+        <meta name="if:Wide Images" content="1">
+        <meta name="if:Show Description" content="0">
+        <meta name="if:Show Post Tags" content="1">
+        <meta name="if:Show Post Notes" content="1">
+        <meta name="if:Show Copyright" content="0">
+        <meta name="if:Show Archive Navigation Link" content="1">
+        <meta name="if:Alternate Header Layout" content="0">
+        <meta name="color:Content Background" content="#fff">
+        <meta name="color:Body Text" content="#333333">
+        <meta name="color:Link Text" content="#333333">
+        <meta name="color:Link Hover" content="#333333">
+        <meta name="color:Link Active" content="#333333">
+        <meta name="color:Secondary Text" content="#888888">
+        <meta name="color:Header Text" content="#333333">
+        <meta name="image:Header" content="">
+        <meta name="text:TypeKit ID" content="">
+        <meta name="text:Header Font" content="futura">
+        <meta name="text:Body Font" content="georgia">
+        <meta name="text:Title Font" content="futura">
+        <meta name="text:Secondary Font" content="futura">
+        
+        <meta name="text:Disqus Shortname" content="">
+        <meta name="text:Google Analytics" content="">
+        
+<!-- Scripts -->
+
+    
+    
+
+    
+
+
+    
+
+<!-- Style Sheet -->
+        
+
+
+<!-- prettify -->
+
+
+
+
+<!-- End header -->
+<meta name="google-site-verification" content="uy35iNZwXeYj2WagzMvGo_FbXzQJX2sbpkGmXw0kTgA">
+    
+    
+<!-- BEGIN TUMBLR FACEBOOK OPENGRAPH TAGS -->
+<!-- If you'd like to specify your own Open Graph tags, define the og:url and og:title tags in your theme's HTML. -->
+<!-- Read more: http://ogp.me/ -->
+<meta property="fb:app_id" content="48119224995">
+<meta property="og:title" content="Your First iOS App: 100% Programmatically">
+<meta property="og:url" content="http://blog.austinlouden.com/post/47644085183/your-first-ios-app-100-programmatically">
+<meta property="og:description" content="This is Part 1 of a tutorial that follows Apple’s “Your First iOS App”, but implements all of the user interface elements programmatically. View Part 2 here or view the complete code on Github....">
+<meta property="og:type" content="tumblr-feed:entry">
+<!-- END TUMBLR FACEBOOK OPENGRAPH TAGS -->
+
+
+<!-- TWITTER TAGS -->
+<meta charset="utf-8">
+            <meta name="twitter:card" content="summary">
+            <meta name="twitter:description" content="This is Part 1 of a tutorial that follows Apple&amp;#8217;s &amp;#8220;Your First iOS App&amp;#8221;, but implements all of the user interface elements programmatically.&nbsp;View Part 2&nbsp;here&nbsp;or view the complete code on Github.&nbsp;Discussion on Hacker News. 
+  I created this tutorial for developers transitioning to iOS that don&amp;#8217;t want to deal with Storyboarding or Interface Builder. It implements the &amp;#8220;Hello World&amp;#8221; app from Apple&amp;#8217;s documentation entirely in code.&nbsp;
+ 
+ From Apple&amp;#8217;s documentation:
+
+ When you run the finished app, you click inside the text field to reveal the system-provided keyboard. After you use the keyboard to type your name, you dismiss it (by clicking its Done key) and then you click the Hello button to see the string “Hello,&nbsp;Your Name!“ in the label between the text field and the button.
+
+ First, open Xcode and click on &amp;#8220;Create a new Xcode project&amp;#8221; I&amp;#8217;m using version 4.6.
+ 
+ Use an empty application.
+ 
+
+ Fill out the remaining fields. Make sure &amp;#8220;Use Automatic Reference Counting&amp;#8221; and &amp;#8220;Include Unit Tests&amp;#8221; are checked. Core Data isn&amp;#8217;t necessary for this tutorial.
+ 
+ Even though we chose to create an &amp;#8220;Empty Application&amp;#8221;, Xcode still created some default files. Navigate to the AppDelegate.m file by clicking the file browser on the left side of the screen.
+ The App Delegate file is your application&amp;#8217;s way of communicating with the operating system, and includes several useful methods.
+ We&amp;#8217;ll mostly be dealing with &amp;#8220;application didFinishLaunchingWithOptions&amp;#8221;, which is called immediately after the application launches.
+ If you click on the Run button in the top left, your application should build with a blank white screen.
+ 
+
+ You might have noticed a warning:
+&quot;Application windows are expected to have a root view controller at the end of application launch&quot;.
+  Don&amp;#8217;t worry, we&amp;#8217;ll set this next, but first we have to create a ViewController class. Click on File, New, File&amp;#8230;
+ 
+
+ In the Cocoa Touch section, select Objective-C class and click Next.
+ 
+
+ You can choose the name of your class, but make sure to set it as a subclass of UIViewController below. I named mine &amp;#8220;MainViewController&amp;#8221;. The UIViewController is a fundamental class of iOS development, and is used to make and handle interaction with elements in the user interface. Click Next, and then Create.
+ 
+ You should now have MainViewController.m and MainViewController.h files with some boilerplate code inside. We&amp;#8217;ll come back to those in a bit - for now, go back to your AppDelegate.m file.
+ First, make sure to import your MainViewController class at the top of the file:
+#import &quot;AppDelegate.h&quot;
+#import &quot;MainViewController.h&quot;
+
+ Next, take a look at the &amp;#8220;application didFinishLaunching&amp;#8221; method - it should contain some default code matching the one below:
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+ It&amp;#8217;s here that we set the &amp;#8220;root view controller&amp;#8221; property - or the view that is displayed when the application launches.
+    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] 
+    initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    // Override point for customization after application launch.
+    self.window.backgroundColor = [UIColor whiteColor];
+    
+    /*  create an instance of our view controller
+        then set it as the window's root view controller
+    */
+    MainViewController *viewController = 
+    [[MainViewController alloc] init];
+    
+    self.window.rootViewController = viewController;
+    
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+
+ Running the app again should still give you a white screen, but this time the warning will disappear. In the next part of this tutorial, we&amp;#8217;ll handle all of the on-screen elements.
+ Continue to Part 2
+ Tweet
+// ">
+            <meta name="twitter:title" content="Your First iOS App: 100% Programmatically">
+            <meta name="twitter:url" content="http://blog.austinlouden.com/post/47644085183/your-first-ios-app-100-programmatically">
+            <meta name="twitter:site" content="tumblr">
+            <meta name="twitter:app:name:iphone" content="Tumblr">
+            <meta name="twitter:app:name:ipad" content="Tumblr">
+            <meta name="twitter:app:name:googleplay" content="Tumblr">
+            <meta name="twitter:app:id:iphone" content="305343404">
+            <meta name="twitter:app:id:ipad" content="305343404">
+            <meta name="twitter:app:id:googleplay" content="com.tumblr">
+            <meta name="twitter:app:url:iphone" content="tumblr://x-callback-url/blog?blogName=austinlouden&amp;postID=47644085183&amp;referrer=twitter-cards">
+            <meta name="twitter:app:url:ipad" content="tumblr://x-callback-url/blog?blogName=austinlouden&amp;postID=47644085183&amp;referrer=twitter-cards">
+            <meta name="twitter:app:url:googleplay" content="tumblr://x-callback-url/blog?blogName=austinlouden&amp;postID=47644085183&amp;referrer=twitter-cards">
+    
+
+<meta http-equiv="x-dns-prefetch-control" content="off">
+<meta name="keywords" content="iphone,introduction,tutorial,programming,ios">
+
+
+<link rel="stylesheet" type="text/css" href="index.css" media="all">
+</head>
+<body data-twttr-rendered="true">
+		
+		<div id="page">
+		
+			<div id="header">
+                
+                
+				<div class="links">
+					<ul>
+						<li><a href="http://austinlouden.com/">Home</a></li>
+                        
+                        
+                        
+                        
+                        <li><a href="http://blog.austinlouden.com/archive">Archive</a></li>
+                        
+					</ul>
+				</div>
+				
+                
+                
+                
+				<div class="blog-title">
+                
+                    
+                    
+                    
+                    <h1><a href="http://blog.austinlouden.com/"></a></h1>
+                    
+					
+                    
+				</div>
+				
+				
+			
+			</div> <!-- header end -->
+			
+			<div id="content">
+            
+			
+				
+                
+                <!-- TEXT POST 
+				///////////////////////////////////////////////////////-->
+				
+				<div class="post text">
+				
+					<div class="narrow">
+					    
+                        
+						<div class="title">
+							<h1>Your First iOS App: 100% Programmatically</h1>						
+						</div>
+                        
+						
+						<div class="caption">
+						
+						<p><small><em>This is Part 1 of a tutorial that follows Apple’s <a href="http://developer.apple.com/library/ios/#documentation/iphone/conceptual/iPhone101/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40007514-CH1-SW1">“Your First iOS App”</a>, but implements all of the user interface elements programmatically.&nbsp;<a href="http://blog.austinlouden.com/post/47644085183/your-first-ios-app-100-programmatically"><span>View Part 2&nbsp;</span>here<span></span></a>&nbsp;or <a href="https://github.com/austinlouden/programmatically">view the complete code on Github.</a>&nbsp;Discussion on <a href="https://news.ycombinator.com/item?id=5559216">Hacker News</a>.</em></small><a href="https://github.com/austinlouden/programmatically"><br></a></p>
+<p><em><br></em>I created this tutorial for developers transitioning to iOS that don’t want to deal with Storyboarding or Interface Builder. It implements the “Hello World” app from Apple’s documentation entirely in code.&nbsp;</p>
+<p><img alt="image" src="tumblr_inline_ml01lskrwp1qz4rgp.png"></p>
+<p><span>From Apple’s documentation:</span></p>
+<blockquote>
+<p><span>When you run the finished app, you click inside the text field to reveal the system-provided keyboard. After you use the keyboard to type your name, you dismiss it (by clicking its Done key) and then you click the Hello button to see the string “Hello,&nbsp;</span><em>Your Name</em><span>!“ in the label between the text field and the button.</span></p>
+</blockquote>
+<p><span>First, open Xcode and click on “Create a new Xcode project” I’m using version 4.6.</span></p>
+<p><img alt="image" src="tumblr_inline_ml039qmmlv1qz4rgp.png"></p>
+<p>Use an empty application.</p>
+<p><img alt="image" src="tumblr_inline_ml06bq7p8b1qz4rgp.png"></p>
+
+<p>Fill out the remaining fields. Make sure “Use Automatic Reference Counting” and “Include Unit Tests” are checked. Core Data isn’t necessary for this tutorial.</p>
+<p><img alt="image" src="tumblr_inline_ml06eyawia1qz4rgp.png"></p>
+<p>Even though we chose to create an “Empty Application”, Xcode still created some default files. Navigate to the AppDelegate.m file by clicking the file browser on the left side of the screen.<img alt="image" src="tumblr_inline_ml073n3les1qz4rgp.png"></p>
+<p>The App Delegate file is your application’s way of communicating with the operating system, and includes several useful methods.</p>
+<p>We’ll mostly be dealing with “application didFinishLaunchingWithOptions”, which is called immediately after the application launches.</p>
+<p>If you click on the Run button in the top left, your application should build with a blank white screen.</p>
+<p><img alt="image" src="tumblr_inline_ml08cusvfo1qz4rgp.jpg"></p>
+
+<p>You might have noticed a warning:</p>
+<pre>"Application windows are expected to have a root view controller at the end of application launch".</pre>
+<p><strong><br></strong>Don’t worry, we’ll set this next, but first we have to create a ViewController class. Click on File, New, File…</p>
+<p><img alt="image" src="tumblr_inline_ml0dkqkzp01qz4rgp.png"></p>
+
+<p>In the Cocoa Touch section, select Objective-C class and click Next.</p>
+<p><img alt="image" src="tumblr_inline_ml0dmpndfm1qz4rgp.png"></p>
+
+<p><span>You can choose the name of your class, but make sure to set it as a subclass of UIViewController below. I named mine “MainViewController”. The UIViewController is a fundamental class of iOS development, and is used to make and handle interaction with elements in the user interface. Click Next, and then Create.</span></p>
+<p><span><img alt="image" src="tumblr_inline_ml0dwawbgt1qz4rgp.png"></span></p>
+<p>You should now have MainViewController.m and MainViewController.h files with some boilerplate code inside. We’ll come back to those in a bit - for now, go back to your AppDelegate.m file.</p>
+<p><span>First, make sure to import your MainViewController class at the top of the file:</span></p>
+<pre style="" class="prettyprint prettyprinted"><code><span class="com">#import "AppDelegate.h"</span><span class="pln">
+</span><span class="com">#import "MainViewController.h"</span></code></pre>
+<p><span>Next, take a look at the “application didFinishLaunching” method - it should contain some default code matching the one below:</span></p>
+<pre style="" class="prettyprint prettyprinted"><code><span class="pun">-</span><span class="pln"> </span><span class="pun">(</span><span class="pln">BOOL</span><span class="pun">)</span><span class="pln">application</span><span class="pun">:(</span><span class="typ">UIApplication</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">application didFinishLaunchingWithOptions</span><span class="pun">:(</span><span class="typ">NSDictionary</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">launchOptions
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[[</span><span class="typ">UIWindow</span><span class="pln"> alloc</span><span class="pun">]</span><span class="pln"> </span><br><span class="pln">initWithFrame</span><span class="pun">:[[</span><span class="typ">UIScreen</span><span class="pln"> mainScreen</span><span class="pun">]</span><span class="pln"> bounds</span><span class="pun">]];</span><span class="pln">
+    </span><span class="com">// Override point for customization after application launch.</span><span class="pln">
+    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window</span><span class="pun">.</span><span class="pln">backgroundColor </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="typ">UIColor</span><span class="pln"> whiteColor</span><span class="pun">];</span><span class="pln">
+    </span><span class="pun">[</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window makeKeyAndVisible</span><span class="pun">];</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> YES</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>It’s here that we set the “root view controller” property - or the view that is displayed when the application launches.</p>
+<pre style="" class="prettyprint prettyprinted"><code><span class="pln">    </span><span class="pun">-</span><span class="pln"> </span><span class="pun">(</span><span class="pln">BOOL</span><span class="pun">)</span><span class="pln">application</span><span class="pun">:(</span><span class="typ">UIApplication</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">application didFinishLaunchingWithOptions</span><span class="pun">:(</span><span class="typ">NSDictionary</span><span class="pln"> </span><span class="pun">*)</span><span class="pln">launchOptions
+</span><span class="pun">{</span><span class="pln">
+    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[[</span><span class="typ">UIWindow</span><span class="pln"> alloc</span><span class="pun">]</span><span class="pln"> 
+    initWithFrame</span><span class="pun">:[[</span><span class="typ">UIScreen</span><span class="pln"> mainScreen</span><span class="pun">]</span><span class="pln"> bounds</span><span class="pun">]];</span><span class="pln">
+    
+    </span><span class="com">// Override point for customization after application launch.</span><span class="pln">
+    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window</span><span class="pun">.</span><span class="pln">backgroundColor </span><span class="pun">=</span><span class="pln"> </span><span class="pun">[</span><span class="typ">UIColor</span><span class="pln"> whiteColor</span><span class="pun">];</span><span class="pln">
+    
+    </span><span class="com">/*  create an instance of our view controller
+        then set it as the window's root view controller
+    */</span><span class="pln">
+    </span><span class="typ">MainViewController</span><span class="pln"> </span><span class="pun">*</span><span class="pln">viewController </span><span class="pun">=</span><span class="pln"> 
+    </span><span class="pun">[[</span><span class="typ">MainViewController</span><span class="pln"> alloc</span><span class="pun">]</span><span class="pln"> init</span><span class="pun">];</span><span class="pln">
+    
+    </span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window</span><span class="pun">.</span><span class="pln">rootViewController </span><span class="pun">=</span><span class="pln"> viewController</span><span class="pun">;</span><span class="pln">
+    
+    </span><span class="pun">[</span><span class="kwd">self</span><span class="pun">.</span><span class="pln">window makeKeyAndVisible</span><span class="pun">];</span><span class="pln">
+    </span><span class="kwd">return</span><span class="pln"> YES</span><span class="pun">;</span><span class="pln">
+</span><span class="pun">}</span></code></pre>
+<p>Running the app again should still give you a white screen, but this time the warning will disappear. In the next part of this tutorial, we’ll handle all of the on-screen elements.</p>
+<p><a href="http://blog.austinlouden.com/post/47644627216/your-first-ios-app-100-programmatically">Continue to Part 2</a></p>
+<p><iframe data-twttr-rendered="true" title="Twitter Tweet Button" style="width: 107px; height: 20px;" class="twitter-share-button twitter-count-horizontal" src="index_1.html" allowtransparency="true" frameborder="0" scrolling="no"></iframe></p>
+
+						
+						</div> <!-- End caption -->
+					    
+                         
+					
+						<div class="metadata">
+						    
+                            
+        					<div class="date">
+								<a href="http://blog.austinlouden.com/post/47644085183/your-first-ios-app-100-programmatically">Apr. 10 2013</a>
+							</div>
+                            
+							
+                            
+                            
+                             
+							 
+                            <div class="tags">
+                                
+								<a href="http://blog.austinlouden.com/tagged/ios">#ios</a>
+							    
+								<a href="http://blog.austinlouden.com/tagged/programming">#programming</a>
+							    
+								<a href="http://blog.austinlouden.com/tagged/tutorial">#tutorial</a>
+							    
+								<a href="http://blog.austinlouden.com/tagged/introduction">#introduction</a>
+							    
+								<a href="http://blog.austinlouden.com/tagged/iphone">#iphone</a>
+							     
+							</div>
+                             
+						    
+                            
+						
+						</div> <!-- metadata end -->
+				
+					</div> <!-- text end -->
+				
+				</div> <!-- post end -->
+                
+				
+				
+                
+                
+                
+                
+                
+				
+                
+                
+				
+				
+				
+                
+                
+                
+				
+				 
+                
+                
+		
+		         
+				
+                
+                
+				
+                
+            
+                
+            
+                <!-- PERMALINK CONTENT 
+                ////////////////////////////////////////////////// -->
+				    
+                <div class="narrow">
+                    
+						<div id="permalink-content">
+                        
+                        
+					        
+                             
+							<div class="permalink-notes">
+					
+								<h3>Notes</h3>
+	                    
+                                
+<ol class="notes">
+
+    <!-- START NOTES -->
+                            
+                                                        
+        
+        
+        <li class="note reblog tumblelog_napolux with_commentary">
+
+                        
+                
+                                                                                        <a rel="nofollow" class="avatar_frame" target="_top" href="http://coding.napolux.com/" title="Coding"><img src="avatar_306adf444805_16.png" class="avatar " alt=""></a>
+                    
+                    <span class="action" data-post-url="http://coding.napolux.com/post/48141871596">
+                                                    
+                                                                                                                                                                                    <a rel="nofollow" href="http://coding.napolux.com/" class="tumblelog" title="Coding">napolux</a> reblogged this from <a rel="nofollow" href="http://blog.austinlouden.com/" class="source_tumblelog" title="">austinlouden</a> and added:                                                                                                                                                                                    </span>
+                    <div class="clear"></div>
+
+                                            <blockquote>
+                            <a rel="nofollow" href="http://coding.napolux.com/post/48141871596" title="View post">
+                                Da leggere                            </a>
+                        </blockquote>
+                                    
+                        
+        </li>
+                            
+                                                        
+        
+        
+        <li class="note like tumblelog_ever-last-forever without_commentary">
+
+                                                                                <a rel="nofollow" class="avatar_frame" target="_top" href="http://ever-last-forever.tumblr.com/" title="Dakota.Espen "><img src="avatar_bcd404a916ba_16.png" class="avatar " alt=""></a>
+                
+                <span class="action">
+                    
+                                            <a rel="nofollow" href="http://ever-last-forever.tumblr.com/" title="Dakota.Espen">ever-last-forever</a> likes this                                    </span>
+
+                <div class="clear"></div>
+
+                        
+        </li>
+                            
+                                                        
+        
+        
+        <li class="note reblog tumblelog_austinlouden without_commentary">
+
+                        
+                
+                                                                                        <a rel="nofollow" class="avatar_frame" target="_top" href="http://blog.austinlouden.com/" title=""><img src="avatar_d1575cd6e9db_16.png" class="avatar " alt=""></a>
+                    
+                    <span class="action" data-post-url="http://blog.austinlouden.com/post/47644085183">
+                                                    
+                                                            <a rel="nofollow" href="http://blog.austinlouden.com/" class="tumblelog" title="">austinlouden</a> posted this                                                                        </span>
+                    <div class="clear"></div>
+
+                                    
+                        
+        </li>
+    
+    
+    <!-- END NOTES -->
+</ol>
+                                
+							</div> <!-- notes end -->
+                            
+					
+						</div> <!-- permalink content end -->  
+				
+				
+
+			</div> <!-- content end -->
+			
+			<div id="footer">
+			    
+                
+                
+				<div id="footer-links">
+					<iframe data-twttr-rendered="true" title="Twitter Follow Button" style="width: 143px; height: 20px;" class="twitter-follow-button twitter-follow-button" src="index_2.html" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+
+						<ul>
+							<li><a href="http://austinlouden.com/">Home</a></li>
+                            
+                            
+                            
+                            <li><a href="http://blog.austinlouden.com/archive">Archive</a></li>
+					</ul>
+				</div>
+				
+				<div class="colophon">
+					
+                    
+
+					
+				</div>
+			
+			</div><!-- content end -->
+		
+		</div> <!-- page end -->
+
+<!-- BEGIN TUMBLR CODE -->
+    
+        
+        <iframe src="index_3.html" style="position: fixed; z-index: 1337; top: 0px; right: 0px; border: 0px none; background-color: transparent; overflow: hidden;" id="tumblr_controls" frameborder="0" height="25" scrolling="no" width="330"></iframe>
+        <!--[if IE]><script type="text/javascript">document.getElementById('tumblr_controls').allowTransparency=true;</script><![endif]-->
+    
+        
+    
+    <!-- END TUMBLR CODE -->
+
+<iframe src="index_4.html" style="background-color: transparent; overflow: hidden; position: absolute; top: 0px;" id="ga_target" frameborder="0" height="1" scrolling="no" width="1"></iframe>
+
+    
+
+
+
+    
+    
+    
+
+
+    
+
+</div></body>
+</html>

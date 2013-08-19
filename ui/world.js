@@ -6,94 +6,120 @@
  */
 Cotton.UI.World = Class.extend({
   /**
-   * Story container
+   * Lightyear Application
    */
-  _$storyContainer : null,
+  _oLightyear : null,
 
   /**
-   * @constructor
+   * {DOM} current element that grab the whole page. (body)
    */
-  init : function() {
-    var self = this;
-    this._$storyContainer = $(".ct-story_container");
-    chrome.extension.sendMessage({
-      'action': 'pass_background_screenshot'
-    }, function(response) {
-      //set background image and blur it
-      $('#blur_target').css('background-image',"url("+response.src+")");
-      $('body').blurjs({
-          'source': '#blur_target',
-          'radius': 15,
-          'overlay': 'rgba(0,0,0,0.2)'
-      });
-    });
+  _$world : null,
 
-    // progressive blur effect
-    $(document).ready(function() {
-      $("#blur_target").delay(100).fadeOut(800);
-      $('.ct-menu').delay(200).animate({left: '+=250',}, 300, function(){});
-    });
+  /**
+   * {Cotton.UI.Story.Element} oStoryElement
+   */
+  _oStoryElement : null,
+
+  /**
+   * {Cotton.UI.SideBar} oSideBar
+   */
+  _oSideMenu : null,
+
+  /**
+   * @param {Cotton.Application.Lightyear} oApplication
+   * @param {Cotton.Core.Messenger} oMessenger
+   */
+  init : function(oApplication, oMessenger, oDispatcher, $dom_world) {
+    var self = this;
+    this._oLightyear = oApplication;
+    this._oDispatcher = oDispatcher;
+
+    this._$world = $dom_world || $('.ct');
   },
 
-  buildStory : function(iStoryId) {
-    var self = this;
-    self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-        'stories' : Cotton.Translators.STORY_TRANSLATORS,
-        'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-    }, function() {
-	  self = self;
-      self._oDatabase.find('stories', 'id', iStoryId, function(oStory) {
-        self._oDatabase.findGroup('historyItems', 'id', oStory.historyItemsId(),
-        function(lHistoryItems) {
-          // Initialize isotope grid view
-          self.initPlaceItems();
-          self.createStory(lHistoryItems);
-          self.countItems();
-          $('.ct-filter').click(function(){
-            var selector = $(this).attr('data-filter');
-            $('.ct-story_container').isotope({ 'filter': selector });
-	        return false;
-          });
-        });
-        self.createMenu(oStory);
-      });
-    });
+  $ : function () {
+    return this._$world;
   },
 
-  createStory : function(lHistoryItems){
-    var self = this;
-    for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++){
-      var oHistoryItem = lHistoryItems[i];
-      var oItem = new Cotton.UI.Story.Item.Element(oHistoryItem, self._$storyContainer);
+  storyElement : function() {
+    return this._oStoryElement;
+  },
+
+  sideMenu : function() {
+    return this._oSidebar;
+  },
+
+  lightyear : function() {
+    return this._oLightyear;
+  },
+
+  recycleItem : function(oHistoryItem) {
+    this._oStoryElement.recycleItem(oHistoryItem);
+  },
+
+  recycleMenu : function(oStory) {
+    this._oSideMenu.recycle(oStory);
+  },
+
+  updateManager : function(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories) {
+    this._oManager = null;
+    this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories, this._oDispatcher);
+    this._$world.append(this._oManager.$());
+    this._oManager.centerTop();
+    this._oManager.topbar().show();
+  },
+
+  clearAll: function(){
+    this.$().empty();
+  },
+
+  /**
+   * @param {Cotton.Model.Story} oStory :
+   *  the story have to be filled with all the historyItems so it can be display.
+   */
+  updateStory : function(oStory) {
+    this._$spacer = $('<div class="ct-spacer"></div>');
+    this._$world.append(this._$spacer);
+    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispatcher);
+    this._$world.append(this._oStoryElement.$());
+  },
+
+  /**
+   * @param {Cotton.Model.Story} oStory :
+   *  the story can be just with the title and the image.
+   */
+  updateMenu : function(oStory, iNumberOfRelated) {
+      var self = this;
+      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher, iNumberOfRelated);
+      // FIXME(rmoutard or rkorach): the append shouldn't be there.
+      this._$world.append(this._oSideMenu.$());
+      // Make sure the oSideMenu has been append.
+      setTimeout(function(){self._oSideMenu.slideIn();}, 0);
+  },
+
+  relatedStories : function(lStories){
+    this._oStoryElement.hide();
+    if (this._oRelatedStories) {
+      this._oRelatedStories.$().remove();
     }
+    this._oRelatedStories = new Cotton.UI.RelatedStories.Stories(lStories, this._oDispatcher);
+    this._$world.append(this._oRelatedStories.$())
   },
 
-  createMenu : function(oStory){
-    var oMenu = new Cotton.UI.SideMenu.Menu(oStory);
+  showSearchRelated : function(lSearchResultStories){
+    this._oRelatedStories.showSearch(lSearchResultStories);
   },
 
-  countItems: function(){
-    var sAllCount = $('.ct-story_item').length;
-    $('.all_count').text(sAllCount);
-    var sArticlesCount = $('.ct-item-default').length;
-    $('.articles_count').text(sArticlesCount);
-    var sImagesCount = $('.ct-item-image').length;
-    $('.images_count').text(sImagesCount);
-    var sVideosCount = $('.ct-item-video').length;
-    $('.videos_count').text(sVideosCount);
-    var sMapsCount = $('.ct-item-map').length;
-    $('.maps_count').text(sMapsCount);
-    var sSoundsCount = $('.ct-item-sound').length;
-    $('.sounds_count').text(sSoundsCount);
-    // ToDo (rkorach) : spécific case for quotes
-    var sQuotesCount = $('.ct-item-quote').length;
-    $('.quotes_count').text(sQuotesCount);
+  exitSearchRelated : function() {
+    this._oRelatedStories.exitSearch();
   },
 
-  initPlaceItems: function(){
-    $('.ct-story_container').isotope({
-        'itemSelector' : '.ct-story_item',
-        'layoutMode' : 'fitColumns',
-    });
+  showSearchManager : function(lSearchResultStories){
+    this._oManager.showSearch(lSearchResultStories);
+  },
+
+  exitSearchManager : function() {
+    this._oManager.exitSearch();
   }
+
 });

@@ -12,7 +12,7 @@ importScripts('../../lib/underscore.min.js');
 
 importScripts('../../init.js');
 
-importScripts('../../utils/init.js');
+// Cotton.utils.
 importScripts('../../utils/url_parser.js');
 
 // Cotton.config
@@ -21,35 +21,31 @@ importScripts('../../config/config.js');
 
 // Cotton.algo.
 importScripts('../../algo/init.js');
-importScripts('../../algo/common/init.js');
-importScripts('../../algo/common/tools.js');
-importScripts('../../algo/dbscan1/distance.js');
-importScripts('../../algo/dbscan1/dbscan.js');
-importScripts('../../algo/dbscan1/pre_treatment.js');
-importScripts('../../algo/dbscan2/init.js');
+importScripts('../../algo/dbscan/score/init.js');
+importScripts('../../algo/dbscan/score/dbrecord_score.js');
+importScripts('../../algo/dbscan/dbscan.js');
+importScripts('../../algo/dbscan2/find_closest_google_search_page.js');
 
 /**
  * Loop through all the HistoryItems and compute their distances to each other.
  * Keys are HistoryItem ids. Values are lists of couples with distances
  * including the HistoryItem.
  */
-function handleHistoryItem(lHistoryItems) {
+function handleHistoryItem(lHistoryItems, iSenderTabId) {
 
   // PARAMETERS
   // Max Distance between neighborhood.
-  var fEps = Cotton.Config.Parameters.fEps;
+  var fEps = Cotton.Config.Parameters.dbscan2.fEps;
   // Min Points in a cluster
-  var iMinPts = Cotton.Config.Parameters.iMinPts;
-
-  // TOOLS
-  lHistoryItems = Cotton.Algo.PreTreatment.suite(lHistoryItems);
+  var iMinPts = Cotton.Config.Parameters.dbscan2.iMinPts;
 
   var iNbCluster = Cotton.Algo.DBSCAN(lHistoryItems, fEps, iMinPts,
-      Cotton.Algo.Distance.meaning);
+      Cotton.Algo.Score.DBRecord.HistoryItem);
 
   var dData = {};
   dData['iNbCluster'] = iNbCluster;
   dData['lHistoryItems'] = lHistoryItems;
+  dData['iSenderTabId'] = iSenderTabId;
 
   // Send data to the main thread. Data are serialized.
   self.postMessage(dData);
@@ -64,5 +60,5 @@ function handleHistoryItem(lHistoryItems) {
  * Cotton.Model.HistoryItem, but object.
  */
 self.addEventListener('message', function(e) {
-   handleHistoryItem(e.data);
+   handleHistoryItem(e.data['pool'], e.data['sender']);
 }, false);

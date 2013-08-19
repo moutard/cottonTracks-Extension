@@ -23,17 +23,22 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   _bImageSet : null,
   _lAllParagraphs : null,
   _sImageUrl : null,
+  _bStoryImageUpdated : null,
+  _oMessenger : null,
 
   /**
-   * @constructor
+   *
    */
-  init : function() {
+  init : function(oMessenger) {
     this._iId = "";
     this._oCurrentHistoryItem = new Cotton.Model.HistoryItem();
     this._bParagraphSet = false;
     this._bImageSet = false;
     this._lAllParagraphs = [];
     this._sImageUrl = "";
+    this._bStoryImageUpdated = false;
+    this._oMessenger = oMessenger;
+
   },
 
   /**
@@ -47,30 +52,54 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
   /**
    * Use chrome messaging API, to send a message to the background page, that
-   * will put the current historyItem is the database.
+   * will put the passed historyItem into the database.
    */
-  createVisit : function() {
+  createHistoryItem : function(oItem, mCallback) {
     var self = this;
 
-    // We don't want chrome make the serialization. So we use translators to
-    // make it.
     var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
-    var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
+    var dDbRecord = oTranslator.objectToDbRecord(oItem);
 
-    chrome.extension.sendMessage({
+    this._oMessenger.sendMessage({
       'action' : 'create_history_item',
       'params' : {
         'historyItem' : dDbRecord
       }
     }, function(response) {
-      //The historyItem url was not in base, init this one with the new id created
-      DEBUG && console.debug('DBSync create visit - response :')
-      DEBUG && console.debug(response);
-      self._oCurrentHistoryItem.initId(response['id']);
-      self._iId = response['id'];
+      if (response) {
+        if (response['ghost']) {
+          self._bGhost = true;
+        } else if (response['status'] == "not started") {
+          // the database is not ready yet, retry.
+          self.createVisit();
+        } else {
+          oItem.initId(response['id']);
+          oItem.setStoryId(response['storyId']);
+          DEBUG && console.debug('DBSync create history item', {
+            'item': oItem, 'response': response
+          });
+          if(typeof mCallback === 'function'){
+            mCallback.call(this, response);
+          }
+        }
+      }
     });
+  },
 
+  /**
+   * Create a visit item
+   * Used for embeded video to create a independant historyItem that
+   * contains the url of the video.
+   */
+  createVisit : function() {
+    var self = this;
+      self.createHistoryItem(self.current(), function(response) {
+        self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
+        self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
+        self._iId = response['id'];
+        //self.updateVisit();
+      });
   },
 
   /**
@@ -84,10 +113,9 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
     // Place here the code to only store the most read paragraph.
     var lParagraphs = self._oCurrentHistoryItem.extractedDNA().paragraphs();
-    lParagraphs = _.sortBy(lParagraphs, function(oParagraph) {
-      return -1 * oParagraph.percent();
+    lParagraphs = _.filter(lParagraphs, function(oParagraph) {
+      return (oParagraph.percent() > Cotton.Config.Parameters.minPercentageForBestParagraph);
     });
-    lParagraphs = lParagraphs.slice(0, 2);
     self._oCurrentHistoryItem.extractedDNA().setParagraphs(lParagraphs);
 
     // in the content_scitps it's always the last version of the model.
@@ -97,17 +125,27 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
     if (self._oCurrentHistoryItem.id() === undefined) {
       DEBUG && console.debug("can't update id is not set.");
+      if (self._bGhost){
+        // the page was loaded in the background in a "hidden tab" (chrome prerendering)
+        // we did not listen to it, because chrome doesn't recognise messaging to tabs
+        // with id -1, plus we don't want a historyItem that wasn't actually visited.
+        // However, when the ghost page is actually visited, we don't want to reload it
+        // so we create a new visit.
+        //TODO(rkorach) use chrome.tabs.replace api that handles this particular event.
+        self.createVisit();
+      }
     } else {
-      chrome.extension.sendMessage({
+      this._oMessenger.sendMessage({
         'action' : 'update_history_item',
         'params' : {
           'historyItem' : dDbRecord,
-          'contentSet' : self._bParagraphSet && self._bImageSet
+          'contentSet' : self._bParagraphSet && self._bImageSet && !self._bStoryImageUpdated,
         }
       }, function(response) {
         // DEPRECATED - update_history_item do not respond.
         DEBUG && console.debug("dbSync update visit - response :");
         DEBUG && console.debug(response);
+        self._bStoryImageUpdated = true;
       });
     }
 
@@ -128,5 +166,5 @@ Cotton.Behavior.BackgroundClient = Class.extend({
 
 // CHROME TABS API
 //
-// chrome.tabs.getCurrent(function(oTab){console.log(oTab);})
+// chrome.tabs.getCurrent(function(oTab){DEBUG && console.debug(oTab);})
 // can't be used outside the extension context. But could b very usefull.

@@ -1,45 +1,88 @@
 'use strict';
 
 /**
- *   Global menu of the interface.
- *   Contains the SumUp of the story (with sticker image, title,
- *   content details, and actions available)
- *   the filters, and the settings button
- **/
-
+ * Global menu of the interface.
+ * Contains the SumUp of the story (with sticker image, title, content details,
+ * and actions available) the filters, and the settings button
+ */
 Cotton.UI.SideMenu.Menu = Class.extend({
 
-	_$menu : null,
-	_oStory : null,
-	_oSumUp : null,
-	_oFilters : null,
-	_oSettings : null,
-	_$separationLineTop : null,
-	_$separationLineBottom : null,
+  /**
+   * {Cotton.UI.World} parent element.
+   */
+  _oWorld : null,
 
-	init : function(oStory){
-		this._$menu = $(".ct-menu");
+  /**
+   * {DOM} current element.
+   */
+  _$menu : null,
 
-		this._oStory = oStory;
-		this._oSumUp = new Cotton.UI.SideMenu.SumUp(this);
-		this._oFilters = new Cotton.UI.SideMenu.Filters(this);
-		this._oSettings = new Cotton.UI.SideMenu.Settings(this);
-		this._$separationLineTop = $('<div class="separation_line"></div>');
-		this._$separationLineBottom = $('<div class="separation_line"></div>');
+  _oStory : null,
 
-		//construct element
-		this._$menu.append(
-		  this._oSumUp.$(),
-		  this._oFilters.$().prepend(this._$separationLineTop),
-		  this._oSettings.$()
-	  )
-	},
+  _oPreview : null,
+  _oRelatedToggler : null,
+  _oFilters : null,
+  _oSettings : null,
 
-  $ : function(){
-	  return this._$menu;
+  init : function(oStory, oDispatcher, iNumberOfRelated) {
+    if (iNumberOfRelated === undefined){
+      iNumberOfRelated = 0;
+    }
+    this._oDispatcher = oDispatcher;
+    this._iRelated = iNumberOfRelated;
+
+    // Current element.
+    this._$menu = $('<div class="ct-menu"></div>');
+    this._oStory = oStory;
+
+    // Sub elements.
+    this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
+        oStory, this._oDispatcher);
+    this._oRelatedToggler = new Cotton.UI.SideMenu.RelatedToggler(iNumberOfRelated, this._oDispatcher);
+    this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
+    this._oSettings = new Cotton.UI.SideMenu.Settings(this._oDispatcher);
+
+    this._oFilters.setFilterCount("all", oStory.historyItems().length);
+    //construct element
+    this._$menu.append(
+      this._oPreview.$(),
+      this._oRelatedToggler.$(),
+      this._oFilters.$(),
+      this._oSettings.$()
+    )
   },
 
-  story : function(){
-	  return this._oStory;
+  $ : function() {
+    return this._$menu;
+  },
+
+  world : function() {
+    return this._oWorld;
+  },
+
+  story : function() {
+    return this._oStory;
+  },
+
+  updateStory : function(oStory) {
+    this._oStory = oStory;
+  },
+
+  recycle : function(oStory) {
+    this.updateStory(oStory);
+    this._oPreview.recycle(oStory);
+  },
+
+  preview : function() {
+    return this._oPreview;
+  },
+
+  slideIn : function() {
+    this._$menu.addClass('slideIn');
+  },
+
+  filters : function() {
+    return this._$filters;
   }
+
 });

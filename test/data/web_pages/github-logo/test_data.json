@@ -1,0 +1,10 @@
+{
+  "id": "github-logo",
+  "url": "https://github.com/blog/1472-new-github-logo",
+  "path": "test/data/web_pages/github-logo/content/index.html",
+  "best_image": "https://f.cloud.github.com/assets/72919/381606/fffdd290-a5e2-11e2-8099-e1b5d8286da3.jpg",
+  "expected": [
+    "Today we are excited to ship a new iteration of our visual identity: an updated logo, an official mark, and an Octocat that conveys as much character as the Octocats that power GitHub (they push the buttons for us).",
+    "We've worked hard to preserve the things that both we and the community love about the GitHub identity while improving the things we felt didn't fit. We have big dreams and now an identity that will suit them well. If you would like copies of these assets to represent GitHub in your own apps check out the logos page for downloads and information about how and when they should be used."
+  ]
+}
