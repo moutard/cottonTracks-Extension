@@ -1,0 +1,10 @@
+* html .a-f-e, :first-child + html .a-f-e { display: inline; }
+.ZRa { float: left; white-space: nowrap; }
+.g-rba-Dh-kQa { margin: 0px; padding: 0px; background-color: transparent; }
+.hAa { cursor: pointer; display: block; outline: 0px none; position: relative; text-decoration: none; }
+.Qo { width: 32px; height: 20px; }
+.Bg .Qo { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -720px transparent; }
+.Bg .Qo:hover { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -766px transparent; }
+.Bg .Qo:active { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll -25px -463px transparent; }
+@media not all, only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+}

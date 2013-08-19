@@ -1,0 +1,535 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN""http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>CNN.com - Page not found</title>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<meta name="robots" content="noindex, follow">
+<link rel="Start" href="/">
+<link rel="Search" href="/search/">
+	
+<script type="text/javascript" src="http://i.cdn.turner.com/cnn/.element/js/3.0/protoaculous.1.8.2.min.js"></script>
+<script type="text/javascript" src="http://i.cdn.turner.com/cnn/.element/js/3.0/main.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://i.cdn.turner.com/cnn/.element/css/3.0/common.css" />
+<link rel="stylesheet" type="text/css" href="http://i.cdn.turner.com/cnn/.element/css/3.0/main.css" />
+<link rel="stylesheet" type="text/css" href="http://i.cdn.turner.com/cnn/.element/css/3.0/search.css" />
+
+<style>
+
+/* NOT FOUND PAGE SPECIFIC CSS */
+html body { background-color:#fafafa; }
+
+.cnn_contentarea
+{ width:980px; overflow:hidden; }
+
+.cnn_stryarblkbr
+{ background-color:#000; height:3px; overflow:hidden; width:980px; margin:0 auto; }
+
+.cnn404Title
+{ font-size:30px; font-weight:bold; text-align:center; }
+
+.cnn404Body
+{ padding:30px 40px; }
+
+.cnn404Body p
+{ font-size:18px; font-family:arial, helvetica, sans-serif; line-height:20px; }
+
+.cnn404Body #cnnSearchBox
+{ margin-top:49px; text-align:center; width:476px; margin-left:auto; margin-right:auto; }
+
+.cnn404Body .cnnSearchLinks
+{ text-align:left; width:476px; margin:0 auto; font-weight:normal; font-size:11px; padding-top:5px; }
+
+.cnn404Body .cnnSearchLinks .cnnSelected
+{ color:#555; font-weight:normal; cursor:default; }
+
+.cnn404Body h2
+{ font-size:18px; font-weight:bold; margin-top:30px; }
+
+.cnn404Body ol
+{ list-style-type:none; margin-bottom:16px; }
+
+.cnn404Body ol li
+{ font-weight:bold; }
+
+.cnn404Body ol b
+{ color:#004276; }
+
+#cnnMPStory, #cnnMPSearch
+{ float:left; margin-top:40px; margin-bottom:32px; display:none; }
+
+#cnnMPStory
+{ border-right:1px solid #e6e6e6; width:455px; margin-right:65px; }
+
+.cnnasearchmenuright
+{ padding-right:5px; }
+</style>
+
+<script>
+
+function cnn404Search( frm ) {
+if($('txt404Search').value != '') {
+if(!cnnVerifySearchString($('txt404Search').value)) {alert(cnnStrInvalidSrchMsg);}
+else {
+var strSearchLoc = cnnGetSearchLoc();
+strSearchLoc += 'query=' + cnnLeftTrim($('txt404Search').value);
+
+strSearchLoc += '&';
+strSearchLoc += 'primaryType=' + $('cnn404HeadSrchType').value;
+strSearchLoc += '&';
+strSearchLoc += 'sortBy=date';
+if(location.hostname.indexOf('edition') < 0) {
+strSearchLoc += '&';
+strSearchLoc += 'intl=false';
+} else {
+strSearchLoc += '&';
+strSearchLoc += 'intl=true';
+}
+location.href = strSearchLoc;
+}
+}
+return false;
+} 
+
+function cnnSearchByFeaturedType(type) {
+	$('cnnSearchLinks').childElements().invoke('removeClassName', 'cnnSelected');
+	Form.Element.setValue($('cnn404HeadSrchType'), type);
+	$(type).addClassName('cnnSelected');
+}
+
+function cnnFixList(id) {
+	$(id).select('ol b').each(function(s) {
+	  s.innerHTML = s.innerHTML.trim() + '. ';
+	});
+}
+
+cnn_metadata.friendly_name = '404 Not found';
+cnn_metadata.template_type = 'error';
+
+</script>
+
+</head>
+
+<body>
+
+<link rel="stylesheet" type="text/css" href="http://i.cdn.turner.com/cnn/.element/css/3.0/common_ref.css" />
+<script type="text/javascript">
+	
+function CNN_removeCookie( name, path, domain ) {
+	var allCookies = CNN_getCookies();
+
+	var theValue = allCookies[ name ] || null; // We need the value to kill the cookie
+	if ( theValue ) {
+		document.cookie = name + '=' + theValue + '; expires=Fri, 13-Apr-1970 00:00:00 GMT' + ((path)?';path=' + path:'') + ((domain)?';domain=' + domain:''); // set an already-expired cookie
+	}
+}
+	
+</script>
+	
+<script type="text/javascript" src="http://i.cdn.turner.com/cnn/.element/js/3.0/csiManager.js"></script>
+<script type="text/javascript" src="http://i.cdn.turner.com/cnn/.element/js/3.0/protoaculous.1.8.2.min.js"></script>
+<script type="text/javascript" src="http://i.cdn.turner.com/cnn/.element/js/3.0/connect/connect-lite.js"></script>
+<link rel="stylesheet" type="text/css" href="http://i.cdn.turner.com/cnn/.element/css/3.0/connect/overlay.css">
+
+
+<script type="text/javascript">
+if(ms_isLoggedIn()) {
+	CNN_setCookie('CNN_member', true, 854400, '/', document.domain);
+}
+</script>
+
+<style>
+
+/* overrides to play nice */
+body {margin:0;padding:0;background:#dadada;color:#000;}
+#hdr-editions ul li.no-pad-left span{font-size:12px}
+#hdr-editions a.cnn_hdr-editionlnk{color:#fff;position:static}
+#hdr-editions li, #hdr-auth li{color:#fff}
+#hdr-editions a{color:#ffbbba}
+</style>
+
+<!-- begin default international header -->
+<!-- TODO: unobtrusive js refactor -->
+<div id="cnn_hdr">
+	<div id="cnn_hdr-prompt" style="display: none">
+		<div class="hdr-wrap">
+			<a href="#" title="" id="hdr-prompt-text" onclick="cnn_setEditionPref('www');">Click here to go to our U.S. or Arabic versions
+			<img id="hdr-arrow-intl" src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/header/hdr-arrow.jpg" width="18" height="25" alt="" />
+			</a>
+			<a href="#" title="" id="hdr-prompt-close" onclick="cnn_setEditionPref('close');">Close&nbsp;<img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/header/hdr-close.jpg" width="7" height="7" alt="" /></a>
+		</div>
+	</div>
+	<div id="cnn_hdr-main">
+		<div class="hdr-wrap">
+			<div id="hdr-banner">
+				<h1>
+					<span>CNN</span>
+					<a id="hdr-banner-title" href="/" title="">
+						<img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/header/intl/hdr-globe-central.gif" width="190" height="82" alt="CNN" />
+					</a>
+				</h1>
+			</div>
+			<div id="hdr-editions">
+				<ul>
+					<li class="no-pad-left"><span>EDITION: &nbsp;INTERNATIONAL</span></li>
+					<li><a id="cnn_switchEdition_us" href="http://us.cnn.com/" title="CNN US">U.S.</a></li>
+					<li><a href="http://www.cnnmexico.com/" title="CNN M&Eacute;XICO">M&Eacute;XICO</a></li>
+					<li class="no-border"><a title="ARABIC" href="http://arabic.cnn.com/">ARABIC</a></li>
+				</ul>
+				<div class="cnn_clear"></div>
+				<div style="padding-top:2px;">
+					<ul>
+						<li class="no-pad-left no-border no-pad-right"><span><a class="cnn_hdr-editionlnk" href="http://edition.cnn.com/CNN/Programs">TV</a>: &nbsp;</span></li>
+						<li class="no-pad-left"><a href="http://edition.cnn.com/CNN/Programs/">CNN</a></li>
+						<li class=""><a href="http://edition.cnn.com/CNNI/">CNNi</a></li>
+						<li><a href="http://cnnespanol.cnn.com/">CNN en Espa&#241;ol</a></li>
+						<li class="no-border"><a href="http://www.hlntv.com/">HLN</a></li>
+					</ul>
+				</div>
+			</div>
+			<div id="hdr-auth">
+				<ul>
+					<li><a href="/profile/" title="">Sign up</a></li>
+					<li class="no-border no-pad-right"><a href="/profile/" title="">Log in</a></li>
+				</ul>
+			</div>
+			<div id="hdr-search">
+				<form method="get" action="/search/" onsubmit="return cnnSearch(this);">
+					<div class="ftr-search-datacntr">
+<div class="ftr-search-tfield"><input type="text" name="query" size="12" maxlength="100" value=""></div>
+<div class="ftr-search-sicon"><input type="image" src="http://i.cdn.turner.com/cnn/.element/img/3.0/search/btn_search_hp_text.gif" width="55" height="21" alt=""></div>
+</div>
+
+					<input type="hidden" name="primaryType" id="cnnHeadSrchType" value="mixed">
+				</form>
+			</div>
+		</div>
+	</div>
+	<div id="cnn_hdr-nav">
+		<ul id="intl-menu">
+			<li class="no-border"><a id="nav-home" class="nav-media no-border" href="/" title="Breaking, World, Business, Sports, Entertainment and Video News from CNN.com International">Home</a></li>
+			<li class="no-border"><a id="nav-video" class="nav-media no-border" href="/video/" title="Breaking News Videos from CNN.com International">Video</a></li>
+			<li><a id="nav-world" href="/WORLD/" title="World News Headlines and Video from CNN.com International">World</a></li>
+			<li><a id="nav-us" href="/US/" title="U.S. News Headlines and Video from CNN.com International">U.S.</a></li>
+			<li><a id="nav-africa" href="/AFRICA/" title="Africa News Headlines and Video from CNN.com International">Africa</a></li>
+			<li><a id="nav-asia" href="/ASIA/" title="Asia News Headlines and Video from CNN.com International">Asia</a></li>
+			<li><a id="nav-europe" href="/EUROPE/" title="Europe News Headlines and Video from CNN.com International">Europe</a></li>
+			<li><a id="nav-latin-america" href="/LATINAMERICA/" title="Latin America News Headlines and Video from CNN.com International">Latin America</a></li>
+			<li><a id="nav-middle-east" href="/MIDDLEEAST/" title="Middle East News Headlines and Video from CNN.com International">Middle East</a></li>
+			<li><a id="nav-business" href="/BUSINESS/" title="World Business News Headlines and Video from CNN.com International">Business</a></li>
+			<li><a id="nav-world-sport" href="/SPORT/" title="World Sport News Headlines and Video from CNN.com International">World Sport</a></li>
+			<li><a id="nav-entertainment" href="/SHOWBIZ/" title="Entertainment News Headlines and Video from CNN.com International">Entertainment</a></li>
+			<li><a id="nav-tech" href="/TECH/" title="Technology News Headlines and Video from CNN.com International">Tech</a></li>
+			<li><a id="nav-travel" href="/TRAVEL/" title="Travel News Headlines and Video from CNN.com International">Travel</a></li>
+			<li><a id="nav-ireport" href="http://www.ireport.com/?cnn=yes" title="iReport from CNN.com International">iReport</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="cnn_pad10top"></div>
+<!-- end header -->
+
+
+<div align="center">
+
+<div id="cnn_maincntnr">
+
+<div class="cnn_contentarea cnn_filterareabox">
+<div class="cnn_pad20top"></div>
+<div class="cnn_stryarblkbr"></div>
+<div class="cnn404Title">Page not found</div>
+
+
+	<div class="cnnasearchmenuleft"></div>
+	  <div class="cnnasearchmenuright"> <a href="http://www.google.com" target="_blank"><img style="height: 13px; width: 89px;" src="http://i.cdn.turner.com/cnn/.element/img/3.0/1px.gif" border="none"></a></div>
+	 
+	<div style="clear: both;"></div>
+	  
+
+<div class="cnn_pad2top cnn_shdspc"></div>
+
+
+<div class="cnn_sdbx"><div class="cnn_sdbx1">
+<div class="cnn_sdbx2"><div class="cnn_sdbx3">
+<div class="cnn_sdbx4"><div class="cnn_sdbx5">
+<div class="cnn_sdbxcntnt cnn404Body">
+	<p>We're sorry! This page is not available. Please visit the <a href="/">CNN homepage</a> or use the search box below.</p>
+
+	<div id="cnnSearchBox" class="cnn_contentarea">
+	 
+			<form method="get" action="/search/" onsubmit="return cnn404Search(this);" name="srchForm" id="cnn404SrchForm">		
+				<input name="query" id="txt404Search" class="cnnSearchTextBox cnnTLSearchBox" size="70" value="" type="text"><input class="cnnMagGlassBtn" src="http://i.cdn.turner.com/cnn/.element/img/3.0/1px.gif" alt="" width="0" border="0" height="15" type="image">
+				<input type="image" name="primaryType" id="cnn404HeadSrchType" value="article" src="http://i.cdn.turner.com/cnn/.element/img/3.0/search/search_btn_lg.gif" class="searchButton" style="float:right;" />
+			</form>
+<div class="cnnSearchLinks" id="cnnSearchLinks">
+	<a id="article" class="cnnSelected" href="javascript:cnnSearchByFeaturedType('article');">CNN News</a> | 
+	<a id="video" href="javascript:cnnSearchByFeaturedType('video');">CNN Video</a> | 
+	<a id="web" href="javascript:cnnSearchByFeaturedType('web');">Web</a>
+</div>
+	</div>
+
+	<div id="cnnMPStory">
+		<h2>10 Most Popular CNN Stories</h2>
+		<ol>
+<li>
+<b>1 </b><a href="http://cnn.com/2013/04/07/health/new-york-neonatal-herpes/index.html?hpt=hp_t2&imw=Y&iref=mpstoryemail">Babies' herpes linked to circumcision...</a>
+</li>
+<li>
+<b>2 </b><a href="http://cnn.com/2013/04/07/travel/ocean-liner-united-states/index.html?hpt=hp_c1&imw=Y&iref=mpstoryemail">Sending out an SOS for America's...</a>
+</li>
+<li>
+<b>3 </b><a href="http://cnn.com/2013/04/07/opinion/lessig-washington-corruption/index.html?eref=mrss_igoogle_cnn&imw=Y&iref=mpstoryemail">Opinion: Why Washington is corrupt</a>
+</li>
+<li>
+<b>4 </b><a href="http://cnn.com/2013/04/05/health/gluten-5-things/index.html?hpt=hp_bn13&imw=Y&iref=mpstoryemail">Gluten: 5 things you need to know</a>
+</li>
+<li>
+<b>5 </b><a href="http://cnn.com/2013/04/05/living/irpt-real-60s/index.html?hpt=hp_c2&imw=Y&iref=mpstoryemail">Mad men, mad 'dos: What the late '60s...</a>
+</li>
+<li>
+<b>6 </b><a href="http://cnn.com/2013/04/07/us/lilly-pulitzer-dead/index.html?hpt=hp_c2&imw=Y&iref=mpstoryemail">Iconic fashion designer Lilly...</a>
+</li>
+<li>
+<b>7 </b><a href="http://cnn.com/2013/04/07/world/turkey-kerry-afghanistan/index.html?hpt=hp_t1&imw=Y&iref=mpstoryemail">Americans, Afghan civilians killed in...</a>
+</li>
+<li>
+<b>8 </b><a href="http://cnn.com/2013/04/07/us/diplomat-killed-profile/index.html?hpt=hp_t1&imw=Y&iref=mpstoryemail">U.S. diplomat died 'doing what she...</a>
+</li>
+<li>
+<b>9 </b><a href="http://cnn.com/2013/04/07/us/matthew-warren-suicide/index.html?imw=Y&iref=mpstoryemail">Rick Warren's son lost in 'wave of...</a>
+</li>
+<li>
+<b>10 </b><a href="http://cnn.com/2013/04/05/tech/innovation/jay-silver-makey/index.html?hpt=hp_bn5&imw=Y&iref=mpstoryemail">Jay Silver: How to control a computer...</a>
+</li>
+</ol>
+
+	</div>
+	
+	<div id="cnnMPSearch">
+		<h2>10 Most Popular CNN Searches</h2>	
+		<ol>
+<li>
+<b>1 </b><a href="http://search.cnn.com/search.jsp?query=swine flu&type=news&sortBy=date&intl=true&iref=mpstoriessearch">swine flu</a>
+</li>
+<li>
+<b>2 </b><a href="http://search.cnn.com/search.jsp?query=ibm&type=news&sortBy=date&intl=true&iref=mpstoriessearch">ibm</a>
+</li>
+<li>
+<b>3 </b><a href="http://search.cnn.com/search.jsp?query=facebook&type=news&sortBy=date&intl=true&iref=mpstoriessearch">facebook</a>
+</li>
+<li>
+<b>4 </b><a href="http://search.cnn.com/search.jsp?query=caylee anthony&type=news&sortBy=date&intl=true&iref=mpstoriessearch">caylee anthony</a>
+</li>
+<li>
+<b>5 </b><a href="http://search.cnn.com/search.jsp?query=rihanna&type=news&sortBy=date&intl=true&iref=mpstoriessearch">rihanna</a>
+</li>
+<li>
+<b>6 </b><a href="http://search.cnn.com/search.jsp?query=pontiac&type=news&sortBy=date&intl=true&iref=mpstoriessearch">pontiac</a>
+</li>
+<li>
+<b>7 </b><a href="http://search.cnn.com/search.jsp?query=gm&type=news&sortBy=date&intl=true&iref=mpstoriessearch">gm</a>
+</li>
+<li>
+<b>8 </b><a href="http://search.cnn.com/search.jsp?query=craigslist&type=news&sortBy=date&intl=true&iref=mpstoriessearch">craigslist</a>
+</li>
+<li>
+<b>9 </b><a href="http://search.cnn.com/search.jsp?query=octuplets&type=news&sortBy=date&intl=true&iref=mpstoriessearch">octuplets</a>
+</li>
+<li>
+<b>10 </b><a href="http://search.cnn.com/search.jsp?query=obama&type=news&sortBy=date&intl=true&iref=mpstoriessearch">obama</a>
+</li>
+</ol>
+
+	</div>
+	<div class="cnn_clearmt1t2"></div>
+</div>
+</div></div>
+</div></div>
+</div></div>
+</div><!-- /cnn_contentarea -->
+
+<div class="cnn_pad2top cnn_shdspc"></div>
+
+</div></div>
+
+<style>
+.cnn_ftrrskncntr { background-color:#FFF; }
+ </style>
+<script type="text/javascript">
+
+</script>
+
+<div align="center">
+<div class="cnn_ftrrskncntr">
+
+<div id="cnn_ftrcntnt">
+<div id="cnn_ftrcntntinner">
+<div class="cnn_ftrdivl1"></div>
+<div id="cnnLWPWeather">
+	<p id="weather-def-link"><a href="http://weather.cnn.com/weather/forecast.jsp?iref=wxglobaldefault">Weather forecast</a></p>
+</div>
+
+<div id="ftr-search">
+<form method="get" action="http://www.cnn.com/search/" onsubmit="return cnnFootSearch(this);">
+
+					<div class="ftr-search-datacntr">
+<div class="ftr-search-tfield"><input type="text" name="query" size="12" maxlength="40" value=""></div>
+<div class="ftr-search-sicon"><input type="image" src="http://i.cdn.turner.com/cnn/.element/img/3.0/search/search_btn_footer.gif" width="55" height="21" alt=""></div>
+</div>
+
+<input type="hidden" name="cnnFtrSrchType" id="cnnFtrSrchType" value="mixed">
+</form>
+</div>
+
+<div class="cnn_clear"></div>
+
+<div class="cnn_divline" style="background-color:#EBEBEB; margin-top:3px"></div>
+
+<div class="cnn_ftrnvlnks">
+
+<div><a href="/" title="">Home</a> | <a href="/video/" title="">Video</a> | <a href="/WORLD/" title="">World</a> | <a href="/US/" title="">U.S.</a> | <a href="/AFRICA/" title="">Africa</a> | <a href="/ASIA/" title="">Asia</a> | <a href="/EUROPE/" title="">Europe</a> | <a href="/LATINAMERICA/" title="">Latin America</a> | <a href="/MIDDLEEAST/" title="">Middle East</a> | <a href="/BUSINESS/" title="">Business</a> | <a href="/SPORT/" title="">World Sport</a> | <a href="/SHOWBIZ/" title="">Entertainment</a> | <a href="/TECH/" title="">Tech</a> | <a href="/TRAVEL/" title="">Travel</a> | <a href="http://www.ireport.com/?cnn=yes" title="">iReport</a></div>
+
+<div><a href="/tools/index.html" title="">Tools & Widgets</a> | <a href="/services/podcasting/" title="">Podcasts</a> | <a href="/exchange/blogs/index.html" title="">Blogs</a> | <a href="http://edition.cnn.com/mobile/" title="">CNN Mobile</a> | <a href="/profile/" title="">My Profile</a> | <a href="/profile/" title="">E-mail Alerts</a> | <a href="/audio/radio/winmedia.html" title="">CNN Radio</a> | <a href="http://www.turnerstoreonline.com/" title="">CNN Shop</a> | <a href="/sitemap/" title="">Site map</a> | <a href="http://www.cnnpartners.com/index.html" title="">CNN Partner Hotels</a></div>
+
+</div>
+
+<div class="cnn_ftrdivl2"></div>
+
+<div class="cnn_ftrlnggcntr">
+<div><a href="/espanol/" title="">CNN en ESPA&Ntilde;OL</a> | <a href="http://www.cnnchile.com" title="">CNN Chile</a> | <a href="http://www.cnnexpansion.com" title="">CNN Expansion</a> | <a href="http://arabic.cnn.com/" title=""><img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/footer/2.Arabic.jpg" width="32" height="10" alt="" border="0"></a> | <a href="http://cnn.joins.com/" title=""><img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/footer/3.Korean.jpg" width="30" height="11" alt="" border="0"></a> | <a href="http://www.cnn.co.jp/" title=""><img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/footer/4.Japanese.jpg" width="30" height="11" alt="" border="0"></a> | <a href="http://www.cnnturk.com/" title=""><img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/footer/5.Turkish.jpg" width="30" height="11" alt="" border="0"></a></div>
+<div><a href="/CNN/Programs/" title="">CNN TV</a> | <a href="/HLN/" title="">HLN</a> | <a href="http://transcripts.cnn.com/TRANSCRIPTS/" title="">Transcripts</a></div>
+</div>
+
+<div class="cnn_ftrlgcpy">
+<div><img src="http://i.cdn.turner.com/cnn/.element/img/3.0/global/footer/CNN.logo.gif" width="23" height="11" alt="" border="0">&copy; 2010 Cable News Network. <a href="http://www.turner.com/" class="cnn_ftrtbslink" title="">Turner Broadcasting System, Inc.</a> All Rights Reserved.</div>
+<div class="cnn_ftrlgcpy1"><a href="/interactive_legal.html" title="" rel="nofollow">Terms of service</a> | <a href="/privacy.html" title="" rel="nofollow">Privacy guidelines</a> | <a href="/privacy.html" title="">Advertising practices</a> | <a href="/services/advertise/main.html" title="" rel="nofollow">Advertise with us</a> | <a href="/about/" title="">About us</a> | <a href="/feedback/" title="" rel="nofollow">Contact us</a> | <a href="/help/" title="" rel="nofollow">Help</a></div>
+</div>
+
+<div class="cnn_clear"></div>
+</div><!-- /cnn_ftrcntntinner -->
+</div><!-- /cnn_ftrcntnt -->
+
+<script>
+
+/* search functions
+===================================================================== */
+
+var cnnStrInvalidSrchMsg = 'Please enter a valid search term and try again.'+"\n"+'HTML, URLs, and Scripts are not allowed.';
+
+function cnnSearch( frm ) {
+	if($('hdr-search-box').value != '') {
+		if(!cnnVerifySearchString($('hdr-search-box').value)) {alert(cnnStrInvalidSrchMsg);}
+		else {
+			var strSearchLoc = cnnGetSearchLoc();
+			strSearchLoc += 'query=' + cnnLeftTrim($('hdr-search-box').value);
+
+			strSearchLoc += '&';
+			strSearchLoc += 'primaryType=' + $('cnnHeadSrchType').value;
+			strSearchLoc += '&';
+			strSearchLoc += 'sortBy=date';
+			if(location.hostname.indexOf('edition') < 0) {
+				strSearchLoc += '&';
+				strSearchLoc += 'intl=false';
+			} else {
+				strSearchLoc += '&';
+				strSearchLoc += 'intl=true';
+			}
+			location.href = strSearchLoc;
+		}
+	}
+	return false;
+}
+
+function cnnVerifySearchString( srchTerm ) {
+	var htmlRegEx = new RegExp('[\w*|\W*]*<[[\w*|\W*]*|/[\w*|\W*]]>[\w*|\W*]*');
+
+	if(htmlRegEx.exec(srchTerm) || (srchTerm == null) || (cnnLeftTrim(srchTerm).length == 0) || (srchTerm.indexOf(">") >= 0) || (srchTerm.indexOf(";") >= 0) ){
+		return false;
+	}
+	else return true;
+}
+
+function cnnGetSearchLoc() {
+	var strSearchLoc = 'http://www.cnn.com/search/?'; // default
+
+	if((location.hostname.indexOf('qai') != -1) || (location.hostname.indexOf('dev') != -1) || (location.hostname.indexOf('localhost') != -1)) {
+		strSearchLoc = 'http://q' + 'a' + 'i' + '.' + 'c' + 'n' + 'n' + '.' + 'c' + 'o' + 'm' + '/search/?';
+	}
+	return strSearchLoc;
+}
+
+function cnnLeftTrim(sString) {
+	while (sString.substring(0,1) == ' ') {
+		sString = sString.substring(1, sString.length);
+	}
+	return sString;
+}
+
+function cnnFootSearch( frm ) {
+	if($('ftr-search-box').value != '') {
+		if(!cnnVerifySearchString($('ftr-search-box').value)) {alert(cnnStrInvalidSrchMsg);}
+		else {
+
+			var strSearchLoc = cnnGetSearchLoc();
+			strSearchLoc += 'query=' + cnnLeftTrim($('ftr-search-box').value);
+			strSearchLoc += '&';
+			strSearchLoc += 'primaryType=' + $('cnnFtrSrchType').value;
+			strSearchLoc += '&';
+			strSearchLoc += 'sortBy=date';
+			if(location.hostname.indexOf('edition') < 0) {
+				strSearchLoc += '&';
+				strSearchLoc += 'intl=false';
+			} else {
+				strSearchLoc += '&';
+				strSearchLoc += 'intl=true';
+			}
+			location.href = strSearchLoc;
+		}
+	}
+	return false;
+}
+
+</script>
+<script src="http://z.cdn.turner.com/cnn/.e/js/libs/jsmd-347.min.js"></script>
+
+
+<script language="JavaScript">
+   var jsmd;
+        jsmd = _jsmd.init();
+        var pageURL = location.href.toLowerCase(); 
+        if (pageURL.indexOf("/.element/ssi/ads.iframes/") == -1 && pageURL.indexOf("/doubleclick/dartiframe.html") == -1 && pageURL.indexOf("/search/") == -1) { 
+         if(_jsmd.plugin.gQuery("refresh")){jsmd.trackMetrics("dynamic-autoRefresh","autorefresh","cnn-autorefresh"); }
+         else if(_jsmd.plugin.gQuery("is_LR"))
+         {
+            //do nothing
+         }
+         else if(cnn_metadata.template_type_content !="gallery"){  
+			jsmd.send();
+          }
+        }
+
+</script>
+
+
+
+
+
+</div>
+</div>
+
+<div><div>
+
+
+<div class="cnn_pad18top"></div>
+
+</div>
+
+</div><!-- /center -->
+
+<script type='text/javascript'>
+	cnnFixList('cnnMPStory');
+	cnnFixList('cnnMPSearch');
+</script>
+</body>
+</html>

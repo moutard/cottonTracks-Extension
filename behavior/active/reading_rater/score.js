@@ -12,10 +12,11 @@ Cotton.Behavior.Active.Score = Class
       _$block : null,
       _fScore : null,
 
-      init : function($block) {
+      init : function($block, lQuotes) {
         this._$block = $block;
         this._iId = $block.attr('ct-id');
         this._fScore = 0;
+        this._lQuotes = lQuotes || [];
       },
 
       id : function() {
@@ -24,6 +25,50 @@ Cotton.Behavior.Active.Score = Class
 
       score : function() {
         return this._fScore;
+      },
+
+      setScore : function(fScore) {
+        this._fScore = fScore;
+      },
+
+      quotes : function() {
+        return this._lQuotes;
+      },
+
+      addQuote : function(sQuote){
+        var iStartIndex = this.text().indexOf(sQuote);
+        if (iStartIndex === -1){
+          return 0;
+        }
+        var iEndIndex = iStartIndex + sQuote.length;
+        var bMerge = false;
+        var lQuotesToRemove = [];
+        var iLength = this._lQuotes.length;
+        for (var i = 0; i < iLength; i++){
+          var dQuote = this._lQuotes[i];
+          if ((iStartIndex-dQuote['start'])*(iStartIndex-dQuote['end']) <= 0
+            || (iEndIndex-dQuote['start'])*(iEndIndex-dQuote['end']) <= 0
+            || (iStartIndex <= dQuote['start'] && iEndIndex >= dQuote['end'])){
+              iStartIndex = Math.min(dQuote['start'], iStartIndex);
+              iEndIndex = Math.max(dQuote['end'], iEndIndex);
+              lQuotesToRemove.push(i);
+          }
+        }
+        var dQuote = {'start': iStartIndex, 'end': iEndIndex};
+        this._lQuotes.push(dQuote);
+        this.removeQuotes(lQuotesToRemove)
+      },
+
+      removeQuotes : function(lQuotesToRemoveIndexes){
+        var lQuotes = [];
+        var iLength = this._lQuotes.length;
+        for (var i = 0; i < iLength; i++){
+          var dQuote = this._lQuotes[i];
+          if (lQuotesToRemoveIndexes.indexOf(i) === -1){
+            lQuotes.push(dQuote);
+          }
+        }
+        this._lQuotes = lQuotes;
       },
 
       text : function() {
@@ -35,7 +80,8 @@ Cotton.Behavior.Active.Score = Class
         var dDBRecord = {
           'id' : self._iId,
           'sText' : self._$block.text(),
-          'fScore' : self._fScore
+          'fScore' : self._fScore,
+          'lQuotes' : self._lQuotes
         };
 
         return dDBRecord;

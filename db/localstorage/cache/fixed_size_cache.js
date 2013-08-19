@@ -12,7 +12,6 @@
 Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
 
   /**
-   * @contructor
    * @param {String} sDatabaseName
    * @param {Dictionnary} dTranslators :
    *  key storename value : corresponding translators.
@@ -43,6 +42,32 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
   },
 
   /**
+   * Put an item in the cache with url uniqueness condition.
+   */
+  putUnique : function(dItem) {
+    var lResults = this.get();
+    var iLength = lResults.length;
+    for (var i = 0; i < iLength; i++){
+      var dPoolItem = lResults[i];
+      if (dPoolItem['sUrl'] === dItem['sUrl']){
+        lResults.splice(i,1);
+        break;
+      }
+    }
+
+    if(lResults.length >= this._iMaxSize){
+      // Pop the oldest element, it's always the first element of the list.
+      // TODO(rmoutard) : check it's true.
+      lResults.shift();
+    }
+
+    // There is still space.
+    dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+    lResults.push(dItem);
+    this.set(lResults);
+  },
+
+  /**
    * Force the cache to refresh it's data.
    */
   _refresh : function(lFreshItems) {
@@ -51,16 +76,17 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
       var _lFreshItems = this.get();
       // Perf: do not use native or underscore filter that are slow.
       lFreshItems = [];
-      for(var i = 0, iLength = _lFreshItems.length; i < iLength; i++){
-        if(iCurrentDate < _lFreshItems[i]['sExpiracyDate']){
-          lFreshItems.push(_lFreshItems[i]);
+      var iLength = _lFreshItems.length;
+      for (var i = 0; i < iLength; i++) {
+        var dFreshItem = _lFreshItems[i];
+        if (iCurrentDate < dFreshItem['sExpiracyDate']) {
+          lFreshItems.push(dFreshItem);
         }
       }
     } else if(lFreshItems.length > this._iMaxSize){
       lFreshItems = lFreshItems.slice(0, this._iMaxSize - 1);
     }
     this.set(lFreshItems);
-  },
-
+  }
 });
 

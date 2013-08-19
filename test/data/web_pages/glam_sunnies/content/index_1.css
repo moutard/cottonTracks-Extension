@@ -1,0 +1,9 @@
+html, body { margin: 0px; padding: 0px; }
+#PinItButton { position: absolute; background: url('pinit.png') repeat scroll 0px -7px transparent; font: 0.01em Arial,sans-serif; text-indent: -9999em; color: rgb(205, 31, 31); height: 20px; width: 43px; }
+#PinItButton:hover { background-position: 0px -28px; }
+#PinItButton:active { background-position: 0px -49px; }
+#CountPointer { position: absolute; z-index: 1; background: url('pinit.png') repeat scroll 0% 0% transparent; text-indent: -9999em; font-size: 0.01em; color: rgb(255, 255, 255); }
+#CountBubble { position: absolute; border: 1px solid rgb(201, 197, 197); color: rgb(119, 119, 119); background-color: rgb(252, 249, 249); border-radius: 1px 1px 1px 1px; }
+body.vertical #PinItButton { top: 38px; }
+body.vertical #CountPointer { top: 31px; height: 7px; width: 41px; background-position: 0px 0px; }
+body.vertical #CountBubble { left: 1px; height: 21px; width: 39px; font: 12px/12px Arial,Helvetica,sans-serif; padding: 9px 0px 0px; text-align: center; }

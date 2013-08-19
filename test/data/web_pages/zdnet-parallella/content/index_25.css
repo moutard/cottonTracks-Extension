@@ -1,0 +1,18 @@
+/* ::::: http://www.zdnet.com/css/mantaray-min.css?29764 ::::: */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+body { font: 12px/1.428 Verdana,Arial,sans-serif; color: rgb(37, 37, 37); background-color: rgb(255, 255, 255); }
+a { color: rgb(0, 83, 153); cursor: pointer; text-decoration: none; outline: medium none; }
+a:focus, a:hover, a:active { text-decoration: underline; color: rgb(0, 0, 0); outline: 0px none; }
+a:focus { outline: thin dotted; }
+ul { margin: 0px 0px 10px 20px; }
+li { margin-bottom: 5px; }
+h1, h2, h3, h4, h5, h6, .h { font-weight: normal; margin-bottom: 10px; display: block; }
+.clear:after { content: "."; display: block; height: 0px; clear: both; visibility: hidden; }
+.clear { display: block; }
+.heading { background: url('bkg-hed-stripe_001.gif') repeat-x scroll 0px 0.5em transparent; font-style: italic; letter-spacing: 0.02em; font-size: 1.3em; color: rgb(150, 21, 21); font-family: Georgia,serif; }
+.heading .int { background-color: rgb(255, 255, 255); display: inline; padding-right: 10px; }
+.shared-resource-center { width: 300px; }
+#powerPlay ul { list-style-type: none; margin: 0px; }
+#powerPlay li { background: url('icn_folder_16x16.gif') no-repeat scroll 0px 2px transparent; padding-left: 20px; margin-left: 0px; }
+#powerPlay li img { position: absolute; left: -9999px; }

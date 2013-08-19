@@ -24,10 +24,10 @@ class FileManager(object):
       raise
     # Go on pretreatment.
     os.chdir(psDestinationPath)
-    
+
   def zip(self, psFolder, psZip):
     """Zip the folder and in the zip name.
-      Args: 
+      Args:
         - psFolder: folder to zip.
         - psZip: path with name of the zip.
     """
@@ -36,7 +36,7 @@ class FileManager(object):
       for file in files:
         zip.write(os.path.join(root, file))
     zip.close()
-  
+
   def pretreatment(self, psSourcePath, psDestinationPath):
     """Given a source path and a destination path, remove the destination path if
     it already exists, then make a copy of source path to destination path.
@@ -60,3 +60,6 @@ class FileManager(object):
       raise
     # Go on pretreatment.
     os.chdir(psDestinationPath)
+    shutil.rmtree(".git")
+    os.remove(".gitignore")
+    os.remove(".pydevproject")

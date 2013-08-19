@@ -1,0 +1,19 @@
+{
+  "id": "glam_sunnies",
+  "url": "http://blogs.glam.com/glamchic/2013/03/21/lets-get-reflective-8-mirrored-sunnies-for-spring/",
+  "path": "test/data/web_pages/glam_sunnies/content/index.html",
+
+  "best_image": "http://blogs.glam.com/glamchic/files/2013/03/mirroed-sunglasses2.jpg",
+
+  "expected": [
+    "Retro, bold and bright were the themes behind the sunglasses featured on the spring and summer fashion week runway. Rebecca Taylor, Burberry Prorsum and Carven got reflective with their designs, shielding models’ eyes in standout sunnies with modern frames and mirrored lenses. Off the runway, the shining style is gaining momentum as a seasonal favorite, adding a cool and futuristic touch to daily outfits of any style or color palette. Rocking mirrored lenses won’t just make for a fashion statement, they’ll save room in your traveling beauty bag too. Compact mirror no more; just flip around these 8 statement sunnies and they’ll double as a reflector to retouch your makeup with!",
+    "1. Ray-Ban Arista Aviator Metal Mirrored Sunglasses, available at Shopbop.com for $205",
+    "2. Linda Farrow For Jeremy Scott Space cat-eye sunglasses, available at Matchesfashion.com for $420",
+    "3. Kuboraum Berlin Mask Sunglasses With Mirrored Lenses, available at Luisaviaroma.com for $367",
+    "4. Super Sunglasses Basic Sunglasses, available at Shopbop.com for $195",
+    "5. Wildfox Popfox Mirror Sunglasses, available at Wildfoxsun.com for $149",
+    "6. Retrosuperfuture Super Racer Montana, available at Blueandcream.com for $185",
+    "7. SO® Retro Mirror Sunglasses, available at Kohl’s for $11.99",
+    "8. Super 49er Sunglasses, available at Aloharag.com for $288"
+  ]
+}

@@ -6,14 +6,16 @@ class DEVCompiler(Compiler):
 
   """
 
-  def __init__(self, SOURCE_PATH, DESTINATION_PATH):
+  def __init__(self, SOURCE_PATH, DESTINATION_PATH, psBrowser):
     self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "dev")
-    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
+    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH, psBrowser)
 
- def compile(self):
+  def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
     Compiler.compile(self)
+    self.compileTest()
+    self.createIntegrationTests()
 
   def compileJs(self, plJavascriptFiles, psOutput="output.min.js"):
     if len(plJavascriptFiles) > 0 :

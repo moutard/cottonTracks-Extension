@@ -3,12 +3,13 @@
 Cotton.DB.Translator = Class.extend({
 
   init : function(sFormatVersion, mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter, dOptionalIndexDescriptions) {
+      mDbRecordToObjectConverter, dOptionalIndexDescriptions, mMergeDBrecords) {
     this._sFormatVersion = sFormatVersion;
     this._mObjectToDbRecordConverter = mObjectToDbRecordConverter;
     this._mDbRecordToObjectConverter = mDbRecordToObjectConverter;
     // TODO(rmoutard) : "Why it's not a {} ?"
     this._dIndexDescriptions = dOptionalIndexDescriptions || [];
+    this._mMergeDBRecords = mMergeDBrecords;
   },
 
   objectToDbRecord : function(oObject) {
@@ -27,5 +28,9 @@ Cotton.DB.Translator = Class.extend({
   },
   indexDescriptions : function() {
     return this._dIndexDescriptions;
-  }
+  },
+  mergeDBRecords : function () {
+    return this._mMergeDBRecords;
+  },
+
 });

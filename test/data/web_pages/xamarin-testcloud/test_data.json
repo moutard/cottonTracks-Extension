@@ -1,0 +1,24 @@
+{
+  "id": "xamarin-testcloud",
+  "url": "http://xamarin.com/test-cloud",
+  "path": "test/data/web_pages/xamarin-testcloud/content/index.html",
+  "best_image": "http://xamarin.com/images/test-cloud/screenshot1.jpg",
+  "expected": [
+    "Quick and easy to get started with the Xamarin App Explorer.",
+    "Be confident that your apps function correctly and looks great on actual physical devices.",
+    "Use our command line tool to run your tests or execute automated acceptance tests as part of your continuous integration process or ALM.",
+    "More than detailed technical feedback: stunning visual reporting and performance monitoring.",
+    "Test automatically on hundreds of combinations of operating systems, screens, and resolutions.",
+    "Test your entire app, from the UI down, using object-level user interface testing.",
+    "Speed up your mobile development process using automated cross-platform UI testing.",
+    "Ensure your users have the best experience with your app by testing the way they will us it.",
+    "Easily get started testing your app. Upload an app to the Test Cloud and the Xamarin App Explorer systematically exercises screens and controls in your app without writing a single test.",
+    "The Xamarin Test Cloud uses powerful object-based UI testing: you can write test scripts that do what the users do: tap, swipe, rotate, wait for ui elements to appear, etc. When building for multiple platforms, you can share your test logic across the platforms increasing reuse and enabling faster test authoring.",
+    "Shorten development time and speed up testing cycles by running your app on hundreds of mobile phones and tablets, ranging from legacy to the newest hardware, and the devices are not jailbroken or rooted.",
+    "Run your UI tests directly from Team Foundatation Server, Jenkins, and TeamCity. Or use our command-line interface or API to run tests and get results from your own custom infrastructure.",
+    "Monitor performance of your app such as memory, responiveness, application size, cpu usage, and more.",
+    "See visual test reports of your tests, including high-resolution screenshots of what your app looks like on different models. Spotting problems and differences is quick and easy.",
+    "Communication between business, test engineers, and project managers is key in development and testing. Xamarin Test Cloud supports BDD, starting with the business needs, then phrases test specfications in your native language so everyone can understand.",
+    "Write tests in the best environment best for your needs. Tests written in C# are integrated with Xamarin Studio and Visual Studio. Or use the Ruby version of Calabash, the industry's most powerful framework for testing both native and hybrid apps."
+  ]
+}

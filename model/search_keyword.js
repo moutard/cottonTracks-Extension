@@ -21,7 +21,7 @@ Cotton.Model.SearchKeyword = Class.extend({
   _iFrequencyInCorpus : undefined,
 
   /**
-   * @constructor
+   * 
    */
   init : function(sKeyword) {
     this._sKeyword = sKeyword;

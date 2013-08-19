@@ -1,89 +1,58 @@
 'use strict';
 
 /**
- * In charge of displaying an item (dot + link + content). Handle his position
- * in the storyline.
+ * In charge of displaying an item frame + content.
  */
-Cotton.UI.Story.Item.Element = Class
-    .extend({
+Cotton.UI.Story.Item.Element = Class.extend({
 
-      _oHistoryItem : null,
+  // parent element.
+  _oStory : null,
+  _oHistoryItem : null,
 
-      _$item : null,
+  _sType : null,
 
-      _sItemType : null,
+  // current element.
+  _$item : null,
 
-      _oItemContent : null,
+  // sub elements.
+  _$content : null,
 
-      _$storyContainer : null,
+  init : function(oHistoryItem, sActiveFilter, oDispatcher) {
+    var self = this;
+    this._oDispatcher = oDispatcher;
+    this._oHistoryItem = oHistoryItem;
+    this._sActiveFilter = sActiveFilter;
+    // current element.
+    this._$item = $('<div class="ct-story_item" id="' + this._oHistoryItem.id() + '"></div>');
 
-      _bReload : null,
+    // current sub elements.
+    this._$content = $('<div class="ct-item_content"></div>');
+  },
 
-      init : function(oHistoryItem, $storyContainer) {
-        // Cotton.Model.HistoryItem contains all data.
-        this._oHistoryItem = oHistoryItem;
+  $ : function() {
+    return this._$item;
+  },
 
-        // Container for all items
-        this._$storyContainer = $storyContainer;
+  dispatcher : function() {
+    return this._oDispatcher;
+  },
 
-        // current element.
-        this._$item = $('<div class="ct-story_item"></div>');
+  historyItem : function() {
+    return this._oHistoryItem;
+  },
 
-        // current sub elements.
-        this._oItemContent = new Cotton.UI.Story.Item.Content.Factory(this);
+  setType : function(sType){
+    this._sType = sType;
+    this._$item.addClass(sType);
+    if (this._sActiveFilter && this._sActiveFilter !== '*'
+      && sType !== this._sActiveFilter.substring(1)){
+        this._$item.addClass('isotope-hidden');
+    }
+    this._$content.addClass(sType);
+  },
 
-        // create item
-        if (this.itemType() !== 'search'){
-          this._$item.append(this._oItemContent.$());
-          this._$storyContainer.isotope( 'insert', this._$item);
-        }
-
-        //boolean to know if a reload has been performed
-        this._bReload = false;
-      },
-
-      $ : function() {
-        return this._$item;
-      },
-
-      historyItem : function() {
-        return this._oHistoryItem;
-      },
-
-      itemType : function() {
-        return this._sItemType;
-      },
-
-      setItemType : function(sType) {
-        this._sItemType = sType;
-      },
-
-      container : function() {
-        return this._$storyContainer;
-      },
-
-      reload : function() {
-        self = this;
-
-        var oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
-            'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS
-        }, function() {
-          self = self;
-          oDatabase.find('historyItems', 'id', self.historyItem().id(), function(oHistoryItem) {
-            self._$item.empty();
-            self._oHistoryItem = oHistoryItem;
-            self._bReload = true;
-            self._oItemContent = new Cotton.UI.Story.Item.Content.Factory(self);
-          });
-        });
-      },
-
-      isReloaded : function() {
-        return this._bReload;
-      },
-
-      setReloaded : function(bool) {
-        this._bReload = bool;
-      }
+  type : function() {
+    return this._sType;
+  }
 
 });

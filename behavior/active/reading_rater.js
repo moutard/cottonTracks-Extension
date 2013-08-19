@@ -41,37 +41,25 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _oTimeoutSession : null,
 
   /**
-   * @constructor
+   *
    * @param {Cotton.Behavior.BackgroundClient} oClient:
    *  client used to communicate with the database.
    */
-  init : function(oClient) {
+  init : function(oClient, oMessenger) {
     this._oClient = oClient;
+    this._oMessenger = oMessenger;
 
     this._iReadingRate = 0;
 
     // Detect user's activity on the page when they move their cursor.
     // If they don't move it during 10 seconds, we conclude they are
     // inactive.
-    this._bDocumentActive = true;
+    this._bDocumentActive = false;
 
     // Create the parser but don't start it.
-    this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient);
+    this._oParser = new Cotton.Behavior.Passive.ParserFactory(this._oClient, oMessenger);
     this._oFeedbackElement = new Cotton.Behavior.Active.FeedbackElement();
   },
-
-  /**
-   *
-   * FIXME(rmoutard) : put this in a parser.
-   * @param {Cotton.Model.HistoryItem} oHistoryItem.
-   */
-   getFirstInfoFromPage : function(oHistoryItem) {
-     oHistoryItem._sUrl = window.location.href;
-     oHistoryItem._sTitle = window.document.title;
-     oHistoryItem._iLastVisitTime = new Date().getTime();
-     oHistoryItem._sReferrerUrl = document.referrer;
-     oHistoryItem.extractedDNA().setExtractedWords(Cotton.Algo.Tools.extractWordsFromTitle(window.document.title));
-   },
 
   /**
    * Start when the document is ready. Start parser and reading rater. Refresh
@@ -81,7 +69,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   start : function() {
     var self = this;
 
-    self.getFirstInfoFromPage(self._oClient.current());
     self._oClient.createVisit();
     var oTimeout = null;
     $(document).mousemove(function() {
@@ -108,6 +95,7 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     });
 
     this._initializeHighlightListener();
+    this._initializeHashListener();
 
     self._oClient.current().extractedDNA().setTimeTabActive(0);
     self._oClient.current().extractedDNA().setTimeTabOpen(0);
@@ -155,7 +143,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
 
         self._oClient.current().extractedDNA().setPageScore(fPageScore);
         self._oClient.current().extractedDNA().setPercent(iPercent);
-        self._oClient.current().extractedDNA().setPercent(iPercent);
         self._oClient.current().extractedDNA().increaseTimeTabActive(
             Cotton.Behavior.Active.REFRESH_RATE);
         self._oClient.updateVisit();
@@ -171,6 +158,45 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       mRefreshReadingRate();
     }, 10);
 
+    /**
+     * If the active element is an iframe, then return the iframe
+     */
+    var iframeDetector = function() {
+      var oActiveElement = document.activeElement;
+      var oIframeUrl = (oActiveElement.src)? new UrlParser(oActiveElement.src) : {};
+      return oActiveElement.nodeName === ('IFRAME'||'INPUT') && (oIframeUrl.isYoutube || oIframeUrl.isVimeo) && oActiveElement;
+    };
+
+    /*
+     * Save active video iframes
+     */
+    var saveClickedIframes = function() {
+      var iframe = iframeDetector();
+      if (iframe) {
+        self._saveVideoIframe(iframe);
+      }
+      return false;
+    };
+
+    /*
+     * Warning: This is a hack borrowed from https://github.com/finalclap/iframeTracker-jquery
+     * This is because iframe events are inaccessible and because we need to add
+     * a hidden input element in order to retrieve focus from the iframe.
+     * An alternative solution is to set an interval checking for the active
+     * element but that is discouraged.
+     *
+     * Listen for blur events on the current window and call saveClickedIframes
+     */
+    window.addEventListener('blur', saveClickedIframes);
+    $('body').append('<div style="position:fixed; top:0; left:0; overflow:hidden'
+      + ';"><input style="position:absolute; left:-300px;" type="text" value=""'
+      + 'id="focus_retriever" /></div>');
+    var focusRetriever = $('#focus_retriever');
+    $(document).mousemove(function(e){ // Focus back to page
+      if(iframeDetector()){
+        focusRetriever.focus();
+      }
+    });
   },
 
   restart : function() {
@@ -180,16 +206,6 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     if (self._oFeedbackElement) {
       self._oFeedbackElement.start();
     }
-    // livequery is a jQuery plugin.
-    // I think this is not usefull because it's done one in start function.
-    $('[data-meaningful]').livequery(function() {
-      var $block = $(this);
-      var oScore = $block.data('score');
-      if (!oScore) {
-        oScore = new Cotton.Behavior.Active.Score($block);
-        $block.data('score', oScore);
-      }
-    });
 
     var mRefreshReadingRate = function() {
       // Do not increase scores if the document is inactive.
@@ -271,8 +287,8 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
       var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
       oParagraph.setId(oScore.id());
       oParagraph.setPercent(oScore.score());
+      oParagraph.setQuotes(oScore.quotes());
       self._oClient.current().extractedDNA().addParagraph(oParagraph);
-
       fPageScore += oScore.score() * (this.iTotalSurface / iTotalPageSurface);
     });
     return fPageScore;
@@ -305,6 +321,59 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   },
 
   /**
+   * Listens for a hash change in the url to create a new historyItem
+   */
+  _initializeHashListener : function() {
+    var self = this;
+    $(window).bind('hashchange', function(e){
+      self.stop();
+      self._refreshStart();
+    });
+  },
+
+  /**
+   * For Google, it is a brand new item (because a new search) with different parameters
+   * For all other pages it is likely to be just an anchor, so the same page.
+   * However for the moment we create a new item with new properties otherwise when
+   * calling the browserAction, the new url is possibly not in the database.
+   */
+  _refreshStart : function() {
+    var self = this;
+
+    var oUrl = new UrlParser(window.location.href);
+    oUrl.fineDecomposition();
+    self._oClient.init(oMessenger);
+    // empty cache to be able to re-walk through the new content.
+    Cotton.Utils.emptyCache();
+    self._oParser.init(self._oClient, self._oMessenger, oUrl);
+    self._oClient.createVisit();
+
+    self._oClient.current().extractedDNA().setTimeTabActive(0);
+    self._oClient.current().extractedDNA().setTimeTabOpen(0);
+    // To increase performance the parsing is just lanched once.
+    var mRefreshParsing = function() {
+      self._oParser.parse();
+
+      // Set $feedback
+      var sBestImg = self._oParser.bestImage();
+      if (sBestImg) {
+        if (self._oFeedbackElement) {
+          self._oFeedbackElement.setBestImage(sBestImg);
+        }
+
+        // Update oCurrentHistoryItem
+        self._oClient.current().extractedDNA().setImageUrl(sBestImg);
+        self._oClient.updateVisit();
+      }
+      self.restart();
+    };
+    // Launch almost immediately (but try to avoid freezing the page).
+    setTimeout(function(){
+      mRefreshParsing();
+    }, 0);
+  },
+
+  /**
    * Adds a document listener to know when a selection happens and increment the
    * score of the relevant content block consequently.
    */
@@ -320,46 +389,52 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
     var $highlightedContentBlocks = $([]);
 
     $(document).mouseup(
-        function(oEvent) {
-          var oSelection = window.getSelection();
+      function(oEvent) {
+        var oSelection = window.getSelection();
 
-          if (oSelection.isCollapsed) {
-            // Do not do anything on empty selections.
-            $highlightedContentBlocks = $([]);
-            return;
+        if (oSelection.isCollapsed || oSelection.toString() === " ") {
+          // Do not do anything on empty selections.
+          $highlightedContentBlocks = $([]);
+          return;
+        }
+        var oStartNode = oSelection.anchorNode;
+        var oEndNode = oSelection.focusNode;
+
+        // We will try to detect if either the start node and the end
+        // node are
+        // both located inside a common content block (which will have
+        // an
+        // attribute named "data-meaningful" because of
+        // Cotton.Behavior.Passive.Parser.
+        $highlightedContentBlocks = self
+            ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
+
+        // If there is such a content block, we will increment the
+        // score
+        // attached
+        // to the block.
+        $highlightedContentBlocks.each(function() {
+          var oScore = $(this).data('score');
+          if (oScore) {
+            // TODO(fwouts): Tweak the incremental score.
+            oScore.setScore(Math.max(oScore.score(), Cotton.Config.Parameters.minPercentageForBestParagraph));
+            oScore.addQuote(oSelection.toString());
+
+            // set the highlighted text as part of a paragraph
+            var oParagraph = new Cotton.Model.ExtractedParagraph(oScore.text());
+            oParagraph.setId(oScore.id());
+            oParagraph.setPercent(oScore.score());
+            oParagraph.setQuotes(oScore.quotes());
+            self._oClient.current().extractedDNA().addParagraph(oParagraph);
+            self._oClient.updateVisit();
           }
-          self._oClient.current().extractedDNA().addHighlightedText(
-              oSelection.toString());
-          var oStartNode = oSelection.anchorNode;
-          var oEndNode = oSelection.focusNode;
-
-          // We will try to detect if either the start node and the end
-          // node are
-          // both located inside a common content block (which will have
-          // an
-          // attribute named "data-meaningful" because of
-          // Cotton.Behavior.Passive.Parser.
-          $highlightedContentBlocks = self
-              ._findCommonMeaningfulAncestorsForNodes(oStartNode, oEndNode);
-
-          // If there is such a content block, we will increment the
-          // score
-          // attached
-          // to the block.
-          $highlightedContentBlocks.each(function() {
-            var oScore = $(this).data('score');
-            if (oScore) {
-              // TODO(fwouts): Tweak the incremental score.
-              oScore.increment(0.2);
-            }
-          });
         });
+    });
 
     // We specifically listen to 'copy' events to re-augment the score of
     // highlighted content blocks that are also copied.
     $(document).bind('copy', function() {
       $highlightedContentBlocks.each(function() {
-        self._oClient.current().extractedDNA().addCopyPaste($(this).text());
         self._oClient.updateVisit();
         var oScore = $(this).data('score');
         if (oScore) {
@@ -378,22 +453,92 @@ Cotton.Behavior.Active.ReadingRater = Class.extend({
   _findCommonMeaningfulAncestorsForNodes : function(oNode1, oNode2) {
     var $meaningfulAncestors1 = $(oNode1).parents('[data-meaningful]');
     var $meaningfulAncestors2 = $(oNode2).parents('[data-meaningful]');
-    var lIntersectingAncestors = _.intersect(_.toArray($meaningfulAncestors1),
-        _.toArray($meaningfulAncestors2));
+    var lIntersectingAncestors = [];
+    var lMeaningfulAncestors1 = $meaningfulAncestors1.toArray();
+    var lMeaningfulAncestors2 = $meaningfulAncestors2.toArray();
+    var iLength = lMeaningfulAncestors1.length;
+    for (var i = 0; i < iLength; i++){
+      var $ancestor1 = lMeaningfulAncestors1[i];
+      var jLength = lMeaningfulAncestors2.length;
+      for (var j = 0; j < jLength; j++){
+        var $ancestor2 = lMeaningfulAncestors2[j];
+        if ($ancestor1 === $ancestor2){
+          lIntersectingAncestors.push($ancestor1);
+        }
+      }
+    }
     return $(lIntersectingAncestors);
-  }
+  },
+
+  /**
+   * Save video iframes.
+   */
+  _saveVideoIframe : function(oIframe) {
+    var self = this;
+    var oIframes = document.getElementsByTagName('iframe');
+    var sTitle = (oIframe.title)? oIframe.title + ' - ' : '';
+    var oHistoryItem = self._oClient.current();
+    var oItem = new Cotton.Model.HistoryItem();
+    var sVideoUrl = self._getVideoUrlFromEmbeddingUrl(oIframe.src);
+    if (sVideoUrl) {
+      oItem.initUrl(sVideoUrl);
+      oItem.setTitle(sTitle + oHistoryItem.title());
+      oItem.setLastVisitTime(Date.now());
+      // FIXME(rmoutard) : check here for no extracted words.
+      oItem.extractedDNA().setBagOfWords(oHistoryItem.extractedDNA()
+        .bagOfWords());
+      self._oClient.createHistoryItem(oItem);
+    }
+  },
+
+  /**
+   * Get Id of embedded video from common providers
+   *
+   */
+  _getVideoUrlFromEmbeddingUrl : function(sEmbeddingUrl) {
+    var oUrlParser = new UrlParser(sEmbeddingUrl);
+    var sVideoUrl;
+    var rRegex;
+    var match;
+    var sProvider = oUrlParser.service;
+    switch (sProvider){
+      case 'youtube':
+        rRegex = /(?:youtu\.be\/|youtube\.com(?:\/embed\/|\/v\/|\/watch\?v=|\/user\/\S+|\/ytscreeningroom\?v=))([\w\-]{10,12})\b/;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://www.youtube.com/watch?v=';
+        }
+        break;
+      case 'vimeo':
+        rRegex = /player\.vimeo\.com\/video\/([0-9]*)/;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://vimeo.com/';
+        }
+        break;
+      case 'dailymotion':
+        rRegex = /dailymotion\.com\/.*video\/([a-z0-9]+)/i;
+        match = sEmbeddingUrl.match(rRegex);
+        if (match) {
+          sVideoUrl = 'http://www.dailymotion.com/video/';
+        }
+        break;
+    }
+    return sVideoUrl ? sVideoUrl + match[1] : null;
+  },
 });
 
-// We don't need to wait document 'ready' signal to create instance.
-var oBackgroundClient = new Cotton.Behavior.BackgroundClient();
-var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient);
+var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+if (!oExcludeContainer.isExcluded(window.location.href)){
+  var oMessenger = new Cotton.Core.Messenger();
+  var oBackgroundClient = new Cotton.Behavior.BackgroundClient(oMessenger);
+  var oReadingRater = new Cotton.Behavior.Active.ReadingRater(oBackgroundClient, oMessenger);
 
-$(document).ready(function() {
-  // Need to wait the document is ready to get the title and the parser can
-  // work.
 
-  // Do not store informations in incognito mode.
-  if (!chrome.extension.inIncognitoContext) {
+  $(document).ready(function() {
+    // Need to wait the document is ready to get the title and the parser can
+    // work.
+
     oReadingRater.start();
-  }
-});
+  });
+}

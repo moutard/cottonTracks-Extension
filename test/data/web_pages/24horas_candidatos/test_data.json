@@ -1,0 +1,20 @@
+{
+  "id": "24horas_candidatos",
+  "url": "http://www.24horas.cl/politica/candidatos-presidenciales-lamentan-acusacion-constitucional-contra-beyer-567018",
+  "path": "test/data/web_pages/24horas_candidatos/content/index.html",
+
+  "best_image": "http://www.24horas.cl/incoming/article567014.ece/ALTERNATES/w620h350/Harald+Beyer+acusaci%C3%B3n+constitucional",
+
+  "expected": [
+    "Los presidenciables se refirieron a la acusación constitucional y afirmaron que las instituciones de educación superior nunca fueron fiscalizadas como lo son ahora.",
+    "Los candidatos presidenciales han mostrado posturas alineadas de cara a la acusación constitucional en contra del ministro de Educación, Harald Beyer.",
+    "Luego de hacerse público que diputados de oposición presentarán una acusación constitucional, los candidatos de diversos sectores manifestaron su molestia y aclararon que lo que ocurre hoy en la educación superior es un resultado de malas fiscalizaciones en gobiernos anteriores.",
+    "El candidato de la DC, Claudio Orrego, ratificó la crisis que vive la educación superior en estos últimos años, en donde la ley en contra del lucro ha sido vulnerada sin mayor fiscalización desde que eran parte del gobierno. Ante esto, dijo que “la clase política en general, todos, tenemos que hacer una autocrítica respecto de cómo se permitió que esto prosperara en el tiempo”.",
+    "“La Universidad del Mar no partió este año, ni el año anterior, partió antes. Antes se le dio un certificado de buena conducta con la acreditación\", dijo el candidato DC.",
+    "Por su parte, el candidato de Renovación Nacional (RN), Andrés Allamand calificó como una incongruencia la acusación, afirmando que durante los gobiernos de la Concertación no realizaron una fiscalización oportuna.",
+    "“La situación particular de la Universidad del Mar, donde en un período muy corto de tiempo la matrícula se abultó extraordinariamente, no fue objeto de medida de ninguna naturaleza por parte de los gobiernos anteriores. Más aún, nunca hasta ahora, habían existido medidas legislativas, como la Superintendencia de Educación Superior\", argumentó.",
+    "En la misma línea, Andrés Velasco, ex jefe de las finanzas de Michelle Bachelet y candidato presidencial independiente, acusó prácticas de la \"vieja política\".",
+    "\"Acusación constitucional contra H. Beyer es un abuso del mecanismo y una mala práctica propia de la vieja política\", tuiteó.",
+    "En tanto, el candidato de la UDI, Laurence Golborne defendió al ministro de Educación, aclarando que “ha  actuado absolutamente de acuerdo a los mandatos que establece nuestra Constitución. La Universidad fue creada, autorizada y creció a 22 mil alumnos el año 2007 durante los gobiernos de la Concertación y por ende es el mundo al revés, que quienes dieron vuelta la cara y no fiscalizaron, no tomaron en cuenta lo que estaba ocurriendo en la educación superior, hoy día acusen constitucionalmente al ministro que ha tenido el coraje, la valentía y la decisión de tomar esas denuncias e investigarlas, y más aún llegar al cierre de una universidad en caso que esta no haya cumplido con estas disposiciones”."
+  ]
+}

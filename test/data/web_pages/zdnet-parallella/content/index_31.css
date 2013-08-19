@@ -1,0 +1,70 @@
+/* ::::: http://static.ak.fbcdn.net/rsrc.php/v2/y-/r/1ERM3RD53Mg.css ::::: */
+
+label { cursor: pointer; color: rgb(102, 102, 102); font-weight: bold; vertical-align: middle; }
+label input { font-weight: normal; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+a { color: rgb(59, 89, 152); cursor: pointer; text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { border: 0px none; }
+.clearfix:after { clear: both; content: "."; display: block; font-size: 0px; height: 0px; line-height: 0; visibility: hidden; }
+.clearfix {  }
+body { overflow-y: scroll; }
+button.as_link::-moz-focus-inner { border: 0px none; padding: 0px; }
+._6kb ._6mv .UFIAddComment .UFIAddCommentInput:focus::-moz-placeholder { color: rgb(211, 214, 219); }
+.pluginButton button::-moz-focus-inner { border: 0px none; padding: 0px; }
+.sp_bhirl8 { background-image: url('daj5afy0xfy.png'); background-size: auto auto; background-repeat: no-repeat; display: inline-block; height: 48px; width: 500px; }
+.sx_3b6c44 { width: 14px; height: 14px; background-position: -684px -45px; }
+._42ft::-moz-focus-inner { border: 0px none; padding: 0px; }
+._8m { overflow: hidden; }
+._8u { margin-top: 1px; }
+._8o, ._8o .img { display: block; }
+._8r { margin-right: 5px; margin-top: -1px; }
+.uiButton { cursor: pointer; display: inline-block; font-size: 11px; font-weight: bold; line-height: 13px; padding: 2px 6px; text-align: center; text-decoration: none; vertical-align: top; white-space: nowrap; }
+.uiButton, .uiButtonSuppressed:active, .uiButtonSuppressed:focus, .uiButtonSuppressed:hover { background-image: url('daj5afy0xfy.png'); background-repeat: no-repeat; background-size: auto auto; background-position: -352px -446px; background-color: rgb(238, 238, 238); border-width: 1px; border-style: solid; border-color: rgb(153, 153, 153) rgb(153, 153, 153) rgb(136, 136, 136); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.1); }
+.uiButton:hover { text-decoration: none; }
+.uiButton:active, .uiButtonDepressed { background: none repeat scroll 0% 0% rgb(221, 221, 221); border-bottom-color: rgb(153, 153, 153); box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2) inset; }
+.uiButtonText, .uiButton input { background: none repeat scroll 0% 0% transparent; border: 0px none; color: rgb(51, 51, 51); cursor: pointer; display: inline-block; font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; font-weight: bold; line-height: 13px; margin: 0px; padding: 1px 0px 2px; white-space: nowrap; }
+.uiButton input::-moz-focus-inner { border: 0px none; padding: 0px; }
+.uiButtonConfirm { background-image: url('daj5afy0xfy.png'); background-repeat: no-repeat; background-size: auto auto; background-position: -352px -495px; background-color: rgb(91, 116, 168); border-color: rgb(41, 68, 126) rgb(41, 68, 126) rgb(26, 53, 110); }
+.uiButtonConfirm:active { background: none repeat scroll 0% 0% rgb(79, 106, 163); border-bottom-color: rgb(41, 68, 126); }
+form.async_saving .uiButton.uiButtonSpecial .uiButtonText, form.async_saving .uiButton.uiButtonSpecial input, form.async_saving .uiButton.uiButtonConfirm .uiButtonText, form.async_saving .uiButton.uiButtonConfirm input, .uiButtonSpecial .uiButtonText, .uiButtonSpecial input, .uiButtonSpecial.uiButtonDisabled .uiButtonText, .uiButtonSpecial.uiButtonDisabled input, .uiButtonConfirm .uiButtonText, .uiButtonConfirm input, .uiButtonConfirm.uiButtonDisabled .uiButtonText, .uiButtonConfirm.uiButtonDisabled input { color: rgb(255, 255, 255); }
+.uiButtonLarge { height: 19px; }
+.uiButtonLarge, .uiButtonLarge .uiButtonText, .uiButtonLarge input { font-size: 13px; line-height: 16px; }
+.ff4.mac .uiButton, .ff4.mac .uiButtonText, .ff4.mac .uiButton input { line-height: 14px; }
+.ff4.mac .uiButtonLarge, .ff4.mac .uiButtonLarge .uiButtonText, .ff4.mac .uiButtonLarge input { line-height: 16px; }
+.ff4.mac .uiButtonText, .ff4.mac .uiButton input { margin-bottom: -1px; }
+.ff4.mac .uiButtonLarge .uiButtonText, .ff4.mac .uiButtonLarge input { margin-bottom: 0px; }
+.uiLinkButton input::-moz-focus-inner { border: 0px none; padding: 0px; }
+.uiBoxWhite { background-color: rgb(255, 255, 255); border: 1px solid rgb(204, 204, 204); }
+i.img {  }
+.lfloat { float: left; }
+a.uiLinkSubtle { color: gray; }
+.pas { padding: 5px; }
+.pts { padding-top: 5px; }
+.phs { padding-left: 5px; padding-right: 5px; }
+.pvm { padding-top: 10px; padding-bottom: 10px; }
+.mrm { margin-right: 10px; }
+.mhs { margin-left: 5px; margin-right: 5px; }
+.fss { font-size: 9px; }
+.fwn { font-weight: normal; }
+.fcg { color: gray; }
+._42ef { overflow: hidden; }
+._29k { display: table-cell; vertical-align: top; width: 10000px; }
+._29h { float: left; margin-right: 5px; }
+._29h .img, img._29h, i._29h { display: block; }
+._303 { margin-right: 8px; }
+/* ::::: http://static.ak.fbcdn.net/rsrc.php/v2/yA/r/7-qceYKZwdl.css ::::: */
+
+.fbConnectWidgetTopmost { border-width: 1px; border-style: solid; border-right: 1px solid rgb(170, 170, 170); border-color: rgb(49, 92, 153) rgb(170, 170, 170) rgb(170, 170, 170); -moz-border-top-colors: none; -moz-border-right-colors: none; -moz-border-bottom-colors: none; -moz-border-left-colors: none; border-image: none; overflow: hidden; padding: 0px; position: relative; }
+div.ConnectActivityLogin { border-width: 0px 0px 1px; }
+.fbRecommendationWidgetContent .recommendations_metadata { padding-top: 3px; color: gray; }
+.fbImageContainer { width: 35px; height: 35px; background: url('dxzglmoawwg.png') no-repeat scroll 0px 0px rgb(237, 239, 244); overflow: hidden; }
+.fbLoginButton { float: left; }
+.ConnectActivityLoginMessage { color: rgb(102, 102, 102); line-height: 14px; vertical-align: top; }
+.fbConnectWidgetFooter { bottom: 0px; cursor: default; position: absolute; width: 100%; }
+.fbConnectWidgetFooter .fbFooterBorder { border-top: 1px solid rgb(204, 204, 204); margin: 0px 6px; padding: 4px 3px; }
+.fbConnectWidgetContent, .fbImageContainer img { visibility: hidden; }
+.fbConnectWidgetContent, .fbGalleryRecommendationsImageContainer img { visibility: hidden; }
+body.transparent_widget { background-color: transparent; overflow: hidden; }
+.fbCommentsEditSettings .uiInfoTable tr:nth-last-child(2) th, .fbCommentsEditSettings .uiInfoTable tr:nth-last-child(2) td { padding-bottom: 0px; }

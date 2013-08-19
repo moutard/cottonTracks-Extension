@@ -1,0 +1,14 @@
+* html .a-f-e, :first-child + html .a-f-e { display: inline; }
+.ZRa { float: left; white-space: nowrap; }
+.g-rba-Dh-kQa { margin: 0px; padding: 0px; background-color: transparent; }
+.hAa { cursor: pointer; display: block; outline: 0px none; position: relative; text-decoration: none; }
+.YRa { vertical-align: top; color: rgb(102, 102, 102); font-family: arial,sans-serif; }
+.Po { width: 50px; height: 20px; }
+.Bg .Po { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -555px transparent; }
+.Bg .Po:hover { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -509px transparent; }
+.Bg .Po:active { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -275px transparent; }
+.v9 { background: url('sprite4-a67f741843ffc4220554c34bd01bb0bb.png') no-repeat scroll 0px -68px transparent; height: 35px; width: 50px; text-align: center; margin-bottom: 5px; overflow: hidden; }
+.v9 .mWa { padding-top: 6px; }
+.v9 { font-size: 15px; }
+@media not all, only screen and (min--moz-device-pixel-ratio: 1.5), only screen and (min-resolution: 1.5dppx) {
+}
