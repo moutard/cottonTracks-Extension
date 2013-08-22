@@ -34,6 +34,19 @@ Cotton.UI.World = Class.extend({
   _oTopbar : null,
 
   /**
+   * Manager object, representing the home, containing all covers
+   * there is only one manager, and it is hidden/shown if needed
+   */
+  _oManager : null,
+
+  /**
+   * Settings object, with the rating button and the feedback form
+   * if the form is empty and the settings is closed, it is purged.
+   * otherwise it is just hidden to keep the text
+   */
+  _oSettings : null,
+
+  /**
    * @param {Cotton.Core.Messenger} oCoreMessenger
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
@@ -71,6 +84,39 @@ Cotton.UI.World = Class.extend({
     }
   },
 
+  initSettings : function() {
+    if (!this._oSettings) {
+      this._oSettings = new Cotton.UI.Settings.Settings(this._oGlobalDispatcher);
+      this._$settings = this._oSettings.$();
+      this._$world.append(this._$settings);
+    }
+  },
+
+  toggleSettings : function() {
+    if (!this._oSettings) {
+      this.initSettings();
+    }
+    this._oSettings.toggle();
+  },
+
+  /**
+   * @param{boolean} bPurge
+   *   if the form is empty, we purge the settings object
+   *   otherwise we juste hide it
+   **/
+  closeSettings : function(bPurge) {
+    if (this._oSettings){
+      if (bPurge) {
+        this._oSettings.purge();
+        this._oSettings = null;
+        this._$settings.remove();
+        this._$settings = null;
+      } else {
+        this._oSettings.hide();
+      }
+    }
+  },
+
   openManager : function() {
     if (this._oManager.isDetached()){
       // the manager is not visible, clear everything and attach it.
@@ -82,6 +128,8 @@ Cotton.UI.World = Class.extend({
 
   clear : function() {
     this.hideStory();
+    this.closeSettings();
   }
+
 
 });

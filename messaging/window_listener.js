@@ -20,6 +20,17 @@ Cotton.Messaging.WindowListener = Class.extend({
     $window.resize(function(){
       oDispatcher.publish('window_resize');
     });
-  }
 
-})
+    // Key pressed.
+    $(window).keydown(function(e){
+      switch (e.keyCode) {
+      case 27:
+        oDispatcher.publish('escape');
+        break;
+      default:
+        break;
+      }
+    });
+
+  }
+});
