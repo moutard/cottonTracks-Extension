@@ -32,8 +32,22 @@ Cotton.Controllers.DispatchingController = Class.extend({
     /**
      * Go back to the manager
      */
-    oGlobalDispatcher.subscribe('home', this, function(dArguments){
+    oGlobalDispatcher.subscribe('home', this, function(){
       oLightyearController._oWorld.openManager();
+    });
+
+    /**
+     * Toggle (open/close) the settings page
+     */
+    oGlobalDispatcher.subscribe('toggle_settings', this, function(){
+      oLightyearController._oWorld.toggleSettings();
+    });
+
+    /**
+     * Close for sure the settings page
+     */
+    oGlobalDispatcher.subscribe('close_settings', this, function(dArguments){
+      oLightyearController._oWorld.closeSettings(dArguments['purge']);
     });
 
   }
