@@ -254,7 +254,7 @@ Cotton.Controllers.Messaging = Class.extend({
                 'params': {
                   'itemId': iId
                 }
-              });
+              }, function(){});
             }
           }
         });

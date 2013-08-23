@@ -301,7 +301,7 @@ Cotton.Controllers.Lightyear = Class.extend({
           'params': {
             'tab_id': tab['id']
           }
-        });
+        }, function(){});
       });
     });
 
