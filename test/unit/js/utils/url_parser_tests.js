@@ -87,6 +87,19 @@ test("hash.", function() {
   deepEqual(b.hash, "hl=fr&sclient=psy-ab&q=alice+in+wonderland&oq=alice+in+wonderland&gs_l=serp.3..0l4.52469.52469.0.52763.1.1.0.0.0.0.168.168.0j1.1.0...0.0...1c.2.8.psy-ab.J06Cu2VWQiA&pbx=1&bav=on.2,or.r_cp.r_qf.&bvm=bv.44770516,d.dmg&fp=eff218f351fb2648&biw=1214&bih=576");
 });
 
+test("hash complexe pathname.", function() {
+  var urlComplexe = 'https://www.google.com/maps/preview#!q=berlin&data=!4m10!1m9!4m8!1m3!1d126461!2d10.0610307!3d53.5373576!3m2!1i1280!2i320!4f13.1';
+  var b = new UrlParser(urlComplexe);
+  b.fineDecomposition();
+
+  // keywords are not generated for webph, they are only generated for search path name.
+  deepEqual(b.hash, "!q=berlin&data=!4m10!1m9!4m8!1m3!1d126461!2d10.0610307!3d53.5373576!3m2!1i1280!2i320!4f13.1");
+  deepEqual(b.dHash, {
+    "!q" :"berlin",
+    "data":"!4m10!1m9!4m8!1m3!1d126461!2d10.0610307!3d53.5373576!3m2!1i1280!2i320!4f13.1"
+  });
+});
+
 test("hash query words.", function() {
   var urlComplexe = 'https://www.google.fr/search?q=underscore+js&aq=f&oq=underscore+js&aqs=chrome.0.57j60l3j0j62.3248j0&sourceid=chrome&ie=UTF-8#hl=fr&sclient=psy-ab&q=alice+in+wonderland&oq=alice+in+wonderland&gs_l=serp.3..0l4.52469.52469.0.52763.1.1.0.0.0.0.168.168.0j1.1.0...0.0...1c.2.8.psy-ab.J06Cu2VWQiA&pbx=1&bav=on.2,or.r_cp.r_qf.&bvm=bv.44770516,d.dmg&fp=eff218f351fb2648&biw=1214&bih=576';
   var b = new UrlParser(urlComplexe);
@@ -180,8 +193,8 @@ test('url with url after 2 steps of decodeURIComponent', function(){
   var sUrl = "https://www.google.com/search?q=alambic+talon&aq=0&um=1&ie=UTF-8&hl=fr&tbm=isch&source=og&sa=N&tab=wi&authuser=0&ei=sndkUc7qOozx0wHF1IHIBw&biw=1184&bih=702&sei=PHhkUYjgBILZ0wHrhoHQBA#imgrc=AtZ35Po07jpgPM:;Yg7c9zL6WwfWBM;http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png;http://www.oldschoolpanini.com/2012/07/le-top-ten-des-sosies-de-la-bd-en.html;302;211";
 
   deepEqual(decodeURIComponent(decodeURIComponent(urlComplexe)), sUrl);
-  var oWrongResult = new UrlParser(sUrl); // This create an error as there is no /
+  var oResult = new UrlParser(sUrl); // This create an error as there is no /
   // As we split parts using '/' if it not escaped there are mani parts. and we don't put
   // them together well.
-  deepEqual(oWrongResult.searchImage, 'http:');
+  deepEqual(oResult.searchImage, 'http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png');
 });
