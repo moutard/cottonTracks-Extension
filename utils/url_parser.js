@@ -89,11 +89,7 @@ function UrlParser(sUrl) {
     // HASH
     // extract any hash - delimited by '#' -
     this.pathname = this.pathname.split('#');
-    if(parts[0]){
-      this.hash = parts[0].split('#')[1] || "";
-    } else {
-      this.hash = '';
-    }
+    this.hash = this.pathname.length > 1 ? this.pathname[1] : '';
 
     this.pathname = this.pathname[0];
 
