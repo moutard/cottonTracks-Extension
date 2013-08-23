@@ -1103,11 +1103,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         var oStore =  oTransaction.objectStore(sObjectStoreName);
 
         // Find the index that do not satisfy the constraints using a regex in
-        // webkitErrorMessage. This message look like :
+        // error.message. This message look like :
         // "Unable to add key to index 'sKeyword': at least one key does not
         // satisfy the uniqueness requirements."
         // TODO(rmoutard): make sure this message doesn't change.
-        var sMessage = this['webkitErrorMessage'];
+        var sMessage = (this['error'] && this['error']['message']) ? this['error']['message'] : this['webkitErrorMessage'];
         var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
         var lRegExpResults = oRegExp.exec(sMessage);
         if(lRegExpResults.length > 1) {
@@ -1115,7 +1115,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           var sIndex = lRegExpResults[1];
         } else {
           console.error(this);
-          console.error('The webkitErrorMessage has changed.');
+          console.error('The error.message has changed.');
         }
 
         var oIndex = oStore.index(sIndex);
