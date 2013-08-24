@@ -71,7 +71,7 @@ Cotton.UI.Settings.Settings = Class.extend({
 
     // Rate us.
     this._$rate_us = $('<div class="ct-rate_us"></div>');
-    this._$rate_us_button = $('<a class="ct-rate_us_button" href="https://chrome.google.com/webstore/detail/cottontracks/flmfagndkngjknjjcoejaihmibcfcjdh/reviews" target="_blank">Rate us</a>');
+    this._$rate_us_button = $('<a class="ct-rate_us_button" href=' + this.webstoreUrl() + ' target="_blank">Rate us</a>');
     this._$rate_us_text = $('<p class="ct-rate_us_text">Rate us on the Chrome Web Store</p>');
 
     // Feedback form object.
@@ -102,6 +102,16 @@ Cotton.UI.Settings.Settings = Class.extend({
 
   $ : function() {
     return this._$settings;
+  },
+
+  /**
+   * WebstoreUrl
+   *
+   * return the url of the webstore using the core function.
+   */
+  webstoreUrl : function() {
+    var oWebstore = new Cotton.Core.Webstore();
+    return oWebstore.getUrl();
   },
 
   /**
