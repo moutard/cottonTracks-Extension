@@ -26,7 +26,7 @@
           "https://www.google.*/url", "https://www.google.com/analytics/web/*", "https://www.google.com/calendar/*"
         ],
       "include_globs" : ["http://*", "https://www.google.*", "https://maps.google.*",
-      "https://www.youtube.*", "https://*.wikipedia.org/*"],
+      "https://www.youtube.*", "https://vimeo.com/*", "https://*.wikipedia.org/*"],
       "css": [],
       "js": [
               "lib/class.js", "lib/jquery-2.0.0.min.js",
