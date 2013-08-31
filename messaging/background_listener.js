@@ -48,18 +48,12 @@ Cotton.Controllers.BackgroundListener = Class.extend({
 
           case 'create_history_item':
             self._oMessagingController.doAction(request['action'],
-              [sendResponse, request['params']['historyItem'], sender]);
+              [sendResponse, request['params']['historyItem']]);
             break;
 
           case 'update_history_item':
               self._oMessagingController.doAction(request['action'],
-              [sendResponse, request['params']['historyItem'],
-              request['params']['contentSet'], sender]);
-            break;
-
-          case 'get_content_tab':
-            self._oMessagingController.doAction(request['action'],
-              [sendResponse, request['params']['tab_id']]);
+              [sendResponse, request['params']['historyItem']]);
             break;
 
           default:
