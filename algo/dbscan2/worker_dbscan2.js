@@ -31,7 +31,7 @@ importScripts('../../algo/dbscan2/find_closest_google_search_page.js');
  * Keys are HistoryItem ids. Values are lists of couples with distances
  * including the HistoryItem.
  */
-function handleHistoryItem(lHistoryItems, iSenderTabId) {
+function handleHistoryItem(lHistoryItems) {
 
   // PARAMETERS
   // Max Distance between neighborhood.
@@ -45,7 +45,6 @@ function handleHistoryItem(lHistoryItems, iSenderTabId) {
   var dData = {};
   dData['iNbCluster'] = iNbCluster;
   dData['lHistoryItems'] = lHistoryItems;
-  dData['iSenderTabId'] = iSenderTabId;
 
   // Send data to the main thread. Data are serialized.
   self.postMessage(dData);
@@ -60,5 +59,5 @@ function handleHistoryItem(lHistoryItems, iSenderTabId) {
  * Cotton.Model.HistoryItem, but object.
  */
 self.addEventListener('message', function(e) {
-   handleHistoryItem(e.data['pool'], e.data['sender']);
+   handleHistoryItem(e.data['pool']);
 }, false);
