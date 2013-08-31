@@ -93,7 +93,6 @@ Cotton.Behavior.Passive.WikipediaParser = Cotton.Behavior.Passive.Parser
           this._sBestImage = "http:" + this._sBestImage;
         }
         this._oClient.current().extractedDNA().setImageUrl(this._sBestImage);
-        this._oClient.setImage(this._sBestImage);
         this._oClient.updateVisit();
         return this._sBestImage;
       },

@@ -37,23 +37,15 @@ Cotton.Controllers.Background = Class.extend({
    _oContentScriptListener : null,
 
   /**
-   * data of tabs opened for getContent
-   **/
-   _dGetContentTabId : null,
-
-  /**
    * id of the tab from which the browserAction was clicked
    **/
-  _iCallerTabId : null,
+   _iCallerTabId : null,
 
   /**
    *
    */
   init : function(){
     var self = this;
-
-    this._dGetContentTabId = {};
-    this._lStoriesInTabsId = [];
 
     chrome.runtime.onInstalled.addListener(function(details) {
       var sVersion = chrome.app.getDetails()['version'];
@@ -169,16 +161,6 @@ Cotton.Controllers.Background = Class.extend({
         mCallback();
       }
     });
-  },
-
-  addGetContentTab : function (iTabId) {
-    this._dGetContentTabId[iTabId] = true;
-    DEBUG && console.debug(this._dGetContentTabId);
-  },
-
-  removeGetContentTab : function (iTabId) {
-    delete this._dGetContentTabId[iTabId];
-    chrome.tabs.remove(iTabId);
   }
 
 });

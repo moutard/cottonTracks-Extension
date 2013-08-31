@@ -55,7 +55,7 @@ Cotton.Controllers.Messaging = Class.extend({
    * Available params :
    * request['params']['historyItem']
    */
-  'create_history_item' : function(sendResponse, dHistoryItem, sender){
+  'create_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       Cotton.ANALYTICS.newVisitItem();
       /**
@@ -69,10 +69,6 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
-      if (self._oMainController._dGetContentTabId[sender.tab.id]){
-        // this is a get content, do not update the date
-        oHistoryItem.setLastVisitTime(0);
-      }
       oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
@@ -178,8 +174,7 @@ Cotton.Controllers.Messaging = Class.extend({
                           // Lauch dbscan2 on the pool.
                           var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                           wDBSCAN2.postMessage({
-                            'pool': self._oMainController._oPool.get(),
-                            'sender': sender.tab.id
+                            'pool': self._oMainController._oPool.get()
                           });
                           sendResponse({
                             'received' : "true",
@@ -199,7 +194,7 @@ Cotton.Controllers.Messaging = Class.extend({
   /**
    * When the reading rater has modified the dna.
    */
-  'update_history_item' : function(sendResponse, dHistoryItem, bContentSet, sender){
+  'update_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -216,13 +211,6 @@ Cotton.Controllers.Messaging = Class.extend({
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      if (self._oMainController._dGetContentTabId[sender.tab.id]){
-        // this is a get content, do not update the date
-        // we set the new date to 0 so that it's lower than the one in base
-        // and won't replace it
-        oHistoryItem.setLastVisitTime(0);
-      }
-
       self._oMainController._oDatabase.find('historyItems', 'id', oHistoryItem.id(), function(oDbHistoryItem){
         if (oDbHistoryItem.storyId() !== "UNCLASSIFIED"){
           oHistoryItem.setStoryId(oDbHistoryItem.storyId());
@@ -230,42 +218,23 @@ Cotton.Controllers.Messaging = Class.extend({
         // The history item already exists, just update it.
         self._oMainController._oDatabase.putUnique('historyItems', oHistoryItem, function(iId) {
           DEBUG && console.debug("Messaging - historyItem updated" + iId);
-          if (bContentSet){
-            if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
-              self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
-                // Set story featured image
-                var sMinStoryImage = oStory.featuredImage();
-                var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
-                if (!sMinStoryImage || sMinStoryImage === ""
-                  && sHistoryItemImage !== ""){
-                    oStory.setFeaturedImage(sHistoryItemImage);
-                }
-                // update story in db
-                self._oMainController._oDatabase.put('stories', oStory,
-                  function(){});
-              });
-            } else {
-              self._oMainController._oPool.putUnique(dHistoryItem);
-            }
-            if (self._oMainController._dGetContentTabId[sender.tab.id]){
-              self._oMainController.removeGetContentTab(sender.tab.id);
-              self._oMainController._oMessenger.sendMessage({
-                'action': 'refresh_item',
-                'params': {
-                  'itemId': iId
-                }
-              }, function(){});
-            }
+          if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
+            self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
+              // Set story featured image
+              var sMinStoryImage = oStory.featuredImage();
+              var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
+              if (!sMinStoryImage && sHistoryItemImage) {
+                oStory.setFeaturedImage(sHistoryItemImage);
+              }
+              // update story in db
+              self._oMainController._oDatabase.put('stories', oStory,
+                function(){});
+            });
+          } else {
+            self._oMainController._oPool.putUnique(dHistoryItem);
           }
         });
       });
-    },
-
-  /**
-   * When a getContent is performed.
-   */
-  'get_content_tab' : function(sendResponse, iTabId){
-    this._oMainController.addGetContentTab(iTabId);
-  }
+    }
 
 });

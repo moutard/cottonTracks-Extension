@@ -19,10 +19,6 @@ Cotton.Behavior.BackgroundClient = Class.extend({
    */
   _oCurrentHistoryItem : undefined,
 
-  _bParagraphSet : null,
-  _bImageSet : null,
-  _lAllParagraphs : null,
-  _sImageUrl : null,
   _bStoryImageUpdated : null,
   _oMessenger : null,
 
@@ -32,13 +28,8 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   init : function(oMessenger) {
     this._iId = "";
     this._oCurrentHistoryItem = new Cotton.Model.HistoryItem();
-    this._bParagraphSet = false;
-    this._bImageSet = false;
-    this._lAllParagraphs = [];
-    this._sImageUrl = "";
     this._bStoryImageUpdated = false;
     this._oMessenger = oMessenger;
-
   },
 
   /**
@@ -98,7 +89,6 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
         self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
         self._iId = response['id'];
-        //self.updateVisit();
       });
   },
 
@@ -118,7 +108,7 @@ Cotton.Behavior.BackgroundClient = Class.extend({
     });
     self._oCurrentHistoryItem.extractedDNA().setParagraphs(lParagraphs);
 
-    // in the content_scitps it's always the last version of the model.
+    // in the content_scripts it's always the last version of the model.
     var lTranslators = Cotton.Translators.HISTORY_ITEM_TRANSLATORS;
     var oTranslator = lTranslators[lTranslators.length - 1];
     var dDbRecord = oTranslator.objectToDbRecord(self._oCurrentHistoryItem);
@@ -139,27 +129,14 @@ Cotton.Behavior.BackgroundClient = Class.extend({
         'action' : 'update_history_item',
         'params' : {
           'historyItem' : dDbRecord,
-          'contentSet' : self._bParagraphSet && self._bImageSet && !self._bStoryImageUpdated,
         }
       }, function(response) {
         // DEPRECATED - update_history_item do not respond.
-        DEBUG && console.debug("dbSync update visit - response :");
-        DEBUG && console.debug(response);
-        self._bStoryImageUpdated = true;
       });
     }
 
-  },
+  }
 
-  setParagraph : function(lAllParagraphs) {
-    this._bParagraphSet = true;
-    this._lAllParagraphs = lAllParagraphs;
-  },
-
-  setImage : function(sImageUrl) {
-    this._bImageSet = true;
-    this._sImageUrl = sImageUrl;
-  },
 });
 
 // According to Chrome API, the object oCurrentHistoryItem will be serialized.
