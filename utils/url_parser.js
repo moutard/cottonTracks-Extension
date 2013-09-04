@@ -58,12 +58,13 @@ function UrlParser(sUrl) {
       this.href = sUrl;
     }
   }
-    // split the URL by single-slashes to get the component parts
-    var parts = this.href.replace('//', '/').split('/');
 
-    // store the protocol and host
-    this.protocol = parts[0];
-    this.host = parts[1];
+  // split the URL by single-slashes to get the component parts
+  var parts = this.href.replace('//', '/').split('/');
+  // store the protocol and host
+  this.protocol = parts[0];
+  try {
+    this.host = parts[1].split(':');
 
     // extract any port number from the host
     // from which we derive the port and hostname
@@ -120,6 +121,16 @@ function UrlParser(sUrl) {
     } else if (this.pathname === "/search/fpsearch" || this.pathname === "/csearch/results"){
       this.generateLinkedInKeywords();
     }
+  } catch(oError) {
+    // special cases like about:blank (with no '/') break the install, because below we try
+    // to split(':') parts[1] which doesn't exist.
+    // an URIencoded url would also throw this error
+    this.error = {
+      'message': oError.message,
+      'code': 3
+    }
+    return;
+  }
 
 }
 
