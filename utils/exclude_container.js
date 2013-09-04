@@ -38,6 +38,10 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return sProtocol === "chrome-extension:";
   },
 
+  isError : function(oUrl) {
+    return (oUrl.error.code !== 0);
+  },
+
   isLocalhost : function(sHostname) {
     return sHostname === "localhost";
   },
@@ -84,7 +88,8 @@ Cotton.Utils.ExcludeContainer = Class.extend({
       || this.isTool(oUrl.hostname)
       || this.isFileProtocol(oUrl.protocol)
       || this.isChromeExtension(oUrl.protocol)
-      || this.isLocalhost(oUrl.hostname);
+      || this.isLocalhost(oUrl.hostname)
+      || this.isError(oUrl);
   },
 
 });
