@@ -171,10 +171,11 @@ test('do not pass directly an encodedURI to the UrlParser', function(){
   // This can not happen. has we never put directly an encodeURI in the
   // UrlParser.
   var sEncodedUrl = "http%253A%252F%252Fshippingcontainerprojects.com%252Fwp-content%252Fuploads%252F2013%252F01%252Fshipping_container_building_platoon_berlin-6.jpg";
+  var oErrorwithEncodedURI = new UrlParser(sEncodedUrl);
   var oNoErrorWithUnescape = new UrlParser(unescape(sEncodedUrl));
   var oNoErrorWithDecodeURI = new UrlParser(decodeURIComponent(sEncodedUrl));
-  throws(function() { new UrlParser(sEncodedUrl) }); // This create an error as there is no /
-  // to split the url.
+
+  equal(oErrorwithEncodedURI.error.code, 3);
   equal(oNoErrorWithUnescape.error.code, 0);
   equal(oNoErrorWithDecodeURI.error.code, 0);
 
@@ -197,4 +198,11 @@ test('url with url after 2 steps of decodeURIComponent', function(){
   // As we split parts using '/' if it not escaped there are mani parts. and we don't put
   // them together well.
   deepEqual(oResult.searchImage, 'http://3.bp.blogspot.com/-R66X-DI0C5A/T_wSaIK7ogI/AAAAAAAAZqU/MFoC5Xv34b4/s400/22-Alambic+Dieudonné+Corydon+Talon.png');
+});
+
+test('about:blank', function(){
+  var sUrl = "about:blank";
+  var oUrl = new UrlParser(sUrl);
+
+  deepEqual(oUrl.error.code, 3);
 });
