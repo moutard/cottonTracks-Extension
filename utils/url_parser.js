@@ -45,6 +45,7 @@ function UrlParser(sUrl) {
     // decodeURIComponent
     this.error = {
       'message': oError.message,
+      'url': sUrl,
       'code': 1
     };
     try {
@@ -53,6 +54,7 @@ function UrlParser(sUrl) {
     } catch(oError) {
       this.error = {
         'message': oError.message,
+        'url': sUrl,
         'code': 2
       };
       this.href = sUrl;
@@ -127,6 +129,7 @@ function UrlParser(sUrl) {
     // an URIencoded url would also throw this error
     this.error = {
       'message': oError.message,
+      'url': sUrl,
       'code': 3
     }
     return;
