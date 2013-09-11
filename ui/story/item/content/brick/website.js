@@ -5,8 +5,6 @@
  */
 Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
 
-  _oItemContent : null,
-
   _sUrl : null,
 
   // current element.
@@ -16,12 +14,9 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
   _$favicon : null,
   _$url : null,
 
-  init : function(sUrl, oItemContent) {
-
+  init : function(sUrl) {
+    var self = this;
     this._sUrl = sUrl;
-
-    // current parent element.
-    this._oItemContent = oItemContent;
 
     // current element.
     this._$website = $('<div class="ct-item_content_website"></div>');
@@ -36,7 +31,14 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
     this._$url.text(sDomain);
 
     // favicon using chrome API.
-    this._$favicon = $('<img class="favicon" src="chrome://favicon/'+sUrl+'">');
+    var oRegExp = /www.google.[a-z]{2,3}|www.google.[a-z]{2,3}.[a-z]{2,3}/ig;
+    // we treat google differently because favicon api only retrieves favicon for urls that
+    // have been actually visited by the user, but we standardize google urls.
+    if (sDomain.match(oRegExp)){
+      this._$favicon = $('<img class="favicon" src="http://www.google.com/images/google_favicon_128.png">');
+    } else {
+      this._$favicon = $('<img class="favicon" src="' + self.faviconUrl(sUrl) +'">');
+    }
 
     // construct item.
     this._$website.append(
@@ -48,6 +50,11 @@ Cotton.UI.Story.Item.Content.Brick.Website = Class.extend({
 
   url : function() {
     return this._sUrl;
+  },
+
+  faviconUrl : function(sUrl) {
+    var oFavicon = new Cotton.Core.Favicon();
+    return oFavicon.getSrc() + sUrl;
   },
 
   $ : function() {

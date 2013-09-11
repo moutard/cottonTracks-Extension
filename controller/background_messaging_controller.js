@@ -14,21 +14,37 @@ Cotton.Controllers.Messaging = Class.extend({
    * Call the method that correponds to the action message.
    * TODO(rmoutard) : make a error handler in case the function does not exist.
    */
-  doAction : function(sAction, lArguments){
+  doAction : function(sAction, lArguments) {
     this[sAction].apply(this, lArguments);
   },
 
-  addSearchKeywordsToDb : function(oHistoryItem, iHistoryItemId){
+  addHistoryItemSearchKeywords : function(oHistoryItem, iHistoryItemId) {
     var self = this;
-    for (var i = 0, lKeywords = oHistoryItem.searchKeywords(), iLength = lKeywords.length;
-      i < iLength; i++){
-        var sKeyword = lKeywords[i];
-        var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
-        oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
-        self._oMainController._oDatabase.putUniqueKeyword('searchKeywords',
-          oSearchKeyword, function(iHistoryItemId){
-            // Return nothing to let the connection be cleaned up.
-        });
+    var lKeywords = _.keys(oHistoryItem.extractedDNA().bagOfWords().get());
+    var iLength = lKeywords.length;
+    for (var i = 0; i < iLength; i++){
+      var sKeyword = lKeywords[i];
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringHistoryItemId(iHistoryItemId);
+      self._oMainController._oDatabase.putUnique('searchKeywords',
+        oSearchKeyword, function(iKeywordId){
+          // Return nothing to let the connection be cleaned up.
+      });
+    }
+  },
+
+  addStoryToSearchKeywords : function(oStory) {
+    var self = this;
+    var lKeywords = _.keys(oStory.dna().bagOfWords().get());
+    var iLength = lKeywords.length;
+    for (var i = 0; i < iLength; i++){
+      var sKeyword = lKeywords[i];
+      var oSearchKeyword = new Cotton.Model.SearchKeyword(sKeyword);
+      oSearchKeyword.addReferringStoryId(oStory.id());
+      self._oMainController._oDatabase.putUnique('searchKeywords',
+        oSearchKeyword, function(iKeywordId){
+          // Return nothing to let the connection be cleaned up.
+      });
     }
   },
 
@@ -41,6 +57,7 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'create_history_item' : function(sendResponse, dHistoryItem, sender){
       var self = this;
+      Cotton.ANALYTICS.newVisitItem();
       /**
        * Because Model are compiled in two different way by google closure
        * compiler we need a common structure to communicate throught messaging.
@@ -52,92 +69,137 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
+      if (self._oMainController._dGetContentTabId[sender.tab.id]){
+        // this is a get content, do not update the date
+        oHistoryItem.setLastVisitTime(0);
+      }
+      oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
+      //compute closest searchpage with searchcache
+      oHistoryItem = Cotton.Algo.findClosestSearchPage(
+          oHistoryItem, self._oMainController._oSearchCache);
+      oHistoryItem.extractedDNA().setMinWeightForWord();
+      dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
 
-      // TODO(rmoutard) : use DB system, or a singleton.
-      var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+      if (oHistoryItem.oUrl().keywords){
+        self._oMainController._oSearchCache.putUnique(dHistoryItem);
+      }
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the historyItem only if it's not a Tool, and it's not in the exluded
-      // urls.
-      // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
-        // See if the history items can fit in a story.
-        var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(3);
-        self._oMainController._oDatabase.findGroup('searchKeywords',
-          'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
-            var lStoriesId = [];
-	    for (var i = 0, iLength = lSearchKeywords.length; i < iLength; i++){
-              var oSearchKeyword = lSearchKeywords[i];
-              lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
-            }
-
-            // Find the story that is the closest to the historyItem.
-            self._oMainController._oDatabase.findGroup('stories', 'id',
-              lStoriesId, function(lStories){
-                // Cosine higher -> story closer.
-                // FIXME(rmoutard) : find a real value for this !
-                var iMaxCosine = 10;
-                var oMinStory = undefined;
-                for (var i = 0, iLength = lStories.length; i < iLength; i++) {
-                  var oStory = lStories[i];
-                  var iCurrentDistance = Cotton.Algo.Distance.historyItemToStory(
-                    oHistoryItem, oStory);
-                  if(iCurrentDistance > iMaxCosine){
-                    oMinStory = oStory;
-                    iMaxCosine = iCurrentDistance;
-                  }
+      self._oMainController._oDatabase.find('historyItems',
+        'sUrl', oHistoryItem.url(), function(_oHistoryItem){
+          if (_oHistoryItem){
+            oHistoryItem.incrementVisitCount(_oHistoryItem.visitCount());
+            dHistoryItem['iVisitCount'] += _oHistoryItem.visitCount();
+          }
+          if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+            // update the item
+            self._oMainController._oDatabase.putUnique('historyItems',
+              oHistoryItem, function(iHistoryItemId){});
+            // There is a story for this item, so enable the browserAction
+            // and attach a storyId to the tab
+            Cotton.ANALYTICS.storyAvailable('already in story');
+            sPutId = _oHistoryItem.id();
+            sendResponse({
+              'received' : "true",
+              'id' : sPutId,
+              'storyId' : _oHistoryItem.storyId(),
+              'visitCount' : oHistoryItem.visitCount(),
+              'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+            });
+          } else {
+            Cotton.ANALYTICS.newHistoryItem();
+            // See if the history items can fit in a story.
+            // take keywords in bag of words with the highest score
+            var lPreponderantKeywords = oHistoryItem.extractedDNA().bagOfWords().preponderant(
+              Cotton.Config.Parameters.iNumberOfPreponderantKeywords);
+            self._oMainController._oDatabase.findGroup('searchKeywords',
+              'sKeyword', lPreponderantKeywords, function(lSearchKeywords){
+                var lStoriesId = [];
+                var iLength = lSearchKeywords.length;
+                for (var i = 0; i < iLength; i++){
+                  var oSearchKeyword = lSearchKeywords[i];
+                  lStoriesId = _.union(lStoriesId, oSearchKeyword.referringStoriesId());
                 }
 
-                // If we find a min story put the historyItem in it.
-                if(oMinStory){
-                  oHistoryItem.setStoryId(oMinStory.id());
-                  self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
-                    oHistoryItem, function(iHistoryItemId){
-		      DEBUG && console.debug("historyItem added" + iHistoryItemId);
-		      sPutId = iHistoryItemId;
-	              self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
-                      oMinStory.addHistoryItemId(iHistoryItemId);
-                      self._oMainController._oDatabase.put('stories', oMinStory,
-                        function(){});
-                  });
-                  // There is a story for this item, so enable the browserAction
-                  // and attach a storyId to the tab
-	          chrome.browserAction.enable(sender.tab.id);
-                  self._oMainController.setTabStory(sender.tab.id, oMinStory.id());
+                // Find the story that is the closest to the historyItem.
+                self._oMainController._oDatabase.findGroup('stories', 'id',
+                  lStoriesId, function(lStories){
+                    var iMaxScore = Cotton.Config.Parameters.dbscan2.iMaxScore;
+                    var oMinStory = undefined;
+                    var iLength = lStories.length;
+                    for (var i = 0; i < iLength; i++) {
+                      var oStory = lStories[i];
+                      var iCurrentScore = Cotton.Algo.Score.Object.historyItemToStory(
+                        oHistoryItem, oStory);
+                      if(iCurrentScore > iMaxScore){
+                        oMinStory = oStory;
+                        iMaxScore = iCurrentScore;
+                      }
+                    }
 
-                } else {
-                  self._oMainController._oDatabase.putUniqueHistoryItem('historyItems',
-                    oHistoryItem, function(iHistoryItemId){
-		      DEBUG && console.debug("historyItem added" + iHistoryItemId);
-		      sPutId = iHistoryItemId;
-		      dHistoryItem['id'] = sPutId;
-	              self.addSearchKeywordsToDb(oHistoryItem, iHistoryItemId);
-	              // Put the history item in the pool.
-                      self._oMainController._oPool.put(dHistoryItem);
-                      // Lauch dbscan2 on the pool.
-                      var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
-                      wDBSCAN2.postMessage(self._oMainController._oPool.get());
-                  });
-                }
+                    // If we find a min story put the historyItem in it.
+                    if(oMinStory){
+                      oHistoryItem.setStoryId(oMinStory.id());
+                      self._oMainController._oDatabase.putUnique('historyItems',
+                        oHistoryItem, function(iHistoryItemId){
+                          DEBUG && console.debug("historyItem added" + iHistoryItemId);
+                          sPutId = iHistoryItemId;
+                          self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
+                          oMinStory.addHistoryItemId(iHistoryItemId);
+                          self._oMainController._oDatabase.put('stories', oMinStory,
+                            function(){});
+                          sendResponse({
+                            'received' : "true",
+                            'id' : sPutId,
+                            'storyId' : oHistoryItem.storyId(),
+                            'visitCount' : oHistoryItem.visitCount(),
+                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                          });
+                      });
+                      oMinStory.dna().bagOfWords().mergeBag(
+                        oHistoryItem.extractedDNA().bagOfWords().get());
+                      self.addStoryToSearchKeywords(oMinStory);
+                      self._oMainController._oDatabase.put(
+                        'stories', oMinStory, function(iStoryId){});
+                      // There is a story for this item, so enable the browserAction
+                      // and attach a storyId to the tab
+                      Cotton.ANALYTICS.storyAvailable('join existing story');
 
-                sendResponse({
-                  'received' : "true",
-                  'id' : sPutId,
+                    } else {
+                      self._oMainController._oDatabase.putUnique('historyItems',
+                        oHistoryItem, function(iHistoryItemId){
+                          DEBUG && console.debug("historyItem added" + iHistoryItemId);
+                          sPutId = iHistoryItemId;
+                          dHistoryItem['id'] = sPutId;
+                          self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
+                          // Put the history item in the pool.
+                          self._oMainController._oPool.putUnique(dHistoryItem);
+                          // Lauch dbscan2 on the pool.
+                          var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
+                          wDBSCAN2.postMessage({
+                            'pool': self._oMainController._oPool.get(),
+                            'sender': sender.tab.id
+                          });
+                          sendResponse({
+                            'received' : "true",
+                            'id' : sPutId,
+                            'storyId' : oHistoryItem.storyId(),
+                            'visitCount' : oHistoryItem.visitCount(),
+                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                          });
+                      });
+                    }
                 });
             });
-        });
-
-      } else {
-        DEBUG && console
-            .debug("Content Script Listener - This history item is a tool or an exluded url.");
-      }
+          }
+      });
   },
 
   /**
    * When the reading rater has modified the dna.
    */
-  'update_history_item' : function(sendResponse, dHistoryItem, sender){
+  'update_history_item' : function(sendResponse, dHistoryItem, bContentSet, sender){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -154,28 +216,49 @@ Cotton.Controllers.Messaging = Class.extend({
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      // Put the historyItem only if it's not a Tool, and it's not in the exluded
-      // urls.
-      // TODO (rmoutard) : parseUrl is called twice. avoid that.
-      if (!oExcludeContainer.isExcluded(oHistoryItem.url())) {
-          // The history item already exists, just update it.
-          self._oMainController._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function(iId) {
-            DEBUG && console.debug("Messaging - historyItem updated" + iId);
-            if (self._oMainController._dGetContentTabId[sender.tab.id] === true){
-              console.log(iId);
+      if (self._oMainController._dGetContentTabId[sender.tab.id]){
+        // this is a get content, do not update the date
+        // we set the new date to 0 so that it's lower than the one in base
+        // and won't replace it
+        oHistoryItem.setLastVisitTime(0);
+      }
+
+      self._oMainController._oDatabase.find('historyItems', 'id', oHistoryItem.id(), function(oDbHistoryItem){
+        if (oDbHistoryItem.storyId() !== "UNCLASSIFIED"){
+          oHistoryItem.setStoryId(oDbHistoryItem.storyId());
+        }
+        // The history item already exists, just update it.
+        self._oMainController._oDatabase.putUnique('historyItems', oHistoryItem, function(iId) {
+          DEBUG && console.debug("Messaging - historyItem updated" + iId);
+          if (bContentSet){
+            if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
+              self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
+                // Set story featured image
+                var sMinStoryImage = oStory.featuredImage();
+                var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
+                if (!sMinStoryImage || sMinStoryImage === ""
+                  && sHistoryItemImage !== ""){
+                    oStory.setFeaturedImage(sHistoryItemImage);
+                }
+                // update story in db
+                self._oMainController._oDatabase.put('stories', oStory,
+                  function(){});
+              });
+            } else {
+              self._oMainController._oPool.putUnique(dHistoryItem);
+            }
+            if (self._oMainController._dGetContentTabId[sender.tab.id]){
               self._oMainController.removeGetContentTab(sender.tab.id);
-              chrome.extension.sendMessage({
+              self._oMainController._oMessenger.sendMessage({
                 'action': 'refresh_item',
                 'params': {
                   'itemId': iId
                 }
-              });
+              }, function(){});
             }
-          });
-      } else {
-        DEBUG && console
-            .debug("Content Script Listener - This history item is a tool or an exluded url.");
-      }
+          }
+        });
+      });
     },
 
   /**
@@ -190,12 +273,23 @@ Cotton.Controllers.Messaging = Class.extend({
    */
   'get_trigger_story' : function(sendResponse){
     sendResponse({
-      'trigger_id': this._oMainController._iTriggerStory
+      'trigger_id': this._oMainController._iTriggerStory,
+      'trigger_item_id': this._oMainController._iTriggerHistoryItem,
+      'stories_in_tabs_id': this._oMainController._lStoriesInTabsId
     });
   },
 
-  'pass_background_screenshot': function(sendResponse){
-    sendResponse({'src': this._oMainController.screenshot()});
+  'change_story': function(sendResponse, iStoryId){
+    var self = this;
+    this._oMainController.setTriggerStory(iStoryId);
+    this._oMainController.resetHistoryItem();
+    this._oMainController.setOtherStories(function(){
+      sendResponse({'stories_in_tabs_id': self._oMainController._lStoriesInTabsId});
+    });
+  },
+
+  'delete_main_story': function(sendResponse){
+    this._oMainController.setTriggerStory(null);
   }
 
 });

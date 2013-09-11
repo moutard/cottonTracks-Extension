@@ -16,11 +16,13 @@ Cotton.Model.ExtractedParagraph = Class.extend({
   _iId : undefined, // The id corresponds to the position of the paragraph
   _fPercent : undefined,
   _sText : null,
+  _lQuotes : null,
 
-  init : function(sText){
+  init : function(sText, lQuotes){
     var self = this;
     self._sText = sText;
     self._fPercent = 0;
+    self._lQuotes = lQuotes || [];
   },
 
   id : function(){
@@ -44,6 +46,12 @@ Cotton.Model.ExtractedParagraph = Class.extend({
   increasePercent : function(fAddPercent){
     this._fPercent += fAddPercent;
   },
+  quotes : function() {
+    return this._lQuotes;
+  },
+  setQuotes : function(lQuotes) {
+     this._lQuotes = lQuotes;
+  },
 
   serialize : function(){
     var self = this;
@@ -51,6 +59,7 @@ Cotton.Model.ExtractedParagraph = Class.extend({
       'id' : self._iId,
       'fPercent' : self._fPercent,
       'sText' : self._sText,
+      'lQuotes': self._lQuotes
     };
 
     return dDBRecord;
@@ -60,6 +69,7 @@ Cotton.Model.ExtractedParagraph = Class.extend({
     this._iId = dDBRecord['id'];
     this._fPercent = dDBRecord['fPercent'];
     this._sText = dDBRecord['sText'];
+    this._lQuotes = dDBRecord['lQuotes'] || [];
   },
 
 });

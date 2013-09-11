@@ -1,0 +1,16 @@
+{
+  "id": "zdnet-parallella",
+  "url": "http://www.zdnet.com/parallella-the-99-linux-supercomputer-7000014036/",
+  "path": "test/data/web_pages/zdnet-parallella/content/index.html",
+  "best_image": "http://cdn-static.zdnet.com/i/r/story/70/00/014036/parallella-620x437.jpg",
+  "expected": [
+    "Chip-company Adapteva announced on April 15th at the Linux Collaboration Summit in San Francisco, California, that they've built their first Parallella parallel-processing board for Linux supercomputing, and that they'll be sending them to their 6,300 Kickstarter supporters and other customers by this summer.",
+    "Linux has long been the number one supercomputer operating system. But while you could build your own Linux supercomputer using commercial off-the-shelf (COTS) products, it wouldn't be terribly fast. You needed hardware that could support massively parallel computing — the cornerstone of modern supercomputing.",
+    "What Adapteva has done is create a credit-card sized parallel-processing board. This comes with a dual-core ARM A9 processor and a 64-core Epiphany Multicore Accelerator chip, along with 1GB of RAM, a microSD card, two USB 2.0 ports, 10/100/1000 Ethernet, and an HDMI connection. If all goes well, by itself, this board should deliver about 90 GFLOPS of performance, or — in terms PC users understand — about the same horse-power as a 45GHz CPU.",
+    "This board will use Ubuntu Linux 12.04 for its operating system. To put all this to work, the platform reference design and drivers are now available.",
+    "Why would you want a $99 supercomputer?",
+    "Well, besides the fact that it would be really cool, Adapteva CEO Andreas Olofsson explained:",
+    "Historically, serial processing [conventional computing] improved so quickly that in most applications, there was no need for massively parallel processing. Unfortunately, serial processing performance has now hit a brick wall, and the only practical path to scaling performance in the future is through parallel processing. To make parallel software applications ubiquitous, we will need to make parallel hardware accessible to all programmers, create much more productive parallel programming methods, and convert all serial programmers to parallel programmers.",
+    "And of course, Olofsson added, to \"make parallel computing accessible to everyone so we can speed up the adoption of parallel processing in the industry\", the Parallella had to be created. Olofsson admitted that his company couldn't have done it by itself. The project required, and got, the support of other hardware OEMs, including Xilinx, Analog Devices, Intersil, Micron, Microchip, and Samtec. The companies have enabled Adapteva to bring its first per-production boards to San Francisco, and soon, to its eager programmer customers."
+  ]
+}

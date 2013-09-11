@@ -5,19 +5,14 @@
  */
 Cotton.UI.Story.Item.Content.Brick.Date = Class.extend({
 
-  _oItemContent : null,
-
   _iLastVisitTime : null,
 
   _$contentDate : null,
   _$date : null,
   _$clock : null,
 
-  init : function(iLastVisitTime, oItemContent) {
+  init : function(iLastVisitTime) {
     var self = this;
-
-    // current parent element.
-    this._oItemContent = oItemContent;
 
     this._iLastVisitTime = iLastVisitTime;
 
@@ -46,6 +41,7 @@ Cotton.UI.Story.Item.Content.Brick.Date = Class.extend({
       var sAmPm = "pm";
     }
     var sMinutes = oDate.getMinutes();
+    if(sMinutes  < 10){ sMinutes = '0'+sMinutes;}
     this._$date.text(sDay + " " + sMonth + " - " + sHours + ":" + sMinutes + " " + sAmPm);
 
     // construct item

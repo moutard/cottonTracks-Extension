@@ -1,0 +1,17 @@
+{
+  "id": "internship_in_la",
+  "url": "http://hadrienraffalli.blogspot.com/2009/07/become-conversation-media-sales-reel.html",
+  "path": "test/data/web_pages/internship_in_la/content/index.html",
+
+  "best_image": "",
+
+  "expected": [
+    "This video is one of my internship assignment. It has been built through Adobe Fireworks & Adobe Premiere for the biggest part (Illustrator & Photoshop helped as well)",
+    "The objective of this video is to display Demand Media various advertising integrations across DM's websites in order to send this to potential clients (Advertisers, Ad agencies) and use it for Sales pitches.",
+    "Having no prior experience in animated video design, it took me a while to make it (something like 100 hours :D). The good thing is that it would take me way less time today for the same kind of job.",
+    "Tell me if you like it or not!",
+    "Demand Media™ is the leader in distributed social media powering 3 billion conversations every month. Founded in 2006, Demand Media is led by executives with strong backgrounds in social media and technology. Our management team has extensive experience at globally recognized companies from MySpace to Yahoo!",
+    "Through Demand Studios, qualified writers, editors and filmmakers create valuable content and make money. On our media sites, millions of users engage through relevant content and passionate communities. Our products make it possible for thousands of businesses to grow by providing social media solutions that consumers really want.",
+    "Demand Media is well-capitalized and strategically positioned for both near and long term success. The company has raised more than $355 million dollars from tier-one investors, including Oak Investment Partners, Spectrum Equity Investors and Goldman Sachs."
+  ]
+}

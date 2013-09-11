@@ -22,53 +22,85 @@ Cotton.Controllers.Background = Class.extend({
   _oPool : null,
 
   /**
-   * Worker to make the algo part in different thread.
-   */
-  _wDBSCAN3 : null,
-  _wDBSCAN2 : null,
-
-  _sScreenshotSrc : null,
-
-  /**
    * MessagingController
    */
   _oMessagingController : null,
 
- /**
-   * MessagingController
+  /**
+   * Core messenger
    */
-  _oContentScriptListener : null,
-
- /**
-  * data of tabs opened for getContent
-  **/
-  _dGetContentTabId : null,
-
- /**
-  * data of tabs and their HistoryItems
-  **/
-  _dTabStory : null,
-
- /**
-  * Story to be displayed in lightyear
-  **/
-  _iTriggerStory : null,
+  _oMessenger : null,
 
   /**
-   * @constructor
+   * MessagingController
+   */
+   _oContentScriptListener : null,
+
+  /**
+   * data of tabs opened for getContent
+   **/
+   _dGetContentTabId : null,
+
+  /**
+   * Story to be displayed in lightyear
+   **/
+   _iTriggerStory : null,
+
+  /**
+   * id of the HistoryItem from which lightyear was called
+   **/
+   _iTriggerHistoryItem : null,
+
+  /**
+   * ids of stories for all open tabs
+   **/
+   _lStoriesInTabsId : null,
+
+  /**
+   * id of the tab from which the browserAction was clicked
+   **/
+  _iCallerTabId : null,
+
+  /**
+   * boolean that indicates if update has been launched already
+   **/
+  _bUpdated : null,
+
+  /**
+   *
    */
   init : function(){
     var self = this;
+    self._bUpdated = false;
 
     this._dGetContentTabId = {};
-    this._dTabStory = {};
+    this._lStoriesInTabsId = [];
 
-    chrome.browserAction.disable();
-    self.initWorkerDBSCAN3();
+    chrome.runtime.onInstalled.addListener(function(details) {
+      var sVersion = chrome.app.getDetails()['version'];
+      switch (details){
+        case 'install':
+          Cotton.ANALYTICS.install(sVersion);
+          break;
+        case 'update':
+          Cotton.ANALYTICS.update(sVersion);
+          break;
+        case 'chrome_update':
+          break;
+        default:
+          break;
+      }
+    });
+
+    this._oMessenger = new Cotton.Core.Messenger();
+    // Init the messaging controller.
+    self._oMessagingController = new Cotton.Controllers.Messaging(self);
+    self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController, self);
+
     self.initWorkerDBSCAN2();
-
     // Initialize the pool.
-    self._oPool = new Cotton.DB.DatabaseFactory().getPool();
+    self._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
+    self._oSearchCache = new Cotton.DB.DatabaseFactory().getCache('search');
 
      // Initialize the indexeddb Database.
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
@@ -76,39 +108,15 @@ Cotton.Controllers.Background = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
       }, function() {
+        DEBUG && console.debug('Global store created');
 
-        // Init the messaging controller.
-        self._oMessagingController = new Cotton.Controllers.Messaging(self);
-        self._oContentScriptListener = new Cotton.Controllers.BackgroundListener(self._oMessagingController);
-
-          DEBUG && console.debug('Global store created');
-          if (Cotton.ONEVENT === 'install') {
-            self.install();
-          } else if(Cotton.ONEVENT === 'update'){
-            self.update();
-          } else {
-            // pass
-          }
+        self.installIfNeeded(function(){
+          // Do when the installation is finished.
+          self._oContentScriptListener.start();
+        });
     });
 
-    chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
-      chrome.browserAction.disable(tabId);
-      self.removeTabStory(tabId);
-    });
-
-    chrome.browserAction.onClicked.addListener(function() {
-      self.takeScreenshot();
-      // chrome.tabs.getSelected is now deprecated. chrome.tabs.query is used instead
-      chrome.tabs.query({
-        'active':true,
-        'currentWindow': true
-      }, function(lTabs){
-        self._iTriggerStory = self._dTabStory[lTabs[0].id];
-        chrome.tabs.update(lTabs[0].id, {'url':'lightyear.html'},function(){
-	      // TODO(rkorach) : delete ct page from history
-	      });
-	    });
-    });
+    self._oBrowserAction = new Cotton.Controllers.BrowserAction(this);
   },
 
   /**
@@ -128,25 +136,33 @@ Cotton.Controllers.Background = Class.extend({
         e.data['iNbCluster'], e.data['lHistoryItems']);
 
       // Cluster the story found by dbscan2.
-      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
+      var lStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
                                               e.data['iNbCluster']);
 
       // TODO(rmoutard) : find a better solution.
+      // Remove from the pool the historyItems you just add to a new story.
       var lHistoryItemToKeep = [];
-      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++){
+      var iLength = e.data['lHistoryItems'].length;
+      for (var i = 0; i < iLength; i++) {
         var dHistoryItem = e.data['lHistoryItems'][i];
-        if(dHistoryItem['sStoryId'] === "UNCLASSIFIED"
-          && dHistoryItem['clusterId'] === "NOISE"){
+        if (dHistoryItem['sStoryId'] === "UNCLASSIFIED"
+            && dHistoryItem['clusterId'] === "NOISE") {
+            // The clusterId is added by the function "clusterStory". So
+            // deleted it to avoid collision the next time.
             delete dHistoryItem['clusterId'];
             lHistoryItemToKeep.push(dHistoryItem);
         }
       }
+      // Refresh completly remove and replace content do. (As we give a param
+      // to refresh the expiracy date is not used.)
       self._oPool._refresh(lHistoryItemToKeep);
 
       // Add stories in indexedDB.
-      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
-          function(oDatabase, lStories){
-            // pass.
+      Cotton.DB.Stories.addStories(self._oDatabase, lStories,
+        function(oDatabase, lStories) {
+          if (lStories && lStories.length > 0) {
+            Cotton.ANALYTICS.storyAvailable('pool');
+          }
       });
     }, false);
 
@@ -154,104 +170,80 @@ Cotton.Controllers.Background = Class.extend({
   },
 
   /**
-   * Initialize the worker in charge of DBSCAN3,
-   * Called at the installation on all the element of historyItems.
+   * InstallIfNeeded
+   * Check the state of the database to determine whether or not we need to
+   * install the application. If the "historyItems" store is empty, we are
+   * considering that the application need to be installed. The when the
+   * installation is finished, or if there is nothing to do, call the callback
+   * directly.
+   *
+   * {Function} mCallback : function called when
    */
-  initWorkerDBSCAN3 : function() {
+  installIfNeeded : function(mCallback){
     var self = this;
-    // Instantiate a new worker with the code in the specified file.
-    self._wDBSCAN3 = new Worker('algo/dbscan3/worker_dbscan3.js');
-
-    // Add listener called when the worker send message back to the main thread.
-    self._wDBSCAN3.addEventListener('message', function(e) {
-
-      DEBUG && console.log('wDBSCAN - Worker ends: ',
-        e.data['iNbCluster'], e.data['lHistoryItems']);
-
-      // Update the historyItems with extractedWords and queryWords.
-      for (var i = 0, iLength = e.data['lHistoryItems'].length; i < iLength; i++) {
-        // Data sent by the worker are serialized. Deserialize using translator.
-        var oTranslator = self._oDatabase._translatorForDbRecord('historyItems',
-          e.data['lHistoryItems'][i]);
-        var oHistoryItem = oTranslator.dbRecordToObject(e.data['lHistoryItems'][i]);
-
-        self._oDatabase.putUniqueHistoryItem('historyItems', oHistoryItem, function() {
-          // pass.
-        });
+    self._oDatabase.empty('historyItems', function(bIsEmpty){
+      if(bIsEmpty){
+        // As we are in a callback function of the database this is the database
+        // we access it faster using 'this' than self._oDatabase.
+        var oInstaller = new Cotton.Core.Installer(this, mCallback);
+      } else {
+        mCallback();
       }
-
-      var dStories = Cotton.Algo.clusterStory(e.data['lHistoryItems'],
-                                              e.data['iNbCluster']);
-
-      // Add stories in IndexedDB.
-      Cotton.DB.Stories.addStories(self._oDatabase, dStories['stories'],
-          function(oDatabase, lStories){
-            // pass.
-      });
-    }, false);
+    });
   },
 
   /**
-   * Install
-   *
-   * First installation, the database is empty. Need to populate. Then launch,
-   * DBSCAN1 on the results.
-   *
+   * Creates a story around an item, without minimum limit of number
    */
-  install : function(){
+  forceStory : function(iSeedId, lItems, mCallback) {
     var self = this;
-
-    DEBUG && console.debug("Controller - install");
-
-    Cotton.DB.Populate.historyItems(self._oDatabase, function(oDatabase) {
-      oDatabase.getList('historyItems', function(lAllHistoryItems) {
-        DEBUG && console.debug('FirstInstallation - Start wDBSCAN with '
-            + lAllHistoryItems.length + ' items');
-        DEBUG && console.debug(lAllHistoryItems);
-        var lAllVisitDict = [];
-        for(var i = 0, oItem; oItem = lAllHistoryItems[i]; i++){
-          // maybe a setFormatVersion problem
-          var oTranslator = this._translatorForObject('historyItems', oItem);
-          var dItem = oTranslator.objectToDbRecord(oItem);
-          lAllVisitDict.push(dItem);
+    var mScore = Cotton.Algo.Score.DBRecord.HistoryItem;
+    var fEps = Cotton.Config.Parameters.dbscan2.fEps;
+    var iLength = lItems.length;
+    for (var i = 0; i < iLength; i++){
+      var dItem = lItems[i];
+      dItem['clusterId'] = "UNCLASSIFIED";
+      if (dItem['id'] === iSeedId) {
+        var dSeed = dItem;
+      }
+    }
+    if (dSeed) {
+      //iLength already set
+      for (var i = 0; i < iLength; i++){
+        var dItem = lItems[i];
+        if (mScore(dItem, dSeed) >= fEps || dItem['id'] === dSeed['id']) {
+          dItem['clusterId'] = 0;
         }
-        DEBUG && console.debug(lAllVisitDict);
-        self._wDBSCAN3.postMessage(lAllVisitDict);
+      }
+      var lNewStory = Cotton.Algo.clusterStory(lItems, 1);
+      // TODO(rmoutard) : find a better solution.
+      var lHistoryItemToKeep = [];
+      //iLength already set
+      for (var i = 0; i < iLength; i++){
+        var dItem = lItems[i];
+        if(dItem['clusterId'] === "UNCLASSIFIED"){
+            delete dItem['clusterId'];
+            lHistoryItemToKeep.push(dItem);
+        }
+      }
+      self._oPool._refresh(lHistoryItemToKeep);
+      Cotton.DB.Stories.addStories(self._oDatabase, lNewStory,
+        function(oDatabase, lStories) {
+          if (lStories.length > 0) {
+            Cotton.ANALYTICS.storyAvailable('forced');
+            mCallback.call(self, lStories[0].id());
+          }
       });
-    });
-
-  },
-
-
-  /**
-   * return the sreenshot url saved in chrome.
-   */
-  screenshot : function() {
-    return this._sScreenshotSrc;
-  },
-  /**
-   * Takes a screenshot of the visible tab through chrome tabs api.
-   */
-  takeScreenshot : function() {
-    self = this;
-    chrome.tabs.captureVisibleTab(function(img) {
-      self._sScreenshotSrc = img;
-    });
-  },
-
-
-  /**
-   * Update
-   *
-   * If something is needed. But nothing for the moment.
-   */
-  update : function(){
-    DEBUG && console.debug("update");
+    } else {
+      // the item has not been put in the pool - because the browserAction has been clicked
+      // too early, or because there has been a problem with content script message.
+      mCallback.call(self, 0);
+    }
   },
 
   addGetContentTab : function (iTabId) {
     this._dGetContentTabId[iTabId] = true;
-    console.log(this._dGetContentTabId);
+    DEBUG && console.debug(this._dGetContentTabId);
   },
 
   removeGetContentTab : function (iTabId) {
@@ -259,20 +251,87 @@ Cotton.Controllers.Background = Class.extend({
     chrome.tabs.remove(iTabId);
   },
 
-  setTabStory : function (iTabId, iStoryId) {
-    this._dTabStory[iTabId] = iStoryId;
+  setTriggerStory : function(iStoryId){
+    this._iTriggerStory = iStoryId;
   },
 
-  removeTabStory : function (iTabId) {
-    if (this._dTabStory[iTabId]){
-      delete this._dTabStory[iTabId];
-    }
-  }
+  setOtherStories : function(mCallback){
+    var self = this;
+    self._lStoriesInTabsId = [];
+    var lStoriesIdWithoutTrigger = [];
+    chrome.tabs.query({}, function(lTabs){
+      var iOpenTabs = lTabs.length;
+      var iCount = 0;
+      var iLength = lTabs.length;
+      for (var i = 0; i < iLength; i++){
+        var oTab = lTabs[i];
+        self.getStoryFromTab(oTab, function(){
+          iCount++;
+          if (iCount === iOpenTabs){
+            var iLength = self._lStoriesInTabsId.length;
+            for (var i = 0; i < iLength; i++){
+              var iStoryInTabsId = self._lStoriesInTabsId[i];
+              if (iStoryInTabsId !== self._iTriggerStory){
+                lStoriesIdWithoutTrigger.push(iStoryInTabsId);
+              }
+            }
+            self._lStoriesInTabsId = lStoriesIdWithoutTrigger;
+            mCallback.call(self);
+          }
+        });
+      }
+    });
+  },
+
+  resetHistoryItem : function(){
+    this._iTriggerHistoryItem = -1;
+  },
+
+  getStoryFromTab : function(oTab, mCallback){
+    var self = this;
+    var sUrl = oTab['url'];
+    var bTrigger = (oTab['id'] === self._iCallerTabId);
+    self._oDatabase.find('historyItems',
+    'sUrl', sUrl, function(_oHistoryItem){
+      if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
+        if (bTrigger){
+          self._iTriggerStory = _oHistoryItem.storyId();
+          self._iTriggerHistoryItem = _oHistoryItem.id();
+        } else{
+          if (self._lStoriesInTabsId.indexOf(_oHistoryItem.storyId()) === -1
+            && _oHistoryItem.storyId() !== self._iTriggerStory){
+              self._lStoriesInTabsId.push(_oHistoryItem.storyId());
+          }
+        }
+        if (mCallback){
+          mCallback.call(self);
+        }
+      } else if (bTrigger){
+        if (!_oHistoryItem){
+          var oUrl = new UrlParser(sUrl);
+          var oExcludeContainer = new Cotton.Utils.ExcludeContainer();
+          if (oExcludeContainer.isHttpsRejected(oUrl)){
+            self._iTriggerStory = -1;
+          }
+          if (mCallback){
+            mCallback.call(self);
+          }
+        } else {
+          self.forceStory(_oHistoryItem.id(), self._oPool.get(), function(iStoryId){
+            self._iTriggerStory = iStoryId;
+            if (mCallback){
+              mCallback.call(self);
+            }
+          });
+        }
+      } else {
+        if (mCallback){
+          mCallback.call(self);
+        }
+      }
+    });
+  },
+
 });
 
-chrome.runtime.onInstalled.addListener(function(oInstallationDetails) {
-  Cotton.ONEVENT = oInstallationDetails['reason'];
-});
-
-Cotton.BACKGROUND = new Cotton.Controllers.Background();
-
+Cotton.Controllers.BACKGROUND = new Cotton.Controllers.Background();

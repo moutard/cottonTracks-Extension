@@ -1,0 +1,24 @@
+{
+  "id": "wikipedia_colors",
+  "url": "http://en.wikipedia.org/wiki/List_of_colors:_A-M",
+  "path": "test/data/web_pages/wikipedia_colors/content/index.html",
+  "best_image": "//upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Colouring_pencils.jpg/220px-Colouring_pencils.jpg",
+  
+  "expected": [
+    "The following is a list of colors. A number of the color swatches below are taken from domain-specific naming schemes such as X11 or HTML4. RGB values are given for each swatch because such standards are defined in terms of the sRGB color space. It is not possible to accurately convert many of these swatches to CMYK values because of the differing gamuts of the two spaces, but the color management systems built into operating systems and image editing software attempt such conversions as accurately as possible.",
+    "The HSV (hue, saturation, value) color space values, also known as HSB (hue, saturation, brightness), and the hex triplets (for HTML web colors) are also given in the following table. Colors that appear on the web-safe color palette—which includes the sixteen named colors—are noted.[1] (Those four named colors corresponding to the neutral grays have no hue value, which is effectively ignored—i.e., left blank.)",
+    "For the continuation of the list of colors, please go to List of colors: N-Z#Colors in alphabetical order N-Z.",
+    "White is a balanced combination of all the colors of the visible light spectrum, or of a pair of complementary colors, or of three or more colors, such as additive primary colors. It is a neutral or achromatic (without color) color, like black and gray.",
+    "Pink is a tint of red, created by adding some white.",
+    "Red is any of a number of similar colors evoked by light, consisting predominantly of the longest wavelengths discernible by the human eye, in the wavelength range of roughly 625–750 nm. It is considered one of the additive primary colors.",
+    "Orange is the color in the visible spectrum between red and yellow with a wavelength around 585 – 620 nm. In the HSV color space, it has a hue of around 30°.",
+    "Brown colors are dark or muted shades of reds, oranges, and yellows on the RGB and CMYK color schemes. In practice, browns are created by mixing two complementary colors from the RYB color scheme (combining all three primary colors). In theory, such combinations should produce black, but produce brown because most commercially available blue pigments tend to be comparatively weaker; the stronger red and yellow colors prevail, thus creating the following tones.",
+    "Yellow is the color of light with wavelengths predominately in the range of roughly 570–580 nm. In the HSV color space, it has a hue of around 60°. It is considered one of the subtractive primary colors.",
+    "Achromatic grays are colors between black and white with no hue. Chromatic grays are achromatic grays mixed with warm hues such as orange (warm grays) or cool hues such as azure (cool grays). This gray color template includes both achromatic and chromatic grays.",
+    "Green is a color, the perception of which is evoked by light having a spectrum dominated by energy with a wavelength of roughly 520–570 nm. It is considered one of the additive primary colors.",
+    "Cyan is any of the colors in the blue-green range of the visible spectrum, i.e., between approximately 520 and 420 nm. It is considered one of the subtractive primary colors.",
+    "Blue is a color, the perception of which is evoked by light having a spectrum dominated by energy with a wavelength of roughly 440–490 nm. It is considered one of the additive primary colors.",
+    "Violet is any of the colors the perception of which is evoked by light having a spectrum dominated by energy with a wavelength of roughly 380–450 nm. Tones of violet tending towards the blue are called indigo. Purple colors are colors that are various blends of violet or blue light with red light.",
+    "These are the 16 colors which were once deemed \"safe\" for use in web pages, as they were displayed consistently across many models of computer monitors. With modern technology, this particular set of colors has become less relevant."
+  ]
+}

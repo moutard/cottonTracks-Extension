@@ -25,7 +25,7 @@ Cotton.Model.BagOfWords = Class.extend({
 
   init : function(dBag) {
     this._dBag = {};
-    if(dBag) this.setBag(dBag);
+    if (dBag) this.setBag(dBag);
   },
 
   setBag : function(dBag){
@@ -35,7 +35,15 @@ Cotton.Model.BagOfWords = Class.extend({
   },
 
   addWord : function(sWord, iScore) {
-    this._dBag[sWord.toLowerCase()] = iScore;
+    if (!this._dBag[sWord.toLowerCase()] || this._dBag[sWord.toLowerCase()] < iScore){
+      this._dBag[sWord.toLowerCase()] = iScore;
+    }
+  },
+
+  mergeBag : function(dBagOfWords) {
+    for (var sWord in dBagOfWords){
+      this.addWord(sWord, dBagOfWords[sWord]);
+    }
   },
 
   increaseWordScore : function(sWord, iScore) {
@@ -46,16 +54,53 @@ Cotton.Model.BagOfWords = Class.extend({
     return this._dBag;
   },
 
-  preponderant : function(iNumberOfPreponderant){
-    var lPreponderant = [];
-    //TODO(rmoutard) : find a faster method.
-    _.each(_.pairs(this._dBag).sort(function(lPairA, lPairB){
-      // Sort by increasing order.
-      return lPairB[1] - lPairA[1];
-    }).slice(0, iNumberOfPreponderant), function(lPair){
-      lPreponderant.push(lPair[0]);
-    });
+  getWords : function() {
+    var lWords = [];
+    for(var sWord in this._dBag) lWords.push(sWord);
+    return lWords;
+  },
 
-    return lPreponderant;
-  }
+  preponderant : function(iNumberOfPreponderant){
+    var lSortedWordsByWeight = {};
+    var iMaxWeight = 0;
+
+    for (var sKey in this._dBag){
+      if (!lSortedWordsByWeight[this._dBag[sKey]]){
+        lSortedWordsByWeight[this._dBag[sKey]] = [];
+        if (this._dBag[sKey] > iMaxWeight){
+          iMaxWeight = this._dBag[sKey];
+        }
+      }
+      lSortedWordsByWeight[this._dBag[sKey]].push(sKey);
+    }
+    if (iMaxWeight > 0){
+      var lPreponderant = lSortedWordsByWeight[iMaxWeight];
+      if (lSortedWordsByWeight[iMaxWeight-1]
+        && lSortedWordsByWeight[iMaxWeight-1].length > 0){
+          lPreponderant = lPreponderant.concat(lSortedWordsByWeight[iMaxWeight-1]);
+      }
+      return lPreponderant;
+    } else {
+      return [];
+    }
+  },
+
+  size : function(){
+    var iSize = 0;
+    for (var word in this._dBag){
+      iSize++;
+    }
+    return iSize;
+  },
+
+  maxWeight : function(){
+    var iMaxWeight = 0;
+    for (var word in this._dBag){
+      if (this._dBag[word] > iMaxWeight){
+        iMaxWeight = this._dBag[word];
+      }
+    }
+    return iMaxWeight;
+  },
+
 });

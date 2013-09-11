@@ -11,20 +11,15 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       'sUrl' : oHistoryItem.url(),
       'sTitle' : oHistoryItem.title(),
       'iLastVisitTime' : oHistoryItem.lastVisitTime(),
+      'iVisitCount' : oHistoryItem.visitCount(),
       'sStoryId' : oHistoryItem.storyId(),
       'oExtractedDNA' : {
         'lQueryWords' : oHistoryItem.extractedDNA().queryWords(),
-        'lExtractedWords' : oHistoryItem.extractedDNA().extractedWords(),
         'dBagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get(),
-        'lHighlightedText' : oHistoryItem.extractedDNA().highlightedText(),
         'sImageUrl' : oHistoryItem.extractedDNA().imageUrl(),
-        'sFirstParagraph' : oHistoryItem.extractedDNA().firstParagraph(),
-        'sMostReadParagraph' : oHistoryItem.extractedDNA().mostReadParagraph(),
         'iPercent' : oHistoryItem.extractedDNA().percent(),
         'fPageScore' : oHistoryItem.extractedDNA().pageScore(),
         'lParagraphs' : _.collect(oHistoryItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
-        'lAllParagraphs' : oHistoryItem.extractedDNA().allParagraphs(),
-        'lCopyPaste' : oHistoryItem.extractedDNA().copyPaste(),
         'fTimeTabActive' : oHistoryItem.extractedDNA().timeTabActive(),
         'fTimeTabOpen' : oHistoryItem.extractedDNA().timeTabOpen(),
       },
@@ -51,16 +46,15 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     oHistoryItem.initUrl(oDbRecord['sUrl']);
     oHistoryItem.setTitle(oDbRecord['sTitle']);
     oHistoryItem.setLastVisitTime(oDbRecord['iLastVisitTime']);
+    oHistoryItem.setVisitCount(oDbRecord['iVisitCount']);
 
 
     var dExtractedDNA = oDbRecord['oExtractedDNA'];
     var oExtractedDNA = new Cotton.Model.HistoryItemDNA();
     oExtractedDNA.setQueryWords(dExtractedDNA['lQueryWords']);
-    oExtractedDNA.setExtractedWords(dExtractedDNA['lExtractedWords']);
-    oExtractedDNA.setHighlightedText(dExtractedDNA['lHighlightedText']);
+    var oBagOfWords = new Cotton.Model.BagOfWords(dExtractedDNA['dBagOfWords']);
+    oExtractedDNA.setBagOfWords(oBagOfWords);
     oExtractedDNA.setImageUrl(dExtractedDNA['sImageUrl']);
-    oExtractedDNA.setFirstParagraph(dExtractedDNA['sFirstParagraph']);
-    oExtractedDNA.setMostReadParagraph(dExtractedDNA['sMostReadParagraph']);
     oExtractedDNA.setPercent(dExtractedDNA['iPercent']);
     oExtractedDNA.setPageScore(dExtractedDNA['fPageScore']);
 
@@ -70,8 +64,6 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       return extractedParagraph;
     })
     oExtractedDNA.setParagraphs(lParagraphs);
-    oExtractedDNA.setAllParagraphs(dExtractedDNA['lAllParagraphs']);
-    oExtractedDNA.setCopyPaste(dExtractedDNA['lCopyPaste']);
 
     oExtractedDNA.setTimeTabActive(dExtractedDNA['fTimeTabActive']);
     oExtractedDNA.setTimeTabOpen(dExtractedDNA['fTimeTabOpen']);
@@ -103,14 +95,87 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     oIDBHistoryItem.initUrl(dChromeHistoryItem['url']);
     oIDBHistoryItem.setTitle(dChromeHistoryItem['title']);
     oIDBHistoryItem.setLastVisitTime(dChromeHistoryItem['lastVisitTime']);
-    oIDBHistoryItem.extractedDNA().setExtractedWords(
-      Cotton.Algo.Tools.extractWordsFromTitle(dChromeHistoryItem['title']));
 
     return oIDBHistoryItem;
   };
 
+  var mMergeDBRecords = function(oResult, dItem) {
+    var dMerged = {};
+    // If there was no result, it will send back null.
+    dItem['id'] = oResult['id'];
+    dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], oResult['iLastVisitTime']);
+
+    var lParagraphs = [];
+    // Make a local copy.
+    lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
+
+    // For each paragraph in the original oResult, find the corresponding paragraphs
+    // in dItem.
+    var lResultParagraphs = oResult['oExtractedDNA']['lParagraphs'];
+    var iLength = lResultParagraphs.length;
+    for (var i = 0; i < iLength; i++) {
+      var dResultParagraph = lResultParagraphs[i];
+      // Indicates if the paragraph was present in the original.
+      var bMerge = false;
+      var lParagraphs = dItem['oExtractedDNA']['lParagraphs'];
+      var jLength = lParagraphs.length;
+      for (var j = 0; j < jLength; j++) {
+        var dParagraph = lParagraphs[j];
+        if (dResultParagraph['id'] === dParagraph['id']) {
+          bMerge = true;
+          dParagraph['fPercent'] = Math.max(dParagraph['fPercent'],dResultParagraph['fPercent']);
+          var lQuotes = [];
+          lQuotes = lQuotes.concat(dParagraph['lQuotes']);
+
+          var kLength = dResultParagraph['lQuotes'].length;
+          for (var k = 0; k < kLength; k++) {
+            var dResultQuote = dResultParagraph['lQuotes'][k];
+            // Indicates if the quote was present in the original.
+            var bMergeQuote = false;
+            var nLength = dParagraph['lQuotes'].length;
+            for (var n = 0; n < nLength; n++) {
+              var dQuote = dParagraph['lQuotes'][n];
+
+              if ((dResultQuote['start']-dQuote['start'])*(dResultQuote['start']-dQuote['end']) <= 0
+                //
+                ||(dResultQuote['end']-dQuote['start'])*(dResultQuote['end']-dQuote['end']) <= 0
+                //
+                || (dResultQuote['start'] <= dQuote['start'] && dResultQuote['end'] >= dQuote['end'])) {
+                  bMergeQuote = true;
+                  dQuote['start'] = Math.min(dQuote['start'], dResultQuote['start']);
+                  dQuote['end'] = Math.max(dQuote['end'], dResultQuote['end']);
+                lQuotes[l] = dQuote;
+              }
+            }
+            if (!bMergeQuote){
+              lQuotes.push(dResultQuote);
+            }
+          }
+          lParagraphs[j]['lQuotes'] = lQuotes;
+          break;
+        }
+      }
+      if (!bMerge) {
+        lParagraphs.push(dResultParagraph);
+      }
+    }
+    // FIXME(rmoutard) : Remove the sortBy util we use dictionnary.
+    dItem['oExtractedDNA']['lParagraphs'] = lParagraphs;
+    dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
+    // Take the max value of each key.
+    var dTempBag = {};
+    for (var sWord in dItem['oExtractedDNA']['dBagOfWords']) {
+      var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      var b = oResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      dTempBag[sWord] = Math.max(a,b);
+    }
+    dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
+
+    return dItem;
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter, dIndexes);
+      mDbRecordToObjectConverter, dIndexes, mMergeDBRecords);
 
   // Add a specific method for this translator.
   oTranslator.chromeHistoryItemToObject = mChromeHistorytemToObject;

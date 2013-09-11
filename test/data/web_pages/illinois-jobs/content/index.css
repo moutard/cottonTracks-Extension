@@ -1,0 +1,176 @@
+/* ::::: http://ct1.addthis.com/static/r07/counter012.css ::::: */
+
+.addthis_counter { font-weight: bold; display: block; border: 0px none; cursor: pointer; color: rgb(255, 255, 255); }
+.addthis_counter a { display: block; font-family: arial,helvetica,sans-serif ! important; text-decoration: none ! important; border: 0px none; }
+.addthis_counter { text-decoration: none ! important; text-align: left; }
+.addthis_counter .atc_s, .addthis_counter .addthis_button_expanded { background: url('undefined') no-repeat scroll 0% 0% transparent; }
+.addthis_counter.addthis_bubble_style { background: url('undefined') no-repeat scroll 0% 0% transparent ! important; }
+.addthis_counter a.atc_s { display: block; background-repeat: no-repeat; background-position: 0px 0px; width: 50px; height: 20px; line-height: 20px; overflow: hidden; cursor: pointer; }
+.addthis_counter a.atc_s:hover { background-position: 0px -20px; height: 20px; }
+.addthis_counter.addthis_pill_style a.addthis_button_expanded:hover, .addthis_counter.addthis_pill_style a.atc_s:hover, .addthis_counter a.addthis_button_expanded:hover, .addthis_counter a.atc_s:hover { text-decoration: none; color: rgb(0, 0, 0); }
+.addthis_counter .addthis_button_expanded { display: block; background-repeat: no-repeat; background-position: 0px -40px; width: 50px; height: 33px; line-height: 33px; padding-bottom: 4px; margin-bottom: 3px; text-align: center; text-decoration: none; font-size: 16px; font-weight: bold; color: rgb(51, 51, 51); }
+.addthis_counter .addthis_button_expanded:hover { background-position: 0px -77px; cursor: pointer; color: rgb(0, 0, 0); }
+.addthis_counter { display: block; }
+.addthis_counter.addthis_bubble_style { display: block; margin: 0px 0px 0px -2px; text-align: center; font-weight: bold; font-family: arial,helvetica,sans-serif; color: rgb(0, 0, 0); background-repeat: no-repeat; background-position: 0px -64px ! important; padding: 0px 0px 0px 4px; height: 16px; width: 32px ! important; }
+.addthis_default_style .addthis_counter { display: block; float: left; }
+.addthis_counter.addthis_bubble_style a.addthis_button_expanded { font-size: 11px; height: 16px; line-height: 16px; width: 34px; background: none repeat scroll 0% 0% transparent; }
+.addthis_counter.addthis_bubble_style:hover { background-position: -36px -64px ! important; }
+.addthis_counter.addthis_bubble_style .atc_s { display: none ! important; }
+/* ::::: http://ct1.addthis.com/static/r07/widget112.css ::::: */
+
+div.atclear { clear: both; }
+:first-child + html #at_email textarea { height: 42px ! important; }
+* html #at16psf input, :first-child + html #at16psf input { padding: 0px; }
+:first-child + html #at_email #at16eatdr { top: 115px ! important; width: 272px ! important; }
+#_atssh { width: 1px ! important; height: 1px ! important; border: 0px none ! important; }
+@media screen and (max-width: 680px) {
+}
+#MSTWFooter { display: none; }
+#MSTWHeaderText { display: none; }
+#MicrosoftTranslatorWidget { border-color: rgb(58, 87, 112); background-color: rgb(120, 173, 208); }
+#MicrosoftTranslatorWidget #MSTWMenu { width: 14.1em; font-size: 95%; }
+#disclaimerLinkDiv { clear: both; margin-right: 0px; width: 100%; }
+#DisclaimerLink { text-align: right; display: block; font-size: 85%; float: right; padding-right: 1px; }
+#HeaderSelectContainer SELECT { font-family: Arial,Helvetica,"Lucida Sans Unicode","Lucida Grande",Verdana,sans-serif; }
+/* ::::: http://www.ides.illinois.gov/Custom/Common/Page.css ::::: */
+
+body { font-family: Verdana,Arial,sans-serif; font-size: 80%; line-height: 1.25; color: rgb(0, 0, 0); background: none repeat scroll 0% 0% rgb(255, 255, 255); }
+input, select, textarea, button { font-family: Verdana,Arial,sans-serif; font-size: 100%; }
+table { font-size: 100%; }
+h1 { font-size: 170%; margin: 0px; }
+h2 { font-size: 140%; margin: 0.7em 0px 0.35em; }
+p { margin: 0.5em 0px; }
+#ItemContentDiv { clear: both; overflow: hidden; }
+ul { margin: 0px; padding: 0px 0px 0px 1.5em; }
+ol { margin: 0px; padding: 0px 0px 0px 3em; list-style: decimal outside none; }
+li { margin: 0.5em 0px; }
+ul.discBullets { list-style-type: disc; list-style-image: none; }
+ul.noBullets { list-style-type: none; margin-left: 2em; list-style-image: none; }
+a, a:link { color: rgb(0, 51, 102); }
+a:visited { color: rgb(51, 0, 51); }
+a:hover, a:focus, a:active {  }
+a img { border: medium none; text-decoration: none; }
+table { margin: 0.75em 0px; border-collapse: collapse; border-spacing: 0px; }
+th, td { margin: 0px; padding: 3px 6px; border: 1px solid rgb(204, 204, 204); font-weight: normal; text-align: left; vertical-align: top; }
+thead th { background: none repeat scroll 0% 0% rgb(238, 238, 238); font-weight: bold; }
+table.tableStyle3 thead th { background-color: rgb(98, 117, 166); color: rgb(255, 255, 255); font-weight: bold; }
+table.tableStyle3 tbody th { background-color: transparent; font-weight: normal; }
+div.columns { width: 100%; overflow: hidden; }
+div.columns .column { float: left; margin-right: 1%; }
+form { margin: 0px; padding: 0px; }
+input { margin: 0px; }
+.aligncenter, .alignCenter { text-align: center; }
+.fullwidth, .fullWidth { width: 99%; }
+.hidden { display: none; }
+.invisible { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; margin: 0px; padding: 0px; }
+.noBullets { list-style-type: none; padding-left: 0px; }
+.addthis_toolbox { position: relative; float: right; margin-top: 13px; margin-right: 20px; }
+.addthis_toolbox a { float: left; padding-left: 5px; }
+.AddThisContainer { width: 100%; height: 25px; }
+#BreadcrumbDiv { margin-top: -15px; clear: both; max-width: 600px; margin-bottom: 10px; padding-bottom: 10px; }
+#BreadcrumbDiv h2 { position: absolute; left: -10000px; }
+#BreadcrumbDiv ol { padding-left: 0px; list-style-type: none; }
+#BreadcrumbDiv ol li { display: inline; text-align: left; padding: 0px 9px 0px 2px; margin-top: 0px; background: url('breadcrumbseparator.gif') no-repeat scroll 100% 50% transparent; }
+/* ::::: http://www.ides.illinois.gov/Custom/Config/Site.css ::::: */
+
+h1, #EditMenuDiv #Level1HeadingMenuItem, #EditContentDiv #TitleTextBox { color: rgb(68, 68, 68); }
+* { margin: 0px; padding: 0px; }
+table.tableStyle3 thead th { background-color: rgb(98, 117, 166); color: rgb(255, 255, 255); font-weight: bold; }
+table.tableStyle3 tbody th { background-color: transparent; font-weight: normal; }
+/* ::::: http://www.ides.illinois.gov/Custom/Config/SiteScreen.css ::::: */
+
+header html, body { margin: 0px; padding: 0px; background: url('idesbg1.png') repeat-x scroll 0% 0% rgb(252, 247, 233); color: rgb(51, 51, 51); }
+body { max-width: 1000px; margin: 0px auto; }
+body { font-family: Arial,Helvetica,"Lucida Sans Unicode","Lucida Grande",Verdana,sans-serif; }
+strong, em, b, i { font-family: Arial,Helvetica,"Lucida Sans","Lucida Sans Unicode","Lucida Grande",Verdana,sans-serif; }
+input { font-family: Arial,Helvetica,"Lucida Sans","Lucida Sans Unicode","Lucida Grande",Verdana,sans-serif; }
+#BottomDiv { clear: both; }
+#CenteredContent { position: relative; width: auto; margin-left: auto; margin-right: auto; min-height: 100%; padding: 0px; overflow: visible; background: url('idescentercontentbg.png') repeat-y scroll center top transparent; }
+#HeaderDiv { padding-left: 15px; padding-top: 3px; }
+#HeaderSelectContainer { position: absolute; right: 5px; top: 2px; width: 17.65em; }
+#UISelectDiv { border: 2px solid rgb(173, 56, 0); margin-bottom: 2px; width: 100%; }
+#UIHeaderDiv { background-color: rgb(187, 90, 0); padding-left: 3px; }
+#UIHeaderDiv label { color: rgb(255, 255, 255); font-size: 115%; letter-spacing: 0.2em; }
+#UIDiv { padding-top: 3px; background-image: url('uibg.png'); background-repeat: repeat-x; min-height: 22px; padding-left: 2px; }
+#uiSelect { padding-top: 2px; float: left; width: 14.7em; }
+#UIActionButton { background-color: transparent; height: 20px; width: 24px; border: medium none; padding-top: 1px; padding-left: 5px; padding-right: 3px; }
+#GovName { position: absolute; bottom: 16px; text-align: center; right: 251px; font-family: "Lucida Sans",Helvetica,Arial; color: rgb(27, 66, 154); background-image: url('opaque.png'); height: 60px; }
+#GovName a { text-decoration: none; color: rgb(84, 113, 179); float: left; }
+#GovDirDivideSpan { background-image: url('govdirdivide.png'); background-repeat: no-repeat; float: left; width: 10px; margin-right: 5px; margin-top: 3px; }
+#StateSeal { position: absolute; clip: rect(68px, 259px, 100px, 0px); top: -28px; z-index: -2; }
+#BlueBox { position: absolute; top: 0px; left: 0px; z-index: -2; }
+#Gradient { position: absolute; top: 41px; left: 0px; z-index: -2; }
+#AboveBottomDiv { min-height: 100%; color: rgb(51, 51, 51); width: 855px; margin-left: auto; margin-right: auto; margin-bottom: 0px; }
+#BottomDiv {  }
+#MainDiv {  }
+#xMainDiv, #BottomDiv { overflow: hidden; padding-bottom: 4px; }
+#TopDiv { padding: 0px; color: rgb(51, 51, 51); overflow: visible; width: auto; max-width: 853px; }
+#TopLeftDiv { width: 853px; position: relative; background-color: transparent; z-index: 3000; }
+#TopRightDiv { text-align: right; padding-right: 5em; }
+#MainDiv { padding: 0px 1em; width: 853px; margin-top: 30px; z-index: 1; }
+#MainMiddleDiv { float: left; width: 50%; padding-bottom: 4px; }
+#GovName { position: absolute; bottom: 16px; text-align: center; right: 251px; font-family: "Lucida Sans",Helvetica,Arial; color: rgb(27, 66, 154); background-image: url('opaque.png'); height: 60px; }
+#GovName a { text-decoration: none; color: rgb(84, 113, 179); float: left; }
+#GovDirDivideSpan { background-image: url('govdirdivide.png'); background-repeat: no-repeat; float: left; width: 10px; margin-right: 5px; margin-top: 3px; }
+.oneColumnLayout #MainMiddleDiv { width: 98%; margin-right: 0px; }
+#ContentDiv { clear: both; position: relative; z-index: 100; }
+#BottomDiv { padding: 1em; background: url('footerbackground.png') repeat-x scroll left top rgb(54, 74, 137); color: rgb(238, 238, 238); width: 829px; margin: auto; }
+#BottomLeftDiv { float: left; width: 80%; }
+#BottomRightDiv { text-align: right; }
+#BottomDiv a:link, #BottomDiv a:visited { color: rgb(238, 238, 238); text-decoration: none; }
+#SkipNavigationDiv { float: left; margin: 0px; }
+#SkipNavigationDiv a { position: absolute; left: -10000px; }
+#SkipNavigationDiv a:focus, #SkipNavigationDiv a:active { position: relative; left: 0px; text-decoration: underline; }
+#QuickSearchDiv { position: absolute; top: 5px; left: 255px; width: 350px; margin-left: auto; margin-right: auto; text-align: center; vertical-align: middle; height: 40px; z-index: 2000; }
+#QuickSearchTextBox { padding-top: 3px; width: 295px; }
+.HelpSearchText { color: rgb(104, 104, 104); font-style: italic; }
+#QuickSearchButton { margin: 0px; padding: 0px; }
+#FooterDiv { width: 730px; }
+#FooterDiv ul, #FooterDiv p { display: inline; margin: 0px; padding: 0px; list-style: none outside none; }
+#FooterDiv li { display: inline; margin: 0px 0px 0px 3px; padding: 0px 0px 0px 3px; }
+#FooterDiv a img { float: left; }
+ul { margin: 0px; padding: 0px 0px 0px 1.5em; list-style: none outside none; }
+/* ::::: http://www.ides.illinois.gov/Custom/Common/DynamicMegaMenu.css ::::: */
+
+.DropdownMenuDiv { clear: both; width: 824px; text-align: center; color: rgb(255, 255, 255); height: 30px; position: relative; z-index: 10000; margin: auto; }
+.DropdownMenuDiv ul { list-style-type: none; }
+.mainMenu { float: left; padding-left: 0px; }
+.mainMenu li { position: relative; float: left; width: 163px; text-align: center; margin: 0px; padding: 0px; border-right: 1px solid rgb(255, 255, 255); z-index: 1000; }
+.mainMenu a { text-decoration: none; display: block; color: rgb(255, 255, 255); line-height: 110%; padding-top: 10px; min-height: 29px; }
+.sectionDiv ul li a { padding-top: 0px; padding-bottom: 0px; min-height: 0px; }
+li.top-Individuals { background-image: url('menubgindividuals.png'); background-attachment: scroll; background-repeat: repeat-x; background-color: rgb(187, 90, 0); }
+li.top-Employers { background-image: url('menubgemployers.png'); background-attachment: scroll; background-repeat: repeat-x; background-color: rgb(98, 117, 166); }
+li.top-Workforce { background-image: url('menubgwfpartners.png'); background-attachment: scroll; background-repeat: repeat-x; background-color: rgb(110, 120, 27); }
+li.top-Tools { background: url('menubgtoolsabout.png') repeat-x scroll 0% 0% rgb(229, 177, 64); color: rgb(51, 51, 51); }
+.top-Tools a, .top-Tools a:visited, .top-About a, .top-Tools a:visited { color: rgb(51, 51, 51); }
+li.top-About { background: url('menubgtoolsabout.png') repeat-x scroll 0% 0% rgb(229, 177, 64); color: rgb(51, 51, 51); }
+li.top-Individuals .sectionDiv { background-color: rgb(187, 90, 0); }
+li.top-Employers .sectionDiv { background-color: rgb(98, 117, 166); }
+li.top-Workforce .sectionDiv { background-color: rgb(110, 120, 27); }
+li.top-Tools .sectionDiv { background-color: rgb(229, 177, 64); }
+li.top-About .sectionDiv { background-color: rgb(229, 177, 64); }
+.sectionHeader { font-weight: 900; }
+.sectionDiv { float: left; position: absolute; z-index: 99999; }
+.hideMenu { left: -10000px; }
+.sectionDiv div { float: left; }
+.sectionDiv ul { padding: 3px; margin: 3px; }
+.sectionDiv ul li { display: inline; float: none; border: medium none; }
+.sectionDiv ul ul li a { padding: 5px; }
+.sectionDiv ul li a { text-align: left; padding: 5px; width: 185px; }
+ul.mainMenu .sectionDiv a:hover, ul.mainMenu .sectionDiv a:focus, ul.mainMenu .sectionDiv a:active { background: none repeat scroll 0% 0% rgb(238, 238, 238); color: rgb(51, 51, 51); }
+/* ::::: http://www.ides.illinois.gov/Custom/player/player.css ::::: */
+
+#MicrosoftTranslatorWidget { font-family: "Segoe UI",Verdana,Arial,Helvetica,Sans-Serif; font-size: 14px; }
+#MicrosoftTranslatorWidget * { background-attachment: scroll; background-color: Transparent; background-image: none; clip: auto; color: White; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; margin: 0px; outline-style: none; overflow: visible; padding: 0px; position: static; vertical-align: top; visibility: visible; word-spacing: normal; }
+#MicrosoftTranslatorWidget div, #MicrosoftTranslatorWidget span, #MicrosoftTranslatorWidget a, #MicrosoftTranslatorWidget img { border-style: none; }
+#MicrosoftTranslatorWidget #MSTWContent a { color: White; cursor: pointer; display: inline-block; height: 18px; margin: 1px 2px; text-decoration: none; }
+#MicrosoftTranslatorWidget #MSTWContent a:link { padding: 0px; }
+#MicrosoftTranslatorWidget select { display: inline-block; margin: 1px 2px; width: 160px; }
+#MicrosoftTranslatorWidget select, #MicrosoftTranslatorWidget option { background-color: White; color: Black; font-size: 11px; }
+#MicrosoftTranslatorWidget .MSTWBox { display: inline-block; height: 22px; overflow: hidden; padding: 2px 0px; white-space: nowrap; }
+#MicrosoftTranslatorWidget .MSTWButtonLink { border-style: solid; border-width: 1px; margin-left: 1px; margin-right: 1px; text-align: center; width: 24px; white-space: normal; }
+#MicrosoftTranslatorWidget #MSTWHeader { border-bottom-style: solid; border-bottom-width: 1px; }
+#MicrosoftTranslatorWidget #MSTWFooter { height: 26px; }
+#MicrosoftTranslatorWidget { direction: ltr; text-align: left; }
+#MicrosoftTranslatorWidget #MSTWContent #MSTWBrand { float: left; }
+#MicrosoftTranslatorWidget #MSTWContent #MSTWGetShare { float: right; }

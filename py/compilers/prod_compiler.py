@@ -6,18 +6,19 @@ class PRODCompiler(Compiler):
 
   """
 
-  def __init__(self, SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER):
+  def __init__(self, SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser):
     self._GOOGLE_CLOSURE_COMPILER = GOOGLE_CLOSURE_COMPILER
     self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "prod")
-    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
+    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH, psBrowser)
 
-    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils']
+    self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'test', 'translators', 'ui', 'utils', 'management']
 
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
     self.setProdConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
+
     self.removeUnpreservedFiles()
     self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
 

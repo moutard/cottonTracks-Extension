@@ -14,65 +14,89 @@ Cotton.UI.Story.Item.Toolbox.Complexe = Cotton.UI.Story.Item.Toolbox.Simple
     _$collapse : null,
     _$loading : null,
     _$getContent : null,
-    _bHasJustGottenContent : false,
 
-    init : function(bHasExpand, bHasGetContent, sUrl, oDispacher, oContent) {
+    init : function(bHasExpand, sUrl, oDispatcher, oItem, sSize) {
       var self = this;
 
-      this._super(sUrl, oDispacher, oContent);
+      this._super(sUrl, oDispatcher, oItem, sSize);
+      this._oDispatcher = oDispatcher;
 
       // current item
       this._$toolbox.addClass('small');
 
       this._$expand = $('<p class="expand">Expand</p>').hide();
       this._$collapse = $('<p class="collapse">Collapse</p>').hide();
-      this._$getContent = $('<p class="get_content">Get Content</p>').hide();
-      this._$loading = $('<img class="loading" src="/media/images/story/item/default_item/loading.gif">').hide();
+      this._$getContent = $('<p class="get_content">Grab Article</p>').hide();
+      this._$loading = $('<img class="loading" src="media/images/story/item/default_item/loading.gif">').hide();
 
       // If there is no paragraph you can expand display the getContent button.
-      this._bHasJustGottenContent = false;
-      var bHasGetContent = !bHasExpand && !this._bHasJustGottenContent;
-      if (bHasGetContent) {
-        this._$getContent.show();
-      } else if (bHasExpand) {
+      if (bHasExpand) {
         this._$expand.show();
+      } else {
+        this._$getContent.show();
       }
 
-      //set actions on buttons
-      //remove element
+      // Set actions on buttons.
 
-      //expand reader
+      // Expand reader.
       this._$expand.click(function(){
-        // FIXME(rmoutard) : we can avoid that with local dispacher or id.
-        self._oContent.item().$().addClass('expanded');
+        // FIXME(rmoutard) : we can avoid that with local dispatcher or id.
         self._$toolbox.addClass("visible");
         $(this).hide();
         self._$collapse.show();
-        self._oDispacher.publish('item:expand');
+        self._oDispatcher.publish('reader:expand', {
+          'id': oItem.historyItem().id()
+        });
+        self._oDispatcher.publish('relayout');
+        Cotton.ANALYTICS.expand();
       });
 
-      //collapse reader
+      // Collapse reader.
       this._$collapse.click(function(){
-        self._oContent.item().$().removeClass('expanded');
         self._$toolbox.removeClass("visible");
         $(this).hide();
         self._$expand.show();
-        self._oDispacher.publish('item:expand');
+        self._oDispatcher.publish('reader:collapse', {
+          'id': oItem.historyItem().id()
+        });
+        self._oDispatcher.publish('relayout');
+        Cotton.ANALYTICS.collapse();
       });
 
-      //get content
+      // Get content.
+      this._$getContent.click(function(){
+        self._oDispatcher.publish('item:get_content', {
+          'id': oItem.historyItem().id(),
+          'url': oItem.historyItem().url()
+        });
+        self._$loading.show();
+        $(this).hide();
+        self.$().addClass('visible');
+        Cotton.ANALYTICS.getContent();
+      });
 
-      // construct item
+      // Construct item.
       this._$toolbox.append(
         this._$expand,
         this._$collapse,
-        this._$getContent
+        this._$getContent,
+        this._$loading
       );
 
     },
 
     $ : function() {
       return this._$toolbox;
+    },
+
+    recycle : function(bHasExpand) {
+      this._$loading.hide();
+      if (bHasExpand){
+        this._$expand.show().click();
+      } else {
+        this.$().removeClass('visible');
+      }
+
     }
 
 });

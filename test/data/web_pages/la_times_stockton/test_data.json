@@ -1,0 +1,38 @@
+{
+  "id": "la_times_stockton",
+  "url": "http://articles.latimes.com/2012/mar/10/local/la-me-stockton-bankruptcy-20120312",
+  "path": "test/data/web_pages/la_times_stockton/content/index.html",
+
+  "best_image": "http://www.latimes.com/media/photo/2012-03/68728013.jpg",
+
+  "expected": [
+    "Within three months, the Central Valley city of 300,000 could become the nation's largest municipality to file for bankruptcy. The City Council is trying to slow or stop the bust by entering mediation.",
+    "Reporting from Stockton — The name painted in the plate-glass window, \"Bradley's,\" has a martini glass standing in for the \"y.\"",
+    "The late-afternoon sun has turned the other windows into mirrors. Deep inside, in bar-appropriate shadow, patrons rest their drinks on 100-year-old mahogany and, as in many a neighborhood pub, consider hopes gone astray.",
+    "Across the way are a marina without boats and parking garages without cars. There are few people outside on downtown sidewalks.",
+    "PHOTOS: Hard times in Stockton",
+    "This is what it looks like when a city is close to going under.",
+    "Within the next three months, Stockton could become the nation's largest city to file for protection from creditors under U.S. bankruptcy code. Using a new California law, the City Council is trying to slow or stop the bust by entering mediation with creditors, including public employee unions. In the meantime, the Central Valley port city of 300,000 has suspended several bond payments and will not cash out vacation or sick time for employees who leave.",
+    "\"Hey, Joe. What exactly does the mediation cover?\" bar owner Bradley Koster, 59, asks a man drinking white wine.",
+    "\"It would exactly cover untangling one big financial mess,\" says Joe Bryson, 70, slowly shaking his head.",
+    "Bryson once was president of the Stockton Chamber of Commerce and sat on just about every citizens committee in a city that had a reputation for being run by an old boys' club but grew to be known for wider civic involvement.",
+    "Every Monday, Bryson and some of his retired business friends get together at Bradley's.",
+    "Years ago they used to drink at the Stockton Yosemite Club, a members-only men's establishment formed shortly after the California Gold Rush.",
+    "\"Those were the days when all the top businessmen sorted out Stockton's problems over cocktails,\" Bryson says.",
+    "A friendly woman nearing 60 refills Bryson's glass without being asked. Darcy Koster used to be a bank vice president. She lost her job about the time downtown's revitalization, and the bar her husband owns, stumbled.",
+    "She tends bar now, and warmly greets the next customer with his usual glass of brandy. She also decides when he's had his last, she says.",
+    "He lives across the street in the historic Stockton Hotel, one of downtown's beautifully restored buildings, now given over to low-income housing. The city provided more than $2 million in redevelopment funds to get Paragary's restaurant on the hotel's ground floor. Gone now is the aroma of hand-cut rosemary noodles with seared chicken that would drift up to the rooms of the people who couldn't afford to eat out.",
+    "There's a lot of blame going around Stockton, Bryson says, but he still thinks past leaders should be given credit for trying to transform the city's gritty urban core, where grand brick buildings had become flophouses along a waterfront where most of California's export agricultural bounty sets sail.",
+    "\"They didn't know people were going to stop paying their taxes,\" he says.",
+    "This brings Guy Domench, a repairman who was working on the bar's jukebox, to his feet.",
+    "\"People are paying plenty of taxes. This is a high-tax town,\" he said. \"The problem is the sweetheart deals they gave the employee unions. I'm 56 and I can't retire; I'd go broke. But these public employees have tremendous retirement deals. I want to see the city go bankrupt now. Break the deals.\"",
+    "The new state law, AB 506, which Stockton is using, was criticized as pro-union for slowing the municipality's efforts to try to break employee union contracts in Bankruptcy Court.",
+    "Domench goes back to his work. Koster settles onto a bar stool and recalls better times.",
+    "He had been running a successful bar on Miracle Mile on the city's more affluent north side. But when the lease ran out in 2004, he decided to gamble on downtown. The city had a vision. Like San Antonio or Baltimore, it would transform its rough waterfront into the city's shining jewel. The real estate market was hot and credit was easy. Up went a theater complex, a high-rise hotel, a sports arena/convention center financed by city bonds, a marina and a walkway.",
+    "Bradley's opened in 2005 and was packed regularly. People took the city trolley to get a drink before heading off to a sports event.",
+    "\"Everyone had taken money out against their houses,\" Koster said. \"Everyone had dough and they were spending it.\"",
+    "Looking back, Koster says, he can see Stockton's eventual downfall in the arena's opening concert. The city paid Neil Diamond, who wrote the song \"I'm a Believer,\" $1 million to perform.",
+    "\"Tickets were supposed to sell out. A table on the floor was going to cost thousands of dollars,\" Koster said. \"But a few days before the concert, the city folks came in here and asked us if we wanted a table for free. We had a great time. But I did think: 'Uh-oh.'\"",
+    "The city lost $400,000 on the concert."
+  ]
+}

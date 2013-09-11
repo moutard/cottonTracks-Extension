@@ -45,17 +45,18 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     var oStoryDNA = new Cotton.Model.StoryDNA();
     //FIXME(rmoutard) : for the moment the bag of words will be written by
     // tags.
-    var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
-    oStoryDNA.setBagOfWords();
-    oStoryDNA.setBagOfWords(oBagOfWords);
-    oStory.setDNA(oStoryDNA);
-    if (oDbRecord['lHistoryItemsId'] !== undefined) {
-      for ( var i = 0, iHistoryItemId; iHistoryItemId = oDbRecord['lHistoryItemsId'][i]; i++) {
-        oStory.addHistoryItemId(iHistoryItemId);
-      }
-    }
     if(oDbRecord['lTags']){
       oStory.setTags(oDbRecord['lTags']);
+    }
+    var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
+    oStoryDNA.setBagOfWords(oBagOfWords);
+    oStory.setDNA(oStoryDNA);
+    var iLength = oDbRecord['lHistoryItemsId'].length;
+    if (oDbRecord['lHistoryItemsId'] !== undefined) {
+      for ( var i = 0; i < iLength; i++) {
+        var iHistoryItemId = oDbRecord['lHistoryItemsId'][i];
+        oStory.addHistoryItemId(iHistoryItemId);
+      }
     }
     return oStory;
   };
@@ -79,8 +80,30 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     },
   };
 
+  /**
+   * dDBRecord1 is the one already in the database.
+   */
+  var mMergeDBRecords = function(dDBRecord1, dDBRecord2) {
+    dDBRecord2['id'] = dDBRecord1['id'];
+    dDBRecord2['fLastVisitTime'] = Math.max(dDBRecord1['fLastVisitTime'], dDBRecord2['fLastVisitTime']);
+    // Take the title of dDBRecord2 by default.
+    if (dDBRecord2['sFeaturedImage'] === "") {
+      dDBRecord2['sFeaturedImage'] = dDBRecord1['sFeaturedImage'];
+    }
+    // Take the max value of each key.
+    var dTempBag = {};
+    for (var sWord in dDBRecord1['oExtractedDNA']['dBagOfWords']) {
+      var a = dDBRecord1['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      var b = dDBRecord2['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      dTempBag[sWord] = Math.max(a,b);
+    }
+    dDBRecord2['oExtractedDNA']['dBagOfWords'] = dTempBag;
+
+    return dDBRecord2;
+  };
+
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
-      mDbRecordToObjectConverter, dIndexes);
+      mDbRecordToObjectConverter, dIndexes, mMergeDBRecords);
   Cotton.Translators.STORY_TRANSLATORS.push(oTranslator);
 
 })();

@@ -1,15 +1,18 @@
 .ct-menu {
-	
-	@media (min-height : 537px){
+
+	@media (min-height : 514px){
+	.ct-toggler{position: absolute;}
 	.ct-filters{position: absolute;}
 	.ct-settings{position: absolute;}
   }
-  @media (max-height : 537px){
+  @media (max-height : 514px){
+	.ct-toggler{position: static;}
 	.ct-filters{position: static;}
 	.ct-settings{position: static;}
   }
-	
-  position: fixed;
+
+  cursor: default;
+  position: absolute;
   left: -250px;
   width: 245px;
   height: 100%;
@@ -17,11 +20,18 @@
   box-shadow: 4px 0px 12px rgba(0,0,0,0.5);
   z-index: 150;
   color: #fff;
-  
+
+  -webkit-transition: left  0.3s;
+
+  &.slideIn {
+    left: 0px;
+  }
+
   > .ct-sum_up {
     height: 300px;
     width: 100%;
-    
+    background-color: #333;
+
     > .ct-sticker {
       position: relative;
       width: 222px;
@@ -31,7 +41,13 @@
       margin: auto;
       margin-top: 15px;
       box-shadow: 0px 0px 5px rgba(0,0,0,0.75);
-      
+
+      &:hover{
+        > .ct-sticker_toolbox{
+          top: -35px;
+        }
+      }
+
       > .ct-story_image {
 	      position: relative;
 	      width: 100%;
@@ -39,13 +55,41 @@
 	      background-image: url('/media/images/menu/sum_up/default_sticker.png');
 	      overflow: hidden;
 			  -webkit-border-radius: 2px 2px 0 0;
-	
+
+			  &.plain{
+		      background: #4d4d4d;
+		    }
+
 	      > .resize {
-				   display: none;
-				   position: absolute;
-				  }
+				  display: none;
+				  position: absolute;
+				}
+      }
+
+      > .ct-sticker_toolbox {
+  	    position: relative;
+        height: 35px;
+        width: 202px;
+      	padding-left: 10px;
+      	padding-right: 10px;
+        background-color: #5bab7d;
+        -webkit-transition: top  0.2s;
+        -webkit-transition-delay: 0.2s;
+
+        p {
+          width: 101px;
+          height: 15px;
+          margin: 0;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-size: 14px;
+          color: white;
+          float: left;
+          text-align: center;
+          cursor: pointer;
         }
-      
+      }
+
       > .ct-sticker_infos {
 	      position: absolute;
 	      bottom: 0;
@@ -59,13 +103,14 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          cursor: text;
         }
-			  
+
 			  > .ct-sticker_details{
 				  font-size: 11px;
 				  color: #8a8a8a;
 				}
-				
+
 			  .bull{
 				  font-size: 8px;
 				}
@@ -78,14 +123,14 @@
       margin: auto;
       margin-top: 12px;
       margin-bottom: 12px;
-      
+
       > .ct-action {
         height: 22px;
         width: 22px;
         margin-left: 10px;
         float: left;
 				cursor: pointer;
-        
+
         &.star{
           background-image: url('/media/images/menu/sum_up/star_unselected.png');
         }
@@ -98,13 +143,53 @@
       }
     }
   }
-  
+
+  > .ct-toggler{
+    width: 100%;
+    margin: auto;
+    bottom: 170px;
+    background-color: #333;
+
+    >.separation_line{
+      margin-bottom: 5px;
+    }
+
+    > .toggle_state{
+      width: 206px;
+      padding-left: 22px;
+      padding-top: 5px;
+      height: 18px;
+      margin: auto;
+      border-radius: 5px;
+      -webkit-border-radius: 5px;
+      color: #fff;
+			cursor: pointer;
+
+      &:hover{
+        background-color: #454545;
+      }
+
+      &.defused{
+        cursor: default;
+      }
+
+      > .ct-count{
+        color: #8a8a8a;
+      }
+
+      &.hidden{
+        display: none;
+      }
+    }
+  }
+
   > .ct-filters {
     width: 100%;
     bottom: 40px;
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 10px;
-      
+    background-color: #333;
+
       > .ct-filter {
         width: 206px;
         padding-left: 22px;
@@ -115,13 +200,17 @@
         -webkit-border-radius: 5px;
         color: #fff;
 				cursor: pointer;
-        
+
         &:hover{
           background-color: #454545;
         }
+
+        .ct-count{
+          color: #8a8a8a;
+        }
       }
   }
-  
+
   .separation_line {
     height: 1px;
     width: 228px;
@@ -129,7 +218,7 @@
     background-color: #1a1a1a;
     box-shadow: 0px 1px 0px #3F3F3F;
   }
-  
+
   > .ct-settings {
     bottom: 0;
     height: 40px;
@@ -137,10 +226,19 @@
     font-size: 16px;
     background-color: #858585;
 	  box-shadow: inset 0px 12px 5px -10px rgba(255,255,255,0.27);
-	
+	  cursor: pointer;
+
 	  &:hover {
 	  }
-	
+
+	  > h3{
+	    margin: auto;
+	    font-weight: 100;
+	    width: 150px;
+	    padding-top: 10px;
+	    font-size: 16px;
+	  }
+
 	  > .settings_icon {
 		  position: relative;
 		  top: 2px;

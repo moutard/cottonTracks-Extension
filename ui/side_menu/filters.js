@@ -7,9 +7,9 @@
 Cotton.UI.SideMenu.Filters = Class.extend({
 
   /**
-   * {Cotton.UI.SideMenu.Menu} parent element.
+   * {Cotton.Messaging.Dispatcher} dispatcher for UI
    */
-  _oMenu : null,
+  _oDispatcher : null,
 
   /**
    * {DOM} current element.
@@ -23,48 +23,65 @@ Cotton.UI.SideMenu.Filters = Class.extend({
    */
   _dFilters : {},
 
-  init: function(oDispacher, oMenu) {
+  init: function(oDispatcher) {
     var self = this;
-    this._oMenu = oMenu;
     this._dFilters = {};
 
-    this._lFilters = ['all', 'article', 'image', 'video', 'map',
-      'sound', 'quote'];
+    this._lFilters = ['all', 'article', 'image', 'video', 'map'];
 
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
 
-    this._oDispacher.suscribe('update_filters', this, function(dFiltersCount){
+    this._oDispatcher.subscribe('update_filters', this, function(dFiltersCount){
       for (var sFilter in dFiltersCount) {
         self.setFilterCount(sFilter, dFiltersCount[sFilter]);
       }
     });
+    this._oDispatcher.subscribe('item:delete', this, function(dArguments){
+      var sRemovedItemType = dArguments['type'];
+      self.decrementFilter(sRemovedItemType);
+    });
+    this._oDispatcher.subscribe('element:added', this, function(dArguments){
+      var sAddedItemType = dArguments['type'];
+      self.incrementFilter(sAddedItemType);
+    });
     this._$filters = $('<div class="ct-filters"></div>');
+    this._$separationLine = $('<div class="separation_line"></div>');
 
     function createFilterDOM(sFilter, sFilterCount) {
       sFilterCount = sFilterCount || 0;
-      self._dFilters[sFilter] = $('<span class="all_count"></span>').text(sFilterCount);
+      self._dFilters[sFilter] = {};
+      self._dFilters[sFilter]['dom'] = $('<span class="ct-count ' + sFilter + '_count"></span>').text(
+        sFilterCount);
+
       return  $('<div class="ct-filter "></div>').append(
-          $('<span></span>').text(sFilter + 's  ('),
-          self._dFilters[sFilter],
-          $('<span></span>').text(')')).click(function(){
+          $('<span></span>').text(sFilter + (sFilter !== 'all' ? 's  ' : ' ')),
+          $('<span class="ct-count"></span>').text('('),
+          self._dFilters[sFilter]['dom'],
+          $('<span class="ct-count"></span>').text(')')).click(function(){
             // Update the story on click.
             if(sFilter === "all") {
-              sFilter = '*';
+              var sFilterCode = '*';
             } else {
-              sFilter = '.' + sFilter;
+              var sFilterCode = '.' + sFilter;
             }
-            self._oDispacher.publish('story:filter', {
-              'filter': sFilter
+            self._oDispatcher.publish('story:filter', {
+              'filter': sFilterCode
             });
+            Cotton.ANALYTICS.filter(sFilterCode);
           });
     };
 
     var lDOMFiltersElements = [];
-    for (var i = 0, sFilter; sFilter=this._lFilters[i]; i++){
+    var iLength = this._lFilters.length;
+    for (var i = 0; i < iLength; i++){
+      var sFilter = this._lFilters[i];
       lDOMFiltersElements.push(createFilterDOM(sFilter));
     }
     //construct element
-    this._$filters.append(lDOMFiltersElements);
+    this._$filters.append(
+      this._$separationLine,
+      lDOMFiltersElements
+    );
 
   },
 
@@ -74,8 +91,27 @@ Cotton.UI.SideMenu.Filters = Class.extend({
 
   setFilterCount : function(sFilter, iCount) {
     if (this._dFilters[sFilter]) {
-      this._dFilters[sFilter].text(iCount);
+      this._dFilters[sFilter]['count'] = iCount;
+      this._dFilters[sFilter]['dom'].text(iCount);
+      this._oDispatcher.publish('filter:update', {
+        'type': sFilter,
+        'count': iCount
+      });
     }
   },
+
+  decrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] - 1);
+    }
+    this.setFilterCount('all', this._dFilters['all']['count'] - 1);
+  },
+
+  incrementFilter : function (sFilter){
+    if (this._dFilters[sFilter]) {
+      this.setFilterCount(sFilter, this._dFilters[sFilter]['count'] + 1);
+    }
+    this.setFilterCount('all', this._dFilters['all']['count'] + 1);
+  }
 
 });

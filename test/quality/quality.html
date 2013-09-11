@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+                    "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <style type="text/css">
+    .small_session {
+      display: block;
+      background-color: #ccc;
+      margin: 20px 20px 20px 20px;
+    }
+    .color0 {background-color: #62FF70;}
+    .color1 {background-color: #0579FF;}
+    .color2 {background-color: #E8409F;}
+    .color3 {background-color: #FF0000;}
+    .history_item {
+      margin: 5px;
+    }
+    .story {
+       margin: 20px 20px 20px 20px;
+
+     }
+     .story .title {
+      font-weight: bold;
+    }
+    .historyItemsId span{
+      margin: 3px;
+    }
+
+  </style>
+  <!-- Code you want to test -->
+
+  <script type='text/javascript' src='lib/class.js'></script>
+  <script type='text/javascript' src='lib/jquery-2.0.0.min.js'></script>
+  <script type='text/javascript' src='lib/underscore.min.js'></script>
+
+  <script type='text/javascript' src='init.js'></script>
+
+  <script type='text/javascript' src='config/init.js'></script>
+  <script type='text/javascript' src='config/config.js'></script>
+
+	<!-- Cotton.core -->
+	<script type='text/javascript' src='core/default/init.js'></script>
+	<script type='text/javascript' src='core/default/history.js'></script>
+  <script type='text/javascript' src='core/default/install/temp_database.js'></script>
+
+  <script type='text/javascript' src='db/init.js'></script>
+  <script type='text/javascript' src='db/translator.js'></script>
+
+  <!-- Cotton.model -->
+  <script type='text/javascript' src='model/init.js'></script>
+  <script type='text/javascript' src='model/bag_of_words.js'></script>
+  <script type='text/javascript' src='model/story_dna.js'></script>
+  <script type='text/javascript' src='model/story.js'></script>
+  <script type='text/javascript' src='model/extracted_paragraph.js'></script>
+  <script type='text/javascript' src='model/history_item_dna.js'></script>
+  <script type='text/javascript' src='model/history_item.js'></script>
+  <script type='text/javascript' src='model/search_keyword.js'></script>
+
+  <!-- Cotton.translators -->
+  <script type='text/javascript' src='translators/init.js'></script>
+  <script type='text/javascript' src='translators/story_translators.js'></script>
+  <script type='text/javascript' src='translators/history_item_translators.js'></script>
+
+
+  <script type='text/javascript' src='utils/init.js'></script>
+  <script type='text/javascript' src='utils/url_parser.js'></script>
+  <script type='text/javascript' src='utils/exclude_container.js'></script>
+  <script type='text/javascript' src='utils/benchmark.js'></script>
+
+  <script type='text/javascript' src='algo/init.js'></script>
+  <script type='text/javascript' src='algo/common/init.js'></script>
+  <script type='text/javascript' src='algo/common/words_extractor.js'></script>
+  <script type='text/javascript' src='algo/common/cluster_story.js'></script>
+  <script type='text/javascript' src='algo/common/words/init.js'></script>
+  <script type='text/javascript' src='algo/common/words/black_list.js'></script>
+
+  <script type='text/javascript' src='algo/dbscan/init.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/init.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/dbrecord_score.js'></script>
+  <script type='text/javascript' src='algo/dbscan/dbscan.js'></script>
+
+  <script type='text/javascript' src='algo/dbscan3/detect_sessions.js'></script>
+  <script type='text/javascript' src='algo/dbscan/dbscan.js'></script>
+
+
+  <!-- File with tests -->
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="test/quality/js/integration_charts.js"></script>
+ </head>
+<body>
+  <div id="chrome_visit_chart"></div>
+  <div id="roughly_sessions_chart"></div>
+  <div id="stories_repartition_chart"></div>
+  <div id="stories"></div>
+  <div id="small_sessions"></div>
+  <div id="words_repartition_foot"></div>
+  <div id="words_repartition_green"></div>
+  <div id="words_repartition_blue"></div>
+</body>
+</html>

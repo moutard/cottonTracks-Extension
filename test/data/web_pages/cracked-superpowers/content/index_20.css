@@ -1,0 +1,19 @@
+body.plugin { background: none repeat scroll 0% 0% transparent; overflow: hidden; }
+body { background: none repeat scroll 0% 0% rgb(255, 255, 255); color: rgb(51, 51, 51); line-height: 1.28; margin: 0px; padding: 0px; text-align: left; direction: ltr; unicode-bidi: embed; }
+body, button, input, label, select, td, textarea { font-family: 'lucida grande',tahoma,verdana,arial,sans-serif; font-size: 11px; }
+button { margin: 0px; }
+td, td.label { text-align: left; }
+#facebook .hidden_elem { display: none ! important; }
+.uiGrid { border: 0px none; border-collapse: collapse; border-spacing: 0px; }
+.pluginButton { background: none repeat scroll 0% 0% rgb(236, 238, 245); border-radius: 3px 3px 3px 3px; border: 1px solid rgb(202, 212, 231); cursor: pointer; padding: 2px 6px 4px; white-space: nowrap; color: rgb(59, 89, 152); }
+.pluginButton button { background: none repeat scroll 0% 0% transparent; border: 0px none; margin: -1px; padding: 0px; font: inherit; color: inherit; cursor: pointer; }
+.pluginButton button::-moz-focus-inner { border: 0px none; padding: 0px; }
+.pluginButtonIcon { position: relative; top: 3px; margin-right: 3px; }
+.pluginButtonSmall { padding: 0px 5px 2px; }
+.pluginButtonSmall .pluginButtonIcon { margin-right: 2px; }
+.pluginButton:hover { border-color: rgb(157, 172, 206); }
+.pluginButtonPressed, .pluginButtonPressed:hover { background-color: rgb(238, 238, 238); border-color: rgb(221, 221, 221); color: rgb(170, 170, 170); }
+.sp_send { background-image: url('l_eku7b19iy.png'); background-repeat: no-repeat; display: inline-block; height: 14px; width: 14px; }
+.sx_send_fav { background-position: 0px 0px; }
+.sx_send_favgrey { background-position: 0px -15px; }
+i.img {  }

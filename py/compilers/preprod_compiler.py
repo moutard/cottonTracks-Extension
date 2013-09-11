@@ -6,10 +6,10 @@ class PREPRODCompiler(Compiler):
 
   """
 
-  def __init__(self, SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER):
+  def __init__(self, SOURCE_PATH, DESTINATION_PATH, GOOGLE_CLOSURE_COMPILER, psBrowser):
     self._GOOGLE_CLOSURE_COMPILER = GOOGLE_CLOSURE_COMPILER
     self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "preprod")
-    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH)
+    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH, psBrowser)
 
     self._dirToRemove = ['behavior', 'config', 'controller', 'core', 'db', 'messaging', 'model', 'py', 'translators', 'ui', 'utils']
 
@@ -26,6 +26,7 @@ class PREPRODCompiler(Compiler):
     os.chdir(self._DESTINATION_PATH)
     self.setPreprodConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
     Compiler.compile(self)
+    self.compileTest()
     self.removeUnpreservedFiles()
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):

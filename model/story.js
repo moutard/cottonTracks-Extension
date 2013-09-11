@@ -21,7 +21,7 @@ Cotton.Model.Story = Class.extend({
   _oDNA : null,
 
   /**
-   * @constructor
+   *
    */
   init : function() {
     this._fLastVisitTime = 0;
@@ -29,6 +29,7 @@ Cotton.Model.Story = Class.extend({
     this._sFeaturedImage = "";
     this._lHistoryItemsId = [];
     this._lHistoryItems = [];
+    this._lHistoryItemsRecord = [];
     this._lTags = [];
     this._oDNA = new Cotton.Model.StoryDNA();
   },
@@ -62,6 +63,9 @@ Cotton.Model.Story = Class.extend({
   historyItemsId : function() {
     return this._lHistoryItemsId;
   },
+  historyItemsRecord : function() {
+    return this._lHistoryItemsRecord;
+  },
   lastVisitTime : function() {
     return this._fLastVisitTime;
   },
@@ -80,14 +84,9 @@ Cotton.Model.Story = Class.extend({
   setTags : function(lTags) {
     var self = this;
     self._lTags = lTags;
-    for (var i = 0, iLength = self._lTags.length; i < iLength; i++) {
-      var sWord = self._lTags[i];
-      self._oDNA.bagOfWords().addWord(sWord, 5);
-    }
   },
   addTags : function(sTag) {
     this._lTags.push(sTag);
-    self._oDNA.bagOfWords().addWord(sTag, 5);
   },
   dna : function()  {
     return this._oDNA;
@@ -105,9 +104,27 @@ Cotton.Model.Story = Class.extend({
   addDbRecordHistoryItem : function(oHistoryItemDbRecord) {
     if (this._lHistoryItemsId.indexOf(oHistoryItemDbRecord['id']) === -1) {
       this._lHistoryItemsId.push(oHistoryItemDbRecord['id']);
-
-      if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
-        this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
+      this._lHistoryItemsRecord.push(oHistoryItemDbRecord);
+    }
+    if (oHistoryItemDbRecord['iLastVisitTime'] > this._fLastVisitTime) {
+      this._fLastVisitTime = oHistoryItemDbRecord['iLastVisitTime'];
+    }
+  },
+  /**
+   * Replace the whole DbRecord items list.
+   *
+   * @param {Array.<Object>} lHistoryItemsDbRecord
+   */
+  setDbRecordHistoryItems : function(lHistoryItemDbRecord) {
+    this._lHistoryItemsRecord = lHistoryItemDbRecord;
+    this._lHistoryItemsId = [];
+    this._flastVisitTime = 0;
+    var iLength = lHistoryItemDbRecord.length;
+    for (var i = 0; i < iLength; i++){
+      var dHistoryItemDbRecord = lHistoryItemDbRecord[i];
+      this._lHistoryItemsId.push(dHistoryItemDbRecord['id']);
+      if (this._flastVisitTime < dHistoryItemDbRecord['iLastVisitTime']){
+        this._flastVisitTime = dHistoryItemDbRecord['iLastVisitTime'];
       }
     }
   },
@@ -132,6 +149,14 @@ Cotton.Model.Story = Class.extend({
   setHistoryItems : function(lHistoryItems) {
     this._lHistoryItems = lHistoryItems;
   },
+  /**
+   * Replace the whole history items id list.
+   *
+   * @param {Array.<iHistoryItemId>} lHistoryItemsId
+   */
+  setHistoryItemsId : function(lHistoryItemsId) {
+    this._lHistoryItemsId = lHistoryItemsId;
+  },
   removeHistoryItem : function(sID) {
     this._lHistoryItemsId = _.reject(this._lHistoryItemsId, function(iHistoryItemId) {
       return iHistoryItemId === sID;
@@ -144,77 +169,11 @@ Cotton.Model.Story = Class.extend({
     }
   },
 
-  /**
-   * compute the title of the story. If a google search exists then return
-   * associated keywords. If not most frequent keywords are not really pertinent
-   * because the order is weird. So return the title of the first page.
-   *
-   * TODO(rmoutard) : give the title of the page that contains the more of the
-   * most frequent keywords.
-   */
-  computeTitle : function() {
-    /** We can't recompute the title if it already exists */
-    if (this._lHistoryItems.length !== 0) {
-      var lKeywords = new Array();
-      for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
-        lKeywords = lKeywords.concat(oHistoryItem.extractedWords());
-        if (oHistoryItem.queryWords().length !== 0) {
-          this._sTitle = oHistoryItem.queryWords().join(" ");
-          return;
-        }
-        this._sTitle = oHistoryItem.extractedWords().slice(0, 5).join(" ");
-      }
-
-      /**
-       * Most Frequent keywords. - All the keywords are in the array lKeywords -
-       * Reject small keywords - Hard formula that gives the most frequent
-       * keywords.
-       */
-      lKeywords = _.reject(lKeywords, function(s) {
-        return s.length < 4;
-      });
-
-      var lMostFrequentKeywords = _.map(
-          _.sortBy(_.values(_.groupBy(lKeywords, function(iI) {
-            return iI;
-          })), function(l) {
-            return -l.length;
-          }), function(l) {
-            return l[0];
-          }).slice(0, 3);
-      // this._sTitle = lMostFrequentKeywords.join(" ");
-
-      if (this._sTitle === "" | this._sTitle === undefined) {
-        this._sTitle = this._lHistoryItems[0].title();
-      }
-      return;
-    } else {
-      this._sTitle = 'Unknown22';
-    }
-  },
-
-  computeFeaturedImage : function() {
-    if (this._sFeaturedImage === "") {
-      if (this._lHistoryItems.length !== 0) {
-        var reg = new RegExp(".(jpg|png|gif)$", "g");
-        for ( var i = 0, oHistoryItem; oHistoryItem = this._lHistoryItems[i]; i++) {
-          if (reg.exec(oHistoryItem.url())) {
-            this._sFeaturedImage = oHistoryItem.url();
-            return;
-          }
-          if (oHistoryItem.extractedDNA().imageUrl() !== "") {
-            this._sFeaturedImage = oHistoryItem.extractedDNA().imageUrl();
-          }
-        }
-      }
-    }
-  },
-
   computeTags : function(){
     this.setTags(this._sTitle.toLowerCase().split(" "));
   },
 
   searchKeywords : function() {
-    return this._sTitle.toLowerCase().split(" ");
+    return this.dna().bagOfWords().preponderant();
   },
 });

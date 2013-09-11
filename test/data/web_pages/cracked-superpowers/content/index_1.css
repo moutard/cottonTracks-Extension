@@ -1,0 +1,9 @@
+a:link { color: rgb(0, 0, 0); }
+a:visited { color: rgb(0, 0, 0); }
+a:hover { color: rgb(0, 0, 0); }
+a:active { color: rgb(0, 0, 0); }
+div, ul, li { margin: 0px; padding: 0px; }
+#abgc { height: 15px; left: 709px; overflow: hidden; position: absolute; top: 0px; width: 77px; z-index: 9010; }
+#abgc img { display: block; }
+#abgb { position: absolute; left: 0px; margin: 0px; }
+#abgs { margin: 0px; position: absolute; left: 0px; overflow: hidden; display: none; }

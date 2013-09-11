@@ -37,9 +37,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
                                             "prev", "prevunique"];
 
     // Open the database. Do not specify version by default.
-    var oRequest = webkitIndexedDB.open(sDatabaseName);
+    var oOpenDBRequest = webkitIndexedDB.open(sDatabaseName);
 
-    oRequest.onsuccess = function(oEvent) {
+    oOpenDBRequest.onsuccess = function(oEvent) {
       var oDb = self._oDb = oEvent.target.result;
       var bHasMissingObjectStore = false;
       var bHasMissingIndexKey = false;
@@ -47,43 +47,50 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       var lObjectStoreNames = _.keys(dIndexesForObjectStoreNames);
 
       // We need to compare whether the current list of object stores in the
-      // database matches the
-      // object stores that are requested in lObjectStoreNames.
+      // database matches the object stores that are requested in
+      // lObjectStoreNames.
 
       var lCurrentObjectStoreNames = _.toArray(oDb.objectStoreNames);
 
       // lExistingObjectStoreNames is the list of object stores that are already
-      // present in the database
-      // and match the requested list of object stores. For example, if we ask
-      // for
-      // two stores
-      // ['abc, 'def'] and the present stores are ['abc', 'ghi'],
-      // lExistingObjectStoreNames will contain
-      // ['abc'] (still ).
+      // present in the database and match the requested list of object stores.
+      // For example:
+      // if we ask for two stores ['abc, 'def']
+      // and the present stores are ['abc', 'ghi'],
+      // lExistingObjectStoreNames will contain ['abc']
       var lExistingObjectStoreNames = _.intersection(lCurrentObjectStoreNames, lObjectStoreNames);
 
       // See if there are any object stores missing.
       lMissingObjectStoreNames = _.difference(lObjectStoreNames, lExistingObjectStoreNames);
       bHasMissingObjectStore = lMissingObjectStoreNames.length > 0;
 
-      // Check if, among the present object stores, there is any that miss an
-      // index.
+      var iExistingLength = lExistingObjectStoreNames.length;
+      // Determine if there is a missing index in the existing store.
+      if (iExistingLength > 0) {
 
-      // FIXME !!
-      // TODO(rmoutard) this part create a problem.
-      if (lExistingObjectStoreNames.length > 0) {
+        // Create a transaction to read and write.
         var oTransaction = oDb.transaction(lExistingObjectStoreNames, "readwrite");
-        for (var i = 0, iLength = lExistingObjectStoreNames.length; i < iLength; i++) {
-	  var sExistingObjectStoreName = lExistingObjectStoreNames[i];
+
+        // For each existing stores, create the missing indexes.
+        for (var i = 0; i < iExistingLength; i++) {
+	        var sExistingObjectStoreName = lExistingObjectStoreNames[i];
+          // Initialize lMissingIndexKeys and dMissingIndexKeysForObjectStoreNames.
+          // And with the same reference, so they are both updated !
           lMissingIndexKeys = dMissingIndexKeysForObjectStoreNames[sExistingObjectStoreName] = [];
-          _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName], function(dIndexDescription, sIndexKey) {
-            try {
-              oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
-            } catch (e) {
-              // TODO(fwouts): Check that e is an instance of NotFoundError.
-              lMissingIndexKeys.push(sIndexKey);
-              bHasMissingIndexKey = true;
-            }
+          // For each index that already exists.
+          _.each(dIndexesForObjectStoreNames[sExistingObjectStoreName],
+              function(dIndexDescription, sIndexKey) {
+                try {
+                  // Make a call to the current index to check it exists.
+                  oTransaction.objectStore(sExistingObjectStoreName).index(sIndexKey);
+                } catch (e) {
+                  // If there is an error then the index do not exists or
+                  // maybe corrupted so put it in the lMissingIndexKeys so it
+                  // will be created during the _upgradeVersion.
+                  // TODO(rmoutard): Check that e is an instance of NotFoundError.
+                  lMissingIndexKeys.push(sIndexKey);
+                  bHasMissingIndexKey = true;
+                }
           });
         }
       }
@@ -92,7 +99,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       // So we called open the database with a upper version, so the event
       // onupgradeneeded is called.
       if (bHasMissingObjectStore || bHasMissingIndexKey) {
-        console.log("A new database version is needed");
+        DEBUG && console.debug("A new database version is needed");
         // If the version is not set, use 0 and the increment so when you
         // open the database for the first version the version is 1, because it
         // seems to have an error when you try to open a database when version
@@ -129,7 +136,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
             var oSetVersionRequest = oDb.setVersion(iNewVersion);
 
             oSetVersionRequest.onsuccess = function(event) {
-              console.log("setVersion onsuccess");
+              DEBUG && console.debug("setVersion onsuccess");
               var oTransaction = event.target.result;
 
               self._upgradeVersion(oTransaction,
@@ -160,20 +167,21 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           }
         };
 
-        oRequest.onerror = function(oEvent){
-          console.error("Can't open the database");
-          console.error(oEvent);
-          console.error(this);
-
-          throw "Request Error - init engine";
-        };
-
       } else {
         // The database is already up to date, so we are ready.
-        console.log("The database is already up to date");
+        DEBUG && console.debug("The database is already up to date");
         mOnReadyCallback.call(self);
       }
     };
+
+    oOpenDBRequest.onerror = function(oEvent){
+        console.error("Can't open the database");
+        console.error(oEvent);
+        console.error(this);
+
+        throw "Request Error - init engine";
+      };
+
   },
 
   /**
@@ -194,11 +202,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   _upgradeVersion : function(oTransaction,
     lMissingObjectStoreNames, dIndexesForObjectStoreNames,
-    dMissingIndexKeysForObjectStoreNames, mOnReadyCallback){
-
+    dMissingIndexKeysForObjectStoreNames, mOnReadyCallback) {
     var self = this;
     oTransaction.oncomplete = function(){
-      console.log("setVersion result transaction oncomplete");
+      DEBUG && console.debug("setVersion result transaction oncomplete");
       mOnReadyCallback();
     };
 
@@ -225,9 +232,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     try {
-      for (var i = 0, sMissingObjectStoreName; sMissingObjectStoreName = lMissingObjectStoreNames[i]; i++) {
+      var iLength = lMissingObjectStoreNames.length;
+      for (var i = 0; i < iLength; i++) {
+        var sMissingObjectStoreName = lMissingObjectStoreNames[i];
         // Create the new object store.
-        console.log('Creating object store ' + sMissingObjectStoreName);
+        DEBUG && console.debug('Creating object store ' + sMissingObjectStoreName);
         var objectStore = self._oDb.createObjectStore(sMissingObjectStoreName, {
           'keyPath': 'id',
           'autoIncrement': true
@@ -243,15 +252,16 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       _.each(dMissingIndexKeysForObjectStoreNames, function(lMissingIndexKeys, sObjectStoreName) {
         var dIndexesInformation = dIndexesForObjectStoreNames[sObjectStoreName];
         var objectStore = oTransaction.objectStore(sObjectStoreName);
-        for (var i = 0, iLength = lMissingIndexKeys.length; i < iLength; i++) {
-	  var sIndexKey = lMissingIndexKeys[i];
-          console.log('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
+        var iLength = lMissingIndexKeys.length;
+        for (var i = 0; i < iLength; i++) {
+          var sIndexKey = lMissingIndexKeys[i];
+          DEBUG && console.debug('Adding index ' + sIndexKey + ' on object store ' + sObjectStoreName);
           objectStore.createIndex(sIndexKey, sIndexKey, dIndexesInformation[sIndexKey]);
         }
       });
 
     } catch (oError){
-      console.log("createObjectStore exception : " + oError.message);
+      DEBUG && console.debug("createObjectStore exception : " + oError.message);
       oTransaction.abort();
     }
 
@@ -513,7 +523,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -561,7 +571,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â>= iLowerBound
+    // bStrict == false All keys[sIndexKey] Ã¢>= iLowerBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -747,6 +757,54 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   },
 
   /**
+   * getFirst :
+   *
+   * the first item sorted by sIndexKey.
+   *
+   * @param {string}
+   *          sObjectStoreName : Object store name
+   * @param {string}
+   *          sIndexKey : name of the index used for sorting
+   * @param {function}
+   *          mResultElementCallback : callback function
+   *
+   * @return the call back function return an dDBRecord element.
+   */
+  getFirst : function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define Index.
+    var oIndex = oStore.index(sIndexKey);
+
+    var oCursorRequest = oIndex.openCursor(null, "next");
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        return;
+      }
+
+      mResultElementCallback.call(self, oResult.value);
+
+    };
+
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getFirst";
+    };
+
+
+  },
+
+  /**
    * getXItems :
    *
    * get X items in a given direction
@@ -767,7 +825,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -821,7 +879,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] Ã¢<= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -909,8 +967,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var p = 0;
-    if(lIndexValue.length > 0) {
-      for(var i = 0, oIndexValue; oIndexValue = lIndexValue[i]; i++){
+    var iLength = lIndexValue.length;
+    if (iLength > 0) {
+      for (var i = 0; i < iLength; i++){
+        var oIndexValue = lIndexValue[i];
         self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
           p+=1;
           if(oResult){
@@ -963,37 +1023,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
-  // Seems there is a problem with put and auto-incremented.
-  // DEPRECATED
-  add: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    // TODO(fwouts): Checks on the type of data contained in dItem?
-    if (!dItem.id) {
-      // In order for the id to be automatically generated, we cannot set it to
-      // undefined or null, it
-      // must not exist.
-      delete dItem.id;
-    }
-    var oPutRequest = oStore.add(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oPutRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
-      console.error(oEvent);
-      console.error(this);
-      throw "Put Request Error";
-    };
-
-  },
-
   put: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
@@ -1008,10 +1037,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      //console.error("Can't open the database");
-      //console.error(oEvent);
-      //console.error(this);
-      //throw "Put Request Error";
+      console.error("Can NOT put the database");
+      console.error(oEvent);
     };
 
   },
@@ -1019,223 +1046,106 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
+    // Factorize transaction. Use the same transaction to put all the elements.
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
 
     var lAllId = new Array();
-    var p = 0;
-    for(var i = 0, dItem; dItem = lItems[i]; i++){
-      self.put(sObjectStoreName, dItem, function(iId){
-        p+=1;
+    var iPutCount = 0;
+    var iLength = lItems.length;
+    if (iLength === 0) { mOnSaveCallback.call(self, lAllId); }
+    for (var i = 0; i < iLength; i++) {
+      var dItem = lItems[i];
 
-        lAllId.push(iId);
-
-        if(p === lItems.length){
-          console.log("dede");
-          console.log(lAllId);
+      var oPutRequest = oStore.put(dItem);
+      oPutRequest.onsuccess = function(oEvent) {
+        iPutCount++;
+        if(iPutCount === iLength){
           mOnSaveCallback.call(self, lAllId);
         }
-      });
-    }
-  },
-
-  putUniqueKeyword: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    var oPutRequest = oStore.put(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oPutRequest.onerror = function(oEvent){
-      // console.error(oEvent);
-      // console.error(this);
-      if(this['error']['name'] === "ConstraintError"){
-        // uniquiness unsatisfied
-        // TODO(rmoutard): use
-        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-        // to get the right key.
-        var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
-        var oStore =  oTransaction.objectStore(sObjectStoreName);
-        var oIndex = oStore.index('sKeyword');
-
-        // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem['sKeyword']);
-        console.log(dItem['sKeyword'] + " already exists it will be updated");
-        oFindRequest.onsuccess = function(oEvent) {
-          var oResult = oEvent.target.result;
-          // If there was no result, it will send back null.
-          dItem['id'] = oResult['id'];
-          dItem['lReferringStoriesId'] = _.union(dItem['lReferringStoriesId'],
-              oResult['lReferringStoriesId']);
-          dItem['lReferringHistoryItemsId'] = _.union(dItem['lReferringHistoryItemsId'],
-              oResult['lReferringHistoryItemsId']);
-
-          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
-          var oSecondPutRequest = oStore.put(dItem);
-
-          oSecondPutRequest.onsuccess = function(oEvent) {
-            mOnSaveCallback.call(self, oEvent.target.result);
-          };
-
-          oSecondPutRequest.onerror = function(oEvent) {
-            console.error("can't put: " + dItem);
-          };
-
-        };
-
-        oFindRequest.onerror = function(oEvent) {
-          console.error(oEvent);
-          console.error(this);
-          console.error("can't find: " + dItem['sKeyword']);
-        };
-      }
-    };
-  },
-
-  putUniqueHistoryItem: function(sObjectStoreName, dItem, mOnSaveCallback) {
-    var self = this;
-
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    var oPutRequest = oStore.put(dItem);
-
-    oPutRequest.onsuccess = function(oEvent) {
-      mOnSaveCallback.call(self, oEvent.target.result);
-    };
-
-    oPutRequest.onerror = function(oEvent){
-
-      // console.error(oEvent);
-      // console.error(this);
-      if(this['error']['name'] === "ConstraintError"){
-        // uniqueness unsatisfied
-        // TODO(rmoutard): use
-        // webkitErrorMessage: "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
-        // to get the right key.
-        var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
-        var oStore =  oTransaction.objectStore(sObjectStoreName);
-        var oIndex = oStore.index('sUrl');
-
-        // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem['sUrl']);
-        console.log(dItem['sUrl'] + " already exists it will be updated");
-        oFindRequest.onsuccess = function(oEvent) {
-          var oResult = oEvent.target.result;
-          // If there was no result, it will send back null.
-          dItem['id'] = oResult['id'];
-          // Merge highlighted text.
-          dItem['oExtractedDNA']['lHighlightedText'] = _.union(
-              dItem['oExtractedDNA']['lHighlightedText'],
-              oResult['oExtractedDNA']['lHighlightedText']);
-          // Take the max value of each key.
-          var dTempBag = {};
-          _.pairs(dItem['oExtractedDNA']['oBagOfWords'], function(key, value){
-            var a = dItem['oExtractedDNA']['oBagOfWords'][key] || 0;
-            var b = oResult['oExtractedDNA']['oBagOfWords'][key] || 0;
-            dTempBag[key] = Math.max(a,b);
-          });
-          dItem['oExtractedDNA']['oBagOfWords'] = dTempBag;
-          console.log(dItem['sKeyword'] + " had an id:" + dItem['id'] );
-          var oSecondPutRequest = oStore.put(dItem);
-
-          oSecondPutRequest.onsuccess = function(oEvent) {
-            mOnSaveCallback.call(self, oEvent.target.result);
-          };
-
-          oSecondPutRequest.onerror = function(oEvent) {
-            console.error("can't put: " + dItem);
-          };
-
-        };
-
-        oFindRequest.onerror = function(oEvent) {
-          console.error(oEvent);
-          console.error(this);
-          console.error("can't find: " + dItem['sKeyword']);
-        };
-      }
-    };
-  },
-
-  AputList: function(sObjectStoreName, lItems, mOnSaveCallback) {
-    var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
-    var oStore = oTransaction.objectStore(sObjectStoreName);
-
-    for(var i = 0, iLength = lItems.length; i < iLength; i++){
-      var dItem = lItems[i];
-      var oPutRequest = oStore.put(dItem);
-
-      oPutRequest.onsuccess = function(oEvent) {
-        console.log('pp');
-        // mOnSaveCallback.call(self, oEvent.target.result);
       };
 
-      oPutRequest.onerror = function(oEvent){
-        console.error("Can't open the database");
+      oPutRequest.onerror = function(oEvent) {
+        console.error("Can NOT put the database");
         console.error(oEvent);
-        console.error(this);
-        throw "Put Request Error - AputList";
+        // Go on even if some elements return an error.
+        iPutCount++;
+        if(iPutCount === iLength){
+          mOnSaveCallback.call(self, lAllId);
+        }
+
       };
 
     }
-
   },
 
-
-  update : function(sObjectStoreName, sId, dItem, mResultElementCallback) {
+  putUnique: function(sObjectStoreName, dItem, mMerge, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    // Define the index.
-    var oIndex = oStore.index('id');
+    var oPutRequest = oStore.put(dItem);
 
-    // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.only(sId);
-    var oCursorRequest = oIndex.openCursor(oKeyRange);
-    oCursorRequest.onsuccess = function(oEvent) {
-      var oResult = oEvent.target.result;
-
-      // End of the list of results.
-      if (!oResult) {
-        // There is no entry that corresponds to your id. Can not be updated.
-        mResultElementCallback.call(self);
-        return;
-      }
-      else {
-        var oUpdateRequest = this.update(dItem);
-        oUpdateRequest.onsuccess = function(oEvent){
-          mResultElementCallback.call(self, oEvent.target.result);
-          return;
-        };
-        oUpdateRequest.onerror = function(oEvent){
-          console.log("can not update your entry");
-          console.log(oEvent);
-          throw "Update Request Error";
-        };
-      }
+    oPutRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
     };
 
+    oPutRequest.onerror = function(oEvent) {
+      // ConstraintError means that one of the unique key is already present,
+      // so put can't be done without transgressing constraints.
+      if(this['error']['name'] === "ConstraintError") {
+        var oTransaction = self._oDb.transaction([sObjectStoreName],
+        "readwrite");
+        var oStore =  oTransaction.objectStore(sObjectStoreName);
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
-      console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - update";
-    };
+        // Find the index that do not satisfy the constraints using a regex in
+        // error.message. This message look like :
+        // "Unable to add key to index 'sKeyword': at least one key does not
+        // satisfy the uniqueness requirements."
+        // TODO(rmoutard): make sure this message doesn't change.
+        var sMessage = (this['error'] && this['error']['message']) ? this['error']['message'] : this['webkitErrorMessage'];
+        var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
+        var lRegExpResults = oRegExp.exec(sMessage);
+        if(lRegExpResults.length > 1) {
+          // The 0 index has the \' character that we don't want.
+          var sIndex = lRegExpResults[1];
+        } else {
+          console.error(this);
+          console.error('The error.message has changed.');
+        }
 
+        var oIndex = oStore.index(sIndex);
+        // Get the requested record in the store.
+        var oFindRequest = oIndex.get(dItem[sIndex]);
+        oFindRequest.onsuccess = function(oEvent) {
+          // The dbRecord already present in the database.
+          var dResult = oEvent.target.result;
 
+          // Merge the 2 elements using the given function.
+          var dMergedItem = mMerge(dResult, dItem);
+          var oSecondPutRequest = oStore.put(dMergedItem);
+
+          oSecondPutRequest.onsuccess = function(oEvent) {
+            mOnSaveCallback.call(self, oEvent.target.result);
+          };
+
+          oSecondPutRequest.onerror = function(oEvent) {
+            console.error("can't put: " + dMergedItem);
+          };
+
+        };
+
+        oFindRequest.onerror = function(oEvent) {
+          console.error(this);
+          console.error("can't find: " + dItem[sIndex]);
+        };
+
+      }
+    }
   },
 
   delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
@@ -1281,7 +1191,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
 
       self.delete(sObjectStoreName, oResult.value.id, function(){
-        console.log("entry deleted");
+        DEBUG && console.debug("entry deleted");
       });
       oResult.continue();
     };

@@ -19,15 +19,17 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   _oStory : null,
 
-  _$separationLineTop : null,
   _oPreview : null,
+  _oRelatedToggler : null,
   _oFilters : null,
   _oSettings : null,
 
-  init : function(oStory, oDispacher, oWorld) {
-
-    this._oWorld = oWorld;
-    this._oDispacher = oDispacher;
+  init : function(oStory, oDispatcher, iNumberOfRelated) {
+    if (iNumberOfRelated === undefined){
+      iNumberOfRelated = 0;
+    }
+    this._oDispatcher = oDispatcher;
+    this._iRelated = iNumberOfRelated;
 
     // Current element.
     this._$menu = $('<div class="ct-menu"></div>');
@@ -35,16 +37,17 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
     // Sub elements.
     this._oPreview = new Cotton.UI.SideMenu.Preview.Element(
-        oStory.title(), oStory.featuredImage(), this);
-    this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispacher);
-    this._oSettings = new Cotton.UI.SideMenu.Settings(this);
-    this._$separationLineTop = $('<div class="separation_line"></div>');
+        oStory, this._oDispatcher);
+    this._oRelatedToggler = new Cotton.UI.SideMenu.RelatedToggler(iNumberOfRelated, this._oDispatcher);
+    this._oFilters = new Cotton.UI.SideMenu.Filters(this._oDispatcher);
+    this._oSettings = new Cotton.UI.SideMenu.Settings(this._oDispatcher);
 
-    this._oFilters.setFilterCount("all", oStory.historyItemsId().length);
+    this._oFilters.setFilterCount("all", oStory.historyItems().length);
     //construct element
     this._$menu.append(
       this._oPreview.$(),
-      this._oFilters.$().prepend(this._$separationLineTop),
+      this._oRelatedToggler.$(),
+      this._oFilters.$(),
       this._oSettings.$()
     )
   },
@@ -63,7 +66,11 @@ Cotton.UI.SideMenu.Menu = Class.extend({
 
   updateStory : function(oStory) {
     this._oStory = oStory;
+  },
 
+  recycle : function(oStory) {
+    this.updateStory(oStory);
+    this._oPreview.recycle(oStory);
   },
 
   preview : function() {
@@ -71,8 +78,7 @@ Cotton.UI.SideMenu.Menu = Class.extend({
   },
 
   slideIn : function() {
-    // FIXME(rmoutard) : use a open class css.
-    this._$menu.animate({left: '+=250',}, 300, function(){});
+    this._$menu.addClass('slideIn');
   },
 
   filters : function() {

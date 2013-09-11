@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "cottonTracks",
-  "version": "0.0.4.71",
+  "version": "0.6.0",
   "minimum_chrome_version": "22",
   "icons": {
     "16": "/media/images/cotton_tracks_favicon_16.png",
@@ -10,33 +10,39 @@
   },
   "description": "cottonTracks lets you remember easily the best of what you browse",
   "homepage_url": "http://www.cottontracks.com",
-  "permissions": ["history", "tabs", "chrome://favicon/", "http://*/*", "https://*/*", "management", "topSites", "https://kippt.com/"],
+  "permissions": ["history", "tabs", "chrome://favicon/", "http://*/*", "https://*/*"],
   "background": {"page" : "background.html", "persistent": false},
   "browser_action": {
     "default_icon": {
-      "19": "media/images/browser_action/icon19.png",
-      "38": "media/images/browser_action/icon38.png"
+      "19": "media/images/browser_action/cbutton19.png",
+      "38": "media/images/browser_action/cbutton38.png"
     },
     "default_title": "cottonTracks"
   },
   "content_scripts": [
     {
-      "matches": [ "http://*/*",
-                   "https://www.google.com/*", "https://www.google.fr/*", "https://www.google.es/*", "https://www.google.co.uk/*",
-                   "https://maps.google.com/*", "https://maps.google.fr/*", "https://maps.google.es/*", "https://maps.google.co.uk/*"
-                 ],
-      "exclude_matches" : ["https://www.google.com/url", "https://www.google.fr/url", "http://www.google.com/url", "http://www.google.fr/url"],
+      "matches": [ "*://*/*"],
+      "exclude_globs" : [
+          "https://www.google.*/url", "https://www.google.com/analytics/web/*", "https://www.google.com/calendar/*"
+        ],
+      "include_globs" : ["http://*", "https://www.google.*", "https://maps.google.*",
+      "https://www.youtube.*", "https://*.wikipedia.org/*"],
       "css": [],
       "js": [
-              "lib/class.js", "lib/jquery-1.9.1.min.js",
+              "lib/class.js", "lib/jquery-2.0.0.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js",
               "init.js",
-              "model/init.js","model/bag_of_words.js", "model/history_item_dna.js", "model/history_item.js","model/extracted_paragraph.js", "db/init.js", "db/translator.js", "translators/init.js", "translators/history_item_translators.js",
-              "algo/init.js", "algo/common/tools.js",
-              "behavior/init.js",
-              "behavior/passive/init.js", "behavior/background_client.js", "behavior/passive/parser.js",
-              "config/init.js", "config/config.js", "utils/init.js", "utils/url_parser.js", "utils/log.js",
-              "behavior/passive/google_parser.js", "behavior/passive/wikipedia_parser.js", "behavior/passive/parser_factory.js",
+              "model/init.js","model/bag_of_words.js", "model/history_item_dna.js", "model/history_item.js","model/extracted_paragraph.js",
+              "core/default/init.js", "core/default/messaging/messenger.js",
+              "db/init.js", "db/translator.js",
+              "translators/init.js", "translators/history_item_translators.js",
+              "algo/init.js",
+              "algo/common/init.js", "algo/common/words_extractor.js",
+              "algo/common/words/init.js", "algo/common/words/black_list.js",
+              "behavior/init.js", "behavior/background_client.js",
+              "behavior/passive/init.js", "behavior/passive/parser.js", "behavior/passive/google_parser.js", "behavior/passive/wikipedia_parser.js", "behavior/passive/google_image_parser.js", "behavior/passive/parser_factory.js",
+              "config/init.js", "config/config.js",
+              "utils/init.js", "utils/url_parser.js", "utils/dom.js", "utils/exclude_container.js",
               "behavior/active/init.js", "behavior/active/feedback_element.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"
               ],
       "run_at": "document_idle"

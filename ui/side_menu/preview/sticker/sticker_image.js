@@ -6,31 +6,25 @@
 
 Cotton.UI.SideMenu.Preview.Sticker.Image = Class.extend({
 
-  /**
-   * {Cotton.UI.SideMenu.Preview.Sticker} parent element.
-   */
-  _oSticker : null,
-
   _$stickerImageContainer : null,
   _$stickerImage : null,
 
-  init: function(sImage, oSticker){
-
-	  this._oSticker = oSticker;
-
+  init: function(sImage){
     // Current element.
     this._$stickerImageContainer = $('<div class="ct-story_image"></div>');
 
     // Sub elements.
-    this._$stickerImage = $('<img class="resize" src="' + sImage + '">');
+    this._$stickerImage = $('<img class="resize">');
 
     // Construct element.
 	  this._$stickerImageContainer.append(
 	    this._$stickerImage
 	  );
 
-    // Resize sticker image to fit its container.
-	  this.resize(this._$stickerImage);
+    // We do it after construction of the element for resize() to work
+    if (sImage && sImage !== ""){
+      this.recycle(sImage);
+    }
 
   },
 
@@ -65,8 +59,11 @@ Cotton.UI.SideMenu.Preview.Sticker.Image = Class.extend({
     });
   },
 
-  refresh : function(sImage){
+  recycle : function(sImage) {
+    this._$stickerImageContainer.addClass('plain');
     this._$stickerImage.attr('src', sImage);
-  }
+    // Resize sticker image to fit its container.
+    this.resize(this._$stickerImage);
+  },
 
 });

@@ -15,12 +15,9 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
   _oItemDate : null,
   _oItemLabel : null,
 
-  init : function(oHistoryItem, oDispacher, oItem) {
-    this._super(oDispacher, oItem);
-    this._oHistoryItem = oHistoryItem;
-    this._sType = "search";
-    // current element.
-    this._$item.addClass('search');
+  init : function(oHistoryItem, sActiveFilter, oDispatcher) {
+    this._super(oHistoryItem, sActiveFilter, oDispatcher);
+    this.setType("search");
 
     // sub elements.
     this._$itemInfo = $('<div class="ct-infos"></div>');
@@ -29,20 +26,22 @@ Cotton.UI.Story.Item.Search = Cotton.UI.Story.Item.Element.extend({
     this._$searchInput = $('<input type="text" name="ct-google-search">');
     this._$searchButton = $('<img class="ct-search_button" src="media/images/story/item/search_item/search.png"/>');
     this._oItemDate = new Cotton.UI.Story.Item.Content.Brick.Date(
-      oHistoryItem.lastVisitTime(), this);
+      oHistoryItem.lastVisitTime());
     this._oItemLabel = new Cotton.UI.Story.Item.Content.Brick.SmallLabel(
-      oHistoryItem.url(), this);
+      oHistoryItem.url());
     this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oHistoryItem.url(),
-      this._oDispacher, this);
+      this._oDispatcher, this, 'small');
 
+    oHistoryItem.oUrl().generateKeywords();
     // Title
-    if (oHistoryItem.title() !== "") {
-      var sTitle = oHistoryItem.title().split(" - ")[0];
+    if (oHistoryItem.oUrl().keywords.length > 0) {
+      var sTitle = oHistoryItem.oUrl().keywords.join(' ');
       this._$title.text(sTitle);
       this._$searchInput.val(sTitle);
     } else {
       this._$title.text("Search");
     }
+    this._$title = $('<a href="' + oHistoryItem.url() + '" target="_blank"></a>').append(this._$title);
 
     // create the item
     this._$item.append(

@@ -1,0 +1,15 @@
+/* ::::: http://zor.fyre.co/wjs/v3.0.10061/css/editor.css ::::: */
+
+:first-child + html .goog-inline-block { display: inline; }
+:first-child + html .goog-toolbar-button-inner-box { left: -1px; }
+:first-child + html .goog-toolbar-button-rtl .goog-toolbar-button-inner-box { left: 1px; right: auto; }
+:first-child + html .goog-toolbar-button-disabled { background-color: rgb(240, 240, 240); margin: 0px 1px; padding: 0px 1px; }
+:first-child + html .goog-toolbar-button-collapse-left .goog-toolbar-button-inner-box { left: 0px; }
+:first-child + html .goog-toolbar-menu-button-inner-box { left: -1px; }
+:first-child + html .goog-toolbar-menu-button-rtl .goog-toolbar-menu-button-inner-box { left: 1px; right: auto; }
+:first-child + html .goog-toolbar-menu-button-disabled { background-color: rgb(240, 240, 240); margin: 0px 1px; padding: 0px 1px; }
+body.editable, div.editable { font-family: Helvetica Neue; font-size: 12px; margin: 8px; outline: medium none; text-align: left; }
+body.editable p, body.editable li { word-wrap: break-word; }
+.fyre-format-toolbar .goog-toolbar-button:nth-child(-n+3) { border-bottom: 1px solid rgb(231, 231, 231); }
+.fyre-format-toolbar .goog-toolbar-button:nth-child(3n+1) { width: 34px; }
+.fyre-format-toolbar .goog-toolbar-button:nth-child(3n+3) { border-right: medium none; }

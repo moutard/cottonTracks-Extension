@@ -28,6 +28,22 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
 
   },
 
+  /**
+   * Returns the last translator for the given type. Throws an exception if the
+   * type does not have any translators.
+   *
+   * @param {String} sObjectStoreName:
+   *  name of the store (table in the database).
+   */
+  _lastTranslator: function(sObjectStoreName) {
+    var lTranslators = this._dTranslators[sObjectStoreName];
+    if (!lTranslators) {
+      throw "Unknown type."
+    }
+    var oTranslator = lTranslators[lTranslators.length - 1];
+    return oTranslator;
+  },
+
   empty : function(sObjectStoreName, mResultElementCallback){
      var self = this;
 
@@ -60,9 +76,11 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
   getList: function(sObjectStoreName, mResultElementCallback){
     var self = this;
 
-    this._oEngine.getList(sObjectStoreName, function(oResult) {
+    this._oEngine.getList(sObjectStoreName, function(lResult) {
       var lList = new Array();
-      for(var i = 0, oDbRecord; oDbRecord = oResult[i]; i++){
+      var iLength = lResult.length;
+      for (var i = 0; i < iLength; i++){
+        var oDbRecord = lResult[i];
         var oTranslator = self._translatorForDbRecord(sObjectStoreName,
                                                       oDbRecord);
         var oObject = oTranslator.dbRecordToObject(oDbRecord);
@@ -92,14 +110,43 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
     this._oEngine.getRange(sObjectStoreName,
       iLowerBound, iUpperBound,
-      function(oResult) {
-        if (!oResult) {
+      function(lResult) {
+        if (!lResult) {
           // If there was no result, send back null.
           mResultElementCallback.call(self, lAllObjects);
           return;
         }
-        // else oResult is a list of Items.
-        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++) {
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+
+        mResultElementCallback.call(self, lAllObjects);
+    });
+  },
+
+  getKeyRange: function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
+                      mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getKeyRange(sObjectStoreName, sIndexKey,
+      iLowerBound, iUpperBound,
+      function(lResult) {
+        if (!lResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
           var oTranslator = self._translatorForDbRecord(sObjectStoreName,
           oItem);
           var oObject = oTranslator.dbRecordToObject(oItem);
@@ -119,16 +166,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
     this._oEngine.getUpperBound(
       sObjectStoreName, sIndexKey, iUpperBound, iDirection, bStrict,
-      function(oResult) {
-        if (!oResult) {
+      function(lResult) {
+        if (!lResult) {
           // If there was no result, send back null.
           mResultElementCallback.call(self, lAllObjects);
           return;
         }
-        // else oResult is a list of Items.
-        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-          oItem);
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
           var oObject = oTranslator.dbRecordToObject(oItem);
           lAllObjects.push(oObject);
         }
@@ -145,19 +193,19 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
     this._oEngine.getLowerBound(
       sObjectStoreName, sIndexKey, iLowerBound, iDirection, bStrict,
-      function(oResult) {
-        if (!oResult) {
+      function(lResult) {
+        if (!lResult) {
           // If there was no result, send back null.
           mResultElementCallback.call(self, lAllObjects);
           return;
         }
-        // else oResult is a list of Items.
-        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-          oItem);
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
           var oObject = oTranslator.dbRecordToObject(oItem);
-          lAllObjects.push(oObject);
-        }
+          lAllObjects.push(oObject);     }
 
         mResultElementCallback.call(self, lAllObjects);
     });
@@ -173,16 +221,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     this._oEngine.getBound(
       sObjectStoreName, sIndexKey, iLowerBound, iUpperBound, iDirection,
       bStrictLower, bStrictUpper,
-      function(oResult) {
-        if (!oResult) {
+      function(lResult) {
+        if (!lResult) {
           // If there was no result, send back null.
           mResultElementCallback.call(self, lAllObjects);
           return;
         }
-        // else oResult is a list of Items.
-        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-          oItem);
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
           var oObject = oTranslator.dbRecordToObject(oItem);
           lAllObjects.push(oObject);
         }
@@ -213,6 +262,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
+  getFirst: function(sObjectStoreName, sIndexKey, mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.getFirst(sObjectStoreName, sIndexKey, function(oResult) {
+
+      var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+      var oObject = oTranslator.dbRecordToObject(oResult);
+      mResultElementCallback.call(self, oObject);
+    });
+  },
+
   getXItems: function(sObjectStoreName, iX, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;
@@ -220,16 +280,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
     this._oEngine.getXItems(
         sObjectStoreName, iX, sIndexKey, iDirection,
-        function(oResult) {
-          if (!oResult) {
+        function(lResult) {
+          if (!lResult) {
             // If there was no result, send back null.
             mResultElementCallback.call(self, lAllObjects);
             return;
           }
-          // else oResult is a list of Items.
-          for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-            var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-                oItem);
+          // else lResult is a list of Items.
+          var iLength = lResult.length;
+          for (var i = 0; i < iLength; i++ ){
+            var oItem = lResult[i];
+            var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
             var oObject = oTranslator.dbRecordToObject(oItem);
             lAllObjects.push(oObject);
           }
@@ -245,16 +306,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
     this._oEngine.getXYItems(
         sObjectStoreName, iX, iY, sIndexKey, iDirection,
-        function(oResult) {
-          if (!oResult) {
+        function(lResult) {
+          if (!lResult) {
             // If there was no result, send back null.
             mResultElementCallback.call(self, lAllObjects);
             return;
           }
-          // else oResult is a list of Items.
-          for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-            var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-                oItem);
+          // else lResult is a list of Items.
+          var iLength = lResult.length;
+          for (var i = 0; i < iLength; i++ ){
+            var oItem = lResult[i];
+            var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
             var oObject = oTranslator.dbRecordToObject(oItem);
             lAllObjects.push(oObject);
           }
@@ -275,8 +337,7 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
           return;
         }
 
-        var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-                                                      oResult);
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
         var oObject = oTranslator.dbRecordToObject(oResult);
         mResultElementCallback.call(self, oObject);
     });
@@ -288,16 +349,17 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var lAllObjects = new Array();
 
     this._oEngine.findGroup(sObjectStoreName, sIndexKey, lIndexValue,
-      function(oResult) {
-        if (!oResult) {
+      function(lResult) {
+        if (!lResult) {
           // If there was no result, send back null.
           mResultElementCallback.call(self, lAllObjects);
           return;
         }
-        // else oResult is a list of Items.
-        for(var i = 0, oItem; oItem = oResult[i]; i++ ){
-          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-                                                        oItem);
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
           var oObject = oTranslator.dbRecordToObject(oItem);
           lAllObjects.push(oObject);
       }
@@ -313,28 +375,15 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
 
     this._oEngine.search(sObjectStoreName, sIndexKey, oIndexValue,
       function(lResults) {
-        for (var i = 0, iLength = lResults.length; i < iLength; i++) {
+        var iLength = lResults.length
+        for (var i = 0; i < iLength; i++) {
           var oResult = lResults[i];
-          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
-                                                      oResult);
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
           var oObject = oTranslator.dbRecordToObject(oResult);
           lObjects.push(oObject);
         }
 
         mResultElementCallback.call(self, lObjects);
-    });
-  },
-
-  add: function(sObjectStoreName, oObject, mOnSaveCallback) {
-    var self = this;
-
-    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
-    var dDbRecord = oTranslator.objectToDbRecord(oObject);
-
-    this._oEngine.add(sObjectStoreName, dDbRecord, function(iId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
-      }
     });
   },
 
@@ -345,8 +394,9 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
     this._oEngine.put(sObjectStoreName, dDbRecord, function(iId) {
+
       if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
+        mOnSaveCallback.call(self, iId, oObject);
       }
     });
   },
@@ -355,50 +405,26 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     var self = this;
 
     var lAllItems = new Array();
-    for(var i = 0, oObject; oObject = lObjects[i]; i++ ){
+    var iLength = lObjects.length;
+    for (var i = 0; i < iLength; i++) {
+      var oObject = lObjects[i];
       var oTranslator = self._translatorForObject(sObjectStoreName, oObject);
       var dDbRecord = oTranslator.objectToDbRecord(oObject);
       lAllItems.push(dDbRecord);
     }
 
-    this._oEngine.AputList(sObjectStoreName, lAllItems, function(lAllId) {
+    this._oEngine.putList(sObjectStoreName, lAllItems, function(lAllId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, lAllId);
       }
     });
   },
 
-  putUniqueKeyword: function(sObjectStoreName, oObject, mOnSaveCallback) {
-    var self = this;
-
+  putUnique: function(sObjectStoreName, oObject, mOnSaveCallback) {
     var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
     var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.putUniqueKeyword(sObjectStoreName, dDbRecord, function(iId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
-      }
-    });
-  },
-
-  putUniqueHistoryItem: function(sObjectStoreName, oObject, mOnSaveCallback) {
-    var self = this;
-
-    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
-    var dDbRecord = oTranslator.objectToDbRecord(oObject);
-    this._oEngine.putUniqueHistoryItem(sObjectStoreName, dDbRecord, function(iId) {
-      if (mOnSaveCallback) {
-        mOnSaveCallback.call(self, iId);
-      }
-    });
-  },
-
-  update: function(sObjectStoreName, sId, oObject, mOnSaveCallback) {
-    var self = this;
-
-    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
-    var dDbRecord = oTranslator.objectToDbRecord(oObject);
-
-    this._oEngine.update(sObjectStoreName, sId, dDbRecord, function(iId) {
+    this._oEngine.putUnique(sObjectStoreName, dDbRecord,
+        oTranslator.mergeDBRecords(), function(iId) {
       if (mOnSaveCallback) {
         mOnSaveCallback.call(self, iId);
       }

@@ -15,15 +15,15 @@ Cotton.UI.Story.Item.Image = Cotton.UI.Story.Item.Element.extend({
   _oItemFeaturedImage : null,
   _oToolBox : null,
 
-  init : function(oImageUrl, oDispacher, oItem) {
-    this._super(oDispacher, oItem);
+  init : function(sImageUrl, oHistoryItem, sActiveFilter, oDispatcher) {
+    this._super(oHistoryItem, sActiveFilter, oDispatcher);
 
-    this._sType = "image";
+    this.setType("image");
 
     this._oItemFeaturedImage = new Cotton.UI.Story.Item.Content.Brick.Dna.Image(
-      oImageUrl, this);
-    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(oImageUrl,
-      this._oDispacher, this);
+      sImageUrl, 'full');
+    this._oToolbox = new Cotton.UI.Story.Item.Toolbox.Simple(sImageUrl,
+      this._oDispatcher, this, 'small');
 
     this._$item.append(
       this._$content.append(

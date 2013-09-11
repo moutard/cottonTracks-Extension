@@ -27,39 +27,14 @@ Cotton.UI.World = Class.extend({
 
   /**
    * @param {Cotton.Application.Lightyear} oApplication
-   * @param {Cotton.Core.Chrome.Sender} oSender
+   * @param {Cotton.Core.Messenger} oMessenger
    */
-  init : function(oApplication, oSender, oDispacher, $dom_world) {
+  init : function(oApplication, oMessenger, oDispatcher, $dom_world) {
     var self = this;
     this._oLightyear = oApplication;
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
 
     this._$world = $dom_world || $('.ct');
-    this._$temporary_background = $('#blur_target');
-
-    oSender.sendMessage({
-      'action': 'pass_background_screenshot'
-    }, function(response) {
-      //set background image and blur it
-      // Use a temporary div that will be filled with the bacground.
-      self._$temporary_background.css(
-        'background-image',
-        "url(" + response['src'] + ")"
-      );
-      self._$world.blurjs({
-        'source': '#blur_target',
-        'radius': 15,
-        'overlay': 'rgba(0,0,0,0.2)'
-      });
-      setTimeout(function(){
-        self._$temporary_background.remove();
-      }, 1000);
-    });
-
-    // progressive blur effect
-    setTimeout(function(){
-      self._$temporary_background.addClass('hidden_background');
-    }, 200);
   },
 
   $ : function () {
@@ -78,26 +53,73 @@ Cotton.UI.World = Class.extend({
     return this._oLightyear;
   },
 
+  recycleItem : function(oHistoryItem) {
+    this._oStoryElement.recycleItem(oHistoryItem);
+  },
+
+  recycleMenu : function(oStory) {
+    this._oSideMenu.recycle(oStory);
+  },
+
+  updateManager : function(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories) {
+    this._oManager = null;
+    this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories, this._oDispatcher);
+    this._$world.append(this._oManager.$());
+    this._oManager.centerTop();
+    this._oManager.topbar().show();
+  },
+
+  clearAll: function(){
+    this.$().empty();
+  },
+
   /**
    * @param {Cotton.Model.Story} oStory :
    *  the story have to be filled with all the historyItems so it can be display.
    */
   updateStory : function(oStory) {
-    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispacher);
+    this._$spacer = $('<div class="ct-spacer"></div>');
+    this._$world.append(this._$spacer);
+    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispatcher);
     this._$world.append(this._oStoryElement.$());
-    this._oStoryElement.initPlaceItems();
   },
 
   /**
    * @param {Cotton.Model.Story} oStory :
    *  the story can be just with the title and the image.
    */
-  updateMenu : function(oStory) {
-    if (!this._oSideMenu) {
-      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispacher);
+  updateMenu : function(oStory, iNumberOfRelated) {
+      var self = this;
+      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher, iNumberOfRelated);
+      // FIXME(rmoutard or rkorach): the append shouldn't be there.
       this._$world.append(this._oSideMenu.$());
-      this._oSideMenu.slideIn();
+      // Make sure the oSideMenu has been append.
+      setTimeout(function(){self._oSideMenu.slideIn();}, 0);
+  },
+
+  relatedStories : function(lStories){
+    this._oStoryElement.hide();
+    if (this._oRelatedStories) {
+      this._oRelatedStories.$().remove();
     }
+    this._oRelatedStories = new Cotton.UI.RelatedStories.Stories(lStories, this._oDispatcher);
+    this._$world.append(this._oRelatedStories.$())
+  },
+
+  showSearchRelated : function(lSearchResultStories){
+    this._oRelatedStories.showSearch(lSearchResultStories);
+  },
+
+  exitSearchRelated : function() {
+    this._oRelatedStories.exitSearch();
+  },
+
+  showSearchManager : function(lSearchResultStories){
+    this._oManager.showSearch(lSearchResultStories);
+  },
+
+  exitSearchManager : function() {
+    this._oManager.exitSearch();
   }
 
 });

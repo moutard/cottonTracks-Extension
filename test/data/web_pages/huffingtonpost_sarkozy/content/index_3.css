@@ -1,0 +1,32 @@
+body { margin: 0px; padding: 0px; height: 100%; width: 100%; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; overflow: hidden; }
+.ff { background-position: center center; background-repeat: no-repeat; width: 100%; height: 100%; position: absolute; top: 0px; left: 0px; overflow: hidden; }
+#startscreen .bar .background { background-color: rgba(23, 29, 27, 0.25); }
+#controls .bar .background, #startscreen .bar.hover .background, #startscreen .bar:hover .background { background-color: rgba(23, 29, 27, 0.6); }
+.bar .play .inner { background-color: rgb(23, 29, 27); }
+.bar .play .inner .play-icon { color: rgb(247, 255, 253); }
+.bar .play:hover .inner .play-icon { color: rgb(255, 204, 51); }
+#startscreen .info div, #startscreen .info a { color: rgb(247, 255, 253); }
+#startscreen .info a:hover { color: rgb(255, 204, 51); }
+.bar .duration { color: rgb(247, 255, 253); }
+/* ::::: http://static1.dmcdn.net/css/gen/player.css.v40f2b7237a9839229 ::::: */
+
+.button { cursor: pointer; }
+.logo { position: absolute; right: 10px; bottom: 12px; z-index: 2000; }
+.bar *, #video-frame, #startscreen, #controls, #thumb { -moz-user-select: none; }
+.bar { position: absolute; bottom: 0px; left: 0px; width: 100%; border-top: 1px solid rgb(0, 0, 0); }
+.bar .background { height: 100%; width: 100%; border-top: 1px solid rgba(125, 125, 125, 0.5); }
+.bar .play { position: absolute; border: 1px solid rgb(0, 0, 0); padding-bottom: 2px; }
+.bar .play .inner { height: 100%; border: 1px solid rgb(119, 119, 119); }
+.bar .play, .bar .play .inner { border-radius: 4px 4px 4px 4px; }
+#startscreen { cursor: pointer; background-color: transparent; }
+#startscreen .bar { height: 74px; }
+#startscreen .bar .background { transition: background-color 0.3s ease 0s; }
+#startscreen .bar .play { left: 6px; bottom: 6px; width: 70px; height: 60px; }
+.utf8-play #startscreen .bar .play .inner .play-icon { margin-top: 13px; margin-left: 1px; text-align: center; font-size: 30px; font-family: arial,sans-serif; }
+#startscreen .info { position: absolute; top: 6px; left: 85px; right: 10px; }
+#startscreen .info div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#startscreen .info a { text-decoration: none; }
+#player #startscreen .info, #player #startscreen .info .owner, #player #startscreen .info .duration { text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6), 0px 0px 1px rgba(0, 0, 0, 0.6); }
+#startscreen .info .title { font-weight: bold; font-size: 18px; }
+#startscreen .info .owner, #startscreen .info .duration { font-size: 13px; margin-top: 3px; }
+.no-touch #player:hover .bar, .no-touch #player:hover .logo, #player #controls.visible .bar, #player #controls.visible .logo, #player.paused .bar, #player.paused .logo, #player.loading .bar, #player.loading .logo { opacity: 1; }

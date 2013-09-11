@@ -7,49 +7,80 @@
 Cotton.UI.SideMenu.Preview.Sticker.Infos = Class.extend({
 
   /**
-   * {Cotton.UI.SideMenu.Preview.Sticker} parent element.
+   * {Cotton.Messaging.Dispatcher} dispatcher for UI
    */
-  _oSticker : null,
+  _oDispatcher : null,
 
   _$stickerInfos : null,
   _$stickerTitle : null,
   _$stickerDetails : null,
 
-  init: function(sStoryTitle, oSticker){
-
-	  this._oSticker = oSticker;
+  init: function(sStoryTitle, iStoryId, oDispatcher, iNumberOfItems){
+    var self = this;
+	  this._oDispatcher = oDispatcher;
+	  this._iNumberOfItems = iNumberOfItems;
 
     // Current element.
 	  this._$stickerInfos = $('<div class="ct-sticker_infos"></div>');
 
     // Sub elements.
-	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(
-      sStoryTitle);
+	  this._$stickerTitle = $('<div class="ct-sticker_title"></div>').text(sStoryTitle).click(function(){
+	    Cotton.ANALYTICS.editStoryTitle('story_title');
+    });
+
+    this._$stickerTitle.attr('contenteditable','true').blur(function(){
+      self._oDispatcher.publish("edit_title", {"title": $(this).text(), "id": iStoryId});
+    }).keypress(function(e){
+      if (e.which === 13){
+        $(this).blur();
+        e.preventDefault();
+      }
+    });
+    self._oDispatcher.subscribe("edit_title", this, function(dArguments){
+      if (dArguments['id'] === iStoryId){
+        self.changeTitle(dArguments['title']);
+      }
+    });
 	  this._$stickerDetails = $('<div class="ct-sticker_details"></div>');
 
-    //Count details
-    // FIXME(rmoutard): put text in a div to.
-    // FIXME(rmoutard) do not use space, use css.
-    var $bull = $('<span class="bull">&bull;</span>');
-    var $articles_count = $('<span class="articles_count"></span> article(s) ');
-    var $images_count = $('<span class="images_count"></span> photo(s) ');
-    var $videos_count = $('<span class="videos_count"></span> video(s)');
+    // Count details
+    this._$total_count = $('<span class="total_count">' + this._iNumberOfItems + ' cards</span>');
+
+    // increase count of cards when a new item is set from pool
+    this._oDispatcher.subscribe('add_historyItem_from_pool', this, function(dArguments){
+      this._iNumberOfItems += 1;
+      this._$total_count.text(this._iNumberOfItems + ' cards');
+    });
+
+    // decrease count of cards when an item is deleted
+    this._oDispatcher.subscribe('item:delete', this, function(dArguments){
+      this._iNumberOfItems -= 1;
+      this._$total_count.text(this._iNumberOfItems + ' cards');
+    });
 
     //construct element
-	  this._$stickerInfos.append(
-	    this._$stickerTitle,
+    this._$stickerInfos.append(
+  	  this._$stickerTitle,
       this._$stickerDetails.append(
-          $bull,
-          $articles_count,
-          $images_count,
-          $videos_count
-        )
-	  );
-
+        this._$total_count
+      )
+  	);
   },
 
   $ : function() {
 	  return this._$stickerInfos;
+  },
+
+  title : function() {
+    return this._$stickerTitle;
+  },
+
+  editTitle : function() {
+    this._$stickerTitle.focus();
+  },
+
+  changeTitle : function(sTitle) {
+    this._$stickerTitle.text(sTitle);
   }
 
 });

@@ -6,9 +6,6 @@
  */
 Cotton.UI.Story.Item.Content.Brick.SmallLabel = Class.extend({
 
-  // parent element.
-  _oItemContent : null,
-
   // current element.
   _$small_label : null,
 
@@ -17,16 +14,13 @@ Cotton.UI.Story.Item.Content.Brick.SmallLabel = Class.extend({
    */
   _oWebsite : null,
 
-  init : function(sUrl, oItemContent) {
-
-    // parent element.
-    this._oItemContent = oItemContent;
+  init : function(sUrl) {
 
     // current element.
-    this._$small_label = $('<div class="ct-small_label"></div>');
+    this._$small_label = $('<div class="ct-label small_label"></div>');
 
     // sub elements.
-    this._oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(sUrl, this._oItemContent);
+    this._oWebsite = new Cotton.UI.Story.Item.Content.Brick.Website(sUrl);
 
     // construct item.
     this._$small_label.append(this._oWebsite.$());

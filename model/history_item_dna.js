@@ -11,7 +11,6 @@
 Cotton.Model.HistoryItemDNA = Class.extend({
 
   _lQueryWords : null,                  // words used to make the google search.
-  _lExtractedWords : null,              // words extracted from title and content.
   _sClosestGoogleSearchPage : undefined,   // closest google search page.
   _oBagOfWords : null,
 
@@ -19,34 +18,24 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _fPageScore : undefined,
   _fTimeTabActive : undefined,          // time the tab was active.
   _fTimeTabOpen : undefined,
-  _lHighlightedText : null,
   _sImageUrl : undefined,
-  _sFirstParagraph : undefined,
-  _sMostReadParagraph : undefined,
-  _lsAllParagraphs : undefined,
   _lParagraphs : null,
   _lCopyPaste : null,
 
   /**
-   * @constructor
+   *
    */
   init : function(dDBRecord) {
     //FIXME(rmoutard) : for the moment the bag of words is only synchronized
     // with extractedWords and QueryWords. Made something better.
-    // Maybe remove lExtractedKeywords and QueryKeywords become redondant.
+    // Maybe remove QueryKeywords become redondant.
 
     dDBRecord = dDBRecord || {};
 
     this._lQueryWords = dDBRecord['lQueryWords'] || [];
-    this._lExtractedWords = dDBRecord['lQueryWords'] || [];
-
     this._iPercent = 0;
     this._fTimeTabActive = -1;
-    this._lHighlightedText = dDBRecord['lHighlightedText'] || [];
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
-    this._sFirstParagraph = dDBRecord['sFirstParagraph'] || "";
-    this._sMostReadParagraph = "";
-    this._lsAllParagraphs = "";
     this._lParagraphs = [];
     this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
@@ -55,24 +44,49 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   queryWords : function() {
     return this._lQueryWords;
   },
+  addQueryWord : function(sQueryWord){
+    if (this._lQueryWords.indexOf(sQueryWord) === -1){
+      this._lQueryWords.push(sQueryWord);
+    }
+  },
+  addListQueryWords : function(lQueryWords){
+    var iLength = lQueryWords.length;
+    for (var i = 0; i < iLength; i++){
+      var sWord = lQueryWords[i];
+      this.addQueryWord(sWord);
+    }
+  },
   setQueryWords : function(lQueryWords) {
     var self = this;
     this._lQueryWords = lQueryWords;
-    // Initialize the bag of words, with QueryWords and ExtractedWords.
-    for (var i = 0, iLength = self._lQueryWords.length; i < iLength; i++) {
-      var sWord = self._lQueryWords[i];
-      self._oBagOfWords.addWord(sWord, 5);
+  },
+  setStrongQueryWords : function(lStrongQueryWords) {
+    var self = this;
+    var iLength = lStrongQueryWords.length;
+    for (var i = 0; i < iLength; i++) {
+      var sQueryWord = lStrongQueryWords[i];
+      this.addQueryWord(sQueryWord)
+      self._oBagOfWords.addWord(sQueryWord,
+        Cotton.Config.Parameters.scoreForStrongQueryWords);
     }
   },
-  extractedWords : function() {
-    return this._lExtractedWords;
-  },
-  setExtractedWords : function(lExtractedWords) {
+  setWeakQueryWords : function(lWeakQueryWords) {
     var self = this;
-    self._lExtractedWords = lExtractedWords;
-    for (var i = 0, iLength = self._lExtractedWords.length; i < iLength; i++) {
-      var sWord = self._lExtractedWords[i];
-      self._oBagOfWords.addWord(sWord, 3);
+    var iLength = lWeakQueryWords.length;
+    for (var i = 0; i < iLength; i++) {
+      var sQueryWord = lWeakQueryWords[i];
+      this.addQueryWord(sQueryWord);
+      if (this._oBagOfWords.size() < 3){
+        self._oBagOfWords.addWord(sQueryWord,
+          Cotton.Config.Parameters.scoreForWeakQueryWords);
+      }
+    }
+  },
+  setMinWeightForWord : function(){
+    if (this._oBagOfWords.size() <= 1){
+      for (var sWord in this._oBagOfWords.get()){
+        this._oBagOfWords.addWord(sWord, Cotton.Config.Parameters.scoreForSoleWord);
+      }
     }
   },
   bagOfWords : function(){
@@ -81,21 +95,18 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setBagOfWords : function(oBagOfWords){
     this._oBagOfWords = oBagOfWords;
   },
+  addListToBagOfWords : function(lWords) {
+    var iLength = lWords.length;
+    for (var i = 0; i < iLength; i++) {
+      this._oBagOfWords.addWord(lWords[i],
+        Cotton.Config.Parameters.scoreForExtractedWords);
+    }
+  },
   closestGoogleSearchPage : function() {
     return this._sClosestGoogleSearchPage;
   },
   setClosestGoogleSearchPage : function(sClosestGoogleSearchPage) {
     this._sClosestGoogleSearchPage = sClosestGoogleSearchPage;
-  },
-
-  highlightedText : function() {
-    return this._lHighlightedText;
-  },
-  addHighlightedText : function(sText) {
-    this._lHighlightedText.push(sText);
-  },
-  setHighlightedText : function(lHighlightedText) {
-    this._lHighlightedText = lHighlightedText;
   },
   imageUrl : function() {
     return this._sImageUrl;
@@ -134,18 +145,8 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._fTimeTabOpen += fTimeTabOpen;
   },
   firstParagraph : function() {
-    return this._sFirstParagraph;
+    return this._lParagraphs[0];
   },
-  setFirstParagraph : function(sFirstParagraph) {
-    this._sFirstParagraph = sFirstParagraph;
-  },
-  mostReadParagraph : function(){
-    return this._sMostReadParagraph;
-  },
-  setMostReadParagraph : function(sMostReadParagraph){
-    this._sMostReadParagraph = sMostReadParagraph;
-  },
-
   paragraphs : function() {
     return this._lParagraphs;
   },
@@ -166,21 +167,6 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   },
   setParagraphs : function(lParagraphs) {
     this._lParagraphs = lParagraphs;
-  },
-  allParagraphs : function() {
-	return this._lsAllParagraphs;
-  },
-  setAllParagraphs : function(lsParagraphs) {
-	this._lsAllParagraphs = lsParagraphs;
-  },
-  copyPaste : function() {
-    return this._lCopyPaste;
-  },
-  setCopyPaste : function(lCopyPaste) {
-    this._lCopyPaste = lCopyPaste;
-  },
-  addCopyPaste : function(sCopyPaste) {
-    this._lCopyPaste.push(sCopyPaste);
   },
 
 });

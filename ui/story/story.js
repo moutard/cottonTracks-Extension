@@ -5,9 +5,6 @@
  */
 Cotton.UI.Story.Element = Class.extend({
 
-  // parent element.
-  _oWorld : null,
-
   /**
    * {Cotton.Model.Story} _oStory
    */
@@ -16,54 +13,87 @@ Cotton.UI.Story.Element = Class.extend({
   /**
    * {Array.<Cotton.UI.Story.Item.Element>}
    */
-  _lItems : [],
+  _lDOMItems : [],
+
+  /**
+   * { Cotton.UI.Story.Item.AddItem} _oAddItems: specific view to add item to
+   * a story.
+   */
+  _oAddItems : null,
 
   // current element.
   _$story : null,
   _$itemsContainer : null,
 
-  init : function(oStory, oDispacher, oWorld) {
+  /**
+   * FIXME(rmoutard->rkorache): add a comment to describe this value.
+   * {Boolean} _bScrolledStory:
+   */
+  _bScrolledStory : null,
+
+  /**
+   * FIXME(rmoutard->rkorache): add a comment to describe this value.
+   * {String} _sActiveFilter:
+   */
+  _sActiveFilter : null,
+
+  init : function(oStory, oDispatcher) {
     var self = this;
-    this._oWorld = oWorld;
-    this._oDispacher = oDispacher;
+    this._oDispatcher = oDispatcher;
     this._oStory = oStory;
     this._lItems = [];
+    this._sActiveFilter = '*';
 
-    this._$story = $('<div class="ct-story"></div>');
+    this._$story = $('<div class="ct-story"></div>').scroll(function() {
+      if (!self._bScrolledStory) {
+        Cotton.ANALYTICS.scrollStory();
+        self._bScrolledStory = true;
+      }
+    });
     this._$itemsContainer = $('<div class="ct-items_container"></div>');
+    // Create element.
+    this._$story.append(
+      this._$itemsContainer
+    );
 
     // Fill the story with the historyItems.
-    var lDOMItems = [];
     var dFilters = {};
     var lHistoryItems = oStory.historyItems();
-    for (var i = 0, iLength = lHistoryItems.length; i < iLength; i++) {
-      var oHistoryItem = lHistoryItems[i];
-      var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
-        this._oDispacher, this);
-      dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
-      this._lItems.push(oItem);
-      // create a temp array that will be passed as jQuery.
-      // jQuery use documentFragment to append array to the DOM making this
-      // operation faster to avoid the reflow.
-      lDOMItems.push(oItem.$());
-    }
-    this._oDispacher.publish('update_filters', dFilters);
 
-    this._oDispacher.suscribe('story:filter', this, function(dArguments){
+    this.placeItems(lHistoryItems, dFilters, function(dFilters) {
+      // Put the "add element block at the end of the story".
+      self._oAddItems = new Cotton.UI.Story.Item.AddItem(self._oDispatcher, self);
+      self._$itemsContainer.isotope('insert', self._oAddItems.$());
+    });
+
+    this._oDispatcher.subscribe('story:filter', this, function(dArguments) {
       // Show only the elements that have this data-filter.
        this._$itemsContainer.isotope({
          'filter': dArguments['filter']
        });
+       this._sActiveFilter = dArguments['filter'];
     });
-    this._oDispacher.suscribe('item:expand', this, function(dArguments){
+
+    this._oDispatcher.subscribe('relayout', this, function(dArguments) {
       // Need to recompute the grid.
       self._$itemsContainer.isotope('reLayout');
     });
 
-    // Create element.
-    this._$story.append(
-      this._$itemsContainer.append(lDOMItems)
-    );
+    // Delete element
+    this._oDispatcher.subscribe("database:item_deleted", this, function(dArguments) {
+      var iLength = self._lDOMItems.length;
+      for (var i = 0; i < iLength; i++) {
+        var $item = self._lDOMItems[i];
+        if ($item.attr('id') == dArguments['id']) {
+          self.removeDOMItem(i, $item);
+        }
+      }
+    });
+
+    // back to story
+    this._oDispatcher.subscribe('back_to_story', this, function(dArguments) {
+      this.show();
+    });
 
   },
 
@@ -76,21 +106,86 @@ Cotton.UI.Story.Element = Class.extend({
   },
 
   addHistoryItem : function(oHistoryItem) {
-    var oItemElement = new Cotton.UI.Story.Item.Element(oHistoryItem);
-    this._$itemsContainer.append(oItemElement);
-  },
-
-  initPlaceItems: function() {
-    this._$itemsContainer.isotope({
-      'itemSelector' : '.ct-story_item',
-      'layoutMode' : 'fitColumns'
+    var oItemElement = new Cotton.UI.Story.Item.Factory(oHistoryItem,
+      this._sActiveFilter,
+      this._oDispatcher);
+    this._$itemsContainer.isotope('insert', oItemElement.$());
+    this._lDOMItems.push(oItemElement.$());
+    this._oDispatcher.publish('element:added', {
+      'type': oItemElement.type()
     });
   },
 
-  update : function() {
-    this._$itemsContainer.isotope({});
+  recycleItem : function(oHistoryItem) {
+    var iLength = this._lItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var oItem = this._lItems[i];
+      if (oItem.historyItem().id() === oHistoryItem.id()
+          && oItem.type() == 'article') {
+        oItem.recycle(oHistoryItem);
+      }
+    }
   },
 
+  removeDOMItem : function(iIndex, $item) {
+    this._$itemsContainer.isotope('remove', $item, function(){});
+  },
+
+  initPlaceItems : function() {
+    this._$itemsContainer.isotope({
+      'itemSelector' : '.ct-story_item',
+      'layoutMode' : 'fitColumns',
+      'animationEngine' : 'css'
+    });
+  },
+
+  /**
+   * use placeItem to place them all.
+   * FIXME(rmoutard->rkorach) : prefer to put all the element once to avoid useless refresh
+   */
+  placeItems : function(lHistoryItems, dFilters, mCallback) {
+    if (lHistoryItems && lHistoryItems.length > 0) {
+      this.placeItem(lHistoryItems, 0, dFilters,mCallback);
+    }
+  },
+
+  /**
+   * FIXME(rmoutard->rkorach): complex method can you add some comments.
+   */
+  placeItem : function(lHistoryItems, iPosition, dFilters, mCallback) {
+    var self = this;
+    this.initPlaceItems();
+    if (lHistoryItems.length > iPosition) {
+      var oHistoryItem = lHistoryItems[iPosition];
+      var oItem = Cotton.UI.Story.Item.Factory(oHistoryItem,
+        this._sActiveFilter, self._oDispatcher);
+      this._lItems.push(oItem);
+      dFilters[oItem.type()] = (dFilters[oItem.type()] || 0) + 1;
+      self._oDispatcher.publish('update_filters', dFilters);
+      self._lDOMItems.push(oItem.$());
+      self._$itemsContainer.isotope('insert', oItem.$());
+      setTimeout(function() {
+        self.placeItem(lHistoryItems, iPosition + 1, dFilters, mCallback);
+      }, 100);
+    } else {
+      if (mCallback) {
+        mCallback.call(this, dFilters);
+      }
+    }
+  },
+
+  showItemsToAdd : function(lItemsFromPool) {
+    this._oAddItems.showItems(lItemsFromPool);
+  },
+
+  hide : function() {
+    this._$story.addClass('hidden');
+  },
+
+  show : function() {
+    this._$story.removeClass('hidden');
+    this._$itemsContainer.isotope('reLayout');
+  }
 });
 
 
