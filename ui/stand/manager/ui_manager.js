@@ -19,6 +19,12 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   _$manager : null,
 
   /**
+   * Array<Cotton.UI.Stand.Manager.Shelf> _lShelves: list of shelves,
+   * that contains time stamp and corresponding cover.
+   */
+  _lShelves : null,
+
+  /**
    * Millisecond epoch for tomorow date that we use as threshold for timestamp.
    */
   _fTomorrow : null,
@@ -33,19 +39,19 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
     // DOM object for the manager.
     this._$manager = $('<div class="ct-manager"></div>');
+    this._lShelves = [];
 
     // Set today's date as a reference for timestamps.
     var oNow = new Date();
-    var oToday = new Date (oNow.getFullYear(), oNow.getMonth(), oNow.getDate(), 0, 0, 0, 0);
-    oNow = null;
+    var oToday = new Date(oNow.getFullYear(), oNow.getMonth(), oNow.getDate(), 0, 0, 0, 0);
 
     // Time for one day in milliseconds.
-    var iOneDay = 86400000;
+    var ONE_DAY = 86400000;
 
     // We take tomorrow midnight as a reference because "today" is defined as
     // "everything before tomorrow"
-    this._fTomorrow = oToday.getTime() + iOneDay;
-    oToday = null;
+    this._fTomorrow = oToday.getTime() + ONE_DAY;
+    this.createShelves(lStories);
 
   },
 
@@ -58,6 +64,18 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
     this._$manager.remove();
     this._$manager = null;
+  },
+
+  /**
+   * Group story by date and for each group create a shelf.
+   */
+  createShelves : function(lStories) {
+    if (lStories.length > 0) {
+      var oShelf = new Cotton.UI.Manager.Shelf(this._fTomorrow,
+        fLastTimeStamp, sScale, lStories);
+      this._lShelves.push(oShelf);
+      this._$manager.append(oShelf.$());
+    }
   }
 
 });
