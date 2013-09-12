@@ -92,7 +92,7 @@ Cotton.Controllers.Messaging = Class.extend({
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
             // update lastVisitTime for the story
             self._oMainController._oDatabase.find('stories', 'id', _oHistoryItem.storyId(), function(oStory){
-              oStory.setLastVisitTime(_oHistoryItem.lastVisitTime());
+              oStory.setLastVisitTime(oHistoryItem.lastVisitTime());
               self._oMainController._oDatabase.put('stories', oStory, function(oStory){});
             });
             // set the story id for the new item..
@@ -147,6 +147,7 @@ Cotton.Controllers.Messaging = Class.extend({
                           sPutId = iHistoryItemId;
                           self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           oMinStory.addHistoryItemId(iHistoryItemId);
+                          oMinStory.setLastVisitTime(oHistoryItem.lastVisitTime());
                           self._oMainController._oDatabase.put('stories', oMinStory,
                             function(){});
                           sendResponse({
@@ -220,6 +221,8 @@ Cotton.Controllers.Messaging = Class.extend({
               if (!sMinStoryImage && sHistoryItemImage) {
                 oStory.setFeaturedImage(sHistoryItemImage);
               }
+              // update story lastVisitTime
+              oStory.setLastVisitTime(oHistoryItem.lastVisitTime());
               // update story in db
               self._oMainController._oDatabase.put('stories', oStory,
                 function(){});
