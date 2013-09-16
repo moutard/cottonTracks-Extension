@@ -34,13 +34,14 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
    * @param {Cotton.Model.Dispatcher}
    *          oGlobalDispatcher
    */
-  init : function(fTomorrow, fLastTimeStamp, lStories, oGlobalDispatcher) {
+  init : function(fTomorrow, fLastTimeStamp, isCompleteMonth,
+      lStories, oGlobalDispatcher) {
     DEBUG && console.log("shelf contains: " + lStories.length);
 
     this._$shelf = $('<div class="ct-shelf"></div>');
 
     this._oTimestamp = new Cotton.UI.Manager.TimeStamp(fTomorrow,
-        fLastTimeStamp);
+        fLastTimeStamp, isCompleteMonth);
     this._oCoversContainer = new Cotton.UI.Stand.Manager.CoversContainer(lStories,
         oGlobalDispatcher);
 
