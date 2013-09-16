@@ -39,6 +39,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
     // DOM object for the manager.
     this._$manager = $('<div class="ct-manager"></div>');
+    this._$no_story = $('<div class="ct-no_story">YOU DON\'T HAVE ANY STORY YET, START BROWSING AND SEE YOUR STORIES BUILD OVER TIME.</div>');
     this._lShelves = [];
 
     // Set today's date as a reference for timestamps.
@@ -62,6 +63,9 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   purge : function() {
     this._oGlobalDispatcher = null;
 
+    this._$no_story.remove();
+    this._$no_story = null;
+
     this._$manager.remove();
     this._$manager = null;
   },
@@ -75,6 +79,10 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         fLastTimeStamp, sScale, lStories);
       this._lShelves.push(oShelf);
       this._$manager.append(oShelf.$());
+    }
+
+    if (this._lShelves.length === 0) {
+      this._$manager.append(this._$no_story);
     }
   }
 
