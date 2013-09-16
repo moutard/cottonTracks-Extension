@@ -22,10 +22,10 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
    * @param {float}
    *          fTime: time of the last visit time of elements in the shelf.
    */
-  init : function(fTomorrow, fTime) {
+  init : function(fTomorrow, fTime, isCompleteMonth) {
     this._$timestamp = $('<div class="ct-timestamp"></div>');
     this._$date = $('<div class="ct-timestamp_date">' +
-      this._computeTitle(fTomorrow, fTime) + '</div>');
+      this._computeTitle(fTomorrow, fTime, isCompleteMonth) + '</div>');
 
     // Construct element.
     this._$timestamp.append(this._$date);
