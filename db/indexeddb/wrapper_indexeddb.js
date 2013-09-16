@@ -383,7 +383,7 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
           lObjects.push(oObject);
         }
 
-        mResultElementCallback.call(self, lObjects);
+        mResultElementCallback.call(self, lObjects, oIndexValue);
     });
   },
 
