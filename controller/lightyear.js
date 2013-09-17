@@ -38,6 +38,13 @@ Cotton.Controllers.Lightyear = Class.extend({
   _BATCH_SIZE : 25,
 
   /**
+   * {Int} number of stories already delivered (empty stories are counted),
+   * it's exaclty the position in the database where we stopped. It corresponds
+   * to iStart in _getBatchStory
+   */
+  _iStoriesDelivered : 0,
+
+  /**
    * @param {Cotton.Core.Messenger} oCoreMessenger
    */
   init : function(oCoreMessenger) {
@@ -53,46 +60,27 @@ Cotton.Controllers.Lightyear = Class.extend({
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
-
-      // We only load the stories for one week by default.
-      // Getting all stories from the db is not long because it's only one
-      // transaction, however it is longer to filter the stories afterwards,
-      // and to create their stickers
-      // TODO(rkorach) see if it is better to get all the stories at once
-      // but only treat some of them.
-      self._oDatabase.getXYItems('stories', 0, self._BATCH_SIZE, 'fLastVisitTime', 'PREV',
-        function(lStories) {
-          // For each story get all the corresponding historyItems.
-          var iCount = 0;
-          var iLength = lStories.length;
-          for (var i = 0; i < iLength; i++) {
-            var oStory = lStories[i];
-            self._oDatabase.search('historyItems', 'sStoryId',
-              oStory.id(), function(lHistoryItems, iStoryId) {
-                // Set the historyItems of the current story.
-                for (var k = 0; k < iLength; k++) {
-                  if (lStories[k].id() === iStoryId) {
-                    // We use here a sync function for this, easyer to test.
-                    lStories[k].setHistoryItems(
-                      self._filterHistoryItems(lHistoryItems));
-                  }
-                }
-                iCount++;
-                if (iCount === iLength) {
-                  if (self._oWorld) {
-                    self._oWorld.initTopbar();
-                    self._oWorld.initManager(self._filterEmptyStories(lStories));
-                  }
-                }
-            });
-          }
-        });
+      self._getStoriesByBatch(self._iStoriesDelivered, self._BATCH_SIZE, function(lNonEmptyStories) {
+        if (self._oWorld) {
+          self._iStoriesDelivered += self._BATCH_SIZE;
+          self._oWorld.initTopbar();
+          self._oWorld.initManager(lNonEmptyStories);
+        }
+      });
     });
 
     $(window).ready(function(){
       self._oWorld = new Cotton.UI.World(oCoreMessenger, self._oGlobalDispatcher);
     });
 
+    self._oGlobalDispatcher.subscribe('need_more_stories', this,
+        function(dArguments) {
+          self._getStoriesByBatch(self._iStoriesDelivered, self._BATCH_SIZE,
+            function(lStories) {
+              self._iStoriesDelivered += self._BATCH_SIZE;
+              self._oGlobalDispatcher.publish('give_more_stories' , {'lStories': lStories});
+          });
+    });
   },
 
   database : function() {
@@ -180,6 +168,50 @@ Cotton.Controllers.Lightyear = Class.extend({
       }
     }
     return lNonEmptyStories;
+  },
+
+  /**
+   * Get stories by batch from the database. But only get non empty stories.
+   *
+   * @param {Int}
+   *        iStartStories: number of stories already in the manager.
+   */
+  _getStoriesByBatch : function(iStart, iBatchSize, mCallback) {
+    var self = this;
+    // loads a b(i)atch of iBatchSize stories.
+    // TODO(rkorach) see if we cannot speed the performance + percieved speed up.
+    self._oDatabase.getXYItems('stories', iStart, iStart + iBatchSize - 1,
+        'fLastVisitTime', 'PREV',
+      function(lStories) {
+        // For each story get all the corresponding historyItems.
+        var iCount = 0;
+        var iLength = lStories.length;
+        if (iLength === 0) {
+          mCallback(lStories);
+          return;
+        }
+        for (var i = 0; i < iLength; i++) {
+          var oStory = lStories[i];
+          self._oDatabase.search('historyItems', 'sStoryId',
+            oStory.id(), function(lHistoryItems, iStoryId) {
+              // Set the historyItems of the current story.
+              for (var k = 0; k < iLength; k++) {
+                if (lStories[k].id() === iStoryId) {
+                  // We use here an sync function for this, easyer to test.
+                  lStories[k].setHistoryItems(
+                    self._filterHistoryItems(lHistoryItems));
+                }
+              }
+              iCount++;
+              if (iCount === iLength) {
+                // TODO(rmoutard): if stories after filter, is less than 10
+                // elements load more elements before sending the result.
+                // to make sure that the batch is not empty.
+                mCallback(self._filterEmptyStories(lStories));
+              }
+          });
+        }
+      });
   }
 
 });
