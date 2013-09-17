@@ -14,7 +14,7 @@ var MockApplication = Class.extend({
   },
 });
 
-var MockMessenger = Class.extend({
+var MockCoreMessenger = Class.extend({
   init : function() {
 
   },
@@ -33,8 +33,9 @@ var MockMessenger = Class.extend({
 });
 
 test('init.', function() {
-  var oApplication = new MockApplication();
-  var oMessenger = new MockMessenger();
-  var oWorld = new Cotton.UI.World(oApplication, oMessenger);
+  var oCoreMessenger = new MockCoreMessenger();
+  var oDispatcher = new Cotton.Messaging.Dispatcher();
+  var $dom = $('<div class="world"></div>');
+  var oWorld = new Cotton.UI.World(oCoreMessenger, oDispatcher, $dom);
   ok(oWorld);
 });
