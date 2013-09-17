@@ -21,18 +21,9 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
    */
   init : function(lStories, oGlobalDispatcher) {
     this._lCovers = [];
-    this._lStories = lStories;
-
+    this._lStories = [];
     this._$container = $('<div class="ct-covers_container"></div>');
-
-    var lDOMCovers = [];
-    for (var i = 0, iLength = this._lStories.length; i < iLength; i++) {
-      var oStory = this._lStories[i];
-      var oCover = new Cotton.UI.Stand.Common.Cover.UICover(oStory);
-      lDOMCovers.push(oCover.$());
-    }
-
-    this._$container.append(lDOMCovers);
+    this.add(lStories);
   },
 
   $ : function() {
@@ -47,6 +38,32 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
     this._lCovers = null;
     this._lStories = purgeArray(this._lStories);
     this.$container.empty().remove();
+  },
+
+  /**
+   * Return the number of stories stored in the coversContainer.
+   */
+  length : function() {
+    return this._lStories.length;
+  },
+
+  /**
+   * For each stories create a associated cover (sticker), append it
+   * to the _$container, and update _lStories.
+   *
+   * @param {Array.<Cotton.Model.Story>}
+   *        lStories: list of stories you want to add.
+   */
+  add : function(lStories) {
+    var lDOMCovers = [];
+    for (var i = 0, iLength = lStories.length; i < iLength; i++) {
+      var oStory = lStories[i];
+      this._lStories.push(oStory);
+      var oCover = new Cotton.UI.Stand.Common.Cover.UICover(oStory);
+      lDOMCovers.push(oCover.$());
+    }
+
+    this._$container.append(lDOMCovers);
   }
 
 });
