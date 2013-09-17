@@ -60,4 +60,12 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
     this._$shelf.remove();
   },
 
+  numberOfStories : function() {
+    return this._oCoversContainer.length();
+  },
+
+  addStories : function(lStories) {
+    this._oCoversContainer.add(lStories);
+  }
+
 });
