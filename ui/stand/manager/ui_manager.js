@@ -203,18 +203,8 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         lStoriesForPeriod.push(oStory);
       } else {
         if (lStoriesForPeriod.length > 0) {
-          if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
-            // Create new shelf
-            var oShelf = new Cotton.UI.Manager.Shelf(fTomorrow,
-                lStoriesForPeriod[lStoriesForPeriod.length - 1].lastVisitTime(),
-                bIsCompleteMonth, lStoriesForPeriod, this._oGlobalDispatcher);
-
-            this._lShelves.push(oShelf);
-            this._$container.append(oShelf.$());
-          } else {
-            // The shelf for this period already exists, so just update it.
-            this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod);
-          }
+          this._constructShelf(fTomorrow, iCurrentPeriodIndex,
+              lStoriesForPeriod, bIsCompleteMonth);
           lStoriesForPeriod = [];
           lStoriesForPeriod.push(oStory);
         }
@@ -228,40 +218,11 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         lStoriesForPeriod.push(oStory);
       }
     }
-    // DRY: duplicate code, but I also tried to create a specific method
-    // for that but it impacts performance, so I excpetionnaly prefer that
-    // before I find a better solution.
+
     if (lStoriesForPeriod.length > 0) {
-      if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
-        // Create new shelf
-        var oShelf = new Cotton.UI.Manager.Shelf(fTomorrow,
-            lStoriesForPeriod[0].lastVisitTime(),
-            bIsCompleteMonth, this._oGlobalDispatcher);
-        DEBUG && console.debug("New shelf contains: " + lStoriesForPeriod.length);
-        this._lShelves.push(oShelf);
-        this._$container.append(oShelf.$());
-      }
-      // We put the number of slots in parameter of addStories
-      // because having _computeSlots in manager lets us compute it once only
-      // every time we need it, instead of once in every shelf.
-      this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod, this._computeSlots());
+      this._constructShelf(fTomorrow, iCurrentPeriodIndex,
+          lStoriesForPeriod, bIsCompleteMonth);
     }
-
-    if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
-      // Create new shelf
-      var oShelf = new Cotton.UI.Stand.Manager.Shelf(fTomorrow,
-          lStoriesForPeriod[0].lastVisitTime(),
-          bIsCompleteMonth, this._oGlobalDispatcher);
-      this._lShelves.push(oShelf);
-      this._$container.append(oShelf.$());
-    }
-    // We put the number of slots in parameter of addStories
-    // because having _computeSlots in manager lets us compute it once only
-    // every time we need it, instead of once in every shelf.
-    this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod, this._computeSlots());
-
-
-
     // As iCurrentPeriodIndex is the next possible period, but we want to allow
     // the interface to add stories at the last shelf, so we need to
     // decrease by one iCurrentPeriodIndex.
