@@ -86,6 +86,7 @@ Cotton.Controllers.Messaging = Class.extend({
         'sUrl', oHistoryItem.url(), function(_oHistoryItem){
           if (_oHistoryItem){
             oHistoryItem.incrementVisitCount(_oHistoryItem.visitCount());
+            // increment the visitCount of the dItem in case it goes in the pool
             dHistoryItem['iVisitCount'] += _oHistoryItem.visitCount();
           }
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
