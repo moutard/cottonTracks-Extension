@@ -7,6 +7,42 @@
 @purewhite: #ffffff;
 @turquoiseblue: #0b9b96;
 
+
+/**
+ * Common.Sticker
+ */
+.ct-sticker {
+  width: 148px;
+  height: 198px;
+  border: solid 1px @5cgrey;
+  margin: auto;
+  margin-top: 17px;
+
+  > .ct-sticker_image {
+    position: relative;
+    width: 148px;
+    height: 149px;
+    overflow: hidden;
+    border-bottom: solid 2px @turquoiseblue;
+  }
+
+  > .ct-sticker_title {
+    padding: 6px;
+    padding-bottom: 0;
+    text-align: center;
+    text-transform: capitalize;
+    color: @purewhite;
+    font-size: 13px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/**
+ * Common.Cover
+ */
 .ct-cover {
   width: 396px;
   height: 250px;
@@ -171,6 +207,9 @@
   }
 }
 
+/**
+ * Common.Content
+ */
 .ct-media_image {
   position: relative;
   width: 148px;

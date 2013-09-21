@@ -10,13 +10,19 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
    */
   _oStory : null,
 
+  /**
+   * {Cotton.UI.Story.Dashboard}
+   */
+  _oDashboard : null,
+
   init : function(oStory, oGlobalDispatcher) {
     var self = this;
 
     // dom object for the story container
     this._$story = $('<div class="ct-main_container ct-story"></div>');
 
-    this.open(oStory);
+    this._oDashboard = new Cotton.UI.Stand.Story.Dashboard(oStory, oGlobalDispatcher);
+    this._$story.append(this._oDashboard.$());
   },
 
   $ : function() {
@@ -28,15 +34,11 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
    *        story that contains the data to display.
    */
   open : function(oStory) {
-    if (!this._oEpitome) {
-      this._oEpitome = new Cotton.UI.Stand.Story.Epitome.UIEpitome(oStory);
-      this._$story.append(this._oEpitome.$());
-    }
   },
 
   purge : function() {
-    this._oEpitome.purge();
-    this._oEpitome = null;
+    this._oDashboard.purge();
+    this._oDashboard = null;
     this._$story.remove();
     this._$story = null;
   }
