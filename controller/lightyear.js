@@ -56,22 +56,18 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oGlobalDispatcher = new Cotton.Messaging.Dispatcher();
     this._oDispatchingController = new Cotton.Controllers.DispatchingController(this, this._oGlobalDispatcher);
 
+    this._oWorld = new Cotton.UI.World(oCoreMessenger, self._oGlobalDispatcher);
     this._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
     }, function() {
       self._getStoriesByBatch(self._iStoriesDelivered, self._BATCH_SIZE, function(lNonEmptyStories) {
-        if (self._oWorld) {
+        if (self._oWorld.isReady()) {
           self._iStoriesDelivered += self._BATCH_SIZE;
-          self._oWorld.initTopbar();
-          self._oWorld.initManager(lNonEmptyStories);
+          self._oWorld.loadManager(lNonEmptyStories);
         }
       });
-    });
-
-    $(window).ready(function(){
-      self._oWorld = new Cotton.UI.World(oCoreMessenger, self._oGlobalDispatcher);
     });
 
     self._oGlobalDispatcher.subscribe('need_more_stories', this,
