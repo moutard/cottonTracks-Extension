@@ -86,8 +86,6 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   createVisit : function() {
     var self = this;
       self.createHistoryItem(self.current(), function(response) {
-        self._oCurrentHistoryItem.setVisitCount(response['visitCount']);
-        self._oCurrentHistoryItem.extractedDNA().bagOfWords().setBag(response['bagOfWords']);
         self._iId = response['id'];
       });
   },
