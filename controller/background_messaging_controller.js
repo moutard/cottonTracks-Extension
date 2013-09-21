@@ -96,11 +96,8 @@ Cotton.Controllers.Messaging = Class.extend({
             // and attach a storyId to the tab
             sPutId = _oHistoryItem.id();
             sendResponse({
-              'received' : "true",
               'id' : sPutId,
-              'storyId' : _oHistoryItem.storyId(),
-              'visitCount' : oHistoryItem.visitCount(),
-              'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+              'storyId' : oHistoryItem.storyId()
             });
           } else {
             Cotton.ANALYTICS.newHistoryItem();
@@ -145,11 +142,8 @@ Cotton.Controllers.Messaging = Class.extend({
                           self._oMainController._oDatabase.put('stories', oMinStory,
                             function(){});
                           sendResponse({
-                            'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount(),
-                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                            'storyId' : oHistoryItem.storyId()
                           });
                       });
                       oMinStory.dna().bagOfWords().mergeBag(
@@ -172,11 +166,8 @@ Cotton.Controllers.Messaging = Class.extend({
                             'pool': self._oMainController._oPool.get()
                           });
                           sendResponse({
-                            'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount(),
-                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                            'storyId' : oHistoryItem.storyId()
                           });
                       });
                     }
