@@ -44,7 +44,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
    * @param {Cotton.Messaging.Dispatcher}
    *            oGlobalDispatcher
    */
-  init : function(lStories, oGlobalDispatcher) {
+  init : function(oGlobalDispatcher) {
     var self = this;
 
     this._oGlobalDispatcher = oGlobalDispatcher;
@@ -66,7 +66,6 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._oNow = new Date();
 
     this._lShelves = [];
-    this.createShelves(lStories);
 
     this._oGlobalDispatcher.subscribe('give_more_stories', this, function(dArguments) {
       self.createShelves(dArguments['lStories']);

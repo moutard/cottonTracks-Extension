@@ -54,7 +54,17 @@ Cotton.UI.World = Class.extend({
     var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
+
+    oGlobalDispatcher.subscribe('window_ready', this, function(dArguments){
+      self._init();
+    });
+  },
+
+  _init : function($dom_world) {
     this._$world = $dom_world || $('.ct');
+    this.initTopbar();
+    this.initManager();
+    this._bIsReady = true;
   },
 
   initTopbar : function() {
@@ -63,10 +73,14 @@ Cotton.UI.World = Class.extend({
     this._oGlobalDispatcher.publish('focus_search');
   },
 
-  initManager : function(lStories) {
-    this._oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, this._oGlobalDispatcher);
+  initManager : function() {
+    this._oManager = new Cotton.UI.Stand.Manager.UIManager(this._oGlobalDispatcher);
     this._$world.append(this._oManager.$());
     this._oManager.setShelvesHeight();
+  },
+
+  loadManager : function(lStories) {
+    this._oManager.createShelves(lStories);
   },
 
   openStory : function(oStory) {
@@ -129,7 +143,10 @@ Cotton.UI.World = Class.extend({
   clear : function() {
     this.hideStory();
     this.closeSettings();
-  }
+  },
 
+  isReady : function() {
+    return this._bIsReady;
+  }
 
 });

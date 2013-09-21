@@ -16,6 +16,14 @@ Cotton.Messaging.WindowListener = Class.extend({
 
     var $window = $(window);
 
+    // Ready.
+    $window.ready(function(){
+      oDispatcher.publish('window_ready', {
+        'height': $window.height(),
+        'width': $window.width()
+      });
+    });
+
     // Resize.
     $window.resize(function(){
       oDispatcher.publish('window_resize');
