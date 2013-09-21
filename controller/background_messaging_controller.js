@@ -90,7 +90,14 @@ Cotton.Controllers.Messaging = Class.extend({
             dHistoryItem['iVisitCount'] += _oHistoryItem.visitCount();
           }
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-            // update the item
+            // update lastVisitTime for the story
+            self._oMainController._oDatabase.find('stories', 'id', _oHistoryItem.storyId(), function(oStory){
+              oStory.setLastVisitTime(_oHistoryItem.lastVisitTime());
+              self._oMainController._oDatabase.put('stories', oStory, function(oStory){});
+            });
+            // set the story id for the new item..
+            oHistoryItem.setStoryId(_oHistoryItem.storyId());
+            // ..then update the item in base
             self._oMainController._oDatabase.putUnique('historyItems',
               oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
