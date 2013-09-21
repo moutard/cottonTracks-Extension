@@ -23,13 +23,16 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
   _$related : null,
 
 
-  init : function(oStory) {
+  init : function(oStory, oGlobalDispatcher) {
     this._$epitome = $('<div class="ct-epitome"></div>');
     this.setBackground(oStory);
 
+    // The poster is containing the image and the title.
+    this._oSticker = new Cotton.UI.Stand.Common.Sticker(oStory, 'epitome', oGlobalDispatcher);
+
     this._$related = $('<div class="ct-epitome_button related_button">Related Stories</div>');
 
-    this._$epitome.append(this._$related);
+    this._$epitome.append(this._oSticker.$(), this._$related);
   },
 
   $ : function() {
@@ -55,6 +58,8 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
       this._$background.remove();
       this._$background = null;
     }
+    this._oSticker.purge();
+    this._oSticker = null;
     this._$related.remove();
     this._$related = null;
     this._$epitome.remove();
