@@ -104,6 +104,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     // If there was no result, it will send back null.
     dItem['id'] = oResult['id'];
     dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], oResult['iLastVisitTime']);
+    dItem['iVisitCount'] = Math.max(dItem['iVisitCount'], oResult['iVisitCount']);
 
     var lParagraphs = [];
     // Make a local copy.
