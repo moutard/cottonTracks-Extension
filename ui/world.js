@@ -53,6 +53,7 @@ Cotton.UI.World = Class.extend({
   initManager : function(lStories) {
     this._oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, this._oGlobalDispatcher);
     this._$world.append(this._oManager.$());
+    this._oManager.setShelvesHeight();
   }
 
 });

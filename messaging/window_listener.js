@@ -13,6 +13,13 @@ Cotton.Messaging.WindowListener = Class.extend({
 
   init : function(oDispatcher) {
     this._oDispatcher = oDispatcher;
+
+    var $window = $(window);
+
+    // Resize.
+    $window.resize(function(){
+      oDispatcher.publish('window_resize');
+    });
   }
 
 })
