@@ -31,6 +31,14 @@ Cotton.UI.Stand.Story.Dashboard = Class.extend({
     return this._$dashboard;
   },
 
+  pushBack : function() {
+    this._$dashboard.addClass('ct-pushed_back');
+  },
+
+  bringFront : function() {
+    this._$dashboard.removeClass('ct-pushed_back');
+  },
+
   purge : function () {
     this._oEpitome.purge();
     this._$dashboard.remove();
