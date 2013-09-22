@@ -5,14 +5,14 @@
   width: 396px;
   height: 250px;
   background: @f5grey;
-  float: left;
-  margin-top: 11px;
-  margin-bottom: 11px;
-  margin-left: 11px;
-  margin-right: 11px;
+  position: absolute;
   box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.5);
   -webkit-border-radius: 2px 1px 1px 2px;
 
+  &.ct-animate {
+    -webkit-transition-property: top left;
+    -webkit-transition-duration: 0.6s;
+  }
 
   &:before {
     content: "";

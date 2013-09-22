@@ -2,7 +2,7 @@
 
 /**
  * Class that display the date follow by an horizontal date in the journal,
- * and contains the coversContainer (stickers).
+ * and contains the coversContainer.
  */
 Cotton.UI.Stand.Manager.Shelf = Class.extend({
 
@@ -15,7 +15,7 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
 
   /**
    * {Cotton.UI.Stand.Manager.CoversContainer}
-   * Contains all the stickers (cover).
+   * Contains all the covers.
    */
   _oCoversContainer : null,
 
@@ -35,24 +35,32 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
    *          oGlobalDispatcher
    */
   init : function(fTomorrow, fLastTimeStamp, isCompleteMonth,
-      lStories, oGlobalDispatcher) {
-    DEBUG && console.log("shelf contains: " + lStories.length);
+    oGlobalDispatcher) {
 
-    this._$shelf = $('<div class="ct-shelf"></div>');
-
-    this._oTimestamp = new Cotton.UI.Manager.TimeStamp(fTomorrow,
+    this._oGlobalDispatcher = oGlobalDispatcher;
+    this._oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(fTomorrow,
         fLastTimeStamp, isCompleteMonth);
-    this._oCoversContainer = new Cotton.UI.Stand.Manager.CoversContainer(lStories,
-        oGlobalDispatcher);
+    this._oCoversContainer = new Cotton.UI.Stand.Manager.CoversContainer(oGlobalDispatcher);
+    this._$shelf = $('<div class="ct-shelf"></div>');
 
     this._$shelf.append(
       this._oTimestamp.$(),
       this._oCoversContainer.$()
     );
+
   },
 
   $ : function() {
     return this._$shelf;
+  },
+
+  setHeight : function(iSlotsPerLine) {
+    this._oCoversContainer.setHeight(iSlotsPerLine);
+    this.postionCovers(iSlotsPerLine);
+  },
+
+  postionCovers : function(iSlotsPerLine) {
+    this._oCoversContainer.positionCovers(iSlotsPerLine);
   },
 
   purge : function() {
@@ -65,8 +73,8 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
     return this._oCoversContainer.length();
   },
 
-  addStories : function(lStories) {
-    this._oCoversContainer.add(lStories);
+  addStories : function(lStories, iSlotsPerLine) {
+    this._oCoversContainer.add(lStories, iSlotsPerLine);
   }
 
 });
