@@ -32,6 +32,13 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   _oNow : null,
 
   /**
+   * {int}
+   * last width of the container. Stored in case the manager is detached
+   * because then the $container has a size == 0
+   */
+  _iContainerWidth : null,
+
+  /**
    * @param {Array.<Cotton.Model.Story>}
    *            lStories
    * @param {Cotton.Messaging.Dispatcher}
@@ -63,7 +70,12 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._oGlobalDispatcher.subscribe('give_more_stories', this, function(dArguments) {
       self.createShelves(dArguments['lStories']);
     });
+
     this._$manager.append(this._$container);
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(){
+      this.setShelvesHeight(this._computeSlots());
+    });
   },
 
   $ : function() {
@@ -91,6 +103,42 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
       iNumberOfStories += this._lShelves[i].numberOfStories();
     }
     return iNumberOfStories;
+  },
+
+  /**
+   * Construct the Shelf and add them to the DOM $manager element.
+   *
+   * This method allow to cut the code of create shelves. (First integrated to
+   * avoid performance issues, but clarity is more important here.
+   *
+   * @param {Float} fTomorrow:
+   *        milliscond since epoch.
+   *
+   * @param {Int} iCurrentPeriodIndex:
+   *        index that allow us to know if there is a already a shelf that can
+   *         get those stories.
+   *
+   * @param {Array.<Cotton.Model.Stories>} lStoriesForPeriod:
+   *        array of stories you want to add to the shelf.
+   *
+   * @param {Boolean} bIsCompleteMonth:
+   *        true if the shelf is a complete month.
+   */
+  _constructShelf : function(fTomorrow, iCurrentPeriodIndex,
+        lStoriesForPeriod, bIsCompleteMonth) {
+    if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
+      // Create new shelf
+      var oShelf = new Cotton.UI.Stand.Manager.Shelf(fTomorrow,
+          lStoriesForPeriod[0].lastVisitTime(),
+          bIsCompleteMonth, this._oGlobalDispatcher);
+      DEBUG && console.debug("New shelf contains: " + lStoriesForPeriod.length);
+      this._lShelves.push(oShelf);
+      this._$container.append(oShelf.$());
+    }
+    // We put the number of slots in parameter of addStories
+    // because having _computeSlots in manager lets us compute it once only
+    // every time we need it, instead of once in every shelf.
+    this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod, this._computeSlots());
   },
 
   /**
@@ -188,15 +236,31 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         // Create new shelf
         var oShelf = new Cotton.UI.Manager.Shelf(fTomorrow,
             lStoriesForPeriod[0].lastVisitTime(),
-            bIsCompleteMonth, lStoriesForPeriod, this._oGlobalDispatcher);
-
+            bIsCompleteMonth, this._oGlobalDispatcher);
+        DEBUG && console.debug("New shelf contains: " + lStoriesForPeriod.length);
         this._lShelves.push(oShelf);
         this._$container.append(oShelf.$());
-      } else {
-        // The shelf for this period already exists, so just update it.
-        this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod);
       }
+      // We put the number of slots in parameter of addStories
+      // because having _computeSlots in manager lets us compute it once only
+      // every time we need it, instead of once in every shelf.
+      this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod, this._computeSlots());
     }
+
+    if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
+      // Create new shelf
+      var oShelf = new Cotton.UI.Stand.Manager.Shelf(fTomorrow,
+          lStoriesForPeriod[0].lastVisitTime(),
+          bIsCompleteMonth, this._oGlobalDispatcher);
+      this._lShelves.push(oShelf);
+      this._$container.append(oShelf.$());
+    }
+    // We put the number of slots in parameter of addStories
+    // because having _computeSlots in manager lets us compute it once only
+    // every time we need it, instead of once in every shelf.
+    this._lShelves[this._lShelves.length -1].addStories(lStoriesForPeriod, this._computeSlots());
+
+
 
     // As iCurrentPeriodIndex is the next possible period, but we want to allow
     // the interface to add stories at the last shelf, so we need to
@@ -215,6 +279,36 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         this._$manager.append(this._$no_story);
       }
     }
+  },
+
+  _computeSlots : function() {
+    // we store the manager width in case an operation is done while manager is detached.
+    this._iContainerWidth = this._$container.width() || this._iContainerWidth;
+    var COVER_WIDTH = 396;
+    var COVER_MARGIN = 25;
+    // The container can always have 2 or 3 covers per line
+    var iSlotsPerLine = (this._iContainerWidth <= (COVER_WIDTH * 3) + (COVER_MARGIN * 2)) ? 2 : 3;
+    return iSlotsPerLine;
+  },
+
+  setShelvesHeight : function(iSlotsPerLine) {
+    var iLength = this._lShelves.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lShelves[i].setHeight(iSlotsPerLine);
+    }
+  },
+
+  hide : function() {
+    this._$manager.detach();
+    this._bDetached = true;
+  },
+
+  isDetached : function() {
+    return this._bDetached;
+  },
+
+  attached : function() {
+    this._bDetached = false;
   }
 
 });

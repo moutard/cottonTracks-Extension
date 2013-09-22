@@ -5,6 +5,7 @@
 @topbar_min_width: 960px;
 @topbar_height: 34px;
 @topbar_margin: 20px;
+@container_max_width: 1240px;
 
 /**
  * Colors
@@ -19,14 +20,14 @@
   overflow-y: scroll;
 
   > .ct-shelves_container {
-    width: 90%;
-    max-width: @topbar_max_width;
+    width: calc(~"100% - 2*@{topbar_margin}");
+    max-width: @container_max_width;
     min-width: @topbar_min_width;
-    margin: 0 auto;
+    margin: auto;
 
     > .ct-shelf {
-      float: left;
       width: 100%;
+      position: relative;
 
       > .ct-timestamp {
         position: relative;
@@ -53,6 +54,17 @@
           color: @e6grey;
           display: table-cell;
           vertical-align: middle;
+        }
+      }
+
+      > .ct-covers_container {
+        position: relative;
+        margin-top: 10px;
+        z-index: 1;
+
+        &.ct-animate {
+          -webkit-transition-property: height;
+          -webkit-transition-duration: 0.6s;
         }
       }
     }
