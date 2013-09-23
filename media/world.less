@@ -28,3 +28,8 @@ body {
     overflow-y: hidden;
   }
 }
+
+/* to avoid issue on linux version, when a scroll bar appears and it creates a small gap.*/
+::-webkit-scrollbar {
+    display: none;
+}
