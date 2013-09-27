@@ -19,6 +19,7 @@
 @26grey: #262626;
 @33grey: #333333;
 @f5grey: #f5f5f5;
+@bfgrey: #bfbfbf;
 
 .ct-story {
   position: relative;
@@ -252,7 +253,7 @@
         }
 
         &.ct-default_card {
-            height: 105px;
+          min-height: 105px;
 
           > .ct-media_image {
             float: left;
@@ -262,6 +263,70 @@
             &.ct-featured_image {
               /*if featured image in an default element*/
               width: 250px;
+            }
+          }
+
+          > .ct-card_details {
+            padding-left: 27px;
+            padding-right: 27px;
+
+            > .ct-quote_holder {
+              max-height: 190px;
+              overflow-y: scroll;
+              margin-top: 10px;
+              margin-bottom: 20px;
+              padding-left: 5px;
+              margin-left: -17px;
+
+              > .ct-paragraph {
+                position: relative;
+                font-family : OpenBaskerville;
+                padding-left: 20px;
+
+                &:first-child {
+                  margin-top: 0;
+                }
+
+                &:last-child {
+                  margin-bottom: 0;
+                }
+
+                > .ct-quote_border {
+                  border-right: solid 1px @bfgrey;
+                  position: absolute;
+                  left: -3px;
+                  top: 0;
+                  width: 16px;
+                  height: 100%;
+
+                  &:hover {
+                    border-color: @almondgreen;
+                  }
+
+                  > .ct-delete_quote {
+                    display: none;
+                    width: 16px;
+                    height: 12px;
+                    position: absolute;
+                    top: 50%;
+                    margin-top: -6px;
+                    background-position: -1px -41px;
+                    background-image: url('/media/images/common/ct-icons.png');
+                    background-repeat: no-repeat;
+                    cursor: pointer;
+                  }
+                }
+
+                &:hover {
+                  > .ct-quote_border {
+                    border-color: @almondgreen;
+                  }
+                }
+
+                > .ct-quote {
+                  background: @lightalmondgreen;
+                }
+              }
             }
           }
         }

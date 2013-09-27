@@ -47,6 +47,9 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
       var oCard = new Cotton.UI.Stand.Story.Card.Factory(oHistoryItem, this._oGlobalDispatcher);
       this._lCards.push(oCard);
       this._$card_deck.append(oCard.$());
+      // set height of the card, needed for default cards with quotes, before appending the
+      // featured image. -> See Cotton.UI.Stand.Story.Card.Default
+      oCard.setHeight();
     }
   },
 
