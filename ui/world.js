@@ -93,8 +93,10 @@ Cotton.UI.World = Class.extend({
     this._oManager.hide();
     this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory,
         this._oGlobalDispatcher)
-    this._oUIStory.drawCards(oStory);
     this._$world.append(this._oUIStory.$());
+    // draw the story content after it has been attached to the dom, so that elements can
+    // know their height or width (0 as long as not attached to the dom)
+    this._oUIStory.drawCards(oStory);
   },
 
   hideStory : function(){
