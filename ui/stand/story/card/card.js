@@ -102,6 +102,10 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     );
   },
 
+  setHeight : function() {
+    // do nothing for cards that are not default_cards
+  },
+
   purge : function() {
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;
@@ -121,6 +125,6 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._oWebsite = null;
     this._$card.remove();
     this._$card = null;
-   }
+  }
 
 });
