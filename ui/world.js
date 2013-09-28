@@ -62,14 +62,15 @@ Cotton.UI.World = Class.extend({
     this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
 
     oGlobalDispatcher.subscribe('window_ready', this, function(dArguments){
-      self._init();
+      if (!self._bIsReady){
+        self.createWorld();
+      }
     });
   },
 
-  _init : function($dom_world) {
+  createWorld : function($dom_world) {
     this._$world = $dom_world || $('.ct');
     this.initTopbar();
-    this.initManager();
     this._bIsReady = true;
   },
 
@@ -80,17 +81,19 @@ Cotton.UI.World = Class.extend({
   },
 
   initManager : function() {
+    document.title = "cottonTracks";
+    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    // careful not to clear after manager is created, because otherwhise it is considered
+    // as detached and makes it possible to call the manager from the manager with the
+    // home button (messes with the navigation by introducing a page then)
+    this.clear();
     this._oManager = new Cotton.UI.Stand.Manager.UIManager(this._oGlobalDispatcher);
     this._$world.append(this._oManager.$());
-    this._oManager.setShelvesHeight();
-  },
-
-  loadManager : function(lStories) {
-    this._oManager.createShelves(lStories);
   },
 
   openStory : function(oStory) {
-    this._oManager.hide();
+    document.title = oStory.title() + " - cottonTracks" ;
+    this.clear();
     this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory,
         this._oGlobalDispatcher)
     this._$world.append(this._oUIStory.$());
@@ -103,6 +106,12 @@ Cotton.UI.World = Class.extend({
     if (this._oUIStory) {
       this._oUIStory.purge();
       this._oUIStory = null;
+    }
+  },
+
+  hideManager : function() {
+    if (this._oManager){
+      this._oManager.hide();
     }
   },
 
@@ -139,16 +148,30 @@ Cotton.UI.World = Class.extend({
     }
   },
 
-  openManager : function() {
-    if (this._oManager.isDetached()){
-      // the manager is not visible, clear everything and attach it.
+  openManager : function(dArguments) {
+    if (this._oManager) {
+      if (this._oManager.isDetached()){
+        document.title = "cottonTracks";
+        // the manager is not visible, clear everything and attach it.
+        this.clear();
+        this._$world.append(this._oManager.$());
+        this._oManager.attached();
+        // We use a new message 'open_manager' because the 'home' message can result
+        // in no action( we were already on the manager and clicked the home button).
+        this._oGlobalDispatcher.publish('open_manager', dArguments);
+      }
+    } else {
+      // no manager, init
       this.clear();
-      this._$world.append(this._oManager.$());
-      this._oManager.attached();
+      this.initManager();
+      // init manager and start appending stories
+      this._oGlobalDispatcher.publish('open_manager', dArguments);
     }
   },
 
   clear : function() {
+    // clear everything except topbar
+    this.hideManager();
     this.hideStory();
     this.closeSettings();
   },
