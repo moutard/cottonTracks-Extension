@@ -32,8 +32,8 @@ Cotton.Controllers.DispatchingController = Class.extend({
     /**
      * Go back to the manager
      */
-    oGlobalDispatcher.subscribe('home', this, function(){
-      oLightyearController._oWorld.openManager();
+    oGlobalDispatcher.subscribe('home', this, function(dArguments){
+      oLightyearController._oWorld.openManager(dArguments);
     });
 
     /**
