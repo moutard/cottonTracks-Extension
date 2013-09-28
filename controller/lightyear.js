@@ -170,6 +170,30 @@ Cotton.Controllers.Lightyear = Class.extend({
     return lNonEmptyStories;
   },
 
+  fillStory : function(oStory, mCallback) {
+    // if no story, send back null useful in the popstate controller, if we try to go to
+    // the page of a story that does not exist
+    if (!oStory){
+      mCallback(null);
+      return;
+    }
+    var self = this;
+    // get all historyItems in this story using the base as a relational database
+    self._oDatabase.search('historyItems', 'sStoryId',
+      oStory.id(), function(lHistoryItems, iStoryId) {
+        // Set the historyItems of the story.
+        oStory.setHistoryItems(
+          // Filter the items, and sort them by lastVisitTime
+          self._filterHistoryItems(
+            lHistoryItems.sort(function(a,b){
+              return b.lastVisitTime()-a.lastVisitTime();
+            })
+          )
+        );
+        mCallback(oStory);
+    });
+  },
+
   /**
    * Get stories by batch from the database. But only get non empty stories.
    *
@@ -190,28 +214,23 @@ Cotton.Controllers.Lightyear = Class.extend({
           mCallback(lStories);
           return;
         }
+        var lFilledStories = [];
         for (var i = 0; i < iLength; i++) {
           var oStory = lStories[i];
-          self._oDatabase.search('historyItems', 'sStoryId',
-            oStory.id(), function(lHistoryItems, iStoryId) {
-              // Set the historyItems of the current story.
-              for (var k = 0; k < iLength; k++) {
-                if (lStories[k].id() === iStoryId) {
-                  // We use here an sync function for this, easyer to test.
-                  lStories[k].setHistoryItems(
-                    self._filterHistoryItems(lHistoryItems));
-                }
-              }
-              iCount++;
-              if (iCount === iLength) {
-                // TODO(rmoutard): if stories after filter, is less than 10
-                // elements load more elements before sending the result.
-                // to make sure that the batch is not empty.
-                mCallback(self._filterEmptyStories(lStories));
-              }
+          self.fillStory(oStory, function(oFilledStory){
+            iCount++;
+            lFilledStories.push(oFilledStory);
+
+            if (iCount === iLength) {
+              mCallback(self._filterEmptyStories(
+                lFilledStories.sort(function(a,b){
+                  return (b.lastVisitTime() - a.lastVisitTime());
+                })
+              ));
+            }
           });
         }
-      });
+    });
   }
 
 });
