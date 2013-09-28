@@ -76,6 +76,8 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._oGlobalDispatcher.subscribe('window_resize', this, function(){
       this.setShelvesHeight(this._computeSlots());
     });
+
+    this._oGlobalDispatcher.publish('need_more_stories');
   },
 
   $ : function() {
