@@ -29,7 +29,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
    */
   open : function(oStory) {
     if (!this._oEpitome) {
-      this._oEpitome = new Cotton.UI.Stand.Story.Epitome.UIEpitome();
+      this._oEpitome = new Cotton.UI.Stand.Story.Epitome.UIEpitome(oStory);
       this._$story.append(this._oEpitome.$());
     }
   },
