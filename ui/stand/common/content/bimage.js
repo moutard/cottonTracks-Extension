@@ -27,9 +27,22 @@ Cotton.UI.Stand.Common.Content.BImage = Class.extend({
    *        url of the image to load
    */
   appendImage : function(sImage) {
+    var self = this;
+
     if (sImage) {
-      // Place image in its container and resize it.
-      this._$image.css('background-image', 'url("' + sImage + '")');
+      var $img = $('<img src="' + sImage + '"/>').error(function(){
+        if (self._$image){
+          // the condition is because the .error() is asynchronous,
+          // the image object may have been purged in the meantime,
+          // which would throw an error
+          self._$image.css('background-image', 'url("/media/images/story/card/ct-broken_image.png")');
+        }
+      }).load(function(){
+        if (self._$image){
+          // Place image in its container and resize it.
+          self._$image.css('background-image', 'url("' + sImage + '")');
+        }
+      });
     }
   },
 
