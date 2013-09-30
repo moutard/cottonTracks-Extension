@@ -2,12 +2,16 @@
 
 Cotton.Controllers.Popstater = Class.extend({
 
+  /**
+   * {int} remember the place is the history tree
+   * useful to know how many previous or next states exist
+   */
+  _iHistoryState : null,
+
   init: function(oLightyearController, oGlobalDispatcher) {
     var self = this;
     this._oLightyearController = oLightyearController;
     this._oGlobalDispatcher = oGlobalDispatcher;
-
-    this.replaceState(window.location.href);
 
     oGlobalDispatcher.subscribe('window_ready', this, function() {
       if (!oLightyearController._oWorld.isReady()) {
@@ -32,54 +36,108 @@ Cotton.Controllers.Popstater = Class.extend({
 
     oGlobalDispatcher.subscribe('enter_story', this, function(dArguments){
       if (!dArguments['noPushState']) {
-        this.pushState(chrome.extension.getURL("lightyear.html") + "?sid=" + dArguments['story'].id());
+        this._iHistoryState++;
+        this.pushState(chrome.extension.getURL("lightyear.html") + "?sid=" + dArguments['story'].id(), this._iHistoryState);
+        // will set the navigation arrows
+        oGlobalDispatcher.publish('change_history_state', {
+          'state': this._iHistoryState,
+          'history_length': window.history.length
+        });
       }
     });
 
     oGlobalDispatcher.subscribe('open_manager', this, function(dArguments){
       if (!dArguments || !dArguments['noPushState']) {
-        this.pushState(chrome.extension.getURL("lightyear.html"));
+        this._iHistoryState++;
+        this.pushState(chrome.extension.getURL("lightyear.html"), this._iHistoryState);
+        // will set the navigation arrows
+        oGlobalDispatcher.publish('change_history_state', {
+          'state': this._iHistoryState,
+          'history_length': window.history.length
+        });
       }
     });
 
+    oGlobalDispatcher.subscribe('previous_page', this, function(){
+      // the UI 'previous' button has been clicked
+      window.history.back();
+    });
+
+    oGlobalDispatcher.subscribe('next_page', this, function(){
+      // the UI 'next' button has been clicked
+      window.history.forward();
+    });
   },
 
   _handlePopstate : function() {
     var self = this;
+
+    if (window.history.state) {
+      // we land on the UI with already a custom history state
+      // for example if you refresh the page
+      self._iHistoryState = window.history.state['count'];
+    } else {
+      // we land on the UI from a fresh page, replace the default history state by our
+      // custom state
+      self._iHistoryState = window.history.length;
+      self.replaceState(window.location.href, self._iHistoryState);
+    }
+    // will set the navigation arrows
+    self._oGlobalDispatcher.publish('change_history_state', {
+      'state': self._iHistoryState,
+      'history_length': window.history.length
+    });
+
     var oUrl = new UrlParser(window.history.state['path']);
     oUrl.fineDecomposition();
     if (oUrl.dSearch['sid']){
-      // Open on a story.
+      //open on a story
       var iStoryId = parseInt(oUrl.dSearch['sid']);
-      this._oLightyearController._oDatabase.find('stories', 'id', iStoryId, function(oStory){
+      self._oLightyearController._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         self._oLightyearController.fillStory(oStory, function(oFilteredStory){
           if (!oFilteredStory) {
-            self.replaceState(chrome.extension.getURL("lightyear.html"));
+            self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
-              'noPushState': true
+              'noPushState': true,
             });
           } else {
             self._oGlobalDispatcher.publish('enter_story', {
-              'story': oFilteredStory,
-              'noPushState': true
+              'story': oStory,
+              'noPushState': true,
             });
           }
         });
       });
     } else {
-      // Open on the manager.
-      this._oGlobalDispatcher.publish('home', {
-        'noPushState': true
+      // open on the manager
+      self._oGlobalDispatcher.publish('home', {
+        'noPushState': true,
       });
     }
   },
 
-  pushState : function(sUrl) {
-    history.pushState({path: sUrl}, '', sUrl);
+  /**
+   * @param {string} sUrl: information about the page to trigger (query, manager, story,...)
+   * @param {int} iHistoryState: position of the page in the history tree
+   */
+  pushState : function(sUrl, iHistoryState){
+    // we can store information in this if needed!
+    history.pushState({
+      path: sUrl,
+      count: iHistoryState
+    }, '', sUrl);
   },
 
-  replaceState : function(sUrl) {
-    history.replaceState({path: sUrl}, '', sUrl);
+
+  /**
+   * @param {string} sUrl: information about the page to trigger (query, manager, story,...)
+   * @param {int} iHistoryState: position of the page in the history tree
+   */
+  replaceState : function(sUrl, iHistoryState){
+    history.replaceState({
+      path: sUrl,
+      count: iHistoryState
+    }, '', sUrl);
   }
 
 });

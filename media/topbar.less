@@ -54,6 +54,40 @@
     background: @f5grey;
     float: left;
 
+    > .ct-history_arrows {
+      float: left;
+      margin-top: 10px;
+      margin-left: 20px;
+
+      > .ct-history_arrow_left {
+        width: 12px;
+        height: 14px;
+        background-image: url('/media/images/common/ct-icons.png');
+        background-position: -37px -12px;
+        float: left;
+        margin-right: 27px;
+
+        &.ct-active {
+          background-position: -25px -12px;
+          cursor: pointer;
+        }
+
+      }
+
+      > .ct-history_arrow_right {
+        width: 12px;
+        height: 14px;
+        background-image: url('/media/images/common/ct-icons.png');
+        background-position: -13px -12px;
+        float: left;
+
+        &.ct-active {
+          background-position: 0px -12px;
+          cursor: pointer;
+        }
+      }
+    }
+
     > .ct-settings_menu_topbar {
       float: right;
       height: 18px;
