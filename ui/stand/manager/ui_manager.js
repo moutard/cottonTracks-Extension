@@ -73,6 +73,11 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
     this._$manager.append(this._$container);
 
+
+    this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
+      this.removeCoverFromShelves(dArguments['story_id']);
+    });
+
     this._oGlobalDispatcher.subscribe('window_resize', this, function(){
       this.setShelvesHeight(this._computeSlots());
     });
@@ -129,6 +134,28 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   _constructShelf : function(fTomorrow, iCurrentPeriodIndex,
         lStoriesForPeriod, bIsCompleteMonth) {
     if (iCurrentPeriodIndex !== this._iCurrentPeriodIndex) {
+      // New shelf.
+      var iLength = this._lShelves.length;
+      if (iLength > 0) {
+        // If there was a previous shelf, we mark it as complete.
+        // We need it not  to delete a shelf that has no more covers, but could have
+        // some more by loading more stories.
+        var lastShelf = this._lShelves[iLength - 1];
+        lastShelf.setComplete();
+        if (lastShelf.numberOfStories() === 0) {
+          // The last shelf was empty, and now we know it is complete, so we can delete it.
+          this.collapseShelf(lastShelf);
+          // Remaining shelves without the deleted one.
+          var remainingShelves = [];
+          for (var i = 0; i < iLength - 1; i++) {
+            remainingShelves.push(this._lShelves[i]);
+            this._lShelves[i] = null;
+          }
+          this._lShelves[iLength - 1] = null;
+          this._lShelves = null;
+          this._lShelves = remainingShelves;
+        }
+      }
       // Create new shelf
       var oShelf = new Cotton.UI.Stand.Manager.Shelf(fTomorrow,
           lStoriesForPeriod[0].lastVisitTime(),
@@ -259,6 +286,37 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     for (var i = 0; i < iLength; i++) {
       this._lShelves[i].setHeight(iSlotsPerLine);
     }
+  },
+
+  removeCoverFromShelves : function(iStoryId) {
+    var iLength = this._lShelves.length;
+    // Remaining shelves if one is deleted for emptyness.
+    var lRemainingShelves = [];
+    for (var i = 0; i < iLength; i++) {
+      // Remove the cover if it was in it
+      this._lShelves[i].removeCoverFromShelf(iStoryId, this._computeSlots());
+      if (this._lShelves[i].numberOfStories() === 0 && this._lShelves[i].isComplete()) {
+        // The last cover has been removed and we know this shelf was complete.
+        // So we can delete it.
+        var shelfToCollapse = this._lShelves[i];
+        this.collapseShelf(shelfToCollapse);
+      } else {
+        lRemainingShelves.push(this._lShelves[i]);
+        this._lShelves[i] = null;
+      }
+    }
+    this._lShelves = null;
+    this._lShelves = lRemainingShelves;
+  },
+
+  collapseShelf : function(shelfToCollapse) {
+    // Collapse the cover_container and the timestamp in 0.6s.
+    shelfToCollapse.hide();
+    setTimeout(function(){
+      // We wait for the animation to be done, then we can purge the shelf.
+      shelfToCollapse.purge();
+      shelfToCollapse = null;
+    }, 600);
   },
 
   hide : function() {
