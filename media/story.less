@@ -7,6 +7,7 @@
 @topbar_min_width: 960px;
 @dashboard_width: 396px;
 @dashboard_margin: 20px;
+@card_adder_height: 113px;
 
 /**
  * Colors
@@ -20,6 +21,7 @@
 @33grey: #333333;
 @f5grey: #f5f5f5;
 @bfgrey: #bfbfbf;
+@55grey: #555555;
 
 .ct-story {
   position: relative;
@@ -142,6 +144,72 @@
         &.ct-collapsed {
           left: @topbar_max_width;
           opacity: 0;
+        }
+
+        &.ct-card_adder {
+
+          > .ct-card_adder_toolbar {
+            padding-top: 8px;
+            padding-bottom: 11px;
+            height: 18px;
+
+            > .ct-add_new_card {
+              margin-left: 19px;
+              padding-left: 24px;
+              cursor: pointer;
+              float: left;
+              background-image: url('/media/images/common/ct-icons.png');
+              background-position: -20px -52px;
+              background-repeat: no-repeat;
+            }
+          }
+
+          > .ct-cards_adder_list {
+            height: @card_adder_height;
+            border-top: solid 1px @bbgrey;
+            padding-left: 16px;
+            padding-right: 16px;
+            overflow: scroll;
+
+            > .ct-no_pool_item {
+              text-align: center;
+              margin-top: 35px;
+              color: @55grey;
+            }
+
+            > .ct-pool_item {
+              clear: both;
+              height: 20px;
+              margin-top: 5px;
+              margin-bottom: 5px;
+              cursor: pointer;
+
+              > .ct-pool_item_favicon {
+                float: left;
+                margin-right: 10px;
+                position: relative;
+                top: 2px;
+              }
+
+              > .ct-pool_item_title {
+                float: left;
+                font-size: 14px;
+                width: 460px;
+                overflow: hidden;
+                white-space: nowrap;
+              }
+
+              > .ct-pool_item_url {
+                float: right;
+                width: 260px;
+                font-size: 12px;
+                color: #333333;
+                overflow: hidden;
+                white-space: nowrap;
+                text-align: right;
+              }
+            }
+          }
         }
 
         > .ct-delete_card {

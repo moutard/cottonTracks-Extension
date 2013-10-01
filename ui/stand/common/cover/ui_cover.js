@@ -73,6 +73,12 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
       }
     });
 
+    this._oGlobalDispatcher.subscribe('append_new_card', this, function(dArguments){
+      // a pool item has been selected in the card_adder.
+      oStory.historyItems().unshift(dArguments['history_item']);
+      this._oPreview.refreshLinks(oStory);
+    });
+
     this._$cover.append(
       this._$frame.append(
         this._oSticker.$(),
@@ -113,6 +119,7 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
 
   purge : function () {
     this._oGlobalDispatcher.unsubscribe('remove_card', this);
+    this._oGlobalDispatcher.unsubscribe('append_new_card', this);
     this._oGlobalDispatcher = null;
     this._iStoryId = null;
     this._oSticker.purge();
