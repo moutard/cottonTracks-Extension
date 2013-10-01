@@ -87,7 +87,7 @@ Cotton.UI.World = Class.extend({
     this._oManager.hide();
     this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory,
         this._oGlobalDispatcher)
-    this._oUIStory.open(oStory);
+    this._oUIStory.drawCards(oStory);
     this._$world.append(this._oUIStory.$());
   },
 
