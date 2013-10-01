@@ -60,6 +60,19 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this._oPreview = new Cotton.UI.Stand.Common.Cover.Preview(oStory,
         oGlobalDispatcher);
 
+    this._oGlobalDispatcher.subscribe('remove_card', this, function(dArguments) {
+      if (this._iStoryId === dArguments['story_id']) {
+        oStory.removeHistoryItem(dArguments['history_item_id']);
+        if (oStory.length() === 0) {
+          this._oGlobalDispatcher.publish('delete_story', {
+            'story_id': self._iStoryId
+          });
+        } else {
+          this._oPreview.refreshLinks(oStory);
+        }
+      }
+    });
+
     this._$cover.append(
       this._$frame.append(
         this._oSticker.$(),
@@ -99,6 +112,8 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
   },
 
   purge : function () {
+    this._oGlobalDispatcher.unsubscribe('remove_card', this);
+    this._oGlobalDispatcher = null;
     this._iStoryId = null;
     this._oSticker.purge();
     this._oSticker = null;
