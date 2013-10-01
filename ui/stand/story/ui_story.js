@@ -39,7 +39,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
     this._$story_container = $('<div class="ct-story_container"></div>');
 
     this._oDashboard = new Cotton.UI.Stand.Story.Dashboard(oStory, oGlobalDispatcher);
-    this._oDeck = new Cotton.UI.Story.Deck(oStory, oGlobalDispatcher);
+    this._oDeck = new Cotton.UI.Stand.Story.Deck(oStory, oGlobalDispatcher);
     this._$story.append(
       this._$story_container.append(
         this._oDashboard.$(),

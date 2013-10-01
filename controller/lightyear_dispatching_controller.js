@@ -151,6 +151,58 @@ Cotton.Controllers.DispatchingController = Class.extend({
       });
     });
 
+
+    /**
+     * Expand the 'add card' tool
+     **/
+    oGlobalDispatcher.subscribe('expand_card_adder', this, function(dArguments){
+      // the "Add Card" button has been clicked, we fetch the elements of the pool
+      // to propose them
+      var oPool = oLightyearController.getPool();
+      oLightyearController.getPoolItems(oPool, function(lPoolItems){
+        // filter the items, in order not to propose search.
+        var lFilteredPoolItems = oLightyearController._filterHistoryItems(lPoolItems);
+        oGlobalDispatcher.publish('pool_items', {
+          'items': lFilteredPoolItems
+        });
+      });
+    });
+
+    /**
+     * Add an item from the pool in a story
+     **/
+    oGlobalDispatcher.subscribe('add_item_to_story', this, function(dArguments){
+      // an item from the pool has been selected to be added to the story
+      var oHistoryItem = dArguments['history_item'];
+      var oNow = new Date();
+      // change the time to now so that the item gets at the top of the story
+      oHistoryItem.setLastVisitTime(oNow.getTime());
+      oLightyearController._oDatabase.putUnique('historyItems', oHistoryItem, function(oHistoryItemId){
+        oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
+          // merge bag of words of the historyItem to the story
+          oStory.dna().bagOfWords().mergeBag(oHistoryItem.extractedDNA().bagOfWords().get());
+          // add the item featured image to the story if necessary
+          if ((!oStory.featuredImage() || oStory.featuredImage() === "")
+            && oHistoryItem.extractedDNA().imageUrl() !== ""){
+              oStory.setFeaturedImage(oHistoryItem.extractedDNA().imageUrl());
+          }
+          // add the historyitem id to the story
+          oStory.addHistoryItemId(oHistoryItem.id());
+          // this sets the updated story in the database with the new historyItem id,
+          // plus the corresponding historyItem with the storyId, plus the searchKeywords
+          Cotton.DB.Stories.addStories(oLightyearController._oDatabase, [oStory], function(){
+            // take the item out of the pool
+            oLightyearController.getPool().delete(oHistoryItem.id());
+
+            oGlobalDispatcher.publish('append_new_card', {
+              'story_id': dArguments['story_id'],
+              'history_item': oHistoryItem
+            });
+          });
+        });
+      });
+    });
+
   }
 
 });
