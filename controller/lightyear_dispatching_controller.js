@@ -50,7 +50,6 @@ Cotton.Controllers.DispatchingController = Class.extend({
       oLightyearController._oWorld.closeSettings(dArguments['purge']);
     });
 
-
     /**
      * delete a story in db, then ask to delete the corresponding sticker
      **/
@@ -87,6 +86,71 @@ Cotton.Controllers.DispatchingController = Class.extend({
         });
       });
     });
+
+
+    /**
+     * delete a historyItem link to any story in db, then ask to remove the corresponding card
+     **/
+    oGlobalDispatcher.subscribe('delete_card', this, function(dArguments){
+
+      oLightyearController.database().search('historyItems', 'sStoryId', dArguments['story_id'], function(lHistoryItems){
+        var iLength = lHistoryItems.length;
+        for (var i = 0; i < iLength; i++) {
+          if (lHistoryItems[i].id() === dArguments['history_item_id']) {
+            var oDeletedItem = lHistoryItems[i];
+            var oUrl = oDeletedItem.oUrl();
+            oUrl.fineDecomposition();
+            break;
+          }
+        }
+        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
+        var fileReg = /File\:/ig;
+        if (oUrl.searchImage || (reg.exec(oUrl.href) && !oUrl.pathname.match(fileReg))) {
+          var sImageUrl = oUrl.searchImage || oUrl.href;
+        } else if (oUrl.isGoogleMaps && (oUrl.dHash['!q'] || oUrl.dSearch['q'])) {
+          var sMapCode = (oUrl.dHash['!q']) ? oUrl.dHash['!q'].toLowerCase() : oUrl.dSearch['q'].toLowerCase();
+        }
+        var lHistoryItemsToRemove = [];
+        if (sImageUrl) {
+          for (var i = 0; i < iLength; i++) {
+            var oParsedUrl = lHistoryItems[i].oUrl();
+            if (oParsedUrl.href === sImageUrl || oParsedUrl.searchImage === sImageUrl) {
+              lHistoryItemsToRemove.push(lHistoryItems[i]);
+            }
+          }
+        } else if (sMapCode) {
+          for (var i = 0; i < iLength; i++) {
+            var oParsedUrl = lHistoryItems[i].oUrl();
+            oParsedUrl.fineDecomposition();
+            if (oParsedUrl.isGoogleMaps && (oParsedUrl.dHash['!q'] || oParsedUrl.dSearch['q'])) {
+              var sDuplicateMapCode = (oParsedUrl.dHash['!q']) ? oParsedUrl.dHash['!q'].toLowerCase() : oParsedUrl.dSearch['q'].toLowerCase();
+              if (sDuplicateMapCode === sMapCode){
+                lHistoryItemsToRemove.push(lHistoryItems[i]);
+              }
+            }
+          }
+        } else {
+          lHistoryItemsToRemove.push(oDeletedItem);
+        }
+        var iLengthToRemove = lHistoryItemsToRemove.length;
+        var iCount = 0;
+        for (var i = 0; i < iLengthToRemove; i++) {
+          Cotton.DB.Stories.removeHistoryItemInStory(oLightyearController.database(),
+          dArguments['story_id'], lHistoryItemsToRemove[i].id(), function(){
+            // removeHistoryItemInStory removes the historyItem from the story historyItemsId
+            // and set the historyItem storyId back to "UNCLASSIFIED"
+            iCount++;
+            if (iCount === iLengthToRemove) {
+              oGlobalDispatcher.publish('remove_card', {
+                'history_item_id': dArguments['history_item_id'],
+                'story_id': dArguments['story_id']
+              });
+            }
+          });
+        }
+      });
+    });
+
   }
 
 });

@@ -67,10 +67,15 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._$details = $('<div class="ct-card_details"></div>');
     this._oTitle = new Cotton.UI.Stand.Story.Card.Content.Title(oHistoryItem);
     this._$delete = $('<div class="ct-delete_card"></div>').click(function(){
-      oGlobalDispatcher.publish('delete_card', {'history_item': oHistoryItem.id()});
+      oGlobalDispatcher.publish('delete_card', {
+        'history_item_id': oHistoryItem.id(),
+        'story_id': oHistoryItem.storyId(),
+      });
     });
     this._$url = $('<div class="ct-card_url">' + oHistoryItem.url() +'</div>');
     this._oWebsite = new Cotton.UI.Stand.Story.Card.Content.Website(oHistoryItem.url(), this._oLocalDispatcher);
+
+    this._iId = oHistoryItem.id();
   },
 
   $ : function() {
@@ -106,7 +111,16 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     // do nothing for cards that are not default_cards
   },
 
+  id : function() {
+    return this._iId;
+  },
+
+  removeCard : function() {
+    this._$card.addClass('ct-collapsed');
+  },
+
   purge : function() {
+    this._iId = null;
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;
     this._oTitle.purge();

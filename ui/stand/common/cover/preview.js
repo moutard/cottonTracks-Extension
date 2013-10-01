@@ -24,9 +24,33 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
   _$more : null,
 
   init : function(oStory, oGlobalDispatcher) {
+
+    this._oGlobalDispatcher = oGlobalDispatcher;
+    this._$preview = $('<div class="ct-cover_preview"></div>');
+
+    this.appendLinks(oStory);
+  },
+
+  $ : function() {
+    return this._$preview;
+  },
+
+  /**
+   * this calls the core API to get the favicon
+   * @param {string} sUrl:
+   *    url of the historyItem
+   *
+   * >returns {string}
+   *    chrome://favicon/sUrl or opera://favicon/sUrl
+   */
+  faviconUrl : function(sUrl) {
+    var oFavicon = new Cotton.Core.Favicon();
+    return oFavicon.getSrc() + sUrl;
+  },
+
+  appendLinks : function(oStory) {
     var self = this;
     var MAX_LINKS = 5;
-    this._$preview = $('<div class="ct-cover_preview"></div>');
 
     var lHistoryItems = oStory.historyItems();
     var iLength = Math.min(lHistoryItems.length, MAX_LINKS);
@@ -64,43 +88,34 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
     if (lHistoryItems.length > MAX_LINKS) {
       var iMore = lHistoryItems.length - MAX_LINKS;
       this._$more = $('<div class="ct-more_link">... and ' + iMore + ' more</div>').click(function(){
-        oGlobalDispatcher.publish('enter_story', {
+        self._oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });
       });
       this._$preview.append(this._$more);
     }
-
   },
 
-  $ : function() {
-    return this._$preview;
-  },
-
-  /**
-   * this calls the core API to get the favicon
-   * @param {string} sUrl:
-   *    url of the historyItem
-   *
-   * >returns {string}
-   *    chrome://favicon/sUrl or opera://favicon/sUrl
-   */
-  faviconUrl : function(sUrl) {
-    var oFavicon = new Cotton.Core.Favicon();
-    return oFavicon.getSrc() + sUrl;
-  },
-
-  purge : function() {
+  purgeLinks : function() {
     // Remove click event listener.
     if (this._$more) {
       this._$more.unbind('click');
       this._$more.remove();
       this._$more = null;
     }
+    this._$preview.children().empty().remove();
+  },
+
+  refreshLinks : function(oStory) {
+    this.purgeLinks();
+    this.appendLinks(oStory);
+  },
+
+  purge : function() {
+    this.purgeLinks();
 
     this._oGlobalDispatcher = null;
 
-    this._$preview.children().empty().remove();
     this._$preview.remove();
     this._$preview = null;
   }
