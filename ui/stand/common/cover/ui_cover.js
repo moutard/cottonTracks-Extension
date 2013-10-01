@@ -35,6 +35,7 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
    *          oGlobalDispatcher:
    */
   init : function(oStory, oGlobalDispatcher) {
+    var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     this._$cover = $('<div class="ct-cover"></div>');
@@ -45,8 +46,14 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     // The sticker is the left part of the cover, with the image and the title.
     this._oSticker = new Cotton.UI.Stand.Common.Sticker(oStory, 'cover', oGlobalDispatcher);
 
+    this._iStoryId = oStory.id();
+
     // Cross to delete the story.
-    this._$delete = $('<div class="ct-delete_cover">Delete</div>');
+    this._$delete = $('<div class="ct-delete_cover">Delete</div>').click(function(){
+      oGlobalDispatcher.publish('delete_story', {
+        'story_id': self._iStoryId
+      });
+    });
 
     // The preview is the right part of the cover
     // with the 5 first links displayed and images on top
@@ -66,6 +73,10 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     return this._$cover;
   },
 
+  id : function() {
+    return this._iStoryId;
+  },
+
   /**
    * positions a cover on the manager
    **/
@@ -83,16 +94,20 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this._$cover.addClass('ct-animate');
   },
 
+  removeCover : function() {
+    this.purge();
+  },
+
   purge : function () {
+    this._iStoryId = null;
     this._oSticker.purge();
     this._oSticker = null;
-    this._$delete.remove();
+    this._$delete.unbind('click').remove();
     this._$delete = null;
     this._$frame.remove();
     this._$frame = null;
     this._oPreview.purge();
     this._oPreview = null;
-    this._$cover.unbind('click');
     this._$cover.remove();
     this._$cover = null;
   }

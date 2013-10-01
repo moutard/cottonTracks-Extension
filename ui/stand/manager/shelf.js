@@ -37,7 +37,6 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
   init : function(fTomorrow, fLastTimeStamp, isCompleteMonth,
     oGlobalDispatcher) {
 
-    this._oGlobalDispatcher = oGlobalDispatcher;
     this._oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(fTomorrow,
         fLastTimeStamp, isCompleteMonth);
     this._oCoversContainer = new Cotton.UI.Stand.Manager.CoversContainer(oGlobalDispatcher);
@@ -63,18 +62,40 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
     this._oCoversContainer.positionCovers(iSlotsPerLine);
   },
 
-  purge : function() {
-    this._oTimestamp.purge();
-    this._oCoversContainer.purge();
-    this._$shelf.remove();
-  },
-
   numberOfStories : function() {
     return this._oCoversContainer.length();
   },
 
+  removeCoverFromShelf : function(iStoryId, iSlotsPerLine) {
+    this._oCoversContainer.removeCoverFromContainer(iStoryId, iSlotsPerLine)
+  },
+
   addStories : function(lStories, iSlotsPerLine) {
     this._oCoversContainer.add(lStories, iSlotsPerLine);
+  },
+
+  setComplete : function() {
+    this._bIsComplete = true;
+  },
+
+  isComplete : function() {
+    return this._bIsComplete;
+  },
+
+  hide : function() {
+    // hide both the timestamp and the container by reducing their height to 0
+    // they are animated, giving a collapsing effect.
+    this._oCoversContainer.$().addClass('ct-collapsed');
+    this._oTimestamp.$().addClass('ct-collapsed');
+  },
+
+  purge : function() {
+    this._bIsComplete = null;
+    this._oTimestamp.purge();
+    this._oTimestamp = null;
+    this._oCoversContainer.purge();
+    this._oCoversContainer = null;
+    this._$shelf.remove();
   }
 
 });

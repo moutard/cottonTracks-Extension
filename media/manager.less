@@ -28,11 +28,20 @@
     > .ct-shelf {
       width: 100%;
       position: relative;
+      overflow: hidden;
 
       > .ct-timestamp {
         position: relative;
         width: 100%;
         clear: both;
+        height: 36px;
+        overflow: hidden;
+        -webkit-transition-property: height;
+        -webkit-transition-duration: 0.6s;
+
+        &.ct-collapsed {
+          height: 0px;
+        }
 
         &:before {
           position: absolute;
@@ -61,6 +70,10 @@
         position: relative;
         margin-top: 10px;
         z-index: 1;
+
+        &.ct-collapsed {
+          height: 0px;
+        }
 
         &.ct-animate {
           -webkit-transition-property: height;
