@@ -11,11 +11,6 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
   _lCovers : null,
 
   /**
-   * {Array.<Cotton.Model.Story>} lStories:
-   */
-  _lStories : null,
-
-  /**
    * {Cotton.Messaging.Dispatcher}
    */
   _oGlobalDispatcher : null,
@@ -27,7 +22,6 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
   init : function(oGlobalDispatcher) {
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._lCovers = [];
-    this._lStories = [];
     this._$container = $('<div class="ct-covers_container"></div>');
   },
 
@@ -39,12 +33,12 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
    * Return the number of stories stored in the coversContainer.
    */
   length : function() {
-    return this._lStories.length;
+    return this._lCovers.length;
   },
 
   /**
    * For each stories create a associated cover, append it
-   * to the _$container, and update _lStories.
+   * to the _$container
    *
    * @param {Array.<Cotton.Model.Story>}
    *        lStories: list of stories you want to add.
@@ -53,13 +47,12 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
     var lDOMCovers = [];
     for (var i = 0, iLength = lStories.length; i < iLength; i++) {
       var oStory = lStories[i];
-      this._lStories.push(oStory);
       var oCover = new Cotton.UI.Stand.Common.Cover.UICover(oStory,
          this._oGlobalDispatcher);
       this._lCovers.push(oCover);
       lDOMCovers.push(oCover.$());
-      this.positionOneCover(oCover, this._lStories.length - 1, iSlotsPerLine);
-      oCover.setIndex(this._lStories.length - 1);
+      this.positionOneCover(oCover, this._lCovers.length - 1, iSlotsPerLine);
+      oCover.setIndex(this._lCovers.length - 1);
       oCover.animate();
     }
     this.setHeight(iSlotsPerLine);
@@ -74,7 +67,7 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
   setHeight : function(iSlotsPerLine) {
     var COVER_HEIGHT = 250;
     var COVER_TOP_MARGIN = 22;
-    var iLines = Math.ceil(this._lStories.length / iSlotsPerLine);
+    var iLines = Math.ceil(this._lCovers.length / iSlotsPerLine);
     this._$container.css('height', iLines * (COVER_HEIGHT + COVER_TOP_MARGIN));
   },
 
@@ -107,14 +100,41 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
     oCover.setPosition(iTop, iLeft);
   },
 
+  removeCoverFromContainer : function(iStoryId, iSlotsPerLine) {
+    var iLength = this._lCovers.length;
+    // Array of remaining covers
+    var lRemainingCovers = [];
+    for (var i = 0; i < iLength; i++) {
+      if (this._lCovers[i].id() === iStoryId) {
+        // the cover of the story to delete
+        this._lCovers[i].purge();
+        this._lCovers[i] = null;
+        var bDeleted = true;
+      } else {
+        if (bDeleted) {
+          // Covers after the deleted one need to be repositioned.
+          this.positionOneCover(this._lCovers[i], i-1, iSlotsPerLine);
+        }
+        lRemainingCovers.push(this._lCovers[i]);
+        this._lCovers[i] = null;
+      }
+    }
+    this._lCovers = null;
+    this._lCovers = lRemainingCovers;
+    if (bDeleted){
+      // A cover has been deleted in this container. Its size may have to change.
+      this.setHeight(iSlotsPerLine);
+    }
+  },
+
   purge : function() {
     for (var i = 0; i < this._lCovers.length; i++) {
       this._lCovers[i].purge();
       this._lCovers[i] = null;
     }
     this._lCovers = null;
-    this._lStories = purgeArray(this._lStories);
-    this.$container.empty().remove();
+    this._$container.empty().remove();
+    this._oGlobalDispatcher = null;
   }
 
 });

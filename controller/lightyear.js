@@ -75,6 +75,10 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   },
 
+  database : function() {
+    return this._oDatabase;
+  },
+
   /**
    * Ask to the world to replace the Manager and open an UIStory instead.
    *
