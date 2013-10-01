@@ -16,6 +16,12 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oDatabase : null,
 
   /**
+ * Specific cache database in localStorage that contains all the important
+   * historyItems that can be used to generate a story.
+   */
+  _oPool : null,
+
+  /**
    * Messenger for handling core message. (Chrome message)
    */
   _oCoreMessenger : null,
@@ -232,6 +238,34 @@ Cotton.Controllers.Lightyear = Class.extend({
             }
           });
         }
+    });
+  },
+
+  /**
+   * returns the localstorage cache (pool) with the temp elements not set in a story
+   */
+  getPool : function() {
+    if (!this._oPool) {
+      this._oPool = new Cotton.DB.DatabaseFactory().getCache('pool');
+    }
+    return this._oPool;
+  },
+
+  /**
+   * returns the items of the pool
+   * @param {Cotton.DB.FixedSizeCache} : Pool of recent unclassified historyItems
+   */
+  getPoolItems : function(oPool, mCallback){
+    var self = this;
+    var lPoolRecordItems = oPool.get();
+    var lIds = [];
+    for (var i = 0, dHistoryItem; dHistoryItem = lPoolRecordItems[i]; i++){
+      lIds.push(dHistoryItem['id']);
+    }
+    this._oDatabase.findGroup('historyItems', 'id', lIds, function(lPoolItems){
+      if (mCallback){
+        mCallback.call(self,lPoolItems);
+      }
     });
   }
 
