@@ -91,8 +91,8 @@ Cotton.Controllers.Lightyear = Class.extend({
    * @param {Cotton.Model.Story} oStory:
    *        story that contains the data you want to display in the UIStory.
    */
-  openStory : function(oStory) {
-    this._oWorld.openStory(oStory);
+  openStory : function(oStory, lRelatedStories) {
+    this._oWorld.openStory(oStory, lRelatedStories);
   },
 
   /**
@@ -202,6 +202,23 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
   },
 
+  fillAndFilterStories : function(lStories, mCallback) {
+    var self = this;
+    var lFilledStories = [];
+    var iLength = lStories.length;
+    if (iLength === 0) {
+      mCallback(lFilledStories);
+    }
+    for (var i = 0; i < iLength; i++) {
+      this.fillStory(lStories[i], function(oFilledStory) {
+        lFilledStories.push(oFilledStory);
+        if (lFilledStories.length === iLength) {
+          mCallback(self._filterEmptyStories(lFilledStories));
+        }
+      });
+    }
+  },
+
   /**
    * Get stories by batch from the database. But only get non empty stories.
    *
@@ -266,6 +283,25 @@ Cotton.Controllers.Lightyear = Class.extend({
       if (mCallback){
         mCallback.call(self,lPoolItems);
       }
+    });
+  },
+
+  getRelatedStoriesId : function(oStory, mCallback) {
+    this._oDatabase.findGroup('searchKeywords', 'sKeyword', oStory.searchKeywords(),
+      function(lSearchKeywords){
+        var lRelatedStoriesId = [];
+        var iLength = lSearchKeywords.length;
+        for (var i = 0; i < iLength; i++) {
+          var oSearchKeyword = lSearchKeywords[i];
+          lRelatedStoriesId = _.union(lRelatedStoriesId, oSearchKeyword.referringStoriesId());
+        };
+        mCallback(lRelatedStoriesId);
+    });
+  },
+
+  getStories : function(lStoriesId, mCallback) {
+    this._oDatabase.findGroup('stories', 'id', lStoriesId, function(lRelatedStories){
+      mCallback.call(this, lRelatedStories);
     });
   }
 
