@@ -122,7 +122,7 @@
       }
     }
 
-    > .ct-story_card_deck {
+    > .ct-story_deck {
       position: relative;
       left: @dashboard_width + @dashboard_margin;
       /* /!\ 100% here is the size of the story_container*/
@@ -131,282 +131,299 @@
       padding-top: 1px;
       padding-bottom: 20px;
 
-      > .ct-card {
-        position: relative;
-        width: 100%;
-        background-color: @f5grey;
-        margin-bottom: 20px;
-        box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.5);
-        -webkit-border-radius: 1px 1px 1px 1px;
-        -webkit-transition-duration: 0.6s;
-        -webkit-transition-property: left, opacity;
+      &.ct-related_deck {
+        z-index: 1;
+      }
 
-        &.ct-collapsed {
-          left: @topbar_max_width;
-          opacity: 0;
-        }
+      &.ct-card_deck {
+        > .ct-card {
+          position: relative;
+          width: 100%;
+          background-color: @f5grey;
+          margin-bottom: 20px;
+          box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.5);
+          -webkit-border-radius: 1px 1px 1px 1px;
+          -webkit-transition-duration: 0.6s;
+          -webkit-transition-property: left, opacity;
 
-        &.ct-card_adder {
-
-          > .ct-card_adder_toolbar {
-            padding-top: 8px;
-            padding-bottom: 11px;
-            height: 18px;
-
-            > .ct-add_new_card {
-              margin-left: 19px;
-              padding-left: 24px;
-              cursor: pointer;
-              float: left;
-              background-image: url('/media/images/common/ct-icons.png');
-              background-position: -20px -52px;
-              background-repeat: no-repeat;
-            }
+          &.ct-collapsed {
+            left: @topbar_max_width;
+            opacity: 0;
           }
 
-          > .ct-cards_adder_list {
-            height: @card_adder_height;
-            border-top: solid 1px @bbgrey;
-            padding-left: 16px;
-            padding-right: 16px;
-            overflow: scroll;
+          &.ct-card_adder {
 
-            > .ct-no_pool_item {
-              text-align: center;
-              margin-top: 35px;
-              color: @55grey;
-            }
+            > .ct-card_adder_toolbar {
+              padding-top: 8px;
+              padding-bottom: 11px;
+              height: 18px;
 
-            > .ct-pool_item {
-              clear: both;
-              height: 20px;
-              margin-top: 5px;
-              margin-bottom: 5px;
-              cursor: pointer;
-
-              > .ct-pool_item_favicon {
+              > .ct-add_new_card {
+                margin-left: 19px;
+                padding-left: 24px;
+                cursor: pointer;
                 float: left;
-                margin-right: 10px;
-                position: relative;
-                top: 2px;
-              }
-
-              > .ct-pool_item_title {
-                float: left;
-                font-size: 14px;
-                width: 460px;
-                overflow: hidden;
-                white-space: nowrap;
-              }
-
-              > .ct-pool_item_url {
-                float: right;
-                width: 260px;
-                font-size: 12px;
-                color: #333333;
-                overflow: hidden;
-                white-space: nowrap;
-                text-align: right;
-              }
-            }
-          }
-        }
-
-        > .ct-delete_card {
-          position: absolute;
-          top: 9px;
-          right: 9px;
-          width: 11px;
-          height: 11px;
-          background-image: url('/media/images/common/ct-icons.png');
-          background-position-x : -12px;
-          cursor: pointer;
-
-          &:hover {
-            background-position-x : 0;
-          }
-        }
-
-        > .ct-card_website {
-          position: absolute;
-          left: 10px;
-          bottom: 8px;
-
-          > .ct-card_domain {
-            padding-left: 5px;
-            color: @purewhite;
-            font-size: 14px;
-            display: table-cell;
-            vertical-align: middle;
-          }
-
-          > .ct-card_favicon {
-            float: left;
-            width: 16px;
-            margin-top: 2px;
-          }
-
-          &.ct-black_domain {
-            > .ct-card_domain {
-              color: @pureblack;
-            }
-          }
-        }
-
-        > .ct-card_details {
-          padding-top: 10px;
-          padding-left: 20px;
-          padding-right: 20px;
-          padding-bottom: 10px;
-          overflow: hidden;
-
-          > .ct-card_title {
-            width: 100%;
-            font-size: 16px;
-            color: @pureblack;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-
-          > .ct-card_url {
-            position: absolute;
-            bottom: 10px;
-            right: 12px;
-            width: 260px;
-            font-size: 12px;
-            color: @33grey;
-            overflow: hidden;
-            white-space: nowrap;
-            text-align: right;
-          }
-        }
-
-        &.ct-image_card, &.ct-video_card, &.ct-map_card {
-          height: 325px;
-
-          > .ct-media_map {
-            float: left;
-          }
-
-          > .ct-media_image, .ct-media_video {
-            float: left;
-            height: 100%;
-            background-image: url('/media/images/story/card/ct-image_loading.gif');
-
-            &:after {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              content: "";
-              -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
-            }
-
-            &.ct-full_image {
-              /*if full image in an image element*/
-              width: 501px;
-            }
-
-            &.ct-full_video {
-              width: 501px;
-              cursor: pointer;
-              position: relative;
-
-              &:after {
+                background-image: url('/media/images/common/ct-icons.png');
+                background-position: -20px -52px;
                 background-repeat: no-repeat;
-                background-position: center;
-                background-image: url('/media/images/story/card/ct-video_play_icon.png');
+              }
+            }
+
+            > .ct-cards_adder_list {
+              height: @card_adder_height;
+              border-top: solid 1px @bbgrey;
+              padding-left: 16px;
+              padding-right: 16px;
+              overflow: scroll;
+
+              > .ct-no_pool_item {
+                text-align: center;
+                margin-top: 35px;
+                color: @55grey;
               }
 
-              &.ct-play {
-                &:after {
-                  display: none;
+              > .ct-pool_item {
+                clear: both;
+                height: 20px;
+                margin-top: 5px;
+                margin-bottom: 5px;
+                cursor: pointer;
+
+                > .ct-pool_item_favicon {
+                  float: left;
+                  margin-right: 10px;
+                  position: relative;
+                  top: 2px;
+                }
+
+                > .ct-pool_item_title {
+                  float: left;
+                  font-size: 14px;
+                  width: 460px;
+                  overflow: hidden;
+                  white-space: nowrap;
+                }
+
+                > .ct-pool_item_url {
+                  float: right;
+                  width: 260px;
+                  font-size: 12px;
+                  color: #333333;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-align: right;
                 }
               }
             }
           }
-        }
 
-        &.ct-default_card {
-          min-height: 105px;
+          > .ct-delete_card {
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            width: 11px;
+            height: 11px;
+            background-image: url('/media/images/common/ct-icons.png');
+            background-position-x : -12px;
+            cursor: pointer;
 
-          > .ct-media_image {
-            float: left;
-            height: 100%;
-            -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
+            &:hover {
+              background-position-x : 0;
+            }
+          }
 
-            &.ct-featured_image {
-              /*if featured image in an default element*/
-              width: 250px;
+          > .ct-card_website {
+            position: absolute;
+            left: 10px;
+            bottom: 8px;
+
+            > .ct-card_domain {
+              padding-left: 5px;
+              color: @purewhite;
+              font-size: 14px;
+              display: table-cell;
+              vertical-align: middle;
+            }
+
+            > .ct-card_favicon {
+              float: left;
+              width: 16px;
+              margin-top: 2px;
+            }
+
+            &.ct-black_domain {
+              > .ct-card_domain {
+                color: @pureblack;
+              }
             }
           }
 
           > .ct-card_details {
-            padding-left: 27px;
-            padding-right: 27px;
+            padding-top: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-bottom: 10px;
+            overflow: hidden;
 
-            > .ct-quote_holder {
-              max-height: 190px;
-              overflow-y: scroll;
-              margin-top: 10px;
-              margin-bottom: 20px;
-              padding-left: 5px;
-              margin-left: -17px;
+            > .ct-card_title {
+              width: 100%;
+              font-size: 16px;
+              color: @pureblack;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
 
-              > .ct-paragraph {
+            > .ct-card_url {
+              position: absolute;
+              bottom: 10px;
+              right: 12px;
+              width: 260px;
+              font-size: 12px;
+              color: @33grey;
+              overflow: hidden;
+              white-space: nowrap;
+              text-align: right;
+            }
+          }
+
+          &.ct-image_card, &.ct-video_card, &.ct-map_card {
+            height: 325px;
+
+            > .ct-media_map {
+              float: left;
+            }
+
+            > .ct-media_image, .ct-media_video {
+              float: left;
+              height: 100%;
+              background-image: url('/media/images/story/card/ct-image_loading.gif');
+
+              &:after {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                content: "";
+                -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
+              }
+
+              &.ct-full_image {
+                /*if full image in an image element*/
+                width: 501px;
+              }
+
+              &.ct-full_video {
+                width: 501px;
+                cursor: pointer;
                 position: relative;
-                font-family : OpenBaskerville;
-                padding-left: 20px;
 
-                &:first-child {
-                  margin-top: 0;
+                &:after {
+                  background-repeat: no-repeat;
+                  background-position: center;
+                  background-image: url('/media/images/story/card/ct-video_play_icon.png');
                 }
 
-                &:last-child {
-                  margin-bottom: 0;
+                &.ct-play {
+                  &:after {
+                    display: none;
+                  }
                 }
+              }
+            }
+          }
 
-                > .ct-quote_border {
-                  border-right: solid 1px @bfgrey;
-                  position: absolute;
-                  left: -3px;
-                  top: 0;
-                  width: 16px;
-                  height: 100%;
+          &.ct-default_card {
+            min-height: 105px;
+
+            > .ct-media_image {
+              float: left;
+              height: 100%;
+              -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
+
+              &.ct-featured_image {
+                /*if featured image in an default element*/
+                width: 250px;
+              }
+            }
+
+            > .ct-card_details {
+              padding-left: 27px;
+              padding-right: 27px;
+
+              > .ct-quote_holder {
+                max-height: 190px;
+                overflow-y: scroll;
+                margin-top: 10px;
+                margin-bottom: 20px;
+                padding-left: 5px;
+                margin-left: -17px;
+
+                > .ct-paragraph {
+                  position: relative;
+                  font-family : OpenBaskerville;
+                  padding-left: 20px;
+
+                  &:first-child {
+                    margin-top: 0;
+                  }
+
+                  &:last-child {
+                    margin-bottom: 0;
+                  }
+
+                  > .ct-quote_border {
+                    border-right: solid 1px @bfgrey;
+                    position: absolute;
+                    left: -3px;
+                    top: 0;
+                    width: 16px;
+                    height: 100%;
+
+                    &:hover {
+                      border-color: @almondgreen;
+                    }
+
+                    > .ct-delete_quote {
+                      display: none;
+                      width: 16px;
+                      height: 12px;
+                      position: absolute;
+                      top: 50%;
+                      margin-top: -6px;
+                      background-position: -1px -41px;
+                      background-image: url('/media/images/common/ct-icons.png');
+                      background-repeat: no-repeat;
+                      cursor: pointer;
+                    }
+                  }
 
                   &:hover {
-                    border-color: @almondgreen;
+                    > .ct-quote_border {
+                      border-color: @almondgreen;
+                    }
                   }
 
-                  > .ct-delete_quote {
-                    display: none;
-                    width: 16px;
-                    height: 12px;
-                    position: absolute;
-                    top: 50%;
-                    margin-top: -6px;
-                    background-position: -1px -41px;
-                    background-image: url('/media/images/common/ct-icons.png');
-                    background-repeat: no-repeat;
-                    cursor: pointer;
+                  > .ct-quote {
+                    background: @lightalmondgreen;
                   }
-                }
-
-                &:hover {
-                  > .ct-quote_border {
-                    border-color: @almondgreen;
-                  }
-                }
-
-                > .ct-quote {
-                  background: @lightalmondgreen;
                 }
               }
             }
           }
         }
       }
+    }
+
+    > .ct-related_stories {
+      height: 100%;
+      width: 791px;
+      position: relative;
+      overflow-x: hidden;
+      padding-top: 1px;
+      padding-left: 10px;
+      padding-right: 10px;
+      z-index: 1;
     }
   }
 }

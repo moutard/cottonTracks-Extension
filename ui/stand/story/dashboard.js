@@ -17,10 +17,10 @@ Cotton.UI.Stand.Story.Dashboard = Class.extend({
    */
   _oEpitome : null,
 
-  init : function(oStory, oGlobalDispatcher) {
+  init : function(oStory, iRelatedStories, oGlobalDispatcher) {
 
     this._$dashboard = $('<div class="ct-story_dashboard"></div>');
-    this._oEpitome = new Cotton.UI.Stand.Story.Epitome.UIEpitome(oStory,
+    this._oEpitome = new Cotton.UI.Stand.Story.Epitome.UIEpitome(oStory, iRelatedStories,
       oGlobalDispatcher);
 
     this._$dashboard.append(this._oEpitome.$());
@@ -37,6 +37,10 @@ Cotton.UI.Stand.Story.Dashboard = Class.extend({
 
   bringFront : function() {
     this._$dashboard.removeClass('ct-pushed_back');
+  },
+
+  decrementRelated : function() {
+    this._oEpitome.decrementRelated();
   },
 
   purge : function () {

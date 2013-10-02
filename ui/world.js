@@ -91,10 +91,10 @@ Cotton.UI.World = Class.extend({
     this._$world.append(this._oManager.$());
   },
 
-  openStory : function(oStory) {
+  openStory : function(oStory, lRelatedStories) {
     document.title = oStory.title() + " - cottonTracks" ;
     this.clear();
-    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory,
+    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
         this._oGlobalDispatcher)
     this._$world.append(this._oUIStory.$());
     // draw the story content after it has been attached to the dom, so that elements can
