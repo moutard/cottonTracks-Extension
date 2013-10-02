@@ -25,7 +25,7 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
   init : function(oStory, oGlobalDispatcher) {
     this._oGlobalDispatcher = oGlobalDispatcher;
 
-    this._$card_deck = $('<div class="ct-story_card_deck"></div>');
+    this._$card_deck = $('<div class="ct-story_deck ct-card_deck"></div>');
     this._lCards = [];
 
     this._oGlobalDispatcher.subscribe('remove_card', this, function(dArguments) {
@@ -159,6 +159,10 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
     }
     this._lCards = null;
     this._lCards = lRemainingCards;
+  },
+
+  hide : function() {
+    this._$card_deck.detach();
   },
 
   purgeCards : function() {

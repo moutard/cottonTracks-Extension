@@ -26,7 +26,21 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * - arguments : {Cotton.Model.Story} story
      */
     oGlobalDispatcher.subscribe('enter_story', this, function(dArguments){
-      oLightyearController.openStory(dArguments["story"]);
+      var oStory = dArguments["story"];
+      oLightyearController.getRelatedStoriesId(oStory, function(lRelatedStoriesId){
+        var lExclusiveRelatedStoriesId = [];
+        var iLength = lRelatedStoriesId.length;
+        for (var i = 0; i < iLength; i++) {
+          if (lRelatedStoriesId[i] !== dArguments["story"].id()) {
+            lExclusiveRelatedStoriesId.push(lRelatedStoriesId[i]);
+          }
+        }
+        oLightyearController.getStories(lExclusiveRelatedStoriesId, function(lRelatedStories){
+          oLightyearController.fillAndFilterStories(lRelatedStories, function(lStoriesFiltered){
+            oLightyearController.openStory(oStory, lStoriesFiltered);
+          });
+        });
+      });
     });
 
     /**

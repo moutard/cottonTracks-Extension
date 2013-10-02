@@ -41,7 +41,7 @@ Cotton.UI.Stand.Story.Card.CardAdder = Class.extend({
   _$list : null,
 
   /**
-   * {list of Cotton.UI.Story.Card.Content.PoolItems} pool item objects
+   * {list of Cotton.UI.Stand.Story.Card.Content.PoolItems} pool item objects
    */
   _lPoolItems : null,
 
@@ -97,7 +97,7 @@ Cotton.UI.Stand.Story.Card.CardAdder = Class.extend({
     // we store the objects to be able to purge them later
     for (var i = 0; i < iLength; i++) {
       var oPoolHistoryItem = lPoolHistoryItems[i];
-      var oPoolItemToAdd = new Cotton.UI.Story.Card.Content.PoolItem(oPoolHistoryItem, this._iStoryId, this._oGlobalDispatcher);
+      var oPoolItemToAdd = new Cotton.UI.Stand.Story.Card.Content.PoolItem(oPoolHistoryItem, this._iStoryId, this._oGlobalDispatcher);
       this._lPoolItems.push(oPoolItemToAdd);
       var $pool_item = oPoolItemToAdd.$();
       this._$list.append($pool_item);
