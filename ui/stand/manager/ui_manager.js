@@ -46,16 +46,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
    */
   init : function(oGlobalDispatcher) {
     var self = this;
-
     this._oGlobalDispatcher = oGlobalDispatcher;
-    // DOM object for the manager.
-    this._$manager = $('<div class="ct-manager"></div>');
-    this._$container = $('<div class="ct-shelves_container"></div>');
-    this._$no_story = $('<div class="ct-no_story">YOU DON\'T HAVE ANY STORY YET, START BROWSING AND SEE YOUR STORIES BUILD OVER TIME.</div>');
-    this._$load_more = $('<div class="ct-footer ct-load_more">Load More</div>').click(function() {
-      self._oGlobalDispatcher.publish('need_more_stories', {});
-    });
-
     // Reference date :
     // We take tomorrow midnight as a reference because "today" is defined as
     // "everything before tomorrow". fTomorrow need to be a attribut in a
@@ -67,12 +58,29 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
     this._lShelves = [];
 
-    this._oGlobalDispatcher.subscribe('give_more_stories', this, function(dArguments) {
-      self.createShelves(dArguments['lStories']);
-    });
+    // DOM object for the manager.
+    this._$manager = $('<div class="ct-manager"></div>');
+    this._$container = $('<div class="ct-shelves_container"></div>');
+    this._$no_story = $('<div class="ct-no_story">YOU DON\'T HAVE ANY STORY YET, START BROWSING AND SEE YOUR STORIES BUILD OVER TIME.</div>');
+    this._$load_more = $('<div class="ct-footer ct-load_more">Loading More...</div>');
 
     this._$manager.append(this._$container);
 
+    this._$manager.scroll(function(){
+      if (self._bReadyToLoad &&
+        (self._$container.height() - self._$manager.scrollTop() - self._$manager.height() < 100)) {
+          self._bReadyToLoad = false;
+          self._oGlobalDispatcher.publish('need_more_stories', {});
+        }
+    });
+
+    this._oGlobalDispatcher.subscribe('give_more_stories', this, function(dArguments) {
+      var iTimeout = (self._lShelves.length === 0) ? 0 : 1000;
+      setTimeout(function(){
+        self.createShelves(dArguments['lStories']);
+        self._bReadyToLoad = true;
+      }, iTimeout);
+    });
 
     this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
       this.removeCoverFromShelves(dArguments['story_id']);
@@ -182,7 +190,6 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
    *            first.
    */
   createShelves : function(lStories) {
-
     var oNow = this._oNow; // Use a local variable for performance issues.
     var fTomorrow = new Date(oNow.getFullYear(), oNow.getMonth(),
         oNow.getDate() + 1, 0, 0, 0, 0).getTime();
@@ -264,6 +271,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         var $end_of_history = $('<div class="ct-footer ct-end_of_history">'
         + '<span class="ct-footer ct-underline">cotton</span>Tracks</div>');
         this._$load_more.remove();
+        this._$manager.unbind('scroll');
         this._$manager.append($end_of_history);
       } else {
         this._$manager.append(this._$no_story);
