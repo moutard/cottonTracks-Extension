@@ -49,7 +49,8 @@ Cotton.Controllers.BrowserAction = Class.extend({
               if (oCottonTab) {
                 chrome.tabs.remove(oCottonTab['id']);
               }
-              if (sCallerTabUrl === "chrome://newtab/") {
+              if (sCallerTabUrl === "chrome://newtab/"
+                || sCallerTabUrl === "https://www.google.com/webhp?sourceid=chrome-instant&espv=210&es_sm=91&ie=UTF-8") {
                 chrome.tabs.update(self._oMainController._iCallerTabId, {'url': 'lightyear.html'});
               } else {
                 chrome.tabs.create({
