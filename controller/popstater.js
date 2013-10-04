@@ -100,11 +100,15 @@ Cotton.Controllers.Popstater = Class.extend({
       self._oLightyearController._oDatabase.find('stories', 'id', iStoryId, function(oStory){
         self._oLightyearController.fillStory(oStory, function(oFilteredStory){
           if (!oFilteredStory) {
+            // analytics tracking.
+            Cotton.ANALYTICS.navigate('manager_fallback');
             self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
               'noPushState': true,
             });
           } else {
+            // analytics tracking.
+            Cotton.ANALYTICS.navigate('story');
             self._oGlobalDispatcher.publish('enter_story', {
               'story': oStory,
               'noPushState': true,
@@ -118,7 +122,11 @@ Cotton.Controllers.Popstater = Class.extend({
         'search_words': oUrl.dSearch['q'].split('+'),
         'noPushState': true
       });
+      // analytics tracking.
+      Cotton.ANALYTICS.navigate('manager');
     } else {
+      // analytics tracking.
+      Cotton.ANALYTICS.navigate('manager');
       // open on the manager
       self._oGlobalDispatcher.publish('home', {
         'noPushState': true,
@@ -131,6 +139,9 @@ Cotton.Controllers.Popstater = Class.extend({
    * @param {int} iHistoryState: position of the page in the history tree
    */
   pushState : function(sUrl, iHistoryState){
+    // analytics tracking
+    Cotton.ANALYTICS.depth(iHistoryState);
+
     // we can store information in this if needed!
     history.pushState({
       path: sUrl,

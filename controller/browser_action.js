@@ -31,7 +31,9 @@ Cotton.Controllers.BrowserAction = Class.extend({
           // so the UI page will listen to the event go back to the manager.
           // Do nothing from background.
         } else {
-          Cotton.ANALYTICS.showLightyear();
+          // Analytics tracking.
+          Cotton.ANALYTICS.openLightyear('browser_action');
+
           self._oMainController._iCallerTabId = lTabs[0]['id'];
           var iCallerTabIndex = lTabs[0]['index'];
           chrome.tabs.query({}, function(lTabs) {

@@ -94,7 +94,6 @@ Cotton.Controllers.Messaging = Class.extend({
               oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
-            Cotton.ANALYTICS.storyAvailable('already in story');
             sPutId = _oHistoryItem.id();
             sendResponse({
               'received' : "true",
@@ -158,10 +157,6 @@ Cotton.Controllers.Messaging = Class.extend({
                       self.addStoryToSearchKeywords(oMinStory);
                       self._oMainController._oDatabase.put(
                         'stories', oMinStory, function(iStoryId){});
-                      // There is a story for this item, so enable the browserAction
-                      // and attach a storyId to the tab
-                      Cotton.ANALYTICS.storyAvailable('join existing story');
-
                     } else {
                       self._oMainController._oDatabase.putUnique('historyItems',
                         oHistoryItem, function(iHistoryItemId){

@@ -13,10 +13,10 @@ Cotton.UI.Stand.Story.Card.Content.Title = Class.extend({
    *    historyItem corresponding to the current card
    **/
   init : function(oHistoryItem) {
+    var self = this;
     // if no title (ex: some images), we put the url
     var sTitle = (oHistoryItem.title() !== "") ? oHistoryItem.title() : oHistoryItem.url();
-    this._$title = $('<a href="'
-      + oHistoryItem.url() + '" target="_blank" class=ct-card_title></a>').text(sTitle);
+    this._$title = $('<a href="' + oHistoryItem.url() + '" target="_blank" class=ct-card_title></a>').text(sTitle);
   },
 
   $ : function() {

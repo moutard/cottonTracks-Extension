@@ -49,6 +49,18 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     // Click the image to enter the story.
     this._oImage.$().addClass('ct-sticker_image').click(function(){
       if (sContext === 'cover') {
+        // analytics tracking
+        Cotton.ANALYTICS.openStory('sticker');
+
+
+        if (self._$sticker.parents().hasClass('ct-related_cover')){
+          var sStoryContext = 'related';
+        } else {
+          var sStoryContext = 'manager';
+        }
+        // analytics tracking
+        Cotton.ANALYTICS.storyContext(sStoryContext);
+
         self._oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });

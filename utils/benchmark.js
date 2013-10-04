@@ -24,11 +24,14 @@ var Benchmark = Class.extend({
       + iElapsedTime + ' seconds.');
   },
 
-  end: function(){
+  end: function(mCallback){
     this._iCurrentStepTime =  new Date().getTime();
     var iElapsedTime =  (this._iCurrentStepTime - this._iStartTime)/1000;
     this._iPreviousStepTime = this._iCurrentStepTime;
     DEBUG && console.debug('@@@ cT|' + this._sName + '| ------ TOTAL ------: '
       + iElapsedTime + ' seconds.');
+    if (mCallback) {
+      mCallback(iElapsedTime);
+    }
   },
 });
