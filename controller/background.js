@@ -132,7 +132,7 @@ Cotton.Controllers.Background = Class.extend({
       Cotton.DB.Stories.addStories(self._oDatabase, lStories,
         function(oDatabase, lStories) {
           if (lStories && lStories.length > 0) {
-            Cotton.ANALYTICS.storyAvailable('pool');
+            Cotton.ANALYTICS.newStory();
           }
       });
     }, false);

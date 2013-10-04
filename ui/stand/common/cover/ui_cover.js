@@ -49,7 +49,9 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this._iStoryId = oStory.id();
 
     // Cross to delete the story.
-    this._$delete = $('<div class="ct-delete_cover">Delete</div>').click(function(){
+    this._$delete = $('<div class="ct-delete_cover">Delete</div>').click(function(){      // analytics tracking
+      Cotton.ANALYTICS.deleteStory();
+
       oGlobalDispatcher.publish('delete_story', {
         'story_id': self._iStoryId
       });
@@ -64,6 +66,9 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
       if (this._iStoryId === dArguments['story_id']) {
         oStory.removeHistoryItem(dArguments['history_item_id']);
         if (oStory.length() === 0) {
+          // analytics tracking
+          Cotton.ANALYTICS.deleteStory('all_cards_deleted');
+
           this._oGlobalDispatcher.publish('delete_story', {
             'story_id': self._iStoryId
           });

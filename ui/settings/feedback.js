@@ -124,9 +124,13 @@ Cotton.UI.Settings.Feedback = Class.extend({
         // submit the form via ajax with the content of the form
         $.post(self._$feedback.attr('action'), self._$feedback.serialize(), function(response){
         }).success(function(response){
+          // analytics tracking.
+          Cotton.ANALYTICS.feedback('success');
           // success
           self.success();
         }).fail(function(response) {
+          // analytics tracking.
+          Cotton.ANALYTICS.feedback('failure');
           // failure
           self.failure();
         });

@@ -67,6 +67,9 @@ Cotton.UI.Stand.Story.Card.Content.Video = Class.extend({
    *    video provider (vimeo, youtube, dailymotion)
    */
   loadVideo : function(sEmbedCode, sVideoType) {
+    // analytics tracking.
+    Cotton.ANALYTICS.playVideo(sVideoType);
+
     this._$video_container.addClass('ct-play');
 
     switch (sVideoType) {

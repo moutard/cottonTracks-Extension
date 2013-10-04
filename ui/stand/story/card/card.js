@@ -61,12 +61,18 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
    * @param{Cotton.Messaging.Dispatcher} oGlobalDisPatcher
    */
   init : function(oHistoryItem, oGlobalDispatcher) {
+    var self = this;
     this._oLocalDispatcher = new Cotton.Messaging.Dispatcher();
 
     this._$card = $('<div class="ct-card"></div>');
     this._$details = $('<div class="ct-card_details"></div>');
     this._oTitle = new Cotton.UI.Stand.Story.Card.Content.Title(oHistoryItem);
+    this._oTitle.$().click(function(){
+      Cotton.ANALYTICS.revisitPage(self._sType);
+    });
     this._$delete = $('<div class="ct-delete_card"></div>').click(function(){
+      // analytics tracking
+      Cotton.ANALYTICS.deleteCard(self._sType);
       oGlobalDispatcher.publish('delete_card', {
         'history_item_id': oHistoryItem.id(),
         'story_id': oHistoryItem.storyId(),
@@ -84,6 +90,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
 
   setType : function(sType) {
     this._$card.addClass('ct-' + sType + '_card');
+    this._sType = sType;
   },
 
   /**
@@ -121,8 +128,10 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
 
   purge : function() {
     this._iId = null;
+    this._sType = null;
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;
+    this._oTitle.$().unbind('click');
     this._oTitle.purge();
     this._oTitle = null;
     this._$url = null;
