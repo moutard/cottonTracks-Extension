@@ -38,6 +38,9 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
     this._$related = $('<div class="ct-epitome_button related_button">Related Stories ('
     + iRelatedStories + ')</div>').click(function(){
       if (self._iRelatedStories > 0){
+        // analytics tracking
+        Cotton.ANALYTICS.showRelated(self._iRelatedStories);
+
         self._oGlobalDispatcher.publish('related_stories');
         self._$back_to_cards.removeClass('ct-hidden');
         $(this).addClass('ct-hidden');
@@ -49,6 +52,9 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
     }
 
     this._$back_to_cards = $('<div class="ct-epitome_button ct-back_button ct-hidden">Back</div>').click(function(){
+      // analytics tracking
+      Cotton.ANALYTICS.hideRelated();
+
       self._oGlobalDispatcher.publish('back_to_cards');
       self._$related.removeClass('ct-hidden');
       $(this).addClass('ct-hidden');

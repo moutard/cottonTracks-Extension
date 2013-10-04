@@ -159,6 +159,7 @@ Cotton.UI.World = Class.extend({
         // We use a new message 'open_manager' because the 'home' message can result
         // in no action( we were already on the manager and clicked the home button).
         this._oGlobalDispatcher.publish('open_manager', dArguments);
+        Cotton.ANALYTICS.openManager(dArguments);
       }
     } else {
       // no manager, init
@@ -166,6 +167,7 @@ Cotton.UI.World = Class.extend({
       this.initManager();
       // init manager and start appending stories
       this._oGlobalDispatcher.publish('open_manager', dArguments);
+      Cotton.ANALYTICS.openManager(dArguments);
     }
   },
 

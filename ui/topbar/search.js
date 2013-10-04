@@ -40,10 +40,18 @@ Cotton.UI.Topbar.Search = Class.extend({
       if (oEvent.which === 13) {
         // 13 = enter key.
         self._search();
+        // analytics tracking.
+        if ($(this).val()) {
+          Cotton.ANALYTICS.searchStories('enter');
+        }
       }
     });
     this._$search_button.click(function(){
-        self._search();
+      self._search();
+      // analytics tracking.
+      if (self._$search_field.val()) {
+        Cotton.ANALYTICS.searchStories('search_button');
+      }
     });
   },
 

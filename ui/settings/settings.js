@@ -59,7 +59,7 @@ Cotton.UI.Settings.Settings = Class.extend({
     // If clicked outside the settings box, we close the settings.
     this._$settings = $('<div class="ct-settings"></div>').click(function(e){
       if (e.target === this) {
-        self.close();
+        self.close('click_out');
       }
     });
 
@@ -71,7 +71,11 @@ Cotton.UI.Settings.Settings = Class.extend({
 
     // Rate us.
     this._$rate_us = $('<div class="ct-rate_us"></div>');
-    this._$rate_us_button = $('<a class="ct-rate_us_button" href=' + this.webstoreUrl() + ' target="_blank">Rate us</a>');
+    this._$rate_us_button = $('<a class="ct-rate_us_button" href='
+      + this.webstoreUrl() + ' target="_blank">Rate us</a>').click(function(){
+        // analytics tracking
+        Cotton.ANALYTICS.rateUs(self.webstoreUrl());
+      });
     this._$rate_us_text = $('<p class="ct-rate_us_text">Rate us on the Chrome Web Store</p>');
 
     // Feedback form object.
@@ -79,12 +83,12 @@ Cotton.UI.Settings.Settings = Class.extend({
 
     // Cross for closing the settings page.
     this._$close = $('<div class="ct-close_settings_box"></div>').click(function(){
-      self.close();
+      self.close('click_cross');
     });
 
     // Exit settings when ESC key is press down.
     this._oGlobalDispatcher.subscribe('escape', this, function(){
-      this.close();
+      this.close('press_esc');
     });
 
     this._$settings.append(
@@ -135,6 +139,8 @@ Cotton.UI.Settings.Settings = Class.extend({
    */
   show : function() {
     this._$settings.addClass("ct-show");
+    // analytics tracking
+    Cotton.ANALYTICS.openSettings();
   },
 
   /**
@@ -153,7 +159,8 @@ Cotton.UI.Settings.Settings = Class.extend({
    * When you close the settings if your feedback are empty then settings
    * are purge. Else settings are kept, and just hide.
    */
-  close : function() {
+  close : function(sCloseMedium) {
+    Cotton.ANALYTICS.closeSettings(sCloseMedium);
     var bPurge = this._oFeedback.feedbackText() === "";
     this._oGlobalDispatcher.publish('close_settings', {"purge" : bPurge});
   },
@@ -161,6 +168,7 @@ Cotton.UI.Settings.Settings = Class.extend({
   purge : function() {
     this._oGlobalDispatcher.unsubscribe('keydown', this);
     this._oGlobalDispatcher = null;
+    this._$rate_us_button.unbind('click')
     this._$rate_us_button = null;
     this._$rate_us_text = null;
     this._$rate_us.empty().remove();

@@ -38,6 +38,9 @@ Cotton.UI.Stand.Story.Card.Content.PoolItem = Class.extend({
     this._iId = oHistoryItem.id();
 
     this._$pool_item = $('<div class="ct-pool_item"></div>').click(function(){
+      // analytics tracking.
+      Cotton.ANALYTICS.addCard();
+
       oHistoryItem.setStoryId(iStoryId);
       self._oGlobalDispatcher.publish('add_item_to_story', {
         'history_item': oHistoryItem,

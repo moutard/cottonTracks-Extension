@@ -88,6 +88,9 @@ Cotton.UI.Stand.Story.Card.CardAdder = Class.extend({
   },
 
   fill : function(lPoolHistoryItems) {
+    // analytics tracking
+    Cotton.ANALYTICS.fetchPool();
+
     var iLength = lPoolHistoryItems.length;
     if (iLength === 0) {
       var $no_item = $('<div class="ct-no_pool_item">No new card to add, you will find here the pages that have not been placed in a story yet.</br>Just click on them to add them to the current story.</div>');

@@ -65,7 +65,9 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
 
       // Clickable link with a favicon and title in it.
       var $link = $('<a class="ct-preview_link" href="' + sUrl
-        +'" title="' + sTitle + '" target="_blank"></a>');
+        +'" title="' + sTitle + '" target="_blank"></a>').click(function(){
+          Cotton.ANALYTICS.revisitPage('cover_link');
+        });
 
       // Favicon using core API.
       var $favicon = $('<img class="ct-preview_favicon" src="'
@@ -88,6 +90,9 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
     if (lHistoryItems.length > MAX_LINKS) {
       var iMore = lHistoryItems.length - MAX_LINKS;
       this._$more = $('<div class="ct-more_link">... and ' + iMore + ' more</div>').click(function(){
+        // analytics tracking
+        Cotton.ANALYTICS.openStory('and_more...');
+
         self._oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });
@@ -103,7 +108,7 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
       this._$more.remove();
       this._$more = null;
     }
-    this._$preview.children().empty().remove();
+    this._$preview.children().empty().unbind('click').remove();
   },
 
   refreshLinks : function(oStory) {
