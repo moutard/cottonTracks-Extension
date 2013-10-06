@@ -169,10 +169,29 @@ Cotton.UI.World = Class.extend({
     }
   },
 
+  /**
+   * open a generic partial that contains stories.
+   */
+  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
+    document.title = "cottonTracks" ;
+    this.clear();
+    this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
+        sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
+    this._$world.append(this._oUIPartial.$());
+  },
+
+  hidePartial : function() {
+    if (this._oUIPartial) {
+      this._oUIPartial.purge();
+      this._oUIPartial = null;
+    }
+  },
+
   clear : function() {
     // clear everything except topbar
     this.hideManager();
     this.hideStory();
+    this.hidePartial();
     this.closeSettings();
   },
 

@@ -217,6 +217,16 @@ Cotton.Controllers.DispatchingController = Class.extend({
       });
     });
 
+    /**
+     * Search story
+     *
+     * Search stories are display in a partial view.
+     */
+    oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
+      oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
+        oLightyearController.openPartial(lStories, sSearchPattern, "No Result");
+      });
+    });
   }
 
 });
