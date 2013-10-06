@@ -39,10 +39,17 @@ Cotton.Controllers.Popstater = Class.extend({
         this._iHistoryState++;
         this.pushState(chrome.extension.getURL("lightyear.html") + "?sid=" + dArguments['story'].id(), this._iHistoryState);
         // will set the navigation arrows
-        oGlobalDispatcher.publish('change_history_state', {
-          'state': this._iHistoryState,
-          'history_length': window.history.length
-        });
+        this.updateHistoryArrows()
+      }
+    });
+
+    oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
+      if (!dArguments['noPushState']) {
+        var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments['search_words'].join('+');
+        this._iHistoryState++;
+        this.pushState(sSearchUrl, this._iHistoryState);
+        // will set the navigation arrows
+        this.updateHistoryArrows();
       }
     });
 
@@ -51,10 +58,7 @@ Cotton.Controllers.Popstater = Class.extend({
         this._iHistoryState++;
         this.pushState(chrome.extension.getURL("lightyear.html"), this._iHistoryState);
         // will set the navigation arrows
-        oGlobalDispatcher.publish('change_history_state', {
-          'state': this._iHistoryState,
-          'history_length': window.history.length
-        });
+        this.updateHistoryArrows()
       }
     });
 
@@ -108,6 +112,12 @@ Cotton.Controllers.Popstater = Class.extend({
           }
         });
       });
+    } else if (oUrl.dSearch['q']) {
+      // Search page.
+      self._oGlobalDispatcher.publish('search_stories', {
+        'search_words': oUrl.dSearch['q'].split('+'),
+        'noPushState': true
+      });
     } else {
       // open on the manager
       self._oGlobalDispatcher.publish('home', {
@@ -138,6 +148,16 @@ Cotton.Controllers.Popstater = Class.extend({
       path: sUrl,
       count: iHistoryState
     }, '', sUrl);
+  },
+
+  /**
+   * Sends a message to the history arrows to update to the right color (active/inactive)
+   */
+  updateHistoryArrows : function() {
+    this._oGlobalDispatcher.publish('change_history_state', {
+      'state': this._iHistoryState,
+      'history_length': window.history.length
+    });
   }
 
 });

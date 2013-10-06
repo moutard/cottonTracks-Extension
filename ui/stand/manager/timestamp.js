@@ -22,10 +22,10 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
    * @param {float}
    *          fTime: time of the last visit time of elements in the shelf.
    */
-  init : function(fTomorrow, fTime, isCompleteMonth) {
+  init : function(dArguments) {
+    var sTitle = dArguments['title'] || this._computeTitle(dArguments);
     this._$timestamp = $('<div class="ct-timestamp"></div>');
-    this._$date = $('<div class="ct-timestamp_date">' +
-      this._computeTitle(fTomorrow, fTime, isCompleteMonth) + '</div>');
+    this._$date = $('<div class="ct-timestamp_date">' + sTitle + '</div>');
 
     // Construct element.
     this._$timestamp.append(this._$date);
@@ -43,7 +43,10 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
    * @param {float}
    *          fTime: time of the last visit time of elements in the shelf.
    */
-  _computeTitle : function(fTomorrow, fTime, isCompleteMonth) {
+  _computeTitle : function(dArguments) {
+    var fTomorrow = dArguments['tomorrow'];
+    var fTime = dArguments['time'];
+    var bIsCompleteMonth = dArguments['isCompleteMonth'];
     // the reference is tomorrow 00:00
     var iDaysOld = Math.floor((fTomorrow - fTime) / 86400000);
     var sDate = "";
@@ -61,7 +64,7 @@ Cotton.UI.Stand.Manager.TimeStamp = Class.extend({
       var MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE",
         "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
       sDate = MONTHS[new Date(fTime).getMonth()] + " " + new Date(fTime).getFullYear();
-      if (!isCompleteMonth)  sDate = "EARLIER IN " + sDate;
+      if (!bIsCompleteMonth)  sDate = "EARLIER IN " + sDate;
     }
     return sDate;
   },

@@ -165,9 +165,11 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
         }
       }
       // Create new shelf
-      var oShelf = new Cotton.UI.Stand.Manager.Shelf(fTomorrow,
-          lStoriesForPeriod[0].lastVisitTime(),
-          bIsCompleteMonth, this._oGlobalDispatcher);
+      var oShelf = new Cotton.UI.Stand.Manager.Shelf({
+        'tomorrow': fTomorrow,
+        'time': lStoriesForPeriod[0].lastVisitTime(),
+        'isCompleteMonth': bIsCompleteMonth
+      }, this._oGlobalDispatcher);
       DEBUG && console.debug("New shelf contains: " + lStoriesForPeriod.length);
       this._lShelves.push(oShelf);
       this._$container.append(oShelf.$());

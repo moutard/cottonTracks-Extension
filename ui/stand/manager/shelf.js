@@ -34,11 +34,9 @@ Cotton.UI.Stand.Manager.Shelf = Class.extend({
    * @param {Cotton.Model.Dispatcher}
    *          oGlobalDispatcher
    */
-  init : function(fTomorrow, fLastTimeStamp, isCompleteMonth,
-    oGlobalDispatcher) {
+  init : function(dArguments, oGlobalDispatcher) {
 
-    this._oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(fTomorrow,
-        fLastTimeStamp, isCompleteMonth);
+    this._oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(dArguments);
     this._oCoversContainer = new Cotton.UI.Stand.Manager.CoversContainer(oGlobalDispatcher);
     this._$shelf = $('<div class="ct-shelf"></div>');
 
