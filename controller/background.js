@@ -49,11 +49,14 @@ Cotton.Controllers.Background = Class.extend({
 
     chrome.runtime.onInstalled.addListener(function(details) {
       var sVersion = chrome.app.getDetails()['version'];
-      switch (details){
+      switch (details["reason"]){
         case 'install':
           Cotton.ANALYTICS.install(sVersion);
           break;
         case 'update':
+          if (details['previousVersion'] === '0.6.0') {
+            new Cotton.Core.Notification();
+          }
           Cotton.ANALYTICS.update(sVersion);
           break;
         case 'chrome_update':
