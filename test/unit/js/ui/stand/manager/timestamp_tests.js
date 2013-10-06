@@ -8,7 +8,18 @@ test('init.', function() {
   var fTomorrow = 0;
   var fTime = 1;
   var isCompleteMonth = 0;
-  var oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(fTomorrow, fTime, isCompleteMonth);
+  var oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp({
+    'tomorrow': fTomorrow,
+    'title': fTime,
+    'isCompleteMonth': isCompleteMonth
+  });
+  ok(oTimestamp);
+});
+
+test('init with title.', function() {
+  var oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp({
+    'title': 'alice'
+  });
   ok(oTimestamp);
 });
 
@@ -32,7 +43,11 @@ test('_computeTitle.', function() {
   for (var i = 0; i < PERIODS.length - 1; i++) {
     var oTimestamp = new Cotton.UI.Stand.Manager.TimeStamp(fTomorrow,
       fTomorrow - PERIODS[i], isCompleteMonth);
-    deepEqual(oTimestamp._computeTitle(fTomorrow, fTomorrow - PERIODS[i] + 1, isCompleteMonth), lExpectedTitles[i]);
+    deepEqual(oTimestamp._computeTitle({
+      'tomorrow' : fTomorrow,
+      'time' : fTomorrow - PERIODS[i] + 1,
+      'isCompleteMonth' : isCompleteMonth
+    }), lExpectedTitles[i]);
   }
 
   ok(oTimestamp);
