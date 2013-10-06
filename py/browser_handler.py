@@ -25,7 +25,7 @@ class ChromeConfigs(GlobalConfigs):
   """Configs specific to Chrome."""
   def __init__(self):
     self._sBrowser = 'chrome'
-    self._permissions = ["tabs", "chrome://favicon/", "http://*/*", "https://*/*", "history"]
+    self._permissions = ["notifications", "tabs", "chrome://favicon/", "http://*/*", "https://*/*", "history"]
 
 class FactoryConfigs(object):
   """Factory that returns the good configuration class depends of the browser.
