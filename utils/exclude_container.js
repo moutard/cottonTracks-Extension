@@ -10,6 +10,12 @@ Cotton.Utils.ExcludeContainer = Class.extend({
 
   _lExludePatterns : null,
   _lToolsHostname : null,
+
+  /**
+   * {Cotton.Utils.CornExcluder}
+   */
+  _oCornExcluder : null,
+
   /**
    *
    */
@@ -17,6 +23,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     var self = this;
     self._lExludePatterns = Cotton.Config.Parameters.lExcludePatterns;
     self._lToolsHostname = Cotton.Config.Parameters.lTools;
+    self._oCornExcluder = new Cotton.Utils.CornExcluder();
   },
 
   /**
@@ -76,6 +83,14 @@ Cotton.Utils.ExcludeContainer = Class.extend({
   },
 
   /**
+   * @param {String} sTitle:
+   *        title of the page only avaiable when document is ready.
+   */
+  isTitleCorn : function(sTitle) {
+    return this._oCornExcluder.isTitleCorn(sTitle);
+  },
+
+  /**
    * Return if the url should be excluded.
    *
    * @param sUrl
@@ -90,6 +105,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
       || this.isChromeExtension(oUrl.protocol)
       || this.isLocalhost(oUrl.hostname)
       || this.isError(oUrl);
+      || this._oCornExcluder.isCorn(sUrl, oUrl.hostname_without_country);
   },
 
 });
