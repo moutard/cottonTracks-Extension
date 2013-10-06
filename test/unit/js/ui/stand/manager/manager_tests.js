@@ -6,7 +6,7 @@ module('Cotton.UI.Stand.Manager.UIManager', {
 
 test('init.', function() {
   var oDispatcher = new Cotton.Messaging.Dispatcher();
-  var oManager = new Cotton.UI.Stand.Manager.UIManager([], oDispatcher);
+  var oManager = new Cotton.UI.Stand.Manager.UIManager(oDispatcher);
   ok(oManager);
 });
 
@@ -28,7 +28,8 @@ test('createShelves.', function() {
     oStory.setLastVisitTime(oNow.getTime());
     lStories.push(oStory);
   }
-  var oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, oDispatcher);
+  var oManager = new Cotton.UI.Stand.Manager.UIManager(oDispatcher);
+  oManager.createShelves(lStories);
   ok(oManager);
 });
 
@@ -52,7 +53,9 @@ test('createShelves one element by shelf.', function() {
     oStory.setLastVisitTime(oNow.getTime() - PERIODS[i]);
     lStories.push(oStory);
   }
-  var oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, oDispatcher);
+  var oManager = new Cotton.UI.Stand.Manager.UIManager(oDispatcher);
+  oManager.createShelves(lStories);
+
   equal(oManager._numberOfStories(), PERIODS.length);
   equal(oManager._lShelves.length,  PERIODS.length);
   for (var j = 0; j < PERIODS.length; j++) {
@@ -84,7 +87,9 @@ test('createShelves 5 elements by shelf.', function() {
       lStories.push(oStory);
     }
   }
-  var oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, oDispatcher);
+  var oManager = new Cotton.UI.Stand.Manager.UIManager(oDispatcher);
+  oManager.createShelves(lStories);
+
   equal(oManager._numberOfStories(), PERIODS.length*KSTORIES);
   equal(oManager._lShelves.length,  PERIODS.length);
   for (var j = 0; j < PERIODS.length; j++) {
@@ -116,7 +121,9 @@ test('createShelves empty shelf (not display).', function() {
       lStories.push(oStory);
     }
   }
-  var oManager = new Cotton.UI.Stand.Manager.UIManager(lStories, oDispatcher);
+  var oManager = new Cotton.UI.Stand.Manager.UIManager(oDispatcher);
+  oManager.createShelves(lStories);
+
   equal(oManager._numberOfStories(), (PERIODS.length  - 1) / 3);
   equal(oManager._lShelves.length,  (PERIODS.length - 1) / 3);
   for (var j = 0; j < oManager._lShelves.length; j++) {
