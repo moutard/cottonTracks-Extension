@@ -24,14 +24,34 @@ Cotton.UI.Topbar.Search = Class.extend({
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(oGlobalDispatcher) {
+    var self = this;
+    this._oGlobalDispatcher = oGlobalDispatcher;
+
     this._$search = $('<div class="ct-search"></div>');
     this._$search_field = $('<input class="ct-search_field" placeholder=" Search your online memory"/>');
     this._$search_button = $('<div class="ct-search_button">Search</div>');
     this._$search.append(this._$search_field, this._$search_button);
 
-
-    oGlobalDispatcher.subscribe('focus_search', this, function(){
+    this._oGlobalDispatcher.subscribe('focus_search', this, function(){
       this._$search_field.focus();
+    });
+
+    this._$search_field.keypress(function(oEvent){
+      if (oEvent.which === 13) {
+        // 13 = enter key.
+        self._search();
+      }
+    });
+    this._$search_button.click(function(){
+        self._search();
+    });
+  },
+
+  _search : function() {
+    var sQuery = this._$search_field.val().toLowerCase();
+    var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
+    this._oGlobalDispatcher.publish('search_stories', {
+      'search_words': lSearchWords,
     });
   },
 

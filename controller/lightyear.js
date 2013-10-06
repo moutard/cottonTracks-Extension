@@ -96,6 +96,16 @@ Cotton.Controllers.Lightyear = Class.extend({
   },
 
   /**
+   * Ask to the world to replace the Manager and open a Partial instead.
+   *
+   * @param {Array.<Cotton.Model.Story>} lPartialStories:
+   *        story that contains the data you want to display in the UIPartial.
+   */
+  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
+    this._oWorld.openPartial(lPartialStories, sPartialTitle, sEmptyMessage);
+  },
+
+  /**
    * For a given story, set its list of historyItems without search pages,
    * youtube searches redundant maps or redundant images from image search
    * results + actual image url.
@@ -302,6 +312,57 @@ Cotton.Controllers.Lightyear = Class.extend({
   getStories : function(lStoriesId, mCallback) {
     this._oDatabase.findGroup('stories', 'id', lStoriesId, function(lRelatedStories){
       mCallback.call(this, lRelatedStories);
+    });
+  },
+
+  /**
+   * @param {Array.<String>} lSearchWords:
+   *          each string is a word of the search.
+   * @param {Int} iExpectedResults: number of results you want.
+   * TODO(rmoutard): make a min score parameter.
+   */
+  searchStories : function(lSearchWords, mCallback, iExpectedResults) {
+    var self = this;
+
+    // For each ask keywords find corresponding stories.
+    this._oDatabase.findGroup('searchKeywords', 'sKeyword', lSearchWords,
+      function(lSearchKeywords) {
+        var lRelatedStoriesId = [];
+        var iLength = lSearchKeywords.length;
+        for (var i = 0; i < iLength; i++) {
+          var oSearchKeyword = lSearchKeywords[i];
+          lRelatedStoriesId = _.union(lRelatedStoriesId,
+            oSearchKeyword.referringStoriesId());
+        }
+        // For each stories
+        self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId,
+          function(lStories) {
+            lStories = lStories || [];
+
+            // Set the items in the stories, filter the search & images doubles
+            // and filter empty stories.
+            self.fillAndFilterStories(lStories, function(lFilteredStories){
+              // Crop number of results if asked
+              if (iExpectedResults) lFilteredStories = lFilteredStories.slice(0, iExpectedResults);
+
+              // Sort by score.
+              // We create a story with the query words in its bag of words
+              // to compare it to the other stories.
+              var oRefStory = new Cotton.Model.Story();
+              for (var i = 0; i < iLength; i++) {
+                oRefStory.dna().addWord(lSearchKeywords[i].keyword(), 1);
+              }
+              lFilteredStories.sort(function(a,b){
+                return (Cotton.Algo.Score.Object.storyToStory(b, oRefStory)
+                  - Cotton.Algo.Score.Object.storyToStory(a, oRefStory))
+              });
+
+              if (mCallback) {
+                mCallback.call(this, lFilteredStories, lSearchWords.join(' '));
+              }
+
+            });
+        });
     });
   }
 
