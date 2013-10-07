@@ -74,9 +74,9 @@ Cotton.Controllers.Lightyear = Class.extend({
 
     self._oGlobalDispatcher.subscribe('need_more_stories', this, function(dArguments) {
       self._getStoriesByBatch(self._iStoriesDelivered, self._BATCH_SIZE,
-        function(lStories) {
+        function(lStories, bNoMoreStories) {
           self._iStoriesDelivered += self._BATCH_SIZE;
-          self._oGlobalDispatcher.publish('give_more_stories' , {'lStories': lStories});
+          self._oGlobalDispatcher.publish('give_more_stories' , {'lStories': lStories, 'bNoMoreStories': bNoMoreStories});
       });
     });
 
@@ -246,8 +246,11 @@ Cotton.Controllers.Lightyear = Class.extend({
         // For each story get all the corresponding historyItems.
         var iCount = 0;
         var iLength = lStories.length;
+		// In this case we arrived at the end of the database.
+		var bNoMoreStories = false;
+		if (iLength < iBatchSize){ bNoMoreStories = true; }
         if (iLength === 0) {
-          mCallback(lStories);
+          mCallback(lStories, bNoMoreStories);
           return;
         }
         var lFilledStories = [];
@@ -262,7 +265,7 @@ Cotton.Controllers.Lightyear = Class.extend({
                 lFilledStories.sort(function(a,b){
                   return (b.lastVisitTime() - a.lastVisitTime());
                 })
-              ));
+              ), bNoMoreStories);
             }
           });
         }
