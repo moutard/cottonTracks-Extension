@@ -78,6 +78,9 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
       var iTimeout = (self._lShelves.length === 0) ? 0 : 1000;
       setTimeout(function(){
         self.createShelves(dArguments['lStories']);
+		if (dArguments['bNoMoreStories']) {
+		  self._$load_more.hide();
+		}
         self._bReadyToLoad = true;
       }, iTimeout);
     });
