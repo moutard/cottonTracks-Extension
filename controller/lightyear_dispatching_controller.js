@@ -72,6 +72,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
       var bStoryDeleted = false;
       var bHistoryItemsUnreferenced = false;
       oLightyearController.database().delete('stories', dArguments['story_id'], function(){
+	  oLightyearController._iStoriesDelivered-=1;
         bStoryDeleted = true;
         // the story is deleted. If items are also unreferenced,
         // tell the UI to remove the sticker
