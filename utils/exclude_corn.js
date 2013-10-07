@@ -67,7 +67,8 @@ Cotton.Utils.CornExcluder = Class.extend({
     var iLength = self._lExcludePatterns.length;
     for ( var i = 0; i < iLength; i++) {
       var sPattern = self._lExcludePatterns[i];
-      var oRegExp = new RegExp(sPattern, "g");
+      var oRegExp = new RegExp(sPattern, "gi"); // global and case insensitive
+      // need case insensitive for the url.
       if (oRegExp.test(sHashUrl)) {
         return true;
       }
