@@ -104,8 +104,8 @@ Cotton.Utils.ExcludeContainer = Class.extend({
       || this.isFileProtocol(oUrl.protocol)
       || this.isChromeExtension(oUrl.protocol)
       || this.isLocalhost(oUrl.hostname)
-      || this.isError(oUrl);
-      || this._oCornExcluder.isCorn(sUrl, oUrl.hostname_without_country);
+      || this.isError(oUrl)
+      || this._oCornExcluder.isCorn(sUrl, oUrl.hostname_without_country);
   },
 
 });
