@@ -40,8 +40,8 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     this._oImage = new Cotton.UI.Stand.Common.Content.BImage();
     var sImageUrl = oStory.featuredImage();
     if (!sImageUrl || sImageUrl === "") {
-      var iRand = Math.floor(Math.random() * 5) + 1;
-      this._oImage.$().addClass('ct-image' + iRand);
+      var iId = oStory.id() % 6 + 1;
+      this._oImage.$().addClass('ct-image' + iId);
     }
     this._oImage.appendImage(sImageUrl);
 
