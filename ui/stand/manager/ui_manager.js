@@ -343,6 +343,22 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
   attached : function() {
     this._bDetached = false;
+  },
+  
+  hashUptoDate : function() {
+    // TODO(rmoutard): clean this.
+	var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
+	var oLastStory = this._lShelves[this._lShelves.length]._oCoversContainer.last().story();
+    return {
+	  'first': {
+	    'id': oFirstStory.id(),
+	    'lastVisitTime' : oFirstStory.lastVisitTime()
+	  },
+	  'last': {
+	    'id': oLastStory.id(),
+	    'lastVisitTime' : oLastStory.lastVisitTime()
+	  }
+	};
   }
 
 });
