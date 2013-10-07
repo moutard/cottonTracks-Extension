@@ -47,6 +47,7 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this._oSticker = new Cotton.UI.Stand.Common.Sticker(oStory, 'cover', oGlobalDispatcher);
 
     this._iStoryId = oStory.id();
+	this._oStory = oStory;
 
     // Cross to delete the story.
     this._$delete = $('<div class="ct-delete_cover">Delete</div>').click(function(){      // analytics tracking
@@ -99,6 +100,10 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
 
   id : function() {
     return this._iStoryId;
+  },
+  
+  story : function() {
+    return this._oStory;
   },
 
   /**

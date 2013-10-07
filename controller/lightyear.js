@@ -240,8 +240,13 @@ Cotton.Controllers.Lightyear = Class.extend({
     var self = this;
     // loads a b(i)atch of iBatchSize stories.
     // TODO(rkorach) see if we cannot speed the performance + percieved speed up.
-    self._oDatabase.getXYItems('stories', iStart, iStart + iBatchSize - 1,
-        'fLastVisitTime', 'PREV',
+	var fLastVisitTime = new Date().getTime();
+	if (this._oWorld._oManager) {
+		fLastVisitTime = this._oWorld._oManager.hashUptoDate()['last']['lastVisitTime'];
+	}
+
+    self._oDatabase.getXItemsWithUpperBound('stories', iBatchSize - 1,
+        'fLastVisitTime', 'PREV', fLastVisitTime, true,
       function(lStories) {
         // For each story get all the corresponding historyItems.
         var iCount = 0;
@@ -368,6 +373,23 @@ Cotton.Controllers.Lightyear = Class.extend({
             });
         });
     });
+  }, 
+  
+  /**
+   * return true if there is no change until the last time we visit
+   * lightyear.
+   * To simply compute this we use a simple hash function that compare the
+   * last story in the database and the last story in the manager,
+   * storyiId and lastvisittime
+   */
+  isUpToDate : function(mCallback) {
+    var dHash = this._oWorld._oManager.hashUptoDate();
+	this._oDatabase.getLast('stories', 'fLastVisitTime', function(oStory){
+        var iCurentId = dHash['first']['id'];
+		var iCurrentVisitTime = dHash['first']['lastVisitTime'];
+        var bIsUpToDate = oStory.id() === iCurentId && oStory.lastVisitTime() === iCurrentVisitTime;
+        return mCallback(bIsUpToDate);
+	});
   }
 
 });

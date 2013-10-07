@@ -883,6 +883,61 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  getXItemsWithUpperBound : function(sObjectStoreName, iX, sIndexKey,
+      iDirection, iUpperBound, bStrict, mResultElementCallback) {
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
+    // iUpperBound may be not an int.
+    var self = this;
+
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+
+    //
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+                        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+
+    var iCursorCount = 0;
+	var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
+    oCursorRequest.onsuccess = function(oEvent) {
+      iCursorCount+=1;
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        // There is less than iX correspondings items.
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else if(iCursorCount === iX){
+        // There is more than iX correspondings items, but return only the iXth
+        // first.
+        lAllItems.push(oResult.value);
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getXItems";
+    };
+
+
+  },
+ 
   getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
       iDirection, mResultElementCallback) {
     // bStrict == false All keys[sIndexKey] <= iUpperBound
