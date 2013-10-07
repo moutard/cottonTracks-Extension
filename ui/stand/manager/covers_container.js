@@ -35,6 +35,14 @@ Cotton.UI.Stand.Manager.CoversContainer = Class.extend({
   length : function() {
     return this._lCovers.length;
   },
+  
+  first : function() {
+    return this._lCovers[0];
+  },
+  
+  last : function() {
+    return this._lCovers[this._lCovers.length - 1];
+  },
 
   /**
    * For each stories create a associated cover, append it
