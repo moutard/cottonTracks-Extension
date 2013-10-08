@@ -44,13 +44,6 @@ Cotton.Controllers.Lightyear = Class.extend({
   _BATCH_SIZE : 25,
 
   /**
-   * {Int} number of stories already delivered (empty stories are counted),
-   * it's exaclty the position in the database where we stopped. It corresponds
-   * to iStart in _getBatchStory
-   */
-  _iStoriesDelivered : 0,
-
-  /**
    * @param {Cotton.Core.Messenger} oCoreMessenger
    */
   init : function(oCoreMessenger) {
@@ -73,9 +66,9 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
 
     self._oGlobalDispatcher.subscribe('need_more_stories', this, function(dArguments) {
-      self._getStoriesByBatch(self._iStoriesDelivered, self._BATCH_SIZE,
+      var fLastVisitTime = dArguments['fLastVisitTime'] ||new Date().getTime();
+      self._getStoriesByBatch(fLastVisitTime, self._BATCH_SIZE,
         function(lStories, bNoMoreStories) {
-          self._iStoriesDelivered += self._BATCH_SIZE;
           self._oGlobalDispatcher.publish('give_more_stories' , {'lStories': lStories, 'bNoMoreStories': bNoMoreStories});
       });
     });
@@ -235,25 +228,24 @@ Cotton.Controllers.Lightyear = Class.extend({
    *
    * @param {Int}
    *        iStartStories: number of stories already in the manager.
+   * @param {Float}
+   *        fLastVisitTime: the max fLastVisitTime we accept. (strict is true by
+   *        default so we don't take twice the same story.
    */
-  _getStoriesByBatch : function(iStart, iBatchSize, mCallback) {
+  _getStoriesByBatch : function(fLastVisitTime, iBatchSize, mCallback) {
     var self = this;
     // loads a b(i)atch of iBatchSize stories.
     // TODO(rkorach) see if we cannot speed the performance + percieved speed up.
-	var fLastVisitTime = new Date().getTime();
-	if (this._oWorld._oManager) {
-		fLastVisitTime = this._oWorld._oManager.hashUptoDate()['last']['lastVisitTime'];
-	}
 
-    self._oDatabase.getXItemsWithUpperBound('stories', iBatchSize - 1,
+    self._oDatabase.getXItemsWithUpperBound('stories', iBatchSize,
         'fLastVisitTime', 'PREV', fLastVisitTime, true,
       function(lStories) {
         // For each story get all the corresponding historyItems.
         var iCount = 0;
         var iLength = lStories.length;
-		// In this case we arrived at the end of the database.
-		var bNoMoreStories = false;
-		if (iLength < iBatchSize){ bNoMoreStories = true; }
+		    // In this case we arrived at the end of the database.
+		    var bNoMoreStories = false;
+		    if (iLength < iBatchSize){ bNoMoreStories = true; }
         if (iLength === 0) {
           mCallback(lStories, bNoMoreStories);
           return;
@@ -373,8 +365,8 @@ Cotton.Controllers.Lightyear = Class.extend({
             });
         });
     });
-  }, 
-  
+  },
+
   /**
    * return true if there is no change until the last time we visit
    * lightyear.
@@ -384,12 +376,12 @@ Cotton.Controllers.Lightyear = Class.extend({
    */
   isUpToDate : function(mCallback) {
     var dHash = this._oWorld._oManager.hashUptoDate();
-	this._oDatabase.getLast('stories', 'fLastVisitTime', function(oStory){
-        var iCurentId = dHash['first']['id'];
-		var iCurrentVisitTime = dHash['first']['lastVisitTime'];
-        var bIsUpToDate = oStory.id() === iCurentId && oStory.lastVisitTime() === iCurrentVisitTime;
-        return mCallback(bIsUpToDate);
-	});
+	  this._oDatabase.getLast('stories', 'fLastVisitTime', function(oStory){
+      var iCurentId = dHash['first']['id'];
+      var iCurrentVisitTime = dHash['first']['lastVisitTime'];
+      var bIsUpToDate = oStory.id() === iCurentId && oStory.lastVisitTime() === iCurrentVisitTime;
+      return mCallback(bIsUpToDate);
+	  });
   }
 
 });
