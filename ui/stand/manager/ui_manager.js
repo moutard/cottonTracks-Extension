@@ -68,9 +68,11 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
     this._$manager.scroll(function(){
       if (self._bReadyToLoad &&
-        (self._$container.height() - self._$manager.scrollTop() - self._$manager.height() < 100)) {
+          (self._$container.height() - self._$manager.scrollTop() - self._$manager.height() < 100)) {
           self._bReadyToLoad = false;
-          self._oGlobalDispatcher.publish('need_more_stories', {});
+          self._oGlobalDispatcher.publish('need_more_stories', {
+            'fLastVisitTime': self.hashUptoDate()['last']['lastVisitTime']
+          });
         }
     });
 
@@ -93,7 +95,9 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
       this.setShelvesHeight(this._computeSlots());
     });
 
-    this._oGlobalDispatcher.publish('need_more_stories');
+    this._oGlobalDispatcher.publish('need_more_stories', {
+      'fLastVisitTime': new Date().getTime()
+    });
   },
 
   $ : function() {
@@ -344,21 +348,21 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   attached : function() {
     this._bDetached = false;
   },
-  
+
   hashUptoDate : function() {
     // TODO(rmoutard): clean this.
-	var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
-	var oLastStory = this._lShelves[this._lShelves.length - 1]._oCoversContainer.last().story();
+    var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
+    var oLastStory = this._lShelves[this._lShelves.length - 1]._oCoversContainer.last().story();
     return {
-	  'first': {
-	    'id': oFirstStory.id(),
-	    'lastVisitTime' : oFirstStory.lastVisitTime()
-	  },
-	  'last': {
-	    'id': oLastStory.id(),
-	    'lastVisitTime' : oLastStory.lastVisitTime()
-	  }
-	};
+      'first': {
+        'id': oFirstStory.id(),
+        'lastVisitTime' : oFirstStory.lastVisitTime()
+      },
+      'last': {
+        'id': oLastStory.id(),
+        'lastVisitTime' : oLastStory.lastVisitTime()
+      }
+    };
   }
 
 });
