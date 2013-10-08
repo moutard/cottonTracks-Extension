@@ -348,7 +348,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   hashUptoDate : function() {
     // TODO(rmoutard): clean this.
 	var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
-	var oLastStory = this._lShelves[this._lShelves.length]._oCoversContainer.last().story();
+	var oLastStory = this._lShelves[this._lShelves.length - 1]._oCoversContainer.last().story();
     return {
 	  'first': {
 	    'id': oFirstStory.id(),
