@@ -6,19 +6,21 @@
  * EngineLocalstorage should not be used directly. It should be accessed through
  * more abstract layers like a Wrapper which hide its inner workings.
  *
- * @param {String} sDatabaseName :
- *  the name of the database we want to use (it will be created
- *  if necessary).
- * @param {Dictionnary} dIndexesForObjectStoreNames :
- *  a dictionary where keys are the names of object stores we need to use (they
- *  will be created if necessary) and values are the dictionary of index
- *  properties for each object store.
- * @param {Function} mOnReadyCallback :
- *  the callback method that should be
- *  executed when the database is ready.
  */
 Cotton.DB.LocalStorage.Engine = Class.extend({
 
+   /**
+	* @param {String} sDatabaseName :
+	*  the name of the database we want to use (it will be created
+	*  if necessary).
+	* @param {Dictionnary} dIndexesForObjectStoreNames :
+	*  a dictionary where keys are the names of object stores we need to use (they
+	*  will be created if necessary) and values are the dictionary of index
+	*  properties for each object store.
+	* @param {Function} mOnReadyCallback :
+	*  the callback method that should be
+	*  executed when the database is ready.
+	*/
   init :function(sDatabaseName, dIndexesForObjectStoreNames) {
     var self = this;
 
@@ -72,18 +74,29 @@ Cotton.DB.LocalStorage.Engine = Class.extend({
     self._oDb.setItem(self._getStoreLocation(sObjectStoreName), JSON.stringify(lResults));
   },
 
-  putUnique : function(sObjectStoreName, dItem) {
+  /**
+   * Put a item in the cache with sKey uniqueness.
+   * 
+   * @param {String} sObjectStoreName:
+   *          name of the object store.
+   * @param {Dictionnary} dItem:
+   *         element you want to add.
+   * @param {String} sKey:
+   *         key that should be unique.
+   * @param {Function} mMerge:
+   *         method that merge to dbRecords and return the merged dbRecord.		
+   */
+  putUnique : function(sObjectStoreName, dItem, sKey, mMerge) {
     var self = this;
     var lResults = self.getList(sObjectStoreName);
     var iLength = lResults.length;
-    for (var i = 0; i < iLength; i++){
+    for (var i = 0; i < iLength; i++) {
       var dLocalstorageItem = lResults[i];
-      if (dLocalstorageItem['sUrl'] === dItem['sUrl']){
-        lResults.splice(i,1);
+      if (dLocalstorageItem[sKey] === dItem[sKey]) {
+        lResults[i] =  mMerge(dItem, lResults[i]);
         break;
       }
     }
-    lResults.push(dItem);
     self._oDb.setItem(self._getStoreLocation(sObjectStoreName), JSON.stringify(lResults));
   },
 

@@ -103,22 +103,28 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
   },
 
   /**
-   * Put a item in the cache with url uniqueness.
+   * Put a item in the cache with sKey uniqueness.
+   * 
+   * @param {Dictionnary} dItem:
+   *         element you want to add.
+   * @param {String} sKey:
+   *         key that should be unique.
+   * @param {Function} mMerge:
+   *         method that merge to dbRecords and return the merged dbRecord.		
    */
-  putUnique : function(dItem) {
+  putUnique : function(dItem, sKey, mMerge) {
     var lResults = this.get();
     var iLength = lResults.length;
-    for (var i = 0; i < iLength; i++){
+    for (var i = 0; i < iLength; i++) {
       var dPoolItem = lResults[i];
-      if (dPoolItem['sUrl'] === dItem['sUrl']){
-        lResults.splice(i,1);
+      if (dPoolItem[sKey] === dItem[sKey]){
+    	lResults[i] =  mMerge(dItem, lResults[i]);
+        // We could use string to avoid problem with too long int but here it's
+        // not a problem here because date are less that 10^53.
+    	lResult[i]['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
         break;
       }
     }
-    // We could use string to avoid problem with too long int but here it's
-    // not a problem here because date are less that 10^53.
-    dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
-    lResults.push(dItem);
     this.set(lResults);
   },
 
