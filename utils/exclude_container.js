@@ -53,6 +53,11 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return sHostname === "localhost";
   },
 
+  isIP : function(sHostname) {
+    var oRegExp = new RegExp("^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$", "g");
+    return oRegExp.test(sHostname);
+  },
+
   /**
    * Return if the url is an exluded pattern.
    *
@@ -104,6 +109,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
       || this.isFileProtocol(oUrl.protocol)
       || this.isChromeExtension(oUrl.protocol)
       || this.isLocalhost(oUrl.hostname)
+      || this.isIP(oUrl.hostname)
       || this.isError(oUrl)
       || this._oCornExcluder.isCorn(sUrl, oUrl.hostname_without_country);
   },
