@@ -77,7 +77,7 @@ Cotton.Controllers.Messaging = Class.extend({
       dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
 
       if (oHistoryItem.oUrl().keywords){
-        self._oMainController._oSearchCache.putUnique(dHistoryItem);
+        self._oMainController._oSearchCache.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
       }
 
       var sPutId = ""; // put return the auto-incremented id in the database.
@@ -168,7 +168,7 @@ Cotton.Controllers.Messaging = Class.extend({
                           dHistoryItem['id'] = sPutId;
                           self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           // Put the history item in the pool.
-                          self._oMainController._oPool.putUnique(dHistoryItem);
+                          self._oMainController._oPool.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
                           // Lauch dbscan2 on the pool.
                           var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                           wDBSCAN2.postMessage({
@@ -228,7 +228,7 @@ Cotton.Controllers.Messaging = Class.extend({
                 function(){});
             });
           } else {
-            self._oMainController._oPool.putUnique(dHistoryItem);
+            self._oMainController._oPool.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
           }
         });
       });

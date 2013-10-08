@@ -42,20 +42,32 @@ Cotton.DB.FixedSizeCache = Cotton.DB.SingleStoreCache.extend({
   },
 
   /**
-   * Put an item in the cache with url uniqueness condition.
+   * Put a item in the cache with sKey uniqueness.
+   * 
+   * @param {String} sObjectStoreName:
+   *          name of the object store.
+   * @param {Dictionnary} dItem:
+   *         element you want to add.
+   * @param {String} sKey:
+   *         key that should be unique.
+   * @param {Function} mMerge:
+   *         method that merge to dbRecords and return the merged dbRecord.		
    */
-  putUnique : function(dItem) {
+  putUnique : function(dItem, sKey, mMerge) {
     var lResults = this.get();
     var iLength = lResults.length;
-    for (var i = 0; i < iLength; i++){
+    for (var i = 0; i < iLength; i++) {
       var dPoolItem = lResults[i];
-      if (dPoolItem['sUrl'] === dItem['sUrl']){
+      if (dPoolItem[sKey] === dItem[sKey]) {
+        dItem = mMerge(lResults[i], dItem);
+    	// Here splice is necessary because we want to keep all the elements
+    	// sorted by there expiracy date.
         lResults.splice(i,1);
         break;
       }
     }
 
-    if(lResults.length >= this._iMaxSize){
+    if(lResults.length >= this._iMaxSize) {
       // Pop the oldest element, it's always the first element of the list.
       // TODO(rmoutard) : check it's true.
       lResults.shift();
