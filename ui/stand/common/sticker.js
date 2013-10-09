@@ -41,9 +41,10 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     var sImageUrl = oStory.featuredImage();
     if (!sImageUrl || sImageUrl === "") {
       var iId = oStory.id() % 6 + 1;
-      this._oImage.$().addClass('ct-image' + iId);
+      this._oImage.appendDefault(iId);
+    } else {
+      this._oImage.appendImage(sImageUrl);
     }
-    this._oImage.appendImage(sImageUrl);
 
 
     // Click the image to enter the story.
