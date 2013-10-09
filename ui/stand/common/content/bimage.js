@@ -26,10 +26,8 @@ Cotton.UI.Stand.Common.Content.BImage = Class.extend({
    * @param {string} sImage:
    *        url of the image to load
    */
-  appendImage : function(sImage) {
+  appendImage : function(sImage, bForce) {
     var self = this;
-
-    if (sImage) {
       var $img = $('<img src="' + sImage + '"/>').error(function(){
         if (self._$image){
           // the condition is because the .error() is asynchronous,
@@ -43,7 +41,14 @@ Cotton.UI.Stand.Common.Content.BImage = Class.extend({
           self._$image.css('background-image', 'url("' + sImage + '")');
         }
       });
-    }
+  },
+  
+  /**
+   * No need to check the image to append default.
+   * It's like a force append.
+   */
+  appendDefault : function(iId) {
+    this._$image.css('background-image', 'url("/media/images/common/ct-no_sticker_image' + iId + '.png")');
   },
 
   purge : function() {
