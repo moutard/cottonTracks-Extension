@@ -14,9 +14,10 @@
 @purewhite: #ffffff;
 
 .ct-manager {
+  position: relative;
+  top: 2*@topbar_margin + @topbar_height;
   width: 100%;
-  height: calc(~"100% - @{topbar_height} - 2*@{topbar_margin}");
-  overflow-y: scroll;
+  /*height: calc(~"100% - @{topbar_height} - 2*@{topbar_margin}");*/
 
   > .ct-shelves_container {
     width: calc(~"100% - 2*@{topbar_margin}");
