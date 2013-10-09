@@ -5,6 +5,7 @@
 @topbar_min_width: 960px;
 @topbar_height: 34px;
 @topbar_margin: 20px;
+@footer_height: 60px;
 
 /**
  * Colors
@@ -24,6 +25,10 @@
     max-width: @topbar_max_width;
     min-width: @topbar_min_width;
     margin: auto;
+
+    &.ct-footer_spacer {
+      padding-bottom: @footer_height;
+    }
 
     > .ct-shelf {
       width: 100%;
@@ -100,19 +105,12 @@
     text-align: center;
     padding-bottom: 20px;
     color: @purewhite;
+    cursor: default;
 
-    &.ct-load_more {
-      cursor: s-resize;
-    }
-
-    &.ct-end_of_history {
-      cursor: default;
-
-      > .ct-underline {
-        position: relative;
-        top: -2px;
-        text-decoration: underline;
-      }
+    > .ct-underline {
+      position: relative;
+      top: -2px;
+      text-decoration: underline;
     }
   }
 }
