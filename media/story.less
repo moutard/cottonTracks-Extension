@@ -25,21 +25,23 @@
 
 .ct-story {
   position: relative;
+  top: 2*@topbar_margin + @topbar_height;
   width: 100%;
-  height: calc(~"100% - @{topbar_height} - 2*@{topbar_margin}");
-  overflow-y: scroll;
+  // height: calc(~"100% - @{topbar_height} - 2*@{topbar_margin}");
+  // overflow-y: scroll;
 
   > .ct-story_container {
     width: calc(~"100% - 2*@{topbar_margin}");
-    height: 100%;
+    //height: 100%;
     max-width: @topbar_max_width;
     min-width: @topbar_min_width;
     margin: auto;
 
     > .ct-story_dashboard {
       position: fixed;
+      top: 2*@topbar_margin + @topbar_height;
       width: 396px;
-      height: 100%;
+      // height: 100%;
       float: left;
       z-index: 1;
       /* This is not mandatory because of the position: fixed.
