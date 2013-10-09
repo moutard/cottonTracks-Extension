@@ -224,7 +224,8 @@ Cotton.Controllers.DispatchingController = Class.extend({
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
       oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
-        oLightyearController.openPartial(lStories, sSearchPattern, "No Result");
+        var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
+        oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
       });
     });
   }
