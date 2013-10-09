@@ -54,7 +54,7 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
   },
 
   $ : function() {
-    return this._$topbar;
+    return this._$topbar_container;
   }
 
   // no need for purge, because the topbar is persistant across the UI.

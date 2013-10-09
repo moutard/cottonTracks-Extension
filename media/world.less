@@ -20,6 +20,7 @@ body {
 	font-weight: 100;
 	-webkit-font-smoothing: antialiased;
 	background-color: @33grey;
+  overflow-y: scroll;
 
   a {
     text-decoration: none;
@@ -28,12 +29,12 @@ body {
   > .ct {
     position: absolute;
 	  width: 100%;
-  	height: 100%;
-    overflow-y: hidden;
+  	//height: 100%;
+    //overflow-y: hidden;
   }
 }
 
 /* to avoid issue on linux version, when a scroll bar appears and it creates a small gap.*/
 ::-webkit-scrollbar {
-    display: none;
+   // display: none;
 }
