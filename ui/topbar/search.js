@@ -39,17 +39,17 @@ Cotton.UI.Topbar.Search = Class.extend({
     this._$search_field.keypress(function(oEvent){
       if (oEvent.which === 13) {
         // 13 = enter key.
-        self._search();
-        // analytics tracking.
         if ($(this).val()) {
+          self._search();
+          // analytics tracking.
           Cotton.ANALYTICS.searchStories('enter');
         }
       }
     });
     this._$search_button.click(function(){
-      self._search();
-      // analytics tracking.
       if (self._$search_field.val()) {
+        self._search();
+        // analytics tracking.
         Cotton.ANALYTICS.searchStories('search_button');
       }
     });
