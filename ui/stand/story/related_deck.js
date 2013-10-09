@@ -68,6 +68,7 @@ Cotton.UI.Stand.Story.RelatedDeck = Class.extend({
         oRelatedCover.setIndex(i);
       }
     }
+    this.setHeight(this._computeSlots());
   },
 
   _computeSlots : function() {
@@ -103,6 +104,15 @@ Cotton.UI.Stand.Story.RelatedDeck = Class.extend({
     for (var i = 0; i < iLength; i++) {
       this.positionOneCover(this._lRelatedCovers[i], i, iSlotsPerLine);
     }
+    this.setHeight(iSlotsPerLine);
+  },
+
+  setHeight : function(iSlotsPerLine) {
+    var COVER_HEIGHT = 250;
+    var TOP_MARGIN = 22;
+    var iHeight = Math.ceil(this._lRelatedCovers.length / iSlotsPerLine)
+      * (COVER_HEIGHT + TOP_MARGIN);
+    this._$related_deck.css('height', iHeight);
   },
 
   removeCover : function(iStoryId) {
