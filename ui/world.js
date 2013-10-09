@@ -175,7 +175,7 @@ Cotton.UI.World = Class.extend({
    * open a generic partial that contains stories.
    */
   openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
-    document.title = "cottonTracks" ;
+    document.title = sPartialTitle + " - cottonTracks search results" ;
     this.clear();
     this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
         sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
