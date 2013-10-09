@@ -44,6 +44,8 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   /**
    * Use chrome messaging API, to send a message to the background page, that
    * will put the passed historyItem into the database.
+   * used for the current page through createVisitItem,
+   * or standalone for videos for example
    */
   createHistoryItem : function(oItem, mCallback) {
     var self = this;
@@ -79,9 +81,9 @@ Cotton.Behavior.BackgroundClient = Class.extend({
   },
 
   /**
-   * Create a visit item
-   * Used for embeded video to create a independant historyItem that
-   * contains the url of the video.
+   * Create a visit item for the current page
+   * separate from createHistoryItem because createHistoryItem can be used
+   * standalone just to create a historyItem for the iframes clicked (videos)
    */
   createVisit : function() {
     var self = this;
