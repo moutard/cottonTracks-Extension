@@ -42,6 +42,7 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
         Cotton.ANALYTICS.showRelated(self._iRelatedStories);
 
         self._oGlobalDispatcher.publish('related_stories');
+        self._oGlobalDispatcher.publish('scrolloffset');
         self._$back_to_cards.removeClass('ct-hidden');
         $(this).addClass('ct-hidden');
       }
@@ -56,6 +57,7 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
       Cotton.ANALYTICS.hideRelated();
 
       self._oGlobalDispatcher.publish('back_to_cards');
+      self._oGlobalDispatcher.publish('scrolloffset');
       self._$related.removeClass('ct-hidden');
       $(this).addClass('ct-hidden');
     });

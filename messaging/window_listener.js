@@ -22,6 +22,10 @@ Cotton.Messaging.WindowListener = Class.extend({
       bFirstPopstate = false;
     };
 
+    this._oDispatcher.subscribe('scrolloffset', this, function() {
+      $window.scrollTop(0);
+    });
+
     // Ready.
     $window.ready(function(){
       oDispatcher.publish('window_ready', {

@@ -93,6 +93,7 @@ Cotton.UI.World = Class.extend({
 
   openStory : function(oStory, lRelatedStories) {
     document.title = oStory.title() + " - cottonTracks" ;
+    this._oGlobalDispatcher.publish('scrolloffset', {});
     this.clear();
     this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
         this._oGlobalDispatcher)
@@ -149,6 +150,7 @@ Cotton.UI.World = Class.extend({
   },
 
   openManager : function(dArguments) {
+    this._oGlobalDispatcher.publish('scrolloffset', {});
     if (this._oManager) {
       if (this._oManager.isDetached()){
         document.title = "cottonTracks";
@@ -176,6 +178,7 @@ Cotton.UI.World = Class.extend({
    */
   openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
     document.title = sPartialTitle + " - cottonTracks search results" ;
+    this._oGlobalDispatcher.publish('scrolloffset', {});
     this.clear();
     this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
         sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
