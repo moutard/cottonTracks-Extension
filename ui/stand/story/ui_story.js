@@ -55,7 +55,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
       )
     );
 
-    this._$story.bind('mousewheel',function(){
+    this._oGlobalDispatcher.subscribe('window_scroll', this, function(){
       self._oDashboard.pushBack();
       if (!self._bScrolling) {
         self._bScrolling = true;
@@ -127,6 +127,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
   purge : function() {
     // Clear the timeout, otherwise we could try asyncronously to access the _oDashboard
     // that has already been purged. ex: swipe right to go to previous page.
+    this._oGlobalDispatcher.unsubscribe('window_scroll', this);
     this._oGlobalDispatcher.unsubscribe('related_stories', this);
     this._oGlobalDispatcher.unsubscribe('back_to_cards', this);
     this._oGlobalDispatcher.unsubscribe('remove_cover', this);
@@ -142,7 +143,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
     }
     this._oDashboard.purge();
     this._oDashboard = null;
-    this._$story.unbind('mousewheel').remove();
+    this._$story.remove();
     this._$story = null;
   }
 

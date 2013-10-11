@@ -16,6 +16,13 @@ Cotton.Messaging.WindowListener = Class.extend({
 
     var $window = $(window);
 
+    $window.scroll(function(){
+      oDispatcher.publish('window_scroll', {
+        'scroll_top': $window.scrollTop(),
+        'height': $window.height()
+      });
+    });
+
     var bFirstPopstate = true;
     window.onpopstate = function(){
       oDispatcher.publish('window_popstate', {'first_popstate': bFirstPopstate});
