@@ -68,14 +68,14 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
 
     this._$load_more.appendTo(this._$manager).hide();
 
-    this._$manager.scroll(function(){
-      if (self._bReadyToLoad &&
-          (self._$container.height() - self._$manager.scrollTop() - self._$manager.height() < 100)) {
+    this._oGlobalDispatcher.subscribe('window_scroll', this, function(dArguments) {
+      if (self._bReadyToLoad && !self._bDetached &&
+        (dArguments['scroll_top'] > self._$manager.height() - dArguments['height'] - 100)) {
           self._oGlobalDispatcher.publish('need_more_stories', {
             'fLastVisitTime': self.hashUptoDate()['last']['lastVisitTime']
           });
           self._loading();
-        }
+      }
     });
 
     this._oGlobalDispatcher.subscribe('give_more_stories', this, function(dArguments) {
@@ -282,14 +282,15 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._iCurrentPeriodIndex = iCurrentPeriodIndex;
 
     if (this._lShelves.length === 0) {
-      this._$manager.unbind('scroll');
+      this._oGlobalDispatcher.unsubscribe('window_scroll', this);
       this._$manager.append(this._$no_story);
+      this._bEnd = true;
     }
   },
 
   fillScreen : function() {
-    var iMinShelfHeight = 318;
-    if (this._$container.height() <=  this._$manager.height() + 318) {
+    var TOPBAR_HEIGHT = 74;
+    if (!this._bEnd && this._$container.height() + TOPBAR_HEIGHT <=  $(window).height()) {
       this._oGlobalDispatcher.publish('need_more_stories', {
         'fLastVisitTime': this.hashUptoDate()['last']['lastVisitTime']
       });
@@ -304,7 +305,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._$load_more.hide();
     this._$container.removeClass('ct-footer_spacer');
     this._$manager.append($end_of_history);
-    this._$manager.unbind('scroll');
+    this._oGlobalDispatcher.unsubscribe('window_scroll', this);
   },
 
   _loading : function() {
@@ -381,19 +382,21 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   },
 
   hashUptoDate : function() {
-    // TODO(rmoutard): clean this.
-    var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
-    var oLastStory = this._lShelves[this._lShelves.length - 1]._oCoversContainer.last().story();
-    return {
-      'first': {
-        'id': oFirstStory.id(),
-        'lastVisitTime' : oFirstStory.lastVisitTime()
-      },
-      'last': {
-        'id': oLastStory.id(),
-        'lastVisitTime' : oLastStory.lastVisitTime()
-      }
-    };
+    if (this._lShelves.length > 0) {
+      // TODO(rmoutard): clean this.
+      var oFirstStory = this._lShelves[0]._oCoversContainer.first().story();
+      var oLastStory = this._lShelves[this._lShelves.length - 1]._oCoversContainer.last().story();
+      return {
+        'first': {
+          'id': oFirstStory.id(),
+          'lastVisitTime' : oFirstStory.lastVisitTime()
+        },
+        'last': {
+          'id': oLastStory.id(),
+          'lastVisitTime' : oLastStory.lastVisitTime()
+        }
+      };
+    }
   }
 
 });
