@@ -57,16 +57,20 @@ Cotton.Controllers.Popstater = Class.extend({
 
   _handlePopstate : function() {
     var self = this;
+    this._oGlobalDispatcher.publish('clear');
 
-    if (window.history.state) {
+    var dState = window.history.state;
+
+    if (dState) {
       // we land on the UI with already a custom history state
       // for example if you refresh the page
-      self._iHistoryState = window.history.state['count'];
+      self._iHistoryState = dState['count'];
     } else {
       // we land on the UI from a fresh page, replace the default history state by our
       // custom state
       self._iHistoryState = window.history.length;
       self.replaceState(window.location.href, self._iHistoryState);
+      dState = window.history.state;
     }
     // will set the navigation arrows
     self._oGlobalDispatcher.publish('change_history_state', {
@@ -74,7 +78,7 @@ Cotton.Controllers.Popstater = Class.extend({
       'history_length': window.history.length
     });
 
-    var oUrl = new UrlParser(window.history.state['path']);
+    var oUrl = new UrlParser(dState['path']);
     oUrl.fineDecomposition();
     if (oUrl.dSearch['sid']){
       //open on a story
@@ -88,19 +92,21 @@ Cotton.Controllers.Popstater = Class.extend({
             self._oGlobalDispatcher.publish('home', {
               'from_popstate': true,
             });
+            self._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
           } else {
             // analytics tracking.
             Cotton.ANALYTICS.navigate('story');
             self._oGlobalDispatcher.publish('enter_story', {
-              'story': oStory,
+              'story': oStory
             });
+            self._oGlobalDispatcher.publish('scrolloffset', {'scroll': dState['scroll']});
           }
         });
       });
     } else if (oUrl.dSearch['q']) {
       // Search page.
       self._oGlobalDispatcher.publish('search_stories', {
-        'search_words': oUrl.dSearch['q'].split('+'),
+        'search_words': oUrl.dSearch['q'].split('+')
       });
       // analytics tracking.
       Cotton.ANALYTICS.navigate('manager');
@@ -109,7 +115,7 @@ Cotton.Controllers.Popstater = Class.extend({
       Cotton.ANALYTICS.navigate('manager');
       // open on the manager
       self._oGlobalDispatcher.publish('home', {
-        'from_popstate': true,
+        'from_popstate': true
       });
     }
   },
