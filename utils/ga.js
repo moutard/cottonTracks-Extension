@@ -13,15 +13,6 @@ Cotton.Analytics = Class.extend({
       _gaq.push(['_setAccount', 'UA-30134257-3']);
     }
     _gaq.push(['_trackPageview']);
-    if (localStorage['ct-cohort']) {
-      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
-    } else if (localStorage['cohort']) {
-      // transition between cohort to ct-cohort.
-      // remove it after a few updates, when most of the users will be updated.
-      localStorage.setItem('ct-cohort', localStorage['cohort']);
-      localStorage.removeItem('cohort');
-      _gaq.push(['_trackEvent', 'cohort', localStorage['ct-cohort']]);
-    }
 
     var ga = document.createElement('script');
     ga.type = 'text/javascript';
@@ -34,118 +25,141 @@ Cotton.Analytics = Class.extend({
   // Track an event with _gaq.push(['_trackEvent', 'category', 'action', 'opt_label',
   // 'opt_int_value', 'opt_bool_noninteraction']);
 
-  // to track number of people in a cohort
-  setCohort : function(sCohort) {
-    if (!sCohort){
-      var date = new Date();
-      var month = date.getMonth() + 1;
-      localStorage.setItem('ct-cohort', month + "/" + date.getFullYear());
-      var sCohort = month + "/" + date.getFullYear();
-    }
-    _gaq.push(['_trackEvent', 'cohort', 'setCohort', sCohort]);
-  },
-
   // monitor installs
   install : function(sVersion) {
-    _gaq.push(['_trackEvent', 'version', 'install', sVersion]);
+    _gaq.push(['_trackEvent', 'users', 'install', sVersion]);
   },
 
   // monitor updates
   update : function(sVersion) {
-    _gaq.push(['_trackEvent', 'version', 'update', sVersion]);
+    _gaq.push(['_trackEvent', 'users', 'update', sVersion]);
   },
 
-  // number of indexed historyItems at install
-  historyItemsInstallCount : function(iItemsCount) {
-    _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'install', iItemsCount]);
+  // install duration
+  installTime : function(iDuration) {
+    _gaq.push(['_trackEvent', 'performance', 'install_time', 'install', iDuration]);
   },
 
-  // number of indexed visitItems at install
-  visitItemsInstallCount : function(iItemsCount) {
-    _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'install', iItemsCount]);
+  // new historyItems indexed
+  newHistoryItem : function(iCount) {
+    var iItemCount = iCount || 1;
+    var sCreationPhase = (iCount) ? 'install' : 'browsing';
+    _gaq.push(['_trackEvent', 'data', 'new_item', sCreationPhase, iItemCount]);
   },
 
-  // historyItems tracking
-  newHistoryItem : function() {
-    _gaq.push(['_trackEvent', 'historyItem', 'new_item', 'browsing', 1]);
+  // new visitItem
+  newVisitItem : function(iCount) {
+    var iVisitCount = iCount || 1;
+    var sCreationPhase = (iCount) ? 'install' : 'browsing';
+    _gaq.push(['_trackEvent', 'data', 'new_visit', sCreationPhase, iVisitCount]);
   },
 
-  // visitItems tracking
-  newVisitItem : function() {
-    _gaq.push(['_trackEvent', 'historyItem', 'new_visit', 'browsing', 1]);
+  // new Story Created
+  newStory : function(iCount) {
+    var iStoryCount = iCount || 1;
+    var sCreationPhase = (iCount) ? 'install' : 'browsing';
+    _gaq.push(['_trackEvent', 'data', 'new_story', sCreationPhase, iStoryCount]);
   },
 
-  // Story tracking
-  storyAvailable : function(sSource) {
-    _gaq.push(['_trackEvent', 'story', 'enabled', sSource]);
+  // navigation
+  openLightyear : function(sEntryPoint) {
+    // sEntryPoint is very likely to be browserAction.
+    // we will compare it to 'any', triggered every time, to see if people
+    // use another way sometimes (such as refresh page).
+    _gaq.push(['_trackEvent', 'navigation', 'open_lightyear', sEntryPoint]);
   },
 
-  showLightyear : function() {
-    _gaq.push(['_trackEvent', 'lightyear', 'open', 'browserAction']);
+  openManager : function(bPopstate) {
+    // bPopstate indicates if the manager has been reached through navigation
+    // (browser prev/next, or prev/next arrows)
+    // or from the home button
+    var sEntryPoint = (bPopstate) ? 'prev_next' : 'home_button';
+    _gaq.push(['_trackEvent', 'navigation', 'open_manager', sEntryPoint]);
   },
 
-  filter : function(sFilterType) {
-    _gaq.push(['_trackEvent', 'story', 'filter', sFilterType]);
+  navigate : function(sTargetPage) {
+    _gaq.push(['_trackEvent', 'navigation', 'change_page', sTargetPage]);
   },
 
-  scrollStory : function() {
-    _gaq.push(['_trackEvent', 'story', 'scroll']);
-   },
+  depth : function(iDepth) {
+    _gaq.push(['_trackEvent', 'navigation', 'depth', iDepth]);
+  },
 
-  editStoryTitle : function(sRenameMedium) {
-    _gaq.push(['_trackEvent', 'story', 'edit_title', sRenameMedium]);
+  // Cards tracking
+  revisitPage : function(sSource) {
+    // sSource is the type of the card if it is a card, or preview_link if from the cover
+    _gaq.push(['_trackEvent', 'card', 'revisit_card', sSource]);
+  },
+
+  deleteCard : function(sCardType) {
+    _gaq.push(['_trackEvent', 'card', 'delete_card', sCardType]);
+  },
+
+  playVideo : function(sVideoProvider) {
+    _gaq.push(['_trackEvent', 'card', 'play_video', sVideoProvider]);
+  },
+
+  fetchPool : function(iPoolItems) {
+    _gaq.push(['_trackEvent', 'card', 'fetch_pool', '', iPoolItems]);
+  },
+
+  addCard : function() {
+    _gaq.push(['_trackEvent', 'card', 'add_card']);
+  },
+
+  // UIstory tracking.
+  openStory : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'open_story', sSource]);
   },
 
   deleteStory : function() {
     _gaq.push(['_trackEvent', 'story', 'delete_story']);
   },
 
-  // Item tracking
-  openItem : function(sItemType, sTrigger) {
-    _gaq.push(['_trackEvent', sItemType, 'open', sTrigger]);
+  storyContext : function(sContext) {
+    _gaq.push(['_trackEvent', 'story', 'story_context', sContext]);
   },
 
-  deleteItem : function(sItemType) {
-    _gaq.push(['_trackEvent', sItemType, 'delete', 'toolbox']);
+  // related tracking
+  showRelated : function(iRelated) {
+    _gaq.push(['_trackEvent', 'related', 'show_related', iRelated]);
   },
 
-  getContent : function() {
-    _gaq.push(['_trackEvent', 'article', 'getContent', 'toolbox']);
+  hideRelated : function() {
+    _gaq.push(['_trackEvent', 'related', 'hide_related']);
   },
 
-  // Reader Tracking
-  expand : function() {
-    _gaq.push(['_trackEvent', 'article', 'expand', 'toolbox']);
+  // settings
+  openSettings : function() {
+    _gaq.push(['_trackEvent', 'settings', 'open_settings']);
   },
 
-  collapse : function() {
-    _gaq.push(['_trackEvent', 'article', 'collapse', 'toolbox']);
+  closeSettings : function(sCloseMethod) {
+    _gaq.push(['_trackEvent', 'settings', 'close_settings', sCloseMethod]);
   },
 
-  scrollReader : function() {
-    _gaq.push(['_trackEvent', 'article', 'scroll', 'reader']);
+  feedback : function(sSuccessFailure) {
+    _gaq.push(['_trackEvent', 'settings', 'feedback', sSuccessFailure]);
   },
 
-  //related stories and search
-  relatedStories : function() {
-    _gaq.push(['_trackEvent', 'related', 'open_panel', 'related_toggler']);
+  rateUs : function(sWebstoreUrl) {
+    switch (sWebstoreUrl) {
+    case "https://chrome.google.com/webstore/detail/cottontracks/flmfagndkngjknjjcoejaihmibcfcjdh/reviews":
+      var sBrowser = 'Chrome';
+      break;
+    case "https://addons.opera.com/fr/extensions/details/cottontracks/?display=en#feedback-container":
+      var sBrowser = 'Opera';
+      break;
+    default:
+      var sBrowser = "unknown";
+      break;
+    }
+    _gaq.push(['_trackEvent', 'settings', 'rate_us', sBrowser]);
   },
 
-  backToStory : function() {
-    _gaq.push(['_trackEvent', 'related', 'back_to_story', 'related_toggler']);
-  },
-
-  searchStories : function(sSearchPlace) {
-    _gaq.push(['_trackEvent', 'related', 'search', sSearchPlace]);
-  },
-
-  enterStory : function() {
-    _gaq.push(['_trackEvent', 'story', 'enter_story']);
-  },
-
-  //navigation in the UI
-  popState : function(sLandingPageType) {
-    _gaq.push(['_trackEvent', 'navigation', 'back_forward', sLandingPageType]);
+  // Search.
+  searchStories : function(sTriggerMethod) {
+    _gaq.push(['_trackEvent', 'search', 'search_stories', sTriggerMethod]);
   }
 
 });

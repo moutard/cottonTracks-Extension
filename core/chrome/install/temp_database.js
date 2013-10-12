@@ -66,7 +66,7 @@ Cotton.Core.TempDatabase = Class.extend({
         DEBUG && console.debug(self._lChromeHistoryItems.length + " " + self._lCottonHistoryItems.length);
         var iLength = self._lCottonHistoryItems.length;
         var iCount = 0;
-        DEBUG && console.debug('Number of Chrome HistoryItems after remove tools: ' + iLength);
+        DEBUG && console.debug('Number of Chrome HistoryItems after remove items without bag of words: ' + iLength);
 
         oBenchmark.step('Compute all historyItems');
         if (iLength == 0) {

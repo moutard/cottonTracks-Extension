@@ -217,8 +217,6 @@
           var oCurrentHistoryItem = this._oClient.current();
           oCurrentHistoryItem.extractedDNA()
           oCurrentHistoryItem.extractedDNA().setImageUrl(this._sBestImage);
-          this._oClient.setParagraph(this._lAllParagraphs);
-          this._oClient.setImage(this._sBestImage);
           this._oClient.updateVisit();
         },
 
@@ -230,6 +228,11 @@
         _findBestImage : function() {
           var lImages = Array.prototype.slice.call(document.images);
           var iLength = lImages.length;
+          var iDocumentHeight = Math.max(
+            document.body.scrollHeight, document.documentElement.scrollHeight,
+            document.body.offsetHeight, document.documentElement.offsetHeight,
+            document.body.clientHeight, document.documentElement.clientHeight
+          );
           for (var i = 0; i < iLength; i++) {
             var oCurrentImage = lImages[i];
             var nScore = 0;
@@ -238,7 +241,7 @@
             && oCurrentImage.clientHeight > this._MIN_OBJECT_HEIGHT
             && oCurrentImage.naturalWidth  > this._MIN_OBJECT_WIDTH / 4
             && oCurrentImage.naturalHeight > this._MIN_OBJECT_HEIGHT / 4
-            && oCurrentImage.y < document.height * 0.52
+            && oCurrentImage.y < iDocumentHeight * 0.52
             && ! Cotton.Utils.ancestor(sImageParentSelector, oCurrentImage,
               false, true)) {
               nScore = nArea;

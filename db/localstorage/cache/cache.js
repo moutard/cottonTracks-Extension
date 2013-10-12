@@ -15,7 +15,7 @@ Cotton.DB.Cache = Cotton.DB.LocalStorage.Engine.extend({
    * Time during the data is still fresh after is ceation.
    * in seconds.
    */
-  _iExpiracy : null, // TODO(rmoutard) : never epires
+  _iExpiracy : null, // TODO(rmoutard) : never expires
 
   /**
    * @param {String} sDatabaseName

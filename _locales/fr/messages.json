@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "cottonTracks",
+    "description": "Titre de l'appli"
+  },
+  "extDesc": {
+    "message": "Le seul historique de navigation que vous aurez envie de garder.",
+    "description": "Courte description de l'application, apparaissant sur le store et sur la page chrome://extensions"
+  }
+}

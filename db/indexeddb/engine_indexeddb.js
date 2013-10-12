@@ -279,7 +279,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      "readwrite");
+      "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -313,7 +313,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      "readwrite");
+      "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -346,7 +346,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -385,7 +385,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -410,7 +410,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -448,7 +448,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
@@ -486,7 +486,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -521,9 +521,12 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  // Get all elements through the indexKey up to the iUpperBound.
+  // Sorted or inverse-sorted depending iDirection
+  // Includes bound if bStrict === false
   getUpperBound : function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -536,7 +539,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              "readwrite");
+                                              "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -569,9 +572,12 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  // Get all elements through the indexKey down to the iLowerBound.
+  // Sorted or inverse-sorted depending iDirection
+  // Includes bound if bStrict === false
   getLowerBound : function(sObjectStoreName, sIndexKey, iLowerBound,
                       iDirection, bStrict, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â>= iLowerBound
+    // bStrict == false All keys[sIndexKey] >= iLowerBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -582,7 +588,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              "readwrite");
+                                              "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -628,7 +634,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                                              "readwrite");
+                                              "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -679,7 +685,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // http://www.w3.org/TR/IndexedDB/#widl-IDBObjectStore-openCursor-IDBRequest-any-range-DOMString-direction
@@ -726,7 +732,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define Index.
@@ -774,7 +780,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define Index.
@@ -825,7 +831,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    */
   getXItems : function(sObjectStoreName, iX, sIndexKey,
       iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -837,7 +843,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                        "readwrite");
+                        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -877,9 +883,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
-  getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
-      iDirection, mResultElementCallback) {
-    // bStrict == false All keys[sIndexKey] â<= iUpperBound
+  getXItemsWithUpperBound : function(sObjectStoreName, iX, sIndexKey,
+      iDirection, iUpperBound, bStrict, mResultElementCallback) {
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
     // iUpperBound may be not an int.
     var self = this;
 
@@ -891,7 +897,62 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     //
     var lAllItems = new Array();
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-                        "readwrite");
+                        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+
+    var iCursorCount = 0;
+	var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
+    oCursorRequest.onsuccess = function(oEvent) {
+      iCursorCount+=1;
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        // There is less than iX correspondings items.
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else if(iCursorCount === iX){
+        // There is more than iX correspondings items, but return only the iXth
+        // first.
+        lAllItems.push(oResult.value);
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      }
+      else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    oCursorRequest.onerror = function(oEvent){
+      console.error("Can't open the database");
+      console.error(oEvent);
+      console.error(this);
+      throw "Cursor Request Error - getXItems";
+    };
+
+
+  },
+ 
+  getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
+      iDirection, mResultElementCallback) {
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
+    // iUpperBound may be not an int.
+    var self = this;
+
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+
+    //
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+                        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Define the index.
@@ -939,7 +1000,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
 
@@ -995,7 +1056,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var lResults = [];
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readwrite");
+        "readonly");
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
 
@@ -1103,11 +1164,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         var oStore =  oTransaction.objectStore(sObjectStoreName);
 
         // Find the index that do not satisfy the constraints using a regex in
-        // webkitErrorMessage. This message look like :
+        // error.message. This message look like :
         // "Unable to add key to index 'sKeyword': at least one key does not
         // satisfy the uniqueness requirements."
         // TODO(rmoutard): make sure this message doesn't change.
-        var sMessage = this['webkitErrorMessage'];
+        var sMessage = (this['error'] && this['error']['message']) ? this['error']['message'] : this['webkitErrorMessage'];
         var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
         var lRegExpResults = oRegExp.exec(sMessage);
         if(lRegExpResults.length > 1) {
@@ -1115,7 +1176,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
           var sIndex = lRegExpResults[1];
         } else {
           console.error(this);
-          console.error('The webkitErrorMessage has changed.');
+          console.error('The error.message has changed.');
         }
 
         var oIndex = oStore.index(sIndex);
