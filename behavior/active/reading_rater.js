@@ -538,7 +538,8 @@ if (!oExcludeContainer.isExcluded(window.location.href)){
   $(document).ready(function() {
     // Need to wait the document is ready to get the title and the parser can
     // work.
-
-    oReadingRater.start();
+    if (!oExcludeContainer.isTitleCorn(document.title.toLowerCase())) {
+      oReadingRater.start();
+    }
   });
 }

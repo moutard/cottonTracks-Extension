@@ -103,7 +103,7 @@ Cotton.Core.Installer = Class.extend({
         if (iTotalSessions && iSessionCount === iTotalSessions) {
           // PopulateDB.visitItems ensure that the callback function is called
           // only when all visitItems are in the database.
-
+          Cotton.ANALYTICS.newStory(lStories.length);
           // Add stories in IndexedDB, and update corresponding historyItems.
           if (lStories.length == 0) {
             // Stop the installation.
@@ -152,9 +152,6 @@ Cotton.Core.Installer = Class.extend({
     DEBUG && console.debug("Controller - install");
     self._oBenchmark = new Benchmark("Installation");
 
-    // Set cohort for analytics.
-    Cotton.ANALYTICS.setCohort();
-
     // FIXME(rmoutard->rkorach) : I think we don't need it anymore.
     // Make sure the background page is keeped opened during installation.
     self.wakeUp();
@@ -164,8 +161,8 @@ Cotton.Core.Installer = Class.extend({
         DEBUG && console.debug('GetHistory returns: '
           + lHistoryItems.length + ' historyItems and '
           + lVisitItems.length + ' visitItems:');
-        Cotton.ANALYTICS.historyItemsInstallCount(lHistoryItems.length);
-        Cotton.ANALYTICS.visitItemsInstallCount(lVisitItems.length);
+        Cotton.ANALYTICS.newHistoryItem(lHistoryItems.length);
+        Cotton.ANALYTICS.newVisitItem(lVisitItems.length);
         DEBUG && console.debug(lHistoryItems, lVisitItems);
         // visitItems are already dictionnaries, whereas historyItems are objects
         self.lHistoryItemsDict = [];
@@ -210,7 +207,9 @@ Cotton.Core.Installer = Class.extend({
    */
   installIsFinished : function() {
     this.purge();
-    this._oBenchmark.end();
+    this._oBenchmark.end(function(iDuration) {
+      Cotton.ANALYTICS.installTime(iDuration);
+    });
     chrome.browserAction.enable();
     this._bStopWakeUp = true;
     this._mCallback();

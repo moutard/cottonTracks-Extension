@@ -77,6 +77,32 @@ test("is https whitelisted.", function() {
   deepEqual(oExcludeContainer.isWhitelisted(oSecurePage2), false, 'not whitelisted https');
 });
 
+test("is IP.", function() {
+  var sNotIP = 'https://www.vimeo.com';
+  var sIsIP1 = 'https://10.1.10.156';
+  var sIsIP2 = 'https://10.125.100.156';
+  var sIsIP3 = 'https://100.1.10.15';
+  var sIsIP4 = 'https://0.0.0.0';
+  var sIsIP5 = 'https://0.0.0.0:8080';
+  var sIsIP6 = 'https://1.0.0.127:8080/alice/wonderland/';
+  var oNotIP = new UrlParser(sNotIP);
+  var oIsIP1 = new UrlParser(sIsIP1);
+  var oIsIP2 = new UrlParser(sIsIP2);
+  var oIsIP3 = new UrlParser(sIsIP3);
+  var oIsIP4 = new UrlParser(sIsIP4);
+  var oIsIP5 = new UrlParser(sIsIP5);
+  var oIsIP6 = new UrlParser(sIsIP6);
+
+  deepEqual(oExcludeContainer.isIP(oNotIP.hostname), false, 'is not ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP1.hostname), true, 'is ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP2.hostname), true, 'is ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP3.hostname), true, 'is ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP4.hostname), true, 'is ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP5.hostname), true, 'is ip');
+  deepEqual(oExcludeContainer.isIP(oIsIP6.hostname), true, 'is ip');
+});
+
+
 test("is excluded.", function() {
   var sSecurePage1 = 'https://www.vimeo.com';
   var sSecurePage2 = 'https://twitter.com';

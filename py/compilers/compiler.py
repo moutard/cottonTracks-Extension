@@ -259,7 +259,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
 
     SAVED_FILES =  [os.path.join(self._DESTINATION_PATH, lsPath) for lsPath in self._PRESERVED_FILES]
     DIR_TO_SAVE = ['media']
-    SAVED_EXTENSIONS = ['.jpg', '.png', '.ttf', '.gif']
+    SAVED_EXTENSIONS = ['.jpg', '.png', '.ttf', '.otf', '.gif', '.json']
 
     for path, dirs, files in os.walk(self._DESTINATION_PATH):
       i = len(files)
