@@ -152,6 +152,12 @@ Cotton.UI.World = Class.extend({
   openManager : function(dArguments) {
     if (this._oManager) {
       if (this._oManager.isDetached()){
+        if (!dArguments || !dArguments['from_popstate']) {
+          this._oGlobalDispatcher.publish('push_state', {
+            'code': "",
+            'value': ""
+          });
+        }
         document.title = "cottonTracks";
         // the manager is not visible, clear everything and attach it.
         this.clear();
@@ -160,16 +166,19 @@ Cotton.UI.World = Class.extend({
         this._oManager.attached();
         // We use a new message 'open_manager' because the 'home' message can result
         // in no action( we were already on the manager and clicked the home button).
-        this._oGlobalDispatcher.publish('open_manager', dArguments);
         Cotton.ANALYTICS.openManager(dArguments);
       }
     } else {
-      // no manager, init
       this.clear();
-      // init manager and start appending stories
+      if (!dArguments || !dArguments['from_popstate']) {
+        this._oGlobalDispatcher.publish('push_state', {
+          'code': "",
+          'value': ""
+        });
+      }
+      // no manager, init manager and start appending stories
       this.initManager();
       this._oGlobalDispatcher.publish('scrolloffset', {});
-      this._oGlobalDispatcher.publish('open_manager', dArguments);
       Cotton.ANALYTICS.openManager(dArguments);
     }
   },
