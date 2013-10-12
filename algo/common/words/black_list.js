@@ -26,6 +26,7 @@ Cotton.Algo.Common.Words.removeFromTitle = function(sTitle) {
 };
 
 Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) {
+  var oBlacklistBenchmark = new Benchmark('generate blacklist expressions');
   var lBlacklistExpressions = [".jpg", ".jpeg", ".png", ".gif", ".pdf"];
 
   // Store the frequency of each expression.
@@ -98,6 +99,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
     }
   }
   DEBUG && console.debug(lBlacklistExpressions);
+  oBlacklistBenchmark.end();
   return(lBlacklistExpressions);
 };
 

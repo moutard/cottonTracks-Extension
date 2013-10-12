@@ -118,13 +118,13 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         	//Google maps
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
-              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
+              "&sensor=false&size=300x300&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps") {
         	//Google maps
           lStories[lHistoryItems[j]['clusterId']]
               .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + oUrl.dSearch['q'] +
-              "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
+              "&sensor=false&size=300x300&maptype=roadmap&markers=color:blue%7C" + oUrl.dSearch['q']);
           lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
         } else if (oUrl.hostname === "www.google.com" && oUrl.pathname == "/maps/preview") {
           var sMapCode = oUrl.dSearch['q'] || oUrl.dHash['!q'];
@@ -132,7 +132,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
           	//Google maps
             lStories[lHistoryItems[j]['clusterId']]
                 .setFeaturedImage("http://maps.googleapis.com/maps/api/staticmap?center=" + sMapCode +
-                "&sensor=false&size=200x120&maptype=roadmap&markers=color:blue%7C" + sMapCode);
+                "&sensor=false&size=300x300&maptype=roadmap&markers=color:blue%7C" + sMapCode);
             lStories[lHistoryItems[j]['clusterId']]['tempimage'] = false;
           } else {
             lStories[lHistoryItems[j]['clusterId']]['tempimage'] = true;

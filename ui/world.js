@@ -1,4 +1,10 @@
 'use strict';
+/**
+ * GLOBAL VARIABLES
+ * for performance issues inline them when needed.
+ */
+var TOPBAR_HEIGHT = 74;
+var DASHBOARD_WIDTH = 396;
 
 /**
  * World class representing the whole interface.
@@ -6,120 +12,210 @@
  */
 Cotton.UI.World = Class.extend({
   /**
-   * Lightyear Application
-   */
-  _oLightyear : null,
-
-  /**
    * {DOM} current element that grab the whole page. (body)
    */
   _$world : null,
 
   /**
-   * {Cotton.UI.Story.Element} oStoryElement
+   * Messenger for handling core message. (Chrome message)
    */
-  _oStoryElement : null,
+  _oCoreMessenger : null,
 
   /**
-   * {Cotton.UI.SideBar} oSideBar
+   * General Dispatcher that allows two diffent parts of the product to communicate
+   * together through the controller of the app.
    */
-  _oSideMenu : null,
+  _oGlobalDispatcher : null,
+
 
   /**
-   * @param {Cotton.Application.Lightyear} oApplication
-   * @param {Cotton.Core.Messenger} oMessenger
+   * DOM Listener, will listen all dom events and then dispatch what is needed through
+   * the Global dispatcher. This is to avoid multiple same dom listener in various objects
    */
-  init : function(oApplication, oMessenger, oDispatcher, $dom_world) {
+  _oWindowListener : null,
+
+  /**
+   * Topbar object, always present, containing menu and search
+   */
+  _oTopbar : null,
+
+  /**
+   * Manager object, representing the home, containing all covers
+   * there is only one manager, and it is hidden/shown if needed
+   */
+  _oManager : null,
+
+  /**
+   * Settings object, with the rating button and the feedback form
+   * if the form is empty and the settings is closed, it is purged.
+   * otherwise it is just hidden to keep the text
+   */
+  _oSettings : null,
+
+  /**
+   * @param {Cotton.Core.Messenger} oCoreMessenger
+   * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
+   */
+  init : function(oCoreMessenger, oGlobalDispatcher, $dom_world) {
     var self = this;
-    this._oLightyear = oApplication;
-    this._oDispatcher = oDispatcher;
+    this._oGlobalDispatcher = oGlobalDispatcher;
+    this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
 
+    oGlobalDispatcher.subscribe('window_ready', this, function(dArguments){
+      if (!self._bIsReady){
+        self.createWorld();
+      }
+    });
+
+    oGlobalDispatcher.subscribe('clear', this, function(){
+      this.clear();
+    });
+  },
+
+  createWorld : function($dom_world) {
     this._$world = $dom_world || $('.ct');
+    this.initTopbar();
+    this._bIsReady = true;
   },
 
-  $ : function () {
-    return this._$world;
+  initTopbar : function() {
+    this._oTopbar = new Cotton.UI.Topbar.UITopbar(this._oGlobalDispatcher);
+    this._$world.append(this._oTopbar.$());
+    this._oGlobalDispatcher.publish('focus_search');
   },
 
-  storyElement : function() {
-    return this._oStoryElement;
-  },
-
-  sideMenu : function() {
-    return this._oSidebar;
-  },
-
-  lightyear : function() {
-    return this._oLightyear;
-  },
-
-  recycleItem : function(oHistoryItem) {
-    this._oStoryElement.recycleItem(oHistoryItem);
-  },
-
-  recycleMenu : function(oStory) {
-    this._oSideMenu.recycle(oStory);
-  },
-
-  updateManager : function(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories) {
-    this._oManager = null;
-    this._oManager = new Cotton.UI.StoryManager.Manager(oStory, oHistoryItem, lStoriesInTabs, lRelatedStories, this._oDispatcher);
+  initManager : function() {
+    document.title = "cottonTracks";
+    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    // careful not to clear after manager is created, because otherwhise it is considered
+    // as detached and makes it possible to call the manager from the manager with the
+    // home button (messes with the navigation by introducing a page then)
+    this.clear();
+    this._oManager = new Cotton.UI.Stand.Manager.UIManager(this._oGlobalDispatcher);
     this._$world.append(this._oManager.$());
-    this._oManager.centerTop();
-    this._oManager.topbar().show();
   },
 
-  clearAll: function(){
-    this.$().empty();
+  openStory : function(oStory, lRelatedStories) {
+    document.title = oStory.title() + " - cottonTracks" ;
+    this.clear();
+    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
+        this._oGlobalDispatcher)
+    this._$world.append(this._oUIStory.$());
+    // draw the story content after it has been attached to the dom, so that elements can
+    // know their height or width (0 as long as not attached to the dom)
+    this._oUIStory.drawCards(oStory);
   },
 
-  /**
-   * @param {Cotton.Model.Story} oStory :
-   *  the story have to be filled with all the historyItems so it can be display.
-   */
-  updateStory : function(oStory) {
-    this._$spacer = $('<div class="ct-spacer"></div>');
-    this._$world.append(this._$spacer);
-    this._oStoryElement = new Cotton.UI.Story.Element(oStory, this._oDispatcher);
-    this._$world.append(this._oStoryElement.$());
-  },
-
-  /**
-   * @param {Cotton.Model.Story} oStory :
-   *  the story can be just with the title and the image.
-   */
-  updateMenu : function(oStory, iNumberOfRelated) {
-      var self = this;
-      this._oSideMenu = new Cotton.UI.SideMenu.Menu(oStory, this._oDispatcher, iNumberOfRelated);
-      // FIXME(rmoutard or rkorach): the append shouldn't be there.
-      this._$world.append(this._oSideMenu.$());
-      // Make sure the oSideMenu has been append.
-      setTimeout(function(){self._oSideMenu.slideIn();}, 0);
-  },
-
-  relatedStories : function(lStories){
-    this._oStoryElement.hide();
-    if (this._oRelatedStories) {
-      this._oRelatedStories.$().remove();
+  hideStory : function(){
+    if (this._oUIStory) {
+      this._oUIStory.purge();
+      this._oUIStory = null;
     }
-    this._oRelatedStories = new Cotton.UI.RelatedStories.Stories(lStories, this._oDispatcher);
-    this._$world.append(this._oRelatedStories.$())
   },
 
-  showSearchRelated : function(lSearchResultStories){
-    this._oRelatedStories.showSearch(lSearchResultStories);
+  hideManager : function() {
+    if (this._oManager){
+      this._oManager.hide();
+    }
   },
 
-  exitSearchRelated : function() {
-    this._oRelatedStories.exitSearch();
+  initSettings : function() {
+    if (!this._oSettings) {
+      this._oSettings = new Cotton.UI.Settings.Settings(this._oGlobalDispatcher);
+      this._$settings = this._oSettings.$();
+      this._$world.append(this._$settings);
+    }
   },
 
-  showSearchManager : function(lSearchResultStories){
-    this._oManager.showSearch(lSearchResultStories);
+  toggleSettings : function() {
+    if (!this._oSettings) {
+      this.initSettings();
+    }
+    this._oSettings.toggle();
   },
 
-  exitSearchManager : function() {
-    this._oManager.exitSearch();
+  /**
+   * @param{boolean} bPurge
+   *   if the form is empty, we purge the settings object
+   *   otherwise we juste hide it
+   **/
+  closeSettings : function(bPurge) {
+    if (this._oSettings){
+      if (bPurge) {
+        this._oSettings.purge();
+        this._oSettings = null;
+        this._$settings.remove();
+        this._$settings = null;
+      } else {
+        this._oSettings.hide();
+      }
+    }
+  },
+
+  openManager : function(dArguments) {
+    var bFromPopState = dArguments && dArguments['from_popstate'];
+    if (this._oManager) {
+      if (this._oManager.isDetached()){
+        if (!bFromPopState) {
+          this._oGlobalDispatcher.publish('push_state', {
+            'code': "",
+            'value': ""
+          });
+        }
+        document.title = "cottonTracks";
+        // the manager is not visible, clear everything and attach it.
+        this.clear();
+        this._$world.append(this._oManager.$());
+        this._oManager.attached();
+        // We use a new message 'open_manager' because the 'home' message can result
+        // in no action( we were already on the manager and clicked the home button).
+        Cotton.ANALYTICS.openManager(dArguments);
+        if (bFromPopState) {
+          this._oGlobalDispatcher.publish('scrolloffset');
+        }
+      }
+    } else {
+      this.clear();
+      if (!bFromPopState) {
+        this._oGlobalDispatcher.publish('push_state', {
+          'code': "",
+          'value': ""
+        });
+      }
+      // no manager, init manager and start appending stories
+      this.initManager();
+      Cotton.ANALYTICS.openManager(dArguments);
+    }
+  },
+
+  /**
+   * open a generic partial that contains stories.
+   */
+  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage, dArguments) {
+    document.title = sPartialTitle + " - cottonTracks search results" ;
+    this.clear();
+    this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
+        sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
+    this._$world.append(this._oUIPartial.$());
+  },
+
+  hidePartial : function() {
+    if (this._oUIPartial) {
+      this._oUIPartial.purge();
+      this._oUIPartial = null;
+    }
+  },
+
+  clear : function() {
+    // clear everything except topbar
+    this.hideManager();
+    this.hideStory();
+    this.hidePartial();
+    this.closeSettings();
+  },
+
+  isReady : function() {
+    return this._bIsReady;
   }
 
 });

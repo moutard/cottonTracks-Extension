@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "cottonTracks",
+    "description": "Title of the app"
+  },
+  "extDesc": {
+    "message": "The only browser history you will ever want to keep.",
+    "description": "Short description of the application, displayed in the web store and on the page chrome://extensions"
+  }
+}

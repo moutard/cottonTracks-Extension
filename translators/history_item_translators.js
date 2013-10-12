@@ -99,19 +99,20 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     return oIDBHistoryItem;
   };
 
-  var mMergeDBRecords = function(oResult, dItem) {
+  var mMergeDBRecords = function(dResult, dItem) {
     var dMerged = {};
     // If there was no result, it will send back null.
-    dItem['id'] = oResult['id'];
-    dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], oResult['iLastVisitTime']);
+    dItem['id'] = dResult['id'];
+    dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], dResult['iLastVisitTime']);
+    dItem['iVisitCount'] = Math.max(dItem['iVisitCount'], dResult['iVisitCount']);
 
     var lParagraphs = [];
     // Make a local copy.
     lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
 
-    // For each paragraph in the original oResult, find the corresponding paragraphs
+    // For each paragraph in the original dResult, find the corresponding paragraphs
     // in dItem.
-    var lResultParagraphs = oResult['oExtractedDNA']['lParagraphs'];
+    var lResultParagraphs = dResult['oExtractedDNA']['lParagraphs'];
     var iLength = lResultParagraphs.length;
     for (var i = 0; i < iLength; i++) {
       var dResultParagraph = lResultParagraphs[i];
@@ -161,14 +162,19 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     }
     // FIXME(rmoutard) : Remove the sortBy util we use dictionnary.
     dItem['oExtractedDNA']['lParagraphs'] = lParagraphs;
-    dItem['oExtractedDNA']['lQueryWords'] = oResult['oExtractedDNA']['lQueryWords'];
+    dItem['oExtractedDNA']['lQueryWords'] = dResult['oExtractedDNA']['lQueryWords'];
     // Take the max value of each key.
     var dTempBag = {};
     for (var sWord in dItem['oExtractedDNA']['dBagOfWords']) {
       var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
-      var b = oResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+      var b = dResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
       dTempBag[sWord] = Math.max(a,b);
     }
+    for (var sWord in dResult['oExtractedDNA']['dBagOfWords']) {
+        var a = dItem['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+        var b = dResult['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+        dTempBag[sWord] = Math.max(a,b);
+      }
     dItem['oExtractedDNA']['dBagOfWords'] = dTempBag;
 
     return dItem;

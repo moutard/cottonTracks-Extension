@@ -10,7 +10,6 @@
 	<script type='text/javascript' src='lib/class.js'></script>
 	<script type='text/javascript' src='lib/jquery-2.0.0.min.js'></script>
 	<script type='text/javascript' src='lib/underscore.min.js'></script>
-  <script type='text/javascript' src='lib/isotope.js'></script>
 
 	<!-- Cotton -->
 	<script type='text/javascript' src='init.js'></script>
@@ -27,11 +26,13 @@
   <script type='text/javascript' src='utils/init.js'></script>
   <script type='text/javascript' src='utils/url_parser.js'></script>
   <script type='text/javascript' src='utils/exclude_container.js'></script>
+  <script type='text/javascript' src='utils/exclude_corn.js'></script>
   <script type='text/javascript' src='utils/benchmark.js'></script>
 
   <!-- Cotton.messaging -->
   <script type='text/javascript' src='messaging/init.js'></script>
   <script type='text/javascript' src='messaging/dispatcher.js'></script>
+  <script type='text/javascript' src='messaging/window_listener.js'></script>
 
 	<!-- Cotton.db -->
   <script type='text/javascript' src='db/init.js'></script>
@@ -76,49 +77,57 @@
   <script type='text/javascript' src='algo/dbscan2/find_closest_google_search_page.js'></script>
   <script type='text/javascript' src='algo/dbscan3/detect_sessions.js'></script>
 
+
   <!-- Cotton.ui -->
   <script type='text/javascript' src='ui/init.js'></script>
   <script type='text/javascript' src='ui/world.js'></script>
-  <script type='text/javascript' src='ui/side_menu/init.js'></script>
-  <script type='text/javascript' src='ui/side_menu/menu.js'></script>
-  <script type='text/javascript' src='ui/side_menu/filters.js'></script>
-  <script type='text/javascript' src='ui/side_menu/settings.js'></script>
-	<script type='text/javascript' src='ui/side_menu/related_toggler.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/init.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/preview.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/actions.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/sticker/init.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_toolbox.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_image.js'></script>
-  <script type='text/javascript' src='ui/side_menu/preview/sticker/sticker_infos.js'></script>
-  <script type='text/javascript' src='ui/story/init.js'></script>
-  <script type='text/javascript' src='ui/story/story.js'></script>
-  <script type='text/javascript' src='ui/story/item/init.js'></script>
-  <script type='text/javascript' src='ui/story/item/item.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_article.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_image.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_map.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_search.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_video.js'></script>
-  <script type='text/javascript' src='ui/story/item/item_factory.js'></script>
-  <script type='text/javascript' src='ui/story/item/toolbox/init.js'></script>
-  <script type='text/javascript' src='ui/story/item/toolbox/simple.js'></script>
-  <script type='text/javascript' src='ui/story/item/toolbox/complexe.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/init.js'></script>
-
-  <script type='text/javascript' src='ui/story/item/content/brick/init.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/title.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/date.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/website.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/small_label.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/large_label.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/dna/init.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/dna/image.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/dna/video.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/dna/quote_indicator.js'></script>
-  <script type='text/javascript' src='ui/story/item/content/brick/dna/reader.js'></script>
-
+  <script type='text/javascript' src='ui/topbar/init.js'></script>
+  <script type='text/javascript' src='ui/topbar/topbar.js'></script>
+  <script type='text/javascript' src='ui/topbar/menu.js'></script>
+  <script type='text/javascript' src='ui/topbar/history_arrows.js'></script>
+  <script type='text/javascript' src='ui/topbar/search.js'></script>
+  <script type='text/javascript' src='ui/stand/init.js'></script>
+  <script type='text/javascript' src='ui/stand/common/init.js'></script>
+  <script type='text/javascript' src='ui/stand/common/sticker.js'></script>
+  <script type='text/javascript' src='ui/stand/common/content/init.js'></script>
+  <script type='text/javascript' src='ui/stand/common/content/bimage.js'></script>
+  <script type='text/javascript' src='ui/stand/common/cover/init.js'></script>
+  <script type='text/javascript' src='ui/stand/common/cover/ui_cover.js'></script>
+  <script type='text/javascript' src='ui/stand/common/cover/preview.js'></script>
+  <script type='text/javascript' src='ui/stand/manager/init.js'></script>
+  <script type='text/javascript' src='ui/stand/manager/ui_manager.js'></script>
+  <script type='text/javascript' src='ui/stand/manager/timestamp.js'></script>
+  <script type='text/javascript' src='ui/stand/manager/shelf.js'></script>
+  <script type='text/javascript' src='ui/stand/manager/covers_container.js'></script>
+  <script type='text/javascript' src='ui/stand/partial/init.js'></script>
+  <script type='text/javascript' src='ui/stand/partial/ui_partial.js'></script>
+  <script type='text/javascript' src='ui/stand/story/init.js'></script>
+  <script type='text/javascript' src='ui/stand/story/ui_story.js'></script>
+  <script type='text/javascript' src='ui/stand/story/dashboard.js'></script>
+  <script type='text/javascript' src='ui/stand/story/epitome/init.js'></script>
+  <script type='text/javascript' src='ui/stand/story/epitome/ui_epitome.js'></script>
+  <script type='text/javascript' src='ui/stand/story/deck.js'></script>
+  <script type='text/javascript' src='ui/stand/story/related_deck.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/init.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/card_adder.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/card.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/card_factory.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/default_card.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/image_card.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/video_card.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/map_card.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/init.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/image_full.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/image_featured.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/video.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/title.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/website.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/quote_holder.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/quote.js'></script>
+  <script type='text/javascript' src='ui/stand/story/card/content/pool_item.js'></script>
+  <script type='text/javascript' src='ui/settings/init.js'></script>
+  <script type='text/javascript' src='ui/settings/settings.js'></script>
+  <script type='text/javascript' src='ui/settings/feedback.js'></script>
 
   <!-- QUnit for testing -->
   <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" type="text/css" media="screen"/>
@@ -131,6 +140,7 @@
   <script type='text/javascript' src='test/unit/js/utils/url_parser_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/db/translator_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/utils/exclude_container_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/utils/exclude_corn_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/db/localstorage/engine_localstorage_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/db/localstorage/cache/cache_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/db/localstorage/cache/single_store_cache_tests.js'></script>
@@ -150,31 +160,8 @@
   <script type="text/javascript" src="test/unit/js/algo/common/words/blacklist_tests.js"></script>
 
   <script type='text/javascript' src='test/unit/js/ui/world_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_infos_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_image_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/sticker/sticker_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/actions_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/preview/preview_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/filters_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/side_menu/menu_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/story_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_article_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_image_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_map_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_search_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_video_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/item_factory_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/title_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/date_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/website_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/small_label_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/large_label_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/image_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/quote_indicator_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/content/brick/dna/reader_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/toolbox/simple_tests.js'></script>
-  <script type='text/javascript' src='test/unit/js/ui/story/item/toolbox/complexe_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/manager/timestamp_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/manager/manager_tests.js'></script>
 
   <script type='text/javascript' src='test/unit/js/messaging/dispatcher_tests.js'></script>
 

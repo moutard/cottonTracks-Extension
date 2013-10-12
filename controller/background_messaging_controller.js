@@ -55,7 +55,7 @@ Cotton.Controllers.Messaging = Class.extend({
    * Available params :
    * request['params']['historyItem']
    */
-  'create_history_item' : function(sendResponse, dHistoryItem, sender){
+  'create_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       Cotton.ANALYTICS.newVisitItem();
       /**
@@ -69,10 +69,6 @@ Cotton.Controllers.Messaging = Class.extend({
       var oHistoryItem = oTranslator.dbRecordToObject(dHistoryItem);
       DEBUG && console.debug("Messaging - create_history_item");
       DEBUG && console.debug(oHistoryItem.url());
-      if (self._oMainController._dGetContentTabId[sender.tab.id]){
-        // this is a get content, do not update the date
-        oHistoryItem.setLastVisitTime(0);
-      }
       oHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oHistoryItem);
       //compute closest searchpage with searchcache
       oHistoryItem = Cotton.Algo.findClosestSearchPage(
@@ -81,7 +77,7 @@ Cotton.Controllers.Messaging = Class.extend({
       dHistoryItem = oTranslator.objectToDbRecord(oHistoryItem);
 
       if (oHistoryItem.oUrl().keywords){
-        self._oMainController._oSearchCache.putUnique(dHistoryItem);
+        self._oMainController._oSearchCache.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
       }
 
       var sPutId = ""; // put return the auto-incremented id in the database.
@@ -90,22 +86,26 @@ Cotton.Controllers.Messaging = Class.extend({
         'sUrl', oHistoryItem.url(), function(_oHistoryItem){
           if (_oHistoryItem){
             oHistoryItem.incrementVisitCount(_oHistoryItem.visitCount());
+            // increment the visitCount of the dItem in case it goes in the pool
             dHistoryItem['iVisitCount'] += _oHistoryItem.visitCount();
           }
           if(_oHistoryItem && _oHistoryItem.storyId() !== "UNCLASSIFIED" ){
-            // update the item
+            // update lastVisitTime for the story
+            self._oMainController._oDatabase.find('stories', 'id', _oHistoryItem.storyId(), function(oStory){
+              oStory.setLastVisitTime(oHistoryItem.lastVisitTime());
+              self._oMainController._oDatabase.put('stories', oStory, function(oStory){});
+            });
+            // set the story id for the new item..
+            oHistoryItem.setStoryId(_oHistoryItem.storyId());
+            // ..then update the item in base
             self._oMainController._oDatabase.putUnique('historyItems',
               oHistoryItem, function(iHistoryItemId){});
             // There is a story for this item, so enable the browserAction
             // and attach a storyId to the tab
-            Cotton.ANALYTICS.storyAvailable('already in story');
             sPutId = _oHistoryItem.id();
             sendResponse({
-              'received' : "true",
               'id' : sPutId,
-              'storyId' : _oHistoryItem.storyId(),
-              'visitCount' : oHistoryItem.visitCount(),
-              'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+              'storyId' : oHistoryItem.storyId()
             });
           } else {
             Cotton.ANALYTICS.newHistoryItem();
@@ -147,14 +147,12 @@ Cotton.Controllers.Messaging = Class.extend({
                           sPutId = iHistoryItemId;
                           self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           oMinStory.addHistoryItemId(iHistoryItemId);
+                          oMinStory.setLastVisitTime(oHistoryItem.lastVisitTime());
                           self._oMainController._oDatabase.put('stories', oMinStory,
                             function(){});
                           sendResponse({
-                            'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount(),
-                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                            'storyId' : oHistoryItem.storyId()
                           });
                       });
                       oMinStory.dna().bagOfWords().mergeBag(
@@ -162,10 +160,6 @@ Cotton.Controllers.Messaging = Class.extend({
                       self.addStoryToSearchKeywords(oMinStory);
                       self._oMainController._oDatabase.put(
                         'stories', oMinStory, function(iStoryId){});
-                      // There is a story for this item, so enable the browserAction
-                      // and attach a storyId to the tab
-                      Cotton.ANALYTICS.storyAvailable('join existing story');
-
                     } else {
                       self._oMainController._oDatabase.putUnique('historyItems',
                         oHistoryItem, function(iHistoryItemId){
@@ -174,19 +168,15 @@ Cotton.Controllers.Messaging = Class.extend({
                           dHistoryItem['id'] = sPutId;
                           self.addHistoryItemSearchKeywords(oHistoryItem, iHistoryItemId);
                           // Put the history item in the pool.
-                          self._oMainController._oPool.putUnique(dHistoryItem);
+                          self._oMainController._oPool.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
                           // Lauch dbscan2 on the pool.
                           var wDBSCAN2 = self._oMainController.initWorkerDBSCAN2();
                           wDBSCAN2.postMessage({
-                            'pool': self._oMainController._oPool.get(),
-                            'sender': sender.tab.id
+                            'pool': self._oMainController._oPool.get()
                           });
                           sendResponse({
-                            'received' : "true",
                             'id' : sPutId,
-                            'storyId' : oHistoryItem.storyId(),
-                            'visitCount' : oHistoryItem.visitCount(),
-                            'bagOfWords' : oHistoryItem.extractedDNA().bagOfWords().get()
+                            'storyId' : oHistoryItem.storyId()
                           });
                       });
                     }
@@ -199,7 +189,7 @@ Cotton.Controllers.Messaging = Class.extend({
   /**
    * When the reading rater has modified the dna.
    */
-  'update_history_item' : function(sendResponse, dHistoryItem, bContentSet, sender){
+  'update_history_item' : function(sendResponse, dHistoryItem){
       var self = this;
       /**
        * Because Model are compiled in two different way by google closure
@@ -216,13 +206,6 @@ Cotton.Controllers.Messaging = Class.extend({
 
       var sPutId = ""; // put return the auto-incremented id in the database.
 
-      if (self._oMainController._dGetContentTabId[sender.tab.id]){
-        // this is a get content, do not update the date
-        // we set the new date to 0 so that it's lower than the one in base
-        // and won't replace it
-        oHistoryItem.setLastVisitTime(0);
-      }
-
       self._oMainController._oDatabase.find('historyItems', 'id', oHistoryItem.id(), function(oDbHistoryItem){
         if (oDbHistoryItem.storyId() !== "UNCLASSIFIED"){
           oHistoryItem.setStoryId(oDbHistoryItem.storyId());
@@ -230,66 +213,25 @@ Cotton.Controllers.Messaging = Class.extend({
         // The history item already exists, just update it.
         self._oMainController._oDatabase.putUnique('historyItems', oHistoryItem, function(iId) {
           DEBUG && console.debug("Messaging - historyItem updated" + iId);
-          if (bContentSet){
-            if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
-              self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
-                // Set story featured image
-                var sMinStoryImage = oStory.featuredImage();
-                var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
-                if (!sMinStoryImage || sMinStoryImage === ""
-                  && sHistoryItemImage !== ""){
-                    oStory.setFeaturedImage(sHistoryItemImage);
-                }
-                // update story in db
-                self._oMainController._oDatabase.put('stories', oStory,
-                  function(){});
-              });
-            } else {
-              self._oMainController._oPool.putUnique(dHistoryItem);
-            }
-            if (self._oMainController._dGetContentTabId[sender.tab.id]){
-              self._oMainController.removeGetContentTab(sender.tab.id);
-              self._oMainController._oMessenger.sendMessage({
-                'action': 'refresh_item',
-                'params': {
-                  'itemId': iId
-                }
-              }, function(){});
-            }
+          if (oHistoryItem.storyId() !== "UNCLASSIFIED"){
+            self._oMainController._oDatabase.find('stories', 'id', oHistoryItem.storyId(), function(oStory){
+              // Set story featured image
+              var sMinStoryImage = oStory.featuredImage();
+              var sHistoryItemImage = oHistoryItem.extractedDNA().imageUrl();
+              if (!sMinStoryImage && sHistoryItemImage) {
+                oStory.setFeaturedImage(sHistoryItemImage);
+              }
+              // update story lastVisitTime
+              oStory.setLastVisitTime(oHistoryItem.lastVisitTime());
+              // update story in db
+              self._oMainController._oDatabase.put('stories', oStory,
+                function(){});
+            });
+          } else {
+            self._oMainController._oPool.putUnique(dHistoryItem, 'sUrl', oTranslator.mergeDBRecords());
           }
         });
       });
-    },
-
-  /**
-   * When a getContent is performed.
-   */
-  'get_content_tab' : function(sendResponse, iTabId){
-    this._oMainController.addGetContentTab(iTabId);
-  },
-
-  /**
-   * Ligthyear asks for the story to display
-   */
-  'get_trigger_story' : function(sendResponse){
-    sendResponse({
-      'trigger_id': this._oMainController._iTriggerStory,
-      'trigger_item_id': this._oMainController._iTriggerHistoryItem,
-      'stories_in_tabs_id': this._oMainController._lStoriesInTabsId
-    });
-  },
-
-  'change_story': function(sendResponse, iStoryId){
-    var self = this;
-    this._oMainController.setTriggerStory(iStoryId);
-    this._oMainController.resetHistoryItem();
-    this._oMainController.setOtherStories(function(){
-      sendResponse({'stories_in_tabs_id': self._oMainController._lStoriesInTabsId});
-    });
-  },
-
-  'delete_main_story': function(sendResponse){
-    this._oMainController.setTriggerStory(null);
-  }
+    }
 
 });
