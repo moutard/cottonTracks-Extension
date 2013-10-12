@@ -58,8 +58,12 @@ Cotton.UI.Topbar.Search = Class.extend({
   _search : function() {
     var sQuery = this._$search_field.val().toLowerCase();
     var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
+    this._oGlobalDispatcher.publish('push_state', {
+      'code': '?q=',
+      'value': lSearchWords.join('+')
+    });
     this._oGlobalDispatcher.publish('search_stories', {
-      'search_words': lSearchWords,
+      'search_words': lSearchWords
     });
   },
 

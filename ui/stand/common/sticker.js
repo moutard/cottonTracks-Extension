@@ -62,6 +62,10 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
         // analytics tracking
         Cotton.ANALYTICS.storyContext(sStoryContext);
 
+        self._oGlobalDispatcher.publish('push_state', {
+          'code': '?sid=',
+          'value': oStory.id()
+        });
         self._oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });

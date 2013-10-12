@@ -93,6 +93,10 @@ Cotton.UI.Stand.Common.Cover.Preview = Class.extend({
         // analytics tracking
         Cotton.ANALYTICS.openStory('and_more...');
 
+        self._oGlobalDispatcher.publish('push_state', {
+          'code': '?sid=',
+          'value': oStory.id()
+        });
         self._oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });
