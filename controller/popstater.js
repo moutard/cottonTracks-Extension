@@ -34,32 +34,14 @@ Cotton.Controllers.Popstater = Class.extend({
       }
     });
 
-    oGlobalDispatcher.subscribe('enter_story', this, function(dArguments){
-      if (!dArguments['noPushState']) {
-        this._iHistoryState++;
-        this.pushState(chrome.extension.getURL("lightyear.html") + "?sid=" + dArguments['story'].id(), this._iHistoryState);
-        // will set the navigation arrows
-        this.updateHistoryArrows()
-      }
-    });
-
-    oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
-      if (!dArguments['noPushState']) {
-        var sSearchUrl = chrome.extension.getURL("lightyear.html") + '?q=' + dArguments['search_words'].join('+');
-        this._iHistoryState++;
-        this.pushState(sSearchUrl, this._iHistoryState);
-        // will set the navigation arrows
-        this.updateHistoryArrows();
-      }
-    });
-
-    oGlobalDispatcher.subscribe('open_manager', this, function(dArguments){
-      if (!dArguments || !dArguments['noPushState']) {
-        this._iHistoryState++;
-        this.pushState(chrome.extension.getURL("lightyear.html"), this._iHistoryState);
-        // will set the navigation arrows
-        this.updateHistoryArrows()
-      }
+    oGlobalDispatcher.subscribe('push_state', this, function(dArguments){
+      this._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
+      this._oGlobalDispatcher.publish('clear');
+      this._iHistoryState++;
+      this.pushState(chrome.extension.getURL("lightyear.html") + dArguments['code'] + dArguments['value'],
+        this._iHistoryState);
+      // will set the navigation arrows
+      this.updateHistoryArrows();
     });
 
     oGlobalDispatcher.subscribe('previous_page', this, function(){
@@ -104,14 +86,13 @@ Cotton.Controllers.Popstater = Class.extend({
             Cotton.ANALYTICS.navigate('manager_fallback');
             self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
-              'noPushState': true,
+              'from_popstate': true,
             });
           } else {
             // analytics tracking.
             Cotton.ANALYTICS.navigate('story');
             self._oGlobalDispatcher.publish('enter_story', {
               'story': oStory,
-              'noPushState': true,
             });
           }
         });
@@ -120,7 +101,6 @@ Cotton.Controllers.Popstater = Class.extend({
       // Search page.
       self._oGlobalDispatcher.publish('search_stories', {
         'search_words': oUrl.dSearch['q'].split('+'),
-        'noPushState': true
       });
       // analytics tracking.
       Cotton.ANALYTICS.navigate('manager');
@@ -129,7 +109,7 @@ Cotton.Controllers.Popstater = Class.extend({
       Cotton.ANALYTICS.navigate('manager');
       // open on the manager
       self._oGlobalDispatcher.publish('home', {
-        'noPushState': true,
+        'from_popstate': true,
       });
     }
   },
