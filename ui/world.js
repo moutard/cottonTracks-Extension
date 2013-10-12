@@ -66,6 +66,10 @@ Cotton.UI.World = Class.extend({
         self.createWorld();
       }
     });
+
+    oGlobalDispatcher.subscribe('clear', this, function(){
+      this.clear();
+    });
   },
 
   createWorld : function($dom_world) {
@@ -100,7 +104,6 @@ Cotton.UI.World = Class.extend({
     // draw the story content after it has been attached to the dom, so that elements can
     // know their height or width (0 as long as not attached to the dom)
     this._oUIStory.drawCards(oStory);
-    this._oGlobalDispatcher.publish('scrolloffset', {});
   },
 
   hideStory : function(){
@@ -150,9 +153,10 @@ Cotton.UI.World = Class.extend({
   },
 
   openManager : function(dArguments) {
+    var bFromPopState = dArguments && dArguments['from_popstate'];
     if (this._oManager) {
       if (this._oManager.isDetached()){
-        if (!dArguments || !dArguments['from_popstate']) {
+        if (!bFromPopState) {
           this._oGlobalDispatcher.publish('push_state', {
             'code': "",
             'value': ""
@@ -162,15 +166,17 @@ Cotton.UI.World = Class.extend({
         // the manager is not visible, clear everything and attach it.
         this.clear();
         this._$world.append(this._oManager.$());
-        this._oGlobalDispatcher.publish('scrolloffset', {});
         this._oManager.attached();
         // We use a new message 'open_manager' because the 'home' message can result
         // in no action( we were already on the manager and clicked the home button).
         Cotton.ANALYTICS.openManager(dArguments);
+        if (bFromPopState) {
+          this._oGlobalDispatcher.publish('scrolloffset');
+        }
       }
     } else {
       this.clear();
-      if (!dArguments || !dArguments['from_popstate']) {
+      if (!bFromPopState) {
         this._oGlobalDispatcher.publish('push_state', {
           'code': "",
           'value': ""
@@ -178,7 +184,6 @@ Cotton.UI.World = Class.extend({
       }
       // no manager, init manager and start appending stories
       this.initManager();
-      this._oGlobalDispatcher.publish('scrolloffset', {});
       Cotton.ANALYTICS.openManager(dArguments);
     }
   },
@@ -186,12 +191,11 @@ Cotton.UI.World = Class.extend({
   /**
    * open a generic partial that contains stories.
    */
-  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
+  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage, dArguments) {
     document.title = sPartialTitle + " - cottonTracks search results" ;
     this.clear();
     this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
         sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
-    this._oGlobalDispatcher.publish('scrolloffset', {});
     this._$world.append(this._oUIPartial.$());
   },
 
