@@ -76,7 +76,7 @@ Cotton.UI.Settings.Settings = Class.extend({
         // analytics tracking
         Cotton.ANALYTICS.rateUs(self.webstoreUrl());
       });
-    this._$rate_us_text = $('<p class="ct-rate_us_text">Rate us on the Chrome Web Store</p>');
+    this._$rate_us_text = $('<p class="ct-rate_us_text">Rate us on ' + this.webstoreName() +'</p>');
 
     // Feedback form object.
     this._oFeedback = new Cotton.UI.Settings.Feedback();
@@ -116,6 +116,16 @@ Cotton.UI.Settings.Settings = Class.extend({
   webstoreUrl : function() {
     var oWebstore = new Cotton.Core.Webstore();
     return oWebstore.getUrl();
+  },
+
+  /**
+   * WebstoreName
+   *
+   * return the name of the webstore using the core function.
+   */
+  webstoreName : function() {
+    var oWebstore = new Cotton.Core.Webstore();
+    return oWebstore.getName();
   },
 
   /**

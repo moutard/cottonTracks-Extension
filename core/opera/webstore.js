@@ -6,7 +6,11 @@ Cotton.Core.Webstore = Class.extend({
   },
 
   getUrl : function() {
-    return "https://addons.opera.com/fr/extensions/details/cottontracks/?display=en#feedback-container";
+    return "https://addons.opera.com/extensions/details/cottontracks/#feedback-container";
+  },
+
+  getName : function() {
+    return "Opera add-ons"
   }
 
 });
