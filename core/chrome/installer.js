@@ -19,6 +19,7 @@ Cotton.Core.Installer = Class.extend({
     self._oDatabase = oDatabase;
     self._mIsFinished = mCallback;
 
+    self.notifyHomepage();
     self.initInstallWorker();
     // When everything is ready call the install.
     self.install();
@@ -183,6 +184,20 @@ Cotton.Core.Installer = Class.extend({
         });
     });
 
+  },
+
+  /**
+   * Notify cT homepage that the install has been performed, to change the "install" button
+   */
+  notifyHomepage : function() {
+    chrome.tabs.query({'url': 'http://cottontracks.com/*'}, function(lTabs){
+      var iLength = lTabs.length;
+      for (var i = 0; i < iLength; i++) {
+        chrome.tabs.executeScript(lTabs[i]['id'],{
+          code: 'var oInstallEvent = new Event("install"); window.dispatchEvent(oInstallEvent);'
+        });
+      }
+    });
   },
 
   /**
