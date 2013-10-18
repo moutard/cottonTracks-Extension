@@ -17,7 +17,7 @@ Cotton.Core.Installer = Class.extend({
   init: function(oDatabase, mCallback) {
     var self = this;
     self._oDatabase = oDatabase;
-    self._mCallback = mCallback;
+    self._mIsFinished = mCallback;
 
     self.initInstallWorker();
     // When everything is ready call the install.
@@ -212,7 +212,7 @@ Cotton.Core.Installer = Class.extend({
     });
     chrome.browserAction.enable();
     this._bStopWakeUp = true;
-    this._mCallback();
+    this._mIsFinished();
   },
 
   /**
@@ -229,6 +229,6 @@ Cotton.Core.Installer = Class.extend({
       this.lHistoryItemsDict[i] = null;
     }
     this.lHistoryItemsDict = [];
-  },
+  }
 
 });
