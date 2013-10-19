@@ -61,7 +61,7 @@ Cotton.UI.World = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
 
-    oGlobalDispatcher.subscribe('window_ready', this, function(dArguments){
+    oGlobalDispatcher.subscribe('window_ready', this, function(){
       if (!self._bIsReady){
         self.createWorld();
       }
