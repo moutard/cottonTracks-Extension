@@ -106,6 +106,9 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     dItem['iLastVisitTime'] = Math.max(dItem['iLastVisitTime'], dResult['iLastVisitTime']);
     dItem['iVisitCount'] = Math.max(dItem['iVisitCount'], dResult['iVisitCount']);
 
+    // featured image
+    dItem['oExtractedDNA']['sImageUrl'] = dResult['oExtractedDNA']['sImageUrl'] || dItem['oExtractedDNA']['sImageUrl'];
+
     var lParagraphs = [];
     // Make a local copy.
     lParagraphs = lParagraphs.concat(dItem['oExtractedDNA']['lParagraphs']);
