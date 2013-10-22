@@ -66,8 +66,19 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     }
   },
 
+  _purgeShelves : function() {
+    var iLength = this._lShelves.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lShelves[i].purge();
+      this._lShelves[i] = null;
+    }
+    this._lShelves = null;
+  },
+
   purge : function() {
-   this._oGlobalDispatcher = null;
+    this._oGlobalDispatcher = null;
+
+    this._purgeShelves();
 
     this._$no_story.remove();
     this._$no_story = null;
