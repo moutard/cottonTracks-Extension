@@ -51,6 +51,10 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
       this.removeCoverFromShelves(dArguments['story_id']);
     });
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(){
+      this.setShelvesHeight(this._computeSlots());
+    });
   },
 
   _computeSlots : function() {
@@ -102,6 +106,7 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
 
   purge : function() {
     this._oGlobalDispatcher.unsubscribe('remove_cover', this);
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
 
     this._purgeShelves();
