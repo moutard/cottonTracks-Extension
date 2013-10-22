@@ -68,7 +68,7 @@ Cotton.Algo.Common.Words.generateBlacklistExpressions = function(lHistoryItems) 
       var sExpression = lExpressions[j];
       // clear the accents to be able to compare the title with the hostname
       var sAccentTidy = Cotton.Algo.Common.Words.AccentTidy(sExpression);
-      var lAccentTidyWords = Cotton.Algo.Tools.extractWordsFromTitle(sAccentTidy);
+      var lAccentTidyWords = Cotton.Algo.Tools.extractCleanWordsFromTitle(sAccentTidy);
       var kLength = lAccentTidyWords.length;
       for (var k = 0; k < kLength; k++) {
         var sWord = lAccentTidyWords[k];
