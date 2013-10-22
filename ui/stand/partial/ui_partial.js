@@ -47,6 +47,10 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._$container.append(oShelf.$());
     this._lShelves.push(oShelf);
     this.setShelvesHeight(this._computeSlots());
+
+    this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
+      this.removeCoverFromShelves(dArguments['story_id']);
+    });
   },
 
   _computeSlots : function() {
@@ -66,6 +70,27 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     }
   },
 
+  removeCoverFromShelves : function(iStoryId) {
+    var iLength = this._lShelves.length;
+    // Remaining shelves if one is deleted for emptyness.
+    var lRemainingShelves = [];
+    for (var i = 0; i < iLength; i++) {
+      // Remove the cover if it was in it
+      this._lShelves[i].removeCoverFromShelf(iStoryId, this._computeSlots());
+      if (this._lShelves[i].numberOfStories() === 0 && this._lShelves[i].isComplete()) {
+        // The last cover has been removed and we know this shelf was complete.
+        // So we can delete it.
+        var shelfToCollapse = this._lShelves[i];
+        this.collapseShelf(shelfToCollapse);
+      } else {
+        lRemainingShelves.push(this._lShelves[i]);
+        this._lShelves[i] = null;
+      }
+    }
+    this._lShelves = null;
+    this._lShelves = lRemainingShelves;
+  },
+
   _purgeShelves : function() {
     var iLength = this._lShelves.length;
     for (var i = 0; i < iLength; i++) {
@@ -76,6 +101,7 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
   },
 
   purge : function() {
+    this._oGlobalDispatcher.unsubscribe('remove_cover', this);
     this._oGlobalDispatcher = null;
 
     this._purgeShelves();
