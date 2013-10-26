@@ -63,8 +63,11 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     var COVER_WIDTH = 396;
     var COVER_MARGIN = 25;
     var EXTERNAL_BORDERS = 2;
+    var MAX_COVERS = 3;
+    var MIN_COVERS = 2;
+    var MAX_INTERCOVERS = MAX_COVERS - 1;
     // The container can always have 2 or 3 covers per line
-    var iSlotsPerLine = (this._iContainerWidth < (COVER_WIDTH * 3) + (COVER_MARGIN * 2) + EXTERNAL_BORDERS) ? 2 : 3;
+    var iSlotsPerLine = (this._iContainerWidth < (COVER_WIDTH * MAX_COVERS) + (COVER_MARGIN * MAX_INTERCOVERS) + EXTERNAL_BORDERS) ? MIN_COVERS : MAX_COVERS;
     return iSlotsPerLine;
   },
 
