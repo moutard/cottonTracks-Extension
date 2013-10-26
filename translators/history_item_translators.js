@@ -29,7 +29,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     if (oHistoryItem.id() !== undefined) {
       // else id will be auto-incremented by engine. Because its the first time
       // you add this historyItem.
-      dDbRecord.id = oHistoryItem.id();
+      dDbRecord['id'] = oHistoryItem.id();
     }
 
 
