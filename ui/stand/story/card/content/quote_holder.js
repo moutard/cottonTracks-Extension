@@ -19,7 +19,9 @@ Cotton.UI.Stand.Story.Card.Content.QuoteHolder = Class.extend({
 
   init : function(oHistoryItem, oGlobalDispatcher) {
 
-    this._lParagraphs = oHistoryItem.extractedDNA().paragraphs();
+    this._lParagraphs = oHistoryItem.extractedDNA().paragraphs().sort(function(a,b){
+      return a.id() - b.id();
+    });
     var l$quotes = [];
 
     // filter paragraphs with no quotes
