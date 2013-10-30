@@ -34,9 +34,8 @@ test("WeakQueryWords.", function() {
 });
 
 test("extractWordsFromTitle.", function() {
-  deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(""), []);
+  deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(" "), []);
 });
-
 
 test("extract words on empty title.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(""), []);
@@ -44,21 +43,49 @@ test("extract words on empty title.", function() {
 
 test("extract words on Jennifer Anniston title.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("Jennifer Anniston"),
-    ['jennifer', 'anniston']);
+    ['Jennifer', 'Anniston']);
 });
 
-test("extract words on less than 2 letters words. ", function() {
+test("extract words on less than 2 letters words.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("ou est donc or ni car ?"),
-    ['est', 'donc', 'car']);
+    ['ou', 'est', 'donc', 'or', 'ni', 'car']);
 });
 
 test("extract words on less than 2 letters words with punctuation.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("ou est donc or ni car."),
-    ['est', 'donc', 'car']);
+    ['ou', 'est', 'donc', 'or', 'ni', 'car']);
 });
 
 test("extract words with duplicate.", function() {
   deepEqual(Cotton.Algo.Tools.extractWordsFromTitle("Javascript - the best of javascript tuto."),
+    ['Javascript', 'the', 'best', 'of', 'javascript', 'tuto']);
+});
+
+test("extractCleanWordsFromTitle.", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle(" "), []);
+});
+
+test("extract clean words on empty title.", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle(""), []);
+});
+
+test("extract clean words on Jennifer Anniston title.", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle("Jennifer Anniston"),
+    ['jennifer', 'anniston']);
+});
+
+test("extract clean words on less than 2 letters words. ", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle("ou est donc or ni car ?"),
+    ['est', 'donc', 'car']);
+});
+
+test("extract clean words on less than 2 letters words with punctuation.", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle("ou est donc or ni car."),
+    ['est', 'donc', 'car']);
+});
+
+test("extract clean words with duplicate.", function() {
+  deepEqual(Cotton.Algo.Tools.extractCleanWordsFromTitle("Javascript - the best of javascript tuto."),
     ['javascript', 'best', 'javascript', 'tuto']);
 });
 

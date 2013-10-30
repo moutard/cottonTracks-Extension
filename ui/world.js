@@ -61,7 +61,7 @@ Cotton.UI.World = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
 
-    oGlobalDispatcher.subscribe('window_ready', this, function(dArguments){
+    oGlobalDispatcher.subscribe('window_ready', this, function(){
       if (!self._bIsReady){
         self.createWorld();
       }
@@ -155,6 +155,7 @@ Cotton.UI.World = Class.extend({
   openManager : function(dArguments) {
     var bFromPopState = dArguments && dArguments['from_popstate'];
     if (this._oManager) {
+      this.clear();
       if (this._oManager.isDetached()){
         if (!bFromPopState) {
           this._oGlobalDispatcher.publish('push_state', {
@@ -164,7 +165,6 @@ Cotton.UI.World = Class.extend({
         }
         document.title = "cottonTracks";
         // the manager is not visible, clear everything and attach it.
-        this.clear();
         this._$world.append(this._oManager.$());
         this._oManager.attached();
         // We use a new message 'open_manager' because the 'home' message can result

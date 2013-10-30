@@ -19,7 +19,7 @@ class OperaConfigs(GlobalConfigs):
   """Configs specific to Opera"""
   def __init__(self):
     self._sBrowser = 'opera'
-    self._permissions = ["tabs", "opera://favicon/", "http://*/*", "https://*/*"]
+    self._permissions = ["tabs", "opera://favicon/", "http://*/*", "https://*/*", "history"]
 
 class ChromeConfigs(GlobalConfigs):
   """Configs specific to Chrome."""

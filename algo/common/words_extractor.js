@@ -107,12 +107,17 @@ Cotton.Algo.Tools.extractWordsFromTitle = function(sTitle) {
   // Include all normal characters, dash, accented characters.
   // TODO(fwouts): Consider other characters such as digits?
   //var oRegexp = /[\w\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+/g;
-  var oRegexp = /\ |\-|\||\_|\"|\'|\xAB|\xBB|\.|\,|\;|\:|\?|\!|\(|\)|\\|\//;
-  sTitle = Cotton.Algo.Common.Words.removeFromTitle(sTitle);
-  var lMatches = sTitle.split(oRegexp) || [];
+  // Detail of the Regexp: every longest (+) chain of character that is not (^)
+  // with any of ([]) the special characters listed.
+  var oRegexp = /[^\ |\-|\||\_|\"|\'|\xAB|\xBB|\.|\,|\;|\:|\?|\!|\(|\)|\\|\/]+/g;
 
-  return Cotton.Algo.Tools.TightFilter(lMatches);
+  return sTitle.match(oRegexp) || [];
+};
 
+Cotton.Algo.Tools.extractCleanWordsFromTitle = function(sTitle) {
+  var sWhiteListTitle = Cotton.Algo.Common.Words.removeFromTitle(sTitle);
+  var lWords = Cotton.Algo.Tools.extractWordsFromTitle(sWhiteListTitle);
+  return Cotton.Algo.Tools.TightFilter(lWords);
 };
 
 /**
@@ -157,7 +162,7 @@ Cotton.Algo.Tools.computeBagOfWordsForHistoryItem = function(oHistoryItem) {
         var lExtractedWords = Cotton.Algo.Tools.extractWordsFromUrlPathname(sImageName);
       } else {
         // Use title words.
-        var lExtractedWords = Cotton.Algo.Tools.extractWordsFromTitle(oHistoryItem.title());
+        var lExtractedWords = Cotton.Algo.Tools.extractCleanWordsFromTitle(oHistoryItem.title());
       }
       // If there is no title url, use the url pathname.
       if (lExtractedWords.length === 0) {

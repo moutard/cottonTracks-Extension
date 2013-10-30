@@ -7,6 +7,9 @@ Cotton.Core.Webstore = Class.extend({
 
   getUrl : function() {
     return "https://chrome.google.com/webstore/detail/cottontracks/flmfagndkngjknjjcoejaihmibcfcjdh/reviews";
-  }
+  },
 
+  getName : function() {
+    return "the Chrome Web Store"
+  }
 });

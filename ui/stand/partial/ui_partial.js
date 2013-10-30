@@ -47,6 +47,14 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._$container.append(oShelf.$());
     this._lShelves.push(oShelf);
     this.setShelvesHeight(this._computeSlots());
+
+    this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
+      this.removeCoverFromShelves(dArguments['story_id']);
+    });
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(){
+      this.setShelvesHeight(this._computeSlots());
+    });
   },
 
   _computeSlots : function() {
@@ -54,8 +62,12 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._iContainerWidth = this._$container.width() || this._iContainerWidth;
     var COVER_WIDTH = 396;
     var COVER_MARGIN = 25;
+    var EXTERNAL_BORDERS = 2;
+    var MAX_COVERS = 3;
+    var MIN_COVERS = 2;
+    var MAX_INTERCOVERS = MAX_COVERS - 1;
     // The container can always have 2 or 3 covers per line
-    var iSlotsPerLine = (this._iContainerWidth <= (COVER_WIDTH * 3) + (COVER_MARGIN * 2)) ? 2 : 3;
+    var iSlotsPerLine = (this._iContainerWidth < (COVER_WIDTH * MAX_COVERS) + (COVER_MARGIN * MAX_INTERCOVERS) + EXTERNAL_BORDERS) ? MIN_COVERS : MAX_COVERS;
     return iSlotsPerLine;
   },
 
@@ -66,8 +78,42 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     }
   },
 
+  removeCoverFromShelves : function(iStoryId) {
+    var iLength = this._lShelves.length;
+    // Remaining shelves if one is deleted for emptyness.
+    var lRemainingShelves = [];
+    for (var i = 0; i < iLength; i++) {
+      // Remove the cover if it was in it
+      this._lShelves[i].removeCoverFromShelf(iStoryId, this._computeSlots());
+      if (this._lShelves[i].numberOfStories() === 0 && this._lShelves[i].isComplete()) {
+        // The last cover has been removed and we know this shelf was complete.
+        // So we can delete it.
+        var shelfToCollapse = this._lShelves[i];
+        this.collapseShelf(shelfToCollapse);
+      } else {
+        lRemainingShelves.push(this._lShelves[i]);
+        this._lShelves[i] = null;
+      }
+    }
+    this._lShelves = null;
+    this._lShelves = lRemainingShelves;
+  },
+
+  _purgeShelves : function() {
+    var iLength = this._lShelves.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lShelves[i].purge();
+      this._lShelves[i] = null;
+    }
+    this._lShelves = null;
+  },
+
   purge : function() {
-   this._oGlobalDispatcher = null;
+    this._oGlobalDispatcher.unsubscribe('remove_cover', this);
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
+    this._oGlobalDispatcher = null;
+
+    this._purgeShelves();
 
     this._$no_story.remove();
     this._$no_story = null;
