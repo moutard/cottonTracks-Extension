@@ -36,7 +36,6 @@ Cotton.Controllers.Popstater = Class.extend({
 
     oGlobalDispatcher.subscribe('push_state', this, function(dArguments){
       this._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
-      this._oGlobalDispatcher.publish('clear');
       this._iHistoryState++;
       this.pushState(chrome.extension.getURL("lightyear.html") + dArguments['code'] + dArguments['value'],
         this._iHistoryState);

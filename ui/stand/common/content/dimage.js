@@ -69,6 +69,7 @@ Cotton.UI.Common.Content.DImage = Class.extend({
         $img.css('top',-iOverflow*0.25);
       }
       $img.addClass('show');
+      $(this).unbind('load');
     });
   },
 

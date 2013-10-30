@@ -61,3 +61,9 @@ test('tech star seattle', function(){
       'seattle':3
     });
 });
+
+test('split regexp extractWordsFromTitle', function(){
+  var sTitle = "Wolfgang Amadeus Mozart - Wikipédia"
+
+  deepEqual(Cotton.Algo.Tools.extractWordsFromTitle(sTitle), ["Wolfgang","Amadeus","Mozart","Wikipédia"]);
+});

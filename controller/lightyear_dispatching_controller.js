@@ -26,6 +26,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * - arguments : {Cotton.Model.Story} story
      */
     oGlobalDispatcher.subscribe('enter_story', this, function(dArguments){
+      oLightyearController._oWorld.clear();
       var oStory = dArguments["story"];
       oLightyearController.getRelatedStoriesId(oStory, function(lRelatedStoriesId){
         var lExclusiveRelatedStoriesId = [];
@@ -223,6 +224,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * Search stories are display in a partial view.
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
+      oLightyearController._oWorld.clear();
       oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
         var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
         oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
