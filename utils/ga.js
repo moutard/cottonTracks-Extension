@@ -116,6 +116,14 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'story', 'delete_story']);
   },
 
+  favoriteStory : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'favorite_story', sSource]);
+  },
+
+  unfavoriteStory : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'unfavorite_story', sSource]);
+  },
+
   storyContext : function(sContext) {
     _gaq.push(['_trackEvent', 'story', 'story_context', sContext]);
   },

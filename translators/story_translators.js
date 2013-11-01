@@ -19,7 +19,8 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'lTags' : oStory.tags(),
       'oDNA' : {
         'oBagOfWords' : oStory.dna().bagOfWords().get(),
-      }
+      },
+      'bFavorite' : oStory.isFavorite()
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -58,6 +59,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
         oStory.addHistoryItemId(iHistoryItemId);
       }
     }
+    oStory.setFavorite(oDbRecord['bFavorite']);
     return oStory;
   };
 
@@ -78,6 +80,9 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'unique' : false,
       'multiEntry' : true
     },
+    'bFavorite' : {
+      'unique' : false
+    }
   };
 
   /**

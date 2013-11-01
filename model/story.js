@@ -94,6 +94,16 @@ Cotton.Model.Story = Class.extend({
   setDNA : function(oDNA) {
     this._oDNA = oDNA;
   },
+  setFavorite : function(bFavorite) {
+    if (bFavorite) {
+      this._bFavorite = bFavorite;
+    } else {
+      this._bFavorite = false;
+    }
+  },
+  isFavorite : function() {
+    return this._bFavorite || false;
+  },
   /**
    * Add a historyItem to the list parsing a dbRecordObject
    * - update list of historyItems id.

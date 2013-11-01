@@ -230,6 +230,36 @@ Cotton.Controllers.DispatchingController = Class.extend({
         oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
       });
     });
+
+    /**
+     * Favorite a story
+     */
+    oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
+      oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setFavorite(true);
+        oLightyearController._oDatabase.put('stories', oStory, function(){});
+      });
+    });
+
+    /**
+     * Unfavorite a story
+     */
+    oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
+      oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setFavorite(false);
+        oLightyearController._oDatabase.put('stories', oStory, function(){});
+      });
+    });
+
+    /**
+     * Show favorite stories
+     */
+    oGlobalDispatcher.subscribe('favorites', this, function(dArguments){
+      oLightyearController._oWorld.clear();
+      oLightyearController.getFavoriteStories(function(lStories){
+        oLightyearController.openPartial(lStories, "Favorite Stories", "No Favorite Stories");
+      });
+    });
   }
 
 });
