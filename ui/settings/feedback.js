@@ -74,8 +74,9 @@ Cotton.UI.Settings.Feedback = Class.extend({
     this._$label = $('<label class="ct-feedback_label" for="entry_1105692513">Leave us your feedback or ask us a question</label>');
     this._$formfield = $('<textarea name="entry.1105692513" class="ct-feedback_form" id="entry_1105692513" dir="auto" '
       +'placeholder="Help us build a better product by sending your feedback anonymously.'
-      +' You can also ask us any question. If you leave us a contact we will answer you directly, '
-      +'otherwise we will answer publicly on our social networks"></textarea>');
+      +' You can also ask us any question."></textarea>');
+    this._$email = $('<input type="text" name="entry.261473464" class="ct-feedback_email_source" id="entry_261473464" dir="auto"'
+      + 'placeholder="email (optional) for us to answer">');
     this._$submit = $('<input class="ct-feedback_submit disabled" type="submit" name="submit" value="SEND" id="ct-feedback_submit">');
 
     // _$statusbox contains sending, success or error
@@ -111,6 +112,7 @@ Cotton.UI.Settings.Feedback = Class.extend({
     this._$feedback.append(
       self._$label,
       self._$formfield,
+      self._$email,
       self._$submit
     );
 
@@ -174,6 +176,7 @@ Cotton.UI.Settings.Feedback = Class.extend({
       // in case the user wants to start a new feedback
       this._bSuccess = false;
       this._$formfield.val("");
+      this._$email.val("");
       this._$submit.addClass("disabled");
       // append success message and make it disappear after 2 sec
       this._$statusbox.empty().append(self._$success);
@@ -240,6 +243,7 @@ Cotton.UI.Settings.Feedback = Class.extend({
     this._$statusbox = null;
     this._$submit = null;
     this._$formfield = null;
+    this._$email = null;
     this._$label = null;
     this._$feedback.empty();
     this._$feedback = null;
