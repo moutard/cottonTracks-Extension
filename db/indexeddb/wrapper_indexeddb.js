@@ -324,7 +324,7 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
           mResultElementCallback.call(self, lAllObjects);
         });
   },
-  
+
   getXYItems: function(sObjectStoreName, iX, iY, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;
@@ -426,6 +426,21 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
       }
     });
   },
+
+  // Must be called once the store is ready.
+  add: function(sObjectStoreName, oObject, mOnSaveCallback) {
+    var self = this;
+
+    var oTranslator = this._translatorForObject(sObjectStoreName, oObject);
+    var dDbRecord = oTranslator.objectToDbRecord(oObject);
+    this._oEngine.add(sObjectStoreName, dDbRecord, function(iId) {
+
+      if (mOnSaveCallback) {
+        mOnSaveCallback.call(self, iId, oObject);
+      }
+    });
+  },
+
 
   putList: function(sObjectStoreName, lObjects, mOnSaveCallback) {
     var self = this;
