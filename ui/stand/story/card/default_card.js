@@ -28,8 +28,10 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
   init : function(oHistoryItem, oGlobalDispatcher) {
     // init with the parent card class
     this._super(oHistoryItem, oGlobalDispatcher);
+    this._oGlobalDispatcher = oGlobalDispatcher;
 
     this.setType('default');
+    this._oTitle.$().addClass('ct-one_liner');
 
     this._oQuoteHolder = new Cotton.UI.Stand.Story.Card.Content.QuoteHolder(oHistoryItem, oGlobalDispatcher);
 
@@ -39,6 +41,10 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
       this._oFeaturedImage = new Cotton.UI.Stand.Story.Card.Content.ImageFeatured(sImage);
       this._$media = this._oFeaturedImage.$();
     }
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(){
+      this.setHeight();
+    });
 
     this.drawCard();
   },
@@ -69,7 +75,10 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
     // the card is created and appended (see Cotton.UI.Stand.Story.StoryBoard)
     if (this._oQuoteHolder.$()) {
       var MARGIN = 40;
-      this._$card.height(this._oQuoteHolder.$().height() + 2 * MARGIN);
+      var BOTTOM_SPACE = 50;
+      var iQuotesHeight = this._oQuoteHolder.$().height();
+      this._$card.height( iQuotesHeight + 2 * MARGIN);
+      this._$details.height(iQuotesHeight + 2 * MARGIN - BOTTOM_SPACE);
     } else {
       var DEFAULT_HEIGHT = 105;
       this._$card.height(DEFAULT_HEIGHT);
@@ -77,6 +86,8 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
   },
 
   purge : function() {
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
+    // this._oGlobalDispatcher is nullified in _super
     if (this._oFeaturedImage) {
       this._oFeaturedImage.purge();
       this._oFeaturedImage = null;
