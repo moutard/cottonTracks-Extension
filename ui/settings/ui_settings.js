@@ -1,6 +1,6 @@
 "use strict";
 
-Cotton.UI.Settings.Settings = Class.extend({
+Cotton.UI.Settings.UISettings = Class.extend({
 
   /**
    * General Dispatcher that allows two diffent parts of the product to communicate
