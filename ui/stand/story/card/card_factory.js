@@ -20,7 +20,7 @@ Cotton.UI.Stand.Story.Card.Factory = Class.extend({
     oUrl.fineDecomposition();
     
      // Detect if it's an image.
-    var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
+    var reg = new RegExp("\.(jpg|jpeg|png|gif)$", "gi");
     var sLastStringFromPathname = oUrl.pathname.split('/')[
       oUrl.pathname.split('/').length - 1];
     var sLastStringFromHyphen = sLastStringFromPathname.split('-')[
