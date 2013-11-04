@@ -1104,6 +1104,26 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+   add: function(sObjectStoreName, dItem, mOnSaveCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readwrite");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    var oAddRequest = oStore.add(dItem);
+
+    oAddRequest.onsuccess = function(oEvent) {
+      mOnSaveCallback.call(self, oEvent.target.result);
+    };
+
+    oAddRequest.onerror = function(oEvent){
+      console.error("Can NOT add the database");
+      console.error(oEvent);
+    };
+
+  },
+
 
   putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
@@ -1142,14 +1162,14 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
-  putUnique: function(sObjectStoreName, dItem, mMerge, mOnSaveCallback) {
+  putUnique: function(sObjectStoreName, dNewItem, mMerge, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    var oPutRequest = oStore.put(dItem);
+    var oPutRequest = oStore.put(dNewItem);
 
     oPutRequest.onsuccess = function(oEvent) {
       mOnSaveCallback.call(self, oEvent.target.result);
@@ -1160,6 +1180,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       // so put can't be done without transgressing constraints.
       DEBUG && console.log(oEvent);
       if(this['error']['name'] === "ConstraintError") {
+        DEBUG && console.debug("constraint error.");
         var oTransaction = self._oDb.transaction([sObjectStoreName],
         "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
@@ -1175,6 +1196,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         if(lRegExpResults.length > 1) {
           // The 0 index has the \' character that we don't want.
           var sIndex = lRegExpResults[1];
+          DEBUG && console.debug(sIndex);
         } else {
           console.error(this);
           console.error('The error.message has changed.');
@@ -1182,16 +1204,19 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
         var oIndex = oStore.index(sIndex);
         // Get the requested record in the store.
-        var oFindRequest = oIndex.get(dItem[sIndex]);
+        var oFindRequest = oIndex.get(dNewItem[sIndex]);
         oFindRequest.onsuccess = function(oEvent) {
           // The dbRecord already present in the database.
-          var dResult = oEvent.target.result;
-
+          var dOldItem = oEvent.target.result;
+          DEBUG && console.log(dOldItem);
           // Merge the 2 elements using the given function.
-          var dMergedItem = mMerge(dResult, dItem);
+          var dMergedItem = mMerge(dOldItem, dNewItem);
+          DEBUG && console.log(dMergedItem);
+
           var oSecondPutRequest = oStore.put(dMergedItem);
 
           oSecondPutRequest.onsuccess = function(oEvent) {
+            DEBUG && console.log(oEvent.target.result);
             mOnSaveCallback.call(self, oEvent.target.result);
           };
 

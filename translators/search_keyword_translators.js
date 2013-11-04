@@ -49,15 +49,15 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
   /**
    * dDBRecord1 is the one already in the database.
    */
-  var mMergeDBRecords = function(dDBRecord1, dDBRecord2) {
-    dDBRecord2['id'] = dDBRecord1['id'];
-    dDBRecord2['lReferringStoriesId'] = _.union(
-        dDBRecord2['lReferringStoriesId'],
-        dDBRecord1['lReferringStoriesId']);
-    dDBRecord2['lReferringHistoryItemsId'] = _.union(
-        dDBRecord2['lReferringHistoryItemsId'],
-        dDBRecord1['lReferringHistoryItemsId']);
-    return dDBRecord2;
+  var mMergeDBRecords = function(dOldRecord, dNewRecord) {
+    dNewRecord['id'] = dOldRecord['id'];
+    dNewRecord['lReferringStoriesId'] = _.union(
+        dOldRecord['lReferringStoriesId'],
+        dNewRecord['lReferringStoriesId']);
+    dNewRecord['lReferringHistoryItemsId'] = _.union(
+        dOldRecord['lReferringHistoryItemsId'],
+        dNewRecord['lReferringHistoryItemsId']);
+    return dNewRecord;
   };
 
   var oTranslator = new Cotton.DB.Translator('0.1', mObjectToDbRecordConverter,
