@@ -118,7 +118,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
             break;
           }
         }
-        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
+        var reg = new RegExp("\.(jpg|jpeg|png|gif)$", "gi");
         var fileReg = /File\:/ig;
         if (oUrl.searchImage || (reg.exec(oUrl.href) && !oUrl.pathname.match(fileReg))) {
           var sImageUrl = oUrl.searchImage || oUrl.href;
