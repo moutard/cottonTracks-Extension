@@ -8,7 +8,7 @@
  *
  * This class use image as div.
  */
-Cotton.UI.Common.Content.DImage = Class.extend({
+Cotton.UI.Stand.Common.Content.DImage = Class.extend({
 
   /**
    * {DOM} element that constrains an image to the right dimension and position.
