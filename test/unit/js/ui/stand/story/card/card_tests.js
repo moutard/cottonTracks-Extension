@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Toolbox.Complexe', {
+module('Cotton.UI.Stand.Story.Card.Card', {
 
 });
 
@@ -11,6 +11,7 @@ test('init.', function() {
     'iLastVisitTime' : 1363648480386,
     'oExtractedDNA' : {}
   });
-  var oComplexeToolbox = new Cotton.UI.Story.Item.Toolbox.Complexe(true, true, oHistoryItem['sUrl']);
-  ok(oComplexeToolbox);
+  var oDispatcher = new Cotton.Messaging.Dispatcher();
+  var oCard = new Cotton.UI.Stand.Story.Card.Card(oHistoryItem, oDispatcher);
+  ok(oCard);
 });
