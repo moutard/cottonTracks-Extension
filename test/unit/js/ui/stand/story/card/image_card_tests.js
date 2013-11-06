@@ -1,6 +1,6 @@
 'use strict';
 
-module('Cotton.UI.Item.Image', {
+module('Cotton.UI.Stand.Story.Card.Image', {
 
 });
 
@@ -11,6 +11,7 @@ test('init.', function() {
     'iLastVisitTime' : 1363648480386,
     'oExtractedDNA' : {}
   });
-  var oContent = new Cotton.UI.Story.Item.Image(oHistoryItem.url(), oHistoryItem);
-  ok(oContent);
+  var oDispatcher = new Cotton.Messaging.Dispatcher();
+  var oImageCard = new Cotton.UI.Stand.Story.Card.Image(oHistoryItem.url(), oHistoryItem, oDispatcher);
+  ok(oImageCard);
 });
