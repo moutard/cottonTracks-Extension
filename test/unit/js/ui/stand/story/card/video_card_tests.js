@@ -17,4 +17,3 @@ test('init.', function() {
     oHistoryItem, oDispatcher);
   ok(oVideoCard);
 });
-
