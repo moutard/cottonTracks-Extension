@@ -34,7 +34,7 @@ Cotton.Model.HistoryItem = Class.extend({
     this._iVisitCount = dDBRecord['iVisitCount'] || 1;
 
     this._sStoryId = dDBRecord['sStoryId'] || "UNCLASSIFIED";
-    this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(this, dDBRecord['oExtractedDNA']);
+    this._oExtractedDNA = new Cotton.Model.HistoryItemDNA(dDBRecord['oExtractedDNA']);
     this._iChromeId = dDBRecord['sChromeId'] || undefined;
   },
   // can't be set
