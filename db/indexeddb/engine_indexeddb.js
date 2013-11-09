@@ -1000,7 +1000,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-        "readonly");
+        "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
 
@@ -1098,8 +1098,10 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oPutRequest.onerror = function(oEvent){
-      console.error("Can NOT put the database");
-      console.error(oEvent);
+      // console.error(oEvent);
+      var sErrorMessage = "DB.Engine.Put - " + oEvent.srcElement.error.name
+        + ": " +  oEvent.srcElement.error.message;
+      mOnSaveCallback.call(self, {'error': sErrorMessage});
     };
 
   },
@@ -1208,9 +1210,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         oFindRequest.onsuccess = function(oEvent) {
           // The dbRecord already present in the database.
           var dOldItem = oEvent.target.result;
+          DEBUG && console.log("old item");
           DEBUG && console.log(dOldItem);
           // Merge the 2 elements using the given function.
           var dMergedItem = mMerge(dOldItem, dNewItem);
+          DEBUG && console.log("merged item");
           DEBUG && console.log(dMergedItem);
 
           var oSecondPutRequest = oStore.put(dMergedItem);

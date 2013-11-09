@@ -56,6 +56,7 @@ asyncTest("putList an empty list return callback.", function() {
 /**
  * test that the empty method of the database work.
  */
+/*
 asyncTest("empty works fine.", function() {
   // Just to be sure that it's the last things display in the console,
   // so it's more easy to debug.
@@ -68,7 +69,7 @@ asyncTest("empty works fine.", function() {
     });
   });
 });
-
+*/
 asyncTest("putUnique - SearchKeywords do not duplicate the element.", function() {
   // Just to be sure that it's the last things display in the console,
   // so it's more easy to debug.
@@ -84,7 +85,9 @@ asyncTest("putUnique - SearchKeywords do not duplicate the element.", function()
     oSearchKeyword2.addReferringHistoryItemId(5);
     oSearchKeyword2.addReferringStoryId(9);
     ok( true, "Passed and ready to resume!" );
+    console.log("put unique - alice searchKeyword");
     oDatabase.putUnique('searchKeywords', oSearchKeyword2, function(id2) {
+      // console.log(id2);
       oDatabase.find('searchKeywords', 'id', id2, function(oSearchKeyword) {
         console.log(oSearchKeyword);
         deepEqual(oSearchKeyword.referringStoriesId(), [9]);
@@ -94,7 +97,7 @@ asyncTest("putUnique - SearchKeywords do not duplicate the element.", function()
     });
   });
 });
-/*
+
 asyncTest("putUnique id not set.", function() {
   // Just to be sure that it's the last things display in the console,
   // so it's more easy to debug.
@@ -105,43 +108,50 @@ asyncTest("putUnique id not set.", function() {
     'sUrl': sTestUrl,
     'iVisitCount': 4,
     'oExtractedDNA': {
-      'dBagOfWords': {
+      'oBagOfWords': {
         'first': 3,
       }
     }
   });
   oDatabase.putUnique('historyItems', oHistoryItem1, function(id1) {
     _iOldId = id1;
+    console.log(_iOldId);
     var oHistoryItem2 = new Cotton.Model.HistoryItem({
       'sUrl': sTestUrl,
       'iVisitCount': 3,
       'oExtractedDNA': {
-        'dBagOfWords': {
+        'oBagOfWords': {
           'second': 4
         }
       }
     });
-
+    console.log('rf');
+    console.log(oHistoryItem2);
     ok( true, "Passed and ready to resume!" );
     oDatabase.putUnique('historyItems', oHistoryItem2, function(id2) {
       _iNewId = id2;
+      console.log(_iNewId);
       oDatabase.find('historyItems', 'sUrl', sTestUrl, function(oHistoryItem) {
         deepEqual(oHistoryItem.visitCount(), 4);
-        deepEqual(oHistoryItem.extractedDNA().bagOfWords(), {
+        console.log(oHistoryItem.extractedDNA().bagOfWords().get(), {
           'first': 3,
           'second': 4
         });
+        deepEqual(oHistoryItem.extractedDNA().bagOfWords().get(), {
+          'first': 3,
+          'second': 4
+        });
+
         deepEqual(_iOldId, _iNewId);
         start();
       });
     });
   });
 });
-*/
+
 /**
  * PUT function.
  */
-/*
 asyncTest("put - same url id not set.", function() {
   // Just to be sure that it's the last things display in the console,
   // so it's more easy to debug.
@@ -152,7 +162,7 @@ asyncTest("put - same url id not set.", function() {
     'sUrl': sTestUrl,
     'iVisitCount': 4,
     'oExtractedDNA': {
-      'dBagOfWords': {
+      'oBagOfWords': {
         'first': 3,
       }
     }
@@ -163,31 +173,26 @@ asyncTest("put - same url id not set.", function() {
       'sUrl': sTestUrl,
       'iVisitCount': 3,
       'oExtractedDNA': {
-        'dBagOfWords': {
+        'oBagOfWords': {
           'second': 4
         }
       }
     });
 
     ok( true, "Passed and ready to resume!" );
-    oDatabase.put('historyItems', oHistoryItem2, function(id2) {
-      _iNewId = id2;
-      oDatabase.find('historyItems', 'sUrl', sTestUrl, function(oHistoryItem) {
-        deepEqual(oHistoryItem.visitCount(), 4);
-        deepEqual(oHistoryItem.extractedDNA().bagOfWords(), {
-          'first': 3,
-          'second': 4
-        });
-        deepEqual(_iOldId, _iNewId);
-        start();
-      });
-    });
+    oDatabase.put('historyItems', oHistoryItem2, function(dResult) {
+      deepEqual(dResult.error,
+        "DB.Engine.Put - ConstraintError: Unable to add key to index 'sUrl': at least one key does not satisfy the uniqueness requirements.");
+      start();
+    })
   });
 });
 
 asyncTest("put - same url and same id.", function() {
   // Just to be sure that it's the last things display in the console,
   // so it's more easy to debug.
+  //
+  // In this case no error - but put simply replace the old value.
   var _iOldId, _iNewId;
   var sTestUrl = "http://ct-test.com/put-same_url_and_same_id";
   var oDatabase = oIntegrationBackground.database();
@@ -195,7 +200,7 @@ asyncTest("put - same url and same id.", function() {
     'sUrl': sTestUrl,
     'iVisitCount': 4,
     'oExtractedDNA': {
-      'dBagOfWords': {
+      'oBagOfWords': {
         'first': 3,
       }
     }
@@ -207,7 +212,7 @@ asyncTest("put - same url and same id.", function() {
       'sUrl': sTestUrl,
       'iVisitCount': 3,
       'oExtractedDNA': {
-        'dBagOfWords': {
+        'oBagOfWords': {
           'second': 4
         }
       }
@@ -216,10 +221,11 @@ asyncTest("put - same url and same id.", function() {
     ok( true, "Passed and ready to resume!" );
     oDatabase.put('historyItems', oHistoryItem2, function(id2) {
       _iNewId = id2;
+      console.log(id2);
       oDatabase.find('historyItems', 'sUrl', sTestUrl, function(oHistoryItem) {
-        deepEqual(oHistoryItem.visitCount(), 4);
-        deepEqual(oHistoryItem.extractedDNA().bagOfWords(), {
-          'first': 3,
+        // Put has replace the old record by the new one.
+        deepEqual(oHistoryItem.visitCount(), 3);
+        deepEqual(oHistoryItem.extractedDNA().bagOfWords().get(), {
           'second': 4
         });
         deepEqual(_iOldId, _iNewId);
@@ -228,7 +234,7 @@ asyncTest("put - same url and same id.", function() {
     });
   });
 });
-*/
+
 /**
  * ADD
  */
