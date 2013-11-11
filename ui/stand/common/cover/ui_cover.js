@@ -165,12 +165,12 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
   },
 
   favorite : function() {
-    this._oStory.setFavorite(true);
+    this._oStory.setFavorite(1);
     this._$favorite.text('Unfavorite').removeClass('ct-favorite_story').addClass('ct-unfavorite_story');
   },
 
   unfavorite : function() {
-    this._oStory.setFavorite(false);
+    this._oStory.setFavorite(0);
     this._$favorite.text('Favorite').removeClass('ct-unfavorite_story').addClass('ct-favorite_story');
   },
 
