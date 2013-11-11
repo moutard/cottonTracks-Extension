@@ -127,7 +127,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // For chrome version > 25 this event is called after onupgradeneeded
         oOpenDBWithUpperVersionRequest.onsuccess = function(oEvent) {
           var oDb = self._oDb = oEvent.target.result;
-          if (oDb.version !== iNewVersionNumber){
+          if (oDb.version !== iNewVersionNumber) {
             var iNewVersion = parseInt(oDb.version) + 1;
 
             // We need to update the database.
@@ -147,7 +147,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
             };
 
-            oSetVersionRequest.onerror = function(oEvent){
+            oSetVersionRequest.onerror = function(oEvent) {
               console.error("setVersion error" + oEvent.message);
               console.error(oEvent);
               console.error(this);
@@ -156,7 +156,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
               throw "SetVersionRequest error";
             };
 
-            oSetVersionRequest.onblocked = function(oEvent){
+            oSetVersionRequest.onblocked = function(oEvent) {
               console.error("setVersion blocked. " + oEvent.message);
               console.error(oEvent);
               console.error(this);
@@ -174,13 +174,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
     };
 
-    oOpenDBRequest.onerror = function(oEvent){
-        console.error("Can't open the database");
+    oOpenDBRequest.onerror = function(oEvent) {
         console.error(oEvent);
-        console.error(this);
-
-        throw "Request Error - init engine";
-      };
+    };
 
   },
 
@@ -204,28 +200,28 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     lMissingObjectStoreNames, dIndexesForObjectStoreNames,
     dMissingIndexKeysForObjectStoreNames, mOnReadyCallback) {
     var self = this;
-    oTransaction.oncomplete = function(){
+    oTransaction.oncomplete = function() {
       DEBUG && console.debug("setVersion result transaction oncomplete");
       mOnReadyCallback();
     };
 
-    oTransaction.onabort = function(){
+    oTransaction.onabort = function() {
       console.error("setVersion result transaction onabort");
       self._oDb.close();
     };
 
-    oTransaction.ontimeout = function(){
+    oTransaction.ontimeout = function() {
       console.error("setVersion result transaction ontimeout");
       self._oDb.close();
     };
 
-    oTransaction.onerror = function(oEvent){
+    oTransaction.onerror = function(oEvent) {
       console.error("transaction error" + oEvent.message);
       self._oDb.close();
       throw "Transaction error";
     };
 
-    oTransaction.onblocked = function(oEvent){
+    oTransaction.onblocked = function(oEvent) {
       console.error("Transaction blocked. " + oEvent.message);
       self._oDb.close();
       throw "Transaction blocked";
@@ -260,7 +256,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         }
       });
 
-    } catch (oError){
+    } catch (oError) {
       DEBUG && console.debug("createObjectStore exception : " + oError.message);
       oTransaction.abort();
     }
@@ -275,7 +271,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    * @param {function}
    *          mResultElementCallback
    */
-  empty : function(sObjectStoreName, mResultElementCallback){
+    empty : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -298,7 +294,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     };
 
-
   },
 
   /**
@@ -309,7 +304,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
    * @param {function}
    *          mResultElementCallback
    */
-  iterList: function(sObjectStoreName, mResultElementCallback) {
+  iterList : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -333,16 +328,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       oResult.continue();
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-
-      throw "Cursor Request Error - iterList";
     };
+
   },
 
-  listInverse: function(sObjectStoreName, mResultElementCallback) {
+  listInverse : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -366,12 +358,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       oResult.continue();
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-
-      throw "Cursor Request Error - listInverse";
     };
 
   },
@@ -397,8 +385,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (oResult) {
         lAllItems.push(oResult.value);
         oResult.continue();
-      }
-      else {
+      } else {
         mResultElementCallback.call(self, lAllItems);
         return;
       }
@@ -406,7 +393,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   },
 
   iterRange : function(sObjectStoreName, iLowerBound, iUpperBound,
-                  mResultElementCallback){
+                  mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -433,17 +420,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
 
     oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
       console.error(oEvent);
-      console.error(this);
-
-      throw "Cursor Request Error - iterRange";
     };
 
   },
 
   getRange : function(sObjectStoreName, iLowerBound, iUpperBound,
-      mResultElementCallback){
+      mResultElementCallback) {
     var self = this;
 
     var lAllItems = new Array();
@@ -464,24 +447,20 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (!oResult) {
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - get Range";
     };
 
   },
 
   getKeyRange : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
-                    mResultElementCallback){
+                    mResultElementCallback) {
     var self = this;
 
     var lAllItems = new Array();
@@ -505,18 +484,14 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (!oResult) {
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getKeyRange";
     };
 
   },
@@ -532,7 +507,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     // Allow user to put "PREV" instead of 2 to get redeable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
-    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    if (iDirectionIndex !== -1) { iDirection = iDirectionIndex; }
     // use non deprecated cursor direction.
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
 
@@ -555,20 +530,15 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (!oResult) {
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getUpperBound";
     };
-
 
   },
 
@@ -605,20 +575,15 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (!oResult) {
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getLowerBound";
     };
-
 
   },
 
@@ -629,7 +594,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     // Allow user to put "PREV" instead of 2 to get readable code.
     var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
-    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    if (iDirectionIndex !== -1) { iDirection = iDirectionIndex; }
     var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
 
     var lAllItems = new Array();
@@ -652,21 +617,15 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       if (!oResult) {
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getBound";
     };
-
-
 
   },
 
@@ -701,16 +660,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
 
       mResultElementCallback.call(self, oResult.value);
-
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getLastEntry";
     };
-
 
   },
 
@@ -749,16 +703,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
 
       mResultElementCallback.call(self, oResult.value);
-
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getLast";
     };
-
 
   },
 
@@ -800,13 +749,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getFirst";
     };
-
 
   },
 
@@ -860,26 +805,21 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // There is less than iX correspondings items.
         mResultElementCallback.call(self, lAllItems);
         return;
-      } else if(iCursorCount === iX){
+      } else if (iCursorCount === iX) {
         // There is more than iX correspondings items, but return only the iXth
         // first.
         lAllItems.push(oResult.value);
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getXItems";
     };
-
 
   },
 
@@ -915,27 +855,21 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // There is less than iX correspondings items.
         mResultElementCallback.call(self, lAllItems);
         return;
-      } else if(iCursorCount === iX){
+      } else if (iCursorCount === iX) {
         // There is more than iX correspondings items, but return only the iXth
         // first.
         lAllItems.push(oResult.value);
         mResultElementCallback.call(self, lAllItems);
         return;
-      }
-      else {
+      } else {
         lAllItems.push(oResult.value);
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getXItems";
     };
-
-
   },
 
   getXYItems : function(sObjectStoreName, iX, iY, sIndexKey,
@@ -969,30 +903,25 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         // There is less than iX correspondings items.
         mResultElementCallback.call(self, lAllItems);
         return;
-      } else if(iX <= iCursorCount && iCursorCount <= iY){
+      } else if (iX <= iCursorCount && iCursorCount <= iY) {
         // There is more than iX correspondings items, but return only the iXth
         // first.
         lAllItems.push(oResult.value);
 
-        if(iCursorCount === iY){
+        if (iCursorCount === iY) {
           mResultElementCallback.call(self, lAllItems);
           return;
         }
 
         oResult.continue();
-      }
-      else {
+      } else {
         oResult.continue();
       }
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - getXYItems";
     };
-
 
   },
 
@@ -1022,7 +951,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       mResultCallback.call(self, oResult);
     };
 
-    oFindRequest.onerror = function(oEvent){
+    oFindRequest.onerror = function(oEvent) {
       console.error(oEvent);
     };
 
@@ -1067,15 +996,15 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var p = 0;
     var iLength = lIndexValue.length;
     if (iLength > 0) {
-      for (var i = 0; i < iLength; i++){
+      for (var i = 0; i < iLength; i++) {
         var oIndexValue = lIndexValue[i];
-        self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult){
+        self.find(sObjectStoreName, sIndexKey, oIndexValue, function(oResult) {
           p+=1;
-          if(oResult){
+          if (oResult) {
             lAllItems.push(oResult);
           }
 
-          if(p === lIndexValue.length){
+          if (p === lIndexValue.length) {
             mResultCallback.call(self, lAllItems);
           }
         });
@@ -1086,7 +1015,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
-  search: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+  search : function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     // sIndexKey should have a multipleEntry as true.
     var self = this;
 
@@ -1112,16 +1041,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       }
     };
 
-    oSearchRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oSearchRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Search Request Error";
     };
 
   },
 
-  put: function(sObjectStoreName, dItem, mOnSaveCallback) {
+  put : function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1165,7 +1091,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
-  putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
+  putList : function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
     // Factorize transaction. Use the same transaction to put all the elements.
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1183,17 +1109,16 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       var oPutRequest = oStore.put(dItem);
       oPutRequest.onsuccess = function(oEvent) {
         iPutCount++;
-        if(iPutCount === iLength){
+        if (iPutCount === iLength) {
           mOnSaveCallback.call(self, lAllId);
         }
       };
 
       oPutRequest.onerror = function(oEvent) {
-        console.error("Can NOT put the database");
         console.error(oEvent);
         // Go on even if some elements return an error.
         iPutCount++;
-        if(iPutCount === iLength){
+        if (iPutCount === iLength) {
           mOnSaveCallback.call(self, lAllId);
         }
 
@@ -1220,11 +1145,9 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
       // ConstraintError means that one of the unique key is already present,
       // so put can't be done without transgressing constraints.
-      if(this['error']['name'] === "ConstraintError") {
-
-        DEBUG && console.debug("constraint error.");
+      if (this['error']['name'] === "ConstraintError") {
         var oTransaction = self._oDb.transaction([sObjectStoreName],
-        "readwrite");
+          "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
 
         var sIndex = oEvent['target']['source']['keyPath'];
@@ -1275,7 +1198,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         };
 
         oFindRequest.onerror = function(oEvent) {
-          console.error(this);
+          console.error(oEvent);
           console.error("can't find: " + dItem[sIndex]);
         };
 
@@ -1283,7 +1206,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
-  delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
+  delete : function(sObjectStoreName, oId, mOnDeleteCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1296,16 +1219,13 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       mOnDeleteCallback.call(self);
     };
 
-    oDeleteRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oDeleteRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Delete Request Error";
     };
 
   },
 
-  purge: function(sObjectStoreName, mResultElementCallback) {
+  purge : function(sObjectStoreName, mResultElementCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1331,11 +1251,8 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       oResult.continue();
     };
 
-    oCursorRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oCursorRequest.onerror = function(oEvent) {
       console.error(oEvent);
-      console.error(this);
-      throw "Cursor Request Error - purge";
     };
 
   },
