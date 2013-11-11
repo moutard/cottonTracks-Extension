@@ -27,6 +27,8 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
 
     this._$card_deck = $('<div class="ct-story_deck ct-card_deck"></div>');
     this._lCards = [];
+    
+    this._oCardFactory = new Cotton.UI.Stand.Story.Card.Factory();
 
     this._oGlobalDispatcher.subscribe('remove_card', this, function(dArguments) {
       this.removeCard(dArguments['history_item_id']);
@@ -60,7 +62,7 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
     var iLength = lHistoryItems.length;
     for (var i = 0; i < iLength; i++) {
       var oHistoryItem = lHistoryItems[i];
-      var oCard = new Cotton.UI.Stand.Story.Card.Factory(oHistoryItem, this._oGlobalDispatcher);
+      var oCard = this._oCardFactory.get(oHistoryItem, this._oGlobalDispatcher);
       this._lCards.push(oCard);
       this._$card_deck.append(oCard.$());
       // set height of the card, needed for default cards with quotes, before appending the
@@ -124,7 +126,8 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
    *    historyItem to create a card from
    **/
   prependCard : function(oHistoryItem) {
-    var oCard = new Cotton.UI.Stand.Story.Card.Factory(oHistoryItem, this._oGlobalDispatcher);
+    var oCardFactory = new Cotton.UI.Stand.Story.Card.Factory(oHistoryItem, this._oGlobalDispatcher);
+    var oCard = oCardFactory.get();
     this._lCards.unshift(oCard);
     // use after and not prepend, because the first dom element is the card adder.
     this._oCardAdder.$().after(oCard.$());
@@ -180,6 +183,7 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
     this._oGlobalDispatcher.unsubscribe('append_new_card', this);
     this._oGlobalDispatcher = null;
     this.purgeCards();
+    this._oCardFactory = null;
     this._oCardAdder.purge();
     this._oCardAdder = null;
     this._$card_deck.remove();
