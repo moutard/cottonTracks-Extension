@@ -236,8 +236,8 @@ Cotton.Controllers.DispatchingController = Class.extend({
      */
     oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
       oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
-        oStory.setFavorite(true);
-        oLightyearController._oDatabase.put('stories', oStory, function(){});
+        oStory.setFavorite(1);
+        oLightyearController._oDatabase.putUnique('stories', oStory, function(){});
       });
     });
 
@@ -246,8 +246,8 @@ Cotton.Controllers.DispatchingController = Class.extend({
      */
     oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
       oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
-        oStory.setFavorite(false);
-        oLightyearController._oDatabase.put('stories', oStory, function(){});
+        oStory.setFavorite(0);
+        oLightyearController._oDatabase.putUnique('stories', oStory, function(){});
       });
     });
 

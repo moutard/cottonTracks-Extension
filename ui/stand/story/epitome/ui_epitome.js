@@ -73,12 +73,12 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
     }
 
     this._oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
-      if (dArguments['story_id'] === self._iStoryId) {
+      if (dArguments['story_id'] === self._oStory.id()) {
         this.favorite();
       }
     });
     this._oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
-      if (dArguments['story_id'] === self._iStoryId) {
+      if (dArguments['story_id'] === self._oStory.id()) {
         this.unfavorite();
       }
     });
@@ -129,12 +129,12 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
   },
 
   favorite : function() {
-    this._oStory.setFavorite(true);
+    this._oStory.setFavorite(1);
     this._$favorite.text('Remove from Favorites').removeClass('favorite_button').addClass('unfavorite_button');
   },
 
   unfavorite : function() {
-    this._oStory.setFavorite(false);
+    this._oStory.setFavorite(0);
     this._$favorite.text('Add to Favorites').removeClass('unfavorite_button').addClass('favorite_button');
   },
 

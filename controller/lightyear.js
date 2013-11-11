@@ -369,14 +369,7 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   getFavoriteStories : function(mCallback) {
     var self = this;
-    this._oDatabase.getList('stories', function(lStories){
-      var lFavoriteStories = [];
-      var iLength = lStories.length;
-      for (var i = 0; i < iLength; i++) {
-        if (lStories[i].isFavorite()) {
-          lFavoriteStories.push(lStories[i]);
-        }
-      }
+    this._oDatabase.search('stories', 'bFavorite', 1, function(lFavoriteStories){
       self.fillAndFilterStories(lFavoriteStories, function(lFilteredStories){
         mCallback(lFilteredStories);
       });
