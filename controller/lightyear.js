@@ -214,10 +214,15 @@ Cotton.Controllers.Lightyear = Class.extend({
       mCallback(lFilledStories);
     }
     for (var i = 0; i < iLength; i++) {
+      // remember the position of this story when we got it from the base
+      // to respect the order we gave it (lastVisitTime, related score...)
+      lStories[i].iSortIndex = i;
       this.fillStory(lStories[i], function(oFilledStory) {
         lFilledStories.push(oFilledStory);
         if (lFilledStories.length === iLength) {
-          mCallback(self._filterEmptyStories(lFilledStories));
+          mCallback(self._filterEmptyStories(lFilledStories).sort(function(a, b){
+            return a.iSortIndex - b.iSortIndex;
+          }));
         }
       });
     }
@@ -370,6 +375,9 @@ Cotton.Controllers.Lightyear = Class.extend({
   getFavoriteStories : function(mCallback) {
     var self = this;
     this._oDatabase.search('stories', 'bFavorite', 1, function(lFavoriteStories){
+      lFavoriteStories.sort(function(a, b) {
+        return b.lastVisitTime() - a.lastVisitTime();
+      });
       self.fillAndFilterStories(lFavoriteStories, function(lFilteredStories){
         mCallback(lFilteredStories);
       });
