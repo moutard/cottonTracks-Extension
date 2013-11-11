@@ -996,7 +996,46 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  /**
+   * given an index key that respects the uniquiness constraints and a value.
+   * it returns the element if it exists.
+   *
+   * The function is readonly, so it can be perfom in parallel with other
+   * readonly, methods.
+   * But it can has some drawbacks. with putUnique, that performs more than
+   * 2 request in one.
+   */
   find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+    var self = this;
+
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+    var oIndex = oStore.index(sIndexKey);
+
+    // Get the requested record in the store.
+    var oFindRequest = oIndex.get(oIndexValue);
+
+    oFindRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+      // If there was no result, it will send back null.
+      mResultCallback.call(self, oResult);
+    };
+
+    oFindRequest.onerror = function(oEvent){
+      console.error(oEvent);
+    };
+
+  },
+
+  /**
+   * find with "readwrite" transaction.
+   *
+   * Same that previous one, only transaction change, to avoid specific
+   * drawbacks.
+   * Usefull for test to be sure that the previous query is performed.
+   */
+  find_w: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1013,14 +1052,12 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       mResultCallback.call(self, oResult);
     };
 
-     oFindRequest.onerror = function(oEvent){
-      console.error("Can't open the database");
+    oFindRequest.onerror = function(oEvent){
       console.error(oEvent);
-      console.error(this);
-      throw "Find Request Error";
     };
 
   },
+
 
   findGroup: function(sObjectStoreName, sIndexKey, lIndexValue,
                  mResultCallback) {
@@ -1097,16 +1134,16 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
-    oPutRequest.onerror = function(oEvent){
-      // console.error(oEvent);
+    oPutRequest.onerror = function(oEvent) {
+      console.log(oEvent);
       var sErrorMessage = "DB.Engine.Put - " + oEvent.srcElement.error.name
         + ": " +  oEvent.srcElement.error.message;
-      mOnSaveCallback.call(self, {'error': sErrorMessage});
+      mOnSaveCallback.call(self, {'error': sErrorMessage, 'details': oEvent});
     };
 
   },
 
-   add: function(sObjectStoreName, dItem, mOnSaveCallback) {
+  add: function(sObjectStoreName, dItem, mOnSaveCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
@@ -1119,13 +1156,14 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
-    oAddRequest.onerror = function(oEvent){
-      console.error("Can NOT add the database");
-      console.error(oEvent);
+    oAddRequest.onerror = function(oEvent) {
+      console.log(oEvent);
+      var sErrorMessage = "DB.Engine.Add - " + oEvent.srcElement.error.name
+        + ": " +  oEvent.srcElement.error.message;
+      mOnSaveCallback.call(self, {'error': sErrorMessage, 'details': oEvent});
     };
 
   },
-
 
   putList: function(sObjectStoreName, lItems, mOnSaveCallback) {
     var self = this;
@@ -1171,39 +1209,45 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    var oPutRequest = oStore.put(dNewItem);
+    var oPutRequest = oStore.add(dNewItem);
 
     oPutRequest.onsuccess = function(oEvent) {
       mOnSaveCallback.call(self, oEvent.target.result);
     };
 
     oPutRequest.onerror = function(oEvent) {
+      DEBUG && console.log(oEvent);
+
       // ConstraintError means that one of the unique key is already present,
       // so put can't be done without transgressing constraints.
-      DEBUG && console.log(oEvent);
       if(this['error']['name'] === "ConstraintError") {
+
         DEBUG && console.debug("constraint error.");
         var oTransaction = self._oDb.transaction([sObjectStoreName],
         "readwrite");
         var oStore =  oTransaction.objectStore(sObjectStoreName);
 
-        // Find the index that do not satisfy the constraints using a regex in
-        // error.message. This message look like :
-        // "Unable to add key to index 'sKeyword': at least one key does not
-        // satisfy the uniqueness requirements."
+        var sIndex = oEvent['target']['source']['keyPath'];
+        // Constraint error message for
         // TODO(rmoutard): make sure this message doesn't change.
-        var sMessage = (this['error'] && this['error']['message']) ? this['error']['message'] : this['webkitErrorMessage'];
-        var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
-        var lRegExpResults = oRegExp.exec(sMessage);
-        if(lRegExpResults.length > 1) {
-          // The 0 index has the \' character that we don't want.
-          var sIndex = lRegExpResults[1];
-          DEBUG && console.debug(sIndex);
+        if (this['error']['message'] == "Key already exists in the object store.") {
+          // Error message for the "add" method if the "id" exists.
         } else {
-          console.error(this);
-          console.error('The error.message has changed.');
+          // Find the index that do not satisfy the constraints using a regex in
+          // error.message. This message look like :
+          // "Unable to add key to index 'sKeyword': at least one key does not satisfy the uniqueness requirements."
+          var sMessage = (this['error'] && this['error']['message']) ? this['error']['message'] : this['webkitErrorMessage'];
+          var oRegExp = new RegExp("\'([a-zA-Z]*)\'");
+          var lRegExpResults = oRegExp.exec(sMessage);
+          if (lRegExpResults && (lRegExpResults.length > 1)) {
+            // The 0 index has the \' character that we don't want.
+            var sIndex = lRegExpResults[1];
+          } else {
+            console.error('DB.PutEngine: error message has changed.');
+          }
         }
 
+        DEBUG && console.debug(sIndex);
         var oIndex = oStore.index(sIndex);
         // Get the requested record in the store.
         var oFindRequest = oIndex.get(dNewItem[sIndex]);
