@@ -7,8 +7,8 @@ class DEVCompiler(Compiler):
   """
 
   def __init__(self, SOURCE_PATH, DESTINATION_PATH, psBrowser):
-    self._PROD_DESTINATION_PATH = os.path.join(DESTINATION_PATH, "dev")
-    Compiler.__init__(self, SOURCE_PATH, self._PROD_DESTINATION_PATH, psBrowser)
+    self._PROD_DESTINATION_PATH = DESTINATION_PATH
+    Compiler.__init__(self, SOURCE_PATH, os.path.join(DESTINATION_PATH, "dev"), psBrowser)
 
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)

@@ -16,14 +16,7 @@ class FileManager(object):
       else :
         shutil.rmtree(psDestinationPath)
 
-
-  def copySourceToDestination(self, psSourcePath, psDestinationPath):
-    try:
-      shutil.copytree(psSourcePath, psDestinationPath)
-    except OSError as exc: # python >2.5
-      raise
-    # Go on pretreatment.
-    os.chdir(psDestinationPath)
+    os.mkdir(psDestinationPath)
 
   def copySourceToDestinationWithoutHidden(self, psSourcePath, psDestinationPath):
     try:
@@ -31,7 +24,10 @@ class FileManager(object):
       # hidden
       lNoHiddenFolders =  [x for x in os.listdir(psSourcePath) if x[0]!="."]
       for sFolder in lNoHiddenFolders:
-        shutil.copytree(
+        if os.path.isfile(os.path.join(psSourcePath, sFolder)):
+          shutil.copy(os.path.join(psSourcePath, sFolder), os.path.join(psDestinationPath, sFolder))
+        else:
+          shutil.copytree(
             os.path.join(psSourcePath, sFolder),
             os.path.join(psDestinationPath, sFolder))
     except OSError as exc: # python >2.5
