@@ -157,6 +157,35 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
+  getKeyRangeWithConstraint: function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
+                      mResultElementCallback, mConstraint) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getKeyRangeWithConstraint(sObjectStoreName, sIndexKey,
+      iLowerBound, iUpperBound,
+      function(lResult) {
+        if (!lResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, lAllObjects);
+          return;
+        }
+        // else lResult is a list of Items.
+        var iLength = lResult.length;
+        for (var i = 0; i < iLength; i++ ){
+          var oItem = lResult[i];
+          var oTranslator = self._translatorForDbRecord(sObjectStoreName,
+          oItem);
+          var oObject = oTranslator.dbRecordToObject(oItem);
+          lAllObjects.push(oObject);
+        }
+
+        mResultElementCallback.call(self, lAllObjects);
+    },
+    mConstraint);
+  },
+
+
 
   getUpperBound: function(sObjectStoreName, sIndexKey, iUpperBound,
                             iDirection, bStrict,

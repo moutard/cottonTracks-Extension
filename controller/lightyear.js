@@ -73,6 +73,8 @@ Cotton.Controllers.Lightyear = Class.extend({
       });
     });
 
+    this._oFinder = new Cotton.Controllers.Finder(this._oDatabase, this._oGlobalDispatcher);
+
   },
 
   database : function() {

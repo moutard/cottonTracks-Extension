@@ -496,6 +496,45 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
 
   },
 
+  getKeyRangeWithConstraint : function(sObjectStoreName, sIndexKey, iLowerBound, iUpperBound,
+                    mResultElementCallback, mConstraint) {
+    var self = this;
+
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+
+    // Define the Range.
+    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+                                            false, false);
+    var oCursorRequest = oIndex.openCursor(oKeyRange, "prev");
+    // direction 2 : prev
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else {
+        if (mConstraint(oResult.value)) {
+          lAllItems.push(oResult.value);
+        }
+        oResult.continue();
+      }
+    };
+
+    oCursorRequest.onerror = function(oEvent) {
+      console.error(oEvent);
+    };
+
+  },
+
   // Get all elements through the indexKey up to the iUpperBound.
   // Sorted or inverse-sorted depending iDirection
   // Includes bound if bStrict === false
