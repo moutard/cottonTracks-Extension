@@ -50,6 +50,15 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
    * dDBRecord1 is the one already in the database.
    */
   var mMergeDBRecords = function(dOldRecord, dNewRecord) {
+    // Check no collision, return somethng to avoid to break the program.
+    if (dOldRecord['id'] && dNewRecord['id'] && (dOldRecord['id'] !== dNewRecord['id'])) {
+      console.error("Merge conflict: ", "dOldRecord: ", dOldRecord, "dNewRecord: ", dNewRecord);
+      return dOldRecord;
+    }
+    if (dOldRecord['sUrl'] && dNewRecord['sUrl'] && (dOldRecord['sUrl'] !== dNewRecord['sUrl'])) {
+      console.error("Merge conflict: ", "dOldRecord: ", dOldRecord, "dNewRecord: ", dNewRecord);
+      return dOldRecord;
+    }
     dNewRecord['id'] = dOldRecord['id'];
     dNewRecord['lReferringStoriesId'] = _.union(
         dOldRecord['lReferringStoriesId'],
