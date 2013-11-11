@@ -369,6 +369,24 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
     });
   },
 
+  find_w: function(sObjectStoreName, sIndexKey, oIndexValue,
+                  mResultElementCallback) {
+    var self = this;
+
+    this._oEngine.find_w(sObjectStoreName, sIndexKey, oIndexValue,
+      function(oResult) {
+        if (!oResult) {
+          // If there was no result, send back null.
+          mResultElementCallback.call(self, null);
+          return;
+        }
+
+        var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
+        var oObject = oTranslator.dbRecordToObject(oResult);
+        mResultElementCallback.call(self, oObject);
+    });
+  },
+
   findGroup: function(sObjectStoreName, sIndexKey, lIndexValue,
                         mResultElementCallback) {
     var self = this;
