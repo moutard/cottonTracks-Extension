@@ -279,7 +279,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
-      "readonly");
+      "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
