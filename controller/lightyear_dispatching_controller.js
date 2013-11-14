@@ -260,6 +260,14 @@ Cotton.Controllers.DispatchingController = Class.extend({
         oLightyearController.openPartial(lStories, "Favorite Stories", "No Favorite Stories");
       });
     });
+    
+    /**
+     * Show recommendations
+     */
+    oGlobalDispatcher.subscribe('recommendations', this, function(dArguments){
+      oLightyearController._oWorld.clear();
+      oLightyearController.showRecommendations();
+    });
   }
 
 });

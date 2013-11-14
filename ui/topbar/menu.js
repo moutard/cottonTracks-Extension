@@ -30,6 +30,16 @@ Cotton.UI.Topbar.Menu = Class.extend({
    * {DOM} contains the two arrows
    **/
   _$arrows : null,
+  
+  /**
+   * {DOM} triggers the favorite partial
+   **/
+  _$favorites : null,
+  
+  /**
+   * {DOM} triggers the recommendations
+   **/
+  _$reco : null,
 
   /**
    * {DOM} settings gear in the topbar menu, opens and closes the settings panel
@@ -49,13 +59,21 @@ Cotton.UI.Topbar.Menu = Class.extend({
         'value': 'favorites'
       });
     });
-
+    
+    this._$reco = $('<div class="ct-reco_menu_topbar"></div>').click(function(){
+      oGlobalDispatcher.publish('recommendations');
+      oGlobalDispatcher.publish('push_state', {
+        'code': '?p=',
+        'value': 'reco'
+      });
+    });
+    
     //settings icon, toggles (open/close) the settings panel on click
     this._$settings = $('<div class="ct-settings_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$favorites, this._$settings);
+    this._$menu.append(this._$arrows, this._$favorites, this._$reco, this._$settings);
   },
 
   $ : function() {

@@ -384,6 +384,18 @@ Cotton.Controllers.Lightyear = Class.extend({
     });
   },
 
+  showRecommendations : function() {
+    var self = this;
+    this._oRecommander = new Cotton.Controllers.Recommander();
+    this._oRecommander.getRSS(function(){
+      var iNow = new Date().getTime();
+      self._getStoriesByBatch(iNow, 20, function(lStories){
+        self._oRecommander.match(lStories);
+        self._oWorld.openReco(self._oRecommander.getReco());
+      });
+    });
+  },
+
   /**
    * return true if there is no change until the last time we visit
    * lightyear.

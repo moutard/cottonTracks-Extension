@@ -53,6 +53,11 @@ Cotton.UI.World = Class.extend({
   _oSettings : null,
 
   /**
+   * UIRecommander object, a specific type of stand containing all RecoCards
+   */
+  _oUIRecommander : null,
+
+  /**
    * @param {Cotton.Core.Messenger} oCoreMessenger
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
@@ -204,6 +209,11 @@ Cotton.UI.World = Class.extend({
       this._oUIPartial.purge();
       this._oUIPartial = null;
     }
+  },
+
+  openReco : function(lRecoItems) {
+    DEBUG && console.debug(lRecoItems);
+
   },
 
   clear : function() {
