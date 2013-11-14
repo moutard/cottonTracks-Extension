@@ -30,22 +30,48 @@
   </style>
   <!-- Code you want to test -->
 
+ <!-- Library -->
   <script type='text/javascript' src='lib/class.js'></script>
-  <script type='text/javascript' src='lib/jquery-2.0.0.min.js'></script>
   <script type='text/javascript' src='lib/underscore.min.js'></script>
+  <script type='text/javascript' src='lib/jquery-2.0.0.min.js'></script>
 
+  <!-- Cotton -->
   <script type='text/javascript' src='init.js'></script>
 
+  <!-- Cotton.config -->
   <script type='text/javascript' src='config/init.js'></script>
   <script type='text/javascript' src='config/config.js'></script>
 
-	<!-- Cotton.core -->
-	<script type='text/javascript' src='core/default/init.js'></script>
-	<script type='text/javascript' src='core/default/history.js'></script>
+  <!-- Cotton.core -->
+  <script type='text/javascript' src='core/default/init.js'></script>
+  <script type='text/javascript' src='core/default/history.js'></script>
+  <script type='text/javascript' src='core/default/installer.js'></script>
+  <script type='text/javascript' src='core/default/notification.js'></script>
   <script type='text/javascript' src='core/default/install/temp_database.js'></script>
+  <script type='text/javascript' src='core/default/messaging/messenger.js'></script>
 
+  <!-- Cotton.utils -->
+  <script type='text/javascript' src='utils/init.js'></script>
+  <script type='text/javascript' src='utils/url_parser.js'></script>
+  <script type='text/javascript' src='utils/exclude_container.js'></script>
+  <script type='text/javascript' src='utils/exclude_corn.js'></script>
+  <script type='text/javascript' src='utils/ga.js'></script>
+  <script type='text/javascript' src='utils/benchmark.js'></script>
+
+  <!-- Cotton.db -->
   <script type='text/javascript' src='db/init.js'></script>
   <script type='text/javascript' src='db/translator.js'></script>
+  <script type='text/javascript' src='db/wrapper.js'></script>
+  <script type='text/javascript' src='db/indexeddb/init.js'></script>
+  <script type='text/javascript' src='db/indexeddb/engine_indexeddb.js'></script>
+  <script type='text/javascript' src='db/indexeddb/wrapper_indexeddb.js'></script>
+  <script type='text/javascript' src='db/localstorage/init.js'></script>
+  <script type='text/javascript' src='db/localstorage/engine_localstorage.js'></script>
+  <script type='text/javascript' src='db/localstorage/wrapper_localstorage.js'></script>
+  <script type='text/javascript' src='db/localstorage/cache/cache.js'></script>
+  <script type='text/javascript' src='db/localstorage/cache/single_store_cache.js'></script>
+  <script type='text/javascript' src='db/localstorage/cache/fixed_size_cache.js'></script>
+  <script type='text/javascript' src='db/database_factory.js'></script>
 
   <!-- Cotton.model -->
   <script type='text/javascript' src='model/init.js'></script>
@@ -61,28 +87,31 @@
   <script type='text/javascript' src='translators/init.js'></script>
   <script type='text/javascript' src='translators/story_translators.js'></script>
   <script type='text/javascript' src='translators/history_item_translators.js'></script>
+  <script type='text/javascript' src='translators/search_keyword_translators.js'></script>
 
+  <!-- Cotton.complexe_db -->
+  <script type='text/javascript' src='db/expand_store.js'></script>
 
-  <script type='text/javascript' src='utils/init.js'></script>
-  <script type='text/javascript' src='utils/url_parser.js'></script>
-  <script type='text/javascript' src='utils/exclude_container.js'></script>
-  <script type='text/javascript' src='utils/benchmark.js'></script>
-
+  <!-- Cotton.algo -->
   <script type='text/javascript' src='algo/init.js'></script>
   <script type='text/javascript' src='algo/common/init.js'></script>
-  <script type='text/javascript' src='algo/common/words_extractor.js'></script>
   <script type='text/javascript' src='algo/common/cluster_story.js'></script>
+  <script type='text/javascript' src='algo/common/words_extractor.js'></script>
   <script type='text/javascript' src='algo/common/words/init.js'></script>
   <script type='text/javascript' src='algo/common/words/black_list.js'></script>
-
-  <script type='text/javascript' src='algo/dbscan/init.js'></script>
   <script type='text/javascript' src='algo/dbscan/score/init.js'></script>
   <script type='text/javascript' src='algo/dbscan/score/dbrecord_score.js'></script>
-  <script type='text/javascript' src='algo/dbscan/dbscan.js'></script>
+  <script type='text/javascript' src='algo/dbscan/score/object_score.js'></script>
+  <script type='text/javascript' src='algo/dbscan2/find_closest_google_search_page.js'></script>
 
-  <script type='text/javascript' src='algo/dbscan3/detect_sessions.js'></script>
-  <script type='text/javascript' src='algo/dbscan/dbscan.js'></script>
+  <!-- Cotton.management -->
+  <script type='text/javascript' src='management/init.js'></script>
+  <script type='text/javascript' src='management/dump_chrome_history.js'></script>
+  <script type='text/javascript' src='management/manipulate_story.js'></script>
 
+  <script type='text/javascript' src='test/data/client/history_items.js'></script>
+  <script type='text/javascript' src='test/data/client/visit_items.js'></script>
+  <script type='text/javascript' src='test/integration/js/background/mock_history_client.js'></script>
 
   <!-- File with tests -->
   <script type="text/javascript" src="https://www.google.com/jsapi"></script>

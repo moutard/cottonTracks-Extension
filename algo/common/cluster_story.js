@@ -78,7 +78,7 @@ Cotton.Algo.clusterStory = function(lHistoryItems, iNbCluster) {
         // first condition indicates that imageFeatured is not defined
         // second condition indicates we can find a better image
         // in both case we recompute the title.
-        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
+        var reg = new RegExp("\.(jpg|jpeg|png|gif)$", "gi");
         var oUrl = new UrlParser(lHistoryItems[j]['sUrl']);
         oUrl.fineDecomposition();
         var fileReg = /File\:/ig;

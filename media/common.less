@@ -85,18 +85,52 @@
       }
     }
 
-    > .ct-delete_cover {
-      width: 32px;
+    > .ct-cover_action {
+      position: relative;
       height: 12px;
       font-size: 10px;
       padding-left: 14px;
-      margin: auto;
       margin-top: 10px;
       color: @purewhite;
       background-repeat: no-repeat;
-      background-image: url('/media/images/common/ct-icons.png');
-      background-position-y : -29px;
       cursor: pointer;
+
+      &.ct-delete_cover {
+        float: right;
+        margin-right: 19px;
+        background-image: url('/media/images/common/ct-icons.png');
+        background-position-y : -29px;
+      }
+
+      &.ct-favorite_story {
+        float: left;
+        margin-left: 19px;
+
+        &:before {
+          content: "";
+          width: 12px;
+          background-image: url('/media/images/common/ct-icons.png');
+          background-position: 0 -83px;
+          height: 12px;
+          position: absolute;
+          left: 0;
+        }
+      }
+
+      &.ct-unfavorite_story {
+        float: left;
+        margin-left: 19px;
+
+        &:before {
+          content: "";
+          width: 12px;
+          background-image: url('/media/images/common/ct-icons.png');
+          background-position: -14px -83px;
+          height: 12px;
+          position: absolute;
+          left: 0;
+        }
+      }
     }
   }
 
