@@ -14,3 +14,22 @@ test("init.", function() {
   ok(oHistoryItem);
 });
 
+test("init.", function() {
+  var oHistoryItem = new Cotton.Model.HistoryItem({
+    'id': 1
+  });
+  equal(oHistoryItem.id(), 1);
+});
+
+test("init. complex history item.", function() {
+  var oHistoryItem = new Cotton.Model.HistoryItem({
+      'sUrl': "http://init.complex.com",
+      'iVisitCount': 3,
+      'oExtractedDNA': {
+        'oBagOfWords': {
+          'second': 4
+        }
+      }
+    });
+  deepEqual(oHistoryItem.extractedDNA().bagOfWords().get(), {'second':4});
+});

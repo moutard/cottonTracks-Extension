@@ -118,7 +118,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
             break;
           }
         }
-        var reg = new RegExp(".(jpg|JPG|jpeg|JPEG|png|PNG|gif|GIF)$", "g");
+        var reg = new RegExp("\.(jpg|jpeg|png|gif)$", "gi");
         var fileReg = /File\:/ig;
         if (oUrl.searchImage || (reg.exec(oUrl.href) && !oUrl.pathname.match(fileReg))) {
           var sImageUrl = oUrl.searchImage || oUrl.href;
@@ -228,6 +228,36 @@ Cotton.Controllers.DispatchingController = Class.extend({
       oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
         var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
         oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
+      });
+    });
+
+    /**
+     * Favorite a story
+     */
+    oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
+      oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setFavorite(1);
+        oLightyearController._oDatabase.putUnique('stories', oStory, function(){});
+      });
+    });
+
+    /**
+     * Unfavorite a story
+     */
+    oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
+      oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setFavorite(0);
+        oLightyearController._oDatabase.putUnique('stories', oStory, function(){});
+      });
+    });
+
+    /**
+     * Show favorite stories
+     */
+    oGlobalDispatcher.subscribe('favorites', this, function(dArguments){
+      oLightyearController._oWorld.clear();
+      oLightyearController.getFavoriteStories(function(lStories){
+        oLightyearController.openPartial(lStories, "Favorite Stories", "No Favorite Stories");
       });
     });
   }

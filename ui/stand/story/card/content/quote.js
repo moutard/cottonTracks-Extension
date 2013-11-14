@@ -27,9 +27,7 @@ Cotton.UI.Stand.Story.Card.Content.Quote = Class.extend({
       return a['start'] - b['start'];
     });
 
-    var lParts = [];
     var iLength = this._lQuotes.length;
-
     for (var i = 0; i < iLength; i++) {
       // new quoted sentence, we create a new dom paragraph
       var $quote = $('<p class="ct-paragraph"></p>');
@@ -37,13 +35,15 @@ Cotton.UI.Stand.Story.Card.Content.Quote = Class.extend({
       var $quote_border = $('<div class="ct-quote_border"></div>');
       // delete cross palced in the border, vertically centered
       var $delete_quote = $('<div class="ct-delete_quote"></div>');
-
+      // current quote db object
       var dQuote = this._lQuotes[i];
+      // parts of the text, with regular spans and styled spans for the quoted part.
+      var lParts = [];
 
       // find start of the sentence for this quote
       // we revert the part before the start of the quote, and see where is the first
       // (reverted) end of sentence punctuation
-      var sReverseStart = this._sText.slice(0,dQuote['start']).split('').reverse().join('');
+      var sReverseStart = this._sText.slice(0, dQuote['start']).split('').reverse().join('');
       var iReverseIndex = sReverseStart.search(/\ \.|\ \!|\ \?/gi);
       if (iReverseIndex === -1) {
         // No punctuation before the quote, so this sentence is the first of the text
@@ -65,6 +65,7 @@ Cotton.UI.Stand.Story.Card.Content.Quote = Class.extend({
         var iEndIndex = dQuote['end'];
       } else {
         // look for the first end-of-sentence-punctuation-mark after the end of the quote.
+        // search returns -1 if no result, so iNextEnd == 0 if no result.
         var iNextEnd = this._sText.slice(dQuote['end']).search(/\.\ |\!\ |\?\ /gi) + 1;
         if (iNextEnd === 0) {
           // no punctuation, the end of the sentence is the end of the text
@@ -119,23 +120,14 @@ Cotton.UI.Stand.Story.Card.Content.Quote = Class.extend({
           break;
         }
       }
+
       // append the very end of the sentence, then put the quote in the dom list
       lParts.push($('<span></span>').text(
         this._sText.slice(dQuote['end'], iEndIndex)));
-
-      if (i < iLength - 1) {
-        $quote.append(lParts);
-        $quote.append($quote_border.append($delete_quote));
-        this._l$quotes.push($quote);
-      }
+      $quote.append(lParts);
+      $quote.append($quote_border.append($delete_quote));
+      this._l$quotes.push($quote);
     }
-
-    // last quote, if it wasn't already part of the previous quoted sentence
-    // (otherwise it's been appended in the while, and i has been incremented out of the
-    // for loop boundaries)
-    $quote.append(lParts);
-    $quote.append($quote_border.append($delete_quote));
-    this._l$quotes.push($quote);
   },
 
   l$ : function() {

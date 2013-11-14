@@ -16,10 +16,20 @@ class FileManager(object):
       else :
         shutil.rmtree(psDestinationPath)
 
+    os.mkdir(psDestinationPath)
 
-  def copySourceToDestination(self, psSourcePath, psDestinationPath):
+  def copySourceToDestinationWithoutHidden(self, psSourcePath, psDestinationPath):
     try:
-      shutil.copytree(psSourcePath, psDestinationPath)
+      os.mkdir(psDestinationPath)
+      # hidden
+      lNoHiddenFolders =  [x for x in os.listdir(psSourcePath) if x[0]!="."]
+      for sFolder in lNoHiddenFolders:
+        if os.path.isfile(os.path.join(psSourcePath, sFolder)):
+          shutil.copy(os.path.join(psSourcePath, sFolder), os.path.join(psDestinationPath, sFolder))
+        else:
+          shutil.copytree(
+            os.path.join(psSourcePath, sFolder),
+            os.path.join(psDestinationPath, sFolder))
     except OSError as exc: # python >2.5
       raise
     # Go on pretreatment.
@@ -55,11 +65,12 @@ class FileManager(object):
         print "End. Can't go further."
 
     try:
-      shutil.copytree(psSourcePath, psDestinationPath)
+      self.copySourceToDestinationWithoutHidden(psSourcePath, psDestinationPath)
+      # shutil.copytree(psSourcePath, psDestinationPath)
     except OSError as exc: # python >2.5
       raise
     # Go on pretreatment.
     os.chdir(psDestinationPath)
-    shutil.rmtree(".git")
-    os.remove(".gitignore")
-    os.remove(".pydevproject")
+    #shutil.rmtree(".git")
+    #os.remove(".gitignore")
+    #os.remove(".pydevproject")

@@ -19,7 +19,8 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'lTags' : oStory.tags(),
       'oDNA' : {
         'oBagOfWords' : oStory.dna().bagOfWords().get(),
-      }
+      },
+      'bFavorite' : oStory.isFavorite()
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -58,6 +59,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
         oStory.addHistoryItemId(iHistoryItemId);
       }
     }
+    oStory.setFavorite(oDbRecord['bFavorite']);
     return oStory;
   };
 
@@ -78,6 +80,9 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'unique' : false,
       'multiEntry' : true
     },
+    'bFavorite' : {
+      'unique' : false
+    }
   };
 
   /**
@@ -92,12 +97,12 @@ Cotton.Translators.STORY_TRANSLATORS = [];
     }
     // Take the max value of each key.
     var dTempBag = {};
-    for (var sWord in dDBRecord1['oExtractedDNA']['dBagOfWords']) {
-      var a = dDBRecord1['oExtractedDNA']['dBagOfWords'][sWord] || 0;
-      var b = dDBRecord2['oExtractedDNA']['dBagOfWords'][sWord] || 0;
+    for (var sWord in dDBRecord1['oDNA']['dBagOfWords']) {
+      var a = dDBRecord1['oDNA']['dBagOfWords'][sWord] || 0;
+      var b = dDBRecord2['oDNA']['dBagOfWords'][sWord] || 0;
       dTempBag[sWord] = Math.max(a,b);
     }
-    dDBRecord2['oExtractedDNA']['dBagOfWords'] = dTempBag;
+    dDBRecord2['oDNA']['dBagOfWords'] = dTempBag;
 
     return dDBRecord2;
   };

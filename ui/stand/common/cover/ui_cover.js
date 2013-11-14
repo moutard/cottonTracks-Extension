@@ -50,7 +50,43 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
 	  this._oStory = oStory;
 
     // Cross to delete the story.
-    this._$delete = $('<div class="ct-delete_cover">Delete</div>').click(function(){      // analytics tracking
+    this._$favorite = $('<div class="ct-cover_action"></div>').click(function(){
+      if ($(this).hasClass('ct-favorite_story')){
+        // analytics tracking
+        Cotton.ANALYTICS.favoriteStory('cover');
+        oGlobalDispatcher.publish('favorite_story', {
+          'story_id': self._iStoryId
+        });
+      } else {
+        // the story is among the favorite, so clicking will unfavorite it
+        // analytics tracking
+        Cotton.ANALYTICS.unfavoriteStory('cover');
+        oGlobalDispatcher.publish('unfavorite_story', {
+          'story_id': self._iStoryId
+        });
+      }
+    });
+
+    if (this._oStory.isFavorite()) {
+      this.favorite();
+    } else {
+      this.unfavorite();
+    }
+
+    this._oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
+      if (dArguments['story_id'] === self._iStoryId) {
+        this.favorite();
+      }
+    });
+    this._oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
+      if (dArguments['story_id'] === self._iStoryId) {
+        this.unfavorite();
+      }
+    });
+
+    // Cross to delete the story.
+    this._$delete = $('<div class="ct-cover_action ct-delete_cover"></div>').text('Delete').click(function(){
+      // analytics tracking
       Cotton.ANALYTICS.deleteStory();
 
       oGlobalDispatcher.publish('delete_story', {
@@ -88,6 +124,7 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this._$cover.append(
       this._$frame.append(
         this._oSticker.$(),
+        this._$favorite,
         this._$delete
       ),
       this._oPreview.$()
@@ -127,13 +164,28 @@ Cotton.UI.Stand.Common.Cover.UICover = Class.extend({
     this.purge();
   },
 
+  favorite : function() {
+    this._oStory.setFavorite(1);
+    this._$favorite.text('Unfavorite').removeClass('ct-favorite_story').addClass('ct-unfavorite_story');
+  },
+
+  unfavorite : function() {
+    this._oStory.setFavorite(0);
+    this._$favorite.text('Favorite').removeClass('ct-unfavorite_story').addClass('ct-favorite_story');
+  },
+
   purge : function () {
     this._oGlobalDispatcher.unsubscribe('remove_card', this);
     this._oGlobalDispatcher.unsubscribe('append_new_card', this);
+    this._oGlobalDispatcher.unsubscribe('favorite_story', this);
+    this._oGlobalDispatcher.unsubscribe('unfavorite_story', this);
     this._oGlobalDispatcher = null;
+    this._oStory = null;
     this._iStoryId = null;
     this._oSticker.purge();
     this._oSticker = null;
+    this._$favorite.unbind('click').remove();
+    this._$favorite = null;
     this._$delete.unbind('click').remove();
     this._$delete = null;
     this._$frame.remove();
