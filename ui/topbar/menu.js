@@ -42,13 +42,20 @@ Cotton.UI.Topbar.Menu = Class.extend({
 
     this._oHistoryArrows = new Cotton.UI.Topbar.HistoryArrows(oGlobalDispatcher);
     this._$arrows = this._oHistoryArrows.$();
+    this._$favorites = $('<div class="ct-favorites_menu_topbar"></div>').click(function(){
+      oGlobalDispatcher.publish('favorites');
+      oGlobalDispatcher.publish('push_state', {
+        'code': '?p=',
+        'value': 'favorites'
+      });
+    });
 
     //settings icon, toggles (open/close) the settings panel on click
     this._$settings = $('<div class="ct-settings_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$settings);
+    this._$menu.append(this._$arrows, this._$favorites, this._$settings);
   },
 
   $ : function() {

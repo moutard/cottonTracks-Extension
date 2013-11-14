@@ -31,6 +31,7 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
 
     this._$epitome = $('<div class="ct-epitome"></div>');
     this.setBackground(oStory);
+    this._oStory = oStory;
 
     // The poster is containing the image and the title.
     this._oSticker = new Cotton.UI.Stand.Common.Sticker(oStory, 'epitome', oGlobalDispatcher);
@@ -48,6 +49,40 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
       }
     });
 
+    this._$favorite = $('<div class="ct-epitome_button"></div>').click(function(){
+      if ($(this).hasClass('favorite_button')){
+        // analytics tracking
+        Cotton.ANALYTICS.favoriteStory('epitome');
+        oGlobalDispatcher.publish('favorite_story', {
+          'story_id': oStory.id()
+        });
+      } else {
+        // the story is among the favorite, so clicking will unfavorite it
+        // analytics tracking
+        Cotton.ANALYTICS.unfavoriteStory('epitome');
+        oGlobalDispatcher.publish('unfavorite_story', {
+          'story_id': oStory.id()
+        });
+      }
+    });
+
+    if (oStory.isFavorite()) {
+      this.favorite();
+    } else {
+      this.unfavorite();
+    }
+
+    this._oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){
+      if (dArguments['story_id'] === self._oStory.id()) {
+        this.favorite();
+      }
+    });
+    this._oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
+      if (dArguments['story_id'] === self._oStory.id()) {
+        this.unfavorite();
+      }
+    });
+
     if (this._iRelatedStories > 0) {
       this._$related.addClass('ct-active');
     }
@@ -62,7 +97,7 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
       $(this).addClass('ct-hidden');
     });
 
-    this._$epitome.append(this._oSticker.$(), this._$related, this._$back_to_cards);
+    this._$epitome.append(this._oSticker.$(), this._$favorite, this._$related, this._$back_to_cards);
   },
 
   $ : function() {
@@ -93,8 +128,21 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
     }
   },
 
+  favorite : function() {
+    this._oStory.setFavorite(1);
+    this._$favorite.text('Remove from Favorites').removeClass('favorite_button').addClass('unfavorite_button');
+  },
+
+  unfavorite : function() {
+    this._oStory.setFavorite(0);
+    this._$favorite.text('Add to Favorites').removeClass('unfavorite_button').addClass('favorite_button');
+  },
+
   purge : function() {
+    this._oGlobalDispatcher.unsubscribe('favorite_story', this);
+    this._oGlobalDispatcher.unsubscribe('unfavorite_story', this);
     this._oGlobalDispatcher = null;
+    this._oStory = null;
     this._iRelatedStories = null;
     if (this._$background) {
       this._$background.remove();
@@ -102,6 +150,8 @@ Cotton.UI.Stand.Story.Epitome.UIEpitome = Class.extend({
     }
     this._oSticker.purge();
     this._oSticker = null;
+    this._$favorite.unbind('click').remove();
+    this._$favorite = null;
     if (this._$related){
       this._$related.unbind('click');
       this._$related.remove();

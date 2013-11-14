@@ -1,7 +1,7 @@
 "use strict";
 Cotton.Core.Notification = Class.extend({
 
-  init : function() {
+  init : function(sPreviousVersion) {
 
   }
 });

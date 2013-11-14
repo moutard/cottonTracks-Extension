@@ -52,6 +52,13 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
       this.removeCoverFromShelves(dArguments['story_id']);
     });
 
+    this._oGlobalDispatcher.subscribe('unfavorite_story', this, function(dArguments){
+      // currently the easiest way to know that we are in the "favorites" partial.
+      if (sTitle === "Favorite Stories") {
+        this.removeCoverFromShelves(dArguments['story_id']);
+      }
+    });
+
     this._oGlobalDispatcher.subscribe('window_resize', this, function(){
       this.setShelvesHeight(this._computeSlots());
     });
@@ -110,6 +117,7 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
 
   purge : function() {
     this._oGlobalDispatcher.unsubscribe('remove_cover', this);
+    this._oGlobalDispatcher.unsubscribe('unfavorite_story', this);
     this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
 

@@ -116,6 +116,14 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'story', 'delete_story']);
   },
 
+  favoriteStory : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'favorite_story', sSource]);
+  },
+
+  unfavoriteStory : function(sSource) {
+    _gaq.push(['_trackEvent', 'story', 'unfavorite_story', sSource]);
+  },
+
   storyContext : function(sContext) {
     _gaq.push(['_trackEvent', 'story', 'story_context', sContext]);
   },
@@ -142,19 +150,8 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'settings', 'feedback', sSuccessFailure]);
   },
 
-  rateUs : function(sWebstoreUrl) {
-    switch (sWebstoreUrl) {
-    case "https://chrome.google.com/webstore/detail/cottontracks/flmfagndkngjknjjcoejaihmibcfcjdh/reviews":
-      var sBrowser = 'Chrome';
-      break;
-    case "https://addons.opera.com/fr/extensions/details/cottontracks/?display=en#feedback-container":
-      var sBrowser = 'Opera';
-      break;
-    default:
-      var sBrowser = "unknown";
-      break;
-    }
-    _gaq.push(['_trackEvent', 'settings', 'rate_us', sBrowser]);
+  rateUs : function() {
+    _gaq.push(['_trackEvent', 'settings', 'rate_us', Cotton.Core.Browser()]);
   },
 
   // Search.

@@ -54,9 +54,7 @@ Cotton.Controllers.Background = Class.extend({
           Cotton.ANALYTICS.install(sVersion);
           break;
         case 'update':
-          if (details['previousVersion'] === '0.6.0') {
-            new Cotton.Core.Notification();
-          }
+          new Cotton.Core.Notification(details['previousVersion']);
           Cotton.ANALYTICS.update(sVersion);
           break;
         case 'chrome_update':

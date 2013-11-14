@@ -121,7 +121,7 @@ Cotton.UI.World = Class.extend({
 
   initSettings : function() {
     if (!this._oSettings) {
-      this._oSettings = new Cotton.UI.Settings.Settings(this._oGlobalDispatcher);
+      this._oSettings = new Cotton.UI.Settings.UISettings(this._oGlobalDispatcher);
       this._$settings = this._oSettings.$();
       this._$world.append(this._$settings);
     }

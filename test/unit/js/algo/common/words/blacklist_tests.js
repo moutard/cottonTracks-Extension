@@ -89,6 +89,7 @@ test('Titles with "-".', function(){
     "Shape the World -",
     "TVsubtitles.net -",
     "| ARTE Journal",
+    "- videos.arte.tv",
     "| Culturebox",
     "| En streaming sur francetv pluzz",
     "| LinkedIn",
