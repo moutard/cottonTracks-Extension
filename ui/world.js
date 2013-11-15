@@ -213,7 +213,15 @@ Cotton.UI.World = Class.extend({
 
   openReco : function(lRecoItems) {
     DEBUG && console.debug(lRecoItems);
+    this._oUIRecommander = new Cotton.UI.Stand.Recommander.UIRecommander(lRecoItems);
+    this._$world.append(this._oUIRecommander.$());
+  },
 
+  hideReco : function() {
+    if (this._oUIRecommander) {
+      this._oUIRecommander.purge();
+      this._oUIRecommander = null;
+    }
   },
 
   clear : function() {
@@ -221,6 +229,7 @@ Cotton.UI.World = Class.extend({
     this.hideManager();
     this.hideStory();
     this.hidePartial();
+    this.hideReco();
     this.closeSettings();
   },
 

@@ -35,7 +35,7 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._lShelves = [];
 
     // DOM object for the manager.
-    this._$partial = $('<div class="ct-manager"></div>');
+    this._$partial = $('<div class="ct-stand"></div>');
     this._$container = $('<div class="ct-shelves_container"></div>');
     this._$no_story = $('<div class="ct-no_story"></div>').text(sEmptyMessage);
 

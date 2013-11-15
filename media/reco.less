@@ -1,0 +1,80 @@
+@recocardwidth: 400px;
+
+@purewhite: #ffffff;
+@pureblack: #000000;
+@17grey: #171717;
+@e8grey: #e8e8e8;
+@c9grey: #c9c9c9;
+@turquoiseblue: #74afab;
+
+.ct-recommander {
+  .ct-shelves_container {
+    > .ct-reco_card {
+      width: @recocardwidth;
+      background-color: @17grey;
+
+      > .ct-media_image {
+        width: 100%;
+        height: 34px;
+
+        &.with-image {
+          height: 150px;
+        }
+
+        > .ct-card_website {
+          position: absolute;
+          left: 10px;
+          bottom: 8px;
+
+          > .ct-card_domain {
+            padding-left: 5px;
+            color: @purewhite;
+            font-size: 14px;
+            display: table-cell;
+            vertical-align: middle;
+          }
+
+          > .ct-card_favicon {
+            float: left;
+            width: 16px;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      > .ct-reco_description {
+        background-color: @purewhite;
+        padding: 10px;
+
+        > .ct-reco_title {
+          font-size: 20px;
+          margin-bottom: 5px;
+          color: @pureblack;
+        }
+
+        > .ct-reco_text {
+          font-family: OpenBaskerville;
+          font-size: 15px;
+
+          img {
+            position: relative;
+            left: -10px;
+            margin: auto;
+            max-width: @recocardwidth;
+          }
+        }
+      }
+
+      > .ct-reco_origin {
+        background-color: @e8grey;
+        border-top: solid 1px @c9grey;
+        padding: 5px 10px 10px 10px;
+
+        > .ct-reco_story_hook {
+          color: @turquoiseblue;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

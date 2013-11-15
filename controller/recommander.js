@@ -27,8 +27,8 @@ Cotton.Controllers.Recommander = Class.extend({
             description: $this.find("description").text(),
             guid: $this.find("guid").text()
           }
-          if (lTitles.indexof(item['title']) === -1
-            && lUrls.indexof(item['link'] === -1)) {
+          if (lTitles.indexOf(item['title']) === -1
+            && lUrls.indexOf(item['link'] === -1)) {
             lTitles.push(item['title']);
             lUrls.push(item['link']);
             self._lItems.push(item);
@@ -61,9 +61,13 @@ Cotton.Controllers.Recommander = Class.extend({
           sUrl: this._lItems[j].link
         });
         oRSSHistoryItem = Cotton.Algo.Tools.computeBagOfWordsForHistoryItem(oRSSHistoryItem);
+        // console.log(oRSSHistoryItem.extractedDNA().bagOfWords().get());
         var iScore = Cotton.Algo.Score.Object.historyItemToStory(oRSSHistoryItem, lStories[i]);
-        if (iScore > 0 && lUrlsToKeep.indexOf(oRSSHistoryItem.url() === -1)) {
-          oRSSHistoryItem.storyTitle = lStories[i].title;
+        if (iScore > 26 && lUrlsToKeep.indexOf(oRSSHistoryItem.url() === -1)) {
+          console.log(iScore);
+          oRSSHistoryItem._sStoryTitle = lStories[i].title();
+          oRSSHistoryItem._iStoryId = lStories[i].id();
+          oRSSHistoryItem._sDescription = this._lItems[j].description;
           this._lRSSItemsToKeep.push(oRSSHistoryItem);
           lUrlsToKeep.push(oRSSHistoryItem.url());
         }

@@ -59,7 +59,7 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
     this._lShelves = [];
 
     // DOM object for the manager.
-    this._$manager = $('<div class="ct-manager"></div>');
+    this._$manager = $('<div class="ct-stand"></div>');
     this._$container = $('<div class="ct-shelves_container"></div>');
     this._$no_story = $('<div class="ct-no_story">YOU DON\'T HAVE ANY STORY YET, START BROWSING AND SEE YOUR STORIES BUILD OVER TIME.</div>');
     this._$load_more = $('<div class="ct-footer ct-load_more">Loading More...</div>');

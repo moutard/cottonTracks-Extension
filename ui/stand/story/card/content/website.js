@@ -37,10 +37,12 @@ Cotton.UI.Stand.Story.Card.Content.Website = Class.extend({
       $domain
     );
 
-    // local dispatcher, remove $website when an iframe is appended
-    this._oLocalDispatcher.subscribe('load_video', this, function(){
-      this._$website.fadeOut(function(){$(this).remove()});
-    });
+    if (this._oLocalDispatcher) {
+      // local dispatcher, remove $website when an iframe is appended
+      this._oLocalDispatcher.subscribe('load_video', this, function(){
+        this._$website.fadeOut(function(){$(this).remove()});
+      });
+    }
   },
 
   $ : function() {
@@ -62,8 +64,10 @@ Cotton.UI.Stand.Story.Card.Content.Website = Class.extend({
 
 
   purge : function() {
-    this._oLocalDispatcher.unsubscribe('load_video', this);
-    this._oLocalDispatcher = null;
+    if (this._oLocalDispatcher){
+      this._oLocalDispatcher.unsubscribe('load_video', this);
+      this._oLocalDispatcher = null;
+    }
 
     this._$website.empty().remove();
     this._$website = null;
