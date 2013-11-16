@@ -116,11 +116,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     dNewRecord['iLastVisitTime'] = Math.max(dNewRecord['iLastVisitTime'], dOldRecord['iLastVisitTime']);
     dNewRecord['iVisitCount'] = Math.max(dNewRecord['iVisitCount'], dOldRecord['iVisitCount']);
 
-    // featured image
-    dItem['oExtractedDNA']['sImageUrl'] = dResult['oExtractedDNA']['sImageUrl'] || dItem['oExtractedDNA']['sImageUrl'];
-
-    // featured image
-    dItem['oExtractedDNA']['sImageUrl'] = dResult['oExtractedDNA']['sImageUrl'] || dItem['oExtractedDNA']['sImageUrl'];
+    dNewRecord['oExtractedDNA']['sImageUrl'] = dOldRecord['oExtractedDNA']['sImageUrl'] || dNewRecord['oExtractedDNA']['sImageUrl'];
 
     var lParagraphs = [];
     // Make a local copy.
