@@ -114,6 +114,11 @@ Cotton.Controllers.Popstater = Class.extend({
       self._oGlobalDispatcher.publish('favorites');
       // analytics tracking.
       Cotton.ANALYTICS.navigate('favorites');
+    } else if (oUrl.dSearch['p'] === 'reco'){
+      // Search page.
+      self._oGlobalDispatcher.publish('recommendations');
+      // analytics tracking.
+      Cotton.ANALYTICS.navigate('recommendations');
     } else {
       // analytics tracking.
       Cotton.ANALYTICS.navigate('manager');
