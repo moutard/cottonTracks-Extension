@@ -116,6 +116,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
     dNewRecord['iLastVisitTime'] = Math.max(dNewRecord['iLastVisitTime'], dOldRecord['iLastVisitTime']);
     dNewRecord['iVisitCount'] = Math.max(dNewRecord['iVisitCount'], dOldRecord['iVisitCount']);
 
+    // featured image
     dNewRecord['oExtractedDNA']['sImageUrl'] = dOldRecord['oExtractedDNA']['sImageUrl'] || dNewRecord['oExtractedDNA']['sImageUrl'];
 
     var lParagraphs = [];
@@ -157,7 +158,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
                   bMergeQuote = true;
                   dQuote['start'] = Math.min(dQuote['start'], dOldRecordQuote['start']);
                   dQuote['end'] = Math.max(dQuote['end'], dOldRecordQuote['end']);
-                lQuotes[l] = dQuote;
+                lQuotes[k] = dQuote;
               }
             }
             if (!bMergeQuote){
