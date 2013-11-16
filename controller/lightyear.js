@@ -386,12 +386,12 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   showRecommendations : function() {
     var self = this;
-    this._oRecommander = new Cotton.Controllers.Recommander();
-    this._oRecommander.getRSS(function(){
-      var iNow = new Date().getTime();
-      self._getStoriesByBatch(iNow, 20, function(lStories){
-        self._oRecommander.match(lStories);
-        self._oWorld.openReco(self._oRecommander.getReco());
+    self._oWorld.openReco();
+    this._oRecommander = new Cotton.Controllers.Recommander(this._oGlobalDispatcher);
+    var iNow = new Date().getTime();
+    this._getStoriesByBatch(iNow, 20, function(lStories){
+      self._oRecommander.getRSS(function(oItem){
+        self._oRecommander.matchRSS(oItem, lStories);
       });
     });
   },

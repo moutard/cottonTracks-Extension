@@ -212,8 +212,7 @@ Cotton.UI.World = Class.extend({
   },
 
   openReco : function(lRecoItems) {
-    DEBUG && console.debug(lRecoItems);
-    this._oUIRecommander = new Cotton.UI.Stand.Recommander.UIRecommander(lRecoItems);
+    this._oUIRecommander = new Cotton.UI.Stand.Recommander.UIRecommander(this._oGlobalDispatcher);
     this._$world.append(this._oUIRecommander.$());
   },
 

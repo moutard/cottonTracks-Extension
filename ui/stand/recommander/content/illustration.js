@@ -12,5 +12,9 @@ Cotton.UI.Stand.Recommander.Content.Illustration = Class.extend({
 
   $ : function() {
     return this._$illustration;
+  },
+
+  setImage : function(sImg) {
+    this._oMedia.appendImage(sImg);
   }
 });

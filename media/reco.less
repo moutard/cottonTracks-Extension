@@ -1,25 +1,28 @@
 @recocardwidth: 400px;
+@recocardheight:360px;
 
 @purewhite: #ffffff;
 @pureblack: #000000;
 @17grey: #171717;
 @e8grey: #e8e8e8;
 @c9grey: #c9c9c9;
-@turquoiseblue: #74afab;
+@turquoiseblue: #0b9b96;
 
 .ct-recommander {
   .ct-shelves_container {
     > .ct-reco_card {
       width: @recocardwidth;
-      background-color: @17grey;
+      height: @recocardheight;
+      position: relative;
+      background-color: @purewhite;
+      float: left;
+      margin-right: 12px;
+      margin-bottom: 10px;
 
       > .ct-media_image {
         width: 100%;
         height: 34px;
-
-        &.with-image {
-          height: 150px;
-        }
+        background-color: @17grey;
 
         > .ct-card_website {
           position: absolute;
@@ -45,6 +48,8 @@
       > .ct-reco_description {
         background-color: @purewhite;
         padding: 10px;
+        max-height: 290px;
+        overflow: hidden;
 
         > .ct-reco_title {
           font-size: 20px;
@@ -55,24 +60,53 @@
         > .ct-reco_text {
           font-family: OpenBaskerville;
           font-size: 15px;
-
-          img {
-            position: relative;
-            left: -10px;
-            margin: auto;
-            max-width: @recocardwidth;
-          }
+          word-wrap: break-word;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          -webkit-line-clamp: 11;
+          margin-top: 5px;
         }
       }
 
       > .ct-reco_origin {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
         background-color: @e8grey;
         border-top: solid 1px @c9grey;
-        padding: 5px 10px 10px 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
 
-        > .ct-reco_story_hook {
-          color: @turquoiseblue;
-          cursor: pointer;
+        > .ct-origin_holder {
+          overflow: hidden;
+          margin: 5px 10px 10px 10px;
+
+          > .ct-reco_story_hook {
+            color: @turquoiseblue;
+            cursor: pointer;
+          }
+        }
+      }
+
+      &.ct-with_image {
+        > .ct-media_image {
+          height: 150px;
+
+          &:before {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            content: "";
+            -webkit-box-shadow: inset 0px -90px 60px -60px rgba(0,0,0,0.8);
+          }
+        }
+        > .ct-reco_description {
+          > .ct-reco_text {
+            -webkit-line-clamp: 7;
+          }
         }
       }
     }

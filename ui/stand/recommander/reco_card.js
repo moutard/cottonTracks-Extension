@@ -9,6 +9,10 @@ Cotton.UI.Stand.Recommander.RecoCard = Class.extend({
   init : function(oRecoItem) {
     this._$recocard = $('<div class="ct-reco_card"></div>');
     this._oIllustration = new Cotton.UI.Stand.Recommander.Content.Illustration(oRecoItem);
+    if (oRecoItem.extractedDNA().imageUrl()) {
+      this._$recocard.addClass('ct-with_image');
+      this._oIllustration.setImage(oRecoItem.extractedDNA().imageUrl());
+    }
 
     this._oDescription = new Cotton.UI.Stand.Recommander.Content.Description(oRecoItem);
 
