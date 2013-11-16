@@ -2,11 +2,19 @@
 
 Cotton.UI.Stand.Recommander.Content.Origin = Class.extend({
 
-  init : function(iStoryId, sStoryTitle) {
+  init : function(oStory, oGlobalDispatcher) {
     this._$origin = $('<div class="ct-reco_origin"></div>');
     this._$holder = $('<div class="ct-origin_holder"></div>');
     this._$text = $('<span class="ct-reco_story_text"></span>').text('Related to your story ');
-    this._$story = $('<span class="ct-reco_story_hook"></span>').text(sStoryTitle);
+    this._$story = $('<span class="ct-reco_story_hook"></span>').text(oStory.title()).click(function(){
+      oGlobalDispatcher.publish('push_state', {
+        'code': '?sid=',
+        'value': oStory.id()
+      });
+      oGlobalDispatcher.publish('enter_story', {
+        'story': oStory
+      });
+    });
 
     this._$origin.append(
       this._$holder.append(
@@ -21,6 +29,7 @@ Cotton.UI.Stand.Recommander.Content.Origin = Class.extend({
   },
 
   purge : function() {
+    this._$story.unbind('click');
     this._$story.remove();
     this._$story = null;
     this._$text.remove();

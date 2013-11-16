@@ -12,7 +12,7 @@ Cotton.UI.Stand.Recommander.UIRecommander = Class.extend({
     this._$recommander.append(this._$recoholder);
 
     this._oGlobalDispatcher.subscribe('new_reco', this, function(dArguments){
-      this.drawRecoCard(dArguments['reco_item']);
+      this.drawRecoCard(dArguments['reco_item'], dArguments['matching_story']);
     });
   },
 
@@ -20,8 +20,8 @@ Cotton.UI.Stand.Recommander.UIRecommander = Class.extend({
     return this._$recommander;
   },
 
-  drawRecoCard : function(oRecoItem) {
-    var oRecoCard = new Cotton.UI.Stand.Recommander.RecoCard(oRecoItem);
+  drawRecoCard : function(oRecoItem, oMatchingStory) {
+    var oRecoCard = new Cotton.UI.Stand.Recommander.RecoCard(oRecoItem, oMatchingStory, this._oGlobalDispatcher);
     this._lRecoCards.push(oRecoCard);
     this._$recoholder.append(oRecoCard.$());
   },

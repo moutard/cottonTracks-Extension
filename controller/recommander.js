@@ -38,9 +38,9 @@ Cotton.Controllers.Recommander = Class.extend({
     }
   },
 
-  matchRSS : function(oItem, lStories) {
+  matchRSS : function(oItem, lStories, mCallback) {
     var iMinScore = 26;
-    var bMatched = false;
+    var oMatchingStory;
     var iStoriesLength = lStories.length;
     var oRSSHistoryItem = new Cotton.Model.HistoryItem({
       sTitle: oItem.title,
@@ -55,12 +55,11 @@ Cotton.Controllers.Recommander = Class.extend({
         oRSSHistoryItem._sStoryTitle = lStories[i].title();
         oRSSHistoryItem.setStoryId(lStories[i].id());
         oRSSHistoryItem._sDescription = $(oItem.description).text();
-        bMatched = true;
-      console.log(oRSSHistoryItem);
+        oMatchingStory = lStories[i];
       }
     }
-    if (bMatched) {
-      this._oGlobalDispatcher.publish('new_reco', {'reco_item': oRSSHistoryItem});
+    if (oMatchingStory) {
+      mCallback(oRSSHistoryItem, oMatchingStory);
     }
   }
 
