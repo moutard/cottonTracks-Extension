@@ -55,6 +55,11 @@
           font-size: 20px;
           margin-bottom: 5px;
           color: @pureblack;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          display: -webkit-box;
+          overflow: hidden;
         }
 
         > .ct-reco_text {
@@ -105,6 +110,10 @@
           }
         }
         > .ct-reco_description {
+          > .ct-reco_title {
+            -webkit-line-clamp: 2;
+          }
+
           > .ct-reco_text {
             -webkit-line-clamp: 7;
           }
