@@ -12,5 +12,14 @@ Cotton.UI.Stand.Recommander.Content.Description = Class.extend({
 
   $ : function() {
     return this._$description;
+  },
+
+  purge : function() {
+    this._$paragraph.remove();
+    this._$paragraph = null;
+    this._$title.remove();
+    this._$title = null;
+    this._$description.remove();
+    this._$description = null;
   }
 });

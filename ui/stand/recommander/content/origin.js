@@ -18,5 +18,16 @@ Cotton.UI.Stand.Recommander.Content.Origin = Class.extend({
 
   $ : function(){
     return this._$origin;
+  },
+
+  purge : function() {
+    this._$story.remove();
+    this._$story = null;
+    this._$text.remove();
+    this._$text = null;
+    this._$holder.remove();
+    this._$holder = null;
+    this._$origin.remove();
+    this._$origin = null;
   }
 });

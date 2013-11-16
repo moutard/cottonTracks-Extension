@@ -26,7 +26,22 @@ Cotton.UI.Stand.Recommander.UIRecommander = Class.extend({
     this._$recoholder.append(oRecoCard.$());
   },
 
+  purgeRecoCards : function() {
+    var iLength = this._lRecoCards.length;
+    for (var i = 0; i < iLength; i++) {
+      this._lRecoCards[i].purge();
+      this._lRecoCards[i] = null;
+    }
+    this._lRecoCards = null;
+  },
+
   purge : function() {
+    this._$recoholder.remove();
+    this._$recoholder = null;
+    this._$recommander.remove();
     this._$recommander = null;
+    this.purgeRecoCards();
+    this._oGlobalDispatcher.unsubscribe('new_reco', this);
+    this._oGlobalDispatcher = null;
   }
 });

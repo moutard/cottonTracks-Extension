@@ -16,5 +16,14 @@ Cotton.UI.Stand.Recommander.Content.Illustration = Class.extend({
 
   setImage : function(sImg) {
     this._oMedia.appendImage(sImg);
+  },
+
+  purge: function() {
+    this._oWebsite.purge();
+    this._oWebsite = null;
+    this._oMedia.purge();
+    this._oMedia = null;
+    this._$illustration.remove();
+    this._$illustration = null;
   }
 });

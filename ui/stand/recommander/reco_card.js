@@ -23,5 +23,16 @@ Cotton.UI.Stand.Recommander.RecoCard = Class.extend({
 
   $ : function() {
     return this._$recocard;
+  },
+
+  purge : function() {
+    this._oIllustration.purge();
+    this._oIllustration = null;
+    this._oDescription.purge();
+    this._oDescription = null;
+    this._oOrigin.purge();
+    this._oOrigin = null;
+    this._$recocard.remove();
+    this._$recocard = null;
   }
 });
