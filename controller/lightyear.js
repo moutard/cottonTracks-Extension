@@ -390,17 +390,21 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oRecommander = new Cotton.Controllers.Recommander(this._oGlobalDispatcher);
     var iNow = new Date().getTime();
     this._getStoriesByBatch(iNow, 20, function(lStories){
-      self._oRecommander.getRSS(function(oItem){
-        self._oRecommander.matchRSS(oItem, lStories, function(oRSSHistoryItem, oMatchingStory){
-          self.fillAndFilterStories([oMatchingStory], function(lFilledStory){
-            if (lFilledStory.length > 0) {
-              oMatchingStory = lFilledStory[0];
-              self._oGlobalDispatcher.publish('new_reco', {
-                'reco_item': oRSSHistoryItem,
-                'matching_story': oMatchingStory
+      self._oRecommander.getRSS(function(item){
+        self._oDatabase.find('historyItems', 'sUrl', item.link, function(oDBItem){
+          if (!oDBItem){
+            self._oRecommander.matchRSS(item, lStories, function(oRSSHistoryItem, oMatchingStory){
+              self.fillAndFilterStories([oMatchingStory], function(lFilledStory){
+                if (lFilledStory.length > 0) {
+                  oMatchingStory = lFilledStory[0];
+                  self._oGlobalDispatcher.publish('new_reco', {
+                    'reco_item': oRSSHistoryItem,
+                    'matching_story': oMatchingStory
+                  });
+                }
               });
-            }
-          });
+            });
+          }
         });
       });
     });

@@ -23,7 +23,6 @@ Cotton.Controllers.Recommander = Class.extend({
               title: $this.find("title").text(),
               link: $this.find("link").text(),
               description: $this.find("description").text(),
-              guid: $this.find("guid").text(),
               image: $this.find("enclosure").attr('url')
             }
             if (lTitles.indexOf(item.title) === -1

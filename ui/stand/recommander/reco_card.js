@@ -14,7 +14,7 @@ Cotton.UI.Stand.Recommander.RecoCard = Class.extend({
       this._oIllustration.setImage(oRecoItem.extractedDNA().imageUrl());
     }
 
-    this._oDescription = new Cotton.UI.Stand.Recommander.Content.Description(oRecoItem);
+    this._oDescription = new Cotton.UI.Stand.Recommander.Content.Description(oRecoItem, oGlobalDispatcher);
 
     this._oOrigin = new Cotton.UI.Stand.Recommander.Content.Origin(oMatchingStory, oGlobalDispatcher);
 
