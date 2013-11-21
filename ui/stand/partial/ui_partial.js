@@ -28,7 +28,7 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
    */
   _lShelves : null,
 
-  init : function(lStories, sTitle, sEmptyMessage, oGlobalDispatcher) {
+  init : function(sTitle, sEmptyMessage, oGlobalDispatcher) {
     var self = this;
 
     this._oGlobalDispatcher = oGlobalDispatcher;
@@ -40,13 +40,9 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     this._$no_story = $('<div class="ct-no_story"></div>').text(sEmptyMessage);
 
     this._$partial.append(this._$container);
-    var oShelf = new Cotton.UI.Stand.Manager.Shelf({
+    this._oShelf = new Cotton.UI.Stand.Manager.Shelf({
       'title': sTitle
     }, this._oGlobalDispatcher);
-    oShelf.addStories(lStories);
-    this._$container.append(oShelf.$());
-    this._lShelves.push(oShelf);
-    this.setShelvesHeight(this._computeSlots());
 
     this._oGlobalDispatcher.subscribe('remove_cover', this, function(dArguments){
       this.removeCoverFromShelves(dArguments['story_id']);
@@ -76,6 +72,15 @@ Cotton.UI.Stand.Partial.UIPartial = Class.extend({
     // The container can always have 2 or 3 covers per line
     var iSlotsPerLine = (this._iContainerWidth < (COVER_WIDTH * MAX_COVERS) + (COVER_MARGIN * MAX_INTERCOVERS) + EXTERNAL_BORDERS) ? MIN_COVERS : MAX_COVERS;
     return iSlotsPerLine;
+  },
+
+  appendStories : function(lStories) {
+    // we separate this from the init because
+    // we need the container to be appended to the DOM
+    // to have a width !== 0
+    this._oShelf.addStories(lStories, this._computeSlots());
+    this._$container.append(this._oShelf.$());
+    this._lShelves.push(this._oShelf);
   },
 
   setShelvesHeight : function(iSlotsPerLine) {

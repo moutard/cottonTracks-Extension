@@ -194,9 +194,13 @@ Cotton.UI.World = Class.extend({
   openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage, dArguments) {
     document.title = sPartialTitle + " - cottonTracks search results" ;
     this.clear();
-    this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(lPartialStories,
-        sPartialTitle, sEmptyMessage, this._oGlobalDispatcher);
+    this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(sPartialTitle,
+      sEmptyMessage, this._oGlobalDispatcher);
     this._$world.append(this._oUIPartial.$());
+    // we separate this from the constructor because
+    // we need the partial DOM element to be appended to the DOM world
+    // to have a width !== 0 and do some responsive design
+    this._oUIPartial.appendStories(lPartialStories);
   },
 
   hidePartial : function() {
