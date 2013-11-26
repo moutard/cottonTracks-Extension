@@ -260,6 +260,16 @@ Cotton.Controllers.DispatchingController = Class.extend({
         oLightyearController.openPartial(lStories, "Favorite Stories", "No Favorite Stories");
       });
     });
+
+    /**
+     * Change story title
+     */
+    oGlobalDispatcher.subscribe('change_title', this, function(dArguments){
+      oLightyearController.database().find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setTitle(dArguments['title']);
+        oLightyearController.database().put('stories', oStory, function(){});
+      });
+    });
   }
 
 });
