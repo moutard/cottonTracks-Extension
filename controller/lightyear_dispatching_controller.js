@@ -267,6 +267,10 @@ Cotton.Controllers.DispatchingController = Class.extend({
     oGlobalDispatcher.subscribe('change_title', this, function(dArguments){
       oLightyearController.database().find('stories', 'id', dArguments['story_id'], function(oStory){
         oStory.setTitle(dArguments['title']);
+        // add new title words in bag of words of the story
+        var lTitle = dArguments['title'].split(' ');
+        var lStrongWords = Cotton.Algo.Tools.TightFilter(lTitle);
+        oStory.dna().addListWords(lStrongWords, oStory.dna().bagOfWords().maxWeight());
         oLightyearController.database().put('stories', oStory, function(){});
       });
     });
