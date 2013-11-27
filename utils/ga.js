@@ -132,6 +132,10 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'story', 'story_context', sContext]);
   },
 
+  editTitle : function(sContext) {
+    _gaq.push(['_trackEvent', 'story', 'edit_title', sContext]);
+  },
+
   // related tracking
   showRelated : function(iRelated) {
     _gaq.push(['_trackEvent', 'related', 'show_related', iRelated]);

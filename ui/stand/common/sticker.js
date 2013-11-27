@@ -40,6 +40,8 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
             'story_id': oStory.id(),
             'title': $(this).text()
           });
+          // Analytics tracking.
+          Cotton.ANALYTICS.editTitle(sContext);
         }
       }).keydown(function(e){
         if (e.keyCode === 13) {
