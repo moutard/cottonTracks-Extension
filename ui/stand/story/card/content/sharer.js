@@ -43,6 +43,7 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
       + "&p%5Bsummary%5D=" + "shared+via+cottonTracks"
       + "&p%5Bimages%5D%5B0%5D=" + sEncodedImage;
     this._$facebook = $('<a class="ct-card_share ct-facebook_share" href="'+ sFacebookDialog +'">Facebook</a>').click(function(){
+      Cotton.ANALYTICS.shareCard('facebook');
       return self.openPopup(sFacebookDialog);
     });
 
@@ -52,6 +53,7 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
       + "&text=" + sEncodedTitle
       + "&url=" + sEncodedUrl;
     this._$twitter = $('<a class="ct-card_share ct-twitter_share" href="' + sTwitterIntent +'">Twitter</a>').click(function(){
+      Cotton.ANALYTICS.shareCard('twitter');
       return self.openPopup(sTwitterIntent);
     });
 
@@ -59,7 +61,9 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
     var sMailto = "mailto:?"
       + "&amp;subject=" + sEncodedTitle
       + "&amp;body=" + sEncodedUrl + "%0D%0DShared%20via%20cottonTracks";
-    this._$mailto = $('<a class="ct-card_share ct-mailto_share" href="'+ sMailto + '" target="_blank">email</a>');
+    this._$mailto = $('<a class="ct-card_share ct-mailto_share" href="'+ sMailto + '" target="_blank">email</a>').click(function(){
+      Cotton.ANALYTICS.shareCard('email');
+    });
 
     this._$sharer.append(
       this._$networks.append(
