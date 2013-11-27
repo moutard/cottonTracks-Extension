@@ -107,6 +107,10 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'card', 'add_card']);
   },
 
+  shareCard : function(sMedium) {
+    _gaq.push(['_trackEvent', 'card', 'share_card', sMedium]);
+  },
+
   // UIstory tracking.
   openStory : function(sSource) {
     _gaq.push(['_trackEvent', 'story', 'open_story', sSource]);
