@@ -33,6 +33,7 @@ Cotton.UI.Stand.Story.Card.Content.Video = Class.extend({
         var sThumbnailSrc = 'http://img.youtube.com/vi/'
           + sEmbedCode + '/hqdefault.jpg';
         self._$video_container.css('background-image', 'url("' + sThumbnailSrc + '")');
+        oLocalDispatcher.publish('media_async_image', {'img_url': sThumbnailSrc});
       break;
 
       case 'vimeo':
@@ -43,12 +44,14 @@ Cotton.UI.Stand.Story.Card.Content.Video = Class.extend({
         }).done(function ( data ) {
             sThumbnailSrc = data[0]['thumbnail_large'];
             self._$video_container.css('background-image', 'url("' + sThumbnailSrc + '")');
+            oLocalDispatcher.publish('media_async_image', {'img_url': sThumbnailSrc});
         });
       break;
 
       case 'dailymotion':
         var sThumbnailSrc = 'http://www.dailymotion.com/thumbnail/video/' + sEmbedCode;
         self._$video_container.css('background-image', 'url("' + sThumbnailSrc + '")');
+        oLocalDispatcher.publish('media_async_image', {'img_url': sThumbnailSrc});
       break;
     }
 
