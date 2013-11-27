@@ -70,7 +70,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._oTitle.$().click(function(){
       Cotton.ANALYTICS.revisitPage(self._sType);
     });
-    this._oSharer = new Cotton.UI.Stand.Story.Card.Content.Sharer(oHistoryItem);
+    this._oSharer = new Cotton.UI.Stand.Story.Card.Content.Sharer(oHistoryItem, this._oLocalDispatcher);
     this._$delete = $('<div class="ct-delete_card"></div>').click(function(){
       // analytics tracking
       Cotton.ANALYTICS.deleteCard(self._sType);

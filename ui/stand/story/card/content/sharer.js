@@ -5,8 +5,10 @@
 
 Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
 
-  init : function(oHistoryItem) {
+  init : function(oHistoryItem, oLocalDispatcher) {
     var self = this;
+    this._oLocalDispatcher = oLocalDispatcher;
+
     this._$sharer = $('<div class="ct-sharer ct-closed"></div>');
     this._$share_icon = $('<div class="ct-share_icon"></div>').click(function(){
       if (!self._$sharer.hasClass('ct-open')) {
@@ -18,6 +20,10 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
       }
     });
     this._$sharer.append(this._$share_icon);
+
+    this._oLocalDispatcher.subscribe('media_async_image', this, function(dArguments){
+      this._sImageUrl = dArguments['img_url'];
+    });
   },
 
   $ : function() {
@@ -29,7 +35,7 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
     this._$networks = $('<div class="ct-sharer_networks"></div>');
     var sEncodedUrl = encodeURIComponent(oHistoryItem.url());
     var sEncodedTitle = encodeURIComponent(oHistoryItem.title());
-    var sEncodedImage = oHistoryItem.extractedDNA().imageUrl() || "";
+    var sEncodedImage = this._sImageUrl || oHistoryItem.extractedDNA().imageUrl() || "";
 
     // Facebook.
     var sFacebookDialog = "https://www.facebook.com/sharer/sharer.php?s=100&p%5Burl%5D="+ sEncodedUrl
@@ -84,6 +90,8 @@ Cotton.UI.Stand.Story.Card.Content.Sharer = Class.extend({
     if (this._$sharer.hasClass('ct-open')) {
       this.purgeSharingNetwork();
     }
+    this._oLocalDispatcher.unsubscribe('media_async_image', this);
+    this._oLocalDispatcher = null;
     this._$share_icon.unbind('click').remove();
     this._$share_icon = null;
     this._$sharer.remove();
