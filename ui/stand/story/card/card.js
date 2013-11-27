@@ -70,6 +70,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._oTitle.$().click(function(){
       Cotton.ANALYTICS.revisitPage(self._sType);
     });
+    this._oSharer = new Cotton.UI.Stand.Story.Card.Content.Sharer(oHistoryItem);
     this._$delete = $('<div class="ct-delete_card"></div>').click(function(){
       // analytics tracking
       Cotton.ANALYTICS.deleteCard(self._sType);
@@ -101,6 +102,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     // if there is no media, the website on the bottom left must be written in black
     if (!this._$media) {
       this._oWebsite.$().addClass('ct-black_domain');
+      this._oSharer.$().addClass('ct-black_sharer');
     }
 
     this._$card.append(
@@ -110,7 +112,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
         this._$url
       ),
       this._$delete,
-      this._oWebsite.$()
+      this._oWebsite.$(),
+      this._oSharer.$()
     );
   },
 
@@ -134,6 +137,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._oTitle.$().unbind('click');
     this._oTitle.purge();
     this._oTitle = null;
+    this._oSharer.purge();
     this._$url = null;
     this._$details.remove();
     this._$details = null;
