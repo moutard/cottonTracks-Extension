@@ -104,13 +104,13 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
 
   /**
    * Put a item in the cache with sKey uniqueness.
-   * 
+   *
    * @param {Dictionnary} dItem:
    *         element you want to add.
    * @param {String} sKey:
    *         key that should be unique.
    * @param {Function} mMerge:
-   *         method that merge to dbRecords and return the merged dbRecord.		
+   *         method that merge to dbRecords and return the merged dbRecord.
    */
   putUnique : function(dItem, sKey, mMerge) {
     var lResults = this.get();
@@ -121,9 +121,14 @@ Cotton.DB.SingleStoreCache = Cotton.DB.LocalStorage.Engine.extend({
     	lResults[i] =  mMerge(dItem, lResults[i]);
         // We could use string to avoid problem with too long int but here it's
         // not a problem here because date are less that 10^53.
-    	lResult[i]['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+    	lResults[i]['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+      var bMerge = true;
         break;
       }
+    }
+    if (!bMerge) {
+      dItem['sExpiracyDate'] = new Date().getTime() + this._iExpiracy;
+      lResults.push(dItem);
     }
     this.set(lResults);
   },
