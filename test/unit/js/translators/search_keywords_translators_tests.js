@@ -11,9 +11,10 @@ test("merge search keywords", function(){
   oSearchKeyword2.addReferringStoryId(9);
 
   var oTranslator = Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS[Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS.length - 1];
-  dSearchKeyword1 = oTranslator.objectToDbRecord(oSearchKeyword1);
-  dSearchKeyword2 = oTranslator.objectToDbRecord(oSearchKeyword2);
-  dMergeKeyword = oTranslator.mergeDBRecords()(dSearchKeyword1, dSearchKeyword2);
+
+  var dSearchKeyword1 = oTranslator.objectToDbRecord(oSearchKeyword1);
+  var dSearchKeyword2 = oTranslator.objectToDbRecord(oSearchKeyword2);
+  var dMergeKeyword = oTranslator.mergeDBRecords()(dSearchKeyword1, dSearchKeyword2);
 
   deepEqual(dMergeKeyword['id'], 4);
   deepEqual(dMergeKeyword['lReferringStoriesId'], [9]);
