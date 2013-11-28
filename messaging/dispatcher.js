@@ -34,8 +34,14 @@ Cotton.Messaging.Dispatcher = Class.extend({
     var lListeners = this._dMessages[sMessage] || [];
     var iLength = lListeners.length;
     for (var i=0; i < iLength; i++) {
+      // we put this condition because there is a chance that the first
+      // listener purges a second one, for which the reference is now null
+      // and there is no 'function' that we can call.
+      // hence an error is thrown.
       var oListener = lListeners[i];
-      oListener['function'].call(oListener['context'], dArguments);
+      if (oListener['context'] && oListener['function']) {
+        oListener['function'].call(oListener['context'], dArguments);
+      }
     }
   },
 
