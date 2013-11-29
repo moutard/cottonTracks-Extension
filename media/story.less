@@ -143,6 +143,10 @@
           -webkit-transition-duration: 0.6s;
           -webkit-transition-property: left, opacity;
 
+          &.ct-height_animate {
+            -webkit-transition-property: left, opacity, height;
+          }
+
           &.ct-collapsed {
             left: @topbar_max_width;
             opacity: 0;

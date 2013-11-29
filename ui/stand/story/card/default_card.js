@@ -69,6 +69,15 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
     );
   },
 
+  initHeight : function() {
+    // for some reason (how does jquery do the appending to dom
+    // and compute heights..?) need to setHeight twice.
+    this.setHeight();
+    // animate so that there is no 'jump' in the card height.
+    this._$card.addClass('ct-height_animate');
+    this.setHeight();
+  },
+
   setHeight : function() {
     // the card needs to have a well defined height (auto doesn't work) in order for the
     // image to resize properly
