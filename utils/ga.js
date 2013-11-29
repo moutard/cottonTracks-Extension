@@ -77,8 +77,9 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'navigation', 'open_manager', sEntryPoint]);
   },
 
-  navigate : function(sTargetPage) {
-    _gaq.push(['_trackEvent', 'navigation', 'change_page', sTargetPage]);
+  navigate : function(sTargetPage, iValue) {
+    var iCount = iValue || 0;
+    _gaq.push(['_trackEvent', 'navigation', 'change_page', sTargetPage, iCount]);
   },
 
   depth : function(iDepth) {
