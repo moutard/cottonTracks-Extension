@@ -77,8 +77,9 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'navigation', 'open_manager', sEntryPoint]);
   },
 
-  navigate : function(sTargetPage) {
-    _gaq.push(['_trackEvent', 'navigation', 'change_page', sTargetPage]);
+  navigate : function(sTargetPage, iValue) {
+    var iCount = iValue || 0;
+    _gaq.push(['_trackEvent', 'navigation', 'change_page', sTargetPage, iCount]);
   },
 
   depth : function(iDepth) {
@@ -107,6 +108,10 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'card', 'add_card']);
   },
 
+  shareCard : function(sMedium) {
+    _gaq.push(['_trackEvent', 'card', 'share_card', sMedium]);
+  },
+
   // UIstory tracking.
   openStory : function(sSource) {
     _gaq.push(['_trackEvent', 'story', 'open_story', sSource]);
@@ -126,6 +131,10 @@ Cotton.Analytics = Class.extend({
 
   storyContext : function(sContext) {
     _gaq.push(['_trackEvent', 'story', 'story_context', sContext]);
+  },
+
+  editTitle : function(sContext) {
+    _gaq.push(['_trackEvent', 'story', 'edit_title', sContext]);
   },
 
   // related tracking

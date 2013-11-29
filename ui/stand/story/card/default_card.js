@@ -53,6 +53,7 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
     // if there is no media, the website on the bottom left must be written in black
     if (!this._$media) {
       this._oWebsite.$().addClass('ct-black_domain');
+      this._oSharer.$().addClass('ct-black_sharer');
     }
 
     this._$card.append(
@@ -63,8 +64,18 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
         this._$url
       ),
       this._$delete,
-      this._oWebsite.$()
+      this._oWebsite.$(),
+      this._oSharer.$()
     );
+  },
+
+  initHeight : function() {
+    // for some reason (how does jquery do the appending to dom
+    // and compute heights..?) need to setHeight twice.
+    this.setHeight();
+    // animate so that there is no 'jump' in the card height.
+    this._$card.addClass('ct-height_animate');
+    this.setHeight();
   },
 
   setHeight : function() {

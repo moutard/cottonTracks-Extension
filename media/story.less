@@ -143,6 +143,10 @@
           -webkit-transition-duration: 0.6s;
           -webkit-transition-property: left, opacity;
 
+          &.ct-height_animate {
+            -webkit-transition-property: left, opacity, height;
+          }
+
           &.ct-collapsed {
             left: @topbar_max_width;
             opacity: 0;
@@ -226,6 +230,88 @@
 
             &:hover {
               background-position-x : 0;
+            }
+          }
+
+          > .ct-sharer {
+            position: absolute;
+            bottom: 0px;
+            height: 20px;
+            padding: 5px 0 5px 0;
+
+            > .ct-share_icon {
+              background-image: url('/media/images/common/ct-icons.png');
+              cursor: pointer;
+            }
+
+            &.ct-open {
+              left: 0px;
+              width: 250px;
+              background-color: @f5grey;
+
+              > .ct-share_icon {
+                height: 14px;
+                top: 9px;
+                background-position-x: 0px;
+                background-position-y: -111px;
+              }
+            }
+
+            &.ct-closed {
+              left: 230px;
+              width: 20px;
+
+              > .ct-share_icon {
+                width: 18px;
+                height: 18px;
+                position: absolute;
+                right: 5px;
+                background-position-y: -94px;
+
+                &:hover {
+                  background-position-x: -18px;
+                }
+              }
+            }
+
+            > .ct-share_icon {
+              width: 18px;
+              height: 18px;
+              position: absolute;
+              right: 5px;
+              background-image: url('/media/images/common/ct-icons.png');
+              background-position-y: -94px;
+              cursor: pointer;
+            }
+
+            &.ct-black_sharer {
+              &.ct-closed {
+                > .ct-share_icon {
+                  background-position-x: -36px;
+
+                  &:hover {
+                    background-position-x: -18px;
+                  }
+                }
+              }
+            }
+
+            > .ct-sharer_networks {
+              width: 165px;
+              margin: auto;
+
+              > .ct-card_share {
+                font-size: 12px;
+                color: @pureblack;
+                margin-left: 5px;
+                margin-right: 5px;
+                position: relative;
+                top: -2px;
+
+                &:hover {
+                  color: @almondgreen;
+                }
+              }
             }
           }
 
@@ -331,6 +417,15 @@
                     display: none;
                   }
                 }
+              }
+            }
+
+            > .ct-sharer {
+              left: 481px;
+
+              &.ct-open {
+                left: 0px;
+                width: 501px;
               }
             }
           }

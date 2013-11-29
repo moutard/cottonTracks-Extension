@@ -79,21 +79,33 @@ test("put limit.", function() {
 
 test("putUnique.", function() {
   oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 5);
-  oFixedCache.putUnique(dataTest[0]);
-  oFixedCache.putUnique(dataTest[1]);
-  oFixedCache.putUnique(dataTest[2]);
-  oFixedCache.putUnique(dataTest[2]);
-  oFixedCache.putUnique(dataTest[3]);
+
+  var mMerge = function(dItem1, dItem2) {
+    dItem1['fLastVisitTime'] = Math.max(dItem1['fLastVisitTime'], dItem2['fLastVisitTime']);
+    return dItem1;
+  };
+
+  oFixedCache.putUnique(dataTest[0], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[1], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[2], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[2], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[3], 'sUrl', mMerge);
   deepEqual(oFixedCache.get().length, 4);
 });
 
 test("putUnique limit.", function() {
   oFixedCache = new Cotton.DB.FixedSizeCache('test-single-cache', 3);
-  oFixedCache.putUnique(dataTest[0]);
-  oFixedCache.putUnique(dataTest[1]);
-  oFixedCache.putUnique(dataTest[2]);
-  oFixedCache.putUnique(dataTest[2]);
-  oFixedCache.putUnique(dataTest[3]);
+
+  var mMerge = function(dItem1, dItem2) {
+    dItem1['fLastVisitTime'] = Math.max(dItem1['fLastVisitTime'], dItem2['fLastVisitTime']);
+    return dItem1;
+  };
+
+  oFixedCache.putUnique(dataTest[0], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[1], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[2], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[2], 'sUrl', mMerge);
+  oFixedCache.putUnique(dataTest[3], 'sUrl', mMerge);
   deepEqual(oFixedCache.get().length, 3);
 });
 

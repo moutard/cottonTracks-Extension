@@ -22,6 +22,8 @@ Cotton.UI.Stand.Story.Card.Image = Cotton.UI.Stand.Story.Card.Card.extend({
     var oFullImage = new Cotton.UI.Stand.Story.Card.Content.ImageFull(sImageUrl);
     this._$media = oFullImage.$();
 
+    this._oLocalDispatcher.publish('media_async_image', {'img_url': sImageUrl});
+
     this.drawCard();
   },
 
