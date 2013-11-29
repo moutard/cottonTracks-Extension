@@ -257,6 +257,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
     oGlobalDispatcher.subscribe('favorites', this, function(dArguments){
       oLightyearController._oWorld.clear();
       oLightyearController.getFavoriteStories(function(lStories){
+        Cotton.ANALYTICS.navigate('favorites', lStories.length);
         oLightyearController.openPartial(lStories, "Favorite Stories", "No Favorite Stories");
       });
     });
