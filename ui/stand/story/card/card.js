@@ -117,7 +117,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     );
   },
 
-  setHeight : function() {
+  initHeight : function() {
     // do nothing for cards that are not default_cards
   },
 
