@@ -31,7 +31,29 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     this._$sticker = $('<div class="ct-sticker"></div>');
 
     // Title of the story.
-    this._$title = $('<div class="ct-sticker_title"></div>').text(oStory.title());
+    this._$title = $('<div class="ct-sticker_title" contenteditable="true"></div>').text(oStory.title()).blur(
+      function(){
+        if ($(this).text() !== oStory.title()){
+          // we set the new title only if there has been a change in the title
+          oStory.setTitle($(this).text())
+          oGlobalDispatcher.publish('change_title', {
+            'story_id': oStory.id(),
+            'title': $(this).text()
+          });
+          // Analytics tracking.
+          Cotton.ANALYTICS.editTitle(sContext);
+        }
+      }).keydown(function(e){
+        if (e.keyCode === 13) {
+          // 'enter' key, blur the title field
+          $(this).blur();
+        } else if (e.keyCode === 27) {
+          // 'escape' key, set the title back to original
+          // and blur the title field
+          $(this).text(oStory.title());
+          $(this).blur();
+        }
+      });
 
     // featuredImage. Because we resize it we use the
     // Cotton.UI.Stand.Common.Content.Image class we cannot use var oImage then
@@ -72,6 +94,13 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
       }
     });
 
+    this._oGlobalDispatcher.subscribe('change_title', this, function(dArguments){
+      if (oStory.id() === dArguments['story_id']) {
+        oStory.setTitle(dArguments['title'])
+        this._$title.text(dArguments['title']);
+      }
+    });
+
     this._$sticker.append(
         this._oImage.$(),
         this._$title
@@ -83,10 +112,13 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
   },
 
   purge : function() {
+    this._oGlobalDispatcher.unsubscribe('change_title', this);
     this._oGlobalDispatcher = null;
     this._oImage.$().unbind('click');
     this._oImage.purge();
     this._oImage = null;
+    // blur in case it was being edited
+    this._$title.blur().remove();
     this._$title = null;
     this._$sticker.remove();
     this._$sticker = null;

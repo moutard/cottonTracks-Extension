@@ -71,10 +71,14 @@ test("put", function() {
 });
 
 test("putUnique", function() {
+  var mMerge = function(dItem1, dItem2) {
+    dItem1['fLastVisitTime'] = Math.max(dItem1['fLastVisitTime'], dItem2['fLastVisitTime']);
+    return dItem1;
+  };
   oSingleCache = new Cotton.DB.SingleStoreCache('test-single-cache');
-  oSingleCache.putUnique(dataTest[0]);
-  oSingleCache.putUnique(dataTest[0]);
-  oSingleCache.putUnique(dataTest[1]);
+  oSingleCache.putUnique(dataTest[0], 'sUrl', mMerge);
+  oSingleCache.putUnique(dataTest[0], 'sUrl', mMerge);
+  oSingleCache.putUnique(dataTest[1], 'sUrl', mMerge);
   var dHistoryItem = oSingleCache.get();
   delete dHistoryItem['sExpiracyDate'];
   deepEqual(oSingleCache.get(), [dataTest[0], dataTest[1]]);
