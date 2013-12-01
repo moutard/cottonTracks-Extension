@@ -223,6 +223,11 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+
+    &:empty {
+      // if empty, leave the contentEditable editable
+      display: block;
+    }
   }
 }
 

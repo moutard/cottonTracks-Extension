@@ -33,7 +33,10 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     // Title of the story.
     this._$title = $('<div class="ct-sticker_title" contenteditable="true"></div>').text(oStory.title()).blur(
       function(){
-        if ($(this).text() !== oStory.title()){
+        if (!$(this).text()) {
+          // blank title, we put back the previous title.
+          $(this).text(oStory.title());
+        } else if ($(this).text() !== oStory.title()){
           // we set the new title only if there has been a change in the title
           oStory.setTitle($(this).text())
           oGlobalDispatcher.publish('change_title', {
