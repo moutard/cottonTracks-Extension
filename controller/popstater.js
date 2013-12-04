@@ -105,7 +105,7 @@ Cotton.Controllers.Popstater = Class.extend({
     } else if (oUrl.dSearch['q']) {
       // Search page.
       self._oGlobalDispatcher.publish('search_stories', {
-        'search_words': oUrl.dSearch['q'].split('+')
+        'search_words': oUrl.dSearch['q']
       });
       // analytics tracking.
       Cotton.ANALYTICS.navigate('search');

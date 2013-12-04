@@ -72,7 +72,7 @@ Cotton.UI.Topbar.Search = Class.extend({
       if (oEvent.which === 13) {
         // 13 = enter key.
         if ($(this).val()) {
-          self._search();
+          self._search($(this).val());
           // Analytics tracking.
           Cotton.ANALYTICS.searchStories('enter');
         }
@@ -86,7 +86,7 @@ Cotton.UI.Topbar.Search = Class.extend({
     });
     this._$search_button.click(function(){
       if (self._$search_field.val()) {
-        self._search();
+        self._search(self._$search_field.val());
         // analytics tracking.
         Cotton.ANALYTICS.searchStories('search_button');
       }
@@ -94,16 +94,16 @@ Cotton.UI.Topbar.Search = Class.extend({
 
   },
 
-  _search : function() {
-    var sQuery = this._$search_field.val().toLowerCase();
+  _search : function(sQuery) {
+    var sLowerQuery = sQuery.toLowerCase();
     // FIXME(rmoutard): break MVC should be in the controller.
-    var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
+    var lSearchWords = (sLowerQuery.length > 0) ? sLowerQuery.split(' ') : [];
     this._oGlobalDispatcher.publish('push_state', {
       'code': '?q=',
       'value': lSearchWords.join('+')
     });
     this._oGlobalDispatcher.publish('search_stories', {
-      'search_words': sQuery
+      'search_words': lSearchWords
     });
   },
 

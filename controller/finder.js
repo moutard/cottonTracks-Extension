@@ -69,7 +69,9 @@ Cotton.Controllers.Finder = Class.extend({
    * @param {String} sQuery:
    */
   _cutQuery : function(sQuery) {
-    var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
+    // Cut words seperated by a space " " or a "+".
+    var oRegExp = new RegExp("[\\ |\\+]", "g")
+    var lSearchWords = (sQuery.length > 0) ? sQuery.split(oRegExp) : [];
     return lSearchWords;
   },
 
