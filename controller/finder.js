@@ -25,21 +25,22 @@ Cotton.Controllers.Finder = Class.extend({
   /**
    * Given a sQuery return a list of stories that match the query.
    *
-   * @param {String} sQuery:
+   * @param {String} sQuery: it's just a simple word.
    */
   search : function(sQuery, mCallback) {
     var lQueryWords = this._cutQuery(sQuery);
     var sPrefix = lQueryWords[0].substring(0,2);
     var sUpperBound = this._nextChar(sPrefix);
-    var mConstraint = function(s) { return true; };
+    var mConstraintGenerated = this._makeConstraint(sQuery, 3.0, this._levenshtein);
+    // Get all the words comprise between the prefix and the next char.
+    // So if prefix is "pr" return "prototype", "prisonner" but not "q".
     this._oDatabase.getKeyRangeWithConstraint("searchKeywords", "sKeyword", sPrefix, sUpperBound,
+        // Callback.
         function(lKeywords) {
           mCallback(lKeywords);
         },
-
-        function(dRecord) {
-          return true;
-        })
+        // Constraint.
+        mConstraintGenerated);
   },
 
   /**
@@ -73,10 +74,59 @@ Cotton.Controllers.Finder = Class.extend({
   },
 
   /**
-   * return the levenstein distance between 2 words.
+   * Return the levenshtein distance between 2 words.
+   * Not implemented by me, but seems the most optimized one.
+   * http://stackoverflow.com/questions/11919065/sort-an-array-by-the-levenshtein-distance-with-best-performance-in-javascript
    */
-  _levenstein : function(sWord1, sWord2) {
-    return 0;
+  _levenshtein : function(s, t) {
+    var d = []; // 2d matrix.
+
+    // Step 1
+    var n = s.length;
+    var m = t.length;
+
+    if (n == 0) return m;
+    if (m == 0) return n;
+
+    // Create an array of arrays in javascript (a descending loop is quicker).
+    for (var i = n; i >= 0; i--) d[i] = [];
+
+    // Step 2.
+    for (var i = n; i >= 0; i--) d[i][0] = i;
+    for (var j = m; j >= 0; j--) d[0][j] = j;
+
+    // Step 3.
+    for (var i = 1; i <= n; i++) {
+        var s_i = s.charAt(i - 1);
+
+        // Step 4.
+        for (var j = 1; j <= m; j++) {
+
+            // Check the jagged ld total so far.
+            if (i == j && d[i][j] > 4) return n;
+
+            var t_j = t.charAt(j - 1);
+            var cost = (s_i == t_j) ? 0 : 1; // Step 5
+
+            //Calculate the minimum
+            var mi = d[i - 1][j] + 1;
+            var b = d[i][j - 1] + 1;
+            var c = d[i - 1][j - 1] + cost;
+
+            if (b < mi) mi = b;
+            if (c < mi) mi = c;
+
+            d[i][j] = mi; // Step 6
+
+            //Damerau transposition
+            if (i > 1 && j > 1 && s_i == t.charAt(j - 2) && s.charAt(i - 2) == t_j) {
+                d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + cost);
+            }
+        }
+    }
+
+    // Step 7
+    return d[n][m];
   },
 
   /**
@@ -98,6 +148,13 @@ Cotton.Controllers.Finder = Class.extend({
     return sNextWord + String.fromCharCode(c.charCodeAt(c.length -1) + 1);
   },
 
+
+  _makeConstraint : function(sQuery, fThreshold, mDistance) {
+    return function(dDBRecord) {
+      var sWord = dDBRecord['sKeyword'];
+      return mDistance(sWord, sQuery) < fThreshold;
+    };
+  },
 
   searchStories : function(lSearchWords, mCallback, iExpectedResults) {
     var self = this;
