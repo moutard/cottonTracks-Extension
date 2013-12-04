@@ -73,7 +73,8 @@ Cotton.Controllers.Lightyear = Class.extend({
       });
     });
 
-    this._oFinder = new Cotton.Controllers.Finder(this._oDatabase, this._oGlobalDispatcher);
+    this._oStoryHandler = new Cotton.Controllers.StoryHandler(this._oDatabase, this._oGlobalDispatcher);
+    this._oFinder = new Cotton.Controllers.Finder(this._oDatabase, this._oStoryHandler, this._oGlobalDispatcher);
 
   },
 
@@ -260,12 +261,12 @@ Cotton.Controllers.Lightyear = Class.extend({
         var lFilledStories = [];
         for (var i = 0; i < iLength; i++) {
           var oStory = lStories[i];
-          self.fillStory(oStory, function(oFilledStory){
+          self._oStoryHandler.fillStory(oStory, function(oFilledStory){
             iCount++;
             lFilledStories.push(oFilledStory);
 
             if (iCount === iLength) {
-              mCallback(self._filterEmptyStories(
+              mCallback(self._oStoryHandler._filterEmptyStories(
                 lFilledStories.sort(function(a,b){
                   return (b.lastVisitTime() - a.lastVisitTime());
                 })
@@ -324,6 +325,7 @@ Cotton.Controllers.Lightyear = Class.extend({
   },
 
   /**
+<<<<<<< HEAD
    * @param {Array.<String>} lSearchWords:
    *          each string is a word of the search.
    * @param {Int} iExpectedResults: number of results you want.
@@ -387,6 +389,8 @@ Cotton.Controllers.Lightyear = Class.extend({
   },
 
   /**
+=======
+>>>>>>> 351a8a3... Search: create a storyHandler controller for specific methods on story and database
    * return true if there is no change until the last time we visit
    * lightyear.
    * To simply compute this we use a simple hash function that compare the

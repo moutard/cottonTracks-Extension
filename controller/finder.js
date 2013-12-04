@@ -17,9 +17,12 @@ Cotton.Controllers.Finder = Class.extend({
 
   _oGlobalDispatcher : null,
 
-  init : function(oDatabase, oGlobalDispatcher) {
+  _oStoryHandler : null,
+
+  init : function(oDatabase, oStoryHandler, oGlobalDispatcher) {
     this._oDatabase = oDatabase;
     this._oGlobalDispatcher = oGlobalDispatcher;
+    this._oStoryHandler = oStoryHandler;
   },
 
   /**
@@ -31,8 +34,8 @@ Cotton.Controllers.Finder = Class.extend({
     var self = this;
     var lQueryWords = this._cutQuery(sQuery);
     self._getKeywords(lQueryWords, function(lSearchKeywords) {
-      self._getDirectRelatedStories(lSearchKeywords, function() {
-
+      self._getDirectRelatedStories(lSearchKeywords, function(lStories) {
+      console.log(lStories);
       mCallback();
       });
     });
@@ -196,6 +199,7 @@ Cotton.Controllers.Finder = Class.extend({
    * referringStoriesId of the searchKeyword.
    */
   _getDirectRelatedStories : function(lSearchKeywords, mCallback) {
+    var self = this;
     var lRelatedStoriesId = [];
     var iLength = lSearchKeywords.length;
 
@@ -205,7 +209,7 @@ Cotton.Controllers.Finder = Class.extend({
       lRelatedStoriesId = _.union(lRelatedStoriesId,
           oSearchKeyword.referringStoriesId());
     }
-    self._getStoriesAndScore(lUndirectRelatedStoriesId, 2, mCallback);
+    self._getStoriesAndScore(lRelatedStoriesId, 2, mCallback);
   },
 
   /**
@@ -237,25 +241,26 @@ Cotton.Controllers.Finder = Class.extend({
 
   },
 
-  _getStoriesAndScore : function(lStoriesId, iPrecision, mCallback) {
-      // Get all the reffering stories.
-      self._oDatabase.findGroup('stories', 'id', lStoriesId, function(lStories) {
-        lStories = lStories || [];
+  _getStoriesAndScore : function(lStoriesId, iPrecision, mCallback, iExpectedResults) {
+    var self = this;
+    // Get all the reffering stories.
+    self._oDatabase.findGroup('stories', 'id', lStoriesId, function(lStories) {
+      lStories = lStories || [];
 
-        // Set the items in the stories, filter the search & images doubles
-        // and filter empty stories.
-        self.fillAndFilterStories(lStories, function(lFilteredStories){
-          // Crop number of results if asked
-          if (iExpectedResults) lFilteredStories = lFilteredStories.slice(0, iExpectedResults);
+      // Set the items in the stories, filter the search & images doubles
+      // and filter empty stories.
+      //self._fillAndFilterStories(lStories, function(lFilteredStories){
+        // Crop number of results if asked
+        if (iExpectedResults) lStories = lStories.slice(0, iExpectedResults);
 
-          // TODO(rmoutard): Sort by distance between the query and the oStory result.
+        // TODO(rmoutard): Sort by distance between the query and the oStory result.
 
-          if (mCallback) {
-            mCallback(lFilteredStories, lSearchWords.join(' '));
-          }
+        if (mCallback) {
+          mCallback(lStories);
+        }
 
-        });
-      });
+      //});
+    });
   },
 
 });
