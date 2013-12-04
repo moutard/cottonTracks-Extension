@@ -354,6 +354,32 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
         });
   },
 
+  getXItemsWithBound: function(sObjectStoreName, iX, sIndexKey,
+      iDirection, iLowerBound, iUpperBound, bStrict, mResultElementCallback) {
+    var self = this;
+
+    var lAllObjects = new Array();
+    this._oEngine.getXItemsWithBound(
+        sObjectStoreName, iX, sIndexKey, iDirection, iLowerBound, iUpperBound, bStrict,
+        function(lResult) {
+          if (!lResult) {
+            // If there was no result, send back null.
+            mResultElementCallback.call(self, lAllObjects);
+            return;
+          }
+          // else lResult is a list of Items.
+          var iLength = lResult.length;
+          for (var i = 0; i < iLength; i++ ){
+            var oItem = lResult[i];
+            var oTranslator = self._translatorForDbRecord(sObjectStoreName, oItem);
+            var oObject = oTranslator.dbRecordToObject(oItem);
+            lAllObjects.push(oObject);
+          }
+
+          mResultElementCallback.call(self, lAllObjects);
+        });
+  },
+
   getXYItems: function(sObjectStoreName, iX, iY, sIndexKey, iDirection,
       mResultElementCallback) {
     var self = this;

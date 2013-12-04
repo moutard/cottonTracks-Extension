@@ -49,7 +49,16 @@ Cotton.Controllers.Finder = Class.extend({
    * @param {String} sPrefix:
    */
   autocomplete : function(sPrefix, mCallback) {
-
+    var sUpperBound = this._nextWord(sPrefix);
+    this._oDatabase.getXItemsWithBound('searchKeywords', 10, 'sKeyword',
+      'NEXT', sPrefix, sUpperBound, false,
+      function(lKeywords) {
+        var lPossibleKeywords = [];
+        for (var i = 0; i < lKeywords.length; i++) {
+          lPossibleKeywords.push(lKeywords[i].keyword());
+        }
+        mCallback(lPossibleKeywords)
+      });
   },
 
   /**
@@ -70,11 +79,27 @@ Cotton.Controllers.Finder = Class.extend({
     return 0;
   },
 
+  /**
+   * Return the next char in alphabetic order.
+   * a -> b
+   * z -> {
+   */
   _nextChar : function(c) {
     return String.fromCharCode(c.charCodeAt(0) + 1);
   },
 
- searchStories : function(lSearchWords, mCallback, iExpectedResults) {
+  /**
+   * Return the next char in alphabetic order.
+   * aa -> ab
+   */
+  _nextWord : function(sWord) {
+    var sNextWord = sWord.substring(0, sWord.length - 1);
+    var c = sWord[sWord.length - 1];
+    return sNextWord + String.fromCharCode(c.charCodeAt(c.length -1) + 1);
+  },
+
+
+  searchStories : function(lSearchWords, mCallback, iExpectedResults) {
     var self = this;
 
     // For each ask keywords find corresponding stories.

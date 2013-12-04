@@ -278,6 +278,19 @@ Cotton.Controllers.DispatchingController = Class.extend({
         oLightyearController.database().put('stories', oStory, function(){});
       });
     });
+
+    /**
+     * autocomplete when search story
+     *
+     * Search stories are display in a partial view.
+     */
+    oGlobalDispatcher.subscribe('autocomplete_ask', this, function(dArguments){
+      oLightyearController._oFinder.autocomplete(dArguments['prefix'],
+        function(lPossibleKeywords) {
+          oGlobalDispatcher.publish('autocomplete_answer', {'possible_keywords': lPossibleKeywords});
+        });
+    });
+
   }
 
 });
