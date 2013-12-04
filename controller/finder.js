@@ -28,19 +28,14 @@ Cotton.Controllers.Finder = Class.extend({
    * @param {String} sQuery: it's just a simple word.
    */
   search : function(sQuery, mCallback) {
+    var self = this;
     var lQueryWords = this._cutQuery(sQuery);
-    var sPrefix = lQueryWords[0].substring(0,2);
-    var sUpperBound = this._nextChar(sPrefix);
-    var mConstraintGenerated = this._makeConstraint(sQuery, 3.0, this._levenshtein);
-    // Get all the words comprise between the prefix and the next char.
-    // So if prefix is "pr" return "prototype", "prisonner" but not "q".
-    this._oDatabase.getKeyRangeWithConstraint("searchKeywords", "sKeyword", sPrefix, sUpperBound,
-        // Callback.
-        function(lKeywords) {
-          mCallback(lKeywords);
-        },
-        // Constraint.
-        mConstraintGenerated);
+    self._getKeywords(lQueryWords, function(lSearchKeywords) {
+      self._getDirectRelatedStories(lSearchKeywords, function() {
+
+      mCallback();
+      });
+    });
   },
 
   /**
@@ -69,8 +64,9 @@ Cotton.Controllers.Finder = Class.extend({
    * @param {String} sQuery:
    */
   _cutQuery : function(sQuery) {
-    // Cut words seperated by a space " " or a "+".
-    var oRegExp = new RegExp("[\\ |\\+]", "g")
+    // Cut words seperated by a space " ".
+    // we can imagine more.
+    var oRegExp = new RegExp("[\\ ]", "g");
     var lSearchWords = (sQuery.length > 0) ? sQuery.split(oRegExp) : [];
     return lSearchWords;
   },
@@ -158,49 +154,109 @@ Cotton.Controllers.Finder = Class.extend({
     };
   },
 
-  searchStories : function(lSearchWords, mCallback, iExpectedResults) {
-    var self = this;
+  /**
+   * For each words written by the user, return an list of words present in
+   * the database that are close to the user query word. (i.e where the
+   * levenshtein distance < 3)
+   * return a list of Model.SearchKeywords that can match with words of the query.
+   * @param {Array.<string>} lQueryWords: list of words written by the user.
+   */
+  _getKeywords : function(lQueryWords, mCallback) {
 
-    // For each ask keywords find corresponding stories.
-    this._oDatabase.findGroup('searchKeywords', 'sKeyword', lSearchWords,
-      function(lSearchKeywords) {
-        var lRelatedStoriesId = [];
-        var iLength = lSearchKeywords.length;
-        for (var i = 0; i < iLength; i++) {
-          var oSearchKeyword = lSearchKeywords[i];
-          lRelatedStoriesId = _.union(lRelatedStoriesId,
-            oSearchKeyword.referringStoriesId());
-        }
-        // For each stories
-        self._oDatabase.findGroup('stories', 'id', lRelatedStoriesId,
-          function(lStories) {
-            lStories = lStories || [];
+    var lAllKeywords = [];
+    var iCount = 0;
 
-            // Set the items in the stories, filter the search & images doubles
-            // and filter empty stories.
-            self.fillAndFilterStories(lStories, function(lFilteredStories){
-              // Crop number of results if asked
-              if (iExpectedResults) lFilteredStories = lFilteredStories.slice(0, iExpectedResults);
 
-              // Sort by score.
-              // We create a story with the query words in its bag of words
-              // to compare it to the other stories.
-              var oRefStory = new Cotton.Model.Story();
-              for (var i = 0; i < iLength; i++) {
-                oRefStory.dna().addWord(lSearchKeywords[i].keyword(), 1);
-              }
-              lFilteredStories.sort(function(a,b){
-                return (Cotton.Algo.Score.Object.storyToStory(b, oRefStory)
-                  - Cotton.Algo.Score.Object.storyToStory(a, oRefStory))
-              });
+    for (var i = 0; i < lQueryWords.length; i++) {
+      var sPrefix = lQueryWords[i].substring(0,2);
+      var sUpperBound = this._nextChar(sPrefix);
+      var mConstraintGenerated = this._makeConstraint(lQueryWords[i], 3.0,
+          this._levenshtein);
+      // Get all the words comprise between the prefix and the next char.
+      // So if prefix is "pr" return "prototype", "prisonner" but not "q".
+      this._oDatabase.getKeyRangeWithConstraint("searchKeywords", "sKeyword",
+        sPrefix, sUpperBound,
+        // Callback.
+        function(lKeywords) {
+          iCount++;
+          lAllKeywords = lAllKeywords.concat(lKeywords);
+          if (iCount === lQueryWords.length) {
+            mCallback(lAllKeywords);
+          }
+        },
+        // Constraint.
+        mConstraintGenerated
+      );
+    }
 
-              if (mCallback) {
-                mCallback.call(this, lFilteredStories, lSearchWords.join(' '));
-              }
-
-            });
-        });
-    });
   },
+
+  /**
+   * Get directly directed stories. (i.e. the id of the story is in the list
+   * referringStoriesId of the searchKeyword.
+   */
+  _getDirectRelatedStories : function(lSearchKeywords, mCallback) {
+    var lRelatedStoriesId = [];
+    var iLength = lSearchKeywords.length;
+
+
+    for (var i = 0; i < iLength; i++) {
+      var oSearchKeyword = lSearchKeywords[i];
+      lRelatedStoriesId = _.union(lRelatedStoriesId,
+          oSearchKeyword.referringStoriesId());
+    }
+    self._getStoriesAndScore(lUndirectRelatedStoriesId, 2, mCallback);
+  },
+
+  /**
+   *TODO(rmoutard): get stories related by a historyItem. (i.e. there is a
+   * visitItem in the referringHistoryItemId that is in a story.)
+   */
+  _getUndirectRelatedStories : function(lSearchKeywords, mCallback) {
+    var self = this;
+    var lUndirectRelatedStoriesId = [];
+
+    var lReferringHistoryItemsId = [];
+    var iLength = lSearchKeywords.length;
+
+
+    for (var i = 0; i < iLength; i++) {
+      var oSearchKeyword = lSearchKeywords[i];
+      lReferringHistoryItemsId = _.union(lReferringHistoryItemsId,
+          oSearchKeyword.referringHistoryItemId());
+    }
+    self._oDatabase.findGroup('visitItems', 'id', lReferringHistoryItemsId,
+      function(lVisitItems) {
+        for (var j = 0; j < lVisitItems.length; i++) {
+          if (lVisitItems[j].storyId() !== "UNCLASSIFIED") {
+            lUndirectRelatedStoriesId.push(lVisitItems[j].storyId());
+          }
+        }
+        self._getStoriesAndScore(lUndirectRelatedStoriesId, 1, mCallback);
+    });
+
+  },
+
+  _getStoriesAndScore : function(lStoriesId, iPrecision, mCallback) {
+      // Get all the reffering stories.
+      self._oDatabase.findGroup('stories', 'id', lStoriesId, function(lStories) {
+        lStories = lStories || [];
+
+        // Set the items in the stories, filter the search & images doubles
+        // and filter empty stories.
+        self.fillAndFilterStories(lStories, function(lFilteredStories){
+          // Crop number of results if asked
+          if (iExpectedResults) lFilteredStories = lFilteredStories.slice(0, iExpectedResults);
+
+          // TODO(rmoutard): Sort by distance between the query and the oStory result.
+
+          if (mCallback) {
+            mCallback(lFilteredStories, lSearchWords.join(' '));
+          }
+
+        });
+      });
+  },
+
 });
 

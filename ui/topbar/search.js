@@ -103,7 +103,7 @@ Cotton.UI.Topbar.Search = Class.extend({
       'value': lSearchWords.join('+')
     });
     this._oGlobalDispatcher.publish('search_stories', {
-      'search_words': lSearchWords
+      'search_words': sLowerQuery
     });
   },
 

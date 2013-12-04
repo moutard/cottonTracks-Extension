@@ -1014,15 +1014,76 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
   },
 
   /**
-   * given an index key that respects the uniquiness constraints and a value.
-   * it returns the element if it exists.
-   *
-   * The function is readonly, so it can be perfom in parallel with other
-   * readonly, methods.
-   * But it can has some drawbacks. with putUnique, that performs more than
-   * 2 request in one.
+   * getComplexe method is a new way to think the method. now you give a
+   * dict of parameters depending on what you give the request will do what
+   * you want.
    */
-  find: function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
+  getComplexe : function(sObjectStoreName, dParameters, mCallback) {
+    var sIndexKey = dParameters['sIndexKey'] ||'id';
+    var iDirection = dParameters['iDirection'] ||'NEXT';
+    var iX = dParameters['iMaxOfResult'] ||0;
+    var iLowerBound = dParameters['iLowerBound'];
+    var iUpperBound = dParameters['iUpperBound'];
+    var bStrict = dParameters['bStrict'] ||false;
+    var mConstraint = dParameters['mConstraint'] ||function(){return true;};
+
+    //, iX, sIndexKey,
+    //  iDirection, iLowerBound, bStrict, mResultElementCallback) {
+    // bStrict == false All keys[sIndexKey] <= iUpperBound
+    // iUpperBound may be not an int.
+    var self = this;
+
+    // Allow user to put "PREV" instead of 2 to get redeable code.
+    var iDirectionIndex = _.indexOf(this._lCursorDirections, iDirection);
+    if(iDirectionIndex !== -1){ iDirection = iDirectionIndex; }
+    var sDirection = this._lNonDeprecatedCursorDirections[iDirection];
+
+    // List tha will contain the results.
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+                        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Define the index.
+    var oIndex = oStore.index(sIndexKey);
+
+    var iCursorCount = 0;
+
+    if (iLowerBound) {
+	    var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
+    }
+
+    if (iUpperBound) {
+      var oKeyRange = webkitIDBKeyRange.upperBound(iLowerBound, bStrict);
+    }
+    var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
+    oCursorRequest.onsuccess = function(oEvent) {
+      iCursorCount+=1;
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        // There is less than iX correspondings items.
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else if (iCursorCount === iX) {
+        // There is more than iX correspondings items, but return only the iXth
+        // first.
+        lAllItems.push(oResult.value);
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else {
+        lAllItems.push(oResult.value);
+        oResult.continue();
+      }
+    };
+
+    oCursorRequest.onerror = function(oEvent) {
+      console.error(oEvent);
+    };
+  },
+
+  find : function(sObjectStoreName, sIndexKey, oIndexValue, mResultCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
