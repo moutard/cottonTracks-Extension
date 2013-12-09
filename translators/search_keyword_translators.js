@@ -55,7 +55,7 @@ Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS = [];
       console.error("Merge conflict: ", "dOldRecord: ", dOldRecord, "dNewRecord: ", dNewRecord);
       return dOldRecord;
     }
-    if (dOldRecord['sUrl'] && dNewRecord['sUrl'] && (dOldRecord['sUrl'] !== dNewRecord['sUrl'])) {
+    if (dOldRecord['sKeyword'] && dNewRecord['sKeyword'] && (dOldRecord['sKeyword'] !== dNewRecord['sKeyword'])) {
       console.error("Merge conflict: ", "dOldRecord: ", dOldRecord, "dNewRecord: ", dNewRecord);
       return dOldRecord;
     }
