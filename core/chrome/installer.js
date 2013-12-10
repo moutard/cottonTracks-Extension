@@ -77,6 +77,7 @@ Cotton.Core.Installer = Class.extend({
                   _.union(oNewStory.historyItemsId(),oStoredStory.historyItemsId()));
                 oNewStory.setLastVisitTime(Math.max(
                   oNewStory.lastVisitTime(),oStoredStory.lastVisitTime()));
+                oNewStory.dna().bagOfWords().mergeBag(oStoredStory.dna().bagOfWords().get());
                 if (!oNewStory.featuredImage() || oNewStory.featuredImage() === "") {
                   oNewStory.setFeaturedImage(oStoredStory.featuredImage());
                 }
