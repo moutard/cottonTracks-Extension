@@ -81,6 +81,18 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     });
     this._$url = $('<div class="ct-card_url">' + oHistoryItem.url() +'</div>');
     this._oWebsite = new Cotton.UI.Stand.Story.Card.Content.Website(oHistoryItem.url(), this._oLocalDispatcher);
+    this._$tags = $('<div class="ct-card_tags"></div>');
+    for (var key in oHistoryItem.extractedDNA().bagOfWords().get()) {
+      var $tag = $('<div class="ct-card_tag"></div>').text(key + ' : ' + oHistoryItem.extractedDNA().bagOfWords().get()[key]);
+      this._$tags.append($tag);
+    }
+    if (oHistoryItem.target === 0) {
+      this._$card.addClass('ct-bullseye');
+    } else if (oHistoryItem.target === 1) {
+      this._$card.addClass('ct-first_crown');
+    } else {
+      this._$card.addClass('ct-farther');
+    }
 
     this._iId = oHistoryItem.id();
   },
@@ -109,7 +121,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
       this._$media,
       this._$details.append(
         this._oTitle.$(),
-        this._$url
+        this._$url,
+        this._$tags
       ),
       this._$delete,
       this._oWebsite.$(),

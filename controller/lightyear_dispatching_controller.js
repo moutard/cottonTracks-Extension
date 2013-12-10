@@ -225,9 +225,14 @@ Cotton.Controllers.DispatchingController = Class.extend({
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
       oLightyearController._oWorld.clear();
-      oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
-        var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
-        oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
+      oLightyearController.searchStories(dArguments['search_words'], function(lStories){
+        var lCleanWords = Cotton.Algo.Tools.TightFilter(dArguments['search_words']);
+        // add all items from results
+        var lHistoryItems = [];
+        for (var i = 0; i < lStories.length; i++) {
+          lHistoryItems = lHistoryItems.concat(lStories[i].historyItems());
+        }
+        oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
       });
     });
 

@@ -46,6 +46,12 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
       this.setHeight();
     });
 
+    this._$tags = $('<div class="ct-card_tags"></div>');
+    for (var key in oHistoryItem.extractedDNA().bagOfWords().get()) {
+      var $tag = $('<div class="ct-card_tag"></div>').text(key + ' : ' + oHistoryItem.extractedDNA().bagOfWords().get()[key]);
+      this._$tags.append($tag);
+    }
+
     this.drawCard();
   },
 
@@ -61,7 +67,8 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
       this._$details.append(
         this._oTitle.$(),
         this._oQuoteHolder.$(),
-        this._$url
+        this._$url,
+        this._$tags
       ),
       this._$delete,
       this._oWebsite.$(),

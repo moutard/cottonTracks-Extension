@@ -49,72 +49,13 @@
       }
 
       > .ct-epitome {
-        position: relative;
-        width: 100%;
-        height: 268px;
-        background-color: @26grey;
-        box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.5);
-        -webkit-border-radius: 1px 1px 1px 1px;
 
-        > .ct-epitome_background {
-          width: 100%;
-          height: 100%;
-          background-size: cover;
-          background-position-y: 25%;
-          -webkit-filter: grayscale(100%) brightness(65%);
-          box-shadow: inset 0px 0px 1px 0px rgba(255,255,255,0.25);
-        }
-
-        &:before {
-          content: "";
-          position: absolute;
-          top: 1px;
-          width: 100%;
-          height: 100%;
-          box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.25);
-        }
-
-        > .ct-sticker {
-          position: absolute;
-          top: 33px;
-          left: 35px;
-          margin: 0;
-          background-color: @33grey;
-        }
-
-        > .ct-epitome_button {
-          position: absolute;
-          right: 0;
-          width: 172px;
-          padding-top: 3px;
-          padding-bottom: 3px;
-          background-color: rgba(0,0,0,0.5);
-          color: white;
-          padding-left: 39px;
-          font-size: 14px;
-
-          &.favorite_button, &.unfavorite_button {
-            top: 158px;
-            cursor: pointer;
-          }
-
-          &.related_button {
-            top: 188px;
-            cursor: default;
-
-            &.ct-active {
-              cursor: pointer;
-            }
-          }
-
-          &.ct-back_button {
-            top: 188px;
-            cursor: pointer;
-          }
-
-          &.ct-hidden {
-            display: none;
-          }
+        > .ct-occurence_tag {
+          color : white;
+          background-color: @almondgreen;
+          padding: 2px;
+          margin: 2px;
+          float: left;
         }
       }
     }
@@ -142,6 +83,25 @@
           -webkit-border-radius: 1px 1px 1px 1px;
           -webkit-transition-duration: 0.6s;
           -webkit-transition-property: left, opacity;
+
+          &.ct-bullseye {
+            background-color: white;
+          }
+
+          &.ct-first_crown {
+            background-color: gray;
+          }
+
+          &.ct-farther {
+            background-color: black;
+          }
+
+          .ct-card_tag {
+            float: left;
+            margin: 2px;
+            padding: 2px;
+            background-color: @lightalmondgreen;
+          }
 
           &.ct-height_animate {
             -webkit-transition-property: left, opacity, height;

@@ -55,6 +55,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oCoreMessenger = oCoreMessenger;
     this._oGlobalDispatcher = new Cotton.Messaging.Dispatcher();
     this._oDispatchingController = new Cotton.Controllers.DispatchingController(this, this._oGlobalDispatcher);
+    this._oBaker = new Cotton.Controllers.Baker(this, this._oGlobalDispatcher);
 
     this._oWorld = new Cotton.UI.World(oCoreMessenger, self._oGlobalDispatcher);
     this._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
