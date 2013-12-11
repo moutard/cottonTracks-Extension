@@ -225,14 +225,41 @@ Cotton.Controllers.DispatchingController = Class.extend({
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
       oLightyearController._oWorld.clear();
+      var lHistoryItems = [];
+      var lHistoryItemsIdFromKeywords = [];
+      var bHistoryItemsFromStorySet = false;
+      var bHistoryItemsAloneSet = false;
+      var lCleanWords = Cotton.Algo.Tools.TightFilter(dArguments['search_words']);
+      // add all items that may not have the keywords but are from stories that have the keywords
       oLightyearController.searchStories(dArguments['search_words'], function(lStories){
-        var lCleanWords = Cotton.Algo.Tools.TightFilter(dArguments['search_words']);
-        // add all items from results
-        var lHistoryItems = [];
         for (var i = 0; i < lStories.length; i++) {
           lHistoryItems = lHistoryItems.concat(lStories[i].historyItems());
         }
-        oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        bHistoryItemsFromStorySet = true;
+        if (bHistoryItemsAloneSet){
+          oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        }
+      });
+      // add all items that have the keywords but are unclassified
+      oLightyearController._oDatabase.findGroup('searchKeywords', 'sKeyword', dArguments['search_words'], function(lSearchKeywords){
+        var iLength = lSearchKeywords.length;
+        for (var i = 0; i < iLength; i++) {
+          var oSearchKeyword = lSearchKeywords[i];
+          lHistoryItemsIdFromKeywords = _.union(lHistoryItemsIdFromKeywords, oSearchKeyword.referringHistoryItemsId());
+        }
+        oLightyearController._oDatabase.findGroup('historyItems', 'id', lHistoryItemsIdFromKeywords, function(lHistoryItemsFromKeywords){
+          lHistoryItemsFromKeywords = oLightyearController._filterHistoryItems(lHistoryItemsFromKeywords);
+          var iLength = lHistoryItemsFromKeywords.length;
+          for (var i = 0; i < iLength; i++) {
+            if (lHistoryItemsFromKeywords[i].storyId() === "UNCLASSIFIED") {
+              lHistoryItems.push(lHistoryItemsFromKeywords[i]);
+            }
+          }
+          bHistoryItemsAloneSet = true;
+          if (bHistoryItemsFromStorySet){
+            oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+          }
+        });
       });
     });
 
