@@ -12,6 +12,7 @@ Cotton.Controllers.Baker = Class.extend({
   // 2nd crown > etc...
   bake : function(lHistoryItems, lQueryWords) {
     var NUMBER_OF_CROWN = 3;
+    var iQueryLength = lQueryWords.length;
 
     // create a bag of words with the search terms
     var oSearchBagOfWords = new Cotton.Model.BagOfWords();
@@ -93,7 +94,8 @@ Cotton.Controllers.Baker = Class.extend({
 
     // sort items by computing their score against the ponderated tags.
     for (var i = 0; i < lHistoryItems.length; i++) {
-      lHistoryItems[i].score = Cotton.Algo.Score.DBRecord.BagOfWords(lHistoryItems[i].extractedDNA().bagOfWords().get(), dTopTags);
+      lHistoryItems[i].score = Cotton.Algo.Score.DBRecord.BagOfWords(
+        lHistoryItems[i].extractedDNA().bagOfWords().get(), dTopTags) * iQueryLength / Math.max(iQueryLength, lHistoryItems[i].extractedDNA().bagOfWords().getWords().length);
     }
     lHistoryItems.sort(function(a,b){return b.score - a.score});
 
