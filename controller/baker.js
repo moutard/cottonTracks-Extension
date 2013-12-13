@@ -4,6 +4,7 @@ Cotton.Controllers.Baker = Class.extend({
 
   init : function(oLightyearController, oGlobalDispatcher){
     this._oLightyearController = oLightyearController;
+    this._oGlobalDispatcher = oGlobalDispatcher;
   },
 
   // given a set of querywords and historyItems, we sort the historyItems like on a target
@@ -120,7 +121,11 @@ Cotton.Controllers.Baker = Class.extend({
     // "target" because of the classification (bullseye, 1st crown, ...)
     var lTarget = [];
     var lTags = [oSearchBagOfWords];
-    var iDiv = 1;
+
+    var oCheescake = new Cotton.Model.Story()
+    this._oLightyearController._oWorld.clear();
+
+    this._oLightyearController.openStory(oCheescake, []);
 
     for (var i = 0; i < NUMBER_OF_CROWN; i++) {
       var oMatchTags = new Cotton.Model.BagOfWords();
@@ -157,6 +162,9 @@ Cotton.Controllers.Baker = Class.extend({
       lTarget.push(lMatches);
       lHistoryItems = lMissed;
       lTags.push(oMatchTags);
+      this._oGlobalDispatcher.publish('add_cards', {
+        'history_items' : lMatches
+      });
     }
 
     // set which target zone the item is in, for color code
@@ -193,12 +201,9 @@ Cotton.Controllers.Baker = Class.extend({
       dSortedTags[lTags[i]] = dTopTags[lTags[i]];
     }
 
-    var oCheescake = new Cotton.Model.Story()
-    oCheescake.setHistoryItems(lHistoryItems);
-    oCheescake.occurenceTags = dSortedTags;
-
-    this._oLightyearController._oWorld.clear();
-    this._oLightyearController.openStory(oCheescake, []);
+    this._oGlobalDispatcher.publish('show_tags', {
+      'tags' : dSortedTags
+    });
   }
 
 });

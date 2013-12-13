@@ -80,6 +80,9 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
       this.removeRelatedCover(dArguments['story_id']);
     });
 
+    this._oGlobalDispatcher.subscribe('add_cards', this, function(dArguments){
+      this.addCards(dArguments['history_items']);
+    });
   },
 
   $ : function() {
@@ -93,6 +96,10 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
    */
   drawCards : function(oStory) {
     this._oDeck.drawCards(oStory);
+  },
+
+  addCards : function(lHistoryItems) {
+    this._oDeck.addCards(lHistoryItems);
   },
 
   hideCards : function() {
@@ -131,6 +138,7 @@ Cotton.UI.Stand.Story.UIStory = Class.extend({
     this._oGlobalDispatcher.unsubscribe('related_stories', this);
     this._oGlobalDispatcher.unsubscribe('back_to_cards', this);
     this._oGlobalDispatcher.unsubscribe('remove_cover', this);
+    this._oGlobalDispatcher.unsubscribe('add_cards', this);
     this._oGlobalDispatcher = null;
     clearTimeout(this._oScrollTimeout);
     this._oScrollTimeout = null;

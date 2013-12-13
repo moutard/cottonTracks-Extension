@@ -71,6 +71,19 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
     }
   },
 
+  addCards : function(lHistoryItems) {
+    var iLength = lHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var oHistoryItem = lHistoryItems[i];
+      var oCard = this._oCardFactory.get(oHistoryItem, this._oGlobalDispatcher);
+      this._lCards.push(oCard);
+      this._$card_deck.append(oCard.$());
+      // set height of the card, needed for default cards with quotes, before appending the
+      // featured image. -> See Cotton.UI.Stand.Story.Card.Default
+      oCard.initHeight();
+    }
+  },
+
   /**
    * place the card adder
    * @param {int} iStoryId
@@ -182,9 +195,11 @@ Cotton.UI.Stand.Story.Deck = Class.extend({
     this._oGlobalDispatcher.unsubscribe('append_new_card', this);
     this._oGlobalDispatcher = null;
     this.purgeCards();
+    if (this._oCardAdder) {
+      this._oCardAdder.purge();
+      this._oCardAdder = null;
+    }
     this._oCardFactory = null;
-    this._oCardAdder.purge();
-    this._oCardAdder = null;
     this._$card_deck.remove();
     this._$card_deck = null;
   }

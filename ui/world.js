@@ -95,6 +95,14 @@ Cotton.UI.World = Class.extend({
     this._$world.append(this._oManager.$());
   },
 
+  initStory : function(oStory, lRelatedStories) {
+    document.title = oStory.title() + " - cottonTracks" ;
+    this.clear();
+    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
+        this._oGlobalDispatcher)
+    this._$world.append(this._oUIStory.$());
+  },
+
   openStory : function(oStory, lRelatedStories) {
     document.title = oStory.title() + " - cottonTracks" ;
     this.clear();
