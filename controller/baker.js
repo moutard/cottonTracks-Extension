@@ -139,9 +139,7 @@ Cotton.Controllers.Baker = Class.extend({
         dItemsRank[oHistoryItem.score].push(oHistoryItem);
       }
       for (var key in dItemsRank) {
-        console.log(dItemsRank);
         if (key > iMaxScore/1.2) {
-          console.log(dItemsRank[key])
           var jLength = dItemsRank[key].length;
 
           lMatches = lMatches.concat(dItemsRank[key]);
@@ -175,9 +173,13 @@ Cotton.Controllers.Baker = Class.extend({
 
     // sort tags to display them all
     var dTopTags = {};
-    for (var i = 0; i < lTags.length; i++) {
+    var iLength = lTags.length;
+    for (var i = 0; i < iLength; i++) {
       for (var key in lTags[i].get()) {
-        dTopTags[key] = lTags[i].get()[key]*iDiv;
+        var iCoeff = (lQueryWords.indexOf(key) === -1) ? (iLength-i) : (iLength-i)*2 ;
+        var oBagOfWords = lTags[i].get();
+        dTopTags[key] = dTopTags[key] || 0;
+        dTopTags[key] += oBagOfWords[key] * iCoeff;
       }
     }
     var lSortedTags = [];
