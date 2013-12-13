@@ -86,13 +86,10 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
       var $tag = $('<div class="ct-card_tag"></div>').text(key + ' : ' + oHistoryItem.extractedDNA().bagOfWords().get()[key]);
       this._$tags.append($tag);
     }
-    if (oHistoryItem.target === 0) {
-      this._$card.addClass('ct-bullseye');
-    } else if (oHistoryItem.target === 1) {
-      this._$card.addClass('ct-first_crown');
-    } else {
-      this._$card.addClass('ct-farther');
-    }
+    var iColor = Math.max(15 - 2 * oHistoryItem.target, 0) ;
+    iColor = (iColor === 15) ? "F" : (iColor === 13) ? "D" : (iColor === 11) ? "B" : iColor;
+    var sColor = "#" + iColor + iColor + iColor;
+    this._$card.css('background-color', sColor);
 
     this._iId = oHistoryItem.id();
   },

@@ -105,5 +105,98 @@ Cotton.Controllers.Baker = Class.extend({
 
     this._oLightyearController._oWorld.clear();
     this._oLightyearController.openStory(oCheescake, []);
+  },
+
+  bakeDisambiguate : function(lHistoryItems, lQueryWords) {
+    var NUMBER_OF_CROWN = 8;
+    var iQueryLength = lQueryWords.length;
+
+    // create a bag of words with the search terms
+    var oSearchBagOfWords = new Cotton.Model.BagOfWords();
+    for (var i = 0; i < lQueryWords.length; i++) {
+      oSearchBagOfWords.addWord(lQueryWords[i], 1);
+    }
+
+    // "target" because of the classification (bullseye, 1st crown, ...)
+    var lTarget = [];
+    var lTags = [oSearchBagOfWords];
+    var iDiv = 1;
+
+    for (var i = 0; i < NUMBER_OF_CROWN; i++) {
+      var oMatchTags = new Cotton.Model.BagOfWords();
+      var lMatches = [];
+      var lMissed = [];
+      var iMaxScore = 0;
+      var dItemsRank = {};
+      for (var j = 0; j < lHistoryItems.length; j++) {
+        var oHistoryItem = lHistoryItems[j];
+        oHistoryItem.score = Cotton.Algo.Score.DBRecord.BagOfWords(
+          oHistoryItem.extractedDNA().bagOfWords().get(), lTags[lTags.length-1].get());
+        if (oHistoryItem.score > iMaxScore) {
+          iMaxScore = oHistoryItem.score;
+        }
+        dItemsRank[oHistoryItem.score] = (dItemsRank[oHistoryItem.score]) ? dItemsRank[oHistoryItem.score] : [];
+        dItemsRank[oHistoryItem.score].push(oHistoryItem);
+      }
+      for (var key in dItemsRank) {
+        console.log(dItemsRank);
+        if (key > iMaxScore/1.2) {
+          console.log(dItemsRank[key])
+          var jLength = dItemsRank[key].length;
+
+          lMatches = lMatches.concat(dItemsRank[key]);
+          for (var j = 0; j < jLength; j++) {
+            var oHistoryItem = dItemsRank[key][j];
+            for (var sKey in oHistoryItem.extractedDNA().bagOfWords().get()){
+              oMatchTags.addWord(sKey, 1);
+            }
+          }
+        } else {
+          lMissed = lMissed.concat(dItemsRank[key]);
+        }
+      }
+
+      lTarget.push(lMatches);
+      lHistoryItems = lMissed;
+      lTags.push(oMatchTags);
+    }
+
+    // set which target zone the item is in, for color code
+    // and sort every zone
+    lHistoryItems = [];
+    for (var i = 0; i < lTarget.length; i++) {
+      for (var j = 0; j < lTarget[i].length; j++) {
+        lTarget[i][j].target = i;
+        lTarget[i][j].score = lTarget[i][j].score / (1 + lTarget[i][j].extractedDNA().bagOfWords().getWords().length / 10);
+      }
+      lTarget[i].sort(function(a,b){return b.score - a.score});
+      lHistoryItems = lHistoryItems.concat(lTarget[i]);
+    }
+
+    // sort tags to display them all
+    var dTopTags = {};
+    for (var i = 0; i < lTags.length; i++) {
+      for (var key in lTags[i].get()) {
+        dTopTags[key] = lTags[i].get()[key]*iDiv;
+      }
+    }
+    var lSortedTags = [];
+    for (var key in dTopTags) {
+      lSortedTags.push([key, dTopTags[key]]);
+    }
+    lSortedTags.sort(function(a,b){return b[1]-a[1]});
+    var lTags = Object.keys(dTopTags).sort(function(a, b) {return -(dTopTags[a] - dTopTags[b])});
+    var dSortedTags = {};
+    for (var i = 0; i < lTags.length; i++) {
+      dSortedTags[lTags[i]] = dTopTags[lTags[i]];
+    }
+
+    var oCheescake = new Cotton.Model.Story()
+    oCheescake.setHistoryItems(lHistoryItems);
+    oCheescake.occurenceTags = dSortedTags;
+
+    this._oLightyearController._oWorld.clear();
+    this._oLightyearController.openStory(oCheescake, []);
   }
+
 });

@@ -237,7 +237,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
         }
         bHistoryItemsFromStorySet = true;
         if (bHistoryItemsAloneSet){
-          oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+          oLightyearController._oBaker.bakeDisambiguate(lHistoryItems, lCleanWords);
         }
       });
       // add all items that have the keywords but are unclassified
@@ -257,7 +257,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
           }
           bHistoryItemsAloneSet = true;
           if (bHistoryItemsFromStorySet){
-            oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+            oLightyearController._oBaker.bakeDisambiguate(lHistoryItems, lCleanWords);
           }
         });
       });
