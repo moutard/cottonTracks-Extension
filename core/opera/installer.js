@@ -133,16 +133,18 @@ Cotton.Core.Installer = Class.extend({
             // Stop the installation.
             self.installIsFinished();
           } else {
-          Cotton.DB.Stories.addStories(self._oDatabase, lStories.reverse(),
-            function(oDatabase, _lStories) {
-              // Purge lStories.
-              var iLength = lStories.length;
-              for (var i = 0; i < iLength; i++) {
-                lStories[i] = null;
-              }
-              lStories = [];
-              _lStories = [];
-              self.installIsFinished();
+            Cotton.DB.populateDBFromInstall(self._oDatabase, lStories.reverse(), self._lHistoryItems,
+              function(_lStories, _lHistoryItems, _lSearchKeywords) {
+                // Purge lStories.
+                var iLength = lStories.length;
+                for (var i = 0; i < iLength; i++) {
+                  lStories[i] = null;
+                }
+                lStories = [];
+                _lStories = [];
+                _lHistoryItems = [];
+                _lSearchKeywords = [];
+                self.installIsFinished();
             });
           }
         }
@@ -182,29 +184,30 @@ Cotton.Core.Installer = Class.extend({
 
     self._oTempDatabase = new Cotton.Core.TempDatabase(self._oDatabase);
     self._oTempDatabase.populate(function(lHistoryItems, lVisitItems) {
-        DEBUG && console.debug('GetHistory returns: '
-          + lHistoryItems.length + ' historyItems and '
-          + lVisitItems.length + ' visitItems:');
-        Cotton.ANALYTICS.newHistoryItem(lHistoryItems.length);
-        Cotton.ANALYTICS.newVisitItem(lVisitItems.length);
-        DEBUG && console.debug(lHistoryItems, lVisitItems);
-        // visitItems are already dictionnaries, whereas historyItems are objects
-        self.lHistoryItemsDict = [];
-        var iLength = lHistoryItems.length;
-        for (var i = 0, oItem; i < iLength; i++) {
-          var oItem = lHistoryItems[i];
-          // maybe a setFormatVersion problem
-          var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
-          var dItem = oTranslator.objectToDbRecord(oItem);
-          self.lHistoryItemsDict.push(dItem);
-        }
-        // Purge.
-        lHistoryItems = [];
-        DEBUG && console.debug(self.lHistoryItemsDict);
-        self._wInstallWorker.postMessage({
-          'historyItems' : self.lHistoryItemsDict,
-          'visitItems' : lVisitItems
-        });
+      self._lHistoryItems = lHistoryItems;
+      DEBUG && console.debug('GetHistory returns: '
+        + lHistoryItems.length + ' historyItems and '
+        + lVisitItems.length + ' visitItems:');
+      Cotton.ANALYTICS.newHistoryItem(lHistoryItems.length);
+      Cotton.ANALYTICS.newVisitItem(lVisitItems.length);
+      DEBUG && console.debug(lHistoryItems, lVisitItems);
+      // visitItems are already dictionnaries, whereas historyItems are objects
+      self.lHistoryItemsDict = [];
+      var iLength = lHistoryItems.length;
+      for (var i = 0, oItem; i < iLength; i++) {
+        var oItem = lHistoryItems[i];
+        // maybe a setFormatVersion problem
+        var oTranslator = self._oDatabase._translatorForObject('historyItems', oItem);
+        var dItem = oTranslator.objectToDbRecord(oItem);
+        self.lHistoryItemsDict.push(dItem);
+      }
+      // Purge.
+      lHistoryItems = [];
+      DEBUG && console.debug(self.lHistoryItemsDict);
+      self._wInstallWorker.postMessage({
+        'historyItems' : self.lHistoryItemsDict,
+        'visitItems' : lVisitItems
+      });
     });
 
   },
@@ -265,8 +268,10 @@ Cotton.Core.Installer = Class.extend({
     var iLength = this.lHistoryItemsDict.length;
     for (var i = 0; i < iLength; i++) {
       this.lHistoryItemsDict[i] = null;
+      this._lHistoryItems[i] = null;
     }
     this.lHistoryItemsDict = [];
+    this._lHistoryItems = [];
   }
 
 });
