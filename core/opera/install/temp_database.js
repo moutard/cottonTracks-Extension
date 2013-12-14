@@ -117,14 +117,10 @@ Cotton.Core.TempDatabase = Class.extend({
 
                 oBenchmark.step('Get all visitItems');
                 self.computeClosestGoogleSearchPage();
-                // add historyItems in the database with their id fixed.
-                self._oDatabase.putList('historyItems', self._lCottonHistoryItems, function(lIds) {
 
-                  oBenchmark.step('Put all historyItems in the database');
-                  oBenchmark.end();
-                  mCallBackFunction(self._lCottonHistoryItems, self._lChromeVisitItems,
-                    iInitialNumberOfChromeHistoryItems);
-                  });
+                oBenchmark.end();
+                mCallBackFunction(self._lCottonHistoryItems, self._lChromeVisitItems,
+                  iInitialNumberOfChromeHistoryItems);
               }
           });
         }
