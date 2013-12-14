@@ -18,11 +18,26 @@ Cotton.UI.Stand.Story.Card.Content.QuoteHolder = Class.extend({
   _$quote_holder : null,
 
   init : function(oHistoryItem, oGlobalDispatcher) {
+    var l$quotes = [];
+    // if there is a featured image, we constrain the width of the quote in advance
+    // by adding the ct-with_image class to the quote holder.
+    // we do this because the height of the quote holder will be naturally impacted
+    // and we need this size to set the height of the card once the quotes are
+    // generated, then only to append the image
+    this._$quote_holder = $('<div class="ct-quote_holder"></div>');
+
+    if (oHistoryItem.extractedDNA().description()) {
+      var $quote = $('<p class="ct-paragraph"></p>').text(oHistoryItem.extractedDNA().description());
+      var $quote_border = $('<div class="ct-quote_border"></div>');
+      var $delete_quote = $('<div class="ct-delete_quote"></div>');
+      $quote.append($quote_border.append($delete_quote));
+      l$quotes.push($quote);
+    }
+
 
     this._lParagraphs = oHistoryItem.extractedDNA().paragraphs().sort(function(a,b){
       return a.id() - b.id();
     });
-    var l$quotes = [];
 
     // filter paragraphs with no quotes
     var iLength = this._lParagraphs.length;
@@ -38,13 +53,6 @@ Cotton.UI.Stand.Story.Card.Content.QuoteHolder = Class.extend({
     // new length of the array of only paragraphs that contain quotes
     iLength = this._lParagraphs.length;
     if (iLength > 0) {
-      // if there is a featured image, we constrain the width of the quote in advance
-      // by adding the ct-with_image class to the quote holder.
-      // we do this because the height of the quote holder will be naturally impacted
-      // and we need this size to set the height of the card once the quotes are
-      // generated, then only to append the image
-      this._$quote_holder = $('<div class="ct-quote_holder"></div>');
-
       this._lQuotes = [];
       for (var i = 0; i < iLength; i++) {
         var oQuote = new Cotton.UI.Stand.Story.Card.Content.Quote(this._lParagraphs[i]);
@@ -52,8 +60,8 @@ Cotton.UI.Stand.Story.Card.Content.QuoteHolder = Class.extend({
         // oQuote l$ method returns an array of dom elements
         l$quotes = l$quotes.concat(oQuote.l$());
       }
-      this._$quote_holder.append(l$quotes);
     }
+    this._$quote_holder.append(l$quotes);
   },
 
   $ : function() {
