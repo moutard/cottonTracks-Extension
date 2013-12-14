@@ -78,12 +78,42 @@
          * FIXME(rmoutard) : put this in a parser.
          * @param {Cotton.Model.HistoryItem} oHistoryItem.
          */
-         getFirstInfoFromPage : function(oHistoryItem) {
-           oHistoryItem._sUrl = window.location.href;
-           oHistoryItem._sTitle = window.document.title;
-           oHistoryItem._iLastVisitTime = new Date().getTime();
-           oHistoryItem._sReferrerUrl = document.referrer;
-         },
+        getFirstInfoFromPage : function(oHistoryItem) {
+          oHistoryItem._sUrl = window.location.href;
+          oHistoryItem._sTitle = window.document.title;
+          oHistoryItem._iLastVisitTime = new Date().getTime();
+          oHistoryItem._sReferrerUrl = document.referrer;
+          var lMetas = window.document.getElementsByTagName('meta');
+          var iLength = lMetas.length;
+          var bContentSet = false;
+          this._bImageSet = false;
+          // look for <meta name="description" content="A short summary of this page"
+          for (var i = 0; i < iLength; i++) {
+            if (lMetas[i].getAttribute('name') && lMetas[i].getAttribute('name').toLowerCase() === 'description' && lMetas[i].getAttribute('content')) {
+              oHistoryItem.extractedDNA().setDescription(lMetas[i].getAttribute('content'));
+              bContentSet = true;
+              break;
+            }
+          }
+          if (!bContentSet) {
+            // look for <meta property="og:description" content="A short summary of this page"
+            for (var i = 0; i < iLength; i++) {
+              if (lMetas[i].getAttribute('property') && lMetas[i].getAttribute('property').toLowerCase() === 'og:description' && lMetas[i].getAttribute('content')) {
+                oHistoryItem.extractedDNA().setDescription(lMetas[i].getAttribute('content'));
+                bContentSet = true;
+                break;
+              }
+            }
+          }
+          // look for <meta property="og:image" content="http://www.domain.com/imagesource"
+          for (var i = 0; i < iLength; i++) {
+            if (lMetas[i].getAttribute('property') && lMetas[i].getAttribute('property').toLowerCase() === 'og:image' && lMetas[i].getAttribute('content')) {
+              oHistoryItem.extractedDNA().setImageUrl(lMetas[i].getAttribute('content'));
+              this._sBestImage = lMetas[i].getAttribute('content');
+              break;
+            }
+          }
+        },
 
         bestImage : function() {
           return this._sBestImage;
@@ -125,7 +155,9 @@
           $('[data-meaningful]').removeAttr('data-meaningful');
           $('[data-skip]').removeAttr('data-skip');
           this._findText();
-          this._findBestImage();
+          if (!this._sBestImage) {
+            this._findBestImage();
+          }
           this._saveResults();
           this._publishResults();
         },

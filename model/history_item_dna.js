@@ -20,6 +20,7 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   _fTimeTabOpen : undefined,
   _sImageUrl : undefined,
   _lParagraphs : null,
+  _sDescription : null,
   _lCopyPaste : null,
 
   /**
@@ -36,7 +37,18 @@ Cotton.Model.HistoryItemDNA = Class.extend({
     this._iPercent = 0;
     this._fTimeTabActive = -1;
     this._sImageUrl = dDBRecord['sImageUrl'] || "";
+
     this._lParagraphs = [];
+    if (dDBRecord['lParagraphs']) {
+      var iLength = dDBRecord['lParagraphs'].length;
+      for (var i = 0; i < iLength; i++) {
+        var oParagraph = new Cotton.Model.ExtractedParagraph();
+        oParagraph.deserialize(dDBRecord['lParagraphs'][i]);
+        this._lParagraphs.push(oParagraph);
+      }
+    }
+
+    this._sDescription = dDBRecord['sImageUrl'] || "";
     this._lCopyPaste = dDBRecord['lCopyPaste'] || [];
 
     this._oBagOfWords = new Cotton.Model.BagOfWords(dDBRecord['oBagOfWords']);
@@ -168,5 +180,11 @@ Cotton.Model.HistoryItemDNA = Class.extend({
   setParagraphs : function(lParagraphs) {
     this._lParagraphs = lParagraphs;
   },
+  description : function() {
+    return this._sDescription;
+  },
+  setDescription : function(sDescription) {
+    this._sDescription = sDescription;
+  }
 
 });
