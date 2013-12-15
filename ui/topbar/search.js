@@ -61,8 +61,8 @@ Cotton.UI.Topbar.Search = Class.extend({
           return false;
         },
         source : function(request, response) {
-            // Delegate back to autocomplete, but extract the last term.
-            response (dParameters['possible_keywords'], request.term);
+          // Delegate back to autocomplete, but extract the last term.
+          response (dParameters['possible_keywords'], request.term);
         },
       });
     });
@@ -73,6 +73,8 @@ Cotton.UI.Topbar.Search = Class.extend({
         // 13 = enter key.
         if ($(this).val()) {
           self._search($(this).val());
+          // Close the autocomplete suggestion when click on enter.
+          $(this).autocomplete('close');
           // Analytics tracking.
           Cotton.ANALYTICS.searchStories('enter');
         }
@@ -108,11 +110,14 @@ Cotton.UI.Topbar.Search = Class.extend({
   },
 
   _autocomplete : function() {
+    var sPrefix = "";
     var sQuery = this._$search_field.val().toLowerCase();
+    // Only autocomplete the last words.
     var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
-    if (lSearchWords.length === 1 && sQuery.length > 0) {
+    sPrefix = lSearchWords[lSearchWords.length - 1];
+    if (lSearchWords.length >= 1 && sPrefix.length > 0) {
       this._oGlobalDispatcher.publish('autocomplete_ask', {
-        'prefix': sQuery
+        'prefix': sPrefix
       });
     }
   },

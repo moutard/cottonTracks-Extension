@@ -35,8 +35,7 @@ Cotton.Controllers.Finder = Class.extend({
     var lQueryWords = this._cutQuery(sQuery);
     self._getKeywords(lQueryWords, function(lSearchKeywords) {
       self._getDirectRelatedStories(lSearchKeywords, function(lStories) {
-      console.log(lStories);
-      mCallback();
+      mCallback(lStories, sQuery);
       });
     });
   },
@@ -78,6 +77,7 @@ Cotton.Controllers.Finder = Class.extend({
    * Return the levenshtein distance between 2 words.
    * Not implemented by me, but seems the most optimized one.
    * http://stackoverflow.com/questions/11919065/sort-an-array-by-the-levenshtein-distance-with-best-performance-in-javascript
+   * See more at the end of the file.
    */
   _levenshtein : function(s, t) {
     var d = []; // 2d matrix.
@@ -150,6 +150,19 @@ Cotton.Controllers.Finder = Class.extend({
   },
 
 
+  /**
+   * Create a function that return true if the constraint is valid
+   * and false if the the constraint is not verified.
+   *
+   * @param {String} sQuery:
+   *                query words you want to compare with words
+   *   in the database.
+   * @param {Float} fThreshold:
+   *                the maximum distance you can tolerate.
+   * @param {Function} mDistance:
+   *                the distance between 2 words.
+   *
+   */
   _makeConstraint : function(sQuery, fThreshold, mDistance) {
     return function(dDBRecord) {
       var sWord = dDBRecord['sKeyword'];
@@ -160,20 +173,27 @@ Cotton.Controllers.Finder = Class.extend({
   /**
    * For each words written by the user, return an list of words present in
    * the database that are close to the user query word. (i.e where the
-   * levenshtein distance < 3)
+   * levenshtein distance < iMaxLenvenshteinDistance)
    * return a list of Model.SearchKeywords that can match with words of the query.
    * @param {Array.<string>} lQueryWords: list of words written by the user.
    */
   _getKeywords : function(lQueryWords, mCallback) {
+    // PARAMETERS.
+    // To speed the query, we don't want scan all the searchKeywords.
+    // Because each time we scan a searchKeywords we compute the lenvenshtein
+    // distance that costs.
+    var iLengthPrefix = 2;
+
+    // To make the constraint.
+    var fMaxLenvenshteinDistance = 3.0;
 
     var lAllKeywords = [];
     var iCount = 0;
 
-
     for (var i = 0; i < lQueryWords.length; i++) {
-      var sPrefix = lQueryWords[i].substring(0,2);
+      var sPrefix = lQueryWords[i].substring(0,iLengthPrefix);
       var sUpperBound = this._nextChar(sPrefix);
-      var mConstraintGenerated = this._makeConstraint(lQueryWords[i], 3.0,
+      var mConstraintGenerated = this._makeConstraint(lQueryWords[i], fMaxLenvenshteinDistance,
           this._levenshtein);
       // Get all the words comprise between the prefix and the next char.
       // So if prefix is "pr" return "prototype", "prisonner" but not "q".
@@ -265,3 +285,23 @@ Cotton.Controllers.Finder = Class.extend({
 
 });
 
+/**
+ * Understand Search.
+ *
+ * - Given a query as a text.
+ * - Find each words in the query.
+ * - For each words find all the keywords that match a specific constraint.
+ *
+ * - - The constraint is simple the levenshtein distance is less than a threshold.
+ * - - We do not take the closest one for
+ *   performance reason, because it could imply to store the k closest and compare
+ *   each time.
+ *
+ * The levenshtein distance compare the number of permutation modification we
+ * need to go from the query to the searchKeywords. It's really a complexe
+ * operation. So we need to avoid to to compute it too often.
+ *
+ * - for this we use a simpler constraint.
+ *   the searchKeywords and the queryWords
+ *   has to start with the same letter.
+ */
