@@ -135,6 +135,11 @@ Cotton.Controllers.Baker = Class.extend({
       var dItemsRank = {};
       for (var j = 0; j < lHistoryItems.length; j++) {
         var oHistoryItem = lHistoryItems[j];
+        if (i === 0 && _.intersection(lQueryWords, oHistoryItem.extractedDNA().bagOfWords().getWords()).length === lQueryWords.length) {
+          for (var sKey in oSearchBagOfWords.get()) {
+            oHistoryItem.extractedDNA().bagOfWords().addWord(sKey, Math.max(4, oHistoryItem.extractedDNA().bagOfWords().get()[sKey]));
+          }
+        }
         oHistoryItem.score = Cotton.Algo.Score.DBRecord.BagOfWords(
           oHistoryItem.extractedDNA().bagOfWords().get(), lTags[lTags.length-1].get());
         if (oHistoryItem.score > iMaxScore) {
