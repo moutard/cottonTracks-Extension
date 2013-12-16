@@ -6,6 +6,11 @@
 Cotton.UI.Topbar.Search = Class.extend({
 
   /**
+   * {Cotton.Controller.Dispatcher} globalDispatcher.
+   */
+  _oGlobalDispatcher: null,
+
+  /**
    * {DOM} current element
    */
   _$search: null,
@@ -35,6 +40,7 @@ Cotton.UI.Topbar.Search = Class.extend({
     this._oGlobalDispatcher.subscribe('focus_search', this, function(){
       this._$search_field.focus();
     });
+    // To open the field as soon as the source is updated.
     this._$search_field.autocomplete({
         source: []
     });
@@ -58,6 +64,7 @@ Cotton.UI.Topbar.Search = Class.extend({
           return false;
         },
         focus : function(event, ui) {
+          // Overide the default focus method, that modify the input field value.
           return false;
         },
         source : function(request, response) {
@@ -82,8 +89,8 @@ Cotton.UI.Topbar.Search = Class.extend({
     });
     this._$search_field.keyup(function(oEvent){
       if (oEvent.which !== 13) {
-        // Compute autocomplete.
-        self._autocomplete();
+        // Compute autocomplete each time you press a key.
+        self._autocomplete($(this).val());
       }
     });
     this._$search_button.click(function(){
@@ -96,6 +103,14 @@ Cotton.UI.Topbar.Search = Class.extend({
 
   },
 
+  /**
+   * - Publish the search_stories event.
+   * - Publish update the popstater event.
+   *
+   *   The search is sent raw.
+   *   @param {String} sQuery:
+   *                    the raw query.
+   */
   _search : function(sQuery) {
     var sLowerQuery = sQuery.toLowerCase();
     // FIXME(rmoutard): break MVC should be in the controller.
@@ -109,9 +124,17 @@ Cotton.UI.Topbar.Search = Class.extend({
     });
   },
 
-  _autocomplete : function() {
+  /**
+   * - Publish the autocomplete_ask event.
+   *   This event ask for the list of words that can match the prefix of the
+   *   query.
+   *
+   *   @param {String} sQuery:
+   *                  the raw query.
+   */
+  _autocomplete : function(sQuery) {
     var sPrefix = "";
-    var sQuery = this._$search_field.val().toLowerCase();
+    var sQuery = sQuery.toLowerCase();
     // Only autocomplete the last words.
     var lSearchWords = (sQuery.length > 0) ? sQuery.split(' ') : [];
     sPrefix = lSearchWords[lSearchWords.length - 1];

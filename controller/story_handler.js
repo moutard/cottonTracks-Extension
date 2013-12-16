@@ -15,6 +15,9 @@ Cotton.Controllers.StoryHandler = Class.extend({
    */
   _oDatabase : null,
 
+  /**
+   * {Cotton.Controller.Dispatcher} oDispatcher
+   */
   _oDispatcher : null,
 
   init : function(oDatabase, oDispatcher) {

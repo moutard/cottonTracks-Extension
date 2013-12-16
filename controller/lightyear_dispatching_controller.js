@@ -224,17 +224,9 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * Search stories are display in a partial view.
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
-      oLightyearController._oWorld.clear();
-      /*
-      oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
-       var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
-        oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
-      });
-      */
       oLightyearController._oFinder.search(dArguments['search_words'], function(lStories, sSearchPattern){
         var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
         oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
-
       });
     });
 
@@ -286,12 +278,14 @@ Cotton.Controllers.DispatchingController = Class.extend({
     /**
      * autocomplete when search story
      *
-     * Search stories are display in a partial view.
+     * Ask the possible keywords that match the given prefix, for autocomplete.
      */
     oGlobalDispatcher.subscribe('autocomplete_ask', this, function(dArguments){
       oLightyearController._oFinder.autocomplete(dArguments['prefix'],
         function(lPossibleKeywords) {
-          oGlobalDispatcher.publish('autocomplete_answer', {'possible_keywords': lPossibleKeywords});
+          oGlobalDispatcher.publish('autocomplete_answer', {
+            'possible_keywords': lPossibleKeywords
+          });
         });
     });
 

@@ -15,8 +15,16 @@ Cotton.Controllers.Finder = Class.extend({
    */
   _oDatabase : null,
 
+  /**
+   * {Cotton.Controller.Dispatcher} oGlobalDispatcher
+   */
   _oGlobalDispatcher : null,
 
+  /**
+   * {Cotton.Controller.StoryHandler} oStoryHandler
+   *
+   * Will be used later to filter more precisely the inside a story.
+   */
   _oStoryHandler : null,
 
   init : function(oDatabase, oStoryHandler, oGlobalDispatcher) {
@@ -230,35 +238,6 @@ Cotton.Controllers.Finder = Class.extend({
           oSearchKeyword.referringStoriesId());
     }
     self._getStoriesAndScore(lRelatedStoriesId, 2, mCallback);
-  },
-
-  /**
-   *TODO(rmoutard): get stories related by a historyItem. (i.e. there is a
-   * visitItem in the referringHistoryItemId that is in a story.)
-   */
-  _getUndirectRelatedStories : function(lSearchKeywords, mCallback) {
-    var self = this;
-    var lUndirectRelatedStoriesId = [];
-
-    var lReferringHistoryItemsId = [];
-    var iLength = lSearchKeywords.length;
-
-
-    for (var i = 0; i < iLength; i++) {
-      var oSearchKeyword = lSearchKeywords[i];
-      lReferringHistoryItemsId = _.union(lReferringHistoryItemsId,
-          oSearchKeyword.referringHistoryItemId());
-    }
-    self._oDatabase.findGroup('visitItems', 'id', lReferringHistoryItemsId,
-      function(lVisitItems) {
-        for (var j = 0; j < lVisitItems.length; i++) {
-          if (lVisitItems[j].storyId() !== "UNCLASSIFIED") {
-            lUndirectRelatedStoriesId.push(lVisitItems[j].storyId());
-          }
-        }
-        self._getStoriesAndScore(lUndirectRelatedStoriesId, 1, mCallback);
-    });
-
   },
 
   _getStoriesAndScore : function(lStoriesId, iPrecision, mCallback, iExpectedResults) {
