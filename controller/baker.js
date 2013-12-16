@@ -109,7 +109,7 @@ Cotton.Controllers.Baker = Class.extend({
   },
 
   bakeDisambiguate : function(lHistoryItems, lQueryWords) {
-    var NUMBER_OF_CROWN = 8;
+    var NUMBER_OF_CROWN = 5;
     var iQueryLength = lQueryWords.length;
 
     // create a bag of words with the search terms
