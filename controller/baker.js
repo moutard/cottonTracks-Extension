@@ -26,7 +26,7 @@ Cotton.Controllers.Baker = Class.extend({
     var lTarget = [];
     var lTags = [oSearchBagOfWords];
 
-    var oCheescake = new Cotton.Model.Story()
+    var oCheescake = new Cotton.Model.Cheesecake();
     this._oLightyearController._oWorld.clear();
 
     this._oLightyearController.openStory(oCheescake, []);

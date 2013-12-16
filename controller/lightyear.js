@@ -61,7 +61,8 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
+        'cheesecakes' : Cotton.Translators.CHEESECAKE_TRANSLATORS
     }, function() {
       self._oPopstater = new Cotton.Controllers.Popstater(self, self._oGlobalDispatcher);
     });
