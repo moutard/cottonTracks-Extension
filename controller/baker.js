@@ -167,6 +167,9 @@ Cotton.Controllers.Baker = Class.extend({
       lTarget.push(lMatches);
       lHistoryItems = lMissed;
       lTags.push(oMatchTags);
+      for (var j = 0; j < lMatches.length; j++) {
+        lMatches[j].target = i;
+      }
       this._oGlobalDispatcher.publish('add_cards', {
         'history_items' : lMatches
       });
