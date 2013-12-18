@@ -132,5 +132,22 @@ Cotton.Controllers.StoryHandler = Class.extend({
     });
   },
 
+  fillAndFilterStories : function(lStories, mCallback) {
+    var self = this;
+    var lFilledStories = [];
+    var iLength = lStories.length;
+    if (iLength === 0) {
+      mCallback(lFilledStories);
+    }
+    for (var i = 0; i < iLength; i++) {
+      this.fillStory(lStories[i], function(oFilledStory) {
+        lFilledStories.push(oFilledStory);
+        if (lFilledStories.length === iLength) {
+          mCallback(self._filterEmptyStories(lFilledStories));
+        }
+      });
+    }
+  }
+
 });
 

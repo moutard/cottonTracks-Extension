@@ -83,7 +83,7 @@ Cotton.Controllers.Popstater = Class.extend({
       //open on a story
       var iStoryId = parseInt(oUrl.dSearch['sid']);
       self._oLightyearController._oDatabase.find('stories', 'id', iStoryId, function(oStory){
-        self._oLightyearController.fillStory(oStory, function(oFilteredStory){
+        self._oLightyearController.storyHandler().fillStory(oStory, function(oFilteredStory){
           if (!oFilteredStory) {
             // analytics tracking.
             Cotton.ANALYTICS.navigate('manager_fallback');

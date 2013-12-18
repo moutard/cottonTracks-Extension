@@ -22,8 +22,6 @@ Cotton.Controllers.Finder = Class.extend({
 
   /**
    * {Cotton.Controller.StoryHandler} oStoryHandler
-   *
-   * Will be used later to filter more precisely the inside a story.
    */
   _oStoryHandler : null,
 
@@ -248,17 +246,17 @@ Cotton.Controllers.Finder = Class.extend({
 
       // Set the items in the stories, filter the search & images doubles
       // and filter empty stories.
-      //self._fillAndFilterStories(lStories, function(lFilteredStories){
+      self._oStoryHandler.fillAndFilterStories(lStories, function(lFilteredStories){
         // Crop number of results if asked
-        if (iExpectedResults) lStories = lStories.slice(0, iExpectedResults);
+        if (iExpectedResults) lFilteredStories = lFilteredStories.slice(0, iExpectedResults);
 
         // TODO(rmoutard): Sort by distance between the query and the oStory result.
 
         if (mCallback) {
-          mCallback(lStories);
+          mCallback(lFilteredStories);
         }
 
-      //});
+      });
     });
   },
 

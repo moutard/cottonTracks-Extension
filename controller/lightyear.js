@@ -39,6 +39,16 @@ Cotton.Controllers.Lightyear = Class.extend({
   _oWorld : null,
 
   /**
+   * {Cotton.Controller.StoryHandler}
+   */
+  _oStoryHandler : null,
+
+  /**
+   * {Cotton.Controller.Finder}
+   */
+  _oFinder : null,
+
+  /**
    * {Int} number of stories you get each time.
    */
   _BATCH_SIZE : 25,
@@ -80,6 +90,10 @@ Cotton.Controllers.Lightyear = Class.extend({
 
   database : function() {
     return this._oDatabase;
+  },
+
+  storyHandler : function() {
+    return this._oStoryHandler;
   },
 
   /**
