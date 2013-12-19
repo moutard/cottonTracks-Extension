@@ -37,7 +37,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
           }
         }
         oLightyearController.getStories(lExclusiveRelatedStoriesId, function(lRelatedStories){
-          oLightyearController.sotryHandler().fillAndFilterStories(lRelatedStories, function(lStoriesFiltered){
+          oLightyearController.storyHandler().fillAndFilterStories(lRelatedStories, function(lStoriesFiltered){
             oLightyearController.openStory(oStory, lStoriesFiltered);
           });
         });
