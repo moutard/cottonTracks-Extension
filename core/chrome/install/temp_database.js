@@ -35,11 +35,14 @@ Cotton.Core.TempDatabase = Class.extend({
       }, function(lChromeHistoryItems) {
         oBenchmark.step('Get all historyItems');
 
-        var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
+        var lUniqueChromeHistoryItems = self.removeDuplicateItems(lChromeHistoryItems)
+        oBenchmark.step('Check duplicates in historyItems');
+
+        var iInitialNumberOfChromeHistoryItems = lUniqueChromeHistoryItems.length;
         DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
         // Remove exluded item before looking for visitItems.
-        self._lChromeHistoryItems = self.removeExcludedItem(lChromeHistoryItems);
+        self._lChromeHistoryItems = self.removeExcludedItem(lUniqueChromeHistoryItems);
         DEBUG && console.debug(self._lChromeHistoryItems.length);
 
         // After this we are dealing with cotton model history item.
@@ -151,6 +154,23 @@ Cotton.Core.TempDatabase = Class.extend({
 
   getChromeVisitItems : function() {
     return this._lChromeHistoryItems;
+  },
+
+  removeDuplicateItems : function(lChromeHistoryItems) {
+    var lUniqueItems = [];
+    var lUniqueIds = [];
+    var lUniqueUrls = [];
+    var iLength = lChromeHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var oChromeHistoryItem = lChromeHistoryItems[i];
+      if (lUniqueIds.indexOf(oChromeHistoryItem.id) === -1
+        && lUniqueUrls.indexOf(oChromeHistoryItem.url) === -1) {
+          lUniqueItems.push(oChromeHistoryItem);
+          lUniqueIds.push(oChromeHistoryItem.id);
+          lUniqueUrls.push(oChromeHistoryItem.url);
+        }
+    }
+    return lUniqueItems;
   },
 
  /**
