@@ -34,12 +34,14 @@ Cotton.Core.TempDatabase = Class.extend({
         "maxResults" : Cotton.Config.Parameters.dbscan3.iMaxResult,
       }, function(lChromeHistoryItems) {
         oBenchmark.step('Get all historyItems');
+        var lUniqueChromeHistoryItems = self.removeDuplicateItems(lChromeHistoryItems)
+        oBenchmark.step('Check duplicates in historyItems');
 
-        var iInitialNumberOfChromeHistoryItems = lChromeHistoryItems.length;
+        var iInitialNumberOfChromeHistoryItems = lUniqueChromeHistoryItems.length;
         DEBUG && console.debug('Number of Chrome HistoryItems: ' + iInitialNumberOfChromeHistoryItems);
 
         // Remove exluded item before looking for visitItems.
-        self._lChromeHistoryItems = self.removeExcludedItem(lChromeHistoryItems);
+        self._lChromeHistoryItems = self.removeExcludedItem(lUniqueChromeHistoryItems);
         DEBUG && console.debug(self._lChromeHistoryItems.length);
 
         // After this we are dealing with cotton model history item.
@@ -117,14 +119,10 @@ Cotton.Core.TempDatabase = Class.extend({
 
                 oBenchmark.step('Get all visitItems');
                 self.computeClosestGoogleSearchPage();
-                // add historyItems in the database with their id fixed.
-                self._oDatabase.putList('historyItems', self._lCottonHistoryItems, function(lIds) {
 
-                  oBenchmark.step('Put all historyItems in the database');
-                  oBenchmark.end();
-                  mCallBackFunction(self._lCottonHistoryItems, self._lChromeVisitItems,
-                    iInitialNumberOfChromeHistoryItems);
-                  });
+                oBenchmark.end();
+                mCallBackFunction(self._lCottonHistoryItems, self._lChromeVisitItems,
+                  iInitialNumberOfChromeHistoryItems);
               }
           });
         }
@@ -156,6 +154,23 @@ Cotton.Core.TempDatabase = Class.extend({
 
   getChromeVisitItems : function() {
     return this._lChromeHistoryItems;
+  },
+
+  removeDuplicateItems : function(lChromeHistoryItems) {
+    var lUniqueItems = [];
+    var lUniqueIds = [];
+    var lUniqueUrls = [];
+    var iLength = lChromeHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var oChromeHistoryItem = lChromeHistoryItems[i];
+      if (lUniqueIds.indexOf(oChromeHistoryItem.id) === -1
+        && lUniqueUrls.indexOf(oChromeHistoryItem.url) === -1) {
+          lUniqueItems.push(oChromeHistoryItem);
+          lUniqueIds.push(oChromeHistoryItem.id);
+          lUniqueUrls.push(oChromeHistoryItem.url);
+        }
+    }
+    return lUniqueItems;
   },
 
  /**

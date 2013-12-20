@@ -20,6 +20,7 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
         'iPercent' : oHistoryItem.extractedDNA().percent(),
         'fPageScore' : oHistoryItem.extractedDNA().pageScore(),
         'lParagraphs' : _.collect(oHistoryItem.extractedDNA().paragraphs(), function(oParagraph){ return oParagraph.serialize();}),
+        'sDescription' : oHistoryItem.extractedDNA().description(),
         'fTimeTabActive' : oHistoryItem.extractedDNA().timeTabActive(),
         'fTimeTabOpen' : oHistoryItem.extractedDNA().timeTabOpen(),
       },
@@ -62,8 +63,9 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
       var extractedParagraph = new Cotton.Model.ExtractedParagraph();
       extractedParagraph.deserialize(dDBRecord)
       return extractedParagraph;
-    })
+    });
     oExtractedDNA.setParagraphs(lParagraphs);
+    oExtractedDNA.setDescription(dExtractedDNA['sDescription']);
 
     oExtractedDNA.setTimeTabActive(dExtractedDNA['fTimeTabActive']);
     oExtractedDNA.setTimeTabOpen(dExtractedDNA['fTimeTabOpen']);
@@ -118,6 +120,9 @@ Cotton.Translators.HISTORY_ITEM_TRANSLATORS = [];
 
     // featured image
     dNewRecord['oExtractedDNA']['sImageUrl'] = dOldRecord['oExtractedDNA']['sImageUrl'] || dNewRecord['oExtractedDNA']['sImageUrl'];
+
+    // description
+    dNewRecord['oExtractedDNA']['sDescription'] = dOldRecord['oExtractedDNA']['sDescription'] || dNewRecord['oExtractedDNA']['sDescription'];
 
     var lParagraphs = [];
     // Make a local copy.
