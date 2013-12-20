@@ -48,7 +48,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * Go back to the manager
      */
     oGlobalDispatcher.subscribe('home', this, function(dArguments){
-      oLightyearController._oWorld.openManager(dArguments);
+      oLightyearController._oWorld.openHome(dArguments);
     });
 
     /**
@@ -219,47 +219,95 @@ Cotton.Controllers.DispatchingController = Class.extend({
     });
 
     /**
+     * Update a historyItem in the database
+     */
+    oGlobalDispatcher.subscribe('update_db_history_item', this, function(dArguments){
+      oLightyearController.database().put('historyItems', dArguments['history_item'], function(){});
+    });
+
+    /**
      * Search story
      *
      * Search stories are display in a partial view.
      */
-    oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
-      oLightyearController._oWorld.clear();
-      var lHistoryItems = [];
-      var lHistoryItemsIdFromKeywords = [];
-      var bHistoryItemsFromStorySet = false;
-      var bHistoryItemsAloneSet = false;
-      var lCleanWords = Cotton.Algo.Tools.TightFilter(dArguments['search_words']);
-      // add all items that may not have the keywords but are from stories that have the keywords
-      oLightyearController.searchStories(dArguments['search_words'], function(lStories){
-        for (var i = 0; i < lStories.length; i++) {
-          lHistoryItems = lHistoryItems.concat(lStories[i].historyItems());
-        }
-        bHistoryItemsFromStorySet = true;
-        if (bHistoryItemsAloneSet){
-          oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
-        }
-      });
-      // add all items that have the keywords but are unclassified
-      oLightyearController._oDatabase.findGroup('searchKeywords', 'sKeyword', dArguments['search_words'], function(lSearchKeywords){
-        var iLength = lSearchKeywords.length;
-        for (var i = 0; i < iLength; i++) {
-          var oSearchKeyword = lSearchKeywords[i];
-          lHistoryItemsIdFromKeywords = _.union(lHistoryItemsIdFromKeywords, oSearchKeyword.referringHistoryItemsId());
-        }
-        oLightyearController._oDatabase.findGroup('historyItems', 'id', lHistoryItemsIdFromKeywords, function(lHistoryItemsFromKeywords){
-          lHistoryItemsFromKeywords = oLightyearController._filterHistoryItems(lHistoryItemsFromKeywords);
-          var iLength = lHistoryItemsFromKeywords.length;
-          for (var i = 0; i < iLength; i++) {
-            if (lHistoryItemsFromKeywords[i].storyId() === "UNCLASSIFIED") {
-              lHistoryItems.push(lHistoryItemsFromKeywords[i]);
-            }
-          }
-          bHistoryItemsAloneSet = true;
-          if (bHistoryItemsFromStorySet){
-            oLightyearController._oBaker.bakeDisambiguate(lHistoryItems, lCleanWords);
-          }
+    oGlobalDispatcher.subscribe('fetch_recipe', this, function(dArguments){
+      oLightyearController._oBaker.fetch(dArguments['search_words'], function(
+        lHistoryItems, lCleanWords){
+        var oCheesecake = oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        // send cheesecake to the UI
+        oGlobalDispatcher.publish('new_cheesecake', {
+          'cheesecake' : oCheesecake
         });
+      });
+    });
+
+    /**
+     * open or create a cheesecake
+     *
+     */
+    oGlobalDispatcher.subscribe('open_cheesecake', this, function(dArguments){
+      oLightyearController.openCheesecake(dArguments['cheesecake']);
+    });
+
+    /**
+     * get cheesecakes in db to display them in the library
+     *
+     */
+    oGlobalDispatcher.subscribe('ask_more_cheesecakes', this, function(){
+      oLightyearController._oDatabase.getList('cheesecakes', function(lCheesecakes){
+        lCheesecakes.sort(function(a,b){return b.lastVisitTime() - a.lastVisitTime()});
+        oGlobalDispatcher.publish('give_more_cheesecakes', {'cheesecakes' : lCheesecakes});
+      });
+    });
+
+    /**
+     * get items from a cheesecake's list of historyItemsId to display in the UICheesecake
+     *
+     */
+    oGlobalDispatcher.subscribe('ask_cheesecake_items', this, function(dArguments){
+      oLightyearController._oDatabase.findGroup('historyItems', 'id', dArguments['history_items_id'], function(lHistoryItems){
+        oGlobalDispatcher.publish('give_cheesecake_items', {'history_items' : lHistoryItems});
+      });
+    });
+
+    /**
+     * get items from a cheesecake's list of historyItemsSuggests to display in the CardAdder
+     *
+     */
+    oGlobalDispatcher.subscribe('ask_cheesecake_items_suggest', this, function(dArguments){
+      oLightyearController._oBaker.fetch(dArguments['cheesecake'].title.split(" "), function(
+        lHistoryItems, lCleanWords){
+        var oCheesecake = oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        // send cheesecake to the UI
+        oGlobalDispatcher.publish('new_cheesecake', {
+          'cheesecake' : oCheesecake
+        });
+      });
+    });
+
+    /**
+     * get items from a cheesecake's list of historyItemsSuggests to display in the CardAdder
+     *
+     */
+    oGlobalDispatcher.subscribe('ask_items_suggestions', this, function(dArguments){
+      oLightyearController._oBaker.fetch(dArguments['title'].split(" "), function(
+        lHistoryItems, lCleanWords){
+        var oCheesecake = oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        // send suggestions back to the UI
+        oGlobalDispatcher.publish('give_items_suggestions', {
+          'history_items_suggestions' : oCheesecake.historyItemsSuggest()
+        });
+      });
+    });
+
+
+    /**
+     * update a cheesecake in base
+     *
+     */
+    oGlobalDispatcher.subscribe('update_db_cheesecake', this, function(dArguments){
+      oLightyearController._oDatabase.put('cheesecakes', dArguments['cheesecake'], function(iId){
+        oGlobalDispatcher.publish('cheesecake_id', {'id': iId});
       });
     });
 

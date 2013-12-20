@@ -45,14 +45,6 @@ Cotton.UI.Stand.Common.Content.BImage = Class.extend({
       });
   },
 
-  /**
-   * No need to check the image to append default.
-   * It's like a force append.
-   */
-  appendDefault : function(iId) {
-    this._$image.css('background-image', 'url("/media/images/common/ct-no_sticker_image' + iId + '.png")');
-  },
-
   purge : function() {
     this._$image.remove();
     this._$image = null;

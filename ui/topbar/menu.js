@@ -55,7 +55,7 @@ Cotton.UI.Topbar.Menu = Class.extend({
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$favorites, this._$settings);
+    this._$menu.append(this._$arrows);
   },
 
   $ : function() {

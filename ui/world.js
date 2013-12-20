@@ -95,6 +95,40 @@ Cotton.UI.World = Class.extend({
     this._$world.append(this._oManager.$());
   },
 
+  openHome : function() {
+    document.title = "cottonTracks";
+    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    if (!this._oHome) {
+      this.clear();
+      this._oHome = new Cotton.UI.Stand.Home.UIHome(this._oGlobalDispatcher);
+      this._$world.append(this._oHome.$());
+    }
+  },
+
+  hideHome : function() {
+    if (this._oHome) {
+      this._oHome.purge();
+      this._oHome = null;
+    }
+  },
+
+  openCheesecake : function(oCheesecake) {
+    document.title = "cottonTracks";
+    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    if (!this._oUICheesecake) {
+      this.clear();
+      this._oUICheesecake = new Cotton.UI.Stand.Cheesecake.UICheesecake(oCheesecake, this._oGlobalDispatcher);
+      this._$world.append(this._oUICheesecake.$());
+    }
+  },
+
+  hideCheesecake : function() {
+    if (this._oUICheesecake) {
+      this._oUICheesecake.purge();
+      this._oUICheesecake = null;
+    }
+  },
+
   initStory : function(oStory, lRelatedStories) {
     document.title = oStory.title() + " - cottonTracks" ;
     this.clear();
@@ -221,6 +255,8 @@ Cotton.UI.World = Class.extend({
   clear : function() {
     // clear everything except topbar
     this.hideManager();
+    this.hideHome();
+    this.hideCheesecake();
     this.hideStory();
     this.hidePartial();
     this.closeSettings();

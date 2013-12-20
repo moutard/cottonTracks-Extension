@@ -6,40 +6,7 @@
 @5cgrey: #5c5c5c;
 @purewhite: #ffffff;
 @turquoiseblue: #0b9b96;
-
-
-/**
- * Common.Sticker
- */
-.ct-sticker {
-  width: 148px;
-  height: 198px;
-  border: solid 1px @5cgrey;
-  margin: auto;
-  margin-top: 17px;
-
-  > .ct-sticker_image {
-    position: relative;
-    width: 148px;
-    height: 149px;
-    overflow: hidden;
-    border-bottom: solid 2px @turquoiseblue;
-  }
-
-  > .ct-sticker_title {
-    padding: 6px;
-    padding-bottom: 0;
-    text-align: center;
-    text-transform: capitalize;
-    color: @purewhite;
-    font-size: 13px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    outline: none;
-  }
-}
+@azulgreen: #52C8B8;
 
 /**
  * Common.Cover
@@ -198,31 +165,32 @@
 
 /*poster is separate from the rest because it is used standalone in the epitome*/
 .ct-sticker {
-  width: 148px;
-  height: 198px;
-  border: solid 1px @5cgrey;
-  margin: auto;
-  margin-top: 17px;
+  margin: 20px 20px 20px 20px;
+  float: left;
+  background-color: @purewhite;
 
   > .ct-sticker_image {
     position: relative;
-    width: 148px;
-    height: 149px;
+    width: 240px;
+    height: 240px;
     overflow: hidden;
-    border-bottom: solid 2px @turquoiseblue;
   }
 
   > .ct-sticker_title {
-    padding: 6px;
+    padding: 20px;
+    height: 70px;
+    -webkit-box-sizing: border-box;
     padding-bottom: 0;
     text-align: center;
     text-transform: capitalize;
+    background-color: @azulgreen;
     color: @purewhite;
-    font-size: 13px;
+    font-size: 16px;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    outline: none;
 
     &:empty {
       // if empty, leave the contentEditable editable

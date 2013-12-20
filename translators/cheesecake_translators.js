@@ -8,9 +8,7 @@ Cotton.Translators.CHEESECAKE_TRANSLATORS = [];
   var mObjectToDbRecordConverter = function(oCheesecake) {
 
     var dDbRecord = {
-      // id : id is auto-incremented. Becareful do not confuse with
-      // clusterId, that is a temporary id attribute by DBSCAN to a new
-      // story.
+      // id : id is auto-incremented.
       'lHistoryItemsId' : oCheesecake.historyItemsId(),
       'lHistoryItemsSuggestId' : oCheesecake.historyItemsSuggestId(),
       'lHistoryItemsExcludeId' : oCheesecake.historyItemsExcludeId(),
@@ -44,24 +42,24 @@ Cotton.Translators.CHEESECAKE_TRANSLATORS = [];
     // tags.
     var oBagOfWords = new Cotton.Model.BagOfWords(oDbRecord['oDNA']['oBagOfWords']);
     oCheesecakeDNA.setBagOfWords(oBagOfWords);
-    oCheesecake.setDNA(oStoryDNA);
+    oCheesecake.setDNA(oCheesecakeDNA);
     var iLength = oDbRecord['lHistoryItemsId'].length;
     if (oDbRecord['lHistoryItemsId'] !== undefined) {
       for ( var i = 0; i < iLength; i++) {
         var iHistoryItemId = oDbRecord['lHistoryItemsId'][i];
-        oStory.addHistoryItemId(iHistoryItemId);
+        oCheesecake.addHistoryItemId(iHistoryItemId);
       }
     }
     if (oDbRecord['lHistoryItemsSuggestId'] !== undefined) {
       for ( var i = 0; i < iLength; i++) {
         var iHistoryItemSuggestId = oDbRecord['lHistoryItemsSuggestId'][i];
-        oStory.addHistoryItemSuggestId(iHistoryItemSuggestId);
+        oCheesecake.addHistoryItemSuggestId(iHistoryItemSuggestId);
       }
     }
     if (oDbRecord['lHistoryItemsExcludeId'] !== undefined) {
       for ( var i = 0; i < iLength; i++) {
         var iHistoryItemExcludeId = oDbRecord['lHistoryItemsExcludeId'][i];
-        oStory.addHistoryItemExcludeId(iHistoryItemExcludeId);
+        oCheesecake.addHistoryItemExcludeId(iHistoryItemExcludeId);
       }
     }
     return oCheesecake;

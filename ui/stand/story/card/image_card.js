@@ -24,7 +24,19 @@ Cotton.UI.Stand.Story.Card.Image = Cotton.UI.Stand.Story.Card.Card.extend({
 
     this._oLocalDispatcher.publish('media_async_image', {'img_url': sImageUrl});
 
+    this.setImageInObject(sImageUrl)
+
     this.drawCard();
   },
+
+  setImageInObject : function(sImageUrl) {
+    // set the thumbnail as the historyItem image
+    if (!this._oHistoryItem.extractedDNA().imageUrl()) {
+      this._oHistoryItem.extractedDNA().setImageUrl(sImageUrl);
+      this._oGlobalDispatcher.publish('update_db_history_item',{
+        'history_item': this._oHistoryItem
+      });
+    }
+  }
 
 });

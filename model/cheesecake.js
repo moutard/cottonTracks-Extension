@@ -51,7 +51,6 @@ Cotton.Model.Cheesecake = Class.extend({
   },
   setTitle : function(sTitle) {
     this._sTitle = sTitle;
-    this.computeTags();
   },
   featuredImage : function() {
     return this._sFeaturedImage;
@@ -101,6 +100,18 @@ Cotton.Model.Cheesecake = Class.extend({
     }
   },
   /**
+   * Add a historyItem to the list of historyItems.
+   *
+   * @param {Cotton.Model.HistoryItem} oHistoryItem
+   */
+  addHistoryItem : function(oHistoryItem) {
+    var iHistoryItemId = oHistoryItem.id();
+    if (this._lHistoryItemsId.indexOf(iHistoryItemId) === -1) {
+      this._lHistoryItems.push(oHistoryItem);
+      this._lHistoryItemsId.push(iHistoryItemId);
+    }
+  },
+  /**
    * Replace the whole history items list.
    *
    * @param {Array.<Cotton.Model.HistoryItem>} lHistoryItems
@@ -138,7 +149,9 @@ Cotton.Model.Cheesecake = Class.extend({
    * @param {int} iHistoryItemId
    */
   addHistoryItemSuggestId : function(iHistoryItemId) {
-    if (this._lHistoryItemsSuggestId.indexOf(iHistoryItemId) === -1) {
+    if (this._lHistoryItemsSuggestId.indexOf(iHistoryItemId) === -1
+      && this._lHistoryItemsId.indexOf(iHistoryItemId) === -1
+      && this._lHistoryItemsExcludeId.indexOf(iHistoryItemId) === -1) {
       this._lHistoryItemsSuggestId.push(iHistoryItemId);
     }
   },
@@ -148,7 +161,16 @@ Cotton.Model.Cheesecake = Class.extend({
    * @param {Array.<Cotton.Model.HistoryItem>} lHistoryItems
    */
   setHistoryItemsSuggest : function(lHistoryItems) {
-    this._lHistoryItemsSuggest = lHistoryItems;
+    this._lHistoryItemsSuggest = [];
+    var iLength = lHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      var iHistoryItemId = lHistoryItems[i].id();
+      if (this._lHistoryItemsSuggestId.indexOf(iHistoryItemId) === -1
+        && this._lHistoryItemsId.indexOf(iHistoryItemId) === -1
+        && this._lHistoryItemsExcludeId.indexOf(iHistoryItemId) === -1) {
+        this._lHistoryItemsSuggest.push(lHistoryItems[i]);
+      }
+    }
   },
   /**
    * Replace the whole history items suggestion id list.
@@ -156,7 +178,10 @@ Cotton.Model.Cheesecake = Class.extend({
    * @param {Array.<iHistoryItemId>} lHistoryItemsId
    */
   setHistoryItemsSuggestId : function(lHistoryItemsId) {
-    this._lHistoryItemsSuggestId = lHistoryItemsId;
+    var iLength = lHistoryItemsId.length;
+    for (var i = 0; i < iLength; i++) {
+      this.addHistoryItemSuggestId(lHistoryItemsId);
+    }
   },
   /**
    * Remove a history item from the suggested list
@@ -182,6 +207,7 @@ Cotton.Model.Cheesecake = Class.extend({
   addHistoryItemExcludeId : function(iHistoryItemId) {
     if (this._lHistoryItemsExcludeId.indexOf(iHistoryItemId) === -1) {
       this._lHistoryItemsExcludeId.push(iHistoryItemId);
+      this.removeHistoryItemSuggest(iHistoryItemId);
     }
   },
   /**

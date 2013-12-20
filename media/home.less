@@ -1,0 +1,83 @@
+/**
+ * Sizes
+ */
+@topbar_height: 40px;
+/**
+ * Colours
+ */
+@purewhite: #FFFFFF;
+@e8grey: #E8E8E8;
+@degrey: #DEDEDE;
+@edgrey: #EDEDED;
+@fcgrey: #FCFCFC;
+@a8grey: #A8A8A8;
+@ccgrey: #CCCCCC;
+@submagreen: #475259;
+@azulgreen: #52C8B8;
+
+.ct-home {
+
+  .ct-igniter {
+    padding-top : @topbar_height;
+    background-color: @e8grey;
+    height: 295px;
+
+    >.ct-igniter_container {
+      width: 900px;
+      margin: auto;
+
+      >.ct-creator {
+        position: relative;
+        width: 380px;
+        height: 230px;
+        margin-top: 28px;
+        border: solid 1px @degrey;
+        text-align: center;
+        background-color: @purewhite;
+
+        >.ct-creator_explainer_title {
+          font-size: 20px;
+          color: @submagreen;
+          margin: 40px 0 10px 0;
+        }
+
+        >.ct-creator_explainer_text {
+          font-size: 12px;
+          color: @a8grey;
+          margin: 10px 0 10px 0;
+        }
+
+        >.ct-creator_input {
+          font-family: SourceSansPro-Light;
+          font-size: 14px;
+          margin: auto;
+          position: relative;
+          height: 28px;
+          width: 320px;
+          border: solid 1px @edgrey;
+          outline: none;
+          padding: 0;
+          padding-left: 10px;
+          padding-right: 10px;
+          background-color: @fcgrey;
+        }
+
+        >.ct-creator_button {
+          color: @purewhite;
+          background-color: @ccgrey;
+          position: absolute;
+          width: 100%;
+          height: 24px;
+          padding: 10px 0 10px 0;
+          bottom: 0;
+          cursor: pointer;
+
+          &.ct-active {
+            background-color: @azulgreen;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

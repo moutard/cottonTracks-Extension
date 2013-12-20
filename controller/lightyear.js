@@ -101,6 +101,11 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oWorld.openPartial(lPartialStories, sPartialTitle, sEmptyMessage);
   },
 
+  openCheesecake : function(oCheesecake) {
+    this._oWorld.clear();
+    this._oWorld.openCheesecake(oCheesecake);
+  },
+
   /**
    * For a given story, set its list of historyItems without search pages,
    * youtube searches redundant maps or redundant images from image search

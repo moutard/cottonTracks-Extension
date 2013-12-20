@@ -62,16 +62,18 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
    */
   init : function(oHistoryItem, oGlobalDispatcher) {
     var self = this;
+
+    this._oHistoryItem = oHistoryItem;
+    this._iId = oHistoryItem.id();
+
+    this._oGlobalDispatcher = oGlobalDispatcher;
     this._oLocalDispatcher = new Cotton.Messaging.Dispatcher();
+    this._$overlay = $('<a class="ct-card_overlay" href="'
+      + oHistoryItem.url()
+      + '" target="_blank"></a>');
 
     this._$card = $('<div class="ct-card"></div>');
-    this._$details = $('<div class="ct-card_details"></div>');
-    this._oTitle = new Cotton.UI.Stand.Story.Card.Content.Title(oHistoryItem);
-    this._oTitle.$().click(function(){
-      Cotton.ANALYTICS.revisitPage(self._sType);
-    });
-    this._oSharer = new Cotton.UI.Stand.Story.Card.Content.Sharer(oHistoryItem, this._oLocalDispatcher);
-    this._$delete = $('<div class="ct-delete_card"></div>').click(function(){
+    this._$delete = $('<div class="ct-delete_card">+</div>').click(function(){
       // analytics tracking
       Cotton.ANALYTICS.deleteCard(self._sType);
       oGlobalDispatcher.publish('delete_card', {
@@ -79,19 +81,25 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
         'story_id': oHistoryItem.storyId(),
       });
     });
-    this._$url = $('<div class="ct-card_url">' + oHistoryItem.url() +'</div>');
-    this._oWebsite = new Cotton.UI.Stand.Story.Card.Content.Website(oHistoryItem.url(), this._oLocalDispatcher);
-    this._$tags = $('<div class="ct-card_tags"></div>');
-    for (var key in oHistoryItem.extractedDNA().bagOfWords().get()) {
-      var $tag = $('<div class="ct-card_tag"></div>').text(key + ' : ' + oHistoryItem.extractedDNA().bagOfWords().get()[key]);
-      this._$tags.append($tag);
-    }
-    var iColor = Math.max(15 - 2 * oHistoryItem.target, 0) ;
-    iColor = (iColor === 15) ? "F" : (iColor === 13) ? "D" : (iColor === 11) ? "B" : iColor;
-    var sColor = "#" + iColor + iColor + iColor;
-    this._$card.css('background-color', sColor);
 
-    this._iId = oHistoryItem.id();
+    if (DEBUG) {
+      var iColor = Math.max(15 - 2 * oHistoryItem.target, 0) ;
+      iColor = (iColor === 15) ? "F" : (iColor === 13) ? "D" : (iColor === 11) ? "B" : iColor;
+      var sColor = "#" + iColor + iColor + iColor;
+      this._$card.css('background-color', sColor);
+    }
+
+    this._oGlobalDispatcher.subscribe('select_all_suggestions', this, function(){
+      if (this._bSuggestionCard && !self._$selection_feedback.hasClass('ct-suggest_selected')) {
+        this._$overlay.click();
+      }
+    });
+
+    this._oGlobalDispatcher.subscribe('clear_all_suggestions', this, function(){
+      if (this._bSuggestionCard && self._$selection_feedback.hasClass('ct-suggest_selected')) {
+        this._$overlay.click();
+      }
+    });
   },
 
   $ : function() {
@@ -108,22 +116,10 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
    * before the rest for css reasons (for $details to know what size to take)
    **/
   drawCard : function(){
-    // if there is no media, the website on the bottom left must be written in black
-    if (!this._$media) {
-      this._oWebsite.$().addClass('ct-black_domain');
-      this._oSharer.$().addClass('ct-black_sharer');
-    }
-
     this._$card.append(
       this._$media,
-      this._$details.append(
-        this._oTitle.$(),
-        this._$url,
-        this._$tags
-      ),
       this._$delete,
-      this._oWebsite.$(),
-      this._oSharer.$()
+      this._$overlay
     );
   },
 
@@ -139,18 +135,35 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._$card.addClass('ct-collapsed');
   },
 
+  suggest : function() {
+    var self = this;
+    this._bSuggestionCard = true;
+    this._$overlay.remove();
+    this._$overlay = $('<div class="ct-card_overlay"></div>').click(function(){
+      self._oGlobalDispatcher.publish('add_suggestion_to_stack', {
+        "history_item" : self._oHistoryItem
+      });
+      self._$selection_feedback.toggleClass('ct-suggest_selected');
+      if (self._$selection_feedback.hasClass('ct-suggest_selected')) {
+        self._$selection_feedback.text('this card will be added');
+      } else {
+        self._$selection_feedback.text('Click to add to your cheesecake');
+      }
+    });
+    this._$selection_feedback = $('<div class="ct-suggestion_selection_feedback">Click to add to your cheesecake</div>');
+    this._$card.append(
+      this._$overlay.append(
+        this._$selection_feedback
+      )
+    );
+  },
+
   purge : function() {
     this._iId = null;
     this._sType = null;
+    this._bSuggestion = null;
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;
-    this._oTitle.$().unbind('click');
-    this._oTitle.purge();
-    this._oTitle = null;
-    this._oSharer.purge();
-    this._$url = null;
-    this._$details.remove();
-    this._$details = null;
     if (this._$media) {
       this._$media.remove();
       this._$media = null;
@@ -158,8 +171,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._$delete.unbind('click');
     this._$delete.remove();
     this._$delete = null;
-    this._oWebsite.purge();
-    this._oWebsite = null;
+    this._$overlay.remove();
+    this._$overlay = null;
     this._$card.remove();
     this._$card = null;
   }

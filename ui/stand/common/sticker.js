@@ -64,17 +64,18 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     // asynchronous 'error' and 'load' events.
     this._oImage = new Cotton.UI.Stand.Common.Content.BImage();
     var sImageUrl = oStory.featuredImage();
-    if (!sImageUrl || sImageUrl === "") {
-      var iId = oStory.id() % 6 + 1;
-      this._oImage.appendDefault(iId);
-    } else {
+    if (sImageUrl) {
       this._oImage.appendImage(sImageUrl);
     }
 
 
     // Click the image to enter the story.
     this._oImage.$().addClass('ct-sticker_image').click(function(){
-      if (sContext === 'cover') {
+      if (sContext === 'library') {
+        self._oGlobalDispatcher.publish('open_cheesecake', {
+          'cheesecake': oStory
+        });
+      } if (sContext === 'cover') {
         // analytics tracking
         Cotton.ANALYTICS.openStory('sticker');
 
@@ -112,6 +113,12 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
 
   $ : function() {
     return this._$sticker;
+  },
+
+  updateImage : function(sImageUrl) {
+    if (sImageUrl) {
+      this._oImage.appendImage(sImageUrl);
+    }
   },
 
   purge : function() {

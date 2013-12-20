@@ -114,7 +114,7 @@ Cotton.Controllers.Popstater = Class.extend({
       self._oGlobalDispatcher.publish('favorites');
     } else {
       // analytics tracking.
-      Cotton.ANALYTICS.navigate('manager');
+      Cotton.ANALYTICS.navigate('home');
       // open on the manager
       self._oGlobalDispatcher.publish('home', {
         'from_popstate': true

@@ -25,11 +25,6 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
   _oMenu : null,
 
   /**
-   * topbar search object, with the search input and button.
-   */
-  _oSearch : null,
-
-  /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(oGlobalDispatcher) {
@@ -46,10 +41,9 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     });
 
     this._oMenu = new Cotton.UI.Topbar.Menu(oGlobalDispatcher);
-    this._oSearch = new Cotton.UI.Topbar.Search(oGlobalDispatcher);
 
     this._$topbar_container.append(
-        this._$topbar.append(this._$logo, this._oMenu.$(), this._oSearch.$())
+        this._$topbar.append(this._$logo, this._oMenu.$())
     );
   },
 

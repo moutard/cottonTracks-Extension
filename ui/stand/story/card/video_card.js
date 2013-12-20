@@ -21,10 +21,25 @@ Cotton.UI.Stand.Story.Card.Video = Cotton.UI.Stand.Story.Card.Card.extend({
     this.setType('video');
 
     // image elements have a full size image as a media
-    this._oVideo = new Cotton.UI.Stand.Story.Card.Content.Video(sEmbedCode, sVideoType, this._oLocalDispatcher);
+    this._oVideo = new Cotton.UI.Stand.Story.Card.Content.Video(sEmbedCode, sVideoType, oHistoryItem.extractedDNA().imageUrl());
     this._$media = this._oVideo.$();
 
+    this.setImageInObject();
+
     this.drawCard();
+  },
+
+  setImageInObject : function() {
+    var self = this;
+    // set the thumbnail as the historyItem image
+    if (!this._oHistoryItem.extractedDNA().imageUrl()) {
+      this._oVideo.getImage("", function(sImage){
+        self._oHistoryItem.extractedDNA().setImageUrl(sImage);
+        self._oGlobalDispatcher.publish('update_db_history_item', {
+          'history_item': self._oHistoryItem
+        });
+      });
+    }
   },
 
   purge : function(){

@@ -7,6 +7,50 @@ Cotton.Controllers.Baker = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
   },
 
+  fetch : function(lQueryWords, mCallback) {
+    var self = this;
+    var lHistoryItems = [];
+    var lHistoryItemsIdFromKeywords = [];
+    var bHistoryItemsFromStorySet = false;
+    var bHistoryItemsAloneSet = false;
+    var lCleanWords = Cotton.Algo.Tools.TightFilter(lQueryWords);
+    // add all items that may not have the keywords but are from stories that have the keywords
+    this._oLightyearController.searchStories(lQueryWords, function(lStories){
+      for (var i = 0; i < lStories.length; i++) {
+        lHistoryItems = lHistoryItems.concat(lStories[i].historyItems());
+      }
+      bHistoryItemsFromStorySet = true;
+      if (bHistoryItemsAloneSet){
+        if (mCallback) {
+          mCallback(lHistoryItems, lCleanWords)
+        };
+      }
+    });
+    // add all items that have the keywords but are unclassified
+    this._oLightyearController._oDatabase.findGroup('searchKeywords', 'sKeyword', lQueryWords, function(lSearchKeywords){
+      var iLength = lSearchKeywords.length;
+      for (var i = 0; i < iLength; i++) {
+        var oSearchKeyword = lSearchKeywords[i];
+        lHistoryItemsIdFromKeywords = _.union(lHistoryItemsIdFromKeywords, oSearchKeyword.referringHistoryItemsId());
+      }
+      self._oLightyearController._oDatabase.findGroup('historyItems', 'id', lHistoryItemsIdFromKeywords, function(lHistoryItemsFromKeywords){
+        lHistoryItemsFromKeywords = self._oLightyearController._filterHistoryItems(lHistoryItemsFromKeywords);
+        var iLength = lHistoryItemsFromKeywords.length;
+        for (var i = 0; i < iLength; i++) {
+          if (lHistoryItemsFromKeywords[i].storyId() === "UNCLASSIFIED") {
+            lHistoryItems.push(lHistoryItemsFromKeywords[i]);
+          }
+        }
+        bHistoryItemsAloneSet = true;
+        if (bHistoryItemsFromStorySet){
+          if (mCallback) {
+            mCallback(lHistoryItems, lCleanWords);
+          };
+        }
+      });
+    });
+  },
+
   // Given a set of querywords and historyItems, we sort the historyItems like on a target
   // bullseye > items with the best scores and down to 1.2 times less the best score
   // 1st crown > items not in the bullseye but related to items in the bullseye with the same rule
@@ -26,10 +70,7 @@ Cotton.Controllers.Baker = Class.extend({
     var lTarget = [];
     var lTags = [oSearchBagOfWords];
 
-    var oCheescake = new Cotton.Model.Cheesecake();
-    this._oLightyearController._oWorld.clear();
-
-    this._oLightyearController.openStory(oCheescake, []);
+    var oCheesecake = new Cotton.Model.Cheesecake();
 
     for (var i = 0; i < NUMBER_OF_CROWN; i++) {
       var oMatchTags = new Cotton.Model.BagOfWords();
@@ -73,10 +114,6 @@ Cotton.Controllers.Baker = Class.extend({
         }
       }
 
-      lTarget.push(lMatches);
-      lHistoryItems = lMissed;
-      lTags.push(oMatchTags);
-
       // Sort items by score in a crown, and by specificity
       // by ponderating with the number of words
       for (var j = 0; j < lMatches.length; j++) {
@@ -86,11 +123,21 @@ Cotton.Controllers.Baker = Class.extend({
       }
       lMatches.sort(function(a,b){return b.score - a.score});
 
-      // send items to the UI to add them
-      this._oGlobalDispatcher.publish('add_cards', {
-        'history_items' : lMatches
-      });
+      lTarget.push(lMatches);
+      lHistoryItems = lMissed;
+      lTags.push(oMatchTags);
     }
+
+    var iLength = lTarget.length;
+    var lHistoryItemsSuggest = [];
+    for (var i = 0; i < iLength; i++) {
+      var lCrown = lTarget[i];
+      var jLength = lCrown.length;
+      for (var j = 0; j < jLength; j++) {
+        lHistoryItemsSuggest.push(lCrown[j]);
+      }
+    }
+    oCheesecake.setHistoryItemsSuggest(lHistoryItemsSuggest);
 
     // sort tags to display them all
     var dTopTags = {};
@@ -115,10 +162,10 @@ Cotton.Controllers.Baker = Class.extend({
       dSortedTags[lTags[i]] = dTopTags[lTags[i]];
     }
 
-    // send tags to UI to display them
-    this._oGlobalDispatcher.publish('show_tags', {
-      'tags' : dSortedTags
-    });
+    var oBagOfWords = new Cotton.Model.BagOfWords(dSortedTags);
+    oCheesecake.dna().setBagOfWords(oBagOfWords);
+
+    return oCheesecake;
   }
 
 });
