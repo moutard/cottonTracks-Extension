@@ -139,20 +139,27 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     var self = this;
     this._bSuggestionCard = true;
     this._$overlay.remove();
-    this._$overlay = $('<div class="ct-card_overlay"></div>').click(function(){
-      self._oGlobalDispatcher.publish('add_suggestion_to_stack', {
-        "history_item" : self._oHistoryItem
-      });
-      self._$selection_feedback.toggleClass('ct-suggest_selected');
-      if (self._$selection_feedback.hasClass('ct-suggest_selected')) {
-        self._$selection_feedback.text('this card will be added');
-      } else {
-        self._$selection_feedback.text('Click to add to your cheesecake');
+    this._$overlay = $('<div class="ct-card_overlay"></div>').click(function(e){
+      if (e.target === this || e.target === self._$selection_feedback[0]) {
+        self._oGlobalDispatcher.publish('add_suggestion_to_stack', {
+          "history_item" : self._oHistoryItem
+        });
+        self._$selection_feedback.toggleClass('ct-suggest_selected');
+        if (self._$selection_feedback.hasClass('ct-suggest_selected')) {
+          self._$selection_feedback.text('this card will be added');
+        } else {
+          self._$selection_feedback.text('Click to add to your cheesecake');
+        }
       }
     });
     this._$selection_feedback = $('<div class="ct-suggestion_selection_feedback">Click to add to your cheesecake</div>');
+    this._$open = $('<a class="ct-open_suggestion" href="'
+      + this._oHistoryItem.url()
+      + '" target="_blank">open</a>');
+
     this._$card.append(
       this._$overlay.append(
+        this._$open,
         this._$selection_feedback
       )
     );
