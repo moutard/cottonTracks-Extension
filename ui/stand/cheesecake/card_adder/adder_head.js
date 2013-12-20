@@ -6,7 +6,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.AdderHead = Class.extend({
     var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._$card_adder_head = $('<div class="ct-card_adder_head"></div>');
-    this._$card_adder_search = $('<div class="ct-card_adder_search"></div>');
+    this._oAdderSearch = new Cotton.UI.Stand.Cheesecake.CardAdder.AdderSearch(oGlobalDispatcher);
     this._$card_adder_selectors = $('<div class="ct-card_adder_selectors"></div>');
     this._$card_adder_validate = $('<div class="ct-card_adder_validate">add selected cards</div>');
     this._$card_adder_select_all = $('<div class="card_adder_select_option">select all</div>');
@@ -34,7 +34,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.AdderHead = Class.extend({
     });
 
     this._$card_adder_head.append(
-      this._$card_adder_search,
+      this._oAdderSearch.$(),
       this._$card_adder_selectors.append(
         this._$card_adder_validate,
         this._$card_adder_select_all,

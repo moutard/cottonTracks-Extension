@@ -11,7 +11,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
     this._$card_adder = $('<div class="ct-card_adder"></div>');
     this._$card_adder_box = $('<div class="ct-card_adder_box"></div>');
     this._oAdderHead = new Cotton.UI.Stand.Cheesecake.CardAdder.AdderHead(oGlobalDispatcher);
-    this._oAdderDeck = new Cotton.UI.Stand.Cheesecake.Deck(oCheesecake, oGlobalDispatcher);
+    this._oAdderDeck = new Cotton.UI.Stand.Cheesecake.Deck(oGlobalDispatcher);
 
     this._$card_adder.click(function(e){
       if (e.target === this) {
@@ -34,6 +34,12 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
     this._oGlobalDispatcher.subscribe('validate_adder_and_close', this, function(){
       this.validateStack();
     });
+
+
+    this._oGlobalDispatcher.subscribe('refresh_suggestions', this, function(dArguments){
+      this.refreshSuggestions(dArguments['history_items_suggestions']);
+    });
+
   },
 
   $ : function() {
@@ -73,6 +79,12 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
     });
   },
 
+  refreshSuggestions : function(lHistoryItems) {
+    this._oAdderDeck.purgeCards();
+    this._oAdderDeck.$().empty();
+    this._oAdderDeck.addSuggestCards(lHistoryItems)
+  },
+
   _purgeStack : function() {
     var iLength = this._lStack.length;
     for (var i = 0; i < iLength; i++) {
@@ -84,6 +96,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
   purge : function() {
     this._oGlobalDispatcher.unsubscribe('add_suggestion_to_stack', this);
     this._oGlobalDispatcher.unsubscribe('validate_adder_and_close', this);
+    this._oGlobalDispatcher.unsubscribe('refresh_suggestions', this);
     this._oGlobalDispatcher = null;
     this._purgeStack();
     this._oAdderDeck.purge();

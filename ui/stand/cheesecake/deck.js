@@ -22,7 +22,7 @@ Cotton.UI.Stand.Cheesecake.Deck = Class.extend({
    */
   _lCards : null,
 
-  init : function(oCheesecake, oGlobalDispatcher) {
+  init : function(oGlobalDispatcher) {
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     this._$card_deck = $('<div class="ct-story_deck ct-card_deck"></div>');
@@ -73,6 +73,7 @@ Cotton.UI.Stand.Cheesecake.Deck = Class.extend({
   },
 
   addSuggestCards : function(lHistoryItems) {
+    this._lCards = this._lCards || [];
     var iLength = lHistoryItems.length;
     for (var i = 0; i < iLength; i++) {
       var oHistoryItem = lHistoryItems[i];

@@ -13,6 +13,8 @@
 @f5grey: #F5F5F5;
 @7agrey: #7A7A7A;
 @33grey: #333333;
+@b3grey: #B3B3B3;
+@99grey: #999999;
 @azulgreen: #52C8B8;
 
 .ct-cheesecake {
@@ -164,12 +166,62 @@
         height: 126px;
         width: 1010px;
         -webkit-box-sizing: border-box;
-        padding: 30px 60px 10px 60px;
+        padding: 20px 60px 10px 60px;
         background-color: @purewhite;
         border-bottom: solid 1px @degrey;
 
         > .ct-card_adder_search {
+          width: 580px;
+          height: 100px;
+          float: left;
+          font-family: 'SourceSansPro-Light';
 
+          > .ct-card_adder_search_title {
+            font-size: 24px;
+          }
+
+          > .ct-card_adder_search_subtitle {
+            font-size: 18px;
+          }
+          > .ct-card_adder_search_input_box {
+            position: relative;
+            padding-top: 10px;
+
+            > .ct-card_adder_search_input {
+              background: none;
+              outline: none;
+              border: none;
+              padding-left: 20px;
+              font-family: 'SourceSansPro-Light';
+              border-bottom: solid 1px @b3grey;
+              width: 100%;
+              -webkit-box-sizing: border-box;
+              font-size: 18px;
+              color: @33grey;
+            }
+
+            // search icon
+            &:before {
+              content: "";
+              position: absolute;
+              width: 7px;
+              height: 7px;
+              border: solid 2px #999999;
+              border-radius: 5px;
+              top: 17px;
+            }
+
+            &:after {
+              content: "";
+              position: absolute;
+              width: 9px;
+              height: 1px;
+              border-bottom: solid 2px #999999;
+              -webkit-transform: rotate(45deg);
+              top: 28px;
+              left: 8px;
+            }
+          }
         }
 
         > .ct-card_adder_selectors {
@@ -177,6 +229,7 @@
           width: 215px;
 
           > .ct-card_adder_validate {
+            margin-top: 10px;
             padding-top: 12px;
             -webkit-box-sizing: border-box;
             width: 100%;

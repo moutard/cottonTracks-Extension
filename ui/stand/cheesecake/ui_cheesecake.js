@@ -41,7 +41,7 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     this._$cheesecake_container = $('<div class="ct-cheesecake_container"></div>');
 
     this._oDashboard = new Cotton.UI.Stand.Cheesecake.Dashboard(this._oCheesecake, oGlobalDispatcher);
-    this._oDeck = new Cotton.UI.Stand.Cheesecake.Deck(this._oCheesecake, oGlobalDispatcher);
+    this._oDeck = new Cotton.UI.Stand.Cheesecake.Deck(oGlobalDispatcher);
 
     this._$cheesecake.append(
       this._$cheesecake_container.append(

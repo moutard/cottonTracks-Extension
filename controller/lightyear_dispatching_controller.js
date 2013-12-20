@@ -300,6 +300,21 @@ Cotton.Controllers.DispatchingController = Class.extend({
       });
     });
 
+    /**
+     * get some suggestions based on a user search
+     *
+     */
+    oGlobalDispatcher.subscribe('search_suggestions', this, function(dArguments){
+      oLightyearController._oBaker.fetch(dArguments['search_query'].split(/\ |\+|\'|\-|\./gi), function(
+        lHistoryItems, lCleanWords){
+        var oCheesecake = oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        // send suggestions back to the UI
+        oGlobalDispatcher.publish('refresh_suggestions', {
+          'history_items_suggestions' : oCheesecake.historyItemsSuggest()
+        });
+      });
+    });
+
 
     /**
      * update a cheesecake in base
