@@ -33,7 +33,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
 
     this._$creator = $('<div class="ct-creator"></div>');
     this._$creator_explainer_title = $('<div class="ct-creator_explainer_title">'
-      + 'Create a new List'
+      + 'Create a new Deck'
       + '</div>');
     this._$creator_explainer_text = $('<div class="ct-creator_explainer_text">'
       + 'What are you looking for? Tell us what subject you are '

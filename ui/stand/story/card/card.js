@@ -150,7 +150,7 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
         }
       }
     });
-    this._$selection_feedback = $('<div class="ct-suggestion_selection_feedback">Click to add to your cheesecake</div>');
+    this._$selection_feedback = $('<div class="ct-suggestion_selection_feedback">Click to add to your deck</div>');
     this._$open = $('<a class="ct-open_suggestion" href="'
       + this._oHistoryItem.url()
       + '" target="_blank">open</a>');
