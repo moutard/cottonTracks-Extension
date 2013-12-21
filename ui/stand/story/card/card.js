@@ -167,6 +167,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._iId = null;
     this._sType = null;
     this._bSuggestion = null;
+    this._oGlobalDispatcher.unsubscribe('select_all_suggestions', this);
+    this._oGlobalDispatcher.unsubscribe('clear_all_suggestions', this);
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;
     if (this._$media) {
