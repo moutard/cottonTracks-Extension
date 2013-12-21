@@ -13,9 +13,15 @@ Cotton.UI.Stand.Home.UIHome = Class.extend({
     return this._$home;
   },
 
+  removeCheesecake : function(iId) {
+    this._oLibrary.removeCheesecake(iId);
+  },
+
   purge : function() {
     this._oIgniter.purge();
     this._oIgniter = null;
+    this._oLibrary.purge();
+    this._oLibrary = null;
     this._$home.remove();
     this._$home = null;
   }

@@ -25,13 +25,22 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
 
   init : function(oStory, sContext, oGlobalDispatcher) {
     var self = this;
+
+    this._id = oStory.id();
+    this._oLocalDispatcher = new Cotton.Messaging.Dispatcher();
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     // Sticker, contains featuredImage and title.
     this._$sticker = $('<div class="ct-sticker"></div>');
 
+    this._$toggle_edit = $('<div class="ct-sticker_edit_button">Edit</div>');
+
+    this._$toggle_edit.click(function(){
+      self.toggleEdit(oStory);
+    });
+
     // Title of the story.
-    this._$title = $('<div class="ct-sticker_title" contenteditable="true"></div>').text(oStory.title()).blur(
+    this._$title = $('<div class="ct-sticker_title"></div>').text(oStory.title()).blur(
       function(){
         if (!$(this).text()) {
           // blank title, we put back the previous title.
@@ -72,7 +81,7 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     // Click the image to enter the story.
     this._oImage.$().addClass('ct-sticker_image').click(function(){
       if (sContext === 'library') {
-        self._oGlobalDispatcher.publish('open_cheesecake', {
+        oGlobalDispatcher.publish('open_cheesecake', {
           'cheesecake': oStory
         });
         oGlobalDispatcher.publish('push_state', {
@@ -92,11 +101,11 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
         // analytics tracking
         Cotton.ANALYTICS.storyContext(sStoryContext);
 
-        self._oGlobalDispatcher.publish('push_state', {
+        oGlobalDispatcher.publish('push_state', {
           'code': '?sid=',
           'value': oStory.id()
         });
-        self._oGlobalDispatcher.publish('enter_story', {
+        oGlobalDispatcher.publish('enter_story', {
           'story': oStory
         });
       }
@@ -109,8 +118,13 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
       }
     });
 
+    this._oLocalDispatcher.subscribe('edit_title', this, function(dArguments){
+      this._$title.text(dArguments['title']);
+    });
+
     this._$sticker.append(
         this._oImage.$(),
+        this._$toggle_edit,
         this._$title
     );
   },
@@ -119,21 +133,52 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     return this._$sticker;
   },
 
+  id : function() {
+    return this._id
+  },
+
   updateImage : function(sImageUrl) {
     if (sImageUrl) {
       this._oImage.appendImage(sImageUrl);
     }
   },
 
+  toggleEdit : function(oStory) {
+    this._$toggle_edit.toggleClass('ct-edit_open');
+    if (this._$toggle_edit.hasClass('ct-edit_open')) {
+      this._$toggle_edit.text('Done');
+      this._oEdit = new Cotton.UI.Stand.Common.Edit(oStory, this._oLocalDispatcher, this._oGlobalDispatcher);
+      this._$sticker.append(this._oEdit.$());
+    } else {
+      this._$toggle_edit.text('Edit');
+      oStory.setTitle(this._oEdit.getTitle());
+      this._oGlobalDispatcher.publish('update_db_cheesecake', {'cheesecake': oStory});
+      this.purgeEdit();
+    }
+  },
+
+  purgeEdit : function() {
+    if (this._oEdit) {
+      this._oEdit.purge();
+      this._oEdit = null;
+    }
+  },
+
   purge : function() {
+    this._oLocalDispatcher.unsubscribe('edit_title', this);
+    this._oLocalDispatcher = null;
     this._oGlobalDispatcher.unsubscribe('change_title', this);
     this._oGlobalDispatcher = null;
+    this._id = null;
+    this.purgeEdit();
     this._oImage.$().unbind('click');
     this._oImage.purge();
     this._oImage = null;
     // blur in case it was being edited
     this._$title.blur().remove();
     this._$title = null;
+    this._$toggle_edit.remove();
+    this._$toggle_edit = null;
     this._$sticker.remove();
     this._$sticker = null;
   }

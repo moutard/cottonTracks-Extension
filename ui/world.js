@@ -136,6 +136,14 @@ Cotton.UI.World = Class.extend({
     }
   },
 
+  deleteCheesecake : function(iId) {
+    if (this._oUICheesecake) {
+      this._oGlobalDispatcher.publish('home');
+    } else if (this._oHome){
+      this._oHome.removeCheesecake(iId);
+    }
+  },
+
   initStory : function(oStory, lRelatedStories) {
     document.title = oStory.title() + " - cottonTracks" ;
     this.clear();
