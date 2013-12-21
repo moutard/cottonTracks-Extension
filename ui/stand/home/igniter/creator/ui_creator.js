@@ -120,7 +120,9 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
   },
 
   purge : function() {
-
+    this._oGlobalDispatcher.unsubscribe('focus_search', this);
+    this._oGlobalDispatcher.unsubscribe('new_cheesecake', this);
+    this._oGlobalDispatcher = null;
   }
 
 });
