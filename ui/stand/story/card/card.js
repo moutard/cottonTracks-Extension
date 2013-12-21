@@ -136,6 +136,11 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
   suggest : function() {
     var self = this;
     this._bSuggestionCard = true;
+    // Remove delete for the moment
+    this._$delete.unbind('click');
+    this._$delete.remove();
+    this._$delete = null;
+
     this._$overlay.remove();
     this._$overlay = $('<div class="ct-card_overlay"></div>').click(function(e){
       if (e.target === this || e.target === self._$selection_feedback[0]) {
@@ -175,9 +180,11 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
       this._$media.remove();
       this._$media = null;
     }
-    this._$delete.unbind('click');
-    this._$delete.remove();
-    this._$delete = null;
+    if (this._$delete) {
+      this._$delete.unbind('click');
+      this._$delete.remove();
+      this._$delete = null;
+    }
     this._$overlay.remove();
     this._$overlay = null;
     this._$card.remove();
