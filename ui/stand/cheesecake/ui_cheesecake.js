@@ -89,6 +89,15 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
       }
     });
 
+    this._oGlobalDispatcher.subscribe('delete_cheesecake_card', this, function(dArguments){
+      var iHistoryItemId = dArguments['history_item_id'];
+      this._oDeck.removeCardFromDeck(iHistoryItemId);
+      this._oCheesecake.removeHistoryItem(iHistoryItemId);
+      this._oGlobalDispatcher.publish('update_db_cheesecake', {
+        'cheesecake': this._oCheesecake
+      });
+    });
+
     if (this._oCheesecake.historyItemsId().length > 0) {
       this._oGlobalDispatcher.publish('ask_cheesecake_items', {
         'history_items_id' : this._oCheesecake.historyItemsId()
@@ -177,6 +186,7 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     this._oGlobalDispatcher.unsubscribe('validate_stack', this);
     this._oGlobalDispatcher.unsubscribe('cancel_adder', this);
     this._oGlobalDispatcher.unsubscribe('cheesecake_id', this);
+    this._oGlobalDispatcher.unsubscribe('delete_cheesecake_card', this);
     this._oGlobalDispatcher = null;
 
     clearTimeout(this._oScrollTimeout);

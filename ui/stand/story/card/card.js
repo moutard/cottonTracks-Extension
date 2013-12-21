@@ -75,10 +75,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
     this._$card = $('<div class="ct-card"></div>');
     this._$delete = $('<div class="ct-delete_card">+</div>').click(function(){
       // analytics tracking
-      Cotton.ANALYTICS.deleteCard(self._sType);
-      oGlobalDispatcher.publish('delete_card', {
+      oGlobalDispatcher.publish('delete_cheesecake_card', {
         'history_item_id': oHistoryItem.id(),
-        'story_id': oHistoryItem.storyId(),
       });
     });
 
@@ -118,8 +116,8 @@ Cotton.UI.Stand.Story.Card.Card = Class.extend({
   drawCard : function(){
     this._$card.append(
       this._$media,
-      this._$delete,
-      this._$overlay
+      this._$overlay,
+      this._$delete
     );
   },
 

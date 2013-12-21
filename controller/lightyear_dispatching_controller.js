@@ -327,6 +327,21 @@ Cotton.Controllers.DispatchingController = Class.extend({
     });
 
     /**
+     * delete a cheesecake in db, then ask the UI to remove it
+     *
+     */
+    oGlobalDispatcher.subscribe('delete_cheesecake', this, function(dArguments){
+      var iId = dArguments['id'];
+      oLightyearController._oDatabase.delete('cheesecakes', iId, function(){
+        //FIXME (rkorach) The callback is happening before the cheesecake is deleted in base.
+        // Here we do another dumb request because it seems to make sure it's deleted.
+        oLightyearController._oDatabase.search('cheesecakes', 'id', iId, function(o){
+          oLightyearController._oWorld.deleteCheesecake(iId);
+        });
+      });
+    });
+
+    /**
      * Favorite a story
      */
     oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){

@@ -124,6 +124,25 @@ Cotton.UI.Stand.Cheesecake.Deck = Class.extend({
     this._lCards = lRemainingCards;
   },
 
+  removeCardFromDeck : function(iHistoryItemId) {
+    var self = this;
+    var iLength = this._lCards.length;
+    // Array of remaining cards
+    var lRemainingCards = [];
+    for (var i = 0; i < iLength; i++) {
+      if (this._lCards[i].id() === iHistoryItemId) {
+        // the cards to delete
+        var oCardToRemove = this._lCards[i];
+        oCardToRemove.purge();
+        oCardToRemove = null;
+      } else {
+        lRemainingCards.push(this._lCards[i]);
+        this._lCards[i] = null;
+      }
+    }
+    this._lCards = lRemainingCards;
+  },
+
   hide : function() {
     this._$card_deck.detach();
   },

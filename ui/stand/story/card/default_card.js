@@ -61,8 +61,8 @@ Cotton.UI.Stand.Story.Card.Default = Cotton.UI.Stand.Story.Card.Card.extend({
         this._$url,
         this._$tags
       ),
-      this._$delete,
-      this._$overlay
+      this._$overlay,
+      this._$delete
     );
   },
 

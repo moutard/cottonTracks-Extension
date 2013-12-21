@@ -1283,14 +1283,14 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     }
   },
 
-  delete: function(sObjectStoreName, oId, mOnDeleteCallback) {
+  delete: function(sObjectStoreName, iId, mOnDeleteCallback) {
     var self = this;
 
     var oTransaction = this._oDb.transaction([sObjectStoreName],
         "readwrite");
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
-    var oDeleteRequest = oStore.delete(oId);
+    var oDeleteRequest = oStore.delete(iId);
 
     oDeleteRequest.onsuccess = function(oEvent) {
       mOnDeleteCallback.call(self);
@@ -1302,7 +1302,6 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
       console.error(this);
       throw "Delete Request Error";
     };
-
   },
 
   purge: function(sObjectStoreName, mResultElementCallback) {
