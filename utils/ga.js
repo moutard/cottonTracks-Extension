@@ -8,9 +8,9 @@ Cotton.Analytics = Class.extend({
     this._gaq = _gaq || [];
 
     if (Cotton.Config.Parameters.bAnalytics === true) {
-      _gaq.push(['_setAccount', 'UA-30134257-1']);
+      _gaq.push(['_setAccount', 'UA-30134257-7']);
     } else {
-      _gaq.push(['_setAccount', 'UA-30134257-3']);
+      _gaq.push(['_setAccount', 'UA-30134257-6']);
     }
     _gaq.push(['_trackPageview']);
 
