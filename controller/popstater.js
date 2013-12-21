@@ -102,6 +102,28 @@ Cotton.Controllers.Popstater = Class.extend({
           }
         });
       });
+    } else if (oUrl.dSearch['did']){
+      //open on a story
+      var iCheesecakeId = parseInt(oUrl.dSearch['did']);
+      self._oLightyearController._oDatabase.find('cheesecakes', 'id', iCheesecakeId, function(oCheesecake){
+        self._oLightyearController.fillStory(oCheesecake, function(oFilteredCheesecake){
+          if (!oFilteredCheesecake) {
+            // analytics tracking.
+            self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
+            self._oGlobalDispatcher.publish('home', {
+              'from_popstate': true,
+            });
+            self._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
+          } else {
+            // analytics tracking.
+            Cotton.ANALYTICS.navigate('story');
+            self._oGlobalDispatcher.publish('open_cheesecake', {
+              'cheesecake': oFilteredCheesecake
+            });
+            self._oGlobalDispatcher.publish('scrolloffset', {'scroll': dState['scroll']});
+          }
+        });
+      });
     } else if (oUrl.dSearch['q']) {
       // Search page.
       self._oGlobalDispatcher.publish('search_stories', {

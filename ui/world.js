@@ -95,10 +95,17 @@ Cotton.UI.World = Class.extend({
     this._$world.append(this._oManager.$());
   },
 
-  openHome : function() {
+  openHome :  function(dArguments) {
     document.title = "cottonTracks";
+    var bFromPopState = dArguments && dArguments['from_popstate'];
     // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
-    if (!this._oHome) {
+    if (!this._oHome){
+      if (!bFromPopState) {
+        this._oGlobalDispatcher.publish('push_state', {
+          'code': "",
+          'value': ""
+        });
+      }
       this.clear();
       this._oHome = new Cotton.UI.Stand.Home.UIHome(this._oGlobalDispatcher);
       this._$world.append(this._oHome.$());

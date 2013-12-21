@@ -75,6 +75,10 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
         self._oGlobalDispatcher.publish('open_cheesecake', {
           'cheesecake': oStory
         });
+        oGlobalDispatcher.publish('push_state', {
+          'code': '?did=',
+          'value': oStory.id()
+        });
       } if (sContext === 'cover') {
         // analytics tracking
         Cotton.ANALYTICS.openStory('sticker');
