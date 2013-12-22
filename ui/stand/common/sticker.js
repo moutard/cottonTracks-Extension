@@ -40,6 +40,9 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     });
 
     // Title of the story.
+    this._$label = $('<div class="ct-sticker_label"></div>');
+    this._$visibility = $('<div class="ct-sticker_visibility ct-private"></div>');
+    this._$private_legend = $('<div class="ct-private_legend">This is private.</br>Everything is stored on</br>your computer.</div>');
     this._$title = $('<div class="ct-sticker_title"></div>').text(oStory.title());
 
     // featuredImage. Because we resize it we use the
@@ -100,9 +103,14 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     });
 
     this._$sticker.append(
-        this._oImage.$(),
-        this._$toggle_edit,
+      this._oImage.$(),
+      this._$toggle_edit,
+      this._$label.append(
+        this._$visibility.append(
+          this._$private_legend
+        ),
         this._$title
+      )
     );
   },
 
