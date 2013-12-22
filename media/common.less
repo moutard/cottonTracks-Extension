@@ -6,6 +6,7 @@
 @5cgrey: #5c5c5c;
 @degrey: #DEDEDE;
 @bfgrey: #BFBFBF;
+@94grey: #949494;
 @purewhite: #ffffff;
 @pureblack: #000000;
 @turquoiseblue: #0b9b96;
@@ -270,6 +271,7 @@
       font-size: 15px;
       text-align: center;
       outline: none;
+      -webkit-box-sizing: border-box;
       color: @pureblack;
       text-transform: capitalize;
 
@@ -284,6 +286,93 @@
       font-size: 12px;
       margin-bottom: 20px;
       cursor: default;
+    }
+
+    > .ct-image_picker {
+      color: @bfgrey;
+      width: 100%;
+      position: relative;
+
+      > .ct-image_picker_legend {
+        color: @bfgrey;
+        font-size: 12px;
+        cursor: default;
+        margin-bottom: 5px;
+      }
+
+      > .ct-image_picker_carousel {
+        height: 45px;
+        width: 100%;
+        overflow: hidden;
+
+        > .ct-media_image {
+          position: relative;
+          height: 45px;
+          width: 45px;
+          float: left;
+          margin-left: 16px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &.ct-image_selected {
+            &:before {
+              position: absolute;
+              width: 21px;
+              height: 21px;
+              background-color: @azulgreen;
+              border-radius: 10px;
+              content: "";
+              top: 12px;
+              left: 12px;
+            }
+
+            &:after {
+              position: absolute;
+              width: 3px;
+              height: 7px;
+              border-bottom: solid 2px @purewhite;
+              border-right: solid 2px @purewhite;
+              -webkit-transform: rotate(45deg);
+              content: "";
+              top: 17px;
+              left: 21px;
+            }
+          }
+        }
+      }
+
+      > .ct-image_picker_arrow {
+        position: absolute;
+        top: 40px;
+        display: block;
+        border-top: solid 7px @94grey;
+        border-right: solid 7px transparent;
+        border-left: solid 7px transparent;
+        cursor: pointer;
+
+        &:before {
+          position: absolute;
+          left: -7px;
+          top: -9px;
+          display: block;
+          border-top: solid 7px @purewhite;
+          border-right: solid 7px transparent;
+          border-left: solid 7px transparent;
+          content: "";
+        }
+
+        &.ct-image_picker_left_arrow{
+          left: -15px;
+          -webkit-transform: rotate(90deg);
+        }
+
+        &.ct-image_picker_right_arrow{
+          left: 231px;
+          -webkit-transform: rotate(270deg);
+        }
+      }
     }
 
     > .ct-sticker_edit_delete {

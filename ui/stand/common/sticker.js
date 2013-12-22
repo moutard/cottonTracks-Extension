@@ -40,32 +40,7 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     });
 
     // Title of the story.
-    this._$title = $('<div class="ct-sticker_title"></div>').text(oStory.title()).blur(
-      function(){
-        if (!$(this).text()) {
-          // blank title, we put back the previous title.
-          $(this).text(oStory.title());
-        } else if ($(this).text() !== oStory.title()){
-          // we set the new title only if there has been a change in the title
-          oStory.setTitle($(this).text())
-          oGlobalDispatcher.publish('change_title', {
-            'story_id': oStory.id(),
-            'title': $(this).text()
-          });
-          // Analytics tracking.
-          Cotton.ANALYTICS.editTitle(sContext);
-        }
-      }).keydown(function(e){
-        if (e.keyCode === 13) {
-          // 'enter' key, blur the title field
-          $(this).blur();
-        } else if (e.keyCode === 27) {
-          // 'escape' key, set the title back to original
-          // and blur the title field
-          $(this).text(oStory.title());
-          $(this).blur();
-        }
-      });
+    this._$title = $('<div class="ct-sticker_title"></div>').text(oStory.title());
 
     // featuredImage. Because we resize it we use the
     // Cotton.UI.Stand.Common.Content.Image class we cannot use var oImage then
@@ -111,15 +86,17 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
       }
     });
 
-    this._oGlobalDispatcher.subscribe('change_title', this, function(dArguments){
-      if (oStory.id() === dArguments['story_id']) {
-        oStory.setTitle(dArguments['title'])
-        this._$title.text(dArguments['title']);
-      }
-    });
-
     this._oLocalDispatcher.subscribe('edit_title', this, function(dArguments){
       this._$title.text(dArguments['title']);
+    });
+
+    this._oLocalDispatcher.subscribe('edit_image', this, function(dArguments){
+      // unselect all images before the clicked image add its selected class
+      if (this._oEdit) {
+        this._oEdit.unselectAllImages();
+      }
+      this._oImage.appendImage(dArguments['image']);
+      oStory.setFeaturedImage(dArguments['image']);
     });
 
     this._$sticker.append(
@@ -166,8 +143,8 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
 
   purge : function() {
     this._oLocalDispatcher.unsubscribe('edit_title', this);
+    this._oLocalDispatcher.unsubscribe('edit_image', this);
     this._oLocalDispatcher = null;
-    this._oGlobalDispatcher.unsubscribe('change_title', this);
     this._oGlobalDispatcher = null;
     this._id = null;
     this.purgeEdit();

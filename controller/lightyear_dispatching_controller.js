@@ -342,6 +342,20 @@ Cotton.Controllers.DispatchingController = Class.extend({
     });
 
     /**
+     * get a cheesecake items and return all the images from these items
+     *
+     */
+    oGlobalDispatcher.subscribe('ask_all_cheesecake_images', this, function(dArguments){
+      var lHistoryItemsId = dArguments['history_items_id'];
+      oLightyearController._oDatabase.findGroup('historyItems', 'id', lHistoryItemsId, function(lHistoryItems){
+        oGlobalDispatcher.publish('give_all_cheesecake_images', {
+          'cheesecake_id' : dArguments['cheesecake_id'],
+          'history_items' : lHistoryItems
+        });
+      });
+    });
+
+    /**
      * Favorite a story
      */
     oGlobalDispatcher.subscribe('favorite_story', this, function(dArguments){

@@ -12,8 +12,7 @@ Cotton.UI.Stand.Common.Edit = Class.extend({
     });
 
     this._$edit_title_legend = $('<div class="ct-sticker_edit_title_legend">Edit your title here</div>');
-
-    this._oImagePicker = null;
+    this._oImagePicker = new Cotton.UI.Stand.Common.ImagePicker(oCheesecake, oLocalDispatcher, oGlobalDispatcher);
 
     this._$delete = $('<div class="ct-sticker_edit_delete">Delete Deck</div>').click(function(){
       oGlobalDispatcher.publish('delete_cheesecake', {
@@ -24,6 +23,7 @@ Cotton.UI.Stand.Common.Edit = Class.extend({
     this._$edit_panel.append(
       this._$edit_title,
       this._$edit_title_legend,
+      this._oImagePicker.$(),
       this._$delete
     );
   },
@@ -34,6 +34,10 @@ Cotton.UI.Stand.Common.Edit = Class.extend({
 
   getTitle : function() {
     return this._$edit_title.val();
+  },
+
+  unselectAllImages : function() {
+    this._oImagePicker.unselectAll();
   },
 
   purge : function() {
