@@ -41,7 +41,8 @@ Cotton.UI.Topbar.Menu = Class.extend({
     this._$menu = $('<div class="ct-menu_topbar"></div>');
 
     this._oHistoryArrows = new Cotton.UI.Topbar.HistoryArrows(oGlobalDispatcher);
-    this._$arrows = this._oHistoryArrows.$();
+    this._oPath = new Cotton.UI.Topbar.Path(oGlobalDispatcher);
+
     this._$favorites = $('<div class="ct-favorites_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('favorites');
       oGlobalDispatcher.publish('push_state', {
@@ -55,7 +56,7 @@ Cotton.UI.Topbar.Menu = Class.extend({
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows);
+    this._$menu.append(this._oHistoryArrows.$(), this._oPath.$());
   },
 
   $ : function() {
