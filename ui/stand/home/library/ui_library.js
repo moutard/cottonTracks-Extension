@@ -3,7 +3,8 @@
 Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
 
   init : function(oGlobalDispatcher) {
-    this._$library = $('<div class="ct-cheesecake_library"></div>');
+    this._$library = $('<div class="ct-library"></div>');
+    this._$library_container = $('<div class="ct-library_container"></div>');
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     this._lStickers = [];
@@ -13,6 +14,16 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
     this._oGlobalDispatcher.subscribe('give_more_cheesecakes', this, function(dArguments){
       this.drawCheesecakes(dArguments['cheesecakes']);
     });
+
+    this.setWidth(this._computeSlots($(window).width()));
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(dArguments){
+      this.setWidth(this._computeSlots(dArguments['width']));
+    });
+
+    this._$library.append(
+      this._$library_container
+    )
   },
 
   $ : function() {
@@ -24,7 +35,7 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
     for (var i = 0; i < iLength; i++) {
       var oSticker = new Cotton.UI.Stand.Common.Sticker(lCheesecakes[i], 'library', this._oGlobalDispatcher);
       this._lStickers.push(oSticker);
-      this._$library.append(oSticker.$());
+      this._$library_container.append(oSticker.$());
     }
   },
 
@@ -42,6 +53,19 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
     this._lStickers = lNewStickers;
   },
 
+  _computeSlots : function(iWindowWidth) {
+    var STICKER_WIDTH = 240;
+    var STICKER_MARGIN = 20;
+    var iSlotsPerLine = Math.floor((iWindowWidth)/(STICKER_WIDTH + 2 * STICKER_MARGIN));
+    return iSlotsPerLine;
+  },
+
+  setWidth : function(iSlotsPerLine) {
+    var STICKER_WIDTH = 240;
+    var STICKER_MARGIN = 20;
+    this._$library_container.width(iSlotsPerLine * (STICKER_WIDTH + 2 * STICKER_MARGIN));
+  },
+
   _purgeStickers : function() {
     var iLength = this._lStickers.length;
     for (var i = 0; i < iLength; i++) {
@@ -53,6 +77,7 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
 
   purge : function() {
     this._oGlobalDispatcher.unsubscribe('give_more_cheesecakes', this);
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
     this._purgeStickers();
     this._$library.remove();
