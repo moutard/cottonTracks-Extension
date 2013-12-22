@@ -4,6 +4,7 @@
 @topbar_height: 40px;
 @card_adder_margin-top: 20px;
 @card_adder_margin-bottom: 120px;
+@dashboard_width: 280px;
 
 /**
  * Colors
@@ -21,124 +22,129 @@
   height: calc(~"100% - @{topbar_height}");
   margin-top: 40px;
 
-  .ct-story_dashboard {
-    position: fixed;
-    top: 40px;
-    width: 396px;
-    float: left;
-    z-index: 1;
-    /* This is not mandatory because of the position: fixed.
-    However there would be an offest with the card_deck otherwise. */
-    padding-top: 1px;
+  > .ct-cheesecake_container {
+    margin: auto;
+    min-width: 745px;
 
-    &.ct-pushed_back {
-      z-index: -1;
-    }
+    > .ct-story_dashboard {
+      position: fixed;
+      top: 40px;
+      width: @dashboard_width;
+      float: left;
+      z-index: 1;
+      /* This is not mandatory because of the position: fixed.
+      However there would be an offest with the card_deck otherwise. */
+      padding-top: 1px;
 
-    > .ct-quick_adder {
-      position: relative;
-      clear: both;
-      margin-left: 20px;
-      margin-top: 380px;
-      width: 240px;
-      height: 142px;
-      border: solid 1px @degrey;
-      -webkit-box-sizing: border-box;
-      background-color: @purewhite;
-
-      > .ct-quick_adder_hint {
-        position: relative;
-        padding-top: 2px;
-        -webkit-box-sizing: border-box;
-        margin: auto;
-        top: -14px;
-        width: 161px;
-        height: 28px;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: #ffffff;
-        text-align: center;
-        border-radius: 14px;
-        cursor: default;
+      &.ct-pushed_back {
+        z-index: -1;
       }
 
-      > .ct-quick_adder_add_skip {
-        width: 90px;
-        height: 28px;
-        margin: auto;
-        position: absolute;
-        bottom: 15px;
-        left: 75px;
+      > .ct-quick_adder {
+        position: relative;
+        clear: both;
+        margin-left: 20px;
+        margin-top: 380px;
+        width: 240px;
+        height: 142px;
+        border: solid 1px @degrey;
+        -webkit-box-sizing: border-box;
+        background-color: @purewhite;
 
-
-        > .ct-quick_adder_skip_button {
-          width: 50%;
-          height: 100%;
-          float: left;
-          text-align: center;
-          padding-top: 4px;
-          padding-left: 4px;
+        > .ct-quick_adder_hint {
+          position: relative;
+          padding-top: 2px;
           -webkit-box-sizing: border-box;
+          margin: auto;
+          top: -14px;
+          width: 161px;
+          height: 28px;
+          background-color: rgba(0, 0, 0, 0.5);
+          color: #ffffff;
+          text-align: center;
+          border-radius: 14px;
+          cursor: default;
+        }
+
+        > .ct-quick_adder_add_skip {
+          width: 90px;
+          height: 28px;
+          margin: auto;
+          position: absolute;
+          bottom: 15px;
+          left: 75px;
+
+
+          > .ct-quick_adder_skip_button {
+            width: 50%;
+            height: 100%;
+            float: left;
+            text-align: center;
+            padding-top: 4px;
+            padding-left: 4px;
+            -webkit-box-sizing: border-box;
+            background-color: @7agrey;
+            color: @purewhite;
+            border-radius: 14px 0 0 14px;
+            font-size: 13px;
+            cursor: pointer;
+          }
+
+          > .ct-quick_adder_add_button {
+            width: 50%;
+            height: 100%;
+            float: left;
+            padding-right: 3px;
+            text-align: center;
+            -webkit-box-sizing: border-box;
+            background-color: @azulgreen;
+            border-radius: 0 14px 14px 0;
+            line-height: 24px;
+            font-weight: bold;
+            font-size: 20px;
+            color: @purewhite;
+            cursor: pointer;
+          }
+        }
+
+        > .ct-top_suggestion {
+          width: 100%;
+          padding: 0px 15px 0px 15px;
+          -webkit-box-sizing: border-box;
+          text-align: center;
+          color: @33grey;
+          cursor: default;
+          display: -webkit-box;
+          text-overflow: ellipsis;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+
+          &:first-letter{
+            text-transform: uppercase;
+          }
+        }
+
+        > .ct-add_more {
+          width: 100%;
+          height: 38px;
+          position: absolute;
+          bottom: -38px;
           background-color: @7agrey;
           color: @purewhite;
-          border-radius: 14px 0 0 14px;
-          font-size: 13px;
-          cursor: pointer;
-        }
-
-        > .ct-quick_adder_add_button {
-          width: 50%;
-          height: 100%;
-          float: left;
-          padding-right: 3px;
           text-align: center;
+          padding-top: 7px;
           -webkit-box-sizing: border-box;
-          background-color: @azulgreen;
-          border-radius: 0 14px 14px 0;
-          line-height: 24px;
-          font-weight: bold;
-          font-size: 20px;
-          color: @purewhite;
           cursor: pointer;
         }
-      }
-
-      > .ct-top_suggestion {
-        width: 100%;
-        padding: 0px 15px 0px 15px;
-        -webkit-box-sizing: border-box;
-        text-align: center;
-        color: @33grey;
-        cursor: default;
-        display: -webkit-box;
-        text-overflow: ellipsis;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-
-        &:first-letter{
-          text-transform: uppercase;
-        }
-      }
-
-      > .ct-add_more {
-        width: 100%;
-        height: 38px;
-        position: absolute;
-        bottom: -38px;
-        background-color: @7agrey;
-        color: @purewhite;
-        text-align: center;
-        padding-top: 7px;
-        -webkit-box-sizing: border-box;
-        cursor: pointer;
       }
     }
-  }
 
-  .ct-story_deck {
-    position: relative;
-    left: 280px;
-    width: calc(~"100% -  280px");
+    > .ct-story_deck {
+      position: relative;
+      left: 280px;
+      width: calc(~"100% -  280px");
+    }
   }
 
   > .ct-card_adder {
@@ -258,5 +264,4 @@
       }
     }
   }
-
 }

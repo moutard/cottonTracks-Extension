@@ -43,6 +43,8 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     this._oDashboard = new Cotton.UI.Stand.Cheesecake.Dashboard(this._oCheesecake, oGlobalDispatcher);
     this._oDeck = new Cotton.UI.Stand.Cheesecake.Deck(oGlobalDispatcher);
 
+    this.setWidth(this._computeSlots($(window).width()));
+
     this._$cheesecake.append(
       this._$cheesecake_container.append(
         this._oDashboard.$(),
@@ -97,6 +99,11 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
         'cheesecake': this._oCheesecake
       });
     });
+
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(dArguments){
+      this.setWidth(this._computeSlots(dArguments['width']));
+    });
+
 
     if (this._oCheesecake.historyItemsId().length > 0) {
       this._oGlobalDispatcher.publish('ask_cheesecake_items', {
@@ -170,6 +177,21 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     }
   },
 
+  _computeSlots : function(iWindowWidth) {
+    var CARD_WIDTH = 425;
+    var CARD_MARGIN = 20;
+    var DASHBOARD_WIDTH = 280;
+    var iSlotsPerLine = Math.floor((iWindowWidth - DASHBOARD_WIDTH)/(CARD_WIDTH + 2 * CARD_MARGIN));
+    return iSlotsPerLine;
+  },
+
+  setWidth : function(iSlotsPerLine) {
+    var CARD_WIDTH = 425;
+    var CARD_MARGIN = 20;
+    var DASHBOARD_WIDTH = 280;
+    this._$cheesecake_container.width(DASHBOARD_WIDTH + iSlotsPerLine * (CARD_WIDTH + 2 * CARD_MARGIN));
+  },
+
   _purgeCardAdder : function() {
     if (this._oCardAdder) {
       this._oCardAdder.purge();
@@ -178,8 +200,6 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
   },
 
   purge : function() {
-    // Clear the timeout, otherwise we could try asyncronously to access the _oDashboard
-    // that has already been purged. ex: swipe right to go to previous page.
     this._oGlobalDispatcher.unsubscribe('window_scroll', this);
     this._oGlobalDispatcher.unsubscribe('add_more_cards', this);
     this._oGlobalDispatcher.unsubscribe('give_cheesecake_items', this);
@@ -187,8 +207,11 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     this._oGlobalDispatcher.unsubscribe('cancel_adder', this);
     this._oGlobalDispatcher.unsubscribe('cheesecake_id', this);
     this._oGlobalDispatcher.unsubscribe('delete_cheesecake_card', this);
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
 
+    // Clear the timeout, otherwise we could try asyncronously to access the _oDashboard
+    // that has already been purged. ex: swipe right to go to previous page.
     clearTimeout(this._oScrollTimeout);
     this._oScrollTimeout = null;
     this._bScrolling = null;
