@@ -405,6 +405,39 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     };
   },
 
+  getListWithConstraint : function(sObjectStoreName, mResultElementCallback, mConstraint) {
+    var self = this;
+
+    var lAllItems = new Array();
+    var oTransaction = this._oDb.transaction([sObjectStoreName],
+        "readonly");
+    var oStore = oTransaction.objectStore(sObjectStoreName);
+
+    // Get everything in the store.
+    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oCursorRequest = oStore.openCursor(oKeyRange);
+
+    oCursorRequest.onsuccess = function(oEvent) {
+      var oResult = oEvent.target.result;
+
+      // End of the list of results.
+      if (!oResult) {
+        mResultElementCallback.call(self, lAllItems);
+        return;
+      } else {
+        if (mConstraint(oResult.value)) {
+          lAllItems.push(oResult.value);
+        }
+        oResult.continue();
+      }
+    };
+
+    oCursorRequest.onerror = function(oEvent) {
+      console.error(oEvent);
+    };
+
+  },
+
   iterRange : function(sObjectStoreName, iLowerBound, iUpperBound,
                   mResultElementCallback){
     var self = this;

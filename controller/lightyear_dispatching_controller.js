@@ -242,6 +242,22 @@ Cotton.Controllers.DispatchingController = Class.extend({
     });
 
     /**
+     * create a cheesecake from a suggested theme
+     */
+    oGlobalDispatcher.subscribe('create_suggested_cheesecake', this, function(dArguments){
+      var lSearchWords = dArguments['title'].split(/\ |\'|\-/gi);
+      oLightyearController._oBaker.fetch(lSearchWords, function(
+        lHistoryItems, lCleanWords){
+        var oCheesecake = oLightyearController._oBaker.bake(lHistoryItems, lCleanWords);
+        oCheesecake.setTitle(dArguments['title']);
+        // send cheesecake to the UI
+        oGlobalDispatcher.publish('open_cheesecake', {
+          'cheesecake' : oCheesecake
+        });
+      });
+    });
+
+    /**
      * open or create a cheesecake
      *
      */
@@ -251,12 +267,54 @@ Cotton.Controllers.DispatchingController = Class.extend({
 
     /**
      * get cheesecakes in db to display them in the library
+     * and get recommendations of cheesecakes to create from stories
      *
      */
-    oGlobalDispatcher.subscribe('ask_more_cheesecakes', this, function(){
-      oLightyearController._oDatabase.getList('cheesecakes', function(lCheesecakes){
+    oGlobalDispatcher.subscribe('start_homescreen', this, function(){
+      var lCheesecakes;
+      var lStories;
+      var bCheesecakeReady;
+      var bStoriesReady;
+      // cheesecakes
+      oLightyearController._oDatabase.getList('cheesecakes', function(lDBCheesecakes){
+        lCheesecakes = lDBCheesecakes;
         lCheesecakes.sort(function(a,b){return b.lastVisitTime() - a.lastVisitTime()});
-        oGlobalDispatcher.publish('give_more_cheesecakes', {'cheesecakes' : lCheesecakes});
+        bCheesecakeReady = true;
+        if (bStoriesReady) {
+          oGlobalDispatcher.publish('fill_homescreen', {
+            'cheesecakes' : lCheesecakes,
+            'stories' : lStories
+          });
+        }
+      });
+      // stories for suggestions
+      oLightyearController.getStoriesSuggestions(function(lSuggestions){
+        lStories = lSuggestions;
+        bStoriesReady = true;
+        if (bCheesecakeReady) {
+          // filter suggestions
+          var iLength = lStories.length;
+          var jLength = lCheesecakes.length;
+          var lNonDuplicateSuggestions = [];
+          for (var i = 0; i < iLength; i++) {
+            var bDuplicate = false;
+            for (var j = 0; j < jLength; j++) {
+              var lStoryTitle = lStories[i].title().split(/\ |\'|\-/gi);
+              var lCheesecakeTitle = lCheesecakes[j].title().split(/\ |\'|\-/gi);
+              if (_.intersection(lStoryTitle, lCheesecakeTitle).length > Math.max(Math.min(lStoryTitle.length, lCheesecakeTitle.length) - 2, 0) ){
+                  bDuplicate = true;
+                  break;
+                }
+            }
+            if (!bDuplicate) {
+             lNonDuplicateSuggestions.push(lStories[i])
+            }
+          }
+          oGlobalDispatcher.publish('fill_homescreen', {
+            'cheesecakes' : lCheesecakes,
+            'stories' : lNonDuplicateSuggestions
+          });
+        }
       });
     });
 

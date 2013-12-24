@@ -57,7 +57,7 @@ Cotton.Controllers.Lightyear = Class.extend({
     this._oDispatchingController = new Cotton.Controllers.DispatchingController(this, this._oGlobalDispatcher);
     this._oBaker = new Cotton.Controllers.Baker(this, this._oGlobalDispatcher);
 
-    this._oWorld = new Cotton.UI.World(oCoreMessenger, self._oGlobalDispatcher);
+    this._oWorld = new Cotton.UI.World(self._oGlobalDispatcher);
     this._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
@@ -389,6 +389,20 @@ Cotton.Controllers.Lightyear = Class.extend({
         mCallback(lFilteredStories);
       });
     });
+  },
+
+  // suggest some titles to the user to create cheesecakes.
+  // taken from stories with images and sorted by number of items
+  getStoriesSuggestions : function(mCallback) {
+    var mStoryConstraint = function(dDBRecord) {
+       return (dDBRecord['sFeaturedImage'] !== "" && dDBRecord['sTitle'] !== "");
+    }
+    this._oDatabase.getListWithConstraint('stories', function(lDBStories){
+      lDBStories.sort(function(a,b){return b.historyItemsId().length - a.historyItemsId().length});
+      if (mCallback) {
+        mCallback(lDBStories);
+      }
+    }, mStoryConstraint);
   },
 
   /**

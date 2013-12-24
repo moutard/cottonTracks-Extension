@@ -478,3 +478,43 @@
   background-position-x: 50%;
   background-position-y: 25%;
 }
+
+.ct-theme_suggestion {
+  width: 170px;
+  height: 170px;
+  margin: 20px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  > .ct-media_image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &:after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      content: "";
+      background-color: rgba(0,0,0,0.6);
+    }
+  }
+
+  > .ct-theme_suggestion_title {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    text-align: center;
+    padding-top: 70px;
+    color: @purewhite;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+}

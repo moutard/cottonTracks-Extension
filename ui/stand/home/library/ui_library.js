@@ -9,14 +9,6 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
 
     this._lStickers = [];
 
-    this._oGlobalDispatcher.publish('ask_more_cheesecakes');
-
-    this._oGlobalDispatcher.subscribe('give_more_cheesecakes', this, function(dArguments){
-      this.drawCheesecakes(dArguments['cheesecakes']);
-    });
-
-    this.setWidth(this._computeSlots($(window).width()));
-
     this._oGlobalDispatcher.subscribe('window_resize', this, function(dArguments){
       this.setWidth(this._computeSlots(dArguments['width']));
     });
@@ -30,12 +22,38 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
     return this._$library;
   },
 
+  welcome : function() {
+    this._$library.addClass("ct-welcome");
+  },
+
   drawCheesecakes : function(lCheesecakes) {
+    this._iElementWidth = 240;
+    this._iElementMargin = 20;
+    this.setWidth(this._computeSlots($(window).width()));
+
     var iLength = lCheesecakes.length;
     for (var i = 0; i < iLength; i++) {
       var oSticker = new Cotton.UI.Stand.Common.Sticker(lCheesecakes[i], 'library', this._oGlobalDispatcher);
       this._lStickers.push(oSticker);
       this._$library_container.append(oSticker.$());
+    }
+  },
+
+  drawSuggestions : function(lStories) {
+    this._iElementWidth = 170;
+    this._iElementMargin = 20;
+    var iLength = lStories.length;
+    for (var i = 0; i < iLength; i++) {
+      var oThemeSuggestion = new Cotton.UI.Stand.Home.Common.ThemeSuggestion(lStories[i], this._oGlobalDispatcher);
+      this._lStickers.push(oThemeSuggestion);
+      this._$library_container.append(oThemeSuggestion.$());
+    }
+
+    if (lStories.length > 0) {
+      this._$try_these = $('<div class="ct-try_these">or try one of these subjects</div>');
+      this._$library_container.prepend(
+        this._$try_these
+      );
     }
   },
 
@@ -54,16 +72,14 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
   },
 
   _computeSlots : function(iWindowWidth) {
-    var STICKER_WIDTH = 240;
-    var STICKER_MARGIN = 20;
-    var iSlotsPerLine = Math.floor((iWindowWidth)/(STICKER_WIDTH + 2 * STICKER_MARGIN));
+    var iSlotsPerLine = Math.floor((iWindowWidth)/(this._iElementWidth + 2 * this._iElementMargin));
     return iSlotsPerLine;
   },
 
   setWidth : function(iSlotsPerLine) {
     var STICKER_WIDTH = 240;
     var STICKER_MARGIN = 20;
-    this._$library_container.width(iSlotsPerLine * (STICKER_WIDTH + 2 * STICKER_MARGIN));
+    this._$library_container.width(iSlotsPerLine * (this._iElementWidth + 2 * this._iElementMargin));
   },
 
   _purgeStickers : function() {
@@ -76,9 +92,14 @@ Cotton.UI.Stand.Home.Library.UILibrary = Class.extend({
   },
 
   purge : function() {
-    this._oGlobalDispatcher.unsubscribe('give_more_cheesecakes', this);
     this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
+    this._iElementWidth = null;
+    this._iElementMargin = null;
+    if (this._$try_these) {
+      this._$try_these.remove();
+      this._$try_these = null;
+    }
     this._purgeStickers();
     this._$library.remove();
     this._$library = null;

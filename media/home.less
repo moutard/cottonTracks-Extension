@@ -12,29 +12,61 @@
 @fcgrey: #FCFCFC;
 @a8grey: #A8A8A8;
 @ccgrey: #CCCCCC;
+@33grey: #333333;
 @submagreen: #475259;
 @azulgreen: #52C8B8;
 
 .ct-home {
+  &.ct-welcome {
+    background-color: @e8grey;
+  }
 
   > .ct-igniter {
     padding-top : @topbar_height;
     background-color: @e8grey;
     height: 295px;
 
+    &.ct-welcome {
+      height: 500px;
+    }
+
     > .ct-igniter_container {
       width: 900px;
       margin: auto;
+
+      > .ct-igniter_welcome {
+        margin-top: 60px;
+        text-align: center;
+        cursor: default;
+        font-size: 36px;
+        font-family: SourceSansPro-Light;
+        color: @33grey;
+      }
+
+      > .ct-igniter_explainer {
+        text-align: center;
+        cursor: default;
+        margin-top: 10px;
+        margin-bottom: 50px;
+        font-size: 18px;
+        color: @33grey;
+        font-family: SourceSansPro-Light;
+      }
 
       > .ct-creator {
         position: relative;
         width: 380px;
         height: 230px;
-        margin-top: 28px;
         border: solid 1px @degrey;
         text-align: center;
         background-color: @purewhite;
         cursor: default;
+        float: left;
+
+        &.ct-welcome {
+          float: none;
+          margin: auto;
+        }
 
         > .ct-creator_explainer_title {
           font-size: 20px;
@@ -78,6 +110,18 @@
           }
         }
       }
+
+      > .ct-suggested_themes {
+        width: 420px;
+        margin-left: 460px;
+        margin-top: 28px;
+
+        > .ct-try_these {
+          width: 100%;
+          text-align: center;
+          cursor: default;
+        }
+      }
     }
   }
 
@@ -85,6 +129,12 @@
 
     > .ct-library_container {
       margin: auto;
+
+      > .ct-try_these {
+        width: 100%;
+        text-align: center;
+        cursor: default;
+      }
     }
   }
 }

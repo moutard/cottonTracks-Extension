@@ -17,11 +17,6 @@ Cotton.UI.World = Class.extend({
   _$world : null,
 
   /**
-   * Messenger for handling core message. (Chrome message)
-   */
-  _oCoreMessenger : null,
-
-  /**
    * General Dispatcher that allows two diffent parts of the product to communicate
    * together through the controller of the app.
    */
@@ -53,10 +48,9 @@ Cotton.UI.World = Class.extend({
   _oSettings : null,
 
   /**
-   * @param {Cotton.Core.Messenger} oCoreMessenger
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
-  init : function(oCoreMessenger, oGlobalDispatcher, $dom_world) {
+  init : function(oGlobalDispatcher, $dom_world) {
     var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._oWindowListener = new Cotton.Messaging.WindowListener(this._oGlobalDispatcher);
