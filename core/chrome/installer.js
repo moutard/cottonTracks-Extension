@@ -151,7 +151,7 @@ Cotton.Core.Installer = Class.extend({
 
     // Disable the button and open the howTo page.
     chrome.browserAction.disable();
-    chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
+    chrome.tabs.create({'url': 'http://www.cottontracks.com/install.html'});
 
     DEBUG && console.debug("Controller - install");
     self._oBenchmark = new Benchmark("Installation");

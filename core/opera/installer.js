@@ -42,7 +42,7 @@ Cotton.Core.Installer = Class.extend({
     var self = this;
 
     // Disable the button and open the howTo page.
-    chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
+    chrome.tabs.create({'url': 'http://www.cottontracks.com/install.html'});
     DEBUG && console.debug("Controller - install");
     self._mIsFinished();
   },
