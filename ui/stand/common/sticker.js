@@ -36,6 +36,9 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     this._$toggle_edit = $('<div class="ct-sticker_edit_button">Edit</div>');
 
     this._$toggle_edit.click(function(){
+      if (!self._$toggle_edit.hasClass('ct-edit_open')) {
+        self._oGlobalDispatcher.publish('close_all_edit');
+      }
       self.toggleEdit(oStory);
     });
 
@@ -93,6 +96,16 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
       this._$title.text(dArguments['title']);
     });
 
+    this._oGlobalDispatcher.subscribe('window_resize', this, function(dArguments){
+      this.positionEdit(dArguments['width']);
+    });
+
+    this._oGlobalDispatcher.subscribe('close_all_edit', this, function(){
+      if (self._$toggle_edit.hasClass('ct-edit_open')) {
+        self.toggleEdit(oStory);
+      }
+    });
+
     this._oLocalDispatcher.subscribe('edit_image', this, function(dArguments){
       // unselect all images before the clicked image add its selected class
       if (this._oEdit) {
@@ -129,16 +142,30 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
   },
 
   toggleEdit : function(oStory) {
-    this._$toggle_edit.toggleClass('ct-edit_open');
     if (this._$toggle_edit.hasClass('ct-edit_open')) {
-      this._$toggle_edit.text('Done');
-      this._oEdit = new Cotton.UI.Stand.Common.Edit(oStory, this._oLocalDispatcher, this._oGlobalDispatcher);
-      this._$sticker.append(this._oEdit.$());
-    } else {
       this._$toggle_edit.text('Edit');
       oStory.setTitle(this._oEdit.getTitle());
       this._oGlobalDispatcher.publish('update_db_cheesecake', {'cheesecake': oStory});
       this.purgeEdit();
+    } else {
+      this._$toggle_edit.text('Done');
+      this._oEdit = new Cotton.UI.Stand.Common.Edit(oStory, this._oLocalDispatcher, this._oGlobalDispatcher);
+      this._$sticker.append(this._oEdit.$());
+      this.positionEdit($(window).width());
+    }
+    this._$toggle_edit.toggleClass('ct-edit_open');
+  },
+
+  positionEdit : function(iWindowWidth) {
+    if (!this._oEdit) {
+      return;
+    }
+    var EDIT_WIDTH_AND_MARGIN = 300;
+    var iEditOffset = this._$toggle_edit.offset().left;
+    if (iEditOffset + EDIT_WIDTH_AND_MARGIN > iWindowWidth) {
+      this._oEdit.$().addClass('ct-left_edit');
+    } else {
+      this._oEdit.$().removeClass('ct-left_edit');
     }
   },
 
@@ -150,6 +177,9 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
   },
 
   purge : function() {
+    this._oGlobalDispatcher.unsubscribe('window_resize', this);
+    this._oGlobalDispatcher.unsubscribe('close_all_edit', this);
+    this._oGlobalDispatcher = null;
     this._oLocalDispatcher.unsubscribe('edit_title', this);
     this._oLocalDispatcher.unsubscribe('edit_image', this);
     this._oLocalDispatcher = null;

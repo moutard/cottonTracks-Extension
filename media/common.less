@@ -338,6 +338,26 @@
     	border-right: 15px solid @purewhite;
     }
 
+    &.ct-left_edit {
+      left: -100px;
+
+      &:before {
+        left: 274px;
+      	border-top: 20px solid transparent;
+      	border-bottom: 20px solid transparent;
+      	border-left: 15px solid @degrey;
+        border-right: none;
+      }
+
+      &:after {
+        left: 273px;
+      	border-top: 20px solid transparent;
+      	border-bottom: 20px solid transparent;
+      	border-left: 15px solid @purewhite;
+        border-right: none;
+      }
+    }
+
     > .ct-sticker_edit_title {
       border-bottom: solid 1px @bfgrey;
       width: 100%;
