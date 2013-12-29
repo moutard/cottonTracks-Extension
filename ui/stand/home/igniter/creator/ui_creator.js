@@ -50,7 +50,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
         this._$creator_hint
       )
     );
-    this._oGlobalDispatcher.subscribe('focus_search', this, function(){
+    this._oGlobalDispatcher.subscribe('focus_creator', this, function(){
       this._$creator_input.focus();
     });
 
@@ -120,7 +120,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
   },
 
   purge : function() {
-    this._oGlobalDispatcher.unsubscribe('focus_search', this);
+    this._oGlobalDispatcher.unsubscribe('focus_creator', this);
     this._oGlobalDispatcher.unsubscribe('new_cheesecake', this);
     this._oGlobalDispatcher = null;
   }

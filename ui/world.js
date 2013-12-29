@@ -75,7 +75,6 @@ Cotton.UI.World = Class.extend({
   initTopbar : function() {
     this._oTopbar = new Cotton.UI.Topbar.UITopbar(this._oGlobalDispatcher);
     this._$world.append(this._oTopbar.$());
-    this._oGlobalDispatcher.publish('focus_search');
   },
 
   initManager : function() {
@@ -90,6 +89,7 @@ Cotton.UI.World = Class.extend({
   },
 
   openHome :  function(dArguments) {
+    var self = this;
     document.title = "cottonTracks";
     var bFromPopState = dArguments && dArguments['from_popstate'];
     // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
@@ -103,6 +103,9 @@ Cotton.UI.World = Class.extend({
       this.clear();
       this._oHome = new Cotton.UI.Stand.Home.UIHome(this._oGlobalDispatcher);
       this._$world.append(this._oHome.$());
+      setTimeout(function(){
+        self._oGlobalDispatcher.publish('focus_creator');
+      }, 100);
     }
   },
 
