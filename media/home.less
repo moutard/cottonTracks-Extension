@@ -17,9 +17,6 @@
 @azulgreen: #52C8B8;
 
 .ct-home {
-  &.ct-welcome {
-    background-color: @e8grey;
-  }
 
   > .ct-igniter {
     padding-top : @topbar_height;
@@ -112,6 +109,7 @@
       }
 
       > .ct-suggested_themes {
+        position: relative;
         width: 420px;
         margin-left: 460px;
         margin-top: 28px;
@@ -121,6 +119,61 @@
           text-align: center;
           cursor: default;
         }
+
+        > .ct-toggle_suggested_themes {
+          position: absolute;
+          top: 110px;
+          right: -40px;
+          cursor: pointer;
+          width: 40px;
+          font-size: 12px;
+          text-align: center;
+          color: @33grey;
+
+          &:before {
+            position: absolute;
+            top: -20px;
+            left: 12px;
+            content: "";
+            width: 17px;
+            height: 17px;
+            border-radius: 9px;
+            background-color: rgba(0,0,0,0.25);
+          }
+
+          &:after {
+            position: absolute;
+            top: -16px;
+            left: 17px;
+            content: "";
+            width: 5px;
+            height: 5px;
+            -webkit-transform: rotate(45deg);
+            border-bottom: solid 2px @purewhite;
+            border-right: solid 2px @purewhite;
+          }
+
+          &.ct-less {
+
+            &:after {
+              top: -14px;
+              -webkit-transform: rotate(225deg);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > .ct-suggestor {
+    background-color: @e8grey;
+    > .ct-suggestor_container {
+      margin: auto;
+
+      > .ct-try_these {
+        width: 100%;
+        text-align: center;
+        cursor: default;
       }
     }
   }
@@ -129,12 +182,6 @@
 
     > .ct-library_container {
       margin: auto;
-
-      > .ct-try_these {
-        width: 100%;
-        text-align: center;
-        cursor: default;
-      }
     }
   }
 }
