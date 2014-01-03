@@ -12,7 +12,8 @@ var IntegrationBackground = Class.extend({
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ctb', {
         'searchKeywords': Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
         'historyItems': Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-        'stories': Cotton.Translators.STORY_TRANSLATORS
+        'stories': Cotton.Translators.STORY_TRANSLATORS,
+        'cheesecakes' : Cotton.Translators.CHEESECAKE_TRANSLATORS
       }, function() {
         // Get the historyClient (depends on the browser)
         var oClient = new MockHistoryClient();
