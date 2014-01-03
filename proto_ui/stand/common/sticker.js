@@ -69,26 +69,6 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
           'code': '?did=',
           'value': oStory.id()
         });
-      } if (sContext === 'cover') {
-        // analytics tracking
-        Cotton.ANALYTICS.openStory('sticker');
-
-
-        if (self._$sticker.parents().hasClass('ct-related_cover')){
-          var sStoryContext = 'related';
-        } else {
-          var sStoryContext = 'manager';
-        }
-        // analytics tracking
-        Cotton.ANALYTICS.storyContext(sStoryContext);
-
-        oGlobalDispatcher.publish('push_state', {
-          'code': '?sid=',
-          'value': oStory.id()
-        });
-        oGlobalDispatcher.publish('enter_story', {
-          'story': oStory
-        });
       }
     });
 

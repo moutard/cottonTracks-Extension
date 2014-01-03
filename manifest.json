@@ -3,7 +3,7 @@
   "name": "__MSG_extName__",
   "description": "__MSG_extDesc__",
   "default_locale": "en",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "minimum_chrome_version": "22",
   "icons": {
     "16": "/media/images/manifest/cotton_tracks_favicon_16.png",

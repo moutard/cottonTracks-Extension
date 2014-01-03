@@ -28,7 +28,7 @@ Cotton.UI.Stand.Cheesecake.Deck = Class.extend({
     this._$card_deck = $('<div class="ct-story_deck ct-card_deck"></div>');
     this._lCards = [];
 
-    this._oCardFactory = new Cotton.UI.Stand.Story.Card.Factory();
+    this._oCardFactory = new Cotton.UI.Stand.Cheesecake.Card.Factory();
 
     this._oGlobalDispatcher.subscribe('remove_card', this, function(dArguments) {
       this.removeCard(dArguments['history_item_id']);

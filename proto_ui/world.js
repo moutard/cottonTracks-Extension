@@ -77,17 +77,6 @@ Cotton.UI.World = Class.extend({
     this._$world.append(this._oTopbar.$());
   },
 
-  initManager : function() {
-    document.title = "cottonTracks";
-    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
-    // careful not to clear after manager is created, because otherwhise it is considered
-    // as detached and makes it possible to call the manager from the manager with the
-    // home button (messes with the navigation by introducing a page then)
-    this.clear();
-    this._oManager = new Cotton.UI.Stand.Manager.UIManager(this._oGlobalDispatcher);
-    this._$world.append(this._oManager.$());
-  },
-
   openHome :  function(dArguments) {
     var self = this;
     document.title = "cottonTracks";
@@ -141,137 +130,10 @@ Cotton.UI.World = Class.extend({
     }
   },
 
-  initStory : function(oStory, lRelatedStories) {
-    document.title = oStory.title() + " - cottonTracks" ;
-    this.clear();
-    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
-        this._oGlobalDispatcher)
-    this._$world.append(this._oUIStory.$());
-  },
-
-  openStory : function(oStory, lRelatedStories) {
-    document.title = oStory.title() + " - cottonTracks" ;
-    this.clear();
-    this._oUIStory = this._oUIStory || new Cotton.UI.Stand.Story.UIStory(oStory, lRelatedStories,
-        this._oGlobalDispatcher)
-    this._$world.append(this._oUIStory.$());
-    // draw the story content after it has been attached to the dom, so that elements can
-    // know their height or width (0 as long as not attached to the dom)
-    this._oUIStory.drawCards(oStory);
-  },
-
-  hideStory : function(){
-    if (this._oUIStory) {
-      this._oUIStory.purge();
-      this._oUIStory = null;
-    }
-  },
-
-  hideManager : function() {
-    if (this._oManager){
-      this._oManager.hide();
-    }
-  },
-
-  initSettings : function() {
-    if (!this._oSettings) {
-      this._oSettings = new Cotton.UI.Settings.UISettings(this._oGlobalDispatcher);
-      this._$settings = this._oSettings.$();
-      this._$world.append(this._$settings);
-    }
-  },
-
-  toggleSettings : function() {
-    if (!this._oSettings) {
-      this.initSettings();
-    }
-    this._oSettings.toggle();
-  },
-
-  /**
-   * @param{boolean} bPurge
-   *   if the form is empty, we purge the settings object
-   *   otherwise we juste hide it
-   **/
-  closeSettings : function(bPurge) {
-    if (this._oSettings){
-      if (bPurge) {
-        this._oSettings.purge();
-        this._oSettings = null;
-        this._$settings.remove();
-        this._$settings = null;
-      } else {
-        this._oSettings.hide();
-      }
-    }
-  },
-
-  openManager : function(dArguments) {
-    var bFromPopState = dArguments && dArguments['from_popstate'];
-    if (this._oManager) {
-      this.clear();
-      if (this._oManager.isDetached()){
-        if (!bFromPopState) {
-          this._oGlobalDispatcher.publish('push_state', {
-            'code': "",
-            'value': ""
-          });
-        }
-        document.title = "cottonTracks";
-        // the manager is not visible, clear everything and attach it.
-        this._$world.append(this._oManager.$());
-        this._oManager.attached();
-        // We use a new message 'open_manager' because the 'home' message can result
-        // in no action( we were already on the manager and clicked the home button).
-        Cotton.ANALYTICS.openManager(dArguments);
-        if (bFromPopState) {
-          this._oGlobalDispatcher.publish('scrolloffset');
-        }
-      }
-    } else {
-      this.clear();
-      if (!bFromPopState) {
-        this._oGlobalDispatcher.publish('push_state', {
-          'code': "",
-          'value': ""
-        });
-      }
-      // no manager, init manager and start appending stories
-      this.initManager();
-      Cotton.ANALYTICS.openManager(dArguments);
-    }
-  },
-
-  /**
-   * open a generic partial that contains stories.
-   */
-  openPartial : function(lPartialStories, sPartialTitle, sEmptyMessage) {
-    document.title = sPartialTitle + " - cottonTracks search results" ;
-    this.clear();
-    this._oUIPartial = new Cotton.UI.Stand.Partial.UIPartial(sPartialTitle,
-      sEmptyMessage, this._oGlobalDispatcher);
-    this._$world.append(this._oUIPartial.$());
-    // we separate this from the constructor because
-    // we need the partial DOM element to be appended to the DOM world
-    // to have a width !== 0 and do some responsive design
-    this._oUIPartial.appendStories(lPartialStories);
-  },
-
-  hidePartial : function() {
-    if (this._oUIPartial) {
-      this._oUIPartial.purge();
-      this._oUIPartial = null;
-    }
-  },
-
   clear : function() {
     // clear everything except topbar
-    this.hideManager();
     this.hideHome();
     this.hideCheesecake();
-    this.hideStory();
-    this.hidePartial();
-    this.closeSettings();
   },
 
   isReady : function() {

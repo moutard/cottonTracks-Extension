@@ -3,8 +3,8 @@
 /**
  * DImage - DivImage
  *
- * This is a parent class, extended to Cotton.UI.Stand.Story.Card.Content.ImageFull,
- * and to Cotton.UI.Stand.Story.Card.Content.ImageFeatured
+ * This is a parent class, extended to Cotton.UI.Stand.Cheesecake.Card.Content.ImageFull,
+ * and to Cotton.UI.Stand.Cheesecake.Card.Content.ImageFeatured
  *
  * This class use image as div.
  */
