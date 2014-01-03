@@ -37,7 +37,7 @@ Cotton.Controllers.Popstater = Class.extend({
     oGlobalDispatcher.subscribe('push_state', this, function(dArguments){
       this._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
       this._iHistoryState++;
-      this.pushState(chrome.extension.getURL("lightyear.html") + dArguments['code'] + dArguments['value'],
+      this.pushState(chrome.extension.getURL("mo.html") + dArguments['code'] + dArguments['value'],
         this._iHistoryState);
       // will set the navigation arrows
       this.updateHistoryArrows();
@@ -87,7 +87,7 @@ Cotton.Controllers.Popstater = Class.extend({
           if (!oFilteredStory) {
             // analytics tracking.
             Cotton.ANALYTICS.navigate('manager_fallback');
-            self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
+            self.replaceState(chrome.extension.getURL("mo.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
               'from_popstate': true,
             });
@@ -109,7 +109,7 @@ Cotton.Controllers.Popstater = Class.extend({
         self._oLightyearController.fillStory(oCheesecake, function(oFilteredCheesecake){
           if (!oFilteredCheesecake) {
             // analytics tracking.
-            self.replaceState(chrome.extension.getURL("lightyear.html"), self._iHistoryState);
+            self.replaceState(chrome.extension.getURL("mo.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
               'from_popstate': true,
             });

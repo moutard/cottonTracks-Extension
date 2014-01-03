@@ -21,7 +21,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
 
   def compile(self):
     self.browser_management()
-    self.compileHtml('lightyear.html')
+    self.compileHtml('mo.html')
     self.compileHtml('background.html')
     self.compileWorker('algo/dbscan2/worker_dbscan2.js')
     self.compileWorker('algo/dbscan3/worker_dbscan3.js')

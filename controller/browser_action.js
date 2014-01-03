@@ -26,7 +26,7 @@ Cotton.Controllers.BrowserAction = Class.extend({
         // Url of the tab that called the browser action.
         var sCallerTabUrl = lTabs[0]['url'];
         //TODO(rkorach) check that there is no problem with 'lightyear.html?sid=303'
-        if (sCallerTabUrl === chrome.extension.getURL('lightyear.html')) {
+        if (sCallerTabUrl === chrome.extension.getURL('mo.html')) {
           // The tab that make the call to the browser action is already lightyear,
           // so the UI page will listen to the event go back to the manager.
           // Do nothing from background.
@@ -43,7 +43,7 @@ Cotton.Controllers.BrowserAction = Class.extend({
               var iLength = lTabs.length;
               for (var i = 0; i < iLength; i++) {
                 var oTab = lTabs[i];
-                if (oTab['url'] === chrome.extension.getURL('lightyear.html')
+                if (oTab['url'] === chrome.extension.getURL('mo.html')
                   && oTab['windowId'] === iCurrentWindow) {
                     var oCottonTab = oTab;
                 }
@@ -53,10 +53,10 @@ Cotton.Controllers.BrowserAction = Class.extend({
               }
               if (sCallerTabUrl === "chrome://newtab/"
                 || sCallerTabUrl === "https://www.google.com/webhp?sourceid=chrome-instant&espv=210&es_sm=91&ie=UTF-8") {
-                chrome.tabs.update(self._oMainController._iCallerTabId, {'url': 'lightyear.html'});
+                chrome.tabs.update(self._oMainController._iCallerTabId, {'url': 'mo.html'});
               } else {
                 chrome.tabs.create({
-                  'url': 'lightyear.html',
+                  'url': 'mo.html',
                   'index': iCallerTabIndex + 1,
                   'openerTabId': self._oMainController._iCallerTabId
                 });

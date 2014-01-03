@@ -79,7 +79,7 @@ Cotton.UI.World = Class.extend({
 
   initManager : function() {
     document.title = "cottonTracks";
-    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
     // careful not to clear after manager is created, because otherwhise it is considered
     // as detached and makes it possible to call the manager from the manager with the
     // home button (messes with the navigation by introducing a page then)
@@ -92,7 +92,7 @@ Cotton.UI.World = Class.extend({
     var self = this;
     document.title = "cottonTracks";
     var bFromPopState = dArguments && dArguments['from_popstate'];
-    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
     if (!this._oHome){
       if (!bFromPopState) {
         this._oGlobalDispatcher.publish('push_state', {
@@ -118,7 +118,7 @@ Cotton.UI.World = Class.extend({
 
   openCheesecake : function(oCheesecake) {
     document.title = "cottonTracks";
-    // need to clear, in case we landed first on a story with a url "lightyear.html?sid=42"
+    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
     if (!this._oUICheesecake) {
       this.clear();
       this._oUICheesecake = new Cotton.UI.Stand.Cheesecake.UICheesecake(oCheesecake, this._oGlobalDispatcher);
