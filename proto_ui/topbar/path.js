@@ -4,8 +4,12 @@ Cotton.UI.Topbar.Path = Class.extend({
 
   init : function(oGlobalDispatcher) {
     this._$path = $('<div class="ct-topbar_path"></div>');
-    this._$library = $('<div class="ct-topbar_path_element">Library</div>');
-    this._$first = $('<div class="ct-topbar_path_element"></div>');
+    this._$library = $('<div class="ct-topbar_path_element">Library</div>').click(function(){
+      oGlobalDispatcher.publish('home');
+    });
+    this._$first = $('<div class="ct-topbar_path_element"></div>').click(function(){
+      oGlobalDispatcher.publish('cancel_adder');
+    });
     this._$second = $('<div class="ct-topbar_path_element"></div>');
 
     this._sCheesecakeTitle = "";
@@ -37,9 +41,9 @@ Cotton.UI.Topbar.Path = Class.extend({
   },
 
   library : function() {
-    this._$library.remove();
-    this._$first.remove();
-    this._$second.remove();
+    this._$library.detach();
+    this._$first.detach();
+    this._$second.detach();
     this._$path.append(this._$library);
   },
 
@@ -52,7 +56,7 @@ Cotton.UI.Topbar.Path = Class.extend({
   },
 
   second : function() {
-    this._$second.remove();
+    this._$second.detach();
     this._$second.text('Add new cards');
     this._$path.append(this._$second);
   },
