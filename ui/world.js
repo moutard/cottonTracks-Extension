@@ -80,6 +80,11 @@ Cotton.UI.World = Class.extend({
     this._$world = $dom_world || $('.ct');
     this.initTopbar();
     this._bIsReady = true;
+
+    if (localStorage.getItem('proto_prompt') !== "true") {
+      localStorage.setItem('proto_prompt',true);
+      this.toggleProtoSwitch();
+    }
   },
 
   initTopbar : function() {

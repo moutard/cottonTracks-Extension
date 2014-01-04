@@ -68,6 +68,15 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
   },
 
   purge : function() {
-
+    this._$label.remove();
+    this._$label = null;
+    this._$job.remove();
+    this._$job = null;
+    this._$email.remove();
+    this._$email = null;
+    this._$submit.remove();
+    this._$submit = null;
+    this._$form.remove();
+    this._$form = null;
   }
 });
