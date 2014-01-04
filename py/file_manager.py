@@ -1,4 +1,5 @@
 import shutil, os, zipfile
+from shutil import make_archive
 
 class FileManager(object):
 
@@ -41,11 +42,7 @@ class FileManager(object):
         - psFolder: folder to zip.
         - psZip: path with name of the zip.
     """
-    zip = zipfile.ZipFile(psZip, 'w')
-    for root, dirs, files in os.walk(psFolder):
-      for file in files:
-        zip.write(os.path.join(root, file))
-    zip.close()
+    make_archive(psZip, 'zip', psFolder)
 
   def pretreatment(self, psSourcePath, psDestinationPath):
     """Given a source path and a destination path, remove the destination path if

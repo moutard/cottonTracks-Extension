@@ -20,7 +20,8 @@ class PRODCompiler(Compiler):
     Compiler.compile(self)
 
     self.removeUnpreservedFiles()
-    self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks.zip'))
+    print "@@@@" + self._PROD_DESTINATION_PATH
+    self.zip(self._PROD_DESTINATION_PATH, os.path.join(self._PROD_DESTINATION_PATH, '..', 'cottontracks'))
 
   def compileJs(self, plJavascriptFiles, psOutputFileName="output.min.js"):
     """Use the google closure compiler with specific parameters to merge all
