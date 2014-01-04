@@ -184,6 +184,7 @@ Cotton.Controllers.Finder = Class.extend({
    * @param {Array.<string>} lQueryWords: list of words written by the user.
    */
   _getKeywords : function(lQueryWords, mCallback) {
+    var self = this;
     // PARAMETERS.
     // To speed the query, we don't want scan all the searchKeywords.
     // Because each time we scan a searchKeywords we compute the lenvenshtein
@@ -197,27 +198,44 @@ Cotton.Controllers.Finder = Class.extend({
     var iCount = 0;
 
     for (var i = 0; i < lQueryWords.length; i++) {
-      var sPrefix = lQueryWords[i].substring(0,iLengthPrefix);
+        // Get all the words comprise between the prefix and the next char.
+      this._oDatabase.find("searchKeywords", "sKeyword", lQueryWords[i],
+          function(oSearchKeyword, sQueryWord) {
+            if (oSearchKeyword) {
+              iCount++;
+              lAllKeywords.push(oSearchKeyword);
+              if (iCount === lQueryWords.length) mCallback(lAllKeywords);
+            } else {
+              self._getClosestKeywordWithLevenshtein(sQueryWord, function(oSearchKeyword) {
+                lAllKeywords.push(oSearchKeyword);
+                iCount++;
+                if (iCount === lQueryWords.length) mCallback(lAllKeywords);
+              });
+            }
+      });
+    }
+
+  },
+
+  _getClosestKeywordWithLevenshtein : function(sQueryWord, mCallback) {
+      var self = this;
+      var sPrefix = sQueryWord.substring(0,2);
       var sUpperBound = this._nextChar(sPrefix);
-      var mConstraintGenerated = this._makeConstraint(lQueryWords[i], fMaxLenvenshteinDistance,
-          this._levenshtein);
-      // Get all the words comprise between the prefix and the next char.
-      // So if prefix is "pr" return "prototype", "prisonner" but not "q".
+      var mConstraintGenerated = this._makeConstraint(sQueryWord, 3.0,
+            this._levenshtein);
+
       this._oDatabase.getKeyRangeWithConstraint("searchKeywords", "sKeyword",
         sPrefix, sUpperBound,
         // Callback.
         function(lKeywords) {
-          iCount++;
-          lAllKeywords = lAllKeywords.concat(lKeywords);
-          if (iCount === lQueryWords.length) {
-            mCallback(lAllKeywords);
-          }
+            lKeywords = _.sortBy(lKeywords, function(oSearchKeyword){
+              return self._levenshtein(oSearchKeyword.keyword(), sQueryWord);
+            });
+            mCallback(lKeywords[0]);
         },
         // Constraint.
         mConstraintGenerated
       );
-    }
-
   },
 
   /**
@@ -229,12 +247,14 @@ Cotton.Controllers.Finder = Class.extend({
     var lRelatedStoriesId = [];
     var iLength = lSearchKeywords.length;
 
-
+    // Only keep stories that match all the keywords.
+    var lAllStoriesIdByKeywords = [];
     for (var i = 0; i < iLength; i++) {
-      var oSearchKeyword = lSearchKeywords[i];
-      lRelatedStoriesId = _.union(lRelatedStoriesId,
-          oSearchKeyword.referringStoriesId());
+      lAllStoriesIdByKeywords.push(lSearchKeywords[i].referringStoriesId());
     }
+    console.log(lAllStoriesIdByKeywords);
+    var lRelatedStoriesId = _.intersection.apply(null, lAllStoriesIdByKeywords);
+    console.log(lRelatedStoriesId);
     self._getStoriesAndScore(lRelatedStoriesId, 2, mCallback);
   },
 

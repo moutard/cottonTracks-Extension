@@ -414,13 +414,13 @@ Cotton.DB.IndexedDB.Wrapper = Cotton.DB.Wrapper.extend({
       function(oResult) {
         if (!oResult) {
           // If there was no result, send back null.
-          mResultElementCallback.call(self, null);
+          mResultElementCallback.call(self, null, oIndexValue);
           return;
         }
 
         var oTranslator = self._translatorForDbRecord(sObjectStoreName, oResult);
         var oObject = oTranslator.dbRecordToObject(oResult);
-        mResultElementCallback.call(self, oObject);
+        mResultElementCallback.call(self, oObject, oIndexValue);
     });
   },
 
