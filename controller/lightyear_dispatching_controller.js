@@ -289,6 +289,12 @@ Cotton.Controllers.DispatchingController = Class.extend({
         });
     });
 
+    // SWITCH TO PROTOTYPE
+    oGlobalDispatcher.subscribe('switch_to_proto', this, function(){
+      localStorage.setItem('proto_test', true);
+      window.open(chrome.extension.getURL('mo.html'));
+      window.close();
+    });
   }
 
 });

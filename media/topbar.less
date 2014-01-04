@@ -18,6 +18,8 @@
 @bbgrey: #bbbbbb;
 @33grey : #333333;
 @almondgreen: #42b07d;
+@purewhite: #FFFFFF;
+@purered: #FF0000;
 
 .ct-topbar_container {
   position: fixed;
@@ -108,6 +110,23 @@
       background-image: url('/media/images/common/ct-icons.png');
       background-position: 0 -60px;
       cursor: pointer;
+    }
+
+    > .ct-proto_trigger {
+      float: left;
+      margin-top: 10px;
+      margin-left: 20px;
+      color: @purewhite;
+      height: 14px;
+      width: 14px;
+      border-radius: 9px;
+      font-weight: bold;
+      text-align: center;
+      background-color: @purered;
+      background-position: 0 -60px;
+      cursor: pointer;
+      line-height: 13px;
+      font-size: 12px;
     }
 
     > .ct-settings_menu_topbar {

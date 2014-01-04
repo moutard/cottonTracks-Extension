@@ -70,6 +70,10 @@ Cotton.UI.World = Class.extend({
     oGlobalDispatcher.subscribe('clear', this, function(){
       this.clear();
     });
+
+    oGlobalDispatcher.subscribe('toggle_switch', this, function(){
+      this.toggleProtoSwitch();
+    });
   },
 
   createWorld : function($dom_world) {
@@ -149,6 +153,28 @@ Cotton.UI.World = Class.extend({
       } else {
         this._oSettings.hide();
       }
+    }
+  },
+
+  initProtoSwitch : function() {
+    if (!this._oProtoSwitch) {
+      this._oProtoSwitch = new Cotton.UI.ProtoSwitch.UIProtoSwitch(this._oGlobalDispatcher);
+      this._$world.append(this._oProtoSwitch.$());
+    }
+  },
+
+  closeProtoSwitch : function() {
+    if (this._oProtoSwitch){
+      this._oProtoSwitch.purge();
+      this._oProtoSwitch = null;
+    }
+  },
+
+  toggleProtoSwitch : function() {
+    if (!this._oProtoSwitch) {
+      this.initProtoSwitch();
+    } else {
+      this.closeProtoSwitch();
     }
   },
 

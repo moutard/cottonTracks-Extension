@@ -50,12 +50,16 @@ Cotton.UI.Topbar.Menu = Class.extend({
       });
     });
 
+    this._$proto_trigger = $('<div class="ct-proto_trigger">!</div>').click(function(){
+      oGlobalDispatcher.publish('toggle_switch');
+    });
+
     //settings icon, toggles (open/close) the settings panel on click
     this._$settings = $('<div class="ct-settings_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$favorites, this._$settings);
+    this._$menu.append(this._$arrows, this._$favorites, this._$proto_trigger, this._$settings);
   },
 
   $ : function() {
