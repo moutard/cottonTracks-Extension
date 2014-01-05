@@ -21,7 +21,7 @@ Cotton.UI.Stand.Cheesecake.Card.Map = Cotton.UI.Stand.Cheesecake.Card.Card.exten
     this.setType('map');
 
     var sThumb = "http://maps.googleapis.com/maps/api/staticmap?center=" + sMapCode +
-            "&sensor=false&size=500x325&maptype=roadmap&markers=color:blue%7C" + sMapCode;
+            "&sensor=false&size=425x250&maptype=roadmap&markers=color:blue%7C" + sMapCode;
     var oMapThumb = new Cotton.UI.Stand.Cheesecake.Card.Content.ImageFull();
     oMapThumb.appendImage(sThumb);
     this._$media = oMapThumb.$();
