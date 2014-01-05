@@ -63,7 +63,28 @@ Cotton.Controllers.Mo = Class.extend({
         'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
         'cheesecakes' : Cotton.Translators.CHEESECAKE_TRANSLATORS
     }, function() {
-      self._oPopstater = new Cotton.Controllers.Mopstater(self, self._oGlobalDispatcher);
+      if (localStorage['favorite_to_cheesecakes']) {
+        localStorage.removeItem('favorite_to_cheesecakes');
+        // set favorite stories as cheesecakes
+        self._oDatabase.search('stories', 'bFavorite', 1, function(lFavoriteStories){
+          var lCheesecakes = [];
+          var iLength = lFavoriteStories.length;
+          for (var i = 0; i < iLength; i++) {
+            var oStory = lFavoriteStories[i];
+            var oCheesecake = new Cotton.Model.Cheesecake();
+            oCheesecake.setTitle(oStory.title());
+            oCheesecake.setFeaturedImage(oStory.featuredImage());
+            oCheesecake.setHistoryItemsId(oStory.historyItemsId());
+            oCheesecake.setDNA(oStory.dna());
+            lCheesecakes.push(oCheesecake);
+          }
+          self._oDatabase.putList('cheesecakes', lCheesecakes, function(){
+            self._oPopstater = new Cotton.Controllers.Mopstater(self, self._oGlobalDispatcher);
+          });
+        });
+      } else {
+        self._oPopstater = new Cotton.Controllers.Mopstater(self, self._oGlobalDispatcher);
+      }
     });
   },
 
