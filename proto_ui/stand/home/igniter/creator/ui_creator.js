@@ -40,15 +40,12 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
       + '</br>into and we will bring you every page on this subject'
       + '</div>');
     this._$creator_input = $('<input class="ct-creator_input"/>');
-    this._$creator_button = $('<div class="ct-creator_button">Create</div>');
-    this._$creator_hint = $('<span class="ct-creator_hint"></span>');
+    this._$creator_button = $('<div class="ct-creator_button">Start by typing a title</div>');
     this._$creator.append(
       this._$creator_explainer_title,
       this._$creator_explainer_text,
       this._$creator_input,
-      this._$creator_button.append(
-        this._$creator_hint
-      )
+      this._$creator_button
     );
     this._oGlobalDispatcher.subscribe('focus_creator', this, function(){
       this._$creator_input.focus();
@@ -58,11 +55,15 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
       this._iRequests--;
       var oCheesecake = dArguments['cheesecake'];
       if (oCheesecake.historyItemsSuggest().length > 0) {
-        this._$creator_hint.text(" with " + oCheesecake.historyItemsSuggest().length + " cards");
+        this._$creator_button.text("Create with " + oCheesecake.historyItemsSuggest().length + " cards");
         this._$creator_button.addClass('ct-active');
       } else {
-        this._$creator_hint.text("");
         this._$creator_button.removeClass('ct-active');
+        if (this._$creator_input.val()){
+          this._$creator_button.text("Create empty deck");
+        } else {
+          this._$creator_button.text("Start by typing a title");
+        }
       }
       this._createCheesecake(oCheesecake);
     });
@@ -89,9 +90,11 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
     });
 
     this._$creator_button.click(function(oEvent){
-      clearTimeout(self._oTimeout);
-      self._bReadyForCheesecake = true;
-      self._fetchRecipe();
+      if (self._$creator_input.val()) {
+        clearTimeout(self._oTimeout);
+        self._bReadyForCheesecake = true;
+        self._fetchRecipe();
+      }
     });
   },
 
@@ -107,7 +110,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
 
   _createCheesecake : function(oCheesecake) {
     if (this._iRequests === 0 && this._bReadyForCheesecake
-    && oCheesecake.historyItemsSuggest().length > 0) {
+    && this._$creator_input.val()) {
         oCheesecake.setTitle(this._$creator_input.val().toLowerCase());
         this._oGlobalDispatcher.publish('open_cheesecake', {'cheesecake': oCheesecake});
     } else {
@@ -123,6 +126,16 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
     this._oGlobalDispatcher.unsubscribe('focus_creator', this);
     this._oGlobalDispatcher.unsubscribe('new_cheesecake', this);
     this._oGlobalDispatcher = null;
+    this._iRequest = null;
+    this._bReadyForCheesecake = null;
+    this._$creator_button.remove();
+    this._$creator_button = null;
+    this._$creator_input.remove();
+    this._$creator_input = null;
+    this._$creator_explainer_text.remove();
+    this._$creator_explainer_text = null;
+    this._$creator_explainer_title.remove();
+    this._$creator_explainer_title = null;
   }
 
 });
