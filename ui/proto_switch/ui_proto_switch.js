@@ -1,4 +1,4 @@
-"uste strict";
+"use strict";
 
 Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
 
