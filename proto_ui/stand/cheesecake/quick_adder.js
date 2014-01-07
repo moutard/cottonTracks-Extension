@@ -11,7 +11,7 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
     this._$hint = $('<div class="ct-quick_adder_hint">add a new card</div>');
 
     this._$add_skip = $('<div class="ct-quick_adder_add_skip"></div>');
-    this._$add_button = $('<div class="ct-quick_adder_add_button">+</div>');
+    this._$add_button = $('<div class="ct-quick_adder_add_button">Add</div>');
     this._$skip_button = $('<div class="ct-quick_adder_skip_button">Skip</div>');
 
     this._$add_button.click(function(){
