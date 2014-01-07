@@ -178,6 +178,14 @@ Cotton.Controllers.DispatchingController = Class.extend({
       });
     });
 
+    // delete a suggestion. We mark a story as banned from suggestions
+    oGlobalDispatcher.subscribe('delete_theme_suggestion', this, function(dArguments){
+      oMoController.database().find('stories', 'id', dArguments['story_id'], function(oStory){
+        oStory.setBannedFromSuggest(1);
+        oMoController.database().put('stories', oStory, function(){});
+      });
+    });
+
     /**
      * get items from a cheesecake's list of historyItemsId to display in the UICheesecake
      *

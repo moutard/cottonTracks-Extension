@@ -39,6 +39,21 @@ Cotton.UI.Stand.Home.ThemeSuggestor.UIThemeSuggestor = Class.extend({
     }
   },
 
+  pop : function(iIndex) {
+    var iIndexToDelete = iIndex - 2 || 0;
+    var iLength = this._lTiles.length;
+    var lTempTiles = [];
+    for (var i = 0; i < iLength; i++) {
+      if (i !== iIndexToDelete) {
+        lTempTiles.push(this._lTiles[i]);
+      } else {
+        this._lTiles[i].purge();
+        this._lTiles[i] = null;
+      }
+    }
+    this._lTiles = lTempTiles;
+  },
+
   _computeSlots : function(iWindowWidth) {
     var ELEMENT_WIDTH = 170;
     var ELEMENT_MARGIN = 20;

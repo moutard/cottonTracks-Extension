@@ -392,7 +392,10 @@ Cotton.Controllers.Mo = Class.extend({
   // taken from stories with images and sorted by number of items
   getStoriesSuggestions : function(mCallback) {
     var mStoryConstraint = function(dDBRecord) {
-       return (dDBRecord['sFeaturedImage'] !== "" && dDBRecord['sTitle'] !== "");
+       return (
+         dDBRecord['sFeaturedImage'] !== "" && dDBRecord['sTitle'] !== ""
+         && dDBRecord['bBannedFromSuggest'] !== 1
+       );
     }
     this._oDatabase.getListWithConstraint('stories', function(lDBStories){
       lDBStories.sort(function(a,b){return b.historyItemsId().length - a.historyItemsId().length});

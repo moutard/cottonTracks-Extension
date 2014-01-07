@@ -38,7 +38,7 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
     this._$igniter.addClass('ct-welcome');
   },
 
-  suggest : function(lStories) {
+  suggest : function(lStories, bToggle) {
     var self = this;
     this._lSuggestions = [];
     this._$suggestions = $('<div class="ct-suggested_themes"></div>');
@@ -51,26 +51,39 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
         $(this).text("Show more");
         self._oGlobalDispatcher.publish('hide_more_suggested_themes');
       }
-      $(this).toggleClass("ct-more ct-less")
+      $(this).toggleClass("ct-more ct-less");
     });
+    if (bToggle) {
+      this._$more.toggleClass("ct-more ct-less").text("Show less");
+    }
     this._$suggestions.append(
       this._$try_these
-    )
+    );
     var iLength = lStories.slice(0,2).length;
     for (var i = 0; i < iLength; i++) {
       var oSuggestedTheme = new Cotton.UI.Stand.Home.Common.ThemeSuggestion(lStories[i], this._oGlobalDispatcher);
       this._lSuggestions.push(oSuggestedTheme);
       this._$suggestions.append(oSuggestedTheme.$());
     }
-    this._$suggestions.append(this._$more);
+    if (lStories.length > 2) {
+      this._$suggestions.append(this._$more);
+    }
     this._$igniter_container.append(
       this._$suggestions
     );
   },
 
+  refreshSuggestions : function(lStories) {
+    if (this._lSuggestions) {
+      this._purgeSuggestions();
+      this.suggest(lStories, this._$more.hasClass('ct-less'));
+    }
+  },
+
   _purgeSuggestions : function() {
     var iLength = this._lSuggestions.length;
     for (var i = 0; i < iLength; i++) {
+      this._lSuggestions[i].purge();
       this._lSuggestions[i] = null;
     }
     this._lSuggestions = null;

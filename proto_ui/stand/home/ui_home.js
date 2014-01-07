@@ -42,10 +42,39 @@ Cotton.UI.Stand.Home.UIHome = Class.extend({
       this._oSuggestor = null;
     });
 
+    this._oGlobalDispatcher.subscribe('delete_theme_suggestion', this, function(dArguments){
+      var iDeletedStoryId = dArguments['story_id'];
+      var iLength = this._lStories.length;
+      var lTempStories = [];
+      var iIndex;
+      for (var i = 0; i < iLength; i++) {
+        if (this._lStories[i].id() === iDeletedStoryId) {
+          iIndex = i;
+        } else {
+          lTempStories.push(this._lStories[i]);
+        }
+      }
+      this._lStories = lTempStories;
+      this.refreshSuggestions(iIndex);
+    });
+
   },
 
   $ : function() {
     return this._$home;
+  },
+
+  refreshSuggestions : function(iIndex) {
+    if (iIndex < 2) {
+      this._oIgniter.refreshSuggestions(this._lStories);
+      if (this._oSuggestor) {
+        this._oSuggestor.pop();
+      }
+    } else {
+      if (this._oSuggestor) {
+        this._oSuggestor.pop(iIndex);
+      }
+    }
   },
 
   removeCheesecake : function(iId) {
@@ -56,6 +85,7 @@ Cotton.UI.Stand.Home.UIHome = Class.extend({
     this._oGlobalDispatcher.unsubscribe('fill_homescreen', this);
     this._oGlobalDispatcher.unsubscribe('show_more_suggested_themes', this);
     this._oGlobalDispatcher.unsubscribe('hide_more_suggested_themes', this);
+    this._oGlobalDispatcher.unsubscribe('delete_theme_suggestion', this);
     this._oGlobalDispatcher = null;
     this._oIgniter.purge();
     this._oIgniter = null;

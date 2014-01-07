@@ -537,4 +537,30 @@
     display: -webkit-box;
     overflow: hidden;
   }
+
+  > .ct-delete_suggestion {
+    position: absolute;
+    top: 9px;
+    right: 11px;
+    width: 13px;
+    height: 13px;
+    line-height: 12px;
+    text-align: center;
+    -webkit-border-radius: 10px;
+    background-color: rgba(0,0,0,0.7);
+    -webkit-transform: rotate(45deg);
+    cursor: pointer;
+    opacity: 0.3;
+    color: @purewhite;
+  }
+
+  &:hover {
+    > .ct-delete_suggestion {
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
