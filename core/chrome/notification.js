@@ -9,8 +9,9 @@ Cotton.Core.Notification = Class.extend({
       + "Click here to check it out!";
 
     chrome.notifications.create(self._sId, {
-      "type":"basic",
+      "type":"image",
       "iconUrl": "/media/images/browser_action/cbutton38.png",
+      "imageUrl": "/media/images/notifications/notif_screen.png",
       "title": this._sTitle,
       "message": this._sMessage
     }, function(){});
