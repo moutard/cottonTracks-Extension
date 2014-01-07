@@ -74,6 +74,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
   },
 
   validateStack : function() {
+    Cotton.ANALYTICS.validateCards(this._lStack.length);
     this._oGlobalDispatcher.publish('validate_stack', {
       "history_items": this._lStack
     });

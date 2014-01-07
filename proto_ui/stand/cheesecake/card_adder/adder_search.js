@@ -33,9 +33,12 @@ Cotton.UI.Stand.Cheesecake.CardAdder.AdderSearch = Class.extend({
   },
 
   search : function() {
-    this._oGlobalDispatcher.publish('search_suggestions', {
-      'search_query' : this._$input.val()
-    });
+    if (this._$input.val() !== "") {
+      Cotton.ANALYTICS.searchMoreCards();
+      this._oGlobalDispatcher.publish('search_suggestions', {
+        'search_query' : this._$input.val()
+      });
+    }
   },
 
   purge : function() {

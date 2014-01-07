@@ -82,6 +82,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
 
     this._$creator_input.keypress(function(oEvent){
       if (oEvent.which === 13) {
+        self._sValidationMedium = "creator_box_enter";
         // 13 = enter key.
         clearTimeout(self._oTimeout);
         self._bReadyForCheesecake = true;
@@ -91,6 +92,7 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
 
     this._$creator_button.click(function(oEvent){
       if (self._$creator_input.val()) {
+        self._sValidationMedium = "creator_box_button";
         clearTimeout(self._oTimeout);
         self._bReadyForCheesecake = true;
         self._fetchRecipe();
@@ -111,8 +113,9 @@ Cotton.UI.Stand.Home.Igniter.Creator.UICreator = Class.extend({
   _createCheesecake : function(oCheesecake) {
     if (this._iRequests === 0 && this._bReadyForCheesecake
     && this._$creator_input.val()) {
-        oCheesecake.setTitle(this._$creator_input.val().toLowerCase());
-        this._oGlobalDispatcher.publish('open_cheesecake', {'cheesecake': oCheesecake});
+      Cotton.ANALYTICS.createDeck(this._sValidationMedium);
+      oCheesecake.setTitle(this._$creator_input.val().toLowerCase());
+      this._oGlobalDispatcher.publish('open_cheesecake', {'cheesecake': oCheesecake});
     } else {
      this._bReadyForCheesecake = false;
     }

@@ -93,7 +93,7 @@ Cotton.Controllers.Mopstater = Class.extend({
             self._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
           } else {
             // analytics tracking.
-            Cotton.ANALYTICS.navigate('story');
+            Cotton.ANALYTICS.navigate('cheesecake');
             self._oGlobalDispatcher.publish('open_cheesecake', {
               'cheesecake': oFilteredCheesecake
             });
@@ -101,16 +101,6 @@ Cotton.Controllers.Mopstater = Class.extend({
           }
         });
       });
-    } else if (oUrl.dSearch['q']) {
-      // Search page.
-      self._oGlobalDispatcher.publish('search_stories', {
-        'search_words': oUrl.dSearch['q'].split('+')
-      });
-      // analytics tracking.
-      Cotton.ANALYTICS.navigate('search');
-    } else if (oUrl.dSearch['p'] === 'favorites'){
-      // favorites page.
-      self._oGlobalDispatcher.publish('favorites');
     } else {
       // analytics tracking.
       Cotton.ANALYTICS.navigate('home');

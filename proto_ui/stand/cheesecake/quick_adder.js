@@ -15,6 +15,7 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
     this._$skip_button = $('<div class="ct-quick_adder_skip_button">Skip</div>');
 
     this._$add_button.click(function(){
+      Cotton.ANALYTICS.addQuickAdd();
       self._oGlobalDispatcher.publish('validate_stack', {
         'history_items' : [self._lSuggestions[0]]
       });
@@ -22,6 +23,7 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
     });
 
     this._$skip_button.click(function(){
+      Cotton.ANALYTICS.skipQuickAdd();
       self._skip();
     });
 

@@ -49,7 +49,7 @@ Cotton.UI.Stand.Common.ImagePicker = Class.extend({
     var self = this;
     var lImagesUrl = this.getImagesFromItems(lHistoryItems);
     var iLength = lImagesUrl.length;
-    var sCurrentImage = this._oCheesecake.featuredImage();
+    this._sCurrentImage = this._oCheesecake.featuredImage();
     if (iLength) {
       this._$image_picker.append(
         this._$image_picker_legend,
@@ -63,7 +63,7 @@ Cotton.UI.Stand.Common.ImagePicker = Class.extend({
       oImage.appendImage(lImagesUrl[i]);
       this._lImages.push(oImage);
       var $image = oImage.$();
-      if (lImagesUrl[i] === sCurrentImage) {
+      if (lImagesUrl[i] === this._sCurrentImage) {
         $image.addClass('ct-image_selected');
       }
       oImage.select(this._oLocalDispatcher);
@@ -120,6 +120,9 @@ Cotton.UI.Stand.Common.ImagePicker = Class.extend({
   },
 
   purge : function() {
+    if (this._sCurrentImage !== this._oCheesecake.featuredImage()) {
+      Cotton.ANALYTICS.editDeckSticker('image');
+    }
     this._oGlobalDispatcher.unsubscribe('give_all_cheesecake_images', this);
     this._oGlobalDispatcher = null;
     this._oLocalDispatcher = null;

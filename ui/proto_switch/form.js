@@ -52,6 +52,9 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
       if (self._$email.val() !== ""){
         // submit the form via ajax with the content of the form
         $.post(self._$form.attr('action'), self._$form.serialize(), function(response){
+          // Analytics tracking
+          Cotton.ANALYTICS.validateSwitch();
+
           oGlobalDispatcher.publish('switch_to_proto');
         });
       } else {

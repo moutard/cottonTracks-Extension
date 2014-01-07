@@ -62,6 +62,7 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
     // Click the image to enter the story.
     this._oImage.$().addClass('ct-sticker_image').click(function(){
       if (sContext === 'library') {
+        Cotton.ANALYTICS.openDeck();
         oGlobalDispatcher.publish('open_cheesecake', {
           'cheesecake': oStory
         });
@@ -123,11 +124,13 @@ Cotton.UI.Stand.Common.Sticker = Class.extend({
 
   toggleEdit : function(oStory) {
     if (this._$toggle_edit.hasClass('ct-edit_open')) {
+      Cotton.ANALYTICS.editDeckSticker('close');
       this._$toggle_edit.text('Edit');
       oStory.setTitle(this._oEdit.getTitle());
       this._oGlobalDispatcher.publish('update_db_cheesecake', {'cheesecake': oStory});
       this.purgeEdit();
     } else {
+      Cotton.ANALYTICS.editDeckSticker('open');
       this._$toggle_edit.text('Done');
       this._oEdit = new Cotton.UI.Stand.Common.Edit(oStory, this._oLocalDispatcher, this._oGlobalDispatcher);
       this._$sticker.append(this._oEdit.$());

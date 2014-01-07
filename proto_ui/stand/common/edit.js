@@ -11,6 +11,8 @@ Cotton.UI.Stand.Common.Edit = Class.extend({
         });
     });
 
+    this._sInitialTitle = oCheesecake.title();
+
     this._$edit_title_legend = $('<div class="ct-sticker_edit_title_legend">Edit your title here</div>');
     this._oImagePicker = new Cotton.UI.Stand.Common.ImagePicker(oCheesecake, oLocalDispatcher, oGlobalDispatcher);
 
@@ -41,6 +43,12 @@ Cotton.UI.Stand.Common.Edit = Class.extend({
   },
 
   purge : function() {
+    if (this._$edit_title.val() !== this._sInitialTitle) {
+      Cotton.ANALYTICS.editDeckSticker('title');
+    }
+    this._oImagePicker.purge();
+    this._oImagePicker = null;
+    this._sInitialTitle = null;
     this._$edit_title.remove();
     this._$edit_title = null;
     this._$edit_title_legend.remove();

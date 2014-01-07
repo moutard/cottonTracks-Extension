@@ -52,9 +52,11 @@ Cotton.UI.Topbar.Menu = Class.extend({
 
     this._$proto_trigger = $('<div class="ct-proto_trigger">!</div>').click(function(){
       oGlobalDispatcher.publish('toggle_switch');
+      // Analytics tracking
+      Cotton.ANALYTICS.openSwitch();
     });
 
-    //settings icon, toggles (open/close) the settings panel on click
+    // Settings icon, toggles (open/close) the settings panel on click
     this._$settings = $('<div class="ct-settings_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_settings');
     });

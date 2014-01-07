@@ -70,7 +70,9 @@ Cotton.UI.Stand.Cheesecake.Card.Card = Class.extend({
     this._oLocalDispatcher = new Cotton.Messaging.Dispatcher();
     this._$overlay = $('<a class="ct-card_overlay" href="'
       + oHistoryItem.url()
-      + '" target="_blank"></a>');
+      + '" target="_blank"></a>').click(function(){
+        Cotton.ANALYTICS.openInNewTab('card_deck');
+      });
 
     this._$card = $('<div class="ct-card"></div>');
     this._$delete = $('<div class="ct-delete_card">+</div>').click(function(){
@@ -158,7 +160,9 @@ Cotton.UI.Stand.Cheesecake.Card.Card = Class.extend({
     this._$selection_feedback = $('<div class="ct-suggestion_selection_feedback">Click to add to your deck</div>');
     this._$open = $('<a class="ct-open_suggestion" href="'
       + this._oHistoryItem.url()
-      + '" target="_blank">open in new tab</a>');
+      + '" target="_blank">open in new tab</a>').click(function(){
+        Cotton.ANALYTICS.openInNewTab('card_adder');
+      });
 
     this._$card.append(
       this._$overlay.append(
@@ -184,6 +188,12 @@ Cotton.UI.Stand.Cheesecake.Card.Card = Class.extend({
       this._$delete.unbind('click');
       this._$delete.remove();
       this._$delete = null;
+    }
+    if (this._$selection_feedback) {
+      this._$selection_feedback.remove();
+      this._$selection_feedback = null;
+      this._$open.remove();
+      this._$open = null;
     }
     this._$overlay.remove();
     this._$overlay = null;

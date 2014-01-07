@@ -14,10 +14,12 @@ Cotton.UI.Stand.Cheesecake.CardAdder.AdderHead = Class.extend({
     this._$card_adder_cancel = $('<div class="card_adder_select_option">cancel</div>');
 
     this._$card_adder_select_all.click(function(){
+      Cotton.ANALYTICS.selectAllToAdd();
       self.selectAll();
     });
 
     this._$card_adder_clear_all.click(function(){
+      Cotton.ANALYTICS.removeAllToAdd();
       self.clearAll();
     });
 

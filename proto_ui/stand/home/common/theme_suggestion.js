@@ -11,6 +11,8 @@ Cotton.UI.Stand.Home.Common.ThemeSuggestion = Class.extend({
 
     this._$theme_suggestion.click(function(e) {
       if (e.target !== self._$delete[0]) {
+        var sMedium = ($(this).parent('.ct-suggested_themes').length > 0) ? 'top_two_suggestions' : 'all_suggestions';
+        Cotton.ANALYTICS.createDeck(sMedium);
         oGlobalDispatcher.publish('create_suggested_cheesecake', {
           'title': oStory.title()
         });
@@ -18,6 +20,7 @@ Cotton.UI.Stand.Home.Common.ThemeSuggestion = Class.extend({
     });
 
     this._$delete = $('<div class="ct-delete_suggestion">+</div>').click(function(){
+      Cotton.ANALYTICS.deleteSuggestion();
       oGlobalDispatcher.publish('delete_theme_suggestion', {
         'story_id': oStory.id(),
       });
