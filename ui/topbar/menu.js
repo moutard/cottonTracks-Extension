@@ -50,7 +50,7 @@ Cotton.UI.Topbar.Menu = Class.extend({
       });
     });
 
-    this._$proto_trigger = $('<div class="ct-proto_trigger">!</div>').click(function(){
+    this._$proto_trigger = $('<div class="ct-proto_trigger"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_switch');
       // Analytics tracking
       Cotton.ANALYTICS.openSwitch();
@@ -61,7 +61,7 @@ Cotton.UI.Topbar.Menu = Class.extend({
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$favorites, this._$proto_trigger, this._$settings);
+    this._$menu.append(this._$arrows, this._$favorites, this._$settings, this._$proto_trigger);
   },
 
   $ : function() {
