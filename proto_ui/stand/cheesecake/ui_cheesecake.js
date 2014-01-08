@@ -52,17 +52,6 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
       )
     );
 
-    this._oGlobalDispatcher.subscribe('window_scroll', this, function(){
-      self._oDashboard.pushBack();
-      if (!self._bScrolling) {
-        self._bScrolling = true;
-        self._oScrollTimeout = setTimeout(function(){
-          self._bScrolling = false;
-          self._oDashboard.bringFront();
-        }, 600);
-      }
-    });
-
     this._oGlobalDispatcher.subscribe('give_cheesecake_items', this, function(dArguments){
       this.addCards(dArguments['history_items'])
     });
@@ -209,12 +198,6 @@ Cotton.UI.Stand.Cheesecake.UICheesecake = Class.extend({
     this._oGlobalDispatcher.unsubscribe('delete_cheesecake_card', this);
     this._oGlobalDispatcher.unsubscribe('window_resize', this);
     this._oGlobalDispatcher = null;
-
-    // Clear the timeout, otherwise we could try asyncronously to access the _oDashboard
-    // that has already been purged. ex: swipe right to go to previous page.
-    clearTimeout(this._oScrollTimeout);
-    this._oScrollTimeout = null;
-    this._bScrolling = null;
 
     this._purgeCardAdder();
 

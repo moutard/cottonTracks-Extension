@@ -24,14 +24,6 @@ Cotton.UI.Stand.Cheesecake.Dashboard = Class.extend({
     return this._$dashboard;
   },
 
-  pushBack : function() {
-    this._$dashboard.addClass('ct-pushed_back');
-  },
-
-  bringFront : function() {
-    this._$dashboard.removeClass('ct-pushed_back');
-  },
-
   updateStickerImage : function(sImageUrl) {
     this._oSticker.updateImage(sImageUrl);
   },
