@@ -89,19 +89,20 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
       this._lSuggestions[i] = null;
     }
     this._lSuggestions = null;
-    this._$try_these.remove();
-    this._$try_these = null;
-    this._$suggestions.remove();
-    this._$suggestions = null;
+    if (this._$suggestions) {
+      this._$try_these.remove();
+      this._$try_these = null;
+      this._$suggestions.remove();
+      this._$suggestions = null;
+    }
   },
 
   purge : function() {
     this._oGlobalDispatcher = null;
     this._oCreator.purge();
     this._oCreator = null;
-    if (this._$suggestions) {
-      this._purgeSuggestions();
-    } else {
+    this._purgeSuggestions();
+    if (this._$welcome) {
       this._$welcome.remove();
       this._$welcome = null;
       this._$explainer.remove();
