@@ -31,7 +31,7 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
     +'id="entry_229712282" dir="auto" placeholder="awesome.betatester@example.com">');
     this._$submit = $('<input class="ct-form_submit disabled" type="submit" name="submit" value="I\'m ready to be a beta tester" id="ct-form_submit">');
 
-    this._$privacy = $('<div class="ct-switch_box_privacy">Read our privacy policy <a href="http://www.cottontracks.com/privacy" target="_blank">here</a></div>');
+    this._$privacy = $('<div class="ct-switch_box_privacy">Read our privacy policy <a href="http://www.cottontracks.com/privacy.html" target="_blank">here</a></div>');
 
     // show the submit button fully opaque only if some text is written
     this._$email.keyup(function(e){
