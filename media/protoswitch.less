@@ -1,13 +1,12 @@
 /*colors*/
 @purewhite: #ffffff;
+@pureblack: #000000;
 @a6grey: #a6a6a6;
 @66grey: #666666;
-@almondgreen: #42b07d;
-@fagrey: #fafafa;
-@b8grey: #b8b8b8;
-@lightyellow: #f9edbe;
-@darkyellow: #f0c36d;
-
+@b3grey: #b3b3b3;
+@f4grey: #f4f4f4;
+@ccgrey: #cccccc;
+@azulgreen: #52C8B8;
 
 .ct-proto_switch {
   width: 100%;
@@ -16,25 +15,32 @@
   overflow: scroll;
   top: 0;
   z-index: 10;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(255,255,255,0.5);
 
   > .ct-proto_switch_box {
     position: relative;
-    width: 714px;
+    width: 695px;
+    -webkit-box-sizing: border-box;
     border-radius: 1px;
     padding: 10px;
     margin: auto;
     margin-top: 130px;
+    padding: 40px 70px 40px 70px;
     background: @purewhite;
+    font-family: 'SourceSansPro-Light';
+    color: @pureblack;
 
-    > .ct-proto_switch_box_title {
-      width : 694px;
-      height: 20px;
-      padding: 10px;
+    > .ct-switch_box_title {
+      font-size: 26px;
+      padding: 0px;
+      text-align: center;
+    }
+
+    > .ct-switch_box_subtitle {
       font-size: 20px;
-      padding-top: 0px;
-      padding-bottom: 12px;
-      border-bottom: solid 1px @a6grey;
+      padding-top: 8px;
+      padding-bottom: 10px;
+      text-align: center;
     }
 
     > .ct-form {
@@ -44,27 +50,75 @@
 
       > .ct-form_label {
         display: block;
+        margin-top: 20px;
+        margin-left: 10px;
+        margin-bottom: 8px;
+      }
+
+      > .ct-form_job {
+        display: block;
+        -webkit-appearance: initial;
+        border: solid 1px @b3grey;
+        background-color: @f4grey;
+        background-image: url('/media/images/common/ct-dropdown_arrow.png');
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-position-x: 496px;
+        border-radius: 0px;
+        outline: none;
+        width: 100%;
+        font-family: 'SourceSansPro-Light';
+        font-size: 16px;
+        font-style: italic;
+        padding: 10px;
+        color: @66grey;
+      }
+
+      > .ct-form_email {
+        display: block;
+        -webkit-appearance: initial;
+        border: none;
+        border-bottom: solid 1px @b3grey;
+        border-radius: 0px;
+        outline: none;
+        width: 100%;
+        font-family: 'SourceSansPro-Light';
+        font-size: 18px;
+        padding: 0px 10px 4px 10px;
+        font-style: italic;
+        color: @66grey;
       }
 
       > .ct-form_submit {
         display: block;
-        background: none;
-        border: solid 2px @66grey;
-        border-radius: 6px;
-        padding: 5px;
-        width: 80px;
+        background-color: @azulgreen;
+        border: none;
+        border-radius: 0;
+        padding: 15px;
+        -webkit-box-sizing: border-box;
         margin: auto;
-        font-family: SourceSansPro-Regular;
-        font-size: 16px;
-        color: @66grey;
+        font-family: SourceSansPro-Light;
+        font-size: 18px;
+        color: @purewhite;
         cursor: pointer;
         outline: none;
+        margin-top: 30px;
+      }
 
-        &.disabled {
-          opacity: 0.5;
-          cursor: default;
+      > .ct-switch_box_privacy {
+        margin-left: 10px;
+        margin-top: 25px;
+
+        > a {
+          color: @pureblack;
         }
       }
+    }
+
+    > .ct-dismiss {
+      text-align: center;
+      text-decoration: underline;
+      cursor: pointer;
     }
 
     > .ct-close_proto_switch_box {

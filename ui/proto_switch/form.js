@@ -11,9 +11,9 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
       +'action="https://docs.google.com/forms/d/1SqErnbcIVrm49udpm3ttKdyR-c9yZSLQnw7vXE1rdTc/formResponse" '
       +'method="POST" id="ss-form" target="_self"></form>');
 
-    this._$label = $('<label class="ct-form_label" for="entry_1835666030"></label>');
-    this._$job = $('<select name="entry.1835666030" id="entry_1835666030" aria-label="You are:  ">'
-    +'<option value="">You are...</option>'
+    this._$joblabel = $('<label class="ct-form_label" for="entry_1835666030">I am a:</label>');
+    this._$job = $('<select name="entry.1835666030" class="ct-form_job" id="entry_1835666030">'
+    +'<option value="">Pick the one that fits best</option>'
     +'<option value="Writer / Journalist">Writer / Journalist</option>'
     +'<option value="Consultant">Consultant</option>'
     +'<option value="PR">PR</option>'
@@ -26,10 +26,12 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
     +'<option value="Analyst">Analyst</option>'
     +'<option value="Student">Student</option>'
     +'<option value="Other">Other</option></select>');
-    this._$email = $('<input type="email" name="entry.229712282" value="" class="ss-q-short"'
-    +'id="entry_229712282" dir="auto"'
-    +'aria-label="please leave us an email to ask about your feedback (no commercial use ever!)">');
-    this._$submit = $('<input class="ct-form_submit disabled" type="submit" name="submit" value="Try it now" id="ct-form_submit">');
+    this._$emaillabel = $('<label class="ct-form_label" for="entry_229712282">My email is: (no commercial use - for feedback only)</label>');
+    this._$email = $('<input type="email" name="entry.229712282" value="" class="ct-form_email ss-q-short"'
+    +'id="entry_229712282" dir="auto" placeholder="awesome.betatester@example.com">');
+    this._$submit = $('<input class="ct-form_submit disabled" type="submit" name="submit" value="I\'m ready to be a beta tester" id="ct-form_submit">');
+
+    this._$privacy = $('<div class="ct-switch_box_privacy">Read our privacy policy <a href="http://www.cottontracks.com/privacy" target="_blank">here</a></div>');
 
     // show the submit button fully opaque only if some text is written
     this._$email.keyup(function(e){
@@ -41,10 +43,12 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
     });
 
     this._$form.append(
-      self._$label,
-      self._$job,
-      self._$email,
-      self._$submit
+      this._$joblabel,
+      this._$job,
+      this._$emaillabel,
+      this._$email,
+      this._$privacy,
+      this._$submit
     );
 
     // Form submission
@@ -71,10 +75,14 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
   },
 
   purge : function() {
-    this._$label.remove();
-    this._$label = null;
+    this._$privacy.remove();
+    this._$privacy = null;
+    this._$joblabel.remove();
+    this._$joblabel = null;
     this._$job.remove();
     this._$job = null;
+    this._$emaillabel.remove();
+    this._$emaillabel = null;
     this._$email.remove();
     this._$email = null;
     this._$submit.remove();
