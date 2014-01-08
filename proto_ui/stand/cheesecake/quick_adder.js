@@ -53,6 +53,7 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
     this._oGlobalDispatcher.subscribe('give_items_suggestions', this, function(dArguments){
       this._oCheesecake.setHistoryItemsSuggest(dArguments['history_items_suggestions']);
       this._lSuggestions = this._oCheesecake.historyItemsSuggest();
+      this._oGlobalDispatcher.publish('refresh_suggestions', {'history_items_suggestions' : this._lSuggestions});
       this.updateSuggest();
     });
 
