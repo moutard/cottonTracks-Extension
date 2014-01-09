@@ -232,6 +232,11 @@ Cotton.Controllers.Messaging = Class.extend({
           }
         });
       });
+    },
+
+    'switch_to_proto' : function(sendResponse) {
+      sendResponse();
+      setTimeout(function(){chrome.browserAction.onClicked.dispatch()}, 100);
     }
 
 });

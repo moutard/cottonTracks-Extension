@@ -293,8 +293,11 @@ Cotton.Controllers.DispatchingController = Class.extend({
     oGlobalDispatcher.subscribe('switch_to_proto', this, function(){
       localStorage.setItem('proto_test', true);
       localStorage.setItem('favorite_to_cheesecakes', true);
-      window.open(chrome.extension.getURL('mo.html'));
-      window.close();
+      oLightyearController._oCoreMessenger.sendMessage({
+        'action' : 'switch_to_proto',
+      }, function(response) {
+        window.close();
+      });
     });
   }
 
