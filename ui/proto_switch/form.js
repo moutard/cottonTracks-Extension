@@ -33,6 +33,22 @@ Cotton.UI.ProtoSwitch.Form = Class.extend({
 
     this._$privacy = $('<a class="ct-switch_box_privacy" href="http://www.cottontracks.com/privacy.html" target="_blank">Read our privacy policy here</a>');
 
+    this._$job.change(function() {
+      if ($(this).val() !== "") {
+        $(this).addClass("ct-selected");
+      } else {
+        $(this).removeClass("ct-selected");
+      }
+    }),
+
+    this._$email.bind('input', function() {
+      if ($(this).val() !== "") {
+        $(this).addClass("ct-selected");
+      } else {
+        $(this).removeClass("ct-selected");
+      }
+    }),
+
     // show the submit button fully opaque only if some text is written
     this._$email.keyup(function(e){
       if ($(this).val() !== "") {
