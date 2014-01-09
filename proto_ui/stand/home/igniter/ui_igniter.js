@@ -83,12 +83,14 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
   },
 
   _purgeSuggestions : function() {
-    var iLength = this._lSuggestions.length;
-    for (var i = 0; i < iLength; i++) {
-      this._lSuggestions[i].purge();
-      this._lSuggestions[i] = null;
+    if (this._lSuggestions) {
+      var iLength = this._lSuggestions.length;
+      for (var i = 0; i < iLength; i++) {
+        this._lSuggestions[i].purge();
+        this._lSuggestions[i] = null;
+      }
+      this._lSuggestions = null;
     }
-    this._lSuggestions = null;
     if (this._$suggestions) {
       this._$try_these.remove();
       this._$try_these = null;
