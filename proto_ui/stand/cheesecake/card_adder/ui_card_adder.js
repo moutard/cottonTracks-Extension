@@ -37,7 +37,7 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
 
 
     this._oGlobalDispatcher.subscribe('refresh_suggestions', this, function(dArguments){
-      this.refreshSuggestions(dArguments['history_items_suggestions']);
+      this.refreshSuggestions(dArguments['history_items_suggestions'], oCheesecake);
     });
 
   },
@@ -80,10 +80,17 @@ Cotton.UI.Stand.Cheesecake.CardAdder.UICardAdder = Class.extend({
     });
   },
 
-  refreshSuggestions : function(lHistoryItems) {
+  refreshSuggestions : function(lHistoryItems, oCheesecake) {
+    var lRemainingItems = [];
+    var iLength = lHistoryItems.length;
+    for (var i = 0; i < iLength; i++) {
+      if (oCheesecake.historyItemsId().indexOf(lHistoryItems[i].id()) === -1) {
+        lRemainingItems.push(lHistoryItems[i]);
+      }
+    }
     this._oAdderDeck.purgeCards();
     this._oAdderDeck.$().empty();
-    this._oAdderDeck.addSuggestCards(lHistoryItems)
+    this._oAdderDeck.addSuggestCards(lRemainingItems)
   },
 
   _purgeStack : function() {
