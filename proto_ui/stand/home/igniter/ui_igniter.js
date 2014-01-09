@@ -42,7 +42,12 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
     var self = this;
     this._lSuggestions = [];
     this._$suggestions = $('<div class="ct-suggested_themes"></div>');
-    this._$try_these = $('<div class="ct-try_these">or try one of these subjects</div>');
+    this._$try_these = $('<div class="ct-try_these"></div>');
+    if (lStories.length > 1) {
+      this._$try_these.text("or try one of these subjects");
+    } else if (lStories.length === 1) {
+      this._$try_these.text("or try this subject");
+    }
     this._$more = $('<div class="ct-toggle_suggested_themes ct-more">Show more</div>').click(function(){
       if ($(this).hasClass("ct-more")) {
         Cotton.ANALYTICS.lessSuggestions();

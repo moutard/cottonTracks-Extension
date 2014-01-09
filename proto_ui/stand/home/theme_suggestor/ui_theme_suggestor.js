@@ -33,6 +33,9 @@ Cotton.UI.Stand.Home.ThemeSuggestor.UIThemeSuggestor = Class.extend({
 
     if (lStories.length > 0 && bText) {
       this._$try_these = $('<div class="ct-try_these">or try one of these subjects</div>');
+      if (lStories.length === 1) {
+        this._$try_these.text("or try this subject");
+      }
       this._$suggestor_container.prepend(
         this._$try_these
       );
