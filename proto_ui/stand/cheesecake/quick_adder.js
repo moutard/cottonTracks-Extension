@@ -85,7 +85,8 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
 
   updateSuggest : function() {
     if (this._lSuggestions.length > 0) {
-      this._$top_suggestion.text(this._lSuggestions[0].title());
+      var sTitle = (this._lSuggestions[0].title() !== "") ? this._lSuggestions[0].title() : this._lSuggestions[0].url();
+      this._$top_suggestion.text(sTitle);
     } else {
       this._$top_suggestion.text('no more suggestion');
       this._$top_suggestion.unbind('click');
