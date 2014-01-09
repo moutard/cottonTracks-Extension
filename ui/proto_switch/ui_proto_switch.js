@@ -4,7 +4,13 @@ Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
 
   init : function(oGlobalDispatcher) {
     this._oGlobalDispatcher = oGlobalDispatcher;
-    this._$proto_switch = $('<div class="ct-proto_switch"></div>');
+    this._$proto_switch = $('<div class="ct-proto_switch"></div>').click(function(e){
+      if (e.target === this) {
+        oGlobalDispatcher.publish('toggle_switch');
+        // Analytics tracking
+        Cotton.ANALYTICS.escapeSwitch();
+      }
+    });
 
     // Actual proto_switch box.
     this._$box = $('<div class="ct-proto_switch_box"></div>');
@@ -19,7 +25,14 @@ Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
     this._$dismiss = $('<div class="ct-dismiss">No Thanks, I will keep this version for now</div>').click(function(){
       oGlobalDispatcher.publish('toggle_switch');
       // Analytics tracking
-      Cotton.ANALYTICS.dismissSwitch();
+      Cotton.ANALYTICS.dismissSwitch('no_thanks');
+    });
+
+    // Cross for closing the settings page.
+    this._$close = $('<div class="ct-close_proto_switch_box"></div>').click(function(){
+      oGlobalDispatcher.publish('toggle_switch');
+      // Analytics tracking
+      Cotton.ANALYTICS.escapeSwitch();
     });
 
     this._$proto_switch.append(
@@ -27,7 +40,8 @@ Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
         this._$title,
         this._$subtitle,
         this._oForm.$(),
-        this._$dismiss
+        this._$dismiss,
+        this._$close
       )
     );
   },

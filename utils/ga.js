@@ -184,6 +184,12 @@ Cotton.Analytics = Class.extend({
     _gaq.push(['_trackEvent', 'switch', 'dismiss', sPromptTime]);
   },
 
+  // Dismiss the switch panel
+  escapeSwitch : function() {
+    var sPromptTime = (localStorage.getItem('proto_prompt') !== 'true') ? "prompted" : "asked_back";
+    _gaq.push(['_trackEvent', 'switch', 'escape', sPromptTime]);
+  },
+
   // open the switch panel
   openSwitch : function() {
     _gaq.push(['_trackEvent', 'switch', 'open_form']);
