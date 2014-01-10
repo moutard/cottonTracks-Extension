@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'SourceSansPro-Light';
+  src: url('/media/fonts/SourceSansPro-Light.otf');
+}
+@font-face {
+  font-family: 'SourceSansPro-Regular';
+  src: url('/media/fonts/SourceSansPro-Regular.otf');
+}
+@font-face {
+  font-family: 'OpenBaskerville';
+  src: url('/media/fonts/OpenBaskerville.otf');
+}
+
+/*colors*/
+@f5grey: #f5f5f5;
+
+body {
+  font-family: SourceSansPro-Regular;
+  margin: 0;
+	font-weight: 100;
+	-webkit-font-smoothing: antialiased;
+	background-color: @f5grey;
+  -webkit-user-select: none;
+
+  a {
+    text-decoration: none;
+  }
+
+  input {
+    outline: none;
+    background: none;
+    border: none;
+  }
+
+  > .ct {
+    position: absolute;
+	  width: 100%;
+  }
+}

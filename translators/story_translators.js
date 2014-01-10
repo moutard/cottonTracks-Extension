@@ -20,7 +20,8 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       'oDNA' : {
         'oBagOfWords' : oStory.dna().bagOfWords().get(),
       },
-      'bFavorite' : oStory.isFavorite()
+      'bFavorite' : oStory.isFavorite(),
+      'bBannedFromSuggest' : oStory.isBannedFromSuggest(),
     };
     var iId = oStory.id() || null;
     if (iId) {
@@ -60,6 +61,7 @@ Cotton.Translators.STORY_TRANSLATORS = [];
       }
     }
     oStory.setFavorite(oDbRecord['bFavorite']);
+    oStory.setBannedFromSuggest(oDbRecord['bBannedFromSuggest']);
     return oStory;
   };
 

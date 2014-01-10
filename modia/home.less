@@ -1,0 +1,187 @@
+/**
+ * Sizes
+ */
+@topbar_height: 40px;
+/**
+ * Colours
+ */
+@purewhite: #FFFFFF;
+@e8grey: #E8E8E8;
+@degrey: #DEDEDE;
+@edgrey: #EDEDED;
+@fcgrey: #FCFCFC;
+@a8grey: #A8A8A8;
+@ccgrey: #CCCCCC;
+@33grey: #333333;
+@submagreen: #475259;
+@azulgreen: #52C8B8;
+
+.ct-home {
+
+  > .ct-igniter {
+    padding-top : @topbar_height;
+    background-color: @e8grey;
+    height: 295px;
+
+    &.ct-welcome {
+      height: 500px;
+    }
+
+    > .ct-igniter_container {
+      width: 900px;
+      margin: auto;
+
+      > .ct-igniter_welcome {
+        margin-top: 60px;
+        text-align: center;
+        cursor: default;
+        font-size: 36px;
+        font-family: SourceSansPro-Light;
+        color: @33grey;
+      }
+
+      > .ct-igniter_explainer {
+        text-align: center;
+        cursor: default;
+        margin-top: 10px;
+        margin-bottom: 50px;
+        font-size: 18px;
+        color: @33grey;
+        font-family: SourceSansPro-Light;
+      }
+
+      > .ct-creator {
+        position: relative;
+        width: 380px;
+        height: 230px;
+        border: solid 1px @degrey;
+        text-align: center;
+        background-color: @purewhite;
+        cursor: default;
+        float: left;
+
+        &.ct-welcome {
+          float: none;
+          margin: auto;
+        }
+
+        > .ct-creator_explainer_title {
+          font-size: 20px;
+          color: @submagreen;
+          margin: 40px 0 10px 0;
+        }
+
+        > .ct-creator_explainer_text {
+          font-size: 12px;
+          color: @a8grey;
+          margin: 10px 0 10px 0;
+        }
+
+        > .ct-creator_input {
+          font-family: SourceSansPro-Light;
+          font-size: 14px;
+          margin: auto;
+          position: relative;
+          height: 28px;
+          width: 320px;
+          border: solid 1px @edgrey;
+          padding: 0;
+          padding-left: 10px;
+          padding-right: 10px;
+          background-color: @fcgrey;
+        }
+
+        > .ct-creator_button {
+          color: @purewhite;
+          background-color: @ccgrey;
+          position: absolute;
+          width: 100%;
+          height: 24px;
+          padding: 10px 0 10px 0;
+          bottom: 0;
+          cursor: pointer;
+
+          &.ct-active {
+            background-color: @azulgreen;
+            cursor: pointer;
+          }
+        }
+      }
+
+      > .ct-suggested_themes {
+        position: relative;
+        width: 420px;
+        margin-left: 460px;
+        margin-top: 28px;
+
+        > .ct-try_these {
+          width: 100%;
+          text-align: center;
+          cursor: default;
+        }
+
+        > .ct-toggle_suggested_themes {
+          position: absolute;
+          top: 110px;
+          right: -40px;
+          cursor: pointer;
+          width: 40px;
+          font-size: 12px;
+          text-align: center;
+          color: @33grey;
+
+          &:before {
+            position: absolute;
+            top: -20px;
+            left: 12px;
+            content: "";
+            width: 17px;
+            height: 17px;
+            border-radius: 9px;
+            background-color: rgba(0,0,0,0.25);
+          }
+
+          &:after {
+            position: absolute;
+            top: -16px;
+            left: 17px;
+            content: "";
+            width: 5px;
+            height: 5px;
+            -webkit-transform: rotate(45deg);
+            border-bottom: solid 2px @purewhite;
+            border-right: solid 2px @purewhite;
+          }
+
+          &.ct-less {
+
+            &:after {
+              top: -14px;
+              -webkit-transform: rotate(225deg);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  > .ct-suggestor {
+    background-color: @e8grey;
+    > .ct-suggestor_container {
+      margin: auto;
+
+      > .ct-try_these {
+        width: 100%;
+        text-align: center;
+        cursor: default;
+      }
+    }
+  }
+
+  > .ct-library {
+
+    > .ct-library_container {
+      margin: auto;
+    }
+  }
+}

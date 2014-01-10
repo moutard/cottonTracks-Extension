@@ -1,0 +1,156 @@
+/**
+ * Sizes
+ */
+@topbar_height: 40px;
+@topbar_margin: 100px;
+@logo_width: 109px;
+
+/**
+ * Colors
+ */
+@submagreen: #475259;
+@azulgreen: #52C8B8;
+@greygreen: #636E75;
+@purewhite: #FFFFFF;
+
+.ct-topbar_container {
+  position: fixed;
+  width: 100%;
+  height: @topbar_height;
+  z-index:2;
+  background-color: @submagreen;
+}
+.ct-topbar {
+  position: relative;
+  width: calc(~"100% - 2*@{topbar_margin}");
+  margin: auto;
+  height: @topbar_height;
+
+  > .ct-logo_topbar {
+    width: @logo_width;
+    -webkit-box-sizing: border-box;
+    height: 100%;
+    float: left;
+    background-repeat: no-repeat;
+    background-image: url('/media/images/topbar/ct-logo_mo.png');
+    background-size: contain;
+    background-position: 0 7px;
+    cursor: pointer;
+  }
+
+  > .ct-menu_topbar {
+    -webkit-box-sizing: border-box;
+    min-width: 125px;
+    height: 100%;
+    float: left;
+
+    > .ct-history_arrows {
+      float: left;
+      margin-top: 15px;
+      margin-left: 45px;
+
+      > .ct-history_arrow_left {
+      	border-top: 5px solid transparent;
+      	border-bottom: 5px solid transparent;
+      	border-right: 8px solid @greygreen;
+        float: left;
+        margin-right: 20px;
+
+        &.ct-active {
+          border-right-color: @azulgreen;
+          cursor: pointer;
+        }
+      }
+
+      > .ct-history_arrow_right {
+      	border-top: 5px solid transparent;
+      	border-bottom: 5px solid transparent;
+      	border-left: 8px solid @greygreen;
+        float: left;
+
+        &.ct-active {
+          border-left-color: @azulgreen;
+          cursor: pointer;
+        }
+      }
+    }
+
+    > .ct-topbar_path {
+      padding-top: 10px;
+      margin-left: 140px;
+
+      > .ct-topbar_path_element {
+        position: relative;
+        font-size: 14px;
+        color: @azulgreen;
+        display: inline-block;
+        padding-left: 30px;
+        cursor: default;
+        max-width: 400px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+
+        &:before {
+          content: "";
+          width: 11px;
+          height: 11px;
+          position: absolute;
+          left: 6px;
+          top: 4px;
+          border-right: solid 1px @azulgreen;
+          border-bottom: solid 1px @azulgreen;
+          -webkit-transform: rotate(-45deg);
+        }
+
+        &:first-letter {
+          text-transform: uppercase;
+        }
+
+        &:last-child {
+          color: @purewhite;
+          cursor: default;
+        }
+
+        &:first-child {
+          padding-left: 0;
+
+          &:before {
+            display: none;
+          }
+        }
+      }
+    }
+
+    > .ct-favorites_menu_topbar {
+      float: left;
+      margin-top: 8px;
+      margin-left: 20px;
+      width: 18px;
+      height: 18px;
+      background-image: url('/media/images/common/ct-icons.png');
+      background-position: 0 -60px;
+      cursor: pointer;
+    }
+
+    > .ct-settings_menu_topbar {
+      float: right;
+      height: 18px;
+      width: 18px;
+      background-repeat: no-repeat;
+      background-image: url('/media/images/common/ct-icons.png');
+      background-position: -50px -10px;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-right: 16px;
+    }
+  }
+
+  > .ct-contact {
+    float: right;
+    font-size: 14px;
+    color: @purewhite;
+    margin-top: 10px;
+  }
+}
