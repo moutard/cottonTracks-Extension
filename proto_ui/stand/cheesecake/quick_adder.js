@@ -19,7 +19,6 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
       self._oGlobalDispatcher.publish('validate_stack', {
         'history_items' : [self._lSuggestions[0]]
       });
-      self._next();
     });
 
     this._$skip_button.click(function(){
@@ -37,7 +36,6 @@ Cotton.UI.Stand.Cheesecake.QuickAdder = Class.extend({
       self._oGlobalDispatcher.publish('validate_stack', {
         'history_items' : [self._lSuggestions[0]]
       });
-      self._next();
     });
 
     this._lSuggestions = this._oCheesecake.historyItemsSuggest();
