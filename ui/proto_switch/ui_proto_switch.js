@@ -3,7 +3,6 @@
 Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
 
   init : function(oGlobalDispatcher) {
-    this._oGlobalDispatcher = oGlobalDispatcher;
     this._$proto_switch = $('<div class="ct-proto_switch"></div>').click(function(e){
       if (e.target === this) {
         oGlobalDispatcher.publish('toggle_switch');
@@ -51,8 +50,6 @@ Cotton.UI.ProtoSwitch.UIProtoSwitch = Class.extend({
   },
 
   purge : function() {
-    this._oGlobalDispatcher.unsubscribe('escape', this);
-    this._oGlobalDispatcher = null;
     this._$title.remove();
     this._$title = null;
     this._$subtitle.remove();
