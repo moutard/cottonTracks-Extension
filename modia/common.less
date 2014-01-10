@@ -1,0 +1,566 @@
+/*colors*/
+@f5grey: #f5f5f5;
+@26grey: #262626;
+@33grey: #333333;
+@ccgrey: #cccccc;
+@5cgrey: #5c5c5c;
+@degrey: #DEDEDE;
+@bfgrey: #BFBFBF;
+@94grey: #949494;
+@purewhite: #ffffff;
+@pureblack: #000000;
+@turquoiseblue: #0b9b96;
+@azulgreen: #52C8B8;
+@darkgreen : #4AAA9D;
+@deletered: #C75850;
+
+/**
+ * Common.Cover
+ */
+.ct-cover {
+  width: 396px;
+  height: 250px;
+  margin-left: 1px;
+  background: @f5grey;
+  position: absolute;
+  box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.5);
+  -webkit-border-radius: 2px 1px 1px 2px;
+
+  &.ct-related_cover {
+    margin-top: 1px;
+  }
+
+  &.ct-animate {
+    -webkit-transition-property: top left;
+    -webkit-transition-duration: 0.6s;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 1px;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 5px 2px -3px rgba(0, 0, 0, 0.25);
+  }
+
+  > .ct-sticker_frame {
+    width: 188px;
+    height: 100%;
+    background-color: @26grey;
+    float: left;
+    -webkit-border-radius: 1px 0 0 1px;
+
+    > .ct-sticker {
+
+      > .ct-sticker_image {
+        cursor: pointer;
+      }
+    }
+
+    > .ct-cover_action {
+      position: relative;
+      height: 12px;
+      font-size: 10px;
+      padding-left: 14px;
+      margin-top: 10px;
+      color: @purewhite;
+      background-repeat: no-repeat;
+      cursor: pointer;
+
+      &.ct-delete_cover {
+        float: right;
+        margin-right: 19px;
+        background-image: url('/media/images/common/ct-icons.png');
+        background-position-y : -29px;
+      }
+
+      &.ct-favorite_story {
+        float: left;
+        margin-left: 19px;
+
+        &:before {
+          content: "";
+          width: 12px;
+          background-image: url('/media/images/common/ct-icons.png');
+          background-position: 0 -83px;
+          height: 12px;
+          position: absolute;
+          left: 0;
+        }
+      }
+
+      &.ct-unfavorite_story {
+        float: left;
+        margin-left: 19px;
+
+        &:before {
+          content: "";
+          width: 12px;
+          background-image: url('/media/images/common/ct-icons.png');
+          background-position: -14px -83px;
+          height: 12px;
+          position: absolute;
+          left: 0;
+        }
+      }
+    }
+  }
+
+  > .ct-cover_preview {
+    padding: 10px;
+    overflow: hidden;
+    font-family: SourceSansPro-Regular;
+    font-size: 12px;
+
+    > .ct-preview_link {
+      position: relative;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      color: @33grey;
+      display: block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      &:before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        position: absolute;
+        top: 12px;
+        left: 5px;
+        background-color: @ccgrey;
+        border-radius: 3px;
+      }
+
+      > .ct-preview_favicon {
+        position: relative;
+        top: 4px;
+        opacity: 0;
+        margin-right: 4px;
+        width: 16px;
+      }
+
+      &:hover {
+        color: @turquoiseblue;
+
+        &:before{
+          display: none;
+        }
+
+        > .ct-preview_favicon {
+          opacity: 1;
+        }
+      }
+    }
+
+    > .ct-more_link {
+      color: @33grey;
+      cursor: pointer;
+      padding-left: 21px;
+      margin-top: 6px;
+
+      &:hover {
+        color: @turquoiseblue;
+      }
+    }
+  }
+}
+
+/*sticker is separate from the rest because it is used standalone in the epitome*/
+.ct-sticker {
+  margin: 20px 20px 20px 20px;
+  float: left;
+  background-color: @purewhite;
+  position: relative;
+
+  > .ct-sticker_image {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    overflow: hidden;
+  }
+
+  > .ct-sticker_edit_button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 20px;
+    text-align: center;
+    font-size: 10px;
+    padding-top: 3px;
+    -webkit-box-sizing: border-box;
+    background-color: rgba(0,0,0,0.6);
+    opacity: 0.1;
+    cursor: default;
+    color: @purewhite;
+
+    &.ct-edit_open {
+      opacity: 1;
+    }
+  }
+
+  &:hover {
+    > .ct-sticker_edit_button {
+      opacity: 0.2;
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.ct-edit_open {
+        opacity: 1;
+      }
+    }
+  }
+
+  > .ct-sticker_label {
+    height: 70px;
+    -webkit-box-sizing: border-box;
+    padding-bottom: 0;
+    background-color: @azulgreen;
+    position: relative;
+
+    > .ct-sticker_title {
+      padding-left: 80px;
+      padding-top: 13px;
+      padding-right: 20px;
+      max-width: 240px;
+      -webkit-box-sizing: border-box;
+      color: @purewhite;
+      font-size: 16px;
+      display: -webkit-inline-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-transform: capitalize;
+      -webkit-user-select: initial;
+    }
+
+    > .ct-sticker_visibility {
+      height: 41px;
+      width: 41px;
+      position: absolute;
+      top: 15px;
+      left: 22px;
+      border-radius: 21px;
+      background-color: @darkgreen;
+
+      &.ct-private {
+        &:before {
+          width: 5px;
+          height: 6px;
+          position: absolute;
+          top: 11px;
+          left: 16px;
+          border-radius: 4px 4px 0 0;
+          content: "";
+          border: solid 2px @purewhite;
+        }
+
+        &:after {
+          width: 11px;
+          height: 8px;
+          top: 20px;
+          left: 15px;
+          position: absolute;
+          content: "";
+          background-color: @purewhite;
+        }
+
+        > .ct-private_legend {
+          display: none;
+          width: 134px;
+          height: 62px;
+          left: -10px;
+          top: -77px;
+          position: absolute;
+          color: @purewhite;
+          text-align: center;
+          font-size: 12px;
+          padding: 9px;
+          -webkit-box-sizing: border-box;
+          background-color: rgba(0,0,0,0.7);
+          cursor: default;
+
+          &:before {
+            position: absolute;
+            content: "";
+            top: 62px;
+            left: 20px;
+            border-right: 10px solid transparent;
+            border-left: 10px solid transparent;
+            border-top: 8px solid rgba(0, 0, 0, 0.6);
+          }
+        }
+
+        &:hover {
+          > .ct-private_legend {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+
+  > .ct-sticker_edit_panel {
+    width: 276px;
+    height: 340px;
+    position: absolute;
+    left: 258px;
+    top: -20px;
+    background-color: @purewhite;
+    z-index: 1;
+    border: solid 1px @degrey;
+    padding: 22px;
+    -webkit-box-sizing: border-box;
+
+    &:before {
+      position: absolute;
+      content: "";
+      top: 15px;
+      left: -15px;
+    	border-top: 20px solid transparent;
+    	border-bottom: 20px solid transparent;
+    	border-right: 15px solid @degrey;
+    }
+
+    &:after {
+      position: absolute;
+      content: "";
+      top: 15px;
+      left: -14px;
+    	border-top: 20px solid transparent;
+    	border-bottom: 20px solid transparent;
+    	border-right: 15px solid @purewhite;
+    }
+
+    &.ct-left_edit {
+      left: -100px;
+
+      &:before {
+        left: 274px;
+      	border-top: 20px solid transparent;
+      	border-bottom: 20px solid transparent;
+      	border-left: 15px solid @degrey;
+        border-right: none;
+      }
+
+      &:after {
+        left: 273px;
+      	border-top: 20px solid transparent;
+      	border-bottom: 20px solid transparent;
+      	border-left: 15px solid @purewhite;
+        border-right: none;
+      }
+    }
+
+    > .ct-sticker_edit_title {
+      border-bottom: solid 1px @bfgrey;
+      width: 100%;
+      position: relative;
+      font-size: 15px;
+      text-align: center;
+      outline: none;
+      -webkit-box-sizing: border-box;
+      color: @pureblack;
+      text-transform: capitalize;
+
+      &:empty {
+        // if empty, leave the contentEditable editable
+        display: block;
+      }
+    }
+
+    > .ct-sticker_edit_title_legend {
+      color: @bfgrey;
+      font-size: 12px;
+      margin-bottom: 20px;
+      cursor: default;
+    }
+
+    > .ct-image_picker {
+      color: @bfgrey;
+      width: 100%;
+      position: relative;
+
+      > .ct-image_picker_legend {
+        color: @bfgrey;
+        font-size: 12px;
+        cursor: default;
+        margin-bottom: 5px;
+      }
+
+      > .ct-image_picker_carousel {
+        height: 45px;
+        width: 100%;
+        overflow: hidden;
+
+        > .ct-media_image {
+          position: relative;
+          height: 45px;
+          width: 45px;
+          float: left;
+          margin-left: 16px;
+
+          &:first-child {
+            margin-left: 0;
+          }
+
+          &.ct-image_selected {
+            &:before {
+              position: absolute;
+              width: 21px;
+              height: 21px;
+              background-color: @azulgreen;
+              border-radius: 10px;
+              content: "";
+              top: 12px;
+              left: 12px;
+            }
+
+            &:after {
+              position: absolute;
+              width: 3px;
+              height: 7px;
+              border-bottom: solid 2px @purewhite;
+              border-right: solid 2px @purewhite;
+              -webkit-transform: rotate(45deg);
+              content: "";
+              top: 17px;
+              left: 21px;
+            }
+          }
+        }
+      }
+
+      > .ct-image_picker_arrow {
+        position: absolute;
+        top: 40px;
+        display: block;
+        border-top: solid 7px @94grey;
+        border-right: solid 7px transparent;
+        border-left: solid 7px transparent;
+        cursor: pointer;
+
+        &:before {
+          position: absolute;
+          left: -7px;
+          top: -9px;
+          display: block;
+          border-top: solid 7px @purewhite;
+          border-right: solid 7px transparent;
+          border-left: solid 7px transparent;
+          content: "";
+        }
+
+        &.ct-image_picker_left_arrow{
+          left: -15px;
+          -webkit-transform: rotate(90deg);
+        }
+
+        &.ct-image_picker_right_arrow{
+          left: 231px;
+          -webkit-transform: rotate(270deg);
+        }
+      }
+    }
+
+    > .ct-sticker_edit_delete {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 45px;
+      color: @purewhite;
+      background-color: @deletered;
+      -webkit-box-sizing: border-box;
+      padding-top: 8px;
+      text-align: center;
+      font-size: 20px;
+      font-family: 'SourceSansPro-Light';
+      cursor: pointer;
+    }
+  }
+}
+
+/**
+ * Common.Content
+ */
+.ct-media_image, .ct-media_video {
+  position: relative;
+  width: 148px;
+  height: 149px;
+  background-size: cover;
+  background-position-x: 50%;
+  background-position-y: 25%;
+}
+
+.ct-theme_suggestion {
+  width: 170px;
+  height: 170px;
+  margin: 20px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  > .ct-media_image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    &:after {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      content: "";
+      background-color: rgba(0,0,0,0.6);
+    }
+  }
+
+  > .ct-theme_suggestion_title {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    text-align: center;
+    padding-top: 70px;
+    color: @purewhite;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -webkit-line-clamp: 2;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    overflow: hidden;
+  }
+
+  > .ct-delete_suggestion {
+    position: absolute;
+    top: 9px;
+    right: 11px;
+    width: 13px;
+    height: 13px;
+    line-height: 12px;
+    text-align: center;
+    -webkit-border-radius: 10px;
+    background-color: rgba(0,0,0,0.7);
+    -webkit-transform: rotate(45deg);
+    cursor: pointer;
+    opacity: 0.3;
+    color: @purewhite;
+  }
+
+  &:hover {
+    > .ct-delete_suggestion {
+      opacity: 0.6;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

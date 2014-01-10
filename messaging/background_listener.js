@@ -56,6 +56,10 @@ Cotton.Controllers.BackgroundListener = Class.extend({
               [sendResponse, request['params']['historyItem']]);
             break;
 
+          case 'switch_to_proto':
+              self._oMessagingController.doAction(request['action'], [sendResponse]);
+            break;
+
           default:
             break;
         }

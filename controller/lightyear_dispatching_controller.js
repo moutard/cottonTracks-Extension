@@ -37,7 +37,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
           }
         }
         oLightyearController.getStories(lExclusiveRelatedStoriesId, function(lRelatedStories){
-          oLightyearController.fillAndFilterStories(lRelatedStories, function(lStoriesFiltered){
+          oLightyearController.storyHandler().fillAndFilterStories(lRelatedStories, function(lStoriesFiltered){
             oLightyearController.openStory(oStory, lStoriesFiltered);
           });
         });
@@ -66,16 +66,16 @@ Cotton.Controllers.DispatchingController = Class.extend({
     });
 
     /**
-     * delete a story in db, then ask to delete the corresponding sticker
-     **/
+     * Delete a story in db, then ask to delete the corresponding sticker.
+     */
     oGlobalDispatcher.subscribe('delete_story', this, function(dArguments){
 
       var bStoryDeleted = false;
       var bHistoryItemsUnreferenced = false;
       oLightyearController.database().delete('stories', dArguments['story_id'], function(){
         bStoryDeleted = true;
-        // the story is deleted. If items are also unreferenced,
-        // tell the UI to remove the sticker
+        // The story is deleted. If items are also unreferenced,
+        // tell the UI to remove the sticker.
         if (bHistoryItemsUnreferenced) {
           oGlobalDispatcher.publish('remove_cover', {
             'story_id': dArguments['story_id']
@@ -84,15 +84,15 @@ Cotton.Controllers.DispatchingController = Class.extend({
       });
 
       oLightyearController.database().search('historyItems', 'sStoryId', dArguments['story_id'], function(lHistoryItems){
-        // unreference the historyItems, because we use the db as relational
+        // Unreference the historyItems, because we use the db as relational.
         var iLength = lHistoryItems.length;
         for (var i = 0; i < iLength; i++) {
           lHistoryItems[i].removeStoryId();
         }
         oLightyearController.database().putList('historyItems', lHistoryItems, function(){
           bHistoryItemsUnreferenced = true;
-          // items are unreferenced. If the story is also deleted,
-          // tell the UI to remove the sticker
+          // Items are unreferenced. If the story is also deleted,
+          // tell the UI to remove the sticker.
           if (bStoryDeleted) {
             oGlobalDispatcher.publish('remove_cover', {
               'story_id': dArguments['story_id']
@@ -104,8 +104,8 @@ Cotton.Controllers.DispatchingController = Class.extend({
 
 
     /**
-     * delete a historyItem link to any story in db, then ask to remove the corresponding card
-     **/
+     * Delete a historyItem link to any story in db, then ask to remove the corresponding card.
+     */
     oGlobalDispatcher.subscribe('delete_card', this, function(dArguments){
 
       oLightyearController.database().search('historyItems', 'sStoryId', dArguments['story_id'], function(lHistoryItems){
@@ -168,15 +168,15 @@ Cotton.Controllers.DispatchingController = Class.extend({
 
 
     /**
-     * Expand the 'add card' tool
-     **/
+     * Expand the 'add card' tool.
+     */
     oGlobalDispatcher.subscribe('expand_card_adder', this, function(dArguments){
-      // the "Add Card" button has been clicked, we fetch the elements of the pool
-      // to propose them
+      // The "Add Card" button has been clicked, we fetch the elements of the pool
+      // to propose them.
       var oPool = oLightyearController.getPool();
       oLightyearController.getPoolItems(oPool, function(lPoolItems){
-        // filter the items, in order not to propose search.
-        var lFilteredPoolItems = oLightyearController._filterHistoryItems(lPoolItems);
+        // Filter the items, in order not to propose search.
+        var lFilteredPoolItems = oLightyearController.storyHandler()._filterHistoryItems(lPoolItems);
         oGlobalDispatcher.publish('pool_items', {
           'items': lFilteredPoolItems
         });
@@ -185,12 +185,12 @@ Cotton.Controllers.DispatchingController = Class.extend({
 
     /**
      * Add an item from the pool in a story
-     **/
+     */
     oGlobalDispatcher.subscribe('add_item_to_story', this, function(dArguments){
-      // an item from the pool has been selected to be added to the story
+      // An item from the pool has been selected to be added to the story.
       var oHistoryItem = dArguments['history_item'];
       var oNow = new Date();
-      // change the time to now so that the item gets at the top of the story
+      // Change the time to now so that the item gets at the top of the story.
       oHistoryItem.setLastVisitTime(oNow.getTime());
       oLightyearController._oDatabase.putUnique('historyItems', oHistoryItem, function(oHistoryItemId){
         oLightyearController._oDatabase.find('stories', 'id', dArguments['story_id'], function(oStory){
@@ -224,8 +224,7 @@ Cotton.Controllers.DispatchingController = Class.extend({
      * Search stories are display in a partial view.
      */
     oGlobalDispatcher.subscribe('search_stories', this, function(dArguments){
-      oLightyearController._oWorld.clear();
-      oLightyearController.searchStories(dArguments['search_words'], function(lStories, sSearchPattern){
+      oLightyearController._oFinder.search(dArguments['search_words'], function(lStories, sSearchPattern){
         var sSearchTitle = "search results for " + sSearchPattern.toUpperCase();
         oLightyearController.openPartial(lStories, sSearchTitle, "No Result");
       });
@@ -273,6 +272,31 @@ Cotton.Controllers.DispatchingController = Class.extend({
         var lStrongWords = Cotton.Algo.Tools.TightFilter(lTitle);
         oStory.dna().addListWords(lStrongWords, oStory.dna().bagOfWords().maxWeight());
         oLightyearController.database().put('stories', oStory, function(){});
+      });
+    });
+
+    /**
+     * autocomplete when search story
+     *
+     * Ask the possible keywords that match the given prefix, for autocomplete.
+     */
+    oGlobalDispatcher.subscribe('autocomplete_ask', this, function(dArguments){
+      oLightyearController._oFinder.autocomplete(dArguments['prefix'],
+        function(lPossibleKeywords) {
+          oGlobalDispatcher.publish('autocomplete_answer', {
+            'possible_keywords': lPossibleKeywords
+          });
+        });
+    });
+
+    // SWITCH TO PROTOTYPE
+    oGlobalDispatcher.subscribe('switch_to_proto', this, function(){
+      localStorage.setItem('proto_test', true);
+      localStorage.setItem('favorite_to_cheesecakes', true);
+      oLightyearController._oCoreMessenger.sendMessage({
+        'action' : 'switch_to_proto',
+      }, function(response) {
+        window.close();
       });
     });
   }

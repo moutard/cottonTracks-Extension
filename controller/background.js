@@ -78,7 +78,8 @@ Cotton.Controllers.Background = Class.extend({
     self._oDatabase = new Cotton.DB.IndexedDB.Wrapper('ct', {
         'stories' : Cotton.Translators.STORY_TRANSLATORS,
         'historyItems' : Cotton.Translators.HISTORY_ITEM_TRANSLATORS,
-        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS
+        'searchKeywords' : Cotton.Translators.SEARCH_KEYWORD_TRANSLATORS,
+        'cheesecakes' : Cotton.Translators.CHEESECAKE_TRANSLATORS
       }, function() {
         DEBUG && console.debug('Global store created');
 

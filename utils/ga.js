@@ -166,8 +166,106 @@ Cotton.Analytics = Class.extend({
   // Search.
   searchStories : function(sTriggerMethod) {
     _gaq.push(['_trackEvent', 'search', 'search_stories', sTriggerMethod]);
-  }
+  },
 
+  // Following methods are related to the prototype, either the switching
+  // from lightyear to mo, or usage of mo.
+
+  // SWITCH
+  // Agree to switch
+  validateSwitch : function() {
+    var sPromptTime = (localStorage.getItem('proto_prompt') !== 'true') ? "prompted" : "asked_back";
+    _gaq.push(['_trackEvent', 'switch', 'validate', sPromptTime]);
+  },
+
+  // Dismiss the switch panel
+  dismissSwitch : function() {
+    var sPromptTime = (localStorage.getItem('proto_prompt') !== 'true') ? "prompted" : "asked_back";
+    _gaq.push(['_trackEvent', 'switch', 'dismiss', sPromptTime]);
+  },
+
+  // Dismiss the switch panel
+  escapeSwitch : function() {
+    var sPromptTime = (localStorage.getItem('proto_prompt') !== 'true') ? "prompted" : "asked_back";
+    _gaq.push(['_trackEvent', 'switch', 'escape', sPromptTime]);
+  },
+
+  // open the switch panel
+  openSwitch : function() {
+    _gaq.push(['_trackEvent', 'switch', 'open_form']);
+  },
+
+  // MO
+
+  // Deck
+  // Create a deck
+  createDeck : function(sMedium) {
+    _gaq.push(['_trackEvent', 'deck', 'create', sMedium]);
+  },
+
+  // Open a deck
+  openDeck : function() {
+    _gaq.push(['_trackEvent', 'deck', 'open']);
+  },
+
+  // Open a deck
+  editDeckSticker : function(sEditedPart) {
+    _gaq.push(['_trackEvent', 'deck', 'edit', sEditedPart]);
+  },
+
+  // Suggestions
+  // Delete a suggestion
+  deleteSuggestion : function() {
+    _gaq.push(['_trackEvent', 'suggestion', 'delete']);
+  },
+
+  // show more suggestions
+  moreSuggestions : function() {
+    _gaq.push(['_trackEvent', 'suggestion', 'more']);
+  },
+
+  // show less suggestions
+  lessSuggestions : function() {
+    _gaq.push(['_trackEvent', 'suggestion', 'less']);
+  },
+
+  // Card Adder
+  // open a card in new tab
+  validateCards : function(iNumberOfSelectedCards) {
+    _gaq.push(['_trackEvent', 'card_adder', 'add_cards', 'popup', iNumberOfSelectedCards]);
+  },
+
+  // select all
+  selectAllToAdd : function() {
+    _gaq.push(['_trackEvent', 'card_adder', 'select_all']);
+  },
+
+  // clear all selection
+  removeAllToAdd : function() {
+    _gaq.push(['_trackEvent', 'card_adder', 'remove_all']);
+  },
+
+  // search cards
+  searchMoreCards : function() {
+    _gaq.push(['_trackEvent', 'card_adder', 'search_cards']);
+  },
+
+  // Quick adder
+  // add quick add
+  addQuickAdd : function() {
+    _gaq.push(['_trackEvent', 'quick_adder', 'add']);
+  },
+
+  // skip quick add
+  skipQuickAdd : function() {
+    _gaq.push(['_trackEvent', 'quick_adder', 'skip']);
+  },
+
+  // Cards
+  // open a card
+  openInNewTab : function(sContext) {
+    _gaq.push(['_trackEvent', 'card', 'open', sContext]);
+  },
 });
 
 Cotton.ANALYTICS = new Cotton.Analytics();

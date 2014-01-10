@@ -102,6 +102,14 @@ Cotton.Model.Story = Class.extend({
   isFavorite : function() {
     return this._bFavorite || 0;
   },
+  setBannedFromSuggest : function(iBannedCode) {
+    // 0 -> not banned
+    // 1 -> banned
+    this._bBannedFromSuggest = iBannedCode ? 1 : 0;
+  },
+  isBannedFromSuggest : function() {
+    return this._bBannedFromSuggest || 0;
+  },
   /**
    * Add a historyItem to the list parsing a dbRecordObject
    * - update list of historyItems id.

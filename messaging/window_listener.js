@@ -39,8 +39,10 @@ Cotton.Messaging.WindowListener = Class.extend({
     });
 
     // Resize.
-    $window.resize(function(){
-      oDispatcher.publish('window_resize');
+    $window.resize(function(e){
+      oDispatcher.publish('window_resize', {
+        'width': $(this).width()
+      });
     });
 
     // Key pressed.
