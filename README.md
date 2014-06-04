@@ -1,9 +1,9 @@
 cottonTracks
 ============
 
-> The only browser history you will ever want to keep
+> **The only browser history you will ever want to keep**
 
-cottonTracks is an automated and curated record of the best content you experience on your web browser. It replaces your history and bookmarks while maintaining a stunning summary of your insights and influences. Navigate as usual and we take care of organizing your favorite content seamlessly.
+*cottonTracks is an automated and curated record of the best content you experience on your web browser. It replaces your history and bookmarks while maintaining a stunning summary of your insights and influences. Navigate as usual and we take care of organizing your favorite content seamlessly.*
 
 
 License
