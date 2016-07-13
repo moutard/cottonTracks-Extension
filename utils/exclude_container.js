@@ -77,9 +77,15 @@ Cotton.Utils.ExcludeContainer = Class.extend({
     return false;
   },
 
-  isWhitelisted : function(oUrl){
+  isWhitelisted : function(oUrl) {
     // some https sites are allowed
+    // More and more website are using https by default. This is not reliable anymore.
     return oUrl.isGoogle || oUrl.isGoogleMaps || oUrl.isWikipedia || oUrl.isYoutube || oUrl.isVimeo;
+  },
+
+  isBlackListedByUser : function(oUrl) {
+    // TODO: Store in the database created by the user.
+    return false;
   },
 
   isHttpsRejected : function(oUrl){
@@ -104,7 +110,7 @@ Cotton.Utils.ExcludeContainer = Class.extend({
   isExcluded : function(sUrl){
     var oUrl = new UrlParser(sUrl);
 
-    return this.isHttpsRejected(oUrl) || this.isExcludedPattern(sUrl)
+    return this.isBlackListedByUser(oUrl) || this.isExcludedPattern(sUrl)
       || this.isTool(oUrl.hostname)
       || this.isFileProtocol(oUrl.protocol)
       || this.isChromeExtension(oUrl.protocol)

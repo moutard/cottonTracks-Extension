@@ -5,7 +5,7 @@ var A = Class.extend({
   },
 });
 
-module("Cotton.DB.Translator",{
+module("Cotton.DB.Translator", {
   setup: function() {
     // runs before each test
   },
@@ -35,13 +35,4 @@ test("extra method for historyItem translator.", function() {
     });
   equal(oHistoryItem.title(), "(1) Japanese-French-German Roadtrip in France")
 
-});
-
-module("Cotton.DB.TranslatorsCollection",{
-  setup: function() {
-    // runs before each test
-  },
-  teardown: function() {
-    // runs after each test
-  }
 });
