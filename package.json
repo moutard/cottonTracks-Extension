@@ -1,0 +1,13 @@
+{
+  "name": "cottonTracks",
+  "version": "2.5.26",
+  "description": "cottonTracks: The only browser history you will keep",
+  "dependencies": {
+    "google-closure-compiler": "^20160619.0.0"
+  },
+  "devDependencies": {
+    "bower": "^1.3.3",
+    "grunt": "~0.4.5",
+    "less": "2.6.1"
+  }
+}

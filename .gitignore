@@ -7,3 +7,5 @@ py/own_parameters.py
 test/data/absolute_path_to_extension_folder.json
 core/default
 .idea/
+bower_components/
+node_modules/
