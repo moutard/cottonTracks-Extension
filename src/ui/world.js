@@ -46,11 +46,17 @@ Cotton.UI.World = Class.extend({
   _oManager : null,
 
   /**
-   * Settings object, with the rating button and the feedback form
+   * Settings object,
+   * empty for now
+   */
+  _oSettings : null,
+
+  /**
+   * Ratings object, with the rating button and the feedback form
    * if the form is empty and the settings is closed, it is purged.
    * otherwise it is just hidden to keep the text
    */
-  _oSettings : null,
+  _oRatings : null,
 
   /**
    * @param {Cotton.Core.Messenger} oCoreMessenger
@@ -136,11 +142,25 @@ Cotton.UI.World = Class.extend({
     }
   },
 
+  initRatings : function() {
+    if (!this._oRatings) {
+      this._oRatings = new Cotton.UI.Ratings.UIRatings(this._oGlobalDispatcher);
+      this._$ratings = this._oRatings.$();
+      this._$world.append(this._$ratings);
+    }
+  },
   toggleSettings : function() {
     if (!this._oSettings) {
       this.initSettings();
     }
     this._oSettings.toggle();
+  },
+
+  toggleRatings : function() {
+    if (!this._oRatings) {
+      this.initRatings();
+    }
+    this._oRatings.toggle();
   },
 
   /**
@@ -157,6 +177,24 @@ Cotton.UI.World = Class.extend({
         this._$settings = null;
       } else {
         this._oSettings.hide();
+      }
+    }
+  },
+
+  /**
+   * @param{boolean} bPurge
+   *   if the form is empty, we purge the settings object
+   *   otherwise we juste hide it
+   **/
+  closeRatings : function(bPurge) {
+    if (this._oRatings){
+      if (bPurge) {
+        this._oRatings.purge();
+        this._oRatings = null;
+        this._$ratings.remove();
+        this._$ratings = null;
+      } else {
+        this._oRatings.hide();
       }
     }
   },

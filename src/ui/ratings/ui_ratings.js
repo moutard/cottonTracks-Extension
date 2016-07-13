@@ -1,6 +1,6 @@
 "use strict";
 
-Cotton.UI.Settings.UISettings = Class.extend({
+Cotton.UI.Ratings.UIRatings = Class.extend({
 
   /**
    * General Dispatcher that allows two diffent parts of the product to communicate
@@ -12,7 +12,7 @@ Cotton.UI.Settings.UISettings = Class.extend({
    * {DOM} black layer covering the world UI, containing the settings box.
    * if clicked (i.e. clicked outside of the box, the settings are closed)
    */
-  _$settings : null,
+  _$ratings : null,
 
   /**
    * {DOM} actual box with the settings
@@ -57,7 +57,7 @@ Cotton.UI.Settings.UISettings = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     // If clicked outside the settings box, we close the settings.
-    this._$settings = $('<div class="ct-settings"></div>').click(function(e){
+    this._$ratings = $('<div class="ct-settings"></div>').click(function(e){
       if (e.target === this) {
         self.close('click_out');
       }
@@ -70,7 +70,16 @@ Cotton.UI.Settings.UISettings = Class.extend({
     this._$title = $('<div class="ct-settings_box_title">Settings</div>');
 
     // Rate us.
-    this._$settings_content = $('<div>No Settings yet</div>');
+    this._$rate_us = $('<div class="ct-rate_us"></div>');
+    this._$rate_us_button = $('<a class="ct-rate_us_button" href='
+      + this.webstoreUrl() + ' target="_blank">Rate us</a>').click(function(){
+        // analytics tracking
+        Cotton.ANALYTICS.rateUs(self.webstoreUrl());
+      });
+    this._$rate_us_text = $('<p class="ct-rate_us_text">Rate us on ' + this.webstoreName() +'</p>');
+
+    // Feedback form object.
+    this._oFeedback = new Cotton.UI.Ratings.Feedback();
 
     // Cross for closing the settings page.
     this._$close = $('<div class="ct-close_settings_box"></div>').click(function(){
@@ -82,17 +91,21 @@ Cotton.UI.Settings.UISettings = Class.extend({
       this.close('press_esc');
     });
 
-    this._$settings.append(
+    this._$ratings.append(
       this._$box.append(
         this._$title,
-        this._$settings_content,
+        this._$rate_us.append(
+          this._$rate_us_button,
+          this._$rate_us_text
+        ),
+        this._oFeedback.$(),
         this._$close
       )
     );
   },
 
   $ : function() {
-    return this._$settings;
+    return this._$ratings;
   },
 
   /**
@@ -122,7 +135,7 @@ Cotton.UI.Settings.UISettings = Class.extend({
    * (gears).
    */
   toggle : function() {
-    if (this._$settings.hasClass('ct-show')) {
+    if (this._$ratings.hasClass('ct-show')) {
       this.close();
     } else {
       this.show();
@@ -135,7 +148,7 @@ Cotton.UI.Settings.UISettings = Class.extend({
    * Triggered by the toggle method if settings are already hidden.
    */
   show : function() {
-    this._$settings.addClass("ct-show");
+    this._$ratings.addClass("ct-show");
     // analytics tracking
     Cotton.ANALYTICS.openSettings();
   },
@@ -147,7 +160,7 @@ Cotton.UI.Settings.UISettings = Class.extend({
    * to loose you data).
    */
   hide : function() {
-    this._$settings.removeClass("ct-show");
+    this._$ratings.removeClass("ct-show");
   },
 
   /**
@@ -158,7 +171,8 @@ Cotton.UI.Settings.UISettings = Class.extend({
    */
   close : function(sCloseMedium) {
     Cotton.ANALYTICS.closeSettings(sCloseMedium);
-    this._oGlobalDispatcher.publish('close_settings');
+    var bPurge = this._oFeedback.feedbackText() === "";
+    this._oGlobalDispatcher.publish('close_ratings', {"purge" : bPurge});
   },
 
   purge : function() {
@@ -176,9 +190,9 @@ Cotton.UI.Settings.UISettings = Class.extend({
     this._$close = null;
     this._$box.empty();
     this._$box = null;
-    this._$settings.empty();
-    this._$settings.unbind('click');
-    this._$settings = null;
+    this._$ratings.empty();
+    this._$ratings.unbind('click');
+    this._$ratings = null;
   }
 
 });

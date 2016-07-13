@@ -299,12 +299,17 @@ Cotton.UI.Stand.Manager.UIManager = Class.extend({
   },
 
   _endOfManager : function() {
+    var self = this;
     this._bEnd = true;
     var $end_of_history = $('<div class="ct-footer ct-end_of_history">'
     + '<span class="ct-footer ct-underline">cotton</span>Tracks</div>');
     this._$load_more.hide();
+
+    var $rate_us = $('<div class="ct-footer">Rate us</div>').click(function() {
+        self._oGlobalDispatcher.publish('toggle_ratings');
+    });
     this._$container.removeClass('ct-footer_spacer');
-    this._$manager.append($end_of_history);
+    this._$manager.append($end_of_history, $rate_us);
     this._oGlobalDispatcher.unsubscribe('window_scroll', this);
   },
 

@@ -1,6 +1,6 @@
 "use strict";
 
-Cotton.UI.Settings.Feedback = Class.extend({
+Cotton.UI.Ratings.Feedback = Class.extend({
 
   /**
    * {DOM} feedback html from

@@ -58,11 +58,26 @@ Cotton.Controllers.DispatchingController = Class.extend({
       oLightyearController._oWorld.toggleSettings();
     });
 
+
+    /**
+     * Toggle (open/close) the settings page
+     */
+    oGlobalDispatcher.subscribe('toggle_ratings', this, function(){
+      oLightyearController._oWorld.toggleRatings();
+    });
+
     /**
      * Close for sure the settings page
      */
-    oGlobalDispatcher.subscribe('close_settings', this, function(dArguments){
-      oLightyearController._oWorld.closeSettings(dArguments['purge']);
+    oGlobalDispatcher.subscribe('close_settings', this, function(){
+      oLightyearController._oWorld.closeSettings(false);
+    });
+
+    /**
+     * Close for sure the settings page
+     */
+    oGlobalDispatcher.subscribe('close_ratings', this, function(){
+      oLightyearController._oWorld.closeRatings(false);
     });
 
     /**
