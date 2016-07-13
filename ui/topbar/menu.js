@@ -57,11 +57,12 @@ Cotton.UI.Topbar.Menu = Class.extend({
     });
 
     // Settings icon, toggles (open/close) the settings panel on click
+    // TODO: not use for now
     this._$settings = $('<div class="ct-settings_menu_topbar"></div>').click(function(){
       oGlobalDispatcher.publish('toggle_settings');
     });
 
-    this._$menu.append(this._$arrows, this._$favorites, this._$settings, this._$proto_trigger);
+    this._$menu.append(this._$arrows, this._$favorites, this._$settings);
   },
 
   $ : function() {

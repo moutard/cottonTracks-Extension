@@ -178,13 +178,19 @@
       /*this is a trick to vertical-align a one-line text*/
       line-height: @topbar_height;
       background-color: @almondgreen;
-      background-image: url('/media/images/common/ct-icons.png');
-      background-repeat: no-repeat;
-      background-position-x: -67px;
-      background-position-y: -1px;
       border-top-right-radius: 1px;
       border-bottom-right-radius: 1px;
       cursor: pointer;
+
+      .ct-search_button_icon {
+          width: 16px;
+          height: 100%;
+          background-image: url('/media/images/common/ct-icons.png');
+          background-repeat: no-repeat;
+          background-position-x: -67px;
+          background-position-y: -1px;
+          float: left;
+      }
 
       &:before {
         display: block;

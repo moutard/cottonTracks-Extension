@@ -34,7 +34,7 @@ Cotton.UI.Topbar.Search = Class.extend({
 
     this._$search = $('<div class="ct-search"></div>');
     this._$search_field = $('<input class="ct-search_field" placeholder=" Search your online memory"/>');
-    this._$search_button = $('<div class="ct-search_button">Search</div>');
+    this._$search_button = $('<div class="ct-search_button"><div class="ct-search_button_icon"></div>Search</div>');
     this._$search.append(this._$search_field, this._$search_button);
 
     this._oGlobalDispatcher.subscribe('focus_search', this, function(){
