@@ -100,7 +100,7 @@ Cotton.Controllers.Background = Class.extend({
   initWorkerDBSCAN2 : function() {
     var self = this;
     // Instantiate a new worker with the code in the specified file.
-    var wDBSCAN2 = new Worker('algo/dbscan2/worker_dbscan2.js');
+    var wDBSCAN2 = new Worker('src/algo/dbscan2/worker_dbscan2.js');
 
     // Add listener called when the worker send message back to the main thread.
     wDBSCAN2.addEventListener('message', function(e) {

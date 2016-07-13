@@ -32,19 +32,19 @@
       "js": [
               "lib/class.js", "lib/jquery-2.0.0.min.js",
               "lib/jquery.livequery.js", "lib/underscore.min.js",
-              "init.js",
-              "model/init.js","model/bag_of_words.js", "model/history_item_dna.js", "model/history_item.js","model/extracted_paragraph.js",
-              "core/default/init.js", "core/default/messaging/messenger.js",
-              "db/init.js", "db/translator.js",
-              "translators/init.js", "translators/history_item_translators.js",
-              "algo/init.js",
-              "algo/common/init.js", "algo/common/words_extractor.js",
-              "algo/common/words/init.js", "algo/common/words/black_list.js",
-              "behavior/init.js", "behavior/background_client.js",
-              "behavior/passive/init.js", "behavior/passive/parser.js", "behavior/passive/google_parser.js", "behavior/passive/wikipedia_parser.js", "behavior/passive/google_image_parser.js", "behavior/passive/parser_factory.js",
-              "config/init.js", "config/config.js",
-              "utils/init.js", "utils/url_parser.js", "utils/dom.js", "utils/exclude_corn.js", "utils/exclude_container.js",
-              "behavior/active/init.js", "behavior/active/feedback_element.js", "behavior/active/reading_rater.js", "behavior/active/reading_rater/score.js"
+              "src/init.js",
+              "src/model/init.js","src/model/bag_of_words.js", "src/model/history_item_dna.js", "src/model/history_item.js","src/model/extracted_paragraph.js",
+              "src/core/default/init.js", "src/core/default/messaging/messenger.js",
+              "src/db/init.js", "src/db/translator.js",
+              "src/translators/init.js", "src/translators/history_item_translators.js",
+              "src/algo/init.js",
+              "src/algo/common/init.js", "src/algo/common/words_extractor.js",
+              "src/algo/common/words/init.js", "src/algo/common/words/black_list.js",
+              "src/behavior/init.js", "src/behavior/background_client.js",
+              "src/behavior/passive/init.js", "src/behavior/passive/parser.js", "src/behavior/passive/google_parser.js", "src/behavior/passive/wikipedia_parser.js", "src/behavior/passive/google_image_parser.js", "src/behavior/passive/parser_factory.js",
+              "src/config/init.js", "src/config/config.js",
+              "src/utils/init.js", "src/utils/url_parser.js", "src/utils/dom.js", "src/utils/exclude_corn.js", "src/utils/exclude_container.js",
+              "src/behavior/active/init.js", "src/behavior/active/feedback_element.js", "src/behavior/active/reading_rater.js", "src/behavior/active/reading_rater/score.js"
               ],
       "run_at": "document_idle"
     }

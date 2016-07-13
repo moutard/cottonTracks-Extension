@@ -9,11 +9,11 @@ class GlobalConfigs(object):
 
   def coreDefaultFolder(self):
     """Return the default core default folder."""
-    return os.path.join("core", "default")
+    return os.path.join("src", "core", "default")
 
   def coreFolder(self):
     """Return the folder that contains the current browser core."""
-    return os.path.join("core", self._sBrowser)
+    return os.path.join("src", "core", self._sBrowser)
 
 class OperaConfigs(GlobalConfigs):
   """Configs specific to Opera"""

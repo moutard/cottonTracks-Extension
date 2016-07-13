@@ -20,9 +20,31 @@ Cotton.Core.Installer = Class.extend({
     self._mIsFinished = mCallback;
 
     self.notifyHomepage();
-    self.initInstallWorker();
-    // When everything is ready call the install.
-    self.install();
+    if (chrome.history) {
+      // chrome.history API is supported, we can run DBSCAN1
+      self.initInstallWorker();
+      // When everything is ready call the install.
+      self.historyInstall();
+    } else {
+      // No history API, older version of Opera
+      self.emptyInstall();
+    }
+
+  },
+
+  /**
+   * Install
+   *
+   * Quick install for old versions of Opera, without the chrome.history API
+   *
+   */
+  emptyInstall : function(mCallback){
+    var self = this;
+
+    // Disable the button and open the howTo page.
+    chrome.tabs.create({'url': 'http://www.cottontracks.com/howto.html'});
+    DEBUG && console.debug("Controller - install");
+    self._mIsFinished();
   },
 
   /**
@@ -32,7 +54,7 @@ Cotton.Core.Installer = Class.extend({
    initInstallWorker : function() {
     var self = this;
     // Instantiate a new worker with the code in the specified file.
-    self._wInstallWorker = new Worker('algo/dbscan3/worker_dbscan3.js');
+    self._wInstallWorker = new Worker('src/algo/dbscan3/worker_dbscan3.js');
     var lStories = [];
     var iSessionCount = 0;
     var iTotalSessions = 0;
@@ -111,18 +133,18 @@ Cotton.Core.Installer = Class.extend({
             // Stop the installation.
             self.installIsFinished();
           } else {
-          Cotton.DB.populateDBFromInstall(self._oDatabase, lStories.reverse(), self._lHistoryItems,
-            function(_lStories, _lHistoryItems, _lSearchKeywords) {
-              // Purge lStories.
-              var iLength = lStories.length;
-              for (var i = 0; i < iLength; i++) {
-                lStories[i] = null;
-              }
-              lStories = [];
-              _lStories = [];
-              _lHistoryItems = [];
-              _lSearchKeywords = [];
-              self.installIsFinished();
+            Cotton.DB.populateDBFromInstall(self._oDatabase, lStories.reverse(), self._lHistoryItems,
+              function(_lStories, _lHistoryItems, _lSearchKeywords) {
+                // Purge lStories.
+                var iLength = lStories.length;
+                for (var i = 0; i < iLength; i++) {
+                  lStories[i] = null;
+                }
+                lStories = [];
+                _lStories = [];
+                _lHistoryItems = [];
+                _lSearchKeywords = [];
+                self.installIsFinished();
             });
           }
         }
@@ -146,7 +168,7 @@ Cotton.Core.Installer = Class.extend({
    * DBSCAN1 on the results.
    *
    */
-  install : function(mCallback){
+  historyInstall : function(mCallback){
     var self = this;
 
     // Disable the button and open the howTo page.

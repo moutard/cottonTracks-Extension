@@ -7,7 +7,7 @@
 
 // Worker has no access to external librairies loaded in the main thread.
 // Cotton.lib.
-importScripts('../../lib/class.js');
+importScripts('../../../lib/class.js');
 
 importScripts('../../init.js');
 

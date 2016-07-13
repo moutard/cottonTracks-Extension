@@ -24,8 +24,8 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
     self.compileHtml('mo.html')
     self.compileHtml('lightyear.html')
     self.compileHtml('background.html')
-    self.compileWorker('algo/dbscan2/worker_dbscan2.js')
-    self.compileWorker('algo/dbscan3/worker_dbscan3.js')
+    self.compileWorker('src/algo/dbscan2/worker_dbscan2.js')
+    self.compileWorker('src/algo/dbscan3/worker_dbscan3.js')
     self.compileManifest('manifest.json')
 
   def compileTest(self):
@@ -200,7 +200,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
   def getIncludes(self, psFile):
     """ Given the name of an html file, find all the lines that includes
     javascript files and lines that includes less files.
-    <script type='text/javascript' src='ui/story/init.js'></script>
+    <script type='text/javascript' src='src/ui/story/init.js'></script>
       Args:
         -psFile : location of an html file.
         Ex : "./index.html" or "/usr/local/index.html"
