@@ -15,7 +15,7 @@ Cotton.Controllers.BrowserAction = Class.extend({
     // Listen the click event and receive informations about the tab
     // that triggered the event.
     chrome.browserAction.onClicked.addListener(function() {
-      var sPage = (localStorage.getItem('proto_test') === "true") ? 'mo.html' : 'lightyear.html';
+      var sPage = (localStorage.getItem('proto_test') === "true") ? 'woody.html' : 'lightyear.html';
 
       // Get the current tab (opened on the focused window for chrome).
       // Rq: chrome.tabs.getSelected is now deprecated. chrome.tabs.query is

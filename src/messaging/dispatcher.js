@@ -1,6 +1,6 @@
 'use strict';
 /**
- * A dispatcher can be used to communicate betwween different part of the code.
+ * A dispatcher can be used to communicate between different part of the code.
  * You just need to pass the dispatcher to the object, and subscribe the
  * object to you message.
  */

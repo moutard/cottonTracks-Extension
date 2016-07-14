@@ -37,7 +37,7 @@ Cotton.Controllers.Mopstater = Class.extend({
     oGlobalDispatcher.subscribe('push_state', this, function(dArguments){
       this._oGlobalDispatcher.publish('scrolloffset', {'scroll': 0});
       this._iHistoryState++;
-      this.pushState(chrome.extension.getURL("mo.html") + dArguments['code'] + dArguments['value'],
+      this.pushState(chrome.extension.getURL("woody.html") + dArguments['code'] + dArguments['value'],
         this._iHistoryState);
       // will set the navigation arrows
       this.updateHistoryArrows();
@@ -86,7 +86,7 @@ Cotton.Controllers.Mopstater = Class.extend({
         self._oMoController.fillStory(oCheesecake, function(oFilteredCheesecake){
           if (!oFilteredCheesecake) {
             // analytics tracking.
-            self.replaceState(chrome.extension.getURL("mo.html"), self._iHistoryState);
+            self.replaceState(chrome.extension.getURL("woody.html"), self._iHistoryState);
             self._oGlobalDispatcher.publish('home', {
               'from_popstate': true,
             });

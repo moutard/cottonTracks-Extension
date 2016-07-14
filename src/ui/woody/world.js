@@ -81,7 +81,7 @@ Cotton.UI.World = Class.extend({
     var self = this;
     document.title = "cottonTracks";
     var bFromPopState = dArguments && dArguments['from_popstate'];
-    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
+    // need to clear, in case we landed first on a story with a url "woody.html?sid=42"
     if (!this._oHome){
       if (!bFromPopState) {
         this._oGlobalDispatcher.publish('push_state', {
@@ -107,7 +107,7 @@ Cotton.UI.World = Class.extend({
 
   openCheesecake : function(oCheesecake) {
     document.title = "cottonTracks";
-    // need to clear, in case we landed first on a story with a url "mo.html?sid=42"
+    // need to clear, in case we landed first on a story with a url "woody.html?sid=42"
     if (!this._oUICheesecake) {
       this.clear();
       this._oUICheesecake = new Cotton.UI.Stand.Cheesecake.UICheesecake(oCheesecake, this._oGlobalDispatcher);

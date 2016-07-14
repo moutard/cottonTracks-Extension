@@ -5,6 +5,6 @@ module('Cotton.UI.Settings.Feedback', {
 });
 
 test('init.', function() {
-  var oFeedback = new Cotton.UI.Settings.Feedback();
+  var oFeedback = new Cotton.UI.Ratings.Feedback();
   ok(oFeedback);
 });
