@@ -137,6 +137,9 @@
   <script type='text/javascript' src='src/view/lightyear/settings/init.js'></script>
   <script type='text/javascript' src='src/view/lightyear/settings/ui_settings.js'></script>
   <script type='text/javascript' src='src/view/lightyear/settings/feedback.js'></script>
+  <script type='text/javascript' src='src/view/lightyear/ratings/init.js'></script>
+  <script type='text/javascript' src='src/view/lightyear/ratings/ui_ratings.js'></script>
+  <script type='text/javascript' src='src/view/lightyear/ratings/feedback.js'></script>
 
   <!-- QUnit for testing -->
   <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.12.0.css" type="text/css" media="screen"/>
@@ -179,39 +182,39 @@
   <script type='text/javascript' src='test/unit/js/ui/topbar/menu_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/ui/topbar/search_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/ui/topbar/history_arrows_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/settings/ui_settings_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/settings/feedback_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/manager/ui_manager_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/manager/shelf_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/settings/ui_settings_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/settings/feedback_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/manager/ui_manager_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/manager/shelf_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/ui/stand/manager/timestamp_tests.js'></script>
   <script type='text/javascript' src='test/unit/js/ui/stand/manager/covers_container_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/partial/ui_partial_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/common/sticker_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/common/cover/preview_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/common/cover/ui_cover_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/common/content/bimage_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/common/content/dimage_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/ui_story_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/dashboard_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/deck_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/related_deck_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/epitome/ui_epitome_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_adder_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_factory_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/default_card_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/image_card_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/map_card_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/video_card_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/image_full_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/image_featured_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/pool_item_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/quote_holder_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/quote_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/title_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/video_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/website_tests.js'></script>
-    <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/sharer_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/partial/ui_partial_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/common/sticker_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/common/cover/preview_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/common/cover/ui_cover_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/common/content/bimage_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/common/content/dimage_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/ui_story_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/dashboard_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/deck_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/related_deck_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/epitome/ui_epitome_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_adder_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_factory_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/card_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/default_card_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/image_card_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/map_card_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/video_card_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/image_full_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/image_featured_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/pool_item_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/quote_holder_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/quote_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/title_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/video_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/website_tests.js'></script>
+  <script type='text/javascript' src='test/unit/js/ui/stand/story/card/content/sharer_tests.js'></script>
 
   <script type='text/javascript' src='test/unit/js/messaging/dispatcher_tests.js'></script>
 

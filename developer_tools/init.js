@@ -1,3 +1,3 @@
 'use strict';
 
-Cotton.Management = {};
+Cotton.DeveloperTools = {};
