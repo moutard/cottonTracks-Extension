@@ -200,7 +200,7 @@ class Compiler(FileManager, PreCompiler, BrowserHandler):
   def getIncludes(self, psFile):
     """ Given the name of an html file, find all the lines that includes
     javascript files and lines that includes less files.
-    <script type='text/javascript' src='src/ui/lightyear/story/init.js'></script>
+    <script type='text/javascript' src='src/view/lightyear/story/init.js'></script>
       Args:
         -psFile : location of an html file.
         Ex : "./index.html" or "/usr/local/index.html"
