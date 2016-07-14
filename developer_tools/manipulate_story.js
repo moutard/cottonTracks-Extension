@@ -1,5 +1,10 @@
 'use strict';
 (function(){
+/**
+ * DeveloperTools
+ * Used for creating developer to create stories.
+ *
+ */
 var Manager = Class.extend({
   init: function(){
   },
