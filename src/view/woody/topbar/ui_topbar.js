@@ -32,8 +32,8 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher
 
     // Topbar dom object.
-    this._$topbar_container = $('<div class="ct-topbar_container"></div>');
     this._$topbar = $('<div class="ct-topbar"></div>');
+    this._$topbar_container = $('<div class="ct-topbar_container"></div>');
 
     // Home icon, opens the manager on click.
     this._$logo = $('<div class="ct-logo_topbar"></div>').click(function(){
@@ -44,13 +44,13 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
 
     this._$contact = $('<a class="ct-contact" href="mailto:contact@cottontracks.com" target="_blank">Contact</a>');
 
-    this._$topbar_container.append(
-        this._$topbar.append(this._$logo, this._oMenu.$(), this._$contact)
+    this._$topbar.append(
+        this._$topbar_container.append(this._$logo, this._oMenu.$(), this._$contact)
     );
   },
 
   $ : function() {
-    return this._$topbar_container;
+    return this._$topbar;
   }
 
   // no need for purge, because the topbar is persistant across the UI.

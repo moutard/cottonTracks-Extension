@@ -1,29 +1,18 @@
+@import "variables.less";
+
 /**
  * Sizes
  */
-@topbar_height: 40px;
 @card_adder_margin-top: 20px;
 @card_adder_margin-bottom: 120px;
 @dashboard_width: 280px;
-
-/**
- * Colors
- */
-@purewhite: #FFFFFF;
-@degrey: #DEDEDE;
-@f5grey: #F5F5F5;
-@7agrey: #7A7A7A;
-@33grey: #333333;
-@b3grey: #B3B3B3;
-@99grey: #999999;
-@azulgreen: #52C8B8;
 
 .ct-cheesecake {
   height: calc(~"100% - @{topbar_height}");
   margin-top: 40px;
 
   > .ct-cheesecake_container {
-    margin: auto;
+    margin: 0 @main_margin 0 @main_margin;
     min-width: 745px;
 
     > .ct-story_dashboard {
@@ -36,6 +25,11 @@
       However there would be an offest with the card_deck otherwise. */
       padding-top: 1px;
 
+
+      > .ct-sticker {
+        margin-left: 0px;
+      }
+
       &.ct-pushed_back {
         z-index: -1;
       }
@@ -43,7 +37,7 @@
       > .ct-quick_adder {
         position: relative;
         clear: both;
-        margin-left: 20px;
+
         margin-top: 380px;
         width: 240px;
         height: 142px;

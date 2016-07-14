@@ -1,20 +1,9 @@
+@import "variables.less";
+
 /**
  * Sizes
  */
 @topbar_height: 40px;
-/**
- * Colours
- */
-@purewhite: #FFFFFF;
-@e8grey: #E8E8E8;
-@degrey: #DEDEDE;
-@edgrey: #EDEDED;
-@fcgrey: #FCFCFC;
-@a8grey: #A8A8A8;
-@ccgrey: #CCCCCC;
-@33grey: #333333;
-@submagreen: #475259;
-@azulgreen: #52C8B8;
 
 .ct-home {
 
@@ -29,7 +18,7 @@
 
     > .ct-igniter_container {
       width: 900px;
-      margin: auto;
+      margin: 0 @main_margin 0 @main_margin;
 
       > .ct-igniter_welcome {
         margin-top: 60px;
@@ -181,7 +170,7 @@
   > .ct-library {
 
     > .ct-library_container {
-      margin: auto;
+      margin: 0 (@main_margin - @margin_normal) 0 (@main_margin - @margin_normal);
     }
   }
 }

@@ -16,12 +16,14 @@ We follow a strict MVC pattern. That are order in 3 main folders.
     contains all the attributes of the object, then setters ang getters. (1)
     It also contains some more advanced features in some specific cases.
 
+- view
+    Contains all the components. Each class in the UI section is a component, that
+    can be added to the virtual DOM, and only rendered when needed.
+
 - controller
    That's the main part of the app. That's where we decide what to display or not.
 
-- ui (View) (2)
-    Contains all the components. Each class in the UI section is a component, that
-    can be added to the virtual DOM, and only rendered when needed.
+
 
 If you think about it that closer to React. We have the for each UI class, we
 have an $() fonction (equivalent to the render method in react). This means
@@ -88,9 +90,6 @@ The 3 pages
 (1) we use setter and getter to allow to drasticly reduce the size of the app by
 compression. We also found easier to have real class instead of function manipulating
 object.
-
-(2) ui folder could be renamed to view. It's for legacy reason we were trying to
-have folders starting by different letters.
 
 (3) dexie.js is quite new it could be interesting to use it. However our engine and wrapper,
 are quite powerful and fit well our use case. Moreover because we use a common interface
