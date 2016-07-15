@@ -36,17 +36,15 @@
 
   > .ct-topbar_container {
       height: 100%;
-      @topbar_width: 100% - 2*@main_margin;
-      width: calc(~"@{topbar_width} - @{logo_width}");
-      float: left;
+      display: flex;
+      justify-content: space-between;
 
 
       > .ct-menu_topbar {
         -webkit-box-sizing: border-box;
         min-width: 125px;
         height: 100%;
-        width: 60%;
-        float: left;
+        width: 50%;
         display: flex;
         justify-content: flex-start;
 
@@ -156,9 +154,8 @@
     > .ct-search {
       -webkit-box-sizing: border-box;
       height: 100%;
-      padding: 6px;
       width: 40%;
-      float: right;
+      padding: 6px;
 
       > .ct-search_field {
         /*input fields do not heritate from ancestors' font*/
@@ -199,6 +196,16 @@
             float: left;
         }
       }
+    }
+
+    > .ct-topbar_hamburger_menu {
+        width: 40px;
+        height: 40px;
+        flex: 1;
+        > img {
+            width: 40px;
+            height: 40px;
+        }
     }
   }
 }

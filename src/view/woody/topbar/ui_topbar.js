@@ -40,18 +40,20 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     this._$topbar_container = $('<div class="ct-topbar_container"></div>');
 
     // Home icon, opens the manager on click.
-    this._$logo = $('<div class="ct-logo_topbar"></div>').click(function(){
+    this._$logo = $('<span class="ct-logo_topbar"></span>').click(function(){
       oGlobalDispatcher.publish('home');
     });
 
     this._oMenu = new Cotton.UI.Topbar.Menu(oGlobalDispatcher);
     this._oSearch = new Cotton.UI.Topbar.Search(oGlobalDispatcher);
 
-    this._$contact = $('<a class="ct-contact" href="mailto:contact@cottontracks.com" target="_blank">Contact</a>');
+    this._$hamburger_menu = $('<div class="svg ct-topbar_hamburger_menu"><img src="media/images/topbar/hamburger_menu.svg" alt="Hamburger Menu"></div>').click(function() {
+        oGlobalDispatcher.publish("toggle_hamburger_menu");
+    });
 
     this._$topbar.append(
         this._$logo,
-        this._$topbar_container.append(this._oMenu.$(), this._oSearch.$())
+        this._$topbar_container.append(this._oMenu.$(), this._oSearch.$(), this._$hamburger_menu)
     );
   },
 

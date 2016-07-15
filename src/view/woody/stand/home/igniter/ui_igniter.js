@@ -3,14 +3,28 @@
 Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
 
   init : function(oGlobalDispatcher) {
+    var self = this;
     this._oGlobalDispatcher = oGlobalDispatcher;
     this._$igniter = $('<div class="ct-igniter"></div>');
     this._$igniter_container = $('<div class="ct-igniter_container"></div>');
     this._oCreator = new Cotton.UI.Stand.Home.Igniter.Creator.UICreator(oGlobalDispatcher);
+    oGlobalDispatcher.subscribe('toggle_hamburger_menu', this, function() {
+        self.toggle();
+    });
   },
 
   $ : function() {
     return this._$igniter;
+  },
+
+ /**
+   * Toggle
+   *
+   * Toggle between closed and show. Called by the topbar settings button
+   * (gears).
+   */
+  toggle : function() {
+    this._$igniter.toggle();
   },
 
   appendCreator : function() {
