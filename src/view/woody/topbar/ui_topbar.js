@@ -24,6 +24,10 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     */
   _oMenu : null,
 
+   /**
+    * topbar search object
+    */
+  _oSearch : null,
   /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
@@ -41,11 +45,13 @@ Cotton.UI.Topbar.UITopbar = Class.extend({
     });
 
     this._oMenu = new Cotton.UI.Topbar.Menu(oGlobalDispatcher);
+    this._oSearch = new Cotton.UI.Topbar.Search(oGlobalDispatcher);
 
     this._$contact = $('<a class="ct-contact" href="mailto:contact@cottontracks.com" target="_blank">Contact</a>');
 
     this._$topbar.append(
-        this._$topbar_container.append(this._$logo, this._oMenu.$(), this._$contact)
+        this._$logo,
+        this._$topbar_container.append(this._oMenu.$(), this._oSearch.$())
     );
   },
 

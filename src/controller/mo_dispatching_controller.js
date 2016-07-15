@@ -136,45 +136,18 @@ Cotton.Controllers.DispatchingController = Class.extend({
       var bCheesecakeReady;
       var bStoriesReady;
       // cheesecakes
-      oMoController._oDatabase.getList('cheesecakes', function(lDBCheesecakes){
-        lCheesecakes = lDBCheesecakes;
-        lCheesecakes.sort(function(a,b){return b.lastVisitTime() - a.lastVisitTime()});
-        bCheesecakeReady = true;
-        if (bStoriesReady) {
-          oGlobalDispatcher.publish('fill_homescreen', {
-            'cheesecakes' : lCheesecakes,
-            'stories' : lStories
+      oMoController._oDatabase.getList('cheesecakes', function(lDBCheesecakes) {
+          lCheesecakes = lDBCheesecakes;
+          lCheesecakes.sort(function(a,b){ return b.lastVisitTime() - a.lastVisitTime; });
+
+          oMoController._oDatabase.getList('stories', function(lDBStories) {
+            lStories = lDBStories;
+             oGlobalDispatcher.publish('fill_homescreen', {
+               'cheesecakes': lCheesecakes,
+               'stories': lStories,
+               'suggestions': []
+             });
           });
-        }
-      });
-      // stories for suggestions
-      oMoController.getStoriesSuggestions(function(lSuggestions){
-        lStories = lSuggestions;
-        bStoriesReady = true;
-        if (bCheesecakeReady) {
-          // filter suggestions
-          var iLength = lStories.length;
-          var jLength = lCheesecakes.length;
-          var lNonDuplicateSuggestions = [];
-          for (var i = 0; i < iLength; i++) {
-            var bDuplicate = false;
-            for (var j = 0; j < jLength; j++) {
-              var lStoryTitle = lStories[i].title().split(/\ |\'|\-/gi);
-              var lCheesecakeTitle = lCheesecakes[j].title().split(/\ |\'|\-/gi);
-              if (_.intersection(lStoryTitle, lCheesecakeTitle).length > Math.max(Math.min(lStoryTitle.length, lCheesecakeTitle.length) - 2, 0) ){
-                  bDuplicate = true;
-                  break;
-                }
-            }
-            if (!bDuplicate) {
-             lNonDuplicateSuggestions.push(lStories[i])
-            }
-          }
-          oGlobalDispatcher.publish('fill_homescreen', {
-            'cheesecakes' : lCheesecakes,
-            'stories' : lNonDuplicateSuggestions
-          });
-        }
       });
     });
 

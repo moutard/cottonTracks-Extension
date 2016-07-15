@@ -33,13 +33,13 @@ Cotton.UI.Topbar.HistoryArrows = Class.extend({
     this._oGlobalDispatcher = oGlobalDispatcher;
 
     this._$arrows = $('<div class="ct-history_arrows"></div>');
-    this._$left_arrow = $('<div class="ct-history_arrow_left"></div>').click(function(){
+    this._$left_arrow = $('<div class="ct-history_arrow ct-history_arrow_left"></div>').click(function(){
       if (self._iPreviousCount > 0) {
         // there are some previous pages in the history tree
         self._oGlobalDispatcher.publish('previous_page');
       }
     });
-    this._$right_arrow = $('<div class="ct-history_arrow_right"></div>').click(function(){
+    this._$right_arrow = $('<div class="ct-history_arrow ct-history_arrow_right"></div>').click(function(){
       if (self._iNextCount > 0) {
         // there are some following pages in the history tree
         self._oGlobalDispatcher.publish('next_page');

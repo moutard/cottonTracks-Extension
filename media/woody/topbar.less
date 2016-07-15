@@ -5,70 +5,78 @@
  */
 @topbar_height: 40px;
 @logo_width: 109px;
+@search_input_margin: 20px;
+@search_button_width: 77px;
+@search_button_padding: 10px;
 
 .ct-topbar {
   width: 100%;
+  min-width: @width_min_screen;
   position: fixed;
   height: @topbar_height;
   z-index:2;
   background-color: @submagreen;
+  padding: 0 @main_margin 0 @main_margin;
+
+  > .ct-logo_topbar {
+    float: left;
+    width: @logo_width;
+    min-width: @logo_width;
+    margin-right: @margin_normal;
+
+    -webkit-box-sizing: border-box;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-image: url('/media/images/topbar/ct-logo_mo.png');
+    background-size: contain;
+    background-position: 0 7px;
+    cursor: pointer;
+  }
+
 
   > .ct-topbar_container {
-    height: 100%;
-    margin: 0 @main_margin 0 @main_margin;
+      height: 100%;
+      @topbar_width: 100% - 2*@main_margin;
+      width: calc(~"@{topbar_width} - @{logo_width}");
+      float: left;
 
-      > .ct-logo_topbar {
-        width: @logo_width;
-        -webkit-box-sizing: border-box;
-        height: 100%;
-        float: left;
-        background-repeat: no-repeat;
-        background-image: url('/media/images/topbar/ct-logo_mo.png');
-        background-size: contain;
-        background-position: 0 7px;
-        cursor: pointer;
-      }
 
       > .ct-menu_topbar {
         -webkit-box-sizing: border-box;
         min-width: 125px;
         height: 100%;
+        width: 60%;
         float: left;
+        display: flex;
+        justify-content: flex-start;
 
         > .ct-history_arrows {
-          float: left;
-          margin-top: 15px;
-          margin-left: 45px;
+          margin: 15px;
+          width: 40px;
 
+          > .ct-history_arrow {
+            &.ct-active {
+              border-right-color: @azulgreen;
+              cursor: pointer;
+            }
+          }
           > .ct-history_arrow_left {
             border-top: 5px solid transparent;
             border-bottom: 5px solid transparent;
             border-right: 8px solid @greygreen;
             float: left;
-            margin-right: 20px;
-
-            &.ct-active {
-              border-right-color: @azulgreen;
-              cursor: pointer;
-            }
           }
 
           > .ct-history_arrow_right {
             border-top: 5px solid transparent;
             border-bottom: 5px solid transparent;
             border-left: 8px solid @greygreen;
-            float: left;
-
-            &.ct-active {
-              border-left-color: @azulgreen;
-              cursor: pointer;
-            }
+            float: right;
           }
         }
 
         > .ct-topbar_path {
           padding-top: 10px;
-          margin-left: 140px;
 
           > .ct-topbar_path_element {
             position: relative;
@@ -144,5 +152,53 @@
         color: @purewhite;
         margin-top: 10px;
       }
+
+    > .ct-search {
+      -webkit-box-sizing: border-box;
+      height: 100%;
+      padding: 6px;
+      width: 40%;
+      float: right;
+
+      > .ct-search_field {
+        /*input fields do not heritate from ancestors' font*/
+        font-family: SourceSansPro-Light;
+        font-size: 14px;
+        height: 100%;
+        width: calc(~"100% - @{search_button_width}");
+        border: none;
+        outline: none;
+        padding: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+        background-color: @fagrey;
+      }
+
+      > .ct-search_button {
+        position: relative;
+        float: right;
+        height: 100%;
+        padding: 0px 10px 0px 10px;
+        font-size: 14px;
+        color: white;
+        text-align: center;
+        /*this is a trick to vertical-align a one-line text*/
+        line-height: @topbar_height;
+        background-color: @azulgreen;
+        border-top-right-radius: 1px;
+        border-bottom-right-radius: 1px;
+        cursor: pointer;
+
+        .ct-search_button_icon {
+            height: 100%;
+            width: 17px;
+            background-image: url('/media/images/common/ct-icons.png');
+            background-repeat: no-repeat;
+            background-position-x: -67px;
+            background-position-y: -5px;
+            float: left;
+        }
+      }
+    }
   }
 }
