@@ -35,9 +35,18 @@ Cotton.UI.MoreOptions.UIMoreOptionsBar = Class.extend({
 
     // Define button actions:
     this._$show_rate_us_modal.click(function () {
-        oGlobalDispatcher.publish('toggle_ratings')
+        oGlobalDispatcher.publish('toggle_ratings');
     });
 
+    // Define button actions:
+    this._$show_settings_modal.click(function () {
+        oGlobalDispatcher.publish('toggle_settings');
+    });
+
+    // Define button actions:
+    this._$show_favorite_stories.click(function () {
+        oGlobalDispatcher.publish('toggle_favorites');
+    });
 
     this._$settings_bar.append(
         this._$show_rate_us_modal, this._$show_settings_modal, this._$show_favorite_stories, this._$camera

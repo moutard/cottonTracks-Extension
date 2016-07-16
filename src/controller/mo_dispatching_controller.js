@@ -252,6 +252,13 @@ Cotton.Controllers.DispatchingController = Class.extend({
     oGlobalDispatcher.subscribe('close_ratings', this, function(dArguments){
       oMoController._oWorld.closeRatings(dArguments['purge']);
     });
+
+    /**
+     * Close for sure the settings page
+     */
+    oGlobalDispatcher.subscribe('toggle_favorites', this, function(){
+      oMoController._oWorld.toggleFavorites();
+    });
   }
 
 });

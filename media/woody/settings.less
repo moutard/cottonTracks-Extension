@@ -1,13 +1,7 @@
-/*colors*/
-@purewhite: #ffffff;
-@a6grey: #a6a6a6;
-@66grey: #666666;
-@almondgreen: #42b07d;
-@fagrey: #fafafa;
-@b8grey: #b8b8b8;
+@import "variables.less";
+
 @lightyellow: #f9edbe;
 @darkyellow: #f0c36d;
-
 
 .ct-settings {
   width: 100%;
@@ -28,7 +22,7 @@
     position: relative;
     width: 714px;
     border-radius: 1px;
-    padding: 10px;
+    padding: @margin_normal;
     margin: auto;
     margin-top: 130px;
     background: @purewhite;
@@ -36,11 +30,9 @@
     > .ct-settings_box_title {
       width : 694px;
       height: 20px;
-      padding: 10px;
       font-size: 20px;
-      padding-top: 0px;
       padding-bottom: 12px;
-      border-bottom: solid 1px @a6grey;
+      border-bottom: solid 1px @a8grey;
     }
     > .ct-rate_us {
       padding-left: 10px;
@@ -91,7 +83,7 @@
         margin-top: 10px;
         margin-bottom: 15px;
         outline: none;
-        border: solid 1px @b8grey;
+        border: solid 1px @b3grey;
         border-radius: 2px;
         background-color: @fagrey;
         display: block;
@@ -105,7 +97,7 @@
         margin-top: 10px;
         margin-bottom: 15px;
         outline: none;
-        border: solid 1px @b8grey;
+        border: solid 1px @b3grey;
         border-radius: 2px;
         background-color: @fagrey;
         display: block;

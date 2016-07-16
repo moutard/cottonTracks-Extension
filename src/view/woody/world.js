@@ -57,6 +57,12 @@ Cotton.UI.World = Class.extend({
    _oRatingsModal : null,
 
   /**
+   * Favorites modal. I am not sure that it should be a modal.
+   * Lazy loaded.
+   */
+   _oFavoritesModal : null,
+
+  /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
   init : function(oGlobalDispatcher, $dom_world) {
@@ -99,6 +105,26 @@ Cotton.UI.World = Class.extend({
       this.initRatingsModal();
     }
     this._oRatingsModal.toggle();
+  },
+
+  toggleSettings : function() {
+    // Settings Modal is lazy loaded for performance issue. Settings are not used frequently.
+    if (!this._oSettingssModal) {
+      this._oSettingsModal = new Cotton.UI.Settings.UISettings(this._oGlobalDispatcher);
+      this._$settings = this._oSettingsModal.$();
+      this._$world.append(this._$settings);
+    }
+    this._oSettingsModal.toggle();
+  },
+
+  toggleFavorites : function() {
+    // Favorites Modal is lazy loaded for performance issue. Favorites are not used frequently.
+    if (!this._oFavoritesModal) {
+      this._oFavoritesModal = new Cotton.UI.Favorites.UIFavorites(this._oGlobalDispatcher);
+      this._$favorites = this._oFavoritesModal.$();
+      this._$world.append(this._$favorites);
+    }
+    this._oFavoritesModal.toggle();
   },
 
   /**
