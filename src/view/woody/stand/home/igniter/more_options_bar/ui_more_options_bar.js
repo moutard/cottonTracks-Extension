@@ -32,6 +32,13 @@ Cotton.UI.MoreOptions.UIMoreOptionsBar = Class.extend({
     this._$show_settings_modal = $('<div class="ct-options show_settings_modal"><img src="media/images/topbar/settings.svg" alt="Hamburger Menu"></div>');
     this._$show_favorite_stories = $('<div class="ct-options show_favorite_stories"><img src="media/images/topbar/favorites.svg" alt="Hamburger Menu"></div>');
 
+
+    // Define button actions:
+    this._$show_rate_us_modal.click(function () {
+        oGlobalDispatcher.publish('toggle_ratings')
+    });
+
+
     this._$settings_bar.append(
         this._$show_rate_us_modal, this._$show_settings_modal, this._$show_favorite_stories, this._$camera
     );

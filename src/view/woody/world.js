@@ -47,6 +47,15 @@ Cotton.UI.World = Class.extend({
    */
   _oSettings : null,
 
+
+  /**
+   * Ratings modal. Opens a feedback form to rate us and a link to the chrome store.
+   * if the form is empty and the ratings are closed, it's purged.
+   * otherwise it is just hidden to keep the text.
+   * Lazy loaded.
+   */
+   _oRatingsModal : null,
+
   /**
    * @param {Cotton.Messaging.Dispatcher} oGlobalDispatcher
    */
@@ -76,6 +85,39 @@ Cotton.UI.World = Class.extend({
     this._oTopbar = new Cotton.UI.Topbar.UITopbar(this._oGlobalDispatcher);
     this._$world.append(this._oTopbar.$());
   },
+
+  initRatingsModal : function() {
+    if (!this._oRatingsModal) {
+      this._oRatingsModal = new Cotton.UI.Ratings.UIRatings(this._oGlobalDispatcher);
+      this._$ratings = this._oRatingsModal.$();
+      this._$world.append(this._$ratings);
+    }
+  },
+
+  toggleRatings : function() {
+    if (!this._oRatingsModal) {
+      this.initRatingsModal();
+    }
+    this._oRatingsModal.toggle();
+  },
+
+  /**
+   * @param{boolean} bPurge
+   *   if the form is empty, we purge the settings object
+   *   otherwise we juste hide it
+   **/
+   closeRatings : function(bPurge) {
+     if (this._oRatingsModal) {
+       if (bPurge) {
+         this._oRatingsModal.purge();
+         this._oRatingsModal = null;
+         this._$ratings.remove();
+         this._$ratings = null;
+       } else {
+         this._oRatings.hide();
+       }
+     }
+   },
 
   openHome :  function(dArguments) {
     var self = this;
