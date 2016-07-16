@@ -31,9 +31,12 @@ Cotton.UI.MoreOptions.UIMoreOptionsBar = Class.extend({
     this._$show_rate_us_modal = $('<div class="ct-options show_rate_us_modal"><img src="media/images/topbar/stars_rating.svg" alt="Hamburger Menu"></div>');
     this._$show_settings_modal = $('<div class="ct-options show_settings_modal"><img src="media/images/topbar/settings.svg" alt="Hamburger Menu"></div>');
     this._$show_favorite_stories = $('<div class="ct-options show_favorite_stories"><img src="media/images/topbar/favorites.svg" alt="Hamburger Menu"></div>');
+    this._$camera = $('<div class="ct-options camera"><i class="fa fa-camera-retro fa-2x"></i></div>');
+
+
 
     this._$settings_bar.append(
-        this._$show_rate_us_modal, this._$show_settings_modal, this._$show_favorite_stories
+        this._$show_rate_us_modal, this._$show_settings_modal, this._$show_favorite_stories, this._$camera
     );
   },
 
