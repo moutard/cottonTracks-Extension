@@ -1,3 +1,3 @@
 "use strict";
 
-Cotton.UI.Settings = {};
+Cotton.UI.MoreOptions = {};

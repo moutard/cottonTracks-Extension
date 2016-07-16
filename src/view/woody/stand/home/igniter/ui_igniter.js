@@ -11,6 +11,7 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
     oGlobalDispatcher.subscribe('toggle_hamburger_menu', this, function() {
         self.toggle();
     });
+    this._oMoreOptionsBar = new Cotton.UI.MoreOptions.UIMoreOptionsBar(oGlobalDispatcher);
   },
 
   $ : function() {
@@ -29,6 +30,7 @@ Cotton.UI.Stand.Home.Igniter.UIIgniter = Class.extend({
 
   appendCreator : function() {
     this._$igniter.append(
+      this._oMoreOptionsBar.$(),
       this._$igniter_container.append(
         this._oCreator.$()
       )
