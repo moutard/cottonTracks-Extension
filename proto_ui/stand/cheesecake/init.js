@@ -1,3 +1,3 @@
 "use strict";
 
-Cotton.UI.Stand.Cheesecake = {}
+Cotton.UI.Stand.Cheesecake = {};
