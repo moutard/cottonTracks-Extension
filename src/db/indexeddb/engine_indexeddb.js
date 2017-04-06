@@ -37,7 +37,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
                                             "prev", "prevunique"];
 
     // Open the database. Do not specify version by default.
-    var oOpenDBRequest = webkitIndexedDB.open(sDatabaseName);
+    var oOpenDBRequest = indexedDB.open(sDatabaseName);
 
     oOpenDBRequest.onsuccess = function(oEvent) {
       var oDb = self._oDb = oEvent.target.result;
@@ -108,7 +108,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
         iNewVersionNumber += 1;
         oDb.close();
 
-        var oOpenDBWithUpperVersionRequest = webkitIndexedDB.open(sDatabaseName, iNewVersionNumber);
+        var oOpenDBWithUpperVersionRequest = indexedDB.open(sDatabaseName, iNewVersionNumber);
 
         // For chrome version < 25. This event is never called.
         oOpenDBWithUpperVersionRequest.onupgradeneeded = function(oEvent) {
@@ -279,7 +279,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -312,7 +312,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -342,7 +342,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange, "prev");
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -377,7 +377,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -401,7 +401,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -434,7 +434,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+    var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oStore.openCursor(oKeyRange, 2);
     // direction 2 : prev
@@ -468,7 +468,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+    var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oStore.openCursor(oKeyRange, "prev");
     // direction 2 : prev
@@ -505,7 +505,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+    var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oIndex.openCursor(oKeyRange, "prev");
     // direction 2 : prev
@@ -542,7 +542,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+    var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound,
                                             false, false);
     var oCursorRequest = oIndex.openCursor(oKeyRange, "prev");
     // direction 2 : prev
@@ -593,7 +593,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
+    var oKeyRange = IDBKeyRange.upperBound(iUpperBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       var oResult = oEvent.target.result;
@@ -637,7 +637,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
+    var oKeyRange = IDBKeyRange.lowerBound(iLowerBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
 
     oCursorRequest.onsuccess = function(oEvent) {
@@ -678,7 +678,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     // Define the Range.
-    var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound,
+    var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound,
                                             bStrictLower, bStrictUpper);
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
 
@@ -916,7 +916,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     var iCursorCount = 0;
-	var oKeyRange = webkitIDBKeyRange.upperBound(iUpperBound, bStrict);
+	var oKeyRange = IDBKeyRange.upperBound(iUpperBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       iCursorCount+=1;
@@ -965,7 +965,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oIndex = oStore.index(sIndexKey);
 
     var iCursorCount = 0;
-	  var oKeyRange = webkitIDBKeyRange.bound(iLowerBound, iUpperBound, bStrict);
+	  var oKeyRange = IDBKeyRange.bound(iLowerBound, iUpperBound, bStrict);
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
       iCursorCount+=1;
@@ -1083,11 +1083,11 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var iCursorCount = 0;
 
     if (iLowerBound) {
-	    var oKeyRange = webkitIDBKeyRange.lowerBound(iLowerBound, bStrict);
+	    var oKeyRange = IDBKeyRange.lowerBound(iLowerBound, bStrict);
     }
 
     if (iUpperBound) {
-      var oKeyRange = webkitIDBKeyRange.upperBound(iLowerBound, bStrict);
+      var oKeyRange = IDBKeyRange.upperBound(iLowerBound, bStrict);
     }
     var oCursorRequest = oIndex.openCursor(oKeyRange, sDirection);
     oCursorRequest.onsuccess = function(oEvent) {
@@ -1208,7 +1208,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
     var oIndex = oStore.index(sIndexKey);
 
-    var oRangeSearch = webkitIDBKeyRange.only(oIndexValue);
+    var oRangeSearch = IDBKeyRange.only(oIndexValue);
     // Get the requested record in the store.
     var oSearchRequest = oIndex.openCursor(oRangeSearch);
 
@@ -1414,7 +1414,7 @@ Cotton.DB.IndexedDB.Engine = Class.extend({
     var oStore = oTransaction.objectStore(sObjectStoreName);
 
     // Get everything in the store.
-    var oKeyRange = webkitIDBKeyRange.lowerBound(0);
+    var oKeyRange = IDBKeyRange.lowerBound(0);
     var oCursorRequest = oStore.openCursor(oKeyRange);
 
     oCursorRequest.onsuccess = function(oEvent) {

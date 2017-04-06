@@ -16,7 +16,7 @@ class PRODCompiler(Compiler):
   def compile(self):
     self.pretreatment(self._SOURCE_PATH, self._DESTINATION_PATH)
     os.chdir(self._DESTINATION_PATH)
-    self.setProdConfig(os.path.join(self._DESTINATION_PATH, 'config/config.js'))
+    self.setProdConfig(os.path.join(self._DESTINATION_PATH, 'src/config/config.js'))
     Compiler.compile(self)
 
     self.removeUnpreservedFiles()
